@@ -15,11 +15,11 @@
 
 ## 五级证据（互斥，按最强证据定级）
 
-    verified      有独立复算：解析里的算式能重算通，且重算结果与答案一致。
-                  这是唯一"不依赖出题人自述"的证据。
+    verified      给定算式与答案计算一致；不能证明题干建模、题义或教学适切性正确。
+                  机器复算不等于独立教师审核。
     corroborated  跨源同题：同一道题在另一个来源出现，且答案一致。
                   两条独立来源同时错的概率低（但同源转载不算）。
-    explained     解析是完整推导，且结句（故选 X / 答案为 X）与答案一致。
+    explained     解析具有推导信号，且结句（故选 X / 答案为 X）与答案一致。
                   比 bare 强，但它仍是"作者自述"，不是独立证据。
     bare          只有答案，没有可用的推导。可用于练习，不应用于判薄弱。
     broken        结构残缺（选项空缺/重复、答案不在选项里），直接隔离。
@@ -34,14 +34,14 @@
 - 学生**不会**，答案错 → 学生蒙对但被判对 → 漏诊。
   这也是错，但漏诊只会让这一次诊断少发现一个问题，不会把根因指错。
 
-所以 `bare` 级的题不是"不能用"，而是**只能单向用**：
-答对可以算通过，答错不足以判薄弱（见 `may_judge_weak`）。
-把这条写进代码，比在文档里写"谨慎使用"有用。
+bare 只保留为待审核练习材料，不能确认掌握或判薄弱；explained 的错答
+也不能判薄弱。question_policy 是图索引和状态机共同使用的运行时门槛。
 """
 from __future__ import annotations
 
 import ast
 import hashlib
+import json
 import operator
 import re
 
@@ -347,6 +347,21 @@ def grade(q: dict, cross_source: bool = False) -> dict:
         "cross_source": bool(cross_source),
     }
 
+    # 显式 verify 比解析文本的排版正则可靠，尤其是 round 等舍入表达式。
+    # 这里只证明“给定算式 = 答案”，不能把题义/建模错误洗成教师审核通过。
+    verified_expression = None
+    if q.get("type") == "numeric" and q.get("verify"):
+        from .verify import check_question
+        try:
+            verified_expression = check_question(q)
+        except (ArithmeticError, TypeError, ValueError, RecursionError) as exc:
+            verified_expression = {"status": "error", "detail": str(exc)}
+        signals["verify_consistent"] = verified_expression["status"] == "pass"
+        if verified_expression["status"] != "pass":
+            return {"level": "defective", "signals": signals,
+                    "notes": ["显式 verify 与答案不一致或无法安全复算："
+                              + verified_expression.get("detail", "") ]}
+
     # 唯一能确证「这道题不能信」的信号，是结句字母与答案键不符。
     # 两种成因都指向同一处置：不能进诊断。
     #   1. 答案键错了（解析算出 1 个公共点，键写「不确定」）；
@@ -359,15 +374,15 @@ def grade(q: dict, cross_source: bool = False) -> dict:
                 "notes": [f"解析结论选 {final}，答案键是 {key_letter}"
                           "（答案错或解析与题干错配，两者都不可用于判分）"]}
 
-    if arith_ok and recompute_hits_key:
+    if verified_expression is not None or (arith_ok and recompute_hits_key):
         level = "verified"
-        notes.append("解析末步算式可复算，且结果与答案一致")
+        notes.append("给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核")
     elif cross_source and (final_match or signals["answer_in_analysis"]):
         level = "corroborated"
         notes.append("跨源同题且答案一致")
     elif signals["has_steps"] and (final_match or signals["answer_in_analysis"]):
         level = "explained"
-        notes.append("解析为完整推导且结论与答案一致")
+        notes.append("解析具有推导信号且结论与答案一致；尚无独立审核")
     else:
         level = "bare"
         notes.append("无可用推导，仅结构完整")
@@ -397,7 +412,8 @@ def diagnosable(level: str) -> bool:
 def may_judge_weak(level: str) -> bool:
     """答错时能否据此判「薄弱」。
 
-    只有独立证据（verified / corroborated）才允许。
+    仅计算一致或跨源互证（verified / corroborated）允许用于初步筛查。
+    这不等于题义已审核，也不等于学生的教育因果已经确证。
     explained 是作者自述，bare 只有答案——答案错的时候，
     会把"其实会"的学生判成薄弱，进而把根因指向上游，代价最大。
     """
@@ -405,8 +421,86 @@ def may_judge_weak(level: str) -> bool:
 
 
 def may_confirm_mastery(level: str) -> bool:
-    """答对时能否据此确认「掌握」。要求比判薄弱低一档：
-    即使答案错了，学生选到"错误答案"的概率本来就低，
-    且确认掌握只是"不再往下问"，不会指错根因。
-    """
+    """答对可用于本次基础表现确认的等级；这一策略仍待真实学生校准。"""
     return level in DIAGNOSABLE
+
+
+def question_content_sha256(q: dict) -> str:
+    """绑定审核记录到会影响题义、答案、难度或归属的内容版本。"""
+    fields = ("id", "topicId", "topicIds", "primaryTopicId", "type", "prompt", "choices",
+              "answer", "accept", "verify", "explanation", "difficulty", "source")
+    payload = json.dumps({k: q.get(k) for k in fields}, ensure_ascii=False,
+                         sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def question_policy(q: dict) -> dict:
+    """一道题在诊断和练习中能提供哪些证据；不修改原数据。
+
+    旧自有题可从 verify/解析取得计算一致性或初步说明证据，绝不因“自有”
+    自动标记为 verified/reviewed。明确的隔离标记和不良记忆题优先于证据标签。
+    审核过的记忆题重新准入必须有显式许可、人工审核身份及可追溯记录。
+    """
+    review = q.get("quality_review") or {}
+    human_reviewed = bool(
+        isinstance(review, dict) and review.get("status") == "approved"
+        and review.get("reviewer_type") in ("teacher", "subject_expert")
+        and review.get("reviewer_id") and review.get("record_id")
+        and review.get("content_sha256") == question_content_sha256(q)
+    )
+    result = {
+        "diagnosis_eligible": False, "practice_eligible": False,
+        "may_confirm_mastery": False, "may_judge_weak": False,
+        "evidence_level": "bare", "reviewer_pending": not human_reviewed,
+        "confidence": "screening", "reason": "insufficient_evidence",
+    }
+    if q.get("challenge"):
+        return {**result, "reason": "challenge_only"}
+    if q.get("review_status") in ("rejected", "quarantined") or q.get("quarantined"):
+        return {**result, "reason": "quarantined"}
+    if str(q.get("source", "")).startswith("self-generated-memory-drill"):
+        if not (human_reviewed and q.get("diagnosis_eligible") is True):
+            return {**result, "reason": "memory_drill_requires_independent_review"}
+
+    # 不用“题干至少八字”等启发式排除合法短算式；这里只检查确定的结构损坏。
+    choices = q.get("choices") or []
+    if not str(q.get("prompt") or "").strip() or q.get("answer") in (None, ""):
+        return {**result, "evidence_level": "broken", "reason": "missing_prompt_or_answer"}
+    if q.get("type") == "choice":
+        texts = [str(c.get("text") or "").strip() for c in choices]
+        ids = [str(c.get("id") or "") for c in choices]
+        if (len(choices) < 2 or not all(texts) or len(set(texts)) != len(texts)
+                or not all(ids) or len(set(ids)) != len(ids)
+                or str(q.get("answer")) not in ids):
+            return {**result, "evidence_level": "broken", "reason": "broken_choices"}
+
+    level = q.get("evidence_level")
+    if level in ("broken", "defective"):
+        return {**result, "evidence_level": level, "reason": "evidence_rejected"}
+    if q.get("type") == "numeric" and q.get("verify"):
+        from .verify import check_question
+        try:
+            checked = check_question(q)
+        except (ArithmeticError, TypeError, ValueError, RecursionError):
+            checked = {"status": "error"}
+        if checked["status"] != "pass":
+            return {**result, "evidence_level": "defective", "reason": "verify_failed"}
+        # 显式分级可能包含题义/来源限制；算式一致不能覆盖较低的既有等级。
+        if level is None:
+            level = "verified" if is_own(q) else "bare"
+    elif level is None:
+        # 兼容既有自有内容，但没有证据的题只能练习，不能补一个“可信”标签。
+        level = grade(q)["level"] if len(str(q.get("prompt", ""))) >= 8 else "bare"
+    if level in ("broken", "defective"):
+        return {**result, "evidence_level": level, "reason": "evidence_rejected"}
+
+    allowed = (level in DIAGNOSABLE and q.get("diagnosis_eligible") is not False
+               and q.get("for_diagnosis") is not False)
+    return {
+        **result, "evidence_level": level,
+        "practice_eligible": q.get("practice_eligible") is not False,
+        "diagnosis_eligible": allowed,
+        "may_confirm_mastery": allowed and may_confirm_mastery(level),
+        "may_judge_weak": allowed and may_judge_weak(level),
+        "reason": ("provisional_evidence" if allowed else "practice_only"),
+    }

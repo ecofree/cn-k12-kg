@@ -1,4 +1,4 @@
-"""把 data/*.json 装进 SQLite，并生成带 SHA-256 的 manifest。
+"""检查来源一致性，把 data/*.json 装进 SQLite 并生成 LF 规范化 hash 清单。
 
 用法：
     python tools/build_db.py
@@ -7,8 +7,8 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
+import os
 import pathlib
 import sys
 from datetime import datetime, timezone
@@ -17,22 +17,24 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from cnkg import store  # noqa: E402
+from tools.rebuild_data import (REGISTRY, OUTPUTS, SourceError, build_data, differences,
+                                load_registry, read_json, sha256_lf, write_json)  # noqa: E402
 
 DATA_FILES = ["topics.json", "dependencies.json", "questions.json",
               "standards.json", "outline.json"]
 
 
 def sha256(path: pathlib.Path) -> str:
-    digest = hashlib.sha256()
-    with open(path, "rb") as fh:
-        for chunk in iter(lambda: fh.read(1 << 16), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    """Compatibility name; manifest declares that this is a LF-normalized hash."""
+    return sha256_lf(path)
 
 
-def write_manifest(counts: dict) -> pathlib.Path:
+def write_manifest(counts: dict, *, include_external=True) -> pathlib.Path:
     files = []
-    for name in DATA_FILES:
+    names = list(DATA_FILES)
+    if include_external and (store.DATA / "questions_ext.json").is_file():
+        names.append("questions_ext.json")
+    for name in names:
         path = store.DATA / name
         payload = json.loads(path.read_text(encoding="utf-8"))
         if isinstance(payload, list):
@@ -43,30 +45,65 @@ def write_manifest(counts: dict) -> pathlib.Path:
             count = 1
         files.append({"name": name, "count": count, "sha256": sha256(path)})
 
+    registry = load_registry(store.DATA)
+    sources = [{"name": f"data/{REGISTRY}", "sha256": sha256(store.DATA / REGISTRY)}]
+    for source in registry["content_sources"]:
+        sources.append({"name": "data/" + source["path"],
+                        "sha256": sha256(store.DATA / source["path"])})
+    code_inputs = {"tools/rebuild_data.py"}
+    for generator in registry.get("question_generators", []):
+        code_inputs.add(generator["entrypoint"])
+        code_inputs.update(generator["inputs"])
+    sources.extend({"name": name, "sha256": sha256(ROOT / name)}
+                   for name in sorted(code_inputs))
+    versions = sorted({t.get("curriculum_version", "unknown")
+                       for t in read_json(store.DATA / "topics.json")})
     manifest = {
         "schema_version": store.SCHEMA_VERSION,
-        "curriculum_version": "2024",
+        "curriculum_version": versions[0] if len(versions) == 1 else "mixed",
+        "curriculum_versions": versions,
         "edition": "人教版",
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "hash_policy": "sha256-lf-v1: UTF-8 file bytes with CRLF/CR normalized to LF",
+        "include_external": include_external,
         "counts": counts,
         "files": files,
+        "sources": sources,
+        "quality_scope": "来源与结构一致性；算式核验和独立学科审核是不同门禁",
     }
+    # An optional fixed timestamp supports reproducible release archives.
+    # Local wall-clock time is deliberately not part of artifact identity.
+    if "SOURCE_DATE_EPOCH" in os.environ:
+        manifest["generated_at"] = datetime.fromtimestamp(
+            int(os.environ["SOURCE_DATE_EPOCH"]), timezone.utc).isoformat(timespec="seconds")
     out = store.DATA / "manifest.json"
-    out.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_json(out, manifest)
     return out
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--db", default=str(store.DEFAULT_DB))
-    args = parser.parse_args()
+    parser.add_argument("--own-only", action="store_true", help="只装入自有题，忽略可选外部题")
+    parser.add_argument("--quiet", action="store_true", help="省略按章明细")
+    args = parser.parse_args(argv)
 
-    counts = store.build(args.db)
+    try:
+        expected, _ = build_data(store.DATA)
+        delta = differences(expected, {name: read_json(store.DATA / name) for name in OUTPUTS})
+        if delta:
+            print("来源不一致：先运行 python tools/rebuild_data.py --check 查看差异，再修正来源/产物。")
+            return 1
+    except (SourceError, OSError, ValueError, KeyError) as exc:
+        print(f"来源门禁失败：{exc}")
+        return 1
+    counts = store.build(args.db, include_external=not args.own_only)
     print(f"数据库已重建：{pathlib.Path(args.db).resolve()}")
     print(f"  表行数：{counts}")
 
-    manifest = write_manifest(counts)
-    print(f"  manifest：{manifest.relative_to(ROOT)}")
+    manifest = write_manifest(counts, include_external=not args.own_only)
+    print(f"  manifest：{manifest}")
+    if args.quiet:
+        return 0
 
     conn = store.connect(args.db)
     try:

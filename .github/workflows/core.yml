@@ -1,0 +1,31 @@
+name: Core data and learning checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Authoring sources match every generated field
+        run: python tools/rebuild_data.py --check --report build/source-differences.json
+      - name: Structural validation
+        run: python tools/validate.py
+      - name: Arithmetic checks (independent subject review is separate)
+        run: python tools/verify_questions.py
+      - name: Core regression suite (optional external bundles may be absent)
+        run: python -m unittest discover -s tests
+      - name: Missing external data and deterministic release manifest
+        run: |
+          python tools/status_report.py
+          python tools/status_report.py --json
+          python tools/build_db.py --own-only --quiet

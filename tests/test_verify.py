@@ -49,6 +49,25 @@ class CompareTest(unittest.TestCase):
         self.assertTrue(verify.compare("两两垂直", " 两两垂直 "))
         self.assertFalse(verify.compare("A", "B"))
 
+    def test_equivalent_fraction_answers(self):
+        for answer in ("1/2", "2 / 4", "０．５", "5e-1", "+1 / +2"):
+            self.assertTrue(verify.compare(answer, "0.5"), answer)
+        self.assertTrue(verify.compare("−3/4", "-0.75"))
+        self.assertFalse(verify.compare("1/3", "0.5"))
+
+    def test_invalid_numeric_input_is_never_evaluated(self):
+        for answer in ("1/0", "nan", "inf", "1e999", "1+1", "sqrt(4)",
+                       "__import__('os')", "1" * 129, "50%", "3人", ""):
+            self.assertIsNone(verify.to_number(answer), answer)
+        self.assertFalse(verify.compare("nan", "nan"))
+
+    def test_numeric_judge_accepts_equivalence_and_distinguishes_format(self):
+        from web.server import judge
+        question = {"type": "numeric", "answer": "0.5"}
+        self.assertEqual(judge(question, "1/2"), "correct")
+        self.assertEqual(judge(question, "1/3"), "wrong")
+        self.assertEqual(judge(question, "1/0"), "invalid")
+
 
 class QuestionTest(unittest.TestCase):
     def test_pass_case(self):

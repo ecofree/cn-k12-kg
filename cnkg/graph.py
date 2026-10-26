@@ -21,9 +21,9 @@ VOLUME_ORDER = [
 _QNUM = re.compile(r"-q(\d+)$")
 
 
-def load_json(name: str):
+def load_json(name: str, data_dir=None):
     """读取 data/ 下的 JSON（UTF-8，裸数组）。"""
-    with open(DATA_DIR / name, encoding="utf-8") as fh:
+    with open(pathlib.Path(data_dir or DATA_DIR) / name, encoding="utf-8") as fh:
         return json.load(fh)
 
 
@@ -35,10 +35,12 @@ def qnum(question_id: str) -> int:
 class Graph:
     """知识点图 + 题库索引。构造后只读。"""
 
-    def __init__(self, topics, dependencies, questions):
+    def __init__(self, topics, dependencies, questions, *, data_dir=None):
         self.topics = topics
         self.dependencies = dependencies
         self.questions = questions
+        self.data_dir = pathlib.Path(data_dir or DATA_DIR)
+        self.questions_by_id = {q["id"]: q for q in questions}
         self.by_id = {t["id"]: t for t in topics}
         self.index = {t["id"]: i for i, t in enumerate(topics)}
 
@@ -69,24 +71,28 @@ class Graph:
         # 复合题的主知识点（primaryTopicId）排在前面 —— 诊断某点时，
         # 应该优先问「主要考这个点」的题，而不是「顺带涉及这个点」的题。
         # 但两者都要能被抽到，否则复合题就被浪费了。
+        from .evidence import question_policy
         self.bank = {t["id"]: [] for t in topics}
+        self.practice_bank = {t["id"]: [] for t in topics}
+        self.question_policies = {q["id"]: question_policy(q) for q in questions}
         for q in questions:
             # 挑战层（竞赛题）永远不进诊断池。它们的 for_diagnosis 已经是 False，
             # 这里再拦一道：万一有人把 tal.json 拼进 questions 列表，
             # 也不能让超纲题把「没学过奥数」判成「基础不牢」。
-            if q.get("challenge") or q.get("for_diagnosis") is False:
-                continue
             ids = q.get("topicIds") or ([q["topicId"]] if q.get("topicId") else [])
-            primary = q.get("primaryTopicId") or (ids[0] if ids else None)
+            policy = self.question_policies[q["id"]]
             for tid in ids:
-                if tid in self.bank:
+                if tid in self.bank and policy["diagnosis_eligible"]:
                     self.bank[tid].append(q)
-        for tid in self.bank:
-            # 稳定排序：主知识点优先，其次按题号。
-            self.bank[tid].sort(key=lambda q: (
-                0 if (q.get("primaryTopicId") or q.get("topicId")) == tid else 1,
-                qnum(q["id"]),
-            ))
+                if tid in self.practice_bank and policy["practice_eligible"]:
+                    self.practice_bank[tid].append(q)
+        for bank in (self.bank, self.practice_bank):
+            for tid in bank:
+                # 稳定排序：主知识点优先，其次按题号。
+                bank[tid].sort(key=lambda q: (
+                    0 if (q.get("primaryTopicId") or q.get("topicId")) == tid else 1,
+                    qnum(q["id"]),
+                ))
 
         self._anc = {}
 
@@ -97,7 +103,7 @@ class Graph:
         cached = getattr(self, "_tier_cache", None)
         if cached is not None:
             return cached
-        path = DATA_DIR / "topic_tiers.json"
+        path = self.data_dir / "topic_tiers.json"
         if path.exists():
             data = json.loads(path.read_text(encoding="utf-8"))
             self._tier_cache = data.get("topics", {})
@@ -113,24 +119,30 @@ class Graph:
     def name(self, tid: str) -> str:
         return self.by_id.get(tid, {}).get("name", tid)
 
-    def ancestors(self, tid: str) -> set:
-        """严格祖先集合（不含自身），带缓存，迭代实现以避免深图递归溢出。"""
-        if tid in self._anc:
-            return self._anc[tid]
+    def ancestors(self, tid: str, *, hard_only: bool = False) -> set:
+        """严格祖先；诊断因果/掌握推断必须显式使用 hard_only=True。
+
+        默认包含 soft 以兼容目录/关联查询。两种语义的缓存互相隔离。
+        """
+        key = (tid, hard_only)
+        if key in self._anc:
+            return set(self._anc[key])
         out = set()
         stack = [tid]
         seen = {tid}
         while stack:
             cur = stack.pop()
             for edge in self.prereqs.get(cur, ()):
+                if hard_only and edge["strength"] != "hard":
+                    continue
                 pid = edge["prerequisiteId"]
                 if pid in seen:
                     continue
                 seen.add(pid)
                 out.add(pid)
                 stack.append(pid)
-        self._anc[tid] = out
-        return out
+        self._anc[key] = out
+        return set(out)
 
     def descendants(self, tid: str) -> set:
         out, stack, seen = set(), [tid], {tid}
@@ -145,19 +157,21 @@ class Graph:
                 stack.append(cid)
         return out
 
-    def scope(self, targets) -> set:
-        """诊断范围 = 目标 ∪ 全部祖先。"""
+    def scope(self, targets, *, hard_only: bool = False) -> set:
+        """目标与先修范围；强诊断关系使用 hard_only=True。"""
         out = set(targets)
         for tid in targets:
-            out |= self.ancestors(tid)
+            out |= self.ancestors(tid, hard_only=hard_only)
         return out
 
     # ---------------------------------------------------------------- 排序
-    def topo_order(self, ids) -> list:
+    def topo_order(self, ids, *, hard_only: bool = False) -> list:
         """对子集做拓扑排序（先修在前）；同层按 topics 文件顺序。"""
-        subset = [tid for tid in self.index if tid in set(ids)]
+        wanted = set(ids)
+        subset = [tid for tid in self.index if tid in wanted]
         inside = set(subset)
-        indeg = {tid: sum(1 for e in self.prereqs[tid] if e["prerequisiteId"] in inside)
+        indeg = {tid: sum(1 for e in self.prereqs[tid] if e["prerequisiteId"] in inside
+                         and (not hard_only or e["strength"] == "hard"))
                  for tid in subset}
         ready = [tid for tid in subset if indeg[tid] == 0]
         ready.sort(key=lambda t: self.index[t])
@@ -166,6 +180,8 @@ class Graph:
             cur = ready.pop(0)
             order.append(cur)
             for edge in self.dependents[cur]:
+                if hard_only and edge["strength"] != "hard":
+                    continue
                 nxt = edge["topicId"]
                 if nxt not in indeg:
                     continue
@@ -198,18 +214,18 @@ def load_graph(data_dir: pathlib.Path | None = None,
     默认取 `DIAGNOSABLE`（verified / corroborated / explained），
     也就是排除只有答案、没有可用推导的 bare 题——
     那些题答错不足以判薄弱（见 cnkg/evidence.py）。
-    传空元组表示不按证据过滤（退回旧行为，仅用于对照实验）。
+    传空元组仅取消加载阶段过滤，运行时 question_policy 仍不能绕过。
     """
-    global DATA_DIR
-    if data_dir is not None:
-        DATA_DIR = pathlib.Path(data_dir)
-    questions = load_json("questions.json")
+    directory = pathlib.Path(data_dir or DATA_DIR)
+    questions = load_json("questions.json", directory)
     if include_external:
         from .evidence import DIAGNOSABLE
         allowed = DIAGNOSABLE if ext_evidence is None else set(ext_evidence)
-        external = load_json("questions_ext.json") if (DATA_DIR / "questions_ext.json").exists() else []
+        external = (load_json("questions_ext.json", directory)
+                    if (directory / "questions_ext.json").exists() else [])
         kept = [q for q in external
                 if q.get("usable_for_diagnosis")
                 and (not allowed or q.get("evidence_level") in allowed)]
         questions = questions + kept
-    return Graph(load_json("topics.json"), load_json("dependencies.json"), questions)
+    return Graph(load_json("topics.json", directory), load_json("dependencies.json", directory),
+                 questions, data_dir=directory)

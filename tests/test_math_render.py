@@ -11,10 +11,7 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
-# 外部题库（data/questions_ext.json）不入仓，见 data/README.md。
-# 缺文件时整组跳过，而不是报失败——否则 clone 下来第一件事就是红一片。
-if not (ROOT / "data" / "questions_ext.json").exists():
-    raise unittest.SkipTest("外部题库未下载，见 data/README.md")
+# 核心资源和页面契约不依赖外部题库，必须在 fresh clone 中执行。
 
 STATIC = ROOT / "web" / "static"
 sys.path.insert(0, str(ROOT))
@@ -59,6 +56,8 @@ class ServerAllowlistTest(unittest.TestCase):
         self.assertIn("woff2", src)
 
 
+@unittest.skipUnless((ROOT / "data" / "questions_ext.json").exists(),
+                     "外部题库未下载，见 data/README.md")
 class ExtPageTest(unittest.TestCase):
     def test_page_generated_and_has_questions(self):
         """预览页必须覆盖全部外部题。

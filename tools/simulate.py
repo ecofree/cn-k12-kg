@@ -1,7 +1,9 @@
-"""诊断引擎的蒙特卡洛校准。
+"""诊断引擎在假定学生模型下的蒙特卡洛敏感性分析。
 
 不依赖任何外部答题数据：先构造一批"知道真实掌握状态"的虚拟学生，
-按知识点层级生成他们的答题结果，再让引擎去判定，最后统计判定准确率。
+按知识点层级生成他们的答题结果，再让引擎去判定，最后统计模型内指标。
+生成学生和评估引擎共用同一假定先修图，不模拟反馈后学习或长期保持。
+本工具不能提供真实学生效度证据，也不能独立决定课程是否需要应用题。
 
 要回答的问题很具体：
   1. "第 1 题错、第 2 题对 → 不稳" 这条规则，误判率有多高？
@@ -24,7 +26,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from cnkg import engine  # noqa: E402
+from cnkg import engine, evidence  # noqa: E402
 from cnkg.graph import load_graph  # noqa: E402
 
 
@@ -34,7 +36,7 @@ def mastery_of(graph, rng, base=0.85, gap=0.15, flip=0.05):
     再以 flip 的概率随机翻转，模拟"跳级学会"和"意外遗忘"。
     """
     state = {}
-    for tid in graph.topo_order([t["id"] for t in graph.topics]):
+    for tid in graph.topo_order([t["id"] for t in graph.topics], hard_only=True):
         prereqs = graph.prereqs.get(tid, [])
         hard_ok = all(state.get(e["prerequisiteId"], True) for e in prereqs
                       if e["strength"] == "hard")
@@ -56,8 +58,8 @@ ALL_CHOICE_GUESS = False
 #   参数是假设，不是测量；只在比较规则/题库结构时使用。
 IRT = False
 # 答案键错误率（敏感性分析用）：0 表示假设题库答案全对。
-# 非 0 时，每道**带 source 的外部题**按该概率把判定反转，
-# 模拟「答案键本身错了」造成的噪声。自有题默认视为已验算（verify）。
+# 非 0 时，对外部题按该概率把判定反转；自有题暂不注入这种噪声，
+# 这只是实验设定，不表示所有自有题的题义、答案已经正确。
 KEY_ERROR_RATE = 0.0
 DIFF_B = {"basic": 0.0, "standard": 1.0, "advanced": 2.0}
 SLOPE = 1.6
@@ -76,8 +78,7 @@ def answer_probability(mastered: bool, difficulty: str, qtype: str,
     猜测率按题型区分——四选一约 1/4，数值填空写错就是错（只留极小的"蒙对"）。
     IRT 模式下，"会"不再是必对：难度越高，会做也可能失败。
     """
-    # 选择题的猜测率就是 1/选项数（答案键已打散，不存在"一路选 B"的捷径）；
-    # 数值/短答只留极小的边界值命中。
+    # 这里假定均匀猜选项、数值题低概率猜中；不模拟排除法或选项线索。
     g = guess_choice if qtype == "choice" else guess_numeric
     if ALL_CHOICE_GUESS:
         g = 0.25
@@ -139,9 +140,7 @@ def roots_for(graph, state, target):
     # 沿 hard 边往上，只要父节点也没掌握就继续；遇到已掌握的父节点就停。
     # 这样得到的才是"导致这个点不会"的那条连续缺口链的顶端。
     #
-    # 旧版取的是"所有未掌握 hard 祖先里最高的那个"，会把已经能学会的中间节点
-    # 之上的远古祖先也算成根因——学生跳级掌握中间节点时，那个祖先并不解释当前问题。
-    # 旧口径把无噪声下的命中率压到 87.4%，其实引擎判得没错，是尺子错了。
+    # 不能跨越已掌握节点把更远的旧缺口归到当前原因上。
     roots, stack, seen = set(), [target], {target}
     while stack:
         cur = stack.pop()
@@ -178,7 +177,7 @@ def run_one(graph, rng, state, target, slip, guess_choice, guess_numeric, limit,
         verdict = "correct" if rng.random() < p else "wrong"
         # 答案键噪声：外部题没有 verify 表达式，只能靠来源互证。
         # 键错了意味着「学生答对但系统记错」，反向也成立（错误键可能被蒙中）。
-        if KEY_ERROR_RATE and q.get("source") and rng.random() < KEY_ERROR_RATE:
+        if KEY_ERROR_RATE and not evidence.is_own(q) and rng.random() < KEY_ERROR_RATE:
             verdict = "wrong" if verdict == "correct" else "correct"
         engine.apply_answer(graph, session, verdict)
         if asked > 60:
@@ -187,12 +186,21 @@ def run_one(graph, rng, state, target, slip, guess_choice, guess_numeric, limit,
     return summary, asked, exposure, types
 
 
+def root_set_counts(real_roots, reported):
+    """逐个根因计 TP/FP/FN；多报和完全漏报都不能被“命中一个”掩盖。"""
+    real, predicted = set(real_roots), set(reported)
+    return {"tp": len(real & predicted), "fp": len(predicted - real),
+            "fn": len(real - predicted)}
+
+
 def evaluate(graph, targets, n_students, slip, guess_choice, guess_numeric, seed,
              theta_sd=1.0, limit=24):
     rng = random.Random(seed)
     # 混淆矩阵：真实 × 判定
     matrix = collections.Counter()
     root_hit = root_total = 0
+    root_counts = collections.Counter()
+    root_exact = root_relevant = candidate_hit = incomplete_count = 0
     # 分层统计：只有"目标点确实没掌握"时，谈根因命中才有意义；
     # 目标点掌握时，引擎不报根因才是对的（假阳性另计）
     weak_hit = weak_total = 0
@@ -217,7 +225,7 @@ def evaluate(graph, targets, n_students, slip, guess_choice, guess_numeric, seed
         eff = effective_state(state, theta)
         truth = eff.get(target, False)
         verdict = "untested"
-        for bucket in ("mastered", "shaky", "weak", "assumed"):
+        for bucket in ("mastered", "shaky", "weak", "assumed", "insufficient_evidence"):
             if target in summary.get(bucket, []):
                 verdict = bucket
                 break
@@ -228,10 +236,18 @@ def evaluate(graph, targets, n_students, slip, guess_choice, guess_numeric, seed
 
         real_roots = roots_for(graph, eff, target)
         reported = [r["topicId"] if isinstance(r, dict) else r for r in summary.get("roots", [])]
-        if real_roots and reported:
+        # 分母包括有真根因但系统完全未报的会话。
+        if real_roots:
             root_total += 1
             if set(reported) & real_roots:
                 root_hit += 1
+            if (set(reported) | set(summary.get("root_candidates", []))) & real_roots:
+                candidate_hit += 1
+        root_counts.update(root_set_counts(real_roots, reported))
+        if real_roots or reported:
+            root_relevant += 1
+            root_exact += set(reported) == real_roots
+        incomplete_count += bool(summary.get("incomplete"))
         if not truth:
             weak_total += 1
             if set(reported) & real_roots:
@@ -262,6 +278,20 @@ def evaluate(graph, targets, n_students, slip, guess_choice, guess_numeric, seed
         "detect_rate": rate(true_pos, sum(c for k, c in matrix.items() if not k[0])),
         "confirm_rate": rate(true_neg, sum(c for k, c in matrix.items() if k[0])),
         "root_hit_rate": rate(root_hit, root_total),
+        "root_precision": rate(root_counts["tp"], root_counts["tp"] + root_counts["fp"]),
+        "root_recall": rate(root_counts["tp"], root_counts["tp"] + root_counts["fn"]),
+        "root_exact_match_rate": rate(root_exact, root_relevant),
+        "root_counts": dict(root_counts),
+        "candidate_or_supported_hit_rate": rate(candidate_hit, root_total),
+        "incomplete_rate": rate(incomplete_count, total),
+        "assessed_rate": rate(sum(c for (truth, status), c in matrix.items()
+                                  if status in ("mastered", "shaky", "weak")), total),
+        "interpretation": {
+            "empirical_student_validation": False,
+            "assumptions": "同一假定先修图生成虚拟掌握状态；不模拟反馈后学习与保持",
+            "root_metrics": "仅对模型内证据充分的 roots 计 precision/recall；候选另列",
+            "accuracy_scope": "band/binary accuracy 仅在已形成判定的样本中计算，须同时看 assessed_rate",
+        },
         "root_hit_when_weak": rate(weak_hit, weak_total),
         "root_false_alarm_when_ok": rate(clean_false_alarm, clean_total),
         "avg_questions": round(asked_total / max(total, 1), 2),
@@ -290,8 +320,7 @@ def main():
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--no-shaky-descend", action="store_true",
                     help="不稳时不继续回溯，用于对比旧行为")
-    ap.add_argument("--descend-soft", action="store_true",
-                    help="回溯时也追 soft 先修，用于对比旧行为")
+    ap.add_argument("--descend-soft", action="store_true", help=argparse.SUPPRESS)
     ap.add_argument("--no-confirm", action="store_true",
                     help="关闭“答对后再确认一题”，用于对比旧规则")
     ap.add_argument("--irt", action="store_true",
@@ -302,17 +331,20 @@ def main():
                     help="假设每个知识点都有一道 standard 题（用于评估补题价值，不改数据）")
     ap.add_argument("--no-step-up", action="store_true",
                     help="关闭“答对后升档确认”，用于对比旧行为")
+    ap.add_argument("--step-up", action="store_true",
+                    help="仅用于敏感性实验：显式开启诊断升档，默认与产品保持关闭")
     ap.add_argument("--all-choice-guess", action="store_true",
                     help="敏感性分析：把所有题都当成四选一，用于量化题型结构的作用")
     ap.add_argument("--out", default="build/calibration_report.json")
     args = ap.parse_args()
 
     engine.CONFIRM_ON_CORRECT = not args.no_confirm
-    engine.DESCEND_SOFT = args.descend_soft
+    if args.descend_soft:
+        ap.error("soft 是相关关系，不能作为因果诊断先修；该实验开关已移除")
     engine.DESCEND_SHAKY = not args.no_shaky_descend
     globals()["ALL_CHOICE_GUESS"] = args.all_choice_guess
     globals()["IRT"] = args.irt
-    engine.STEP_UP_ON_CORRECT = not args.no_step_up
+    engine.STEP_UP_ON_CORRECT = args.step_up and not args.no_step_up
 
     graph = load_graph()
     if args.assume_standard:
@@ -323,7 +355,7 @@ def main():
                 continue
             bank.append({"id": f"{topic['id']}-std", "topicId": topic["id"],
                          "difficulty": "standard", "type": "numeric",
-                         "prompt": "(hypothetical)", "answer": "0"})
+                         "prompt": "(hypothetical)", "answer": "0", "verify": "0"})
             added += 1
         print(f"假设补题：为 {added} 个知识点注入 standard 题（仅内存，不写数据）")
     ready = [t["id"] for t in graph.topics if graph.bank.get(t["id"])]
@@ -336,6 +368,8 @@ def main():
         ("高噪声", 0.15, 0.35, args.guess_numeric),
     ]
     results = []
+    def pct(value):
+        return "无适用样本" if value is None else f"{value:.1%}"
     for name, slip, guess, guess_num in scenarios:
         r = evaluate(graph, targets, args.students, slip, guess, guess_num, args.seed,
                      theta_sd=args.theta_sd)
@@ -344,11 +378,13 @@ def main():
         mix = r["type_mix"]
         total_asked = sum(mix.values()) or 1
         print(f"\n[{name}] slip={slip} 四选一 guess={guess} 填空 guess={guess_num}")
-        print(f"  真实不会 → 判掌握（严重误判）  {r['false_mastered_rate']:.1%}")
-        print(f"  真实不会 → 判薄弱/不稳（检出） {r['detect_rate']:.1%}")
-        print(f"  真实会   → 判薄弱（过度保守）  {r['false_weak_rate']:.1%}")
-        print(f"  根因命中（目标点未掌握时）      {r['root_hit_when_weak']:.1%}")
-        print(f"  目标点掌握却报根因（假警报）    {r['root_false_alarm_when_ok']:.1%}")
+        print(f"  真实不会 → 判掌握（严重误判）  {pct(r['false_mastered_rate'])}")
+        print(f"  真实不会 → 判薄弱/不稳（检出） {pct(r['detect_rate'])}")
+        print(f"  真实会   → 判薄弱（过度保守）  {pct(r['false_weak_rate'])}")
+        print(f"  根因精确率 / 召回率              {pct(r['root_precision'])} / {pct(r['root_recall'])}")
+        print(f"  根因命中（目标点未掌握时）      {pct(r['root_hit_when_weak'])}")
+        print(f"  目标点掌握却报根因（假警报）    {pct(r['root_false_alarm_when_ok'])}")
+        print(f"  形成判定 / 未完成确认            {pct(r['assessed_rate'])} / {pct(r['incomplete_rate'])}")
         print(f"  平均出题                        {r['avg_questions']} 题")
         if r.get("band_accuracy") is not None:
             print(f"  三档判定准确率                  {r['band_accuracy']:.1%}")

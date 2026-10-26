@@ -38,7 +38,7 @@ class JudgeTest(unittest.TestCase):
 
     def test_numeric_rejects_text(self):
         q = {"type": "numeric", "answer": "4"}
-        self.assertEqual(server.judge(q, "四"), "wrong")
+        self.assertEqual(server.judge(q, "四"), "invalid")
 
     def test_short_exact_and_variants(self):
         q = {"type": "short", "answer": "平行", "accept": ["互相平行"]}

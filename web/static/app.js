@@ -142,7 +142,7 @@ async function startSession(targets, mode, volume) {
     state.done = data.done;
     state.selected = null;
     if (mode === "screen") {
-      $("quiz-hint").textContent = "整册筛查：每个知识点只问 1 题，答错直接记为薄弱，不往回追。";
+      $("quiz-hint").textContent = "整册筛查：每个知识点抽查 1 题，仅提供待确认线索，不作根因判断。";
     } else {
       $("quiz-hint").textContent = "";
     }
@@ -243,8 +243,8 @@ function showFeedback(feedback) {
   const title = $("fb-title");
   title.textContent = feedback.correct ? "答对了" : "答错了";
   title.className = `fb-title ${feedback.correct ? "ok" : "no"}`;
-  $("fb-answer").textContent = `参考答案：${feedback.answer}`;
-  $("fb-explain").textContent = feedback.explanation;
+  window.setRichText($("fb-answer"), `参考答案：${feedback.answer}`);
+  window.setRichText($("fb-explain"), feedback.explanation);
   $("next").textContent = state.done ? "看结果" : "下一题";
   $("next").focus();
 }
@@ -271,19 +271,23 @@ function showResult() {
     ? summary.shaky.map((id) => nameOf(id)).join("、") : "无";
   $("res-roots").textContent = summary.roots.length
     ? summary.roots.map((id) => nameOf(id)).join("、") : "无";
+  const candidates = summary.root_candidates || [];
+  $("res-candidates").textContent = (candidates.length
+    ? `仍需确认：${candidates.map(nameOf).join("、")}。` : "")
+    + (summary.incomplete ? "本次检查尚未覆盖全部必要范围，请结合未测项继续确认。" : "");
 
   const path = $("res-path");
   path.textContent = "";
   const weakSet = new Set(summary.weak);
   for (const id of summary.path) {
     const li = document.createElement("li");
-    li.textContent = nameOf(id) + (weakSet.has(id) ? "" : "（未测，需确认）");
-    if (!weakSet.has(id)) li.className = "muted";
+    li.textContent = nameOf(id) + (weakSet.has(id) ? "（补学）"
+      : summary.shaky.includes(id) ? "（巩固）" : "（需进一步确认）");
     path.append(li);
   }
   if (!summary.path.length) {
     const li = document.createElement("li");
-    li.textContent = "不需要补学";
+    li.textContent = "本次作答尚未形成明确补学任务；这不代表所有相关内容均已掌握。";
     path.append(li);
   }
 

@@ -25,7 +25,7 @@
 <main>
   <section id="view-home" class="view">
     <div class="hero">
-      <p>选一个知识点诊断，或点册次右侧的「整册筛查」逐点过一遍；答错会往回追到最源头的那个概念。</p>
+      <p>选一个知识点检查掌握情况，或按册筛查。结果会给出补学线索；尚未测到的先修和需要进一步确认的内容会单独标明。</p>
     </div>
     <div class="search-row">
       <input id="search" type="search" placeholder="搜索知识点，如 绝对值 / 方程" autocomplete="off">
@@ -60,10 +60,11 @@
     <h2>诊断结果</h2>
     <p class="verdict" id="verdict"></p>
     <div class="grid">
-      <div class="card stat"><h3>薄弱</h3><p id="res-weak">—</p></div>
+      <div class="card stat"><h3>薄弱线索</h3><p id="res-weak">—</p></div>
       <div class="card stat"><h3>不稳</h3><p id="res-shaky">—</p></div>
-      <div class="card stat"><h3>根因（已判定）</h3><p id="res-roots">—</p></div>
+      <div class="card stat"><h3>已核查先修的缺口线索</h3><p id="res-roots">—</p></div>
     </div>
+    <p class="muted" id="res-candidates"></p>
     <div class="card">
       <h3>建议补学顺序</h3>
       <ol id="res-path" class="path"></ol>

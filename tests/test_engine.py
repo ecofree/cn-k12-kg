@@ -7,11 +7,6 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
-# 外部题库（data/questions_ext.json）不入仓，见 data/README.md。
-# 缺文件时整组跳过，而不是报失败——否则 clone 下来第一件事就是红一片。
-if not (ROOT / "data" / "questions_ext.json").exists():
-    raise unittest.SkipTest("外部题库未下载，见 data/README.md")
-
 sys.path.insert(0, str(ROOT))
 
 from cnkg import engine  # noqa: E402
@@ -74,20 +69,18 @@ class GraphTest(unittest.TestCase):
         order = self.graph.topo_order([t["id"] for t in self.graph.topics])
         self.assertEqual(len(order), len(self.graph.topics))
 
-    def test_every_filled_topic_has_two_entry_level_questions(self):
-        """已填内容的点至少 2 道最低难度题，否则诊断第 2 题只能升难度。"""
-        checked = 0
+    def test_sparse_diagnostic_pool_never_claims_mastery(self):
+        """真实数据质量过滤后可以有缺口；缺题必须显露，不能借低证据题凑够两道。"""
         for tid, bank in self.graph.bank.items():
-            if self.graph.by_id[tid]["review_status"] == "skeleton":
-                self.assertEqual(bank, [], f"{tid} 还是骨架点，不应有题目")
+            if len(bank) >= 2:
                 continue
-            levels = [q["difficulty"] for q in bank]
-            lowest = min(levels, key=lambda d: engine.DIFF_RANK[d])
-            self.assertGreaterEqual(
-                levels.count(lowest), 2,
-                f"{tid} 的最低难度（{lowest}）只有 {levels.count(lowest)} 道题")
-            checked += 1
-        self.assertEqual(checked, 477)
+            session = engine.create_session(self.graph, [tid])
+            while engine.next_item(self.graph, session):
+                engine.apply_answer(self.graph, session, "correct")
+            summary = engine.summarize(self.graph, session)
+            self.assertNotIn(tid, summary["mastered"])
+            self.assertTrue(summary["incomplete"])
+            self.assertEqual(summary["stop_reason"], "insufficient_evidence")
 
 
 class EngineTest(unittest.TestCase):
@@ -117,10 +110,10 @@ class EngineTest(unittest.TestCase):
 
     def test_first_correct_then_wrong_is_shaky(self):
         """两题一对错说明不牢，判不稳而不是掌握。"""
-        session = engine.create_session(self.graph, ["m7a.1.2.5"])
+        session = engine.create_session(self.graph, ["m7a.5.2"])
         self._answer(session, "correct")
         self._answer(session, "wrong")
-        self.assertEqual(session["state"]["m7a.1.2.5"], "shaky")
+        self.assertEqual(session["state"]["m7a.5.2"], "shaky")
 
     def test_screen_mode_still_one_shot(self):
         """整册筛查每点只问 1 题，不走确认题，保证覆盖广度。"""
@@ -150,17 +143,18 @@ class EngineTest(unittest.TestCase):
         self.assertTrue(hard & queued, "hard 先修应入队")
         self.assertFalse((soft - hard) & queued, "soft 先修不应入队")
 
-    def test_shaky_ancestor_can_be_root(self):
-        """上游只有一个不稳点时，根因应是它，而不是下游那个薄弱点。"""
+    def test_shaky_point_is_candidate_and_kept_in_learning_path(self):
+        """混合表现只能作为待确认起点，但仍然必须安排巩固任务。"""
         session = engine.create_session(self.graph, ["m7a.5.2"])
-        self._answer(session, "wrong")
-        self._answer(session, "wrong")
-        # 先修一题错一题对 -> shaky
-        self._answer(session, "wrong")
         self._answer(session, "correct")
+        self._answer(session, "wrong")
+        while engine.next_item(self.graph, session):
+            engine.apply_answer(self.graph, session, "correct")
         summary = engine.summarize(self.graph, session)
-        self.assertIn("m7a.5.1.2", summary["shaky"])
-        self.assertEqual(summary["roots"], ["m7a.5.1.2"])
+        self.assertIn("m7a.5.2", summary["shaky"])
+        self.assertIn("m7a.5.2", summary["root_candidates"])
+        self.assertNotIn("m7a.5.2", summary["roots"])
+        self.assertIn("m7a.5.2", summary["path"])
 
     def test_wrong_twice_descends_hard_first(self):
         session = engine.create_session(self.graph, ["m7a.5.2"])
@@ -219,12 +213,14 @@ class EngineTest(unittest.TestCase):
         pos = {tid: i for i, tid in enumerate(summary["path"])}
         for edge in self.graph.dependencies:
             a, b = edge["topicId"], edge["prerequisiteId"]
-            if a in pos and b in pos:
+            if edge["strength"] == "hard" and a in pos and b in pos:
                 self.assertLess(pos[b], pos[a])
 
     def test_entry_prefers_low_guess_type(self):
         """同级题里优先出数值/短答，别让学生一上来就靠四选一猜。"""
         for tid, bank in self.graph.bank.items():
+            if not bank:
+                continue
             levels = [q["difficulty"] for q in bank]
             lowest = min(levels, key=lambda d: engine.DIFF_RANK[d])
             entry = [q for q in bank if q["difficulty"] == lowest]
@@ -234,14 +230,12 @@ class EngineTest(unittest.TestCase):
             self.assertEqual(engine.TYPE_GUESS.get(item["question"]["type"], 0.25), best,
                              f"{tid} 应优先出猜测率最低的题型")
 
-    def test_every_topic_has_low_guess_entry(self):
-        """每个点的入口题里必须有一道非四选一，否则猜测率无法压低。"""
+    def test_entry_pool_does_not_use_unreviewed_memory_drills(self):
+        """不能为增加题型、凑覆盖率而选入跨学段干扰的记忆题。"""
         for tid, bank in self.graph.bank.items():
-            levels = [q["difficulty"] for q in bank]
-            lowest = min(levels, key=lambda d: engine.DIFF_RANK[d])
-            entry_types = {q["type"] for q in bank if q["difficulty"] == lowest}
-            self.assertTrue(entry_types - {"choice"},
-                            f"{tid} 的入口题全是四选一")
+            for question in bank:
+                self.assertTrue(self.graph.question_policies[question["id"]]["diagnosis_eligible"])
+                self.assertNotEqual(question.get("source"), "self-generated-memory-drill")
 
     def test_step_up_gated_by_standard_coverage(self):
         """升档确认必须在 standard 题覆盖足够时才生效。
@@ -284,10 +278,13 @@ class EngineTest(unittest.TestCase):
         session = engine.create_session(self.graph, [tid], mode="practice")
         self._answer(session, "correct")
         self._answer(session, "wrong")
-        self.assertEqual(session["state"][tid], "mastered")
+        self.assertEqual(session["state"][tid], "practice_basic")
         summary = engine.summarize(self.graph, session)
         self.assertIn(tid, summary["step_up_failed"])
-        self.assertEqual(summary["mastery_level"][tid], "basic")
+        self.assertEqual(summary["practice_results"][tid]["demonstrated_level"], "basic")
+        self.assertEqual(summary["mastered"], [])
+        self.assertEqual(summary["weak"], [])
+        self.assertEqual(summary["roots"], [])
         self.assertEqual(summary["shaky"], [])
 
     def test_tool_topic_does_not_step_up(self):
@@ -311,6 +308,8 @@ class EngineTest(unittest.TestCase):
         self.assertLessEqual(s["coverage_core"], 1.0)
         self.assertIsInstance(s["ready"], bool)
 
+    @unittest.skipUnless((ROOT / "data" / "questions_ext.json").exists(),
+                         "仅外部题难度集成检查需要外部文件")
     def test_difficulty_is_calibrated(self):
         """难度必须真实分层，不能全标 basic。
 

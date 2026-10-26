@@ -27,7 +27,7 @@ sys.path.insert(0, str(ROOT))
 
 from cnkg import engine  # noqa: E402
 from cnkg.graph import VOLUME_ORDER, load_graph  # noqa: E402
-from cnkg.verify import compare, compare_short  # noqa: E402
+from cnkg.verify import compare, compare_short, to_number  # noqa: E402
 
 # 外部题（真题源）默认不加载。
 # 打开后题池 2235 → 11240（自有 + 9005 道可诊断外部题），477 个点里 268 个
@@ -81,7 +81,10 @@ def judge(question: dict, text) -> str:
                 else "wrong")
     if qtype == "short":
         return "correct" if compare_short(text, question["answer"], question.get("accept")) else "wrong"
-    return "correct" if compare(text, question["answer"]) else "wrong"
+    # 不把格式错误当作概念错误送进诊断状态机；客户端应提示重新输入。
+    if to_number(text) is None:
+        return "invalid"
+    return "correct" if compare(text, question["answer"], question.get("tolerance", 1e-6)) else "wrong"
 
 
 def public_question(question: dict) -> dict:
@@ -94,6 +97,15 @@ def public_question(question: dict) -> dict:
         "prompt": question["prompt"],
         "choices": question.get("choices"),
     }
+
+
+def display_answer(question: dict) -> str:
+    """选择题显示选项文字，不把 o1 等内部键当作教学反馈。"""
+    if question.get("type") == "choice":
+        for index, choice in enumerate(question.get("choices") or []):
+            if choice.get("id") == question.get("answer"):
+                return f"{chr(65 + index)}. {choice['text']}"
+    return str(question.get("answer", ""))
 
 
 def item_payload(item) -> dict | None:
@@ -363,13 +375,13 @@ class Handler(BaseHTTPRequestHandler):
         # 判题在服务端做：前端只提交作答文本，避免"自我宣布答对"
         if "answer" in payload:
             verdict = judge(question, payload.get("answer"))
-        elif payload.get("verdict") in ("correct", "wrong"):
-            verdict = payload["verdict"]  # 仅调试用
         else:
             return self._error(400, "缺少 answer")
+        if verdict == "invalid":
+            return self._error(422, "请输入数值，例如 -3、0.5 或 1/2；单位按题干约定填写，不必重复输入。")
 
         try:
-            engine.apply_answer(GRAPH, session, verdict)
+            engine.apply_answer(GRAPH, session, verdict, text=str(payload["answer"]))
         except ValueError as exc:
             return self._error(409, str(exc))
 
@@ -381,7 +393,7 @@ class Handler(BaseHTTPRequestHandler):
             "done": done,
             "feedback": {
                 "correct": verdict == "correct",
-                "answer": question["answer"],
+                "answer": display_answer(question),
                 "explanation": question.get("explanation", ""),
             },
         }

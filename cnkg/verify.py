@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import ast
 import math
+import re
+from fractions import Fraction
 
 _FUNCS = {"abs": abs, "round": round, "min": min, "max": max, "sqrt": math.sqrt}
 
@@ -50,13 +52,33 @@ def evaluate(expr: str):
     return eval(compile(tree, "<verify>", "eval"), {"__builtins__": {}}, dict(_FUNCS))  # noqa: S307
 
 
+_NUMBER = r"[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d{1,3})?"
+_NUMBER_RE = re.compile(rf"(?:{_NUMBER})(?:\s*/\s*(?:{_NUMBER}))?\Z")
+_NUMERIC_TRANSLATION = str.maketrans(
+    "０１２３４５６７８９＋－．／−", "0123456789+-./-")
+
+
 def to_number(text):
-    """把答案文本转成 float；失败返回 None。"""
-    if text is None:
+    """解析有限小数、科学记数法或一个分数；不执行学生输入的表达式。
+
+    例如 1/2、2/4 与 0.5 等值。长度和指数有界，零分母、NaN、
+    无穷、单位、算式和代码均不是数值答案。单位由题干约定。
+    """
+    if text is None or isinstance(text, bool):
+        return None
+    value = str(text).strip().translate(_NUMERIC_TRANSLATION)
+    if len(value) > 128 or not _NUMBER_RE.fullmatch(value):
+        return None
+    if any(abs(int(exp)) > 100 for exp in re.findall(r"[eE]([+-]?\d+)", value)):
         return None
     try:
-        return float(str(text).strip())
-    except (TypeError, ValueError):
+        parts = value.split("/")
+        number = Fraction(parts[0].strip())
+        if len(parts) == 2:
+            number /= Fraction(parts[1].strip())
+        result = float(number)
+        return result if math.isfinite(result) else None
+    except (TypeError, ValueError, ZeroDivisionError, OverflowError):
         return None
 
 
@@ -66,6 +88,12 @@ def compare(answer, expected, tol=1e-6) -> bool:
     b = to_number(expected)
     if a is not None and b is not None:
         return abs(a - b) <= max(tol, abs(b) * 1e-9)
+    # 一边可解析时不能回落为字符串；非有限数值也永不视为正确。
+    if a is not None or b is not None:
+        return False
+    invalid = {"nan", "inf", "+inf", "-inf", "infinity", "+infinity", "-infinity"}
+    if str(answer).strip().lower() in invalid or str(expected).strip().lower() in invalid:
+        return False
     return str(answer).strip() == str(expected).strip()
 
 

@@ -1,8 +1,6 @@
 """模拟器真值定义的测试：根因是"连续缺口链的顶端"，不是"最高的未掌握祖先"。
 
-这个区别很关键：学生可能跳级掌握了中间节点，此时更远的祖先进度再差，
-也不解释当前这个点为什么不会。旧口径把这种祖先算成根因，导致无噪声下
-根因命中率只有 87%，看起来像引擎有问题，其实是尺子错了。
+这个定义只用于假定先修图下的敏感性分析，不能据此证明真实学生的因果关系。
 """
 from __future__ import annotations
 
@@ -76,6 +74,32 @@ class EffectiveStateTest(unittest.TestCase):
             self.assertTrue(eff["a"])
         finally:
             simulate.IRT = False
+
+
+class RootMetricTest(unittest.TestCase):
+    def test_extra_and_missing_roots_are_both_counted(self):
+        self.assertEqual(simulate.root_set_counts({"a", "b"}, {"a", "c"}),
+                         {"tp": 1, "fp": 1, "fn": 1})
+
+    def test_no_report_is_a_false_negative(self):
+        self.assertEqual(simulate.root_set_counts({"a"}, []),
+                         {"tp": 0, "fp": 0, "fn": 1})
+
+    def test_evaluation_includes_no_report_in_recall_denominator(self):
+        from unittest.mock import patch
+        from collections import Counter
+        from tests.test_diagnostic_contract import make_graph
+        g = make_graph()
+        summary = {"mastered": [], "weak": ["A"], "shaky": [], "assumed": [],
+                   "roots": [], "root_candidates": ["A"], "incomplete": True}
+        with patch.object(simulate, "mastery_of", return_value={"A": False}), \
+                patch.object(simulate, "run_one", return_value=(summary, 2, 0.0, Counter(numeric=2))):
+            result = simulate.evaluate(g, ["A"], 2, 0, 0, 0, seed=1)
+        self.assertEqual(result["root_hit_rate"], 0)
+        self.assertEqual(result["root_recall"], 0)
+        self.assertEqual(result["root_counts"]["fn"], 2)
+        self.assertEqual(result["candidate_or_supported_hit_rate"], 1)
+        self.assertFalse(result["interpretation"]["empirical_student_validation"])
 
 
 if __name__ == "__main__":
