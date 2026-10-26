@@ -6,9 +6,9 @@
 """
 from __future__ import annotations
 
-from . import j7a, j7b, primary
+from . import j7a, j7b, j8a, j8b, j9a, j9b, primary, primary2
 
-BATCHES = [primary, j7a, j7b]
+BATCHES = [primary, primary2, j7a, j7b, j8a, j8b, j9a, j9b]
 
 
 def all_items() -> list[dict]:

@@ -30,6 +30,7 @@ id 规则 `{topicId}-q{101 起}`：应用题专用号段，从 101 起、每点�
 
 用法：
     python tools/write_application_items.py --dry-run
+    python tools/write_application_items.py --dry-run --only j8a   # 只验一册
     python tools/write_application_items.py
 """
 from __future__ import annotations
@@ -123,11 +124,27 @@ def build(items: list[dict], questions: list[dict]) -> tuple[list[dict], list[st
 
 def main() -> int:
     dry = "--dry-run" in sys.argv
+    # `--only <模块名>`：只校验一册，边写边验时用。**强制 dry-run**——
+    # 写库前会先摘掉上一轮 SOURCE 产出，只带一册会把其它册的题删掉。
+    only = None
+    if "--only" in sys.argv:
+        i = sys.argv.index("--only")
+        only = sys.argv[i + 1] if i + 1 < len(sys.argv) else None
+        if not only:
+            print("--only 后面要跟模块名，例如 --only j8a")
+            return 2
+        dry = True
     topics = {t["id"]: t for t in json.loads((DATA / "topics.json").read_text(encoding="utf-8"))}
     tiers = json.loads((DATA / "topic_tiers.json").read_text(encoding="utf-8"))["topics"]
     path = DATA / "questions.json"
     questions = json.loads(path.read_text(encoding="utf-8"))
     items = app_items.all_items()
+    if only:
+        items = [it for b in app_items.BATCHES
+                 if b.__name__.rsplit(".", 1)[-1] == only for it in b.ITEMS]
+        if not items:
+            print(f"没有名为 {only} 的批次")
+            return 2
 
     unknown = sorted({it["topic"] for it in items} - set(topics))
     if unknown:
