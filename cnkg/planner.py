@@ -9,8 +9,9 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 
 from .review_timing import qualified_review
+from .learning_needs import derive_needs, skill_evidence, support_routes, task_options
 
-RULE_VERSION = "activity-plan-v2"
+RULE_VERSION = "activity-plan-v3"
 REVIEW_INTERVAL_DAYS = (1, 3, 7)
 _PHASES = {"practice", "transfer", "delayed"}
 
@@ -85,12 +86,12 @@ def _observed_completion(record):
             and record.get("mode") in _PHASES)
 
 
-def plan(catalog, records, works=(), *, now=None, limit=12, stage=None):
+def plan(catalog, records, works=(), *, now=None, limit=12, stage=None, need_states=(), exposures=None):
     """Return ranked, version-aware actions from observable activity.
 
-    records can be full saved sessions or LearningStore.latest_scope_records()
-    summaries. Work summaries only add editing suggestions; they never complete
-    phases or satisfy prerequisites. Missing evidence is stated as missing.
+    Pass full owner-filtered records or LearningStore.planning_records(), never
+    a latest-phase summary or recent-history page. Works never complete formal
+    phases or establish mastery. Need states are explicit deferrals, not grades.
     """
     if isinstance(limit, bool) or not isinstance(limit, int) or not 1 <= limit <= 100:
         raise ValueError("limit 必须为 1—100 的整数")
@@ -100,6 +101,14 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None):
     records = list(records)
     works = list(works)
     units = {unit["id"]: unit for unit in _units(catalog)}
+    needs = derive_needs(catalog, records, works, need_states)
+    evidence = skill_evidence(catalog, records, needs)
+    visible_needs = [need for need in needs if stage is None or stage in need.get("stages", [])]
+    open_needs = [need for need in visible_needs if need["status"] == "open"]
+    unit_support = {}
+    for need in open_needs:
+        if need["kind"] == "answer_support" and need.get("source_completed") and need.get("unit_id") in units:
+            unit_support.setdefault(need["unit_id"], []).append(need)
     skills_to_units = {}
     for unit in units.values():
         for skill in unit.get("objectives", []):
@@ -127,6 +136,61 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None):
                 "resource_version": _version(unit), "reason": reason, "ready": True,
                 "evidence_basis": "recorded_activity", "rule_version": RULE_VERSION, **extra}
         candidates.append((priority, item))
+
+    # Unfinished process work belongs to the source observation, not whichever
+    # phase happened to be most recent. A content update also keeps this route.
+    revisions = {}
+    for need in open_needs:
+        if need["kind"] == "process_revision":
+            revisions.setdefault(need["source_ref"]["session_id"], []).append(need)
+        elif need["kind"] == "support_revision":
+            candidates.append((80, {"action": "continue", "kind": "support", "continuation": "resume_support",
+                "session_id": need["source_ref"]["session_id"], "unit_id": need.get("unit_id"),
+                "title": need["title"], "resource_version": need.get("resource_version"),
+                "need_ids": [need["need_id"]], "skill_ids": need["skill_ids"], "phase": "support", "ready": True,
+                "reason": "这次指导练习仍有待确认的项目，可以继续原活动并保留帮助与修订记录。",
+                "evidence_basis": "supported_activity", "rule_version": RULE_VERSION}))
+        elif need["kind"] == "work_revision":
+            candidates.append((76, {"action": "continue", "kind": need.get("source_kind"),
+                "work_resource_id": need["work_resource_id"], "title": need["title"],
+                "resource_version": need.get("resource_version"), "need_ids": [need["need_id"]],
+                "criterion_outcomes": need.get("criterion_outcomes", []),
+                "unresolved_criterion_indices": need.get("unresolved_criterion_indices", []),
+                "reason": "这份作品仍有待核对或需要修改的量规项目，可按具体项目继续修订。",
+                "ready": True, "continuation": "edit_work", "evidence_basis": "learner_reported_revision",
+                "rule_version": RULE_VERSION}))
+    for session_id, pending in revisions.items():
+        first = pending[0]
+        questions = sorted({need["source_ref"]["question_id"] for need in pending})
+        single = {"question_id": questions[0], "work_resource_id": first["work_resource_id"]} if len(questions) == 1 else {}
+        candidates.append((75, {"action": "continue", "unit_id": first.get("unit_id"), "title": first["title"],
+            "resource_version": first.get("resource_version"), "session_id": session_id, "question_ids": questions,
+            "phase": first.get("phase"), "continuation": "reflect_and_revise", "ready": True,
+            "need_ids": [need["need_id"] for need in pending],
+            "criterion_outcomes": [{"question_id": need["source_ref"]["question_id"],
+                                    "outcomes": need.get("criterion_outcomes", [])} for need in pending],
+            "reason": f"本组还有 {len(questions)} 道过程题待自查或修订。部分达到、需要重做和未核对的项目会继续保留；新阶段不会清除它们。",
+            "evidence_basis": "learner_reported_revision", "rule_version": RULE_VERSION, **single}))
+
+    # Finished topic sessions need a durable path too. Group unresolved answers
+    # from every session, retaining the precise source IDs in the action.
+    topic_support = {}
+    for need in open_needs:
+        if need["kind"] == "answer_support" and need.get("source_kind") == "topic" and need.get("source_completed"):
+            topic_support.setdefault(tuple(sorted(need.get("targets", []))), []).append(need)
+    for targets, pending in topic_support.items():
+        recent = pending[-1]
+        target_skills = sorted({sid for need in pending for sid in need["skill_ids"]})
+        prereq, routes = support_routes(catalog, target_skills)
+        candidates.append((80, {"action": "practice", "kind": "topic", "targets": list(targets),
+            "title": recent["title"], "resource_version": recent.get("resource_version"),
+            "previous_session_id": recent["source_ref"]["session_id"], "phase": "practice", "ready": True,
+            "review_material": True, "need_ids": [need["need_id"] for need in pending],
+            "source_refs": [need["source_ref"] for need in pending], "skill_ids": target_skills,
+            "prerequisite_skill_ids": prereq, "support_routes": routes,
+            "task_options": task_options(catalog, target_skills, records, exposures),
+            "reason": "已完成的知识点学习仍有答错或跳过的项目。先回看相应讲解并练习，再保存后续确认；开始新会话不会清除原事项。",
+            "evidence_basis": "specific_unresolved_observations", "rule_version": RULE_VERSION}))
 
     # Topic sessions also live in SQLite. Restoring a page must not depend on a
     # session ID surviving in sessionStorage. Their frozen graph, rather than
@@ -180,27 +244,19 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None):
             add("continue", unit, reason, 90, session_id=record["id"], phase=record.get("mode"),
                 resource_version=_record_version(record))
             continue
+        if unit_support.get(identity) and "practice" in phases:
+            pending = unit_support[identity]
+            target_skills = sorted({sid for need in pending for sid in need["skill_ids"]})
+            prereq, routes = support_routes(catalog, target_skills, preferred_unit=identity)
+            add("practice", unit, "保存的任务中仍有具体答错或跳过的项目。先按对应目标和前置技能学习，再完成后续确认。", 80,
+                phase="practice", previous_session_id=pending[-1]["source_ref"]["session_id"], review_material=True,
+                need_ids=[need["need_id"] for need in pending], source_refs=[need["source_ref"] for need in pending],
+                skill_ids=target_skills, objective_ids=sorted({oid for need in pending for oid in need["objective_ids"]}),
+                prerequisite_skill_ids=prereq, support_routes=routes,
+                task_options=task_options(catalog, target_skills, records, exposures),
+                evidence_basis="specific_unresolved_observations")
+            continue
         if latest:
-            unresolved = [answer for answer in latest.get("answers", []) if answer.get("status") == "needs_review"]
-            pending_questions = []
-            for answer in unresolved:
-                work_key = f"session_task:{latest['id']}:{answer['question_id']}"
-                saved = next((work for work in works if work.get("resource_id") == work_key), None)
-                if not saved or not saved.get("self_assessment_completed"):
-                    pending_questions.append(answer["question_id"])
-            if pending_questions:
-                single = ({"question_id": pending_questions[0],
-                           "work_resource_id": f"session_task:{latest['id']}:{pending_questions[0]}"}
-                          if len(pending_questions) == 1 else {})
-                add("continue", unit,
-                    f"本组还有 {len(pending_questions)} 道过程题待自查。可一起对照量规、补充理由并保存修订；自评作为学习记录保留。", 75,
-                    session_id=latest["id"], question_ids=pending_questions,
-                    phase=latest.get("mode"), continuation="reflect_and_revise",
-                    evidence_basis="learner_reported_revision", **single)
-            if _needs_practice(latest) and "practice" in phases:
-                add("practice", unit, "最近一次任务仍有答错或跳过的项目，建议回看相关讲解后再练习。", 80,
-                    phase="practice", previous_session_id=latest["id"], review_material=True)
-                continue
             latest_phase = latest.get("mode")
             if latest_phase == "practice" and "transfer" in phases:
                 add("transfer", unit, "练习阶段已有完成记录，可以换一个情境检验方法是否仍适用。", 60,
@@ -228,6 +284,12 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None):
         if "practice" not in phases:
             continue
         prerequisites = list(unit.get("prerequisite_unit_ids", []))
+        declared_skills = sorted({sid for sid in unit.get("skill_ids", [])} |
+                                 {objective.get("skill_id") for objective in unit.get("objectives", [])
+                                  if isinstance(objective, dict) and objective.get("skill_id")})
+        skill_prerequisites, routes = support_routes(catalog, declared_skills, preferred_unit=identity)
+        observed_skills = {answer_sid for item in evidence for answer_sid in [item["skill_id"]]
+                           if item["observations"]}
         unobserved_skills = []
         for skill in unit.get("prerequisite_skill_ids", []):
             sources = skills_to_units.get(skill, set()) - {identity}
@@ -238,6 +300,14 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None):
                 # Any containing unit is a route to inspect this prerequisite;
                 # the UI need not suggest completing every alternative unit.
                 prerequisites.append(sorted(sources)[0])
+        # Explicit skill relations remain visible even when their support route
+        # is inside this very unit. They do not manufacture unit-level cycles.
+        for skill in skill_prerequisites:
+            if skill not in observed_skills and skill not in unobserved_skills:
+                unobserved_skills.append(skill)
+                sources = skills_to_units.get(skill, set()) - {identity}
+                if sources and not sources & completed_units:
+                    prerequisites.append(sorted(sources)[0])
         unobserved = sorted(set(prerequisites) - completed_units)
         reason = "还没有这个内容版本的练习完成记录，可先阅读讲解并开始练习。"
         if history and version and not matching:
@@ -247,6 +317,7 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None):
         add("practice", unit, reason, 15 if unobserved else 20, phase="practice",
             review_material=True, prerequisite_unit_ids=unobserved,
             prerequisite_skill_ids=unobserved_skills,
+            support_routes=routes,
             prerequisite_evidence="completed_activity_only_not_mastery")
 
     recommended_work_keys = {item.get("work_resource_id") for _, item in candidates}
@@ -266,9 +337,12 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None):
             "reason": "这份作品已保存，可以继续补充、对照量规自评或修改反思；历次修订都会保留。",
             "ready": True, "continuation": "edit_work", "evidence_basis": "learner_reported_revision",
             "rule_version": RULE_VERSION}))
-    candidates.sort(key=lambda pair: (-pair[0], pair[1].get("due_at", ""), pair[1].get("unit_id", ""),
-                                      pair[1].get("work_resource_id", ""), pair[1].get("question_id", "")))
+    candidates.sort(key=lambda pair: (-pair[0], pair[1].get("due_at") or "", pair[1].get("unit_id") or "",
+                                      pair[1].get("work_resource_id") or "", pair[1].get("question_id") or ""))
     return {"schema": 1, "generated_at": _iso(current), "rule_version": RULE_VERSION,
+            "learning_needs": needs, "skill_evidence": evidence,
+            "need_counts": {status: sum(need["status"] == status for need in needs)
+                            for status in ("open", "deferred", "resolved")},
             "policy": {"review_intervals_days": list(REVIEW_INTERVAL_DAYS),
                 "basis": "product_default_not_validated_adaptive_model",
                 "notice": "建议依据已保存的学习活动生成。1、3、7 天是产品默认间隔；只有内容版本相同且记录间隔达到24小时的复测才推进间隔，立即重做不推进。完成、自评与草稿不等于掌握，也不证明独立作答。"},

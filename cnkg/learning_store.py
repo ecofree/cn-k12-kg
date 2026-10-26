@@ -17,7 +17,7 @@ import sqlite3
 from .review_timing import timestamp, qualified_review
 
 ROOT = Path(__file__).resolve().parents[1]
-SCHEMA_VERSION = 3
+SCHEMA_VERSION = 4
 WORK_KINDS = frozenset({"self_check", "project", "unit", "session_task"})
 _IMMUTABLE_WORK_FIELDS = ("kind", "source_ref", "resource_version", "resource_snapshot")
 _EXPOSURE_EVENTS = {"question_presented": "presentation_count",
@@ -69,14 +69,28 @@ def _scope(record):
 
 def _session_summary(record):
     """A compact server-generated summary; no correct answers or full snapshots."""
-    fields = ("id", "kind", "unit_id", "mode", "title", "created_at", "updated_at",
+    fields = ("id", "kind", "unit_id", "mode", "title", "stage", "created_at", "updated_at",
               "completed_at", "content_sha256", "resource_version", "grader_sha256")
     result = {key: record[key] for key in fields if key in record}
     result["scope_id"] = _scope(record)
     result["targets"] = record.get("engine", {}).get("targets", record.get("targets", []))
-    result["answers"] = [{key: entry[key] for key in
-                          ("question_id", "objective_ids", "skill_ids", "status", "answered_at", "skipped", "family_id")
-                          if key in entry} for entry in record.get("answers", [])]
+    # Only frozen metadata can describe historical observations. Current catalog
+    # edits must never silently relabel an old answer or supply a missing grade.
+    from .learning_needs import observation_metadata
+    answer_fields = ("question_id", "objective_ids", "skill_ids", "status", "answered_at", "skipped",
+                     "family_id", "family_status", "representation", "purpose", "alignment",
+                     "content_sha256", "resource_version", "topic_ids", "help_used",
+                     "resolution_for_need_ids", "support_kind")
+    result["answers"] = []
+    for entry in record.get("answers", []):
+        metadata = observation_metadata(record, entry)
+        result["answers"].append({key: metadata[key] for key in answer_fields if key in metadata})
+    if "stage" not in result and record.get("unit_snapshot", {}).get("stage"):
+        result["stage"] = record["unit_snapshot"]["stage"]
+    if isinstance(record.get("source_origin"), dict):
+        result["source_origin"] = {key: record["source_origin"][key] for key in
+                                   ("need_ids", "resource_version", "source_ref", "unit_id")
+                                   if key in record["source_origin"]}
     result["answered_count"] = len(result["answers"])
     result["context"] = {key: record.get("context", {})[key] for key in
                          ("previous_session_id", "same_learning_scope", "actual_delay_seconds",
@@ -98,11 +112,18 @@ def _work_summary(result):
     draft = payload.get("draft", {})
     draft_values = list(draft.values()) if isinstance(draft, dict) else [draft]
     reflection = payload.get("reflection", "")
-    assessed = {row["criterion_index"] for row in assessment
-                if isinstance(row, dict) and isinstance(row.get("criterion_index"), int)
+    outcomes = {}
+    for row in assessment:
+        if (isinstance(row, dict) and isinstance(row.get("criterion_index"), int)
                 and not isinstance(row["criterion_index"], bool)
                 and 0 <= row["criterion_index"] < len(criteria)
-                and isinstance(row.get("status"), str) and row["status"] in {"met", "partial", "revisit"}}
+                and row.get("status") in {"not_checked", "met", "partial", "revisit"}):
+            outcomes[row["criterion_index"]] = row["status"]
+    criterion_outcomes = [{"criterion_index": index, "criterion": criterion,
+                           "status": outcomes.get(index, "not_checked")}
+                          for index, criterion in enumerate(criteria)]
+    assessed = {index for index, status in outcomes.items() if status != "not_checked"}
+    unresolved = [row["criterion_index"] for row in criterion_outcomes if row["status"] != "met"]
     source = payload["source_ref"]
     summary = {key: result[key] for key in
                ("resource_id", "resource_version", "revision", "created_at", "updated_at", "evidence_type")}
@@ -114,6 +135,10 @@ def _work_summary(result):
                    self_assessment_reported=bool(assessed),
                    self_assessment_completed=bool(criteria) and len(assessed) == len(criteria),
                    assessed_criterion_count=len(assessed), criterion_count=len(criteria),
+                   criterion_outcomes=criterion_outcomes,
+                   unresolved_criterion_indices=unresolved,
+                   revision_needed=any(status in {"partial", "revisit"} for status in outcomes.values()),
+                   all_criteria_met=bool(criteria) and not unresolved,
                    stage=snapshot.get("stage"), status=payload.get("status", "draft"))
     return summary
 
@@ -135,6 +160,8 @@ class LearningStore:
                 self._migrate_v2(db)
             if version < 3:
                 self._migrate_v3(db)
+            if version < 4:
+                self._migrate_v4(db)
 
     @contextmanager
     def _connect(self):
@@ -246,6 +273,18 @@ class LearningStore:
                        (_json(_work_summary(result)), row["owner_id"], row["resource_id"]))
         db.execute("PRAGMA user_version = 3")
 
+    @classmethod
+    def _migrate_v4(cls, db):
+        # Rebuildable metadata only: raw historical JSON, timestamps, IDs,
+        # revision numbers, event sequence and all work revisions stay intact.
+        for row in db.execute("SELECT id, record_json FROM sessions").fetchall():
+            db.execute("UPDATE sessions SET summary_json=? WHERE id=?",
+                       (_json(_session_summary(json.loads(row["record_json"]))), row["id"]))
+        for row in db.execute("SELECT owner_id, resource_id, record_json FROM works").fetchall():
+            db.execute("UPDATE works SET summary_json=? WHERE owner_id=? AND resource_id=?",
+                       (_json(_work_summary(json.loads(row["record_json"]))), row["owner_id"], row["resource_id"]))
+        db.execute("PRAGMA user_version = 4")
+
     @staticmethod
     def _record(row):
         if row is None:
@@ -269,6 +308,51 @@ class LearningStore:
     def count(self, owner_id):
         with self._connect() as db:
             return db.execute("SELECT count(*) FROM sessions WHERE owner_id=?", (owner_id,)).fetchone()[0]
+
+    def planning_records(self, owner_id):
+        """All compact observations for this owner; no latest-phase or page cap.
+
+        A newer phase must not hide an older unanswered need. Answers, prompts,
+        diagrams and full frozen snapshots are deliberately absent here.
+        """
+        with self._connect() as db:
+            return [json.loads(row[0]) for row in db.execute(
+                "SELECT summary_json FROM sessions WHERE owner_id=? ORDER BY created_at, id", (owner_id,))]
+
+    def need_states(self, owner_id):
+        """Latest explicit deferral/reopening, retained in the backed-up event log."""
+        with self._connect() as db:
+            states = {}
+            for row in db.execute("""SELECT seq, event_type, occurred_at, payload_json FROM events
+                WHERE owner_id=? AND event_type IN ('learning_need_deferred', 'learning_need_reopened')
+                ORDER BY seq""", (owner_id,)):
+                value = json.loads(row["payload_json"])
+                states[value["need_id"]] = {**value, "status": "deferred" if row["event_type"] == "learning_need_deferred" else "open",
+                                            "occurred_at": row["occurred_at"], "event_seq": row["seq"]}
+            return list(states.values())
+
+    def set_need_state(self, owner_id, need_id, action, reason):
+        """Explicitly defer/reopen an owned need; this never resolves or regrades it."""
+        from .learning_needs import derive_needs
+        _identifier(owner_id, "owner_id")
+        _identifier(need_id, "need_id")
+        if action not in {"defer", "reopen"}:
+            raise ValueError("学习事项只允许暂缓或重新打开，不能手工改成已掌握")
+        if not isinstance(reason, str) or not reason.strip() or len(reason) > 1000:
+            raise ValueError("请填写不超过1000字的暂缓或重新打开理由")
+        needs = derive_needs(None, self.planning_records(owner_id), self.works(owner_id, limit=None),
+                             self.need_states(owner_id))
+        need = next((item for item in needs if item["need_id"] == need_id), None)
+        if need is None:
+            raise KeyError("找不到这个学习事项")
+        if need["status"] == "resolved":
+            raise ValueError("该事项已有具体后续证据；如有新困难，请保留新的学习记录")
+        payload = {"need_id": need_id, "reason": reason.strip(), "source_ref": need["source_ref"],
+                   "resource_version": need.get("resource_version")}
+        self.add_event(owner_id, {"event_type": "learning_need_deferred" if action == "defer" else "learning_need_reopened",
+                                  "occurred_at": _now(), "resource_id": need_id, "payload": payload},
+                       session_id=need["source_ref"].get("session_id"))
+        return next(item for item in self.need_states(owner_id) if item["need_id"] == need_id)
 
     def latest_scope_records(self, owner_id, resource_ids=None):
         """Latest completed/open record for each scope, version and phase.
