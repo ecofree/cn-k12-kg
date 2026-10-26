@@ -42,6 +42,8 @@ def digest(raw: bytes) -> str:
 def identity(root: Path) -> dict:
     if not is_repository_root(root):
         raise PackageError("Packaging requires the actual Git repository root; portable source can only be checked or built")
+    if git(root, "rev-parse", "--is-shallow-repository").decode().strip() != "false":
+        raise PackageError("Packaging requires complete Git history, not a shallow repository; fetch the missing history first")
     head = git(root, "rev-parse", "HEAD").decode().strip()
     branch = git(root, "symbolic-ref", "HEAD").decode().strip()
     if not branch.startswith("refs/heads/"):
@@ -225,6 +227,26 @@ def verify_source_archive(path: Path, manifest: dict, manifest_raw: bytes) -> No
                 raise PackageError(f"Git archive bytes differ from the verified worktree: {item.filename}")
 
 
+def verify_bundle_restore(root: Path, bundle: Path, source: dict) -> dict:
+    """A valid bundle header alone does not prove its parent objects are present."""
+    branch = source["branch"].removeprefix("refs/heads/")
+    with tempfile.TemporaryDirectory(prefix="cnkg-bundle-restore-") as temporary:
+        restored = Path(temporary) / "repository"
+        try:
+            git(root, "clone", "--no-checkout", "--branch", branch, str(bundle.resolve()), str(restored))
+            restored_head = git(restored, "rev-parse", "HEAD").decode().strip()
+            if restored_head != source["head"]:
+                raise PackageError("Bundle restored a different HEAD")
+            if git(restored, "rev-parse", "--is-shallow-repository").decode().strip() != "false":
+                raise PackageError("Bundle restored an incomplete shallow history")
+            git(restored, "fsck", "--full")
+            commits = int(git(restored, "rev-list", "--count", "HEAD").decode().strip())
+        except ManifestError as exc:
+            raise PackageError(f"Bundle recovery verification failed: {exc}") from exc
+    return {"restore_verified": True, "fsck_verified": True,
+            "restored_head": restored_head, "restored_commit_count": commits}
+
+
 def package_release(root: Path = ROOT, output: Path | None = None,
                     core_report: str | Path = "build/regression_report.json",
                     browser_report: str | Path = "build/browser-check/report.json") -> dict:
@@ -257,6 +279,17 @@ def package_release(root: Path = ROOT, output: Path | None = None,
         heads = git(root, "bundle", "list-heads", str(bundle)).decode("utf-8").splitlines()
         if heads != [f"{source['head']} {source['branch']}"]:
             raise PackageError("Bundle contains references other than the verified current branch")
+        restored = verify_bundle_restore(root, bundle, source)
+        # Some environments leave Git's incomplete lock file after the completed
+        # bundle is published. Only this known file in our fresh stage may be
+        # removed, and only after independent clone/fsck proved the real bundle.
+        lock = stage / "current-branch.bundle.lock"
+        removed_lock = False
+        if lock.exists() or lock.is_symlink():
+            if lock.is_symlink() or not lock.is_file():
+                raise PackageError("Unexpected non-regular Git bundle lock in delivery staging")
+            lock.unlink()
+            removed_lock = True
         evidence_index = {name: {"sha256": digest(raw), "size": len(raw)} for name, raw in sorted(evidence.items())}
         index = {"schema_version": 1, **source, "validation": validation, "files": evidence_index,
                  "exclusions": ["learning databases", "trace.zip", "failure.png", "unbound stale artifacts"]}
@@ -279,9 +312,14 @@ def package_release(root: Path = ROOT, output: Path | None = None,
                     "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                     "hash_policy": "sha256-raw-bytes-v1", "validation": validation,
                     "source_file_count": len(names), "evidence_file_count": len(evidence),
-                    "bundle": {"verified": True, "refs": [source["branch"]], "history_path_scan_passed": True},
+                    "bundle": {"verified": True, "refs": [source["branch"]], "history_path_scan_passed": True,
+                               **restored, "temporary_lock_removed": removed_lock},
                     "artifacts": artifacts}
         (stage / "delivery.json").write_text(json.dumps(delivery, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        expected_files = {"source.zip", "current-branch.bundle", "evidence.zip", "delivery.json"}
+        actual_files = {path.name for path in stage.iterdir()}
+        if actual_files != expected_files:
+            raise PackageError(f"Unexpected delivery staging files: {sorted(actual_files - expected_files)}")
         # The destination did not exist when checked; rename keeps partial output private.
         os.rename(stage, output)
         return delivery

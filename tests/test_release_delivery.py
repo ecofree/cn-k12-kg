@@ -12,7 +12,8 @@ import zipfile
 
 from tools.release_manifest import (ManifestError, check_manifest, compute_manifest,
                                     manifest_digest, write_manifest)
-from tools.package_release import PackageError, history_risks, package_release
+from tools.package_release import (PackageError, history_risks, package_release,
+                                   verify_bundle_restore)
 
 
 JOURNEYS = ("self_check_autosave", "rubric_revision", "unit_phases", "project_history",
@@ -164,6 +165,9 @@ class ReleaseDeliveryTests(unittest.TestCase):
             self.assertFalse(any("sqlite" in name or name.startswith("build/") for name in archive.namelist()))
         heads = self.git("bundle", "list-heads", str(output / "current-branch.bundle"))
         self.assertEqual(heads, f"{result['head']} refs/heads/main")
+        self.assertTrue(result["bundle"]["restore_verified"])
+        self.assertTrue(result["bundle"]["fsck_verified"])
+        self.assertEqual(result["bundle"]["restored_head"], result["head"])
         with zipfile.ZipFile(output / "evidence.zip") as archive:
             names = archive.namelist()
             self.assertIn("browser/self_check_autosave/final.png", names)
@@ -253,6 +257,55 @@ class ReleaseDeliveryTests(unittest.TestCase):
         with self.assertRaisesRegex(PackageError, "var/old-learning.sqlite"):
             package_release(self.root)
         self.assertFalse((self.root / "build/release").exists())
+
+    def test_shallow_source_is_rejected_before_a_complete_history_claim(self):
+        self.commit("parent fixture")
+        self.verified_fixture()
+        shallow = Path(self.temporary.name) / "shallow"
+        self.git("clone", "--quiet", "--depth", "1", self.root.as_uri(), str(shallow))
+        with self.assertRaisesRegex(PackageError, "shallow repository"):
+            package_release(shallow)
+
+    def test_complete_bundle_header_with_missing_parent_fails_actual_restore(self):
+        self.commit("parent fixture")
+        parent = self.git("rev-parse", "HEAD")
+        self.verified_fixture()
+        head = self.git("rev-parse", "HEAD")
+        packed = subprocess.run(["git", "-C", str(self.root), "pack-objects", "--stdout", "--revs"],
+                                input=f"{head}\n^{parent}\n".encode(), stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE, check=True).stdout
+        broken = Path(self.temporary.name) / "missing-parent.bundle"
+        broken.write_bytes(f"# v2 git bundle\n{head} refs/heads/main\n\n".encode() + packed)
+        # Reproduce the actual bug: the pack is well-formed and its bundle
+        # header claims complete history, but an ancestor commit was omitted.
+        self.assertEqual(self.git("bundle", "list-heads", str(broken)), f"{head} refs/heads/main")
+        with self.assertRaisesRegex(PackageError, "Bundle recovery verification failed"):
+            verify_bundle_restore(self.root, broken, {"head": head, "branch": "refs/heads/main"})
+
+    def test_known_git_lock_is_removed_only_after_restore_and_other_files_are_rejected(self):
+        self.verified_fixture()
+        from tools.release_manifest import git as real_git
+
+        for leftover in ("current-branch.bundle.lock", "unregistered.tmp"):
+            destination = self.root / "build" / ("delivery-" + leftover)
+
+            def create_with_leftover(root, *args):
+                result = real_git(root, *args)
+                if args[:2] == ("bundle", "create"):
+                    (Path(args[2]).parent / leftover).write_bytes(b"unfinished temporary artifact")
+                return result
+
+            with self.subTest(leftover=leftover), patch("tools.package_release.git", side_effect=create_with_leftover):
+                if leftover.endswith(".lock"):
+                    result = package_release(self.root, output=destination)
+                    self.assertTrue(result["bundle"]["temporary_lock_removed"])
+                    self.assertTrue(result["bundle"]["restore_verified"])
+                    self.assertEqual({path.name for path in destination.iterdir()},
+                                     {"source.zip", "current-branch.bundle", "evidence.zip", "delivery.json"})
+                else:
+                    with self.assertRaisesRegex(PackageError, "Unexpected delivery staging files"):
+                        package_release(self.root, output=destination)
+                    self.assertFalse(destination.exists())
 
 
 if __name__ == "__main__":

@@ -34,6 +34,8 @@ npx playwright install --with-deps chromium
 3. 确认工作树干净，运行 `python tools/release_check.py --with-browser`。
 4. 检查核心与六条浏览器流程全部通过，运行 `python tools/package_release.py`。
 
+Git历史包要求完整历史。若 `git rev-parse --is-shallow-repository` 返回 `true`，先运行 `git fetch --unshallow origin` 补齐历史；该操作不会切换分支或更改工作树。打包器拒绝用浅克隆生成一个看似完整但缺少父提交的包。
+
 构建之后如果又修改文档、代码、Schema、字体或其他发行文件，应重新生成清单并提交，再验收。运行中改变提交、清单或源码会使报告失败。缺依赖或启动失败时不会继续沿用上一次报告作为本次通过证据。
 
 当前14项核心门禁包括发布清单、来源一致性、稳定身份、catalog、图与答案结构、讲解、单元、实践、课标、既定结构覆盖、数值复算、回归、状态与数据库构建。`--with-browser`增加第15项门禁，其中运行六条浏览器旅程。
@@ -47,7 +49,7 @@ npx playwright install --with-deps chromium
 | 文件 | 内容 |
 | --- | --- |
 | `source.zip` | 当前提交中列入发布清单的源码与资料；逐文件核对包内原始字节 |
-| `current-branch.bundle` | 当前分支及可达历史，仅含该分支引用，执行Git bundle校验 |
+| `current-branch.bundle` | 当前分支及可达历史，仅含该分支引用；实际恢复到临时仓库、核对HEAD并通过完整对象检查 |
 | `evidence.zip` | 当前提交对应的核心／浏览器JSON报告、绑定日志和成功截图 |
 | `delivery.json` | 提交、分支、清单哈希、各包大小和SHA-256、门禁数量 |
 
@@ -55,7 +57,7 @@ npx playwright install --with-deps chromium
 
 打包检查报告与当前HEAD、发布清单一致，逐项验证日志和PNG哈希。只运行部分浏览器旅程、失败报告、旧提交报告、被替换的日志或缺失截图都会阻止打包。学习数据库、失败trace、旧失败截图和未绑定输出不进入证据包。
 
-Bundle扫描可达历史路径，包括合并提交引入的文件。发现被排除的学习库或外部资产会报告路径并停止，不自动改写历史。已有输出目录不覆盖。
+Bundle扫描完整可达历史路径，包括合并提交引入的文件。发现被排除的学习库或外部资产会报告路径并停止，不自动改写历史。`git bundle verify`之外还执行实际克隆与 `git fsck --full`，确认包中对象足以恢复当前提交。Git子进程结束且恢复成功后清理本次临时锁，最终目录只允许上述四个交付文件；已有输出目录不覆盖。
 
 ## 使用交付包
 
