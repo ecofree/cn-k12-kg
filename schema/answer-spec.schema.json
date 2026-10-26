@@ -1,0 +1,396 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cn-k12-kg.local/schema/v1/answer-spec.schema.json",
+  "title": "Answer contract v1",
+  "description": "Version 1 authoring contract. JSON Schema is the structural authority; reference and mathematical checks remain separate. Existing records without an optional schema_version are v1; unknown explicit versions are rejected.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "number",
+        "coordinate",
+        "number_list",
+        "number_set",
+        "interval",
+        "polynomial",
+        "text",
+        "choice",
+        "rubric"
+      ]
+    },
+    "comparison": {
+      "type": "string",
+      "enum": [
+        "exact",
+        "rounded",
+        "tolerance"
+      ]
+    },
+    "representation": {
+      "type": "string",
+      "enum": [
+        "any",
+        "integer",
+        "decimal",
+        "fraction",
+        "simplest_fraction",
+        "scientific",
+        "expanded",
+        "factored"
+      ]
+    },
+    "decimal_places": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 12
+    },
+    "rounding": {
+      "type": "string",
+      "enum": [
+        "half_up",
+        "half_even"
+      ]
+    },
+    "absolute_tolerance": {
+      "type": "string",
+      "pattern": "^\\+?(?:[0-9]+(?:\\.[0-9]*)?|\\.[0-9]+)(?:[eE][+-]?(?:0{0,2}[0-9]|0?[1-9][0-9]|100))?$(?![\\s\\S])",
+      "maxLength": 128
+    },
+    "relative_tolerance": {
+      "type": "string",
+      "pattern": "^\\+?(?:[0-9]+(?:\\.[0-9]*)?|\\.[0-9]+)(?:[eE][+-]?(?:0{0,2}[0-9]|0?[1-9][0-9]|100))?$(?![\\s\\S])",
+      "maxLength": 128
+    },
+    "dimensions": {
+      "type": "integer",
+      "minimum": 2,
+      "maximum": 4
+    },
+    "variables": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]$"
+      },
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true
+    },
+    "order": {
+      "type": "string",
+      "enum": [
+        "given",
+        "ascending",
+        "descending"
+      ]
+    },
+    "integer_coefficients": {
+      "type": "boolean"
+    },
+    "complete_factorization": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "kind"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "comparison": {
+            "const": "rounded"
+          }
+        },
+        "required": [
+          "comparison"
+        ]
+      },
+      "then": {
+        "required": [
+          "decimal_places"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "comparison": {
+            "const": "tolerance"
+          }
+        },
+        "required": [
+          "comparison"
+        ]
+      },
+      "then": {
+        "anyOf": [
+          {
+            "required": [
+              "absolute_tolerance"
+            ]
+          },
+          {
+            "required": [
+              "relative_tolerance"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "comparison"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "number"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "decimal_places"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "number"
+            ]
+          },
+          "comparison": {
+            "const": "rounded"
+          }
+        },
+        "required": [
+          "comparison"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "rounding"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "number"
+            ]
+          },
+          "comparison": {
+            "const": "rounded"
+          }
+        },
+        "required": [
+          "comparison"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "absolute_tolerance"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "number"
+            ]
+          },
+          "comparison": {
+            "const": "tolerance"
+          }
+        },
+        "required": [
+          "comparison"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "relative_tolerance"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "number"
+            ]
+          },
+          "comparison": {
+            "const": "tolerance"
+          }
+        },
+        "required": [
+          "comparison"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "dimensions"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "coordinate"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "variables"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "polynomial"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "integer_coefficients"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "polynomial"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "complete_factorization"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "polynomial"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "order"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "number_list"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "representation": {
+            "enum": [
+              "expanded",
+              "factored"
+            ]
+          }
+        },
+        "required": [
+          "representation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "const": "polynomial"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "representation": {
+            "enum": [
+              "integer",
+              "decimal",
+              "fraction",
+              "simplest_fraction",
+              "scientific"
+            ]
+          }
+        },
+        "required": [
+          "representation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "const": "number"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "representation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "number",
+              "polynomial"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,10 +1,198 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://example.local/cn-k12-kg/question.schema.json",
-  "title": "题目",
-  "description": "数值题必须带 verify 表达式，由 cnkg/verify.py 在 AST 白名单沙箱中求值比对。",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cn-k12-kg.local/schema/v1/question.schema.json",
+  "title": "Authored topic question v1",
+  "description": "Version 1 authoring contract. JSON Schema is the structural authority; reference and mathematical checks remain separate. Existing records without an optional schema_version are v1; unknown explicit versions are rejected.",
   "type": "object",
   "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?-q[0-9]+$"
+    },
+    "topicId": {
+      "type": "string",
+      "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
+    },
+    "topicIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "primaryTopicId": {
+      "type": "string",
+      "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
+    },
+    "difficulty": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/difficulty"
+    },
+    "type": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/questionType"
+    },
+    "prompt": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "choices": {
+      "type": "array",
+      "items": {
+        "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/choice"
+      },
+      "minItems": 0
+    },
+    "answer": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "verify": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "explanation": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "accept": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "minItems": 0
+    },
+    "difficulty_basis": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "drill_kind": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "drill_basis": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "generated": {
+      "type": "boolean"
+    },
+    "review_status": {
+      "type": "string",
+      "enum": [
+        "ai-generated",
+        "draft",
+        "reviewed",
+        "rejected"
+      ]
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "diagnosis_eligible": {
+      "type": "boolean"
+    },
+    "target_alignment": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "alignment_note": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "tested_criterion_indices": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "difficulty_calibration": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "evidence_level": {
+      "type": "string",
+      "enum": [
+        "verified",
+        "corroborated",
+        "explained",
+        "bare",
+        "defective",
+        "broken",
+        "teacher_reviewed"
+      ]
+    },
+    "evidence_signals": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/evidenceSignals"
+    },
+    "evidence_notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "minItems": 0
+    },
+    "author_type": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/authorType"
+    },
+    "for_diagnosis": {
+      "type": "boolean"
+    },
+    "clarification_note": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "completion_batch": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "quality_review": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/teacherReview"
+    },
+    "answer_spec": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/answer-spec.schema.json"
+    },
+    "diagram": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/diagram"
+    },
+    "provenance": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/questionProvenance"
+    },
+    "cross_source_evidence": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/crossSourceEvidence"
+    }
+  },
   "required": [
     "id",
     "topicId",
@@ -14,85 +202,108 @@
     "answer",
     "explanation"
   ],
-  "properties": {
-    "id": {
-      "type": "string",
-      "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?-q[0-9]+$"
-    },
-    "topicId": {
-      "type": "string",
-      "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
-    },
-    "difficulty": {
-      "type": "string",
-      "enum": [
-        "basic",
-        "standard",
-        "advanced"
-      ]
-    },
-    "type": {
-      "type": "string",
-      "enum": [
-        "choice",
-        "numeric",
-        "short"
-      ]
-    },
-    "prompt": {
-      "type": "string",
-      "minLength": 6
-    },
-    "choices": {
-      "type": "array",
-      "minItems": 2,
-      "maxItems": 5,
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "choice"
+          }
+        }
+      },
+      "then": {
         "required": [
-          "key",
-          "text"
+          "choices"
         ],
         "properties": {
-          "key": {
-            "type": "string",
-            "enum": [
-              "A",
-              "B",
-              "C",
-              "D",
-              "E"
-            ]
-          },
-          "text": {
-            "type": "string",
-            "minLength": 1
+          "choices": {
+            "minItems": 3,
+            "maxItems": 8
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "choices": {
+            "maxItems": 0
           }
         }
       }
     },
-    "answer": {
-      "type": "string",
-      "minLength": 1
-    },
-    "verify": {
-      "type": "string",
-      "description": "仅数值题使用，如 \"(7+5)/3\"；只允许数字、四则运算、乘方、取模与 abs/round/min/max/sqrt"
-    },
-    "explanation": {
-      "type": "string",
-      "minLength": 4
-    },
-    "accept": {
-      "type": "array",
-      "items": {
-        "type": "string"
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "numeric"
+          }
+        }
       },
-      "description": "短答题可接受的同义写法（不含 answer 本身）"
-    }
-  },
-  "allOf": [
+      "then": {
+        "required": [
+          "verify"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "short"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "accept"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "numeric"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "answer_spec": {
+            "properties": {
+              "kind": {
+                "const": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "choice"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "answer_spec": {
+            "properties": {
+              "kind": {
+                "const": "choice"
+              }
+            }
+          }
+        }
+      }
+    },
     {
       "if": {
         "properties": {
@@ -105,9 +316,20 @@
         ]
       },
       "then": {
-        "required": [
-          "accept"
-        ]
+        "properties": {
+          "answer_spec": {
+            "properties": {
+              "kind": {
+                "not": {
+                  "enum": [
+                    "choice",
+                    "rubric"
+                  ]
+                }
+              }
+            }
+          }
+        }
       }
     }
   ]

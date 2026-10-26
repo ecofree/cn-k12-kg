@@ -36,7 +36,8 @@ sys.path.insert(0, str(ROOT))
 
 from cnkg import engine, learning, evidence, learning_store, projects  # noqa: E402
 from cnkg.graph import VOLUME_ORDER, load_graph  # noqa: E402
-from cnkg.verify import compare, compare_short, to_number, normalize_text  # noqa: E402
+from cnkg.verify import compare, compare_short, to_number, to_fraction, normalize_text  # noqa: E402
+from cnkg.answers import grade_answer  # noqa: E402
 
 # 外部题（真题源）默认不加载。
 # 可选题库的实际准入量由当前证据策略决定；题量不等于独立学科审核。
@@ -88,17 +89,8 @@ def option_id_for(question: dict, token: str) -> str:
 
 
 def judge(question: dict, text) -> str:
-    """服务端判题：选择题比 option_id，数值题按容差比数值，短答题归一化后比对。"""
-    qtype = question["type"]
-    if qtype == "choice":
-        return ("correct" if option_id_for(question, text) == str(question["answer"]).strip()
-                else "wrong")
-    if qtype == "short":
-        return "correct" if compare_short(text, question["answer"], question.get("accept")) else "wrong"
-    # 不把格式错误当作概念错误送进诊断状态机；客户端应提示重新输入。
-    if to_number(text) is None:
-        return "invalid"
-    return "correct" if compare(text, question["answer"], question.get("tolerance", 1e-6)) else "wrong"
+    """统一答案契约判分；作者复算容差不参与学生精确答案的判断。"""
+    return grade_answer(question, text)["status"]
 
 
 def public_question(question: dict) -> dict:
@@ -231,8 +223,9 @@ def graph_version():
     # 数据与推断规则共同决定一次诊断的含义；不能用升级后的图悄悄继续旧会话。
     cached = getattr(GRAPH, "_web_content_version", None)
     if cached is None:
-        sources = {name: hashlib.sha256((ROOT / "cnkg" / name).read_bytes()).hexdigest()
-                   for name in ("engine.py", "graph.py", "evidence.py", "verify.py")}
+        sources = {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
+                   for name in ("cnkg/engine.py", "cnkg/graph.py", "cnkg/evidence.py", "cnkg/verify.py",
+                                "cnkg/answers.py", "cnkg/contracts.py", "schema/answer-spec.schema.json")}
         cached = _hash({"topics": GRAPH.topics, "dependencies": GRAPH.dependencies,
                         "questions": GRAPH.questions, "tiers": GRAPH.tiers, "runtime": sources})
         GRAPH._web_content_version = cached
@@ -240,8 +233,9 @@ def graph_version():
 
 
 def unit_grader_version():
-    return _hash({name: hashlib.sha256((ROOT / "cnkg" / name).read_bytes()).hexdigest()
-                  for name in ("learning.py", "verify.py")})
+    return _hash({name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
+                  for name in ("cnkg/learning.py", "cnkg/verify.py", "cnkg/answers.py",
+                               "cnkg/contracts.py", "schema/answer-spec.schema.json")})
 
 
 def _seconds(later, earlier):
@@ -417,14 +411,14 @@ def export_record(record):
     # 不直接导出内部状态：单元快照中含有尚未作答的任务及答案。
     out = history_entry(record)
     out["answers"] = []
-    raw_fields = ("question_id", "prompt", "raw_answer", "normalized_answer", "objective_ids",
+    raw_fields = ("question_id", "prompt", "raw_answer", "normalized_answer", "normalized_answer_format", "objective_ids",
                   "presented_at", "answered_at", "duration_ms", "client_elapsed_ms",
                   "content_sha256", "feedback_available_at", "skipped")
     for entry in record["answers"]:
         shown = {k: copy.deepcopy(entry[k]) for k in raw_fields if k in entry}
         if entry["question_id"] in record["feedback_exposed"]:
             shown.update({k: copy.deepcopy(entry[k]) for k in
-                          ("status", "answer", "explanation", "feedback", "rubric") if k in entry})
+                          ("status", "reason", "answer", "explanation", "feedback", "rubric") if k in entry})
         out["answers"].append(shown)
     if record.get("completed_at"):
         out["summary"] = session_summary(record)
@@ -727,7 +721,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self._error(409, "这道题已提交；原始作答保留，不能覆盖")
             response = session_payload(record)
             response["duplicate"] = True
-            response["feedback"] = ({k: prior[k] for k in ("status", "answer", "explanation", "feedback", "rubric") if k in prior}
+            response["feedback"] = ({k: prior[k] for k in ("status", "reason", "answer", "explanation", "feedback", "rubric") if k in prior}
                                     if record["feedback_policy"] == "immediate" else {"deferred": True})
             return self._json(200, response)
         problem = _version_problem(record)
@@ -748,21 +742,22 @@ class Handler(BaseHTTPRequestHandler):
             if question.get("type") == "choice" and result["status"] in ("correct", "wrong"):
                 result["answer"] = display_answer(question)
         else:
-            result = {"status": judge(question, raw), "answer": display_answer(question),
+            result = {**grade_answer(question, raw), "answer": display_answer(question),
                       "explanation": question.get("explanation", "")}
         if result["status"] == "invalid":
-            return self._error(422, "答案格式无法识别。数值可写小数或分数（如1/2），单位按题干约定；格式问题不计作答错。")
+            return self._error(422, result.get("feedback") or "答案格式无法识别。请按题干要求填写；格式问题不计作答错。")
         now = _now()
         presentation = record["presentations"][qid]
         client_elapsed = payload.get("elapsed_ms")
         if (isinstance(client_elapsed, bool) or not isinstance(client_elapsed, (int, float))
                 or not 0 <= client_elapsed <= 604800000):
             client_elapsed = None
-        normalized = (None if skipped else to_number(raw) if question["type"] == "numeric"
+        normalized = (None if skipped else str(to_fraction(raw)) if question["type"] == "numeric"
                       else option_id_for(question, raw) if question["type"] == "choice"
                       else normalize_text(raw) if question["type"] == "short" else raw.strip())
         entry = {**result, "question_id": qid, "prompt": question["prompt"],
                  "raw_answer": raw if not skipped else "", "normalized_answer": normalized,
+                 "normalized_answer_format": "rational_v1" if question["type"] == "numeric" and not skipped else "text_v1",
                  "skipped": skipped, "presented_at": presentation["presented_at"], "answered_at": now,
                  "duration_ms": round(_seconds(now, presentation["presented_at"]) * 1000),
                  "client_elapsed_ms": client_elapsed, "content_sha256": presentation["content_sha256"],

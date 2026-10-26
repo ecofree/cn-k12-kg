@@ -19,7 +19,7 @@ class JudgeTest(unittest.TestCase):
                          {"id": "o3", "text": "丙"}, {"id": "o4", "text": "丁"}]}
         self.assertEqual(server.judge(q, "o3"), "correct")
         self.assertEqual(server.judge(q, "o1"), "wrong")
-        self.assertEqual(server.judge(q, ""), "wrong")
+        self.assertEqual(server.judge(q, ""), "invalid")
 
     def test_choice_letter_fallback(self):
         """兼容路径：旧客户端提交字母，按当前顺序换算。"""

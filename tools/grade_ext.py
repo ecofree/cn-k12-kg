@@ -32,7 +32,8 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from cnkg.evidence import (  # noqa: E402
-    DIAGNOSABLE, LEVEL_RANK, grade, stem_hash)
+    DIAGNOSABLE, LEVEL_RANK, answer_fingerprint, canonical_answer, grade,
+    item_fingerprint, question_policy, source_lineage, structural_defects)
 
 DATA = ROOT / "data"
 
@@ -41,28 +42,104 @@ def load() -> list[dict]:
     return json.loads((DATA / "questions_ext.json").read_text(encoding="utf-8"))
 
 
-def cross_source_hashes(questions: list[dict]) -> set[str]:
-    """同一归一化题干出现在 ≥2 个来源 → 可做跨源互证。
+def resolved_lineages(questions: list[dict]) -> list[set[str]]:
+    """把已登记的转载链展开；链中共同祖先与循环均不能制造独立来源。"""
+    direct = [source_lineage(q) for q in questions]
+    by_origin: dict[str, set[str]] = collections.defaultdict(set)
+    for q, roots in zip(questions, direct):
+        if roots:
+            by_origin[q["provenance"]["origin_id"].strip()].update(roots)
+    resolved = []
+    for roots in direct:
+        seen, stack = set(), list(roots)
+        while stack:
+            origin = stack.pop()
+            if origin in seen:
+                continue
+            seen.add(origin)
+            stack.extend(by_origin.get(origin, set()) - seen)
+        resolved.append(seen)
+    return resolved
 
-    只算"不同 source"，同源重复（同一份数据被导入两次）不算独立证据。
+
+def corroboration_records(questions: list[dict]) -> list[dict]:
+    """比对完整题目与答案，按明确来源根排除转载，返回逐题可追溯记录。
+
+    source 仅是导入器/数据集名字。只有附带 origin_id、来源 URL 且谱系
+    不相交的答案来源才算独立。同题任何答案冲突都进入隔离，不能多数表决。
     """
-    seen: dict[str, set[str]] = collections.defaultdict(set)
-    for q in questions:
-        seen[stem_hash(q.get("prompt") or "")].add(q.get("source") or "")
-    return {h for h, srcs in seen.items() if len(srcs) > 1}
+    groups: dict[str, list[int]] = collections.defaultdict(list)
+    lineages = resolved_lineages(questions)
+    for index, q in enumerate(questions):
+        if not structural_defects(q):
+            groups[item_fingerprint(q)].append(index)
+    records = []
+    for index, q in enumerate(questions):
+        fingerprint = item_fingerprint(q)
+        members = groups.get(fingerprint, [])
+        answers: dict[str, list[str]] = collections.defaultdict(list)
+        for other in members:
+            answers[canonical_answer(questions[other])].append(str(questions[other].get("id", "")))
+        lineage = lineages[index]
+        peers = [questions[other] for other in members if other != index
+                 and questions[other].get("id") != q.get("id")
+                 and lineage and lineages[other]
+                 and not lineage.intersection(lineages[other])]
+        record = {
+            "schema": 1, "status": "no_independent_match",
+            "item_fingerprint": fingerprint, "answer_fingerprint": answer_fingerprint(q),
+            "peer_question_ids": [], "origin_ids": [],
+            "reason": "尚无题干、选项、答案一致且来源谱系独立的第二份记录",
+        }
+        if len(answers) > 1 and index in members:
+            record.update(
+                status="conflict",
+                peer_question_ids=sorted({str(questions[other].get("id", "")) for other in members
+                                          if other != index}),
+                conflicting_answers=[{"answer": answer, "question_ids": sorted(set(ids))}
+                                     for answer, ids in sorted(answers.items())],
+                reason="相同题干、类型和选项存在不同答案，须核对原始来源后处理",
+            )
+        elif peers:
+            record.update(
+                status="corroborated",
+                peer_question_ids=sorted({str(peer["id"]) for peer in peers}),
+                origin_ids=sorted({item["provenance"]["origin_id"].strip() for item in [q, *peers]}),
+                reason="题干、选项和答案一致，原始来源及转载谱系无交集",
+            )
+        elif not lineage or (len(members) > 1 and not any(
+                lineages[other] for other in members if other != index)):
+            record.update(
+                status="insufficient_provenance",
+                reason="缺少可追溯的原始来源ID或来源URL；不同数据集名称不代表独立来源",
+            )
+        records.append(record)
+    return records
+
+
+def cross_source_hashes(questions: list[dict]) -> set[str]:
+    """兼容报告入口：返回已核对的完整题目指纹，不再只比较题干散列。"""
+    return {row["item_fingerprint"] for row in corroboration_records(questions)
+            if row["status"] == "corroborated"}
 
 
 def run(questions: list[dict]) -> tuple[list[dict], dict]:
-    cross = cross_source_hashes(questions)
+    corroborations = corroboration_records(questions)
+    cross = {row["item_fingerprint"] for row in corroborations if row["status"] == "corroborated"}
     levels = collections.Counter()
     by_source = collections.defaultdict(collections.Counter)
     flagged = []
-    for q in questions:
+    for q, corroboration in zip(questions, corroborations):
         # 已封存的题也要重判一次：第一次封存时可能只写了等级没写原因，
         # 跳过重判会让原因永远补不上（实测就漏了 6 道）。
         # 判定是幂等的：结构残缺的题无论判几次都是 broken。
-        h = stem_hash(q.get("prompt") or "")
-        g = grade(q, cross_source=h in cross)
+        g = grade(q, corroboration=corroboration)
+        q["cross_source_evidence"] = corroboration
+        if corroboration["status"] == "conflict":
+            g = {"level": "defective", "signals": {**g["signals"], "cross_source": False},
+                 "notes": [corroboration["reason"]]}
+        elif corroboration["status"] == "insufficient_provenance":
+            g["notes"].append(corroboration["reason"])
         q["evidence_level"] = g["level"]
         q["evidence_signals"] = g["signals"]
         q["evidence_notes"] = g["notes"]
@@ -98,11 +175,12 @@ def run(questions: list[dict]) -> tuple[list[dict], dict]:
             src: sum(1 for q in questions
                      if q.get("source") == src
                      and q.get("usable_for_diagnosis")
-                     and q.get("evidence_level") in DIAGNOSABLE)
+                     and question_policy(q)["diagnosis_eligible"])
             for src in by_source
         },
         "flagged": flagged,
         "cross_source_groups": len(cross),
+        "cross_source_statuses": dict(collections.Counter(row["status"] for row in corroborations)),
     }
     return questions, report
 
@@ -132,9 +210,10 @@ def serve_stats(questions: list[dict]) -> dict:
     for q in questions:
         if not q.get("usable_for_diagnosis"):
             continue
-        lv = q.get("evidence_level")
-        if lv not in DIAGNOSABLE:
+        policy = question_policy(q)
+        if not policy["diagnosis_eligible"]:
             continue
+        lv = policy["evidence_level"]
         stage = stage_of_topic(q.get("primaryTopicId") or q.get("topicId"))
         out.setdefault(stage, collections.Counter())[lv] += 1
     return {k: dict(v) for k, v in out.items()}

@@ -10,7 +10,7 @@
 
 1. 诊断池 ⊆ 全库  →  诊断池题点对 ≤ 全库题点对
 2. 诊断池 ⊆ 全库  →  诊断池不足点数 ≥ 全库不足点数
-3. 诊断池必须包含自有题  →  诊断池题点对 ≥ 自有题在该段的题点对
+3. 诊断池包含通过用途门禁的自有题，隔离题与仅练习题不计入
 4. 两套账的键必须同时存在（防止有人嫌麻烦把诊断池那套删了）
 
 另外加一条：stage_policy.json 里的具体数字不能和实测漂移——
@@ -27,11 +27,9 @@ ROOT = Path(__file__).resolve().parent.parent
 
 # 外部题库（data/questions_ext.json）不入仓，见 data/README.md。
 # 缺文件时整组跳过，而不是报失败——否则 clone 下来第一件事就是红一片。
-if not (ROOT / "data" / "questions_ext.json").exists():
-    raise unittest.SkipTest("外部题库未下载，见 data/README.md")
-
 sys.path.insert(0, str(ROOT))
 
+from cnkg.evidence import question_policy  # noqa: E402
 from tools.check_stage_policy import build_report, stage_of  # noqa: E402
 
 
@@ -39,6 +37,8 @@ def load(name: str):
     return json.loads((ROOT / "data" / name).read_text(encoding="utf-8"))
 
 
+@unittest.skipUnless((ROOT / "data" / "questions_ext.json").exists(),
+                     "外部题库未下载，见 data/README.md")
 class StagePolicyAccountingTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -68,8 +68,8 @@ class StagePolicyAccountingTest(unittest.TestCase):
                 f"{stage}: 诊断池不足 {r['below_target_usable']} "
                 f"少于全库 {r['below_target']}，方向不可能对")
 
-    def test_usable_pool_contains_own_questions(self):
-        """自有题必须算进诊断池。
+    def test_usable_pool_contains_eligible_own_questions(self):
+        """通过用途门禁的自有题不能因没有导入准入字段而被漏计。
 
         这就是 2026-10-26 那个 bug 的靶子：自有题没有 usable_for_diagnosis
         字段，从合并列表过滤时会被整段丢掉。
@@ -77,6 +77,8 @@ class StagePolicyAccountingTest(unittest.TestCase):
         by_stage = {s: 0 for s in ("primary", "junior", "senior")}
         stage_by_id = {t["id"]: stage_of(t) for t in self.topics}
         for q in self.own:
+            if not question_policy(q)["diagnosis_eligible"]:
+                continue
             tids = q.get("topicIds") or (
                 [q.get("topicId")] if q.get("topicId") else [])
             for tid in tids:
@@ -88,7 +90,7 @@ class StagePolicyAccountingTest(unittest.TestCase):
             self.assertGreaterEqual(
                 self.report[stage]["questions_pairs_usable"], by_stage[stage],
                 f"{stage}: 诊断池 {self.report[stage]['questions_pairs_usable']} "
-                f"少于自有题 {by_stage[stage]}，说明自有题被过滤掉了")
+                f"少于可诊断自有题 {by_stage[stage]}，说明可用题被过滤掉了")
 
     def test_both_accountings_are_reported(self):
         """两套账必须同时存在，缺一套就是回到「只看全库」的老路。"""

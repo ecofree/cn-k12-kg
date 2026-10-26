@@ -52,10 +52,12 @@ def write_manifest(counts: dict, *, include_external=True) -> pathlib.Path:
                         "sha256": sha256(store.DATA / source["path"])})
     code_inputs = {"tools/rebuild_data.py", "cnkg/engine.py", "cnkg/graph.py",
                    "cnkg/evidence.py", "cnkg/verify.py", "cnkg/learning.py",
+                   "cnkg/answers.py", "cnkg/contracts.py", "cnkg/learning_store.py", "cnkg/store.py",
                    "cnkg/projects.py", "cnkg/challenge.py", "web/server.py",
                    "tools/curriculum_compare.py", "tools/teach_cards.py", "tools/coverage_report.py",
                    "tools/release_check.py", "web/static/index.html", "web/static/app.js",
-                   "web/static/style.css", "web/static/math.js"}
+                   "web/static/style.css", "web/static/math.js", "requirements-dev.txt"}
+    code_inputs.update(str(path.relative_to(ROOT)) for path in (ROOT / "schema").glob("*.schema.json"))
     for build_step in registry.get("question_generators", []) + registry.get("question_transforms", []):
         code_inputs.add(build_step["entrypoint"])
         code_inputs.update(build_step["inputs"])

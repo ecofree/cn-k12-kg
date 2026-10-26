@@ -1,33 +1,28 @@
-"""给知识点标注 exam_scope（是否被中高考单独考查），并留下可复核的证据。
+"""记录外部题源检索观察；检索结果不能决定考试范围。
 
-**为什么要这个字段**：项目的知识点体系覆盖全部课标内容，但中高考并不是每个
-知识点都单独命题。此前「自动 exam_scope」因判据不可靠被回退（用拆词检索，
-「平面」会命中 1546 道无关题），只人工标了 5 个。这次用**完整术语**检索重建。
+exam_scope 只接受有明确文件依据的 included/excluded，否则保持 unknown。
+source_observation 独立记录 found/not_found_in_scanned_sources/source_unavailable。
 
-**判据（与 tools/check_lexicon_effectiveness.py 同一套，避免两处口径不一）**：
-    用知识点名里最长的名词短语（不拆词）在对应学段的真题池里检索。
-    0 命中 → textbook_only（只在课本出现，真题不单独考）
-    >0 命中 → examined（真题考到）
-
-**为什么要留证据**：这个结论直接影响「缺口」的口径——标错会把真缺口藏起来，
-或者把不考的點报成缺口。所以每个标记都带检索词、池名、池大小和命中数，
-任何时候都能重跑复核。
-
-**已发现并修正的错误**：mh2.10.1.3 古典概型、mh5.7.4.2 超几何分布曾被标为
-textbook_only，但按题型特征重新映射后分别有 389 道和 28 道高考题——
-原来的判断是「术语名 0 命中」误当成「真题不考」，本工具会按实际有题状态修正。
+python tools/set_exam_scope.py                         # 只报告当前可检索来源
+python tools/set_exam_scope.py --migrate-legacy         # 只迁移历史推断，不重新检索
+python tools/set_exam_scope.py --migrate-legacy --apply # 同步登记作者源与 topics
 """
 from __future__ import annotations
 
 import argparse
 import collections
+import copy
 import json
 import pathlib
 import re
+import sys
 from datetime import date
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
+sys.path.insert(0, str(ROOT))
+
+from tools.rebuild_data import load_registry, write_json  # noqa: E402
 
 # 学段 → 真题池。池的大小一起记下来，让「0 命中」有意义（在 10 道题里 0 命中
 # 和在 16000 道题里 0 命中，证据强度完全不同）。
@@ -46,7 +41,7 @@ POOLS = {
 # 假阳性——CMM 初中池实际上没有有理数乘法题。宽泛词命中的是别的内容。
 #
 # 只有精确模式也命中，才算「真题考到但题源没供上」（source_gap）；
-# 精确模式 0 命中 → 与 textbook_only 同论（当前题源内无供给）。
+# 精确模式 0 命中只记录当前检索未发现，不能推断考试是否考查。
 PRECISE = {
     "m7a.2.2.1": (["有理数", r"\(-\d", r"负数.{0,6}正数"], [r"×", r"\\times", r"积的"]),
     "m8a.14.2": ([r"全等|≌|cong"], [r"SSS|SAS|ASA|AAS|HL|判定.{0,6}全等"]),
@@ -70,7 +65,7 @@ def longest_terms(name: str) -> list[str]:
     """取知识点名里最长的名词短语作为检索词。
 
     不能拆词：「平面与平面平行」拆成「平面」「平行」后，「平面」会命中
-    1546 道完全无关的题，把「确实不考」误判成「有题」。
+    1546 道完全无关的题，产生检索假阳性。
     """
     parts = [p for p in re.split(r"[、（）()，,的与及\s]+", name) if len(p) >= 2]
     ranked = sorted(parts, key=len, reverse=True)
@@ -95,110 +90,145 @@ def load_pool_texts(rel: str) -> list[str]:
     return texts
 
 
-def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--apply", action="store_true", help="写回 topics.json")
-    ap.add_argument("--show", type=int, default=0, help="抽样打印 N 条判定")
-    args = ap.parse_args()
+TOPIC_FIELDS = ("exam_scope", "exam_scope_evidence", "source_observation", "source_observation_evidence")
+LEGACY_SCOPES = {"examined", "source_gap", "textbook_only"}
 
-    topics = json.loads((DATA / "topics.json").read_text(encoding="utf-8"))
-    ext = json.loads((DATA / "questions_ext.json").read_text(encoding="utf-8"))
 
-    # 已有外部真题的知识点 —— 这就是 examined 最硬的证据
-    has_ext: dict[str, set[str]] = collections.defaultdict(set)
-    for q in ext:
-        for t in (q.get("topicIds") or [q.get("topicId")]):
-            if t:
-                has_ext[t].add(q.get("source", "?"))
+def unknown_scope() -> dict:
+    return {"method": "not_established", "reason":
+            "题源检索与题目关联不构成正式考试范围依据；没有可定位的范围文件时保持未知。"}
 
-    # 预加载各学段题池文本
-    pool_cache: dict[str, list[tuple[str, list[str]]]] = {}
-    for stage, pools in POOLS.items():
-        pool_cache[stage] = [(name, load_pool_texts(rel)) for name, rel in pools]
 
-    changed = 0
-    dist = collections.Counter()
-    details = []
-    for t in topics:
-        tid = t["id"]
-        stage = stage_of(t)
-        sources = has_ext.get(tid, set())
-        if sources:
-            scope, why = "examined", f"已有外部真题：{', '.join(sorted(sources))}"
-            evidence = {"sources": sorted(sources)}
-        else:
-            # 无外部题：用完整术语在各真题池里检索
-            terms = longest_terms(t["name"])
-            per_pool = {}
-            total_hits = 0
-            for pool_name, texts in pool_cache[stage]:
-                if not texts:
-                    per_pool[pool_name] = {"size": 0, "hits": None}
-                    continue
-                n = sum(1 for txt in texts if any(term in txt for term in terms))
-                per_pool[pool_name] = {"size": len(texts), "hits": n}
-                total_hits += n
-            if total_hits > 0:
-                # 术语命中了，但题没映射入库。用题型特征再精确查一次：
-                # 宽泛词（「乘法」「向量」）会命中大量无关题，不能据此判定「真题考到」。
-                if tid in PRECISE:
-                    must, anyp = PRECISE[tid]
-                    precise = 0
-                    for _pool_name, texts in pool_cache[stage]:
-                        precise += sum(
-                            1 for txt in texts
-                            if all(re.search(p, txt) for p in must)
-                            and any(re.search(p, txt) for p in anyp))
-                    evidence["precise_hits"] = precise
-                    if precise > 0:
-                        scope = "source_gap"
-                        why = (f"精确题型特征命中 {precise} 道但未映射入库"
-                               f"（宽泛术语命中 {total_hits} 道，多为假阳性）")
-                    else:
-                        scope = "textbook_only"
-                        why = (f"精确题型特征 0 命中——宽泛术语那 {total_hits} 道"
-                               f"是「乘法/向量」等通用词造成的假阳性，当前题源无供给")
-                else:
-                    scope = "source_gap"
-                    why = f"真题池命中 {total_hits} 道但未映射入库"
-            else:
-                scope = "textbook_only"
-                why = "完整术语在所有真题池 0 命中"
-            evidence = {"method": "full_term_search", "terms": terms,
-                        "pools": per_pool, "total_hits": total_hits,
-                        "checked_at": date.today().isoformat()}
-
-        old = t.get("exam_scope")
-        if old != scope:
-            changed += 1
-        t["exam_scope"] = scope
-        t["exam_scope_evidence"] = {"reason": why, **evidence}
-        dist[scope] += 1
-        details.append((tid, t["name"], stage, scope, why))
-
-    print(f"exam_scope 分布：{dict(dist)}")
-    print(f"与旧值不同：{changed} 个")
-
-    if args.show:
-        import random
-        random.seed(1)
-        for tid, name, stage, scope, why in random.sample(details, min(args.show, len(details))):
-            print(f"  {tid:<14}{name[:20]:<22}[{stage}] {scope:<14}{why}")
-
-    # 重点：被本工具改掉的点（原标记与实测矛盾）
-    fixed = [(tid, name, why) for tid, name, _s, scope, why in details
-             if tid in {"mh2.10.1.3", "mh5.7.4.2"}]
-    if fixed:
-        print("\n修正原先标错的点：")
-        for tid, name, why in fixed:
-            print(f"  {tid} {name} → {why}")
-
-    if args.apply:
-        (DATA / "topics.json").write_text(
-            json.dumps(topics, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-        print(f"\n已写回 topics.json（{len(topics)} 个知识点）")
+def migrate_legacy_topic(topic: dict) -> dict:
+    """保留旧标签及完整旧记录，将事实观察与范围结论分开；幂等。"""
+    result = copy.deepcopy(topic)
+    old = result.get("exam_scope")
+    if old not in LEGACY_SCOPES:
+        return result
+    evidence = copy.deepcopy(result.get("exam_scope_evidence") or {})
+    if old in ("examined", "source_gap"):
+        status = "found"
+    elif any((pool.get("size") or 0) > 0 for pool in evidence.get("pools", {}).values()):
+        status = "not_found_in_scanned_sources"
     else:
-        print("\n（dry-run，加 --apply 写回）")
+        status = "source_unavailable"
+    observation = {key: copy.deepcopy(evidence[key]) for key in
+                   ("sources", "terms", "pools", "total_hits", "precise_hits", "checked_at")
+                   if key in evidence}
+    observation.update(
+        method="legacy_mapped_questions" if old == "examined" else "legacy_full_term_search",
+        reason="保留历史题源关联或检索结果；命中只表示发现候选，未检出也不证明不考。",
+        legacy_exam_scope=old, legacy_exam_scope_evidence=evidence,
+    )
+    result.update(exam_scope="unknown", exam_scope_evidence=unknown_scope(),
+                  source_observation=status, source_observation_evidence=observation)
+    return result
+
+
+def observe_topic(topic: dict, sources: set[str], pools: list[tuple[str, list[str]]],
+                  checked_at: str | None = None) -> dict:
+    """记录一次题源检索，不自动赋予 included/excluded 考试范围。"""
+    result = migrate_legacy_topic(topic)
+    old_scope_evidence = result.get("exam_scope_evidence") or {}
+    explicit_scope = (result.get("exam_scope") in ("included", "excluded")
+                      and old_scope_evidence.get("method") == "explicit_scope"
+                      and old_scope_evidence.get("source_url")
+                      and old_scope_evidence.get("scope_reference"))
+    if not explicit_scope:
+        result.update(exam_scope="unknown", exam_scope_evidence=unknown_scope())
+    observation = {k: copy.deepcopy(v) for k, v in result.get("source_observation_evidence", {}).items()
+                   if k in ("legacy_exam_scope", "legacy_exam_scope_evidence")}
+    observation["checked_at"] = checked_at or date.today().isoformat()
+    if sources:
+        status = "found"
+        observation.update(method="mapped_questions", sources=sorted(sources),
+                           reason="已有外部题条目关联此主题；映射准确性与正式考试范围须分别核对。")
+    else:
+        terms = longest_terms(topic["name"])
+        per_pool, total_hits = {}, 0
+        for pool_name, texts in pools:
+            hits = sum(1 for text in texts if any(term in text for term in terms)) if texts else None
+            per_pool[pool_name] = {"size": len(texts), "hits": hits}
+            total_hits += hits or 0
+        observation.update(method="full_term_search", terms=terms, pools=per_pool,
+                           total_hits=total_hits)
+        selected_hits = total_hits
+        if topic["id"] in PRECISE and total_hits:
+            must, any_patterns = PRECISE[topic["id"]]
+            selected_hits = sum(1 for _, texts in pools for text in texts
+                                if all(re.search(pattern, text) for pattern in must)
+                                and any(re.search(pattern, text) for pattern in any_patterns))
+            observation["precise_hits"] = selected_hits
+            observation["method"] = "term_and_pattern_search"
+        if not any(texts for _, texts in pools):
+            status = "source_unavailable"
+            observation["reason"] = "当前未提供可检索题源内容（缺失或为空）；不能作未命中或考试范围判断。"
+        elif selected_hits:
+            status = "found"
+            observation["reason"] = "当前题源检索发现候选；这不是目标精确映射或考试范围证明。"
+        else:
+            status = "not_found_in_scanned_sources"
+            observation["reason"] = "在已登记题源及本次检索方式下未发现候选；不能推断该知识不考。"
+    result.update(source_observation=status, source_observation_evidence=observation)
+    return result
+
+
+def write_topic_fields(topics: list[dict], data_dir: pathlib.Path = DATA) -> None:
+    """只写本工具拥有的四个字段，并同步显式作者源；写前先验证完整归属。"""
+    index = {topic["id"]: topic for topic in topics}
+    if len(index) != len(topics):
+        raise ValueError("重复主题 ID，不能迁移")
+    sources, seen = [], set()
+    for entry in load_registry(data_dir)["content_sources"]:
+        path = data_dir / entry["path"]
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        for tid, source_topic in payload["topics"].items():
+            if tid not in index or tid in seen:
+                raise ValueError(f"主题归属无效：{tid}")
+            seen.add(tid)
+            for key in TOPIC_FIELDS:
+                if key in index[tid]:
+                    source_topic[key] = copy.deepcopy(index[tid][key])
+        sources.append((path, payload))
+    if seen != set(index):
+        raise ValueError("登记源与主题集合不同，不能只迁移部分主题")
+    for path, payload in sources:
+        write_json(path, payload)
+    write_json(data_dir / "topics.json", topics)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--apply", action="store_true", help="写回登记作者源与 topics.json")
+    parser.add_argument("--migrate-legacy", action="store_true", help="保留历史检索结果，只迁移旧范围推断")
+    parser.add_argument("--show", type=int, default=0, help="打印前 N 条记录")
+    args = parser.parse_args()
+    topics = json.loads((DATA / "topics.json").read_text(encoding="utf-8"))
+    if args.migrate_legacy:
+        updated = [migrate_legacy_topic(topic) for topic in topics]
+    else:
+        ext_path = DATA / "questions_ext.json"
+        external = json.loads(ext_path.read_text(encoding="utf-8")) if ext_path.exists() else []
+        has_external: dict[str, set[str]] = collections.defaultdict(set)
+        for question in external:
+            for tid in question.get("topicIds") or [question.get("topicId")]:
+                if tid:
+                    has_external[tid].add(question.get("source") or "未登记来源")
+        pool_cache = {stage: [(name, load_pool_texts(rel)) for name, rel in pools]
+                      for stage, pools in POOLS.items()}
+        updated = [observe_topic(topic, has_external.get(topic["id"], set()),
+                                 pool_cache[stage_of(topic)]) for topic in topics]
+    print("考试范围：", dict(collections.Counter(topic.get("exam_scope", "unknown") for topic in updated)))
+    print("题源观察：", dict(collections.Counter(topic.get("source_observation", "not_checked") for topic in updated)))
+    print("变更主题数：", sum(a != b for a, b in zip(topics, updated)))
+    for topic in updated[:max(0, args.show)]:
+        print(topic["id"], topic["name"], topic.get("source_observation"),
+              (topic.get("source_observation_evidence") or {}).get("reason"))
+    if args.apply:
+        write_topic_fields(updated)
+        print("已同步登记作者源与 topics.json。")
+    else:
+        print("只报告；--apply 同步登记作者源。")
 
 
 if __name__ == "__main__":

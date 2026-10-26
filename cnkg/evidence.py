@@ -44,6 +44,8 @@ import hashlib
 import json
 import operator
 import re
+from fractions import Fraction
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 # 证据强度排序（越大越强）
 LEVEL_RANK = {
@@ -115,16 +117,121 @@ _WS = re.compile(r"\s+")
 def norm_stem(text: str) -> str:
     """题干归一化：用于跨源同题识别。
 
-    只去掉排版差异（空白、LaTeX、标点、全半角），**保留全部数字**——
-    把数字也去掉会让「3+5」和「4+6」撞成同一题。
+    保守地统一排版，保留运算符、括号、大小写、关系符与小数点。
+    无法证明等价的写法保持不同；漏掉一组候选比误把不同题目互证更安全。
+    这里不能复用 delatex 的 π 小数近似，也不能使用 NFKC 把上标压成正文。
     """
-    s = delatex(text).lower()
-    s = re.sub(r"[^0-9a-z\u4e00-\u9fff]+", "", s)
-    return _WS.sub("", s)
+    s = str(text or "")
+    s = s.translate({code: code - 0xFEE0 for code in range(0xFF01, 0xFF5F)})
+    s = s.translate(str.maketrans({"−": "-", "﹣": "-", "×": "*", "÷": "/",
+                                  "≤": "<=", "≥": ">=", "≠": "!="}))
+    for pattern, replacement in (
+        (r"\\left\s*", ""), (r"\\right\s*", ""),
+        (r"\\times\b|\\cdot\b", "*"), (r"\\div\b", "/"),
+        (r"\\leq?\b", "<="), (r"\\geq?\b", ">="), (r"\\neq?\b", "!="),
+        (r"\\pi\b", "π"), (r"\\,|\\;|\\!|\\quad\b|\\qquad\b", ""),
+    ):
+        s = re.sub(pattern, lambda _match, value=replacement: value, s)
+    for _ in range(3):
+        changed = _FRAC.sub(r"(\1)/(\2)", s)
+        if changed == s:
+            break
+        s = changed
+    # 成对数学定界符只影响排版；单独的美元符号可能表示金额，保留。
+    s = re.sub(r"\$([^$]+)\$", r"\1", s)
+    s = s.replace(r"\(", "").replace(r"\)", "").replace(r"\[", "").replace(r"\]", "")
+    # 保留数字/字母串之间的分隔，避免 "1 2" 与 "12"、"a b" 与 "ab" 混同。
+    s = _WS.sub(" ", s).strip()
+    s = re.sub(r"(?<![A-Za-z0-9]) | (?![A-Za-z0-9])", "", s)
+    return s.rstrip("。")
 
 
 def stem_hash(text: str) -> str:
-    return hashlib.sha1(norm_stem(text).encode("utf-8")).hexdigest()[:16]
+    return hashlib.sha256(norm_stem(text).encode("utf-8")).hexdigest()
+
+
+def item_fingerprint(q: dict) -> str:
+    """同题候选的内容键，不包括答案与来源，也不依赖选项顺序/ID。"""
+    payload = {
+        "type": q.get("type"),
+        "prompt": norm_stem(q.get("prompt", "")),
+        "choices": sorted(norm_stem(c.get("text", "")) for c in q.get("choices") or []),
+        "diagram": q.get("diagram"),
+        "images": q.get("images"),
+    }
+    return hashlib.sha256(json.dumps(payload, ensure_ascii=False, sort_keys=True,
+                                     separators=(",", ":")).encode("utf-8")).hexdigest()
+
+
+def canonical_answer(q: dict) -> str:
+    """互证使用的保守答案表示；只对有界纯数值做精确有理数归一。"""
+    text = norm_stem(answer_text(q))
+    if q.get("type") == "numeric" and len(text) <= 128:
+        number = r"[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d{1,3})?"
+        if re.fullmatch(rf"{number}(?:/{number})?", text):
+            exponents = re.findall(r"[eE]([+-]?\d+)", text)
+            if all(abs(int(exp)) <= 100 for exp in exponents):
+                try:
+                    parts = text.split("/")
+                    value = Fraction(parts[0])
+                    if len(parts) == 2:
+                        value /= Fraction(parts[1])
+                    return f"rational:{value.numerator}/{value.denominator}"
+                except (ValueError, ZeroDivisionError, OverflowError):
+                    pass
+    return "text:" + text
+
+
+def answer_fingerprint(q: dict) -> str:
+    return hashlib.sha256(canonical_answer(q).encode("utf-8")).hexdigest()
+
+
+def source_lineage(q: dict) -> set[str]:
+    """返回可追溯答案来源根；聚合站名称不代替独立来源依据。"""
+    provenance = q.get("provenance")
+    if not isinstance(provenance, dict):
+        return set()
+    origin = provenance.get("origin_id")
+    url = provenance.get("source_url")
+    derived = provenance.get("derived_from", [])
+    if (not isinstance(origin, str) or not origin.strip()
+            or not isinstance(url, str)
+            or not isinstance(derived, list)
+            or any(not isinstance(item, str) or not item.strip() for item in derived)):
+        return set()
+    try:
+        parsed = urlsplit(url)
+    except ValueError:
+        return set()
+    if parsed.scheme not in ("http", "https") or not parsed.netloc:
+        return set()
+    query = urlencode(sorted((k, v) for k, v in parse_qsl(parsed.query, keep_blank_values=True)
+                             if not k.lower().startswith("utm_")
+                             and k.lower() not in {"fbclid", "gclid"}))
+    canonical_url = urlunsplit((parsed.scheme.lower(), parsed.netloc.lower(),
+                               parsed.path or "/", query, ""))
+    return {origin.strip(), *(item.strip() for item in derived), "url:" + canonical_url}
+
+
+def valid_corroboration(q: dict, record: dict | None) -> bool:
+    """只有绑定当前内容、答案且含独立来源记录的互证才可以升级。"""
+    if not isinstance(record, dict) or record.get("schema") != 1:
+        return False
+    origins = record.get("origin_ids")
+    peers = record.get("peer_question_ids")
+    lineage = source_lineage(q)
+    provenance = q.get("provenance")
+    origin = provenance.get("origin_id") if isinstance(provenance, dict) else None
+    origin = origin.strip() if isinstance(origin, str) else None
+    return bool(
+        record.get("status") == "corroborated"
+        and record.get("item_fingerprint") == item_fingerprint(q)
+        and record.get("answer_fingerprint") == answer_fingerprint(q)
+        and lineage and isinstance(origins, list) and all(isinstance(x, str) for x in origins)
+        and origin in origins and len(set(origins)) >= 2
+        and isinstance(peers, list) and any(isinstance(x, str) and x and x != q.get("id") for x in peers)
+        and not record.get("conflicting_answers")
+    )
 
 
 # ---------------------------------------------------------------- 答案文本
@@ -296,12 +403,16 @@ def _has_steps(analysis: str) -> bool:
     return any(m in s for m in markers)
 
 
-def grade(q: dict, cross_source: bool = False) -> dict:
+def grade(q: dict, cross_source: bool = False, *, corroboration: dict | None = None) -> dict:
     """给一道题定证据等级。不改题目本身，只产出判据。
 
     返回 {level, signals, notes}，可直接写进 `evidence` 字段。
     """
     notes = []
+    # 兼容旧调用签名，但一个布尔声明不再算互证。元数据必须绑定当前题和答案。
+    confirmed_cross_source = valid_corroboration(q, corroboration)
+    if cross_source and not confirmed_cross_source:
+        notes.append("仅有跨来源声明，未提供绑定当前题目与答案的独立来源记录")
     defects = structural_defects(q)
     if defects:
         return {"level": "broken", "signals": {}, "notes": defects}
@@ -344,7 +455,7 @@ def grade(q: dict, cross_source: bool = False) -> dict:
         "arith_bad": arith_bad,
         "recompute_hits_key": recompute_hits_key,
         "answer_in_analysis": bool(a_text) and norm_stem(a_text) in norm_stem(analysis),
-        "cross_source": bool(cross_source),
+        "cross_source": confirmed_cross_source,
     }
 
     # 显式 verify 比解析文本的排版正则可靠，尤其是 round 等舍入表达式。
@@ -377,9 +488,9 @@ def grade(q: dict, cross_source: bool = False) -> dict:
     if verified_expression is not None or (arith_ok and recompute_hits_key):
         level = "verified"
         notes.append("给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核")
-    elif cross_source and (final_match or signals["answer_in_analysis"]):
+    elif confirmed_cross_source:
         level = "corroborated"
-        notes.append("跨源同题且答案一致")
+        notes.append("题干、选项与答案一致，且来源记录具有不同且不相交的原始谱系")
     elif signals["has_steps"] and (final_match or signals["answer_in_analysis"]):
         level = "explained"
         notes.append("解析具有推导信号且结论与答案一致；尚无独立审核")
@@ -428,7 +539,8 @@ def may_confirm_mastery(level: str) -> bool:
 def question_content_sha256(q: dict) -> str:
     """绑定审核记录到会影响题义、答案、难度或归属的内容版本。"""
     fields = ("id", "topicId", "topicIds", "primaryTopicId", "type", "prompt", "choices",
-              "answer", "accept", "verify", "explanation", "difficulty", "source")
+              "answer", "accept", "answer_spec", "verify", "explanation", "difficulty",
+              "source", "provenance", "diagram", "images")
     payload = json.dumps({k: q.get(k) for k in fields}, ensure_ascii=False,
                          sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
@@ -477,6 +589,14 @@ def question_policy(q: dict) -> dict:
     level = q.get("evidence_level")
     if level in ("broken", "defective"):
         return {**result, "evidence_level": level, "reason": "evidence_rejected"}
+    # 历史 corroborated 曾只比较去符号题干与 source 名称；不能继续信任裸标签。
+    # 原题仍可凭自己的计算/解释取得相应等级，缺谱系不会直接把完整题删掉。
+    unbound_corroboration = (
+        level == "corroborated"
+        and not valid_corroboration(q, q.get("cross_source_evidence"))
+    )
+    if unbound_corroboration:
+        level = grade(q)["level"]
     if q.get("type") == "numeric" and q.get("verify"):
         from .verify import check_question
         try:
@@ -502,5 +622,6 @@ def question_policy(q: dict) -> dict:
         "diagnosis_eligible": allowed,
         "may_confirm_mastery": allowed and may_confirm_mastery(level),
         "may_judge_weak": allowed and may_judge_weak(level),
-        "reason": ("provisional_evidence" if allowed else "practice_only"),
+        "reason": ("legacy_corroboration_not_bound" if unbound_corroboration
+                   else "provisional_evidence" if allowed else "practice_only"),
     }

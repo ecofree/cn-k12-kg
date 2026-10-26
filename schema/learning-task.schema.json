@@ -1,0 +1,297 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cn-k12-kg.local/schema/v1/learning-task.schema.json",
+  "title": "Learning unit task v1",
+  "description": "Version 1 authoring contract. JSON Schema is the structural authority; reference and mathematical checks remain separate. Existing records without an optional schema_version are v1; unknown explicit versions are rejected.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+    },
+    "objective_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "phase": {
+      "type": "string",
+      "enum": [
+        "practice",
+        "transfer",
+        "delayed"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "numeric",
+        "choice",
+        "short",
+        "rubric"
+      ]
+    },
+    "prompt": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "explanation": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "feedback": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "correct": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "incorrect": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "correct",
+        "incorrect"
+      ]
+    },
+    "choices": {
+      "type": "array",
+      "items": {
+        "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/choice"
+      },
+      "minItems": 2
+    },
+    "answer": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "verify": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "rubric": {
+      "type": "array",
+      "items": {
+        "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/rubricRow"
+      },
+      "minItems": 1
+    },
+    "diagram": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/diagram"
+    },
+    "accept": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "minItems": 0
+    },
+    "answer_spec": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/answer-spec.schema.json"
+    }
+  },
+  "required": [
+    "id",
+    "objective_ids",
+    "phase",
+    "type",
+    "prompt",
+    "explanation",
+    "feedback"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "rubric"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "rubric"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "answer"
+              ]
+            },
+            {
+              "required": [
+                "verify"
+              ]
+            },
+            {
+              "required": [
+                "choices"
+              ]
+            }
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "answer"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "numeric"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "verify"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "choice"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "choices"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "short"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "accept"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "numeric"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "answer_spec": {
+            "properties": {
+              "kind": {
+                "const": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "choice"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "answer_spec": {
+            "properties": {
+              "kind": {
+                "const": "choice"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "rubric"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "answer_spec": {
+            "properties": {
+              "kind": {
+                "const": "rubric"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "short"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "answer_spec": {
+            "properties": {
+              "kind": {
+                "not": {
+                  "enum": [
+                    "choice",
+                    "rubric"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

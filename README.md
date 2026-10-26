@@ -49,6 +49,7 @@
 git clone https://github.com/ecofree/cn-k12-kg.git
 cd cn-k12-kg
 
+python -m pip install -r requirements-dev.txt  # 固定版本的数据契约验收依赖；Web运行仍只依赖标准库
 python tools/release_check.py      # 全部必需验收 + SQLite构建 + 哈希清单
 # 报告：build/regression_report.md；详细日志：build/release-check/
 

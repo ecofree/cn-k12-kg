@@ -9,11 +9,12 @@
 在包含本次提交的工作树或解压后的源码目录运行：
 
 ```bash
+python -m pip install -r requirements-dev.txt
 python tools/release_check.py
 python web/server.py --port 8765
 ```
 
-打开 `http://127.0.0.1:8765`。无需安装Web框架；核心运行和测试依赖Python标准库。
+打开 `http://127.0.0.1:8765`。无需安装Web框架；Web运行依赖Python标准库，构建与验收使用固定版本的JSON Schema校验依赖。
 验收报告位于 `build/regression_report.md` 和 `build/regression_report.json`，各项完整日志在 `build/release-check/`。
 外部题库未提供时，相关集成用例明确跳过；它不阻止自有内容运行。
 

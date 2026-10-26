@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import json
+import importlib.util
 from pathlib import Path
 import subprocess
 import sys
@@ -29,6 +30,9 @@ CHECKS = [
 
 
 def main():
+    if importlib.util.find_spec('jsonschema') is None:
+        print('缺少数据契约验收依赖。请先运行：python -m pip install -r requirements-dev.txt')
+        return 2
     output = ROOT / 'build' / 'release-check'
     output.mkdir(parents=True, exist_ok=True)
     results = []

@@ -50371,8 +50371,8 @@
  },
  {
   "type": "numeric",
-  "prompt": "数据2、4、6的方差按除以数据个数n的公式计算，结果是多少？用分数或小数作答。",
-  "answer": "2.6666666666666665",
+  "prompt": "数据2、4、6的方差按除以数据个数n的公式计算，结果是多少？用最简分数表示。",
+  "answer": "8/3",
   "verify": "((2-4)**2+(4-4)**2+(6-4)**2)/3",
   "explanation": "平均数为4，方差=[(2−4)²+(4−4)²+(6−4)²]/3=8/3。",
   "tested_criterion_indices": [
@@ -56019,8 +56019,8 @@
  },
  {
   "type": "numeric",
-  "prompt": "Rt△ABC中∠C=90°，AC=4、BC=3、AB=5，求tan B，用小数表示。",
-  "answer": "1.3333333333333333",
+  "prompt": "Rt△ABC中∠C=90°，AC=4、BC=3、AB=5，求tan B，用最简分数表示。",
+  "answer": "4/3",
   "verify": "4/3",
   "explanation": "对∠B而言，对边是AC=4，邻直角边是BC=3，所以tan B=AC/BC=4/3。",
   "tested_criterion_indices": [
@@ -57534,8 +57534,8 @@
  },
  {
   "type": "numeric",
-  "prompt": "掷两枚可区分的均匀六面骰子，点数和为7的概率是多少？用分数或小数作答。",
-  "answer": "0.16666666666666666",
+  "prompt": "掷两枚可区分的均匀六面骰子，点数和为7的概率是多少？用最简分数表示。",
+  "answer": "1/6",
   "verify": "6/36",
   "explanation": "有序结果共6×6=36种。和为7的有(1,6)、(2,5)、(3,4)、(4,3)、(5,2)、(6,1)，共6种，概率6/36=1/6。",
   "tested_criterion_indices": [
@@ -91972,10 +91972,10 @@
   "topicId": "mh4.5.2.2",
   "difficulty": "standard",
   "type": "numeric",
-  "prompt": "某产品成本函数 C(x)=x^2+3x（万元），x 是产量。产量为 2 时的边际成本（导数）是多少万元？",
+  "prompt": "用连续变量 x（吨）近似描述一种产品的产量，总成本 C(x)=x^2+3x（万元）。产量 x=2 吨时，成本对产量的瞬时变化率 C′(2) 是多少万元/吨？",
   "choices": [],
   "answer": "7",
-  "explanation": "求导得 2x+3，代入 x=2 得 2*2+3=7。边际成本就是「再多生产一件增加的成本」，正是导数的含义。",
+  "explanation": "在连续产量模型中，C′(x)=2x+3，C′(2)=7万元/吨，表示该点的瞬时变化率。小增量Δx的成本变化可用7Δx万元近似。若实际从2吨增加到3吨，则应计算C(3)−C(2)=18−10=8万元；有限增量不等于导数值。",
   "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
   "drill_kind": "application",
   "generated": true,
@@ -91989,13 +91989,13 @@
   "verify": "2*2+3",
   "evidence_level": "verified",
   "evidence_signals": {
-   "analysis_chars": 54,
+   "analysis_chars": 110,
    "has_steps": true,
    "final_letter": null,
    "final_match": false,
-   "arith_ok": 1,
+   "arith_ok": 0,
    "arith_bad": 0,
-   "recompute_hits_key": true,
+   "recompute_hits_key": false,
    "answer_in_analysis": true,
    "cross_source": false,
    "verify_consistent": true

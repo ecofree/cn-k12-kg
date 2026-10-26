@@ -17,6 +17,8 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from cnkg.verify import check_question  # noqa: E402
+from cnkg.contracts import (ContractDependencyError, load_schema, property_schema,
+                            validate_repository)  # noqa: E402
 # 解析里「选项 C / C 项 / 故答案为: D」这类写法的判定口径与修复工具共用一份，
 # 免得两边各写一份正则、慢慢漂移。宽版正则（validate 给自有题用的
 # OPTION_REF_RE）在外部题上会把数学变量 a/b/c 误判成选项字母，不能共用。
@@ -56,20 +58,20 @@ CN_NUM = {1: "一", 2: "二", 3: "三", 4: "四", 5: "五", 6: "六",
           25: "二十五", 26: "二十六", 27: "二十七", 28: "二十八", 29: "二十九",
           30: "三十", 31: "三十一", 32: "三十二", 33: "三十三", 34: "三十四"}
 
-DOMAINS = {"数与代数", "图形与几何", "统计与概率", "综合与实践"}
-TYPES = {"conceptual", "procedural", "reasoning", "application", "modeling"}
-STRENGTHS = {"hard", "soft"}
-SEMESTERS = {"上", "下", "全"}
-DIFFICULTIES = {"basic", "standard", "advanced"}
-QTYPES = {"choice", "numeric", "short"}
+# Enumerations come from the public contracts; no second field model lives here.
+# ID_RE/QLID_RE above parse validated IDs for textbook semantic checks.
+DOMAINS = set(property_schema("topic", "domain")["enum"])
+TYPES = set(property_schema("topic", "type")["enum"])
+STRENGTHS = set(property_schema("dependency", "strength")["enum"])
+SEMESTERS = set(property_schema("topic", "semester")["enum"])
+DIFFICULTIES = set(property_schema("question", "difficulty")["enum"])
+QTYPES = set(property_schema("question", "type")["enum"])
 
 # OPTION_REF_RE remains exported for existing explanation regressions.  The
 # source transform and validator share explicit position-reference checks.
 
-STRUCT_REQUIRED = ["id", "name", "volume", "chapter", "section", "grade", "semester",
-                   "domain", "theme", "type", "curriculum_version", "edition",
-                   "review_status", "external"]
-CONTENT_REQUIRED = ["description", "mastery_criteria", "standards"]
+STRUCT_REQUIRED = load_schema("topic")["required"]
+CONTENT_REQUIRED = load_schema("topic")["allOf"][0]["then"]["required"]
 FILLED_STATUS = ("draft", "reviewed")
 
 
@@ -162,9 +164,10 @@ def check_topics(topics, outline, rpt):
             rpt.err(f"{tid}: type 非法：{t.get('type')}")
         if t.get("semester") not in SEMESTERS:
             rpt.err(f"{tid}: semester 非法：{t.get('semester')}")
+        minimum_goals = property_schema("topic", "mastery_criteria")["minItems"]
         if filled and (not isinstance(t.get("mastery_criteria"), list)
-                       or len(t["mastery_criteria"]) < 2):
-            rpt.err(f"{tid}: mastery_criteria 至少要有 2 条")
+                       or len(t["mastery_criteria"]) < minimum_goals):
+            rpt.err(f"{tid}: mastery_criteria 至少要有 {minimum_goals} 条")
 
         by_volume[volume] += 1
 
@@ -582,6 +585,19 @@ def main():
     args = parser.parse_args()
 
     rpt = Report()
+    print("== 版本化结构契约与资源引用 ==")
+    try:
+        contract_errors = validate_repository(DATA)
+    except (ContractDependencyError, ValueError) as exc:
+        print(f"结构契约环境错误：{exc}")
+        return 2
+    if contract_errors:
+        for problem in contract_errors:
+            rpt.err(problem)
+        rpt.show()
+        print(f"\nFAILED：{len(rpt.errors)} 个结构或引用错误；先修复后再运行语义检查。")
+        return 1
+    print("主题、先修边、题目、讲解卡、单元任务和实践项目契约通过")
     print("== 加载数据 ==")
     topics = load("topics.json")
     deps = load("dependencies.json")

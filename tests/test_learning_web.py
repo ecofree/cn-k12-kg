@@ -49,7 +49,7 @@ class LearningWebTest(unittest.TestCase):
                 'worked_examples': [{'prompt': '1/2化为分母4的分数', 'steps': ['分母乘2', '分子同乘2'], 'answer': '2/4'}],
                 'tasks': [
                     {'id': 'p1', 'objective_ids': ['equiv'], 'phase': 'practice', 'type': 'numeric',
-                     'prompt': '用小数表示1/2。', 'answer': '0.5', 'verify': '1/2', 'explanation': '把1分成2等份。',
+                     'prompt': '求1/2的值，可用小数或分数。', 'answer': '0.5', 'verify': '1/2', 'explanation': '把1分成2等份。',
                      'feedback': {'correct': '值相同', 'incorrect': '检查分子与分母'}},
                     {'id': 't1', 'objective_ids': ['equiv'], 'phase': 'transfer', 'type': 'numeric',
                      'prompt': '用小数表示3/4。', 'answer': '0.75', 'verify': '3/4', 'explanation': '3除以4。',
@@ -155,7 +155,7 @@ class LearningWebTest(unittest.TestCase):
         server._UNIT_CACHE['contract']['tasks'][0]['verify'] = '3/4'
         code, restored = self.request('/api/session/' + sid)
         self.assertEqual(code, 200)
-        self.assertEqual(restored['item']['question']['prompt'], '用小数表示1/2。')
+        self.assertEqual(restored['item']['question']['prompt'], '求1/2的值，可用小数或分数。')
         code, done = self.answer(restored, '1/2')
         self.assertEqual(code, 200)
         self.assertEqual(done['summary']['answers'][0]['status'], 'correct')
@@ -183,7 +183,8 @@ class LearningWebTest(unittest.TestCase):
         self.assertEqual(len(submitted), 1)
         self.assertEqual(submitted[0]['payload']['client_elapsed_ms'], 1200)
         entry = done['summary']['answers'][0]
-        self.assertEqual(entry['normalized_answer'], 0.5)
+        self.assertEqual(entry['normalized_answer'], '1/2')
+        self.assertEqual(entry['normalized_answer_format'], 'rational_v1')
         self.assertGreaterEqual(entry['duration_ms'], 0)
         self.assertIn('presented_at', entry)
         self.assertIn('feedback_available_at', entry)

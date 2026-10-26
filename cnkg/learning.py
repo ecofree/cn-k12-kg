@@ -13,6 +13,7 @@ from pathlib import Path
 import re
 
 from .verify import check_question, compare, normalize_text, to_number
+from .answers import grade_answer, validate_answer_spec
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
@@ -109,6 +110,8 @@ def _computation_errors(item, prefix, *, required=False):
 
 def _grading_errors(task, prefix="task"):
     errors = []
+    if "answer_spec" in task:
+        errors.extend(f"{prefix}: {error}" for error in validate_answer_spec(task["answer_spec"]))
     kind = task.get("type")
     if not isinstance(kind, str) or kind not in TASK_TYPES:
         return [f"{prefix}.type 不支持：{kind}"]
@@ -374,41 +377,26 @@ def public_unit(unit: dict) -> dict:
 def grade_task(task: dict, answer) -> dict:
     """判定一个任务；调用方须在 transfer/delayed 整组完成后才展示反馈。
 
-    short 只做形式归一和显式 accept，不进行数值等价，以保留最简分数、
-    指定表示等任务的要求。rubric 永不自动正确，也不产生自动得分或掌握结论。
+    与教材题共用答案契约；精确值、合法等价变体与指定表示形式分开检查。
+    rubric 永不自动正确，也不产生自动得分或掌握结论。
     """
     if not isinstance(task, dict) or _grading_errors(task):
         return {"status": "needs_review", "feedback": "题目判分条件待核对，暂不自动判分。"}
-    if (answer is None or isinstance(answer, (bool, list, dict))
-            or not str(answer).strip() or len(str(answer)) > 20000):
-        return {"status": "invalid", "feedback": "请先填写有效答案。"}
-    raw = str(answer).strip()
     kind = task["type"]
+    decision = grade_answer(task, answer)
+    if decision["status"] == "invalid":
+        return decision
     if kind == "rubric":
         return {"status": "needs_review", "explanation": task.get("explanation", ""),
                 "rubric": copy.deepcopy(task["rubric"]),
                 "feedback": "请对照评价标准逐条自查，并请教师或同伴提供反馈；本题不自动评分。"}
-    if kind == "numeric":
-        value = to_number(raw)
-        if value is None:
-            return {"status": "invalid", "feedback": "请填有限数字或一个分数，例如 0.5 或 1/2。"}
-        correct = compare(raw, task["answer"])
-    elif kind == "choice":
-        ids = [c["id"] for c in task["choices"]]
-        if raw not in ids and len(raw) == 1 and "A" <= raw.upper() <= "Z":
-            index = ord(raw.upper()) - ord("A")
-            if index < len(ids):
-                raw = ids[index]
-        if raw not in ids:
-            return {"status": "invalid", "feedback": "请选择一个有效选项。"}
-        correct = raw == task["answer"]
-    else:
-        accepted = [task["answer"], *(task.get("accept") or [])]
-        correct = normalize_text(raw) in {normalize_text(x) for x in accepted}
+    if decision["status"] == "needs_review":
+        return decision
+    correct = decision["status"] == "correct"
     feedback = task.get("feedback") if isinstance(task.get("feedback"), dict) else {}
-    result = {"status": "correct" if correct else "wrong", "answer": task["answer"],
+    result = {**decision, "answer": task["answer"],
               "explanation": task.get("explanation", ""),
-              "feedback": feedback.get("correct" if correct else "incorrect", "")}
+              "feedback": decision.get("feedback") or feedback.get("correct" if correct else "incorrect", "")}
     if kind == "choice":
         result["answer_text"] = next(c["text"] for c in task["choices"] if c["id"] == task["answer"])
     return result

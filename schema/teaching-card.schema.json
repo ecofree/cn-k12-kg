@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cn-k12-kg.local/schema/v1/teaching-card.schema.json",
+  "title": "Full teaching card v1",
+  "description": "Version 1 authoring contract. JSON Schema is the structural authority; reference and mathematical checks remain separate. Existing records without an optional schema_version are v1; unknown explicit versions are rejected.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "type": "integer",
+      "const": 1
+    },
+    "review_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "reviewed",
+        "rejected"
+      ]
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "author_type": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/authorType"
+    },
+    "topicId": {
+      "type": "string",
+      "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "tier": {
+      "type": "string",
+      "enum": [
+        "core",
+        "tool"
+      ]
+    },
+    "hook": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "definition": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "why": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "when_to_use": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "minItems": 1
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "minItems": 1
+    },
+    "worked_example": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/workedExample"
+    },
+    "pitfalls": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "minItems": 1
+    },
+    "practice": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?-q[0-9]+$"
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "required": [
+          "id",
+          "note"
+        ]
+      },
+      "minItems": 1
+    },
+    "check": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "objective_coverage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "criterion_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "explanation": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "self_check": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "prompt": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "reference_answer": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "criteria": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "prompt",
+              "reference_answer",
+              "criteria"
+            ]
+          }
+        },
+        "required": [
+          "criterion_index",
+          "title",
+          "explanation",
+          "self_check"
+        ]
+      },
+      "minItems": 1
+    },
+    "content_revision": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "author_type": {
+          "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/authorType"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "teacher_review": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "approved",
+            "rejected"
+          ]
+        }
+      },
+      "required": [
+        "author_type",
+        "date",
+        "teacher_review"
+      ]
+    },
+    "diagram": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/diagram"
+    }
+  },
+  "required": [
+    "schema",
+    "review_status",
+    "author",
+    "topicId",
+    "name",
+    "hook",
+    "definition",
+    "why",
+    "when_to_use",
+    "steps",
+    "worked_example",
+    "pitfalls",
+    "practice",
+    "check"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "tier": {
+            "const": "core"
+          }
+        },
+        "required": [
+          "tier"
+        ]
+      },
+      "then": {
+        "required": [
+          "objective_coverage"
+        ]
+      }
+    }
+  ]
+}

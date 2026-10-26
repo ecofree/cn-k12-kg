@@ -20,6 +20,7 @@ sys.path.insert(0, str(ROOT))
 
 from cnkg import engine, store  # noqa: E402
 from cnkg.graph import VOLUME_ORDER, load_graph  # noqa: E402
+from cnkg.answers import display_answer, option_labels  # noqa: E402
 
 VERDICTS = {"c": "correct", "w": "wrong", "s": "skip"}
 
@@ -139,11 +140,11 @@ def _run_session(graph, targets, mode, answers, limit=None, show_answer=True):
             print("     注意：题库里没有同级或更易的题，本题被迫升难度，结论存疑。")
         print(f"     {question['prompt']}")
         if question.get("choices"):
-            for choice in question["choices"]:
-                print(f"       {choice['key']}. {choice['text']}")
-        print(f"     作答：{verdict}")
+            for label, _identity, text in option_labels(question):
+                print(f"       {label}. {text}")
+        print(f"     模拟作答：{verdict}")
         if show_answer:
-            print(f"     参考答案：{question['answer']}"
+            print(f"     参考答案：{display_answer(question)}"
                   f"    解析：{question.get('explanation', '')}")
         engine.apply_answer(graph, session, verdict)
 

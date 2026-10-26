@@ -1,0 +1,730 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cn-k12-kg.local/schema/v1/common.schema.json",
+  "title": "Shared structural definitions",
+  "description": "Version 1 authoring contract. JSON Schema is the structural authority; reference and mathematical checks remain separate. Existing records without an optional schema_version are v1; unknown explicit versions are rejected.",
+  "$defs": {
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "topicId": {
+      "type": "string",
+      "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
+    },
+    "questionId": {
+      "type": "string",
+      "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?-q[0-9]+$"
+    },
+    "resourceId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+    },
+    "standardId": {
+      "type": "string",
+      "pattern": "^(cms-2022:[1-4]\\.(NA|GE|SP|CP)\\.\\d{2}|cms-2017:H\\.(PR|FU|GA|PS|MM)\\.\\d{2})$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "stage": {
+      "type": "string",
+      "enum": [
+        "primary",
+        "junior",
+        "senior"
+      ]
+    },
+    "authorType": {
+      "type": "string",
+      "enum": [
+        "ai",
+        "human",
+        "mixed"
+      ]
+    },
+    "reviewStatus": {
+      "type": "string",
+      "enum": [
+        "skeleton",
+        "draft",
+        "reviewed",
+        "rejected"
+      ]
+    },
+    "topicType": {
+      "type": "string",
+      "enum": [
+        "conceptual",
+        "procedural",
+        "reasoning",
+        "application",
+        "modeling"
+      ]
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": [
+        "basic",
+        "standard",
+        "advanced"
+      ]
+    },
+    "questionType": {
+      "type": "string",
+      "enum": [
+        "choice",
+        "numeric",
+        "short"
+      ]
+    },
+    "choice": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ]
+    },
+    "diagram": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "src": {
+          "type": "string",
+          "pattern": "^/static/diagrams/[A-Za-z0-9][A-Za-z0-9_.-]*\\.svg$"
+        },
+        "alt": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "src",
+        "alt"
+      ]
+    },
+    "objective": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "id",
+        "statement"
+      ]
+    },
+    "workedExample": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 1
+        },
+        "answer": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "verify": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "answer_spec": {
+          "$ref": "https://cn-k12-kg.local/schema/v1/answer-spec.schema.json"
+        }
+      },
+      "required": [
+        "prompt",
+        "steps",
+        "answer"
+      ]
+    },
+    "rubricRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "criterion": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "points": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "example": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "objective_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "criterion",
+        "points",
+        "example"
+      ]
+    },
+    "teacherReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "approved",
+            "rejected"
+          ]
+        },
+        "reviewer_type": {
+          "type": "string",
+          "enum": [
+            "teacher",
+            "subject_expert"
+          ]
+        },
+        "reviewer_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "record_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "content_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "reviewed_at": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "approved"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "reviewer_type",
+              "reviewer_id",
+              "record_id",
+              "content_sha256"
+            ]
+          }
+        }
+      ]
+    },
+    "standardAlignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "standard_id": {
+          "type": "string",
+          "pattern": "^(cms-2022:[1-4]\\.(NA|GE|SP|CP)\\.\\d{2}|cms-2017:H\\.(PR|FU|GA|PS|MM)\\.\\d{2})$"
+        },
+        "relation": {
+          "type": "string",
+          "enum": [
+            "exact",
+            "partial",
+            "supports",
+            "supplementary",
+            "related",
+            "related_general_competence"
+          ]
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "standard_id",
+        "relation",
+        "note"
+      ]
+    },
+    "sourceObservationEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "method": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 0
+        },
+        "terms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 0
+        },
+        "pools": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "size": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "hits": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              }
+            },
+            "required": [
+              "size",
+              "hits"
+            ]
+          }
+        },
+        "total_hits": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "precise_hits": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "checked_at": {
+          "type": "string",
+          "format": "date"
+        },
+        "legacy_exam_scope": {
+          "type": "string",
+          "enum": [
+            "examined",
+            "source_gap",
+            "textbook_only"
+          ]
+        },
+        "legacy_exam_scope_evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "sources": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "minItems": 0
+            },
+            "terms": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "minItems": 0
+            },
+            "pools": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "size": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "hits": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "size",
+                  "hits"
+                ]
+              }
+            },
+            "total_hits": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "precise_hits": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "checked_at": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": [
+        "method",
+        "reason"
+      ]
+    },
+    "examScopeEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "not_established",
+            "explicit_scope"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "source_url": {
+          "type": "string",
+          "pattern": "^https?://[^\\s]+$"
+        },
+        "scope_reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "method",
+        "reason"
+      ]
+    },
+    "legacyExamScopeEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "method": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 0
+        },
+        "terms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 0
+        },
+        "pools": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "size": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "hits": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              }
+            },
+            "required": [
+              "size",
+              "hits"
+            ]
+          }
+        },
+        "total_hits": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "precise_hits": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "checked_at": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": []
+    },
+    "questionProvenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "origin_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "source_url": {
+          "type": "string",
+          "pattern": "^https?://[^\\s]+$"
+        },
+        "derived_from": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "origin_id",
+        "source_url"
+      ]
+    },
+    "crossSourceEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "corroborated",
+            "conflict",
+            "insufficient_provenance",
+            "no_independent_match"
+          ]
+        },
+        "item_fingerprint": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "answer_fingerprint": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "peer_question_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "origin_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "conflicting_answers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "answer": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "question_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "answer",
+              "question_ids"
+            ]
+          },
+          "minItems": 0
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "schema",
+        "status",
+        "item_fingerprint",
+        "answer_fingerprint",
+        "peer_question_ids",
+        "origin_ids",
+        "reason"
+      ]
+    },
+    "evidenceSignals": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "analysis_chars": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "has_steps": {
+          "type": "boolean"
+        },
+        "final_letter": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "final_match": {
+          "type": "boolean"
+        },
+        "arith_ok": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "arith_bad": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "recompute_hits_key": {
+          "type": "boolean"
+        },
+        "answer_in_analysis": {
+          "type": "boolean"
+        },
+        "cross_source": {
+          "type": "boolean"
+        },
+        "verify_consistent": {
+          "type": "boolean"
+        },
+        "cross_source_binding_valid": {
+          "type": "boolean"
+        }
+      },
+      "required": []
+    }
+  }
+}
