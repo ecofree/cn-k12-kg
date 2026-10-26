@@ -92,6 +92,11 @@ def build(items: list[dict], questions: list[dict]) -> tuple[list[dict], list[st
             "topicIds": [tid],
             "primaryTopicId": tid,
         }
+        # 计算正确仍可能只涉及目标的一个局部；原始来源显式记录准入限制。
+        for key in ("for_diagnosis", "diagnosis_eligible", "target_alignment", "alignment_note"):
+            if key in it:
+                q[key] = it[key]
+        q["difficulty_calibration"] = "design_label_pending_student_data"
         if qtype == "numeric":
             q["verify"] = it["verify"]
             try:

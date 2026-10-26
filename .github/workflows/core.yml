@@ -22,6 +22,13 @@ jobs:
         run: python tools/validate.py
       - name: Teaching objectives and independent task structure
         run: python tools/check_learning_units.py --json
+      - name: Practical activities and explicit coverage gaps
+        run: |
+          python tools/check_projects.py
+          python tools/coverage_report.py --check
+          python tools/review_packet.py
+          python tools/review_packet.py --check build/review-packet.json
+          python tools/pilot_report.py
       - name: Arithmetic checks (independent subject review is separate)
         run: python tools/verify_questions.py
       - name: Core regression suite (optional external bundles may be absent)

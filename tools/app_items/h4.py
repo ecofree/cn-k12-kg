@@ -119,6 +119,9 @@ ITEMS: list[dict] = [
     {
         "topic": "mh4.4.4",
         "difficulty": "standard",
+        "for_diagnosis": False,
+        "target_alignment": "component_practice_only",
+        "alignment_note": "只检查公式代入；没有提交归纳基础、假设和推导，不能据此判断数学归纳法掌握。",
         "prompt": "用数学归纳法证明前 n 个奇数之和等于 n 的平方。"
                   "当 n=6 时，这个和是多少？",
         "answer": "36",
@@ -129,6 +132,9 @@ ITEMS: list[dict] = [
     {
         "topic": "mh4.4.4",
         "difficulty": "advanced",
+        "for_diagnosis": False,
+        "target_alignment": "component_practice_only",
+        "alignment_note": "只识别新增项；完整归纳证明需要独立过程任务与量规复核。",
         "why": "归纳步骤只算新增的一项，不是把整个和重算",
         "prompt": "用数学归纳法证明 1 加 2 一直加到 n 等于 n 乘 (n+1) 除以 2。"
                   "从 n=9 推到 n=10 时，等式左边多出来的那一项是多少？",

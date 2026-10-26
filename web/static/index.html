@@ -10,7 +10,7 @@
 <body>
 <header class="topbar">
   <div class="brand"><span class="logo">kg</span><div><h1>K12 数学 · 学习与补学</h1><p class="sub" id="stats">加载中…</p></div></div>
-  <nav class="topnav"><a class="ghost" href="/static/review.html">内容复核</a><button class="ghost" id="restart" hidden>回到目录</button></nav>
+  <nav class="topnav"><button class="ghost" id="open-history">学习记录</button><a class="ghost" href="/static/review.html">内容复核</a><button class="ghost" id="restart" hidden>回到目录</button></nav>
 </header>
 <main>
   <section id="view-home" class="view">
@@ -18,6 +18,9 @@
     <button id="resume" class="ghost" hidden>继续上次作答</button>
     <h3>教学样板 · 含独立任务与过程评价</h3>
     <div id="learning-units" class="unit-grid"></div>
+    <h3>综合与实践 · 动手、记录与解释</h3>
+    <p class="muted">按任务说明完成作品，再依据量规获取反馈。</p>
+    <div id="learning-projects" class="unit-grid"></div>
     <div class="section-heading"><h2>按教材查找</h2><span class="muted">教材节点中可能包含多个细技能</span></div>
     <div class="search-row"><input id="search" type="search" placeholder="搜索知识点，如 分数 / 方程 / 方向" autocomplete="off" aria-label="搜索教材知识点"></div>
     <div id="chapters"></div>
@@ -33,6 +36,7 @@
   </section>
   <section id="view-quiz" class="view" hidden>
     <div class="quiz-head"><span class="pill" id="quiz-topic"></span><span class="muted" id="quiz-progress"></span></div>
+    <div class="card resume-notice" id="quiz-resume-notice" hidden role="status"><p id="quiz-resume-message"></p><div id="quiz-saved-answers"></div><button class="ghost" id="quiz-return">回到目录重新开始</button></div>
     <div class="card question">
       <p class="qmeta" id="quiz-meta"></p><div class="prompt" id="quiz-prompt"></div><div id="quiz-diagram"></div>
       <div id="quiz-rubric"></div><div id="choices" class="choices"></div>
@@ -53,6 +57,15 @@
     <div id="objective-result" class="card" hidden><h3>各目标的作答表现</h3><div id="objective-list"></div></div>
     <div class="card"><h3>回看作答与依据</h3><div id="answer-review"></div></div>
     <div id="result-actions" class="actions"></div><button class="ghost" id="again">返回目录</button>
+  </section>
+  <section id="view-project" class="view" hidden>
+    <p class="eyebrow">综合与实践</p><h2 id="project-title"></h2><p class="muted" id="project-status"></p>
+    <div id="project-content"></div><button class="ghost" id="project-return">返回目录</button>
+  </section>
+  <section id="view-history" class="view" hidden>
+    <h2>学习记录</h2><p class="muted">显示本浏览器的匿名作答记录。时间以北京时间显示；清除本网站的浏览器数据后将无法从本浏览器找回这些记录。</p>
+    <div class="actions"><button class="ghost" id="refresh-history">刷新记录</button><button class="ghost" id="export-history">导出本浏览器的学习记录</button></div>
+    <p class="muted" id="history-status" aria-live="polite"></p><div id="history-list"></div>
   </section>
   <p class="foot muted">内容仍为初稿，教师独立审核与真实学习效果验证尚未完成。结果用于学习反馈和补学线索。</p>
 </main>

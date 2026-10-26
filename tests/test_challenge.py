@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import json
+import copy
 import sys
 import unittest
 from pathlib import Path
@@ -92,14 +93,39 @@ class ChallengeLinkTest(unittest.TestCase):
 
     def test_sample_is_deterministic(self):
         index = challenge.index_by_strand(challenge.load())
-        for tid in list(self.links)[:20]:
+        for tid in [t for t, v in self.tier.items() if v["tier"] == "core"][:20]:
             t = self.topics[tid]
-            a = [x["id"] for x in challenge.sample_for(
+            a = [x["id"] for x in challenge.candidates_for(
                 t, self.tier[tid]["cluster"], index)]
-            b = [x["id"] for x in challenge.sample_for(
+            b = [x["id"] for x in challenge.candidates_for(
                 t, self.tier[tid]["cluster"], index)]
             with self.subTest(topic=tid):
                 self.assertEqual(a, b, "同一知识点两次抽样应一致")
+
+    def test_candidate_and_old_hash_link_do_not_authorize_recommendation(self):
+        topic = {"id": "T", "grade": 8, "name": "三角形", "mastery_criteria": ["解释角度关系"]}
+        item = {"id": "Q", "stage": "junior", "strand": "geo", "level": 1, "prompt": "题面"}
+        index = {("junior", "geo"): [item]}
+        row = {"topic_id": "T", "item_id": "Q", "target_objectives": ["解释角度关系"],
+               "rationale": "要求由角的关系列等式", "prerequisites": []}
+        data = {"alignments": [row], "quarantine": {}}
+        self.assertEqual(challenge.sample_for(topic, "j-triangle", index, alignment_data=data), [])
+        row["review"] = {"status": "approved", "reviewer_type": "teacher",
+                         "reviewer_id": "fixture-teacher", "record_id": "fixture-only",
+                         "content_sha256": challenge.alignment_content_sha256(topic, item, row)}
+        self.assertEqual(challenge.sample_for(topic, "j-triangle", index, alignment_data=data), [item])
+        row["review"]["reviewer_type"] = "ai"
+        self.assertEqual(challenge.sample_for(topic, "j-triangle", index, alignment_data=data), [])
+        row["review"]["reviewer_type"] = "teacher"
+        changed = copy.deepcopy(topic); changed["mastery_criteria"] = ["证明全等"]
+        self.assertEqual(challenge.sample_for(changed, "j-triangle", index, alignment_data=data), [])
+        data["quarantine"] = {"Q": {"reason": "缺图"}}
+        self.assertEqual(challenge.sample_for(topic, "j-triangle", index, alignment_data=data), [])
+
+    def test_known_missing_diagram_is_never_a_candidate(self):
+        topic = {"id": "T", "grade": 8}
+        item = {"id": "tal-j-256", "stage": "junior", "strand": "geo", "level": 1}
+        self.assertEqual(challenge.candidates_for(topic, "j-triangle", {("junior", "geo"): [item]}), [])
 
 
 if __name__ == "__main__":

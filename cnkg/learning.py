@@ -352,7 +352,8 @@ def public_unit(unit: dict) -> dict:
                               for ex in unit["worked_examples"]]
     out["teacher_review"] = {"status": unit.get("teacher_review", {}).get("status", "pending")}
     out["content_sha256"] = unit_content_sha256(unit)
-    for key in ("coverage_kind", "navigation_note", "prerequisite_topic_ids"):
+    for key in ("coverage_kind", "navigation_note", "prerequisite_topic_ids",
+                "standard_alignment", "coverage_note"):
         if key in unit:
             out[key] = copy.deepcopy(unit[key])
     if unit.get("diagram"):

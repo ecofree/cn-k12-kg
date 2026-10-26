@@ -122,24 +122,31 @@ ITEMS: list[dict] = [
     {
         "topic": "mh2.9.3",
         "difficulty": "standard",
-        "prompt": "BMI 的计算方法是体重（千克）除以身高（米）的平方。"
-                  "某人身高 1.6 米、体重 64 千克，他的 BMI 是多少？",
+        "for_diagnosis": False,
+        "target_alignment": "component_practice_only",
+        "alignment_note": "只计算单个指标，未评价调查设计、样本选择、数据解释与研究结论。",
+        "prompt": "统计案例使用指标 I=m/h²，其中 m 是体重的千克数，h 是身高的米数。"
+                  "一条记录为 h=1.6、m=64，代入公式得到 I 为多少？",
         "answer": "25",
         "verify": "64/(1.6*1.6)",
-        "explanation": "先算身高平方：1.6*1.6=2.56，再算 BMI："
+        "explanation": "先算 h 的平方：1.6*1.6=2.56，再按题目给定的公式计算："
                        "64/(1.6*1.6)=25。"
-                       "25 正好是超重的临界值，这个结果需要提醒本人注意。",
+                       "这里的结论只是这条数据对应的指标值；调查研究还需要样本和数据解释。",
     },
     {
         "topic": "mh2.9.3",
         "difficulty": "advanced",
-        "why": "BMI 是体重除以身高平方，反求体重要乘回去",
-        "prompt": "BMI 达到 24 就算超重。某人身高 1.5 米，体重超过多少千克就属于超重？",
+        "for_diagnosis": False,
+        "target_alignment": "component_practice_only",
+        "alignment_note": "只反解给定公式，不能代表完成统计调查研究。",
+        "why": "根据给定指标公式反求原始量，要先确定身高单位并整理等式",
+        "prompt": "在统计案例的公式 I=m/h² 中，m 是体重的千克数，h 是身高的米数。"
+                  "若只研究 I=24、h=1.5 这一组数学条件，m 等于多少？只填数值。",
         "answer": "54",
         "verify": "24*1.5*1.5",
-        "explanation": "把 BMI 公式反过来：体重等于 BMI 乘身高平方。"
-                       "24*1.5*1.5=54 千克。"
-                       "1.5 的平方是 2.25，所以体重上限被压得比较低。",
+        "explanation": "由 I=m/h² 得 m=I×h²。"
+                       "代入得到 24*1.5*1.5=54，单位为千克。"
+                       "该结果满足题设等式，不是对现实个体作健康分类。",
     },
     # ------------------------------------------------ 10.1 概率
     {
@@ -271,6 +278,9 @@ ITEMS: list[dict] = [
     {
         "topic": "mh2.10.3.2",
         "difficulty": "standard",
+        "for_diagnosis": False,
+        "target_alignment": "component_practice_only",
+        "alignment_note": "只计算理论期望次数，没有设计、运行或分析随机模拟。",
         "prompt": "用随机数模拟「从 4 个选项中等可能选 1 个」，共模拟 100 次。"
                   "按理论计算，某个特定选项大约会被选中多少次？",
         "answer": "25",
@@ -282,6 +292,9 @@ ITEMS: list[dict] = [
     {
         "topic": "mh2.10.3.2",
         "difficulty": "advanced",
+        "for_diagnosis": False,
+        "target_alignment": "component_practice_only",
+        "alignment_note": "随机数映射已在题干给出，未独立评价模拟方案与结果波动。",
         "why": "模拟要把概率映射成数字个数，3 个数字对应 0.3",
         "prompt": "用 0 到 9 的随机整数模拟命中率 0.3：规定出现 0、1、2 表示命中。"
                   "产生 200 个随机数，命中大约多少次？",

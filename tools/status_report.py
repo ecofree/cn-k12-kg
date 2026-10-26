@@ -250,7 +250,7 @@ def main(argv=None):
     print(f"题目 {q['total']}：{q['by_type']}；难度 {q['by_difficulty']}")
     print(f"  配有机器验算表达式 {q['verifiable']}（{percent_text(q['verifiable_rate'])}），"
           f"每点 {q['min_per_topic']}–{q['max_per_topic']} 道，均 {q['avg_per_topic']}")
-    print(f"复核：已审 {r['reviewed']}（pass {r['pass']} / fail {r['fail']} / skip {r['skip']}），"
+    print(f"既有复核记录： {r['reviewed']}（pass {r['pass']} / fail {r['fail']} / skip {r['skip']}），"
           f"覆盖 {percent_text(r['coverage'])}，从未审过 {r['never_reviewed']}，教师审核 {r['teacher_reviewed']}")
     print(f"  {r['scope']}")
     if r.get("fixed_pending_recheck"):

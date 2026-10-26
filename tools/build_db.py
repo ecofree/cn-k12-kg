@@ -50,7 +50,9 @@ def write_manifest(counts: dict, *, include_external=True) -> pathlib.Path:
     for source in registry["content_sources"]:
         sources.append({"name": "data/" + source["path"],
                         "sha256": sha256(store.DATA / source["path"])})
-    code_inputs = {"tools/rebuild_data.py"}
+    code_inputs = {"tools/rebuild_data.py", "cnkg/engine.py", "cnkg/graph.py",
+                   "cnkg/evidence.py", "cnkg/verify.py", "cnkg/learning.py",
+                   "cnkg/projects.py", "cnkg/challenge.py", "web/server.py"}
     for generator in registry.get("question_generators", []):
         code_inputs.add(generator["entrypoint"])
         code_inputs.update(generator["inputs"])
@@ -58,6 +60,18 @@ def write_manifest(counts: dict, *, include_external=True) -> pathlib.Path:
                    for name in sorted(code_inputs))
     versions = sorted({t.get("curriculum_version", "unknown")
                        for t in read_json(store.DATA / "topics.json")})
+    # 教学材料、图形与质量登记也参与发布指纹；匿名学习库不属于发布产物。
+    asset_paths = set()
+    for directory in ("learning_units", "projects", "teach"):
+        asset_paths.update((store.DATA / directory).rglob("*.json"))
+    for name in ("topic_tiers.json", "curriculum_versions.json", "coverage_backlog.json",
+                 "challenge/alignments.json", "challenge/links.json"):
+        path = store.DATA / name
+        if path.is_file():
+            asset_paths.add(path)
+    asset_paths.update((ROOT / "web/static/diagrams").glob("*.svg"))
+    learning_assets = [{"name": str(path.relative_to(ROOT)), "sha256": sha256(path)}
+                       for path in sorted(asset_paths)]
     manifest = {
         "schema_version": store.SCHEMA_VERSION,
         "curriculum_version": versions[0] if len(versions) == 1 else "mixed",
@@ -68,6 +82,7 @@ def write_manifest(counts: dict, *, include_external=True) -> pathlib.Path:
         "counts": counts,
         "files": files,
         "sources": sources,
+        "learning_assets": learning_assets,
         "quality_scope": "来源与结构一致性；算式核验和独立学科审核是不同门禁",
     }
     # An optional fixed timestamp supports reproducible release archives.

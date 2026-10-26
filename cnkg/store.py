@@ -119,6 +119,15 @@ def build(db_path: pathlib.Path | str = DEFAULT_DB, include_external: bool = Tru
     db_path = pathlib.Path(db_path)
     db_path.parent.mkdir(parents=True, exist_ok=True)
     if db_path.exists():
+        # 即便误把 --db 指向学习库，也不能删除不可重建的学习证据。
+        try:
+            with sqlite3.connect(db_path.resolve().as_uri() + "?mode=ro", uri=True) as existing:
+                tables = {row[0] for row in existing.execute(
+                    "SELECT name FROM sqlite_master WHERE type='table'")}
+        except sqlite3.DatabaseError as exc:
+            raise ValueError("目标不是可识别的内容数据库，拒绝覆盖") from exc
+        if {"sessions", "events"} & tables:
+            raise ValueError("目标包含学习记录，不能作为内容库重建")
         db_path.unlink()
 
     topics = read_json("topics.json")

@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 import app_items  # noqa: E402
 import write_application_items as writer  # noqa: E402
 from cnkg.verify import compare, compare_short, evaluate  # noqa: E402
+from cnkg.evidence import question_policy  # noqa: E402
 
 
 REPAIRED_IDS = {
@@ -35,6 +36,23 @@ class ContentRegressionTest(unittest.TestCase):
     def setUpClass(cls):
         cls.questions = json.loads((ROOT / "data/questions.json").read_text())
         cls.bank = {q["id"]: q for q in cls.questions}
+
+    def test_component_calculation_does_not_certify_proof_inquiry_or_simulation(self):
+        for topic in ("mh4.4.4", "mh2.9.3", "mh2.10.3.2"):
+            for number in (101, 102):
+                question = self.bank[f"{topic}-q{number}"]
+                policy = question_policy(question)
+                self.assertFalse(policy["diagnosis_eligible"])
+                self.assertTrue(policy["practice_eligible"])
+                self.assertEqual(question["target_alignment"], "component_practice_only")
+
+    def test_advanced_clock_problem_requires_relative_motion_and_exact_fraction(self):
+        question = self.bank["m7a.6.3.1-q102"]
+        minutes = 90 / (6 - 0.5)
+        self.assertTrue(compare(question["answer"], minutes))
+        self.assertAlmostEqual(6 * minutes, 90 + 0.5 * minutes)
+        self.assertGreater(minutes, 0)
+        self.assertLess(minutes, 60)
 
     def test_wrong_bearing_is_rejected_and_equivalent_bearing_is_accepted(self):
         q = self.bank["m6a.1.2-q102"]

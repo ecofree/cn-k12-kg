@@ -1,16 +1,8 @@
-"""挑战层：竞赛题的读取、筛选与抽样。
+"""竞赛资料候选检索与目标关联准入。
 
-## 定位
-
-挑战层独立于诊断池：
-
-- `for_diagnosis: false` —— 不进 `Graph.bank`，答错不影响判薄弱。
-- 只在讲完一个核心点后作为「看看竞赛怎么考」出现，最多 3–4 道。
-- 挂靠单位是**板块**（calc/word/number/count/geo/logic/formal），
-  不是课时级知识点。竞赛体系与本项目课标是两套分类，硬映射会挂错。
-
-抽样按难度做梯度（入口 / 进阶 / 压轴各一道），而不是随机三连——
-随机抽容易连出三道压轴，把"见识"变成"劝退"。
+板块、年级和设计难度只能产生待复核候选。课后推荐必须有绑定题目与
+教材目标版本的独立学科审核；没有审核时返回空列表，不用散列匹配充数。
+竞赛资料始终不进入诊断池，缺图题即使有答案也必须隔离。
 """
 from __future__ import annotations
 
@@ -97,12 +89,14 @@ def _stable_offset(text: str, mod: int) -> int:
     return int(hashlib.md5(text.encode("utf-8")).hexdigest()[:8], 16) % mod
 
 
-def sample_for(topic: dict, cluster: str, index: dict, size: int = SAMPLE_SIZE) -> list[dict]:
+def candidates_for(topic: dict, cluster: str, index: dict, size: int = SAMPLE_SIZE) -> list[dict]:
     from .tiers import stage_of
 
     stage = stage_of(topic)
     strand = CLUSTER_STRAND.get(cluster, "formal" if stage != "primary" else "logic")
-    pool = [x for x in index.get((stage, strand), []) if _grade_ok(x, topic.get("grade"))]
+    quarantine = set(load_alignments().get("quarantine", {}))
+    pool = [x for x in index.get((stage, strand), [])
+            if _grade_ok(x, topic.get("grade")) and x["id"] not in quarantine]
     if not pool:
         return []
 
@@ -136,3 +130,48 @@ def sample_for(topic: dict, cluster: str, index: dict, size: int = SAMPLE_SIZE) 
             picked.append(it)
             used.add(it["id"])
     return picked
+
+
+def load_alignments(path=None) -> dict:
+    path = pathlib.Path(path or DATA_DIR / "challenge" / "alignments.json")
+    if not path.is_file():
+        return {"schema": 1, "alignments": [], "quarantine": {}}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def alignment_content_sha256(topic: dict, item: dict, alignment: dict) -> str:
+    """绑定题目正文、目标原文与对齐理由；复核元数据不进入自己的哈希。"""
+    body = {
+        "topic": {k: topic.get(k) for k in ("id", "name", "description", "mastery_criteria")},
+        "item": {k: v for k, v in item.items() if k not in ("review_status", "quality_review")},
+        "alignment": {k: alignment.get(k) for k in
+                      ("topic_id", "item_id", "target_objectives", "rationale", "prerequisites")},
+    }
+    return hashlib.sha256(json.dumps(body, ensure_ascii=False, sort_keys=True,
+                                    separators=(",", ":")).encode("utf-8")).hexdigest()
+
+
+def sample_for(topic: dict, cluster: str, index: dict, size: int = SAMPLE_SIZE,
+               *, alignment_data=None) -> list[dict]:
+    """只返回通过内容版本绑定审核的目标关联；候选检索另用 candidates_for。"""
+    data = alignment_data if alignment_data is not None else load_alignments()
+    items = {item["id"]: item for values in index.values() for item in values}
+    selected = []
+    for row in data.get("alignments", []):
+        if row.get("topic_id") != topic["id"]:
+            continue
+        item = items.get(row.get("item_id"))
+        if not item or item["id"] in data.get("quarantine", {}):
+            continue
+        review = row.get("review", {})
+        objectives = row.get("target_objectives", [])
+        valid = (isinstance(objectives, list) and bool(objectives)
+                 and all(x in topic.get("mastery_criteria", []) for x in objectives)
+                 and bool(row.get("rationale")) and isinstance(row.get("prerequisites"), list)
+                 and review.get("status") == "approved"
+                 and review.get("reviewer_type") in ("teacher", "subject_expert")
+                 and bool(review.get("reviewer_id")) and bool(review.get("record_id"))
+                 and review.get("content_sha256") == alignment_content_sha256(topic, item, row))
+        if valid and _grade_ok(item, topic.get("grade")) and item not in selected:
+            selected.append(item)
+    return sorted(selected, key=lambda x: (x["level"], x["id"]))[:size]
