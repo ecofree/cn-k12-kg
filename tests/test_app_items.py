@@ -90,30 +90,28 @@ class BatchMachineCheckTest(unittest.TestCase):
 
 
 class CoverageTest(unittest.TestCase):
-    """小学 + 初中（1–9 年级）必须是「全覆盖」：讲了就得能练。
+    """全部核心点必须是「全覆盖」：讲了就得能练。
 
     这不是凑数指标——有讲解卡却没有一道 standard/advanced 的点，
     学生学完只能做基础题，等于没练（用户原话「掌握如何运用」）。
-    高中还没补完，所以只对 1–9 年级设硬门槛；高中缺口由
-    `tools/write_application_items.py` 的汇总输出盯。
+    309 个核心点现在全部有题，所以不再分学段放水。
     """
 
-    def test_all_primary_and_junior_core_points_covered(self):
+    def test_all_core_points_covered(self):
         covered = {it["topic"] for it in ITEMS}
-        want = {tid for tid, info in TIERS.items()
-                if info.get("tier") == "core" and tid[:2] in
-                {"m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9"}}
+        want = {tid for tid, info in TIERS.items() if info.get("tier") == "core"}
         missing = sorted(want - covered)
         self.assertEqual(missing, [], f"这些核心点还没有应用题：{missing}")
 
-    def test_junior_points_have_standard_and_advanced(self):
-        """初中（7–9 年级）每点都要两种难度：standard 会用、advanced 会换一步想。"""
+    def test_points_above_primary_have_standard_and_advanced(self):
+        """初中与高中每点都要两种难度：standard 会用、advanced 会换一步想。"""
         by_topic: dict[str, set[str]] = collections.defaultdict(set)
         for it in ITEMS:
             by_topic[it["topic"]].add(it.get("difficulty", "standard"))
-        thin = [t for t in by_topic if t[:2] in {"m7", "m8", "m9"}
-                and by_topic[t] != {"standard", "advanced"}]
-        self.assertEqual(sorted(thin), [], "初中每点应各有一道 standard 与 advanced")
+        target = [t for t in by_topic
+                  if t[:2] in {"m7", "m8", "m9"} or t.startswith("mh")]
+        thin = [t for t in target if by_topic[t] != {"standard", "advanced"}]
+        self.assertEqual(sorted(thin), [], "初中与高中每点应各有一道 standard 与 advanced")
 
     def test_primary_points_are_not_over_drilled(self):
         """小学基础点按用户要求「不堆题」：每点至少 2 道，但**不强制 advanced**。
@@ -136,6 +134,11 @@ class BatchPlacementTest(unittest.TestCase):
             if name.startswith("primary"):
                 bad = [it["topic"] for it in batch.ITEMS
                        if not it["topic"].startswith("m")]
+            elif name.startswith("h"):
+                # 高中模块名形如 h1a / h5b，对应知识点前缀 mh1 / mh5
+                book = "m" + name[:2]
+                bad = [it["topic"] for it in batch.ITEMS
+                       if not it["topic"].startswith(book)]
             else:
                 book = "m" + name[1:]
                 bad = [it["topic"] for it in batch.ITEMS
