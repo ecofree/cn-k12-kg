@@ -79,7 +79,7 @@ def build(items: list[dict], questions: list[dict]) -> tuple[list[dict], list[st
             "difficulty": it.get("difficulty", "standard"),
             "type": qtype,
             "prompt": it["prompt"],
-            "choices": [],
+            "choices": it.get("choices", []) if qtype == "choice" else [],
             "answer": it["answer"],
             "explanation": it["explanation"],
             "difficulty_basis": (
@@ -93,7 +93,7 @@ def build(items: list[dict], questions: list[dict]) -> tuple[list[dict], list[st
             "primaryTopicId": tid,
         }
         # 计算正确仍可能只涉及目标的一个局部；原始来源显式记录准入限制。
-        for key in ("for_diagnosis", "diagnosis_eligible", "target_alignment", "alignment_note"):
+        for key in ("for_diagnosis", "diagnosis_eligible", "target_alignment", "alignment_note", "tested_criterion_indices"):
             if key in it:
                 q[key] = it[key]
         q["difficulty_calibration"] = "design_label_pending_student_data"
@@ -107,8 +107,19 @@ def build(items: list[dict], questions: list[dict]) -> tuple[list[dict], list[st
             if not compare(it["answer"], val):
                 errors.append(f"#{i} {tid} verify={val} 与答案 {it['answer']} 不一致")
                 continue
-        else:
+        elif qtype == "short":
             q["accept"] = it.get("accept") or []
+        elif qtype == "choice":
+            choices = q["choices"]
+            ids = [c.get("id") for c in choices]
+            texts = [c.get("text", "").strip() for c in choices]
+            if (len(choices) < 2 or len(ids) != len(set(ids)) or not all(ids)
+                    or not all(texts) or len(texts) != len(set(texts)) or q["answer"] not in ids):
+                errors.append(f"#{i} {tid} 选择题选项或答案非法")
+                continue
+        else:
+            errors.append(f"#{i} {tid} 不支持的题型：{qtype}")
+            continue
 
         norm = re.sub(r"\s+", "", q["prompt"])
         if norm in existing:
@@ -141,6 +152,11 @@ def main() -> int:
             print("--only 后面要跟模块名，例如 --only j8a")
             return 2
         dry = True
+    if not dry:
+        # Published data belongs to the full source build, including choice
+        # transforms.  This also works without pre-existing generated outputs.
+        from tools import rebuild_data
+        return rebuild_data.main(["--data-dir", str(DATA), "--write"])
     topics = {t["id"]: t for t in json.loads((DATA / "topics.json").read_text(encoding="utf-8"))}
     tiers = json.loads((DATA / "topic_tiers.json").read_text(encoding="utf-8"))["topics"]
     path = DATA / "questions.json"
@@ -185,14 +201,7 @@ def main() -> int:
     if thin:
         print(f"警告：这些点只有 1 道应用题：{thin}")
 
-    if dry:
-        print("（dry-run，未写文件）")
-        return 0
-
-    path.write_text(
-        json.dumps(kept + new, ensure_ascii=False, indent=1) + "\n",
-        encoding="utf-8")
-    print(f"已写入 {path}（{len(kept)} → {len(kept) + len(new)} 道）")
+    print("（dry-run，未写文件）")
     return 0
 
 

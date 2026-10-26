@@ -78,7 +78,7 @@ class BatchMachineCheckTest(unittest.TestCase):
         """数值题要 verified（解析末步可复算），短答至少 explained。"""
         for it in ITEMS:
             qtype = it.get("type", "numeric")
-            q = {"type": qtype, "answer": it["answer"], "choices": [],
+            q = {"type": qtype, "answer": it["answer"], "choices": it.get("choices", []),
                  "prompt": it["prompt"], "explanation": it["explanation"]}
             if qtype == "numeric":
                 q["verify"] = it["verify"]

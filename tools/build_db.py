@@ -52,17 +52,20 @@ def write_manifest(counts: dict, *, include_external=True) -> pathlib.Path:
                         "sha256": sha256(store.DATA / source["path"])})
     code_inputs = {"tools/rebuild_data.py", "cnkg/engine.py", "cnkg/graph.py",
                    "cnkg/evidence.py", "cnkg/verify.py", "cnkg/learning.py",
-                   "cnkg/projects.py", "cnkg/challenge.py", "web/server.py"}
-    for generator in registry.get("question_generators", []):
-        code_inputs.add(generator["entrypoint"])
-        code_inputs.update(generator["inputs"])
+                   "cnkg/projects.py", "cnkg/challenge.py", "web/server.py",
+                   "tools/curriculum_compare.py", "tools/teach_cards.py", "tools/coverage_report.py",
+                   "tools/release_check.py", "web/static/index.html", "web/static/app.js",
+                   "web/static/style.css", "web/static/math.js"}
+    for build_step in registry.get("question_generators", []) + registry.get("question_transforms", []):
+        code_inputs.add(build_step["entrypoint"])
+        code_inputs.update(build_step["inputs"])
     sources.extend({"name": name, "sha256": sha256(ROOT / name)}
                    for name in sorted(code_inputs))
     versions = sorted({t.get("curriculum_version", "unknown")
                        for t in read_json(store.DATA / "topics.json")})
     # 教学材料、图形与质量登记也参与发布指纹；匿名学习库不属于发布产物。
     asset_paths = set()
-    for directory in ("learning_units", "projects", "teach"):
+    for directory in ("learning_units", "projects", "teach", "curriculum_comparisons"):
         asset_paths.update((store.DATA / directory).rglob("*.json"))
     for name in ("topic_tiers.json", "curriculum_versions.json", "coverage_backlog.json",
                  "challenge/alignments.json", "challenge/links.json"):

@@ -2,12 +2,11 @@
 
 中国 K12 数学知识图谱（自建数据）+ 可自动验算的题库 + 先修诊断引擎。
 
-**当前状态：23 个册次、477 个教材导航节点；另有 10 个细目标教学单元、76 道分阶段任务和 3 个实践活动。内容仍为 draft。** 目录覆盖不等于完整教学、细技能评价或教师审核。整改进度及实际验收见 [三批整改记录](docs/improvement-batches-2026-10-26.md)。
+**当前状态：23个册次、477个教材导航节点；342个核心点均有完整讲解，684项已登记核心目标均有专属自检；另有10个细目标教学单元、76道分阶段任务和18项综合实践。既定内容与工程缺口已清零。** 内容保留AI作者初稿状态，教师独立审核与真实学生教学效果验证按用户要求暂缓。交付及验收见 [项目完成记录](docs/completion-2026-10-26.md)。
 
 这个项目**不是** `cn-math-taxonomy` 的复制品，也没有使用它的任何数据。只借鉴了字段结构和"2 题判定 + 先修回溯"的算法思路。原因见 [docs/decisions.md](docs/decisions.md)。
 
-> **现状与后期计划**见 [`docs/roadmap.md`](docs/roadmap.md)：实测数字、能承诺的边界、M1—M5 分阶段计划与验收条件。
-> 所有数字由 `python tools/status_report.py` 生成，可自己跑一遍核对。
+> **当前状态与维护范围**见 [`docs/roadmap.md`](docs/roadmap.md)。题库状态可运行 `tools/status_report.py` 核对；材料覆盖与完成缺口由 `tools/coverage_report.py` 核对。
 
 ## 覆盖范围
 
@@ -24,7 +23,7 @@
 
 **靠不住的是“看起来细”的目录**：网上流传的“四下新教材课时”大多是 2012 版内容（四则运算、观察物体二、运算定律），与教育部审定 2024 版的正式单元（除数是两位数的除法、混合运算和运算律、三角形的认识…）完全不同。这类资料一律不采信，宁可停在单元级。
 
-**课程版本不是一套**：小学、初中是 2024 版新课标教材，高中仍是 2019 版（课标 2017 版 2020 修订）。每条知识点都带 `curriculum_version`，校验器会比对所在册次。
+**课程版本不是一套**：小学、初中是 2024 版新课标教材，高中仍是 2019 版（原始映射基线为课标2017版2020修订）。每条知识点都带教材版次字段 `curriculum_version`，校验器会比对所在册次。2025课标修订对照另存 `data/curriculum_comparisons/`，与教材版次分开。
 
 ## 它解决什么问题
 
@@ -41,7 +40,7 @@
 题意正确、条件成立、目标对齐、教师独立审核及真实迁移表现都需要各自的证据，
 不能由 verify 算式一致或题量达标替代。
 
-> 交接给他人或外部协作者时，先看 [`docs/handoff.md`](docs/handoff.md)：当前状态、我能做的、卡住的三件事、验收标准。
+> 交接给他人时，先看 [`docs/handoff.md`](docs/handoff.md)：运行方式、编辑入口、学习数据与验收方法。
 > 需要外部补的数据用 [`inbox/README.md`](inbox/README.md) 的模板对接收回。
 
 ## 快速开始
@@ -50,10 +49,8 @@
 git clone https://github.com/ecofree/cn-k12-kg.git
 cd cn-k12-kg
 
-python tools/validate.py           # 结构、环、目录覆盖、题库可验算性
-python tools/build_db.py           # 建 SQLite + 生成带 SHA-256 的 manifest
-python tools/verify_questions.py   # 题库答案核验
-python -m unittest discover -s tests -v
+python tools/release_check.py      # 全部必需验收 + SQLite构建 + 哈希清单
+# 报告：build/regression_report.md；详细日志：build/release-check/
 
 python tools/simulate.py --students 500      # 用虚拟学生校准判定规则（不依赖外部数据）
 ```
@@ -86,11 +83,11 @@ python tools/build_outline.py                  # 2. 整理成 outline.json（目
 python tools/scaffold.py --dry-run             # 3. 看要补哪些骨架点
 python tools/scaffold.py                       #    幂等补点
 python tools/scaffold.py --sync                #    目录改了章节名时，同步到骨架点
-python tools/apply_content.py --file data/content/bx1.json   # 4. 合并某一册的内容
-python tools/validate.py                       # 5. 校验
+python tools/rebuild_data.py --write           # 4. 按登记源重建全部字段
+python tools/release_check.py                  # 5. 全量验收
 ```
 
-每一册的内容单独写在 `data/content/<册>.json` 里（知识点补丁 + 先修边 + 题目），再由 `apply_content.py` 幂等合并进三个主数据文件。这样一册内容可以单独 review、单独回滚，不会和别的册打架。
+每一册的内容写在 `data/content_sources.json` 显式登记的源文件中（知识点描述、先修边、题目）；应用题由登记的生成器补充，最后统一执行选项显示顺序转换。`rebuild_data.py` 生成三个主数据文件，并检查全部字段。历史补丁只作追溯，未登记的文件不能参与构建。
 
 扩一册的顺序固定为：**目录 → 骨架点 → 描述与掌握标准 → 先修边 → 题目 → 校验**。
 
@@ -101,7 +98,7 @@ python web/server.py            # http://127.0.0.1:8765
 ```
 
 - 首页提供细目标教学单元与教材目录搜索；每个教材点可分别进入讲解、练习与检查。
-- 讲解包含直观、理由、适用条件、反例与分步例题；速查参考与完整讲解分别标注。
+- 核心讲解包含直观、理由、适用条件、反例与分步例题，以及逐项目标自检、参考过程和检查点；速查参考与完整讲解分别标注。
 - 判题与会话状态由服务端维护；题面不下发 `answer`/`verify`/`explanation`。
 - 练习即时反馈；检查、独立迁移和复测在整组完成后展示解析。过程题按量规等待复核，不自动判定掌握。
 - 结果页区分补学线索、不稳、已有先修证据的起点和证据不足；可回看讲解并换题检查。
@@ -116,17 +113,22 @@ python web/server.py            # http://127.0.0.1:8765
 
 ```
 data/
-  content/           按册撰写的内容（bx1 = 必修一，bx2 = 必修二），apply_content.py 的输入
+  content/           显式登记的23册内容源（bx1 = 必修一，bx2 = 必修二）
+  content_sources.json 来源、生成器及选项顺序转换的构建登记
   topics.json        知识点（477 个，全部 draft）
   dependencies.json  先修边（589 条，含 hard/soft 与理由）
-  questions.json     自有题库（2873 题：数值 1884 / 短答 102 / 选择 887；数值题强制带 verify）
-  questions_ext.json 外部题库（23313 题：可诊断 9005，其余按准入等级留在库内）
+  questions.json     自有题库（3568题：数值2257／短答161／选择1150；数值题强制带verify）
+  questions_ext.json 可选外部题库，不随源码包分发，运行时按实际文件和证据策略统计
   stage_policy.json  三学段独立策略；顶部 `_口径` 定义三套统计口径，改动前先读
   standards.json     课标条款（78 条，含有定位的原文摘录与项目摘要；AI核对，待教师确认）
   outline.json       教材目录（23 册 129 章/单元 477 叶子 + 课时）
   outline.draft.json 抓取原始结果（build_outline.py 的输入）
   outline.override.json 人工核对的补充目录（8 册），优先于 draft
-  learning_units/    细目标教学单元：解释、独立任务、过程量规及版本指纹
+  teach/             350张完整卡（342核心+8工具）、50张速查参考
+  learning_units/    10个细目标教学单元：解释、独立任务、过程量规及版本指纹
+  projects/          原目录18项综合实践材料、步骤与量规
+  curriculum_versions.json 旧基线与2025修订版的登记状态
+  curriculum_comparisons/ 78项逐条对照、来源哈希、新旧定位及材料跟进
   manifest.json      计数 + 每个文件的 SHA-256
 cnkg/
   graph.py           图结构：祖先集合、拓扑排序、课程顺序
@@ -149,7 +151,9 @@ tools/
   ladder_experiment.py 难度阶梯实验：多种子对照，判断补 standard 题值不值
   export_inbox.py    生成对外交接的 CSV 模板（inbox/）
   ingest.py          校验并吸收外部填好的 CSV
-  balance_options.py 打散选择题答案键（注意：分布均衡不是质量指标，见 D19）
+  balance_options.py 确定性排列选项显示位置，保留稳定选项ID及正确内容（见D19）
+  rebuild_data.py    从登记源重建，检查全部字段一致性
+  release_check.py   一次运行来源、内容、算术、回归及发布验收
   repair_answer_keys.py 答案键重建：按候选约束生成待确认清单
   apply_answer_key_fix.py 写回重建后的答案键并同步内容源
   ingest_bundle.py   接收外部回传包（证据分层，不改诊断数据）
@@ -199,48 +203,43 @@ id 是唯一主键，跨学段重名不会冲突——按 name 做 join 必错�
 1. **粒度不齐**：小学 5 册到课时，二下/四上/五上/六上到节或单元，四下/五下/六下只到单元；初中九下到节，其余到小节。
 2. **单元级点的内部顺序缺失**：如四下的「三角形」把特性、分类、内角和合在一个点里，无法定位到底哪一类不会。
 3. **数据是 AI 生成初稿**（`review_status: draft`），先修边和题目未经一线教师审核。
-4. **课标与摘要必须区分**：78 条均有 `verbatim_text` 原文摘录与页码定位，`verbatim_checked_by=ai`；`summary` 仍是作者概述。2025 日常修订版需单独登记与核对，不能把旧映射自动认定为新版一致。
+4. **课标与摘要必须区分**：78条保留旧版 `verbatim_text` 摘录和定位，`summary` 仍是作者概述。2025修订已取得全文并完成这78项摘录的逐条AI对照及受影响材料修订；该范围不等于整部课标所有文字已做旧新认证。
 5. **domain/theme/type 是关键词启发式**：骨架点的领域、主题、类型由章名/节名推断，填内容时必须复核。
 6. **课时只对齐了初中**：小学、高中没有官方课时数据，字段留空；七下、八下各差 3 课时，记在 `allocated_hours` 未硬凑。
 
-## 改进顺序和质量边界
+## 完成状态与质量边界
 
-实施顺序为正确性与发布门槛、教学样板与学生流程、覆盖扩展与实证基础。
-三批工程与内容整改已完成，具体变更及验收见 [三批整改记录](docs/improvement-batches-2026-10-26.md)。
+前三批依次修正来源与判定、教学与学生流程、覆盖统计与版本治理。本次继续补齐了当时列出的全部制作缺口：
 
-开始整改时，上游有小学 46 张、七上 22 张核心讲解卡，另有 8 张旧工具卡；
-初中还缺 97 张、高中还缺 144 张核心讲解卡。638 道应用题的 topic 覆盖，
-只表示存在题目，不证明实际测量了完整目标，也没有替代教师审核。
+| 验收范围 | 当前状态 |
+| --- | --- |
+| 核心完整讲解 | 342/342；274张缺失卡已补齐，旧卡逐目标增强 |
+| 已登记核心目标材料 | 684/684，每项目标有具体解释、自检、参考过程与可观察检查点 |
+| 练习数量 | 各核心点达到小学4／初中6／高中8道可用练习；工具点达到其登记目标 |
+| 应用任务 | 原33个待补核心点已补66道任务；当前待办0 |
+| 综合实践 | 原目录18/18都有具体活动材料；原15项待开发已完成 |
+| 课标修订对照 | 原78项摘录全部完成2025版AI对照，相关内容变化已落实 |
 
-分层修正后现为 342 个 core 与 135 个 tool；既有完整卡覆盖 68/342 个 core，
-仍有 274 个完整卡缺口，33 个新增 core 的应用任务待开发。10 个新单元覆盖
-30 个细目标，3 个实践活动另有 9 个目标；它们不自动填平整门课程的缺口。
-原目录 18 项综合实践中 15 项仍待开发。
+总共保留350张完整卡、50张速查卡、10个细目标教学单元和76道分阶段任务。
+684是已登记核心目标的分母，不用它代表整部课程所有可拆分的细技能。数值题和有限短答可自动检查；
+证明、探究与建模过程采用开放自检及量规，不以一个数值答案宣布整个目标已掌握。
 
-可随当前内容重算各口径，未知的全课程细技能分母保留为空：
+```bash
+python tools/release_check.py
+python tools/coverage_report.py --check --require-complete --output build/coverage-report.json
+python tools/curriculum_compare.py
+```
 
-~~~bash
-python tools/check_learning_units.py --json
-python tools/check_projects.py
-python tools/coverage_report.py --check --output build/coverage-report.json
-python tools/review_packet.py
-python tools/pilot_report.py
-~~~
+完整交付记录见 [项目完成记录](docs/completion-2026-10-26.md)；
+课标范围与证据见 [版本工作流](docs/curriculum-version-workflow.md)。
+原先的待办清单保存在有日期的历史记录中，不再作为当前状态展示。
 
-课标登记区分旧基线、已发现的新版本与实际完成的逐条差异核对；
-78 条旧摘录对应的新版比较仍待完成，详见
-[课标版本工作流](docs/curriculum-version-workflow.md)。
+**按用户要求暂缓两项：独立教师审核、真实学生教学效果验证。** 内容仍保留 `draft`，
+相关审核与实测状态真实保留；它们不阻断本轮内容与技术验收。
 
-外部题库默认不加载；可选数据是否存在、可用证据等级、实际进入题池的数量由
-运行时策略决定，不能将一次本机的外部题量写成 fresh clone 的保证。
-竞赛板块抽样只生成待审候选；课后推荐必须有明确目标关系与绑定内容版本的
-独立审核，当前没有此类已批准关联。缺失几何条件的 tal-j-256 已隔离。
-设计难度仍待真实数据校准；6 道只做局部计算、未评价证明/调查/模拟过程的题
-保留练习用途，退出诊断。当前默认池为 1,980 道初步诊断题、2,396 道练习题；
-7 个节点没有可用诊断题，明确显示证据不足。
-
-真实学生实测和教师独立审核仍需组织实施。保持 draft 状态，记录具体版本、
-作者、审核者及证据类型；不得将 AI 复核或模拟学生写成教师/学生实测。
+外部题库默认不加载；竞赛板块候选不能自动成为课后推荐。缺失几何条件的tal-j-256已隔离。
+设计难度仍属于作者设计等级；局部计算题没有凭借题量增加升级为整目标诊断证据。
+具体可练／可诊断题量由 `tools/status_report.py` 按当前证据策略重算，证据不足时仍会明确提示。
 
 ## License
 

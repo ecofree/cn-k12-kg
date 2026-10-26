@@ -35,10 +35,49 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from cnkg.evidence import safe_eval  # noqa: E402
+from cnkg.verify import compare, to_number  # noqa: E402
 
 DATA = ROOT / "data"
 TEACH = DATA / "teach"
 STAGES = ("primary", "junior", "senior")
+
+
+def check_objective_coverage(card: dict, topic: dict) -> list[str]:
+    """核对本项目已登记的目标闭环，不把结构检查当教师审核。"""
+    goals = topic.get("mastery_criteria") or []
+    rows = card.get("objective_coverage")
+    if not isinstance(rows, list) or not rows:
+        return ["缺 objective_coverage：每个已登记目标需有专属讲解和自检"]
+    errors, seen = [], set()
+    for row in rows:
+        if not isinstance(row, dict):
+            errors.append("objective_coverage 每项必须为对象")
+            continue
+        idx = row.get("criterion_index")
+        if isinstance(idx, bool) or not isinstance(idx, int) or not 0 <= idx < len(goals):
+            errors.append("objective_coverage 引用无效目标索引")
+            continue
+        if idx in seen:
+            errors.append(f"objective_coverage 目标 {idx} 重复")
+        seen.add(idx)
+        if row.get("title") != goals[idx]:
+            errors.append(f"objective_coverage 目标 {idx} 标题与知识点不一致，需重新核对")
+        if not isinstance(row.get("explanation"), str) or len(row["explanation"].strip()) < 10:
+            errors.append(f"objective_coverage 目标 {idx} 缺少具体讲解")
+        task = row.get("self_check")
+        if not isinstance(task, dict):
+            errors.append(f"objective_coverage 目标 {idx} 缺自检任务")
+            continue
+        for key in ("prompt", "reference_answer"):
+            value = task.get(key)
+            if not isinstance(value, str) or not value.strip() or value.strip() in ("略", "答案略", "待补充", "TODO"):
+                errors.append(f"objective_coverage 目标 {idx} 缺 {key}")
+        rubric = task.get("criteria")
+        if not isinstance(rubric, list) or not rubric or any(not isinstance(v, str) or not v.strip() for v in rubric):
+            errors.append(f"objective_coverage 目标 {idx} 缺可观察评价标准")
+    if seen != set(range(len(goals))):
+        errors.append(f"objective_coverage 未覆盖目标 {sorted(set(range(len(goals))) - seen)}")
+    return errors
 
 
 def stage_of(topic: dict) -> str:
@@ -78,18 +117,25 @@ def check_card(card: dict, topics: dict, bank: dict) -> list[str]:
         errs.append("例题缺题干")
     if len(ex.get("steps") or []) < 2:
         errs.append("例题讲解少于 2 步")
+    if not str(ex.get("answer") or "").strip():
+        errs.append("例题缺参考结论")
+    if to_number(ex.get("answer")) is not None and not ex.get("verify"):
+        errs.append("数值例题缺 verify，无法复算")
     if ex.get("verify"):
         got = safe_eval(ex["verify"])
-        try:
-            want = float(str(ex.get("answer") or "").strip())
-        except ValueError:
-            want = None
+        want = to_number(ex.get("answer"))
         if got is None:
             errs.append(f"例题 verify 无法求值：{ex['verify']}")
         elif want is None:
             errs.append("例题 answer 不是数值，但给了 verify")
-        elif abs(got - want) > 1e-6 * max(abs(want), 1.0):
+        elif not compare(ex.get("answer"), got):
             errs.append(f"例题 verify={ex['verify']} 得 {got}，与 answer={want} 不符")
+
+    if card.get("tier") == "core" or "objective_coverage" in card:
+        errs.extend(check_objective_coverage(card, topics[tid]))
+    if card.get("diagram"):
+        from cnkg.learning import _check_diagram
+        errs.extend(_check_diagram(card["diagram"], "diagram"))
 
     practice = card.get("practice") or []
     if len(practice) < 2:

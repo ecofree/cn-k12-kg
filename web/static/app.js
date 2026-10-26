@@ -86,10 +86,28 @@ async function openTeach(id) {
     if (card.hook) root.append(section("先想一想", rich("div", card.hook)));
     if (card.definition || card.one_liner) root.append(section("理解概念", rich("div", card.definition || card.one_liner)));
     if (card.why) root.append(section("为什么成立", rich("div", card.why)));
+    if (card.diagram) root.append(section("把条件放到图上", diagram(card.diagram)));
     if (card.when_to_use) root.append(section("什么时候用", list(card.when_to_use)));
     if (card.steps || card.key_points) root.append(section("思路与要点", list(card.steps || card.key_points, true)));
     if (card.worked_example) root.append(workedExample(card.worked_example));
     if (card.pitfalls) root.append(section("检查这些易错处", list(card.pitfalls)));
+    if (card.objective_coverage && card.objective_coverage.length) {
+      root.append(section("逐项目标自检", node("p", "先独立写出解答或完成作图，再展开参考过程逐条比较。开放任务的自检记录用于整理思路。", "muted")));
+      for (const objective of card.objective_coverage) {
+        const task = objective.self_check;
+        const content = node("div");
+        content.append(rich("p", objective.explanation), rich("p", task.prompt, "self-check-prompt"));
+        const label = node("label", "我的思路与过程");
+        const input = node("textarea"); input.rows = 4;
+        input.id = `self-check-${objective.criterion_index}`; label.htmlFor = input.id;
+        input.placeholder = "可以写计算步骤、理由，或记录纸上作图的结果。当前页面临时记录，离开页面前请复制保存。";
+        content.append(label, input);
+        const answer = node("details", null, "self-check-answer");
+        answer.append(node("summary", "完成后查看参考过程与检查点"), rich("div", task.reference_answer), list(task.criteria));
+        content.append(answer);
+        root.append(section(`目标 ${objective.criterion_index + 1} · ${objective.title}`, content));
+      }
+    }
     if (card.check) root.append(section("学习后能做到什么", rich("div", card.check)));
     $("teach-units").replaceChildren(...card.learning_units.map(unitCard));
     const actions = $("teach-actions"); actions.textContent = "";
@@ -333,5 +351,6 @@ async function boot() {
     else if (params.get("volume")) await startSession({ volume: params.get("volume"), mode: "screen" });
     else if (params.get("q")) { $("search").value = params.get("q"); renderChapters(params.get("q")); }
   } catch (err) { $("stats").textContent = `加载失败：${err.message}`; }
+  finally { $("open-history").disabled = false; }
 }
 boot();

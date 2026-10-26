@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import importlib
+import copy
 import json
 import math
 import re
@@ -17,6 +18,7 @@ import app_items  # noqa: E402
 import write_application_items as writer  # noqa: E402
 from cnkg.verify import compare, compare_short, evaluate  # noqa: E402
 from cnkg.evidence import question_policy  # noqa: E402
+from tools.rebuild_data import apply_question_transforms, load_registry  # noqa: E402
 
 
 REPAIRED_IDS = {
@@ -45,6 +47,18 @@ class ContentRegressionTest(unittest.TestCase):
                 self.assertFalse(policy["diagnosis_eligible"])
                 self.assertTrue(policy["practice_eligible"])
                 self.assertEqual(question["target_alignment"], "component_practice_only")
+
+    def test_elective_completion_items_remain_practice_until_objective_aware_diagnosis(self):
+        rows = [q for q in self.questions if q.get("completion_batch") == "senior-elective-2026-10"]
+        self.assertEqual(len(rows), 189)
+        for question in rows:
+            with self.subTest(question=question['id']):
+                self.assertFalse(question['diagnosis_eligible'])
+                self.assertFalse(question['for_diagnosis'])
+                self.assertEqual(question['target_alignment'], 'component_practice_only')
+                self.assertTrue(question['tested_criterion_indices'])
+                self.assertFalse(question_policy(question)['diagnosis_eligible'])
+                self.assertTrue(question_policy(question)['practice_eligible'])
 
     def test_advanced_clock_problem_requires_relative_motion_and_exact_fraction(self):
         question = self.bank["m7a.6.3.1-q102"]
@@ -168,24 +182,42 @@ class ContentRegressionTest(unittest.TestCase):
         self.assertEqual(card, generated)
 
     def test_repaired_questions_rebuild_exactly_from_active_source(self):
+        base = [q for q in self.questions if q.get("source") != writer.SOURCE]
         generated, errors = writer.build(
             app_items.all_items(),
-            [q for q in self.questions if q.get("source") != writer.SOURCE],
+            base,
         )
         self.assertEqual(errors, [])
-        rebuilt = {q["id"]: q for q in generated}
+        # Display order is assigned across the whole merged population, not
+        # independently inside the application-generator subset.
+        rebuilt = {q["id"]: q for q in apply_question_transforms(base + generated, load_registry())}
         for qid in REPAIRED_IDS:
             with self.subTest(question=qid):
                 self.assertEqual(self.bank[qid], rebuilt[qid])
 
     def test_repaired_cards_rebuild_exactly_without_touching_other_cards(self):
+        from tools.complete_primary import enrich_card
         sources = [importlib.import_module("tools.teach_primary_3"),
                    importlib.import_module("tools.teach_primary_4")]
         source_cards = {c["topicId"]: c for source in sources for c in source.CARDS}
+        topics = {t["id"]: t for t in json.loads((ROOT / "data/topics.json").read_text())}
         for tid in REPAIRED_CARDS:
             with self.subTest(card=tid):
                 stored = json.loads((ROOT / "data/teach" / f"{tid}.json").read_text())
-                self.assertEqual(stored, source_cards[tid])
+                before = copy.deepcopy(source_cards[tid])
+                rebuilt = enrich_card(source_cards[tid], topics[tid], self.questions)
+                self.assertEqual(source_cards[tid], before, "completion must not mutate the historical source card")
+                self.assertEqual(stored, rebuilt)
+
+    def test_new_primary_cards_use_the_same_pure_completion_layer(self):
+        from tools.complete_primary import NEW, enrich_card
+        topics = {t['id']: t for t in json.loads((ROOT / 'data/topics.json').read_text())}
+        before = copy.deepcopy(NEW)
+        for tid, source in NEW.items():
+            with self.subTest(card=tid):
+                stored = json.loads((ROOT / 'data/teach' / f'{tid}.json').read_text())
+                self.assertEqual(stored, enrich_card(source, topics[tid], self.questions))
+        self.assertEqual(NEW, before)
 
 
 if __name__ == "__main__":

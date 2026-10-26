@@ -1,0 +1,129 @@
+{
+  "schema": 1,
+  "id": "junior_quadratic_optimization",
+  "title": "综合与实践 生活中的优化问题举例",
+  "stage": "junior",
+  "outline_refs": [
+    {
+      "book_id": "九上",
+      "title": "综合与实践 生活中的优化问题举例"
+    }
+  ],
+  "standard_ids": [
+    "cms-2022:4.NA.13",
+    "cms-2022:4.NA.17"
+  ],
+  "standard_alignment_note": "仅用目录原题名定位；下列情境、数据、步骤与评价材料为原创。课标关联为作者按活动涉及的数学内容所作映射，未标作教师审定。",
+  "task_brief": "为一次模拟义卖制定售价：每件成本8元，售价p限定为10至30元之间的整数。按课堂假设，售价10元时能售120件，每涨1元少售4件，所售商品均有足够供货且无其他费用。建立销量与利润模型，找最大利润方案，再讨论若最多只能供60件，旧方案是否还可直接使用。需求规则是人为设定，不作为真实市场调查结果。",
+  "duration_hint": "3课时，每课时约40分钟；允许分组测量、计算与交流各占一课时。",
+  "objectives": [
+    {
+      "id": "junior_quadratic_optimization:o1",
+      "statement": "能从固定成本、价格变化与需求假设中建立销量和利润函数并列可行域。"
+    },
+    {
+      "id": "junior_quadratic_optimization:o2",
+      "statement": "能配方求顶点，结合整数及区间条件比较邻近方案，给出可复算的最优值。"
+    },
+    {
+      "id": "junior_quadratic_optimization:o3",
+      "statement": "能在新增供货约束下修订模型，并区分模型最优与现实经营建议。"
+    }
+  ],
+  "materials": [
+    "任务中的模拟价格需求规则",
+    "计算器、方格纸、价格—销量—利润表",
+    "可选电子表格用于10至30元逐项核对"
+  ],
+  "steps": [
+    {
+      "title": "写数量关系",
+      "objective_ids": [
+        "junior_quadratic_optimization:o1"
+      ],
+      "instructions": "由10元售120件推出q=120−4(p−10)。利润是每件利润(p−8)乘实际销量，先按无供货上限建P=(p−8)q，明确p取整数10至30。",
+      "deliverable": "变量、假设、函数与定义域。"
+    },
+    {
+      "title": "求顶点并验整数",
+      "objective_ids": [
+        "junior_quadratic_optimization:o2"
+      ],
+      "instructions": "展开利润式，配成−4(p−24)²+1024。比较p=23、24、25及区间边界，解释为什么24在范围内且为整数。",
+      "deliverable": "配方过程与五种价格的核对表。"
+    },
+    {
+      "title": "增加供货上限",
+      "objective_ids": [
+        "junior_quadratic_optimization:o1",
+        "junior_quadratic_optimization:o3"
+      ],
+      "instructions": "若最多供60件，实际销量为需求q与60中较小者。将p≤25和p≥25分开，分别写利润表达式并求最大值。",
+      "deliverable": "分段模型及与旧结果的比较。"
+    },
+    {
+      "title": "报告模型边界",
+      "objective_ids": [
+        "junior_quadratic_optimization:o3"
+      ],
+      "instructions": "明确“每涨1元少售4件”是假设而非实测。提出若要真实实施需要补哪些需求数据，说明固定成本、退货等未计入因素可能改变最优点。",
+      "deliverable": "有依据的方案说明与补充数据清单。"
+    }
+  ],
+  "deliverables": [
+    "无库存上限的二次模型与最优方案",
+    "整数核对表",
+    "有60件上限的分段模型和结论"
+  ],
+  "rubric": [
+    {
+      "objective_ids": [
+        "junior_quadratic_optimization:o1"
+      ],
+      "criterion": "销量随价格变化方向正确，利润用售价减成本再乘销量。",
+      "points": 2,
+      "example": "q=160−4p，P=(p−8)(160−4p)，10≤p≤30且p为整数。"
+    },
+    {
+      "objective_ids": [
+        "junior_quadratic_optimization:o2"
+      ],
+      "criterion": "配方与可行性核验完整。",
+      "points": 2,
+      "example": "P=−4(p−24)²+1024，p=24售64件，利润1024；23与25均为1020。"
+    },
+    {
+      "objective_ids": [
+        "junior_quadratic_optimization:o3"
+      ],
+      "criterion": "新增上限后修正销量而非保留不可能出售的64件。",
+      "points": 2,
+      "example": "p≤25时售60，利润60(p−8)递增；p≥25时二次式递减，最优p=25、利润1020。"
+    }
+  ],
+  "teacher_reference_solution": {
+    "scenario": "先无供货限制，再最多60件。",
+    "steps": [
+      "q=160−4p，P=−4p²+192p−1280=−4(p−24)²+1024。",
+      "p=24可行且为整数，q=64，P=1024；p=10为240、p=30为880，邻点23与25为1020。",
+      "加入60件上限：当p≤25时q≥60，售60件，利润60(p−8)；当p≥25时售q件，利润仍为原二次式。",
+      "第一段递增至p=25，第二段处于顶点24的右侧而递减，所以新最优25元、售60件、利润1020。"
+    ],
+    "conclusion": "最优方案随供货约束改变；两个答案都只在各自模拟假设内成立。"
+  },
+  "teacher_notes": [
+    "对价格需求模型的真实性不作背书，评价学生是否能识别并修订假设。",
+    "所有价格是整数，若未来改数据使顶点非整数，需要比较相邻可行整数。"
+  ],
+  "assessment_note": "每项目标依据相应作品独立评分：0分为未展示或关键结论错误，1分为部分正确但缺条件、依据或核对，2分为完整正确且可复核。共6分；反馈指出具体证据，不把参加活动或排版漂亮当作目标达成。",
+  "review_status": "draft",
+  "author_type": "ai",
+  "teacher_review": {
+    "status": "pending"
+  },
+  "provenance": {
+    "kind": "original_activity",
+    "outline_used_for": "title_and_navigation",
+    "textbook_text_reproduced": false
+  }
+}

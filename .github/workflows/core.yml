@@ -25,7 +25,7 @@ jobs:
       - name: Practical activities and explicit coverage gaps
         run: |
           python tools/check_projects.py
-          python tools/coverage_report.py --check
+          python tools/coverage_report.py --check --require-complete
           python tools/review_packet.py
           python tools/review_packet.py --check build/review-packet.json
           python tools/pilot_report.py

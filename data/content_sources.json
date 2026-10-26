@@ -125,11 +125,22 @@
         "tools/app_items/j9a.py",
         "tools/app_items/j9b.py",
         "tools/app_items/primary.py",
-        "tools/app_items/primary2.py"
+        "tools/app_items/primary2.py",
+        "tools/app_items/primary_completion.py"
       ]
     }
   ],
-  "ordering": "registered volume order; natural numeric topic IDs; questions by topic and natural ID; dependencies by topic and prerequisite",
+  "question_transforms": [
+    {
+      "name": "balanced-choice-positions",
+      "version": 1,
+      "entrypoint": "tools/balance_options.py",
+      "inputs": [],
+      "algorithm": "After merging all sources and generators, group choice questions by option count, sort by (SHA-256(question ID), question ID), assign display positions round-robin and rotate choices while preserving option IDs and answers.",
+      "review_policy": "Never rewrite or re-sign quality_review. Choice order is included in the reviewed content hash; moved questions require review of their resulting version. Adding/removing questions may move other questions in the same group."
+    }
+  ],
+  "ordering": "registered volume order; natural numeric topic IDs; questions by topic and natural ID; dependencies by topic and prerequisite; displayed choice order from registered question_transforms",
   "hash_policy": "sha256 of UTF-8 bytes after CRLF/CR normalization to LF",
   "quality_scope": "构建一致性、结构和算式检查不等同于独立学科审核；teacher_reviewed 以独立审核记录为准。",
   "migration": {

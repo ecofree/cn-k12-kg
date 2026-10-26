@@ -19,7 +19,9 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from cnkg.evidence import safe_eval  # noqa: E402
-from tools.teach_cards import check_brief, check_card  # noqa: E402
+from cnkg.verify import to_number, compare  # noqa: E402
+from tools.teach_cards import check_brief, check_card, check_objective_coverage  # noqa: E402
+import copy
 
 DATA = ROOT / "data"
 
@@ -51,16 +53,41 @@ class TeachCardTest(unittest.TestCase):
     def test_worked_example_is_self_consistent(self):
         """例题的算式必须等于例题的答案。
 
-        这条单独再测一遍，因为 check_card 允许"没给 verify"，
-        而讲解卡里的例题**应该**给 verify——不给就没法防手滑。
+        数值例题必须复算。证明、作图与多结果例题核对真实步骤及结论，
+        不能为了填verify把参考证明伪装成一个无关数字。
         """
         for name, card in self.cards:
             ex = card["worked_example"]
             with self.subTest(card=name):
-                self.assertTrue(ex.get("verify"), "例题缺 verify，无法自校验")
-                got = safe_eval(ex["verify"])
-                want = float(str(ex["answer"]).strip())
-                self.assertAlmostEqual(got, want, places=6)
+                if to_number(ex.get("answer")) is not None:
+                    self.assertTrue(ex.get("verify"), "数值例题缺 verify，无法自校验")
+                    self.assertTrue(compare(ex["answer"], safe_eval(ex["verify"])))
+                else:
+                    self.assertTrue(ex.get("answer"))
+                    self.assertGreaterEqual(len(ex.get("steps", [])), 2)
+
+    def test_objective_mapping_detects_missing_duplicate_or_stale_goals(self):
+        card = next(copy.deepcopy(c) for _, c in self.cards if c.get('tier') == 'core')
+        topic = self.topics[card['topicId']]
+        self.assertEqual(check_objective_coverage(card, topic), [])
+        incomplete = copy.deepcopy(card)
+        incomplete['objective_coverage'].pop()
+        self.assertTrue(check_objective_coverage(incomplete, topic))
+        duplicate = copy.deepcopy(card)
+        duplicate['objective_coverage'].append(copy.deepcopy(duplicate['objective_coverage'][0]))
+        self.assertTrue(check_objective_coverage(duplicate, topic))
+        changed_topic = copy.deepcopy(topic)
+        changed_topic['mastery_criteria'][0] += '（目标已改变）'
+        self.assertTrue(check_objective_coverage(card, changed_topic))
+
+    def test_self_check_needs_answer_and_observable_criteria(self):
+        card = next(copy.deepcopy(c) for _, c in self.cards if c.get('tier') == 'core')
+        topic = self.topics[card['topicId']]
+        card['objective_coverage'][0]['self_check']['reference_answer'] = '略'
+        self.assertTrue(check_objective_coverage(card, topic))
+        card['objective_coverage'][0]['self_check']['reference_answer'] = '有具体解答'
+        card['objective_coverage'][0]['self_check']['criteria'] = []
+        self.assertTrue(check_objective_coverage(card, topic))
 
     def test_practice_points_to_own_questions(self):
         for name, card in self.cards:

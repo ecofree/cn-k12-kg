@@ -103,6 +103,18 @@ def load_registry(data_dir: pathlib.Path = DATA) -> dict:
                         for batch in application.app_items.BATCHES)
         if set(generator.get("inputs", [])) != expected:
             raise SourceError("register the exact app_items batches and evidence/verify inputs")
+    from tools import balance_options
+    transforms = registry.get("question_transforms", [])
+    if (not isinstance(transforms, list) or len(transforms) > 1
+            or any(t.get("name") != balance_options.TRANSFORM_NAME for t in transforms)):
+        raise SourceError("unsupported or repeated question transform")
+    for transform in transforms:
+        if (transform.get("version") != balance_options.TRANSFORM_VERSION
+                or transform.get("entrypoint") != balance_options.TRANSFORM_ENTRYPOINT
+                or transform.get("inputs") != []):
+            raise SourceError("choice-order transform identity or inputs do not match its implementation")
+        if not (ROOT / transform["entrypoint"]).is_file():
+            raise SourceError("missing registered choice-order transform")
     return registry
 
 
@@ -137,8 +149,26 @@ def application_questions(base_questions: list) -> list:
     return generated
 
 
-def build_data(data_dir: pathlib.Path = DATA) -> tuple[dict, dict]:
-    """Return deterministic rows and their provenance without reading outputs."""
+def apply_question_transforms(questions: list, registry: dict) -> list:
+    """Apply registered transforms to the full source + generator population."""
+    from tools import balance_options
+
+    for transform in registry.get("question_transforms", []):
+        if transform.get("name") != balance_options.TRANSFORM_NAME:
+            raise SourceError(f"unsupported question transform: {transform.get('name')}")
+        try:
+            questions = balance_options.balance_questions(questions)
+        except balance_options.ChoiceOrderError as exc:
+            raise SourceError(str(exc)) from exc
+    return questions
+
+
+def build_data(data_dir: pathlib.Path = DATA, *, apply_transforms: bool = True) -> tuple[dict, dict]:
+    """Return deterministic rows and provenance without reading outputs.
+
+    apply_transforms=False exposes the merged authoring order for audit reports;
+    published outputs always use the registered transforms after generation.
+    """
     registry = load_registry(data_dir)
     rows = {name: [] for name in OUTPUTS}
     origins = {name: {} for name in OUTPUTS}
@@ -170,6 +200,9 @@ def build_data(data_dir: pathlib.Path = DATA) -> tuple[dict, dict]:
     for generator in registry.get("question_generators", []):
         for question in application_questions(rows["questions.json"]):
             add("questions.json", question, generator["entrypoint"])
+
+    if apply_transforms:
+        rows["questions.json"] = apply_question_transforms(rows["questions.json"], registry)
 
     topics = index_rows("topics.json", rows["topics.json"])
     for edge in rows["dependencies.json"]:
@@ -212,8 +245,10 @@ def differences(expected: dict, actual: dict) -> dict:
 def synchronize_sources(data_dir: pathlib.Path, reason: str) -> dict:
     """Explicit migration for legacy editors; never runs during a check/build.
 
-    Generated application records must already match their generator.  This
-    operation cannot launder a direct output edit into a generated source.
+    Generated application records must already match the complete build,
+    including its transforms.  This operation cannot launder a direct output
+    edit into a generated source.  Display order is derived: preserve each
+    source's stable option-ID order while retaining edited option payloads.
     """
     if not reason.strip():
         raise SourceError("source synchronization requires a reason")
@@ -224,13 +259,42 @@ def synchronize_sources(data_dir: pathlib.Path, reason: str) -> dict:
     volumes = {source["volume"] for source in registry["content_sources"]}
     if any(t["volume"] not in volumes for t in topics.values()):
         raise SourceError("register a source for each new volume before synchronization")
-    base = [q for q in current["questions.json"] if q.get("source") != APPLICATION_SOURCE]
+    original = {source["path"]: read_json(data_dir / source["path"])
+                for source in registry["content_sources"]}
+    canonical = index_rows("questions.json", [q for payload in original.values()
+                                              for q in payload.get("questions", [])])
+    base = copy.deepcopy([q for q in current["questions.json"] if q.get("source") != APPLICATION_SOURCE])
+    if registry.get("question_transforms"):
+        for question in base:
+            previous = canonical.get(question["id"], {})
+            if question.get("type") != "choice" or previous.get("type") != "choice":
+                continue
+            # IDs survive display rotation.  Keep the current objects, including
+            # legitimate text/metadata edits, in their original source order.
+            # Deleted IDs disappear; newly authored IDs are appended in their
+            # current relative order.  Neither case silently revives an old option.
+            choices = question.get("choices") or []
+            ids = [option.get("id") for option in choices]
+            if (any(not isinstance(oid, str) or not oid for oid in ids)
+                    or len(set(ids)) != len(ids)):
+                raise SourceError(f"{question['id']}: invalid choice IDs during source synchronization")
+            by_id = {option["id"]: option for option in choices}
+            old_ids = [option["id"] for option in previous.get("choices", [])]
+            order = [oid for oid in old_ids if oid in by_id]
+            order.extend(oid for oid in ids if oid not in old_ids)
+            question["choices"] = [by_id[oid] for oid in order]
+    generated = application_questions(base) if registry.get("question_generators") else []
+    transformed = apply_question_transforms(base + generated, registry)
     if registry.get("question_generators"):
-        generated = application_questions(base)
+        expected = [q for q in transformed if q.get("source") == APPLICATION_SOURCE]
         actual = [q for q in current["questions.json"] if q.get("source") == APPLICATION_SOURCE]
-        delta = differences({"questions.json": generated}, {"questions.json": actual})
+        delta = differences({"questions.json": expected}, {"questions.json": actual})
         if delta:
-            raise SourceError("fix/rebuild app_items first; generated output differs: "
+            raise SourceError("generated output differs: "
+                              "if ordinary choice questions were added/deleted or their option count changed "
+                              "in generated outputs, move those edits to the registered content source and "
+                              "run tools/rebuild_data.py --write (the full pool determines display order); "
+                              "otherwise fix app_items first. Differences: "
                               + json.dumps(delta, ensure_ascii=False)[:1800])
     for q in base:
         if q.get("topicId") not in topics:
@@ -241,18 +305,24 @@ def synchronize_sources(data_dir: pathlib.Path, reason: str) -> dict:
     changed = []
     for source in registry["content_sources"]:
         volume = source["volume"]
-        payload = {
+        previous = original[source["path"]]
+        old_questions = {q["id"]: i for i, q in enumerate(previous.get("questions", []))}
+        old_edges = {row_key("dependencies.json", d): i
+                     for i, d in enumerate(previous.get("dependencies", []))}
+        payload = {**previous,
             "volume": volume,
             "topics": {tid: topics[tid] for tid in sorted(topics, key=natural_id_key)
                        if topics[tid]["volume"] == volume},
             "dependencies": sorted([d for d in current["dependencies.json"]
                                     if topics[d["topicId"]]["volume"] == volume],
-                                   key=lambda d: row_key("dependencies.json", d)),
+                                   key=lambda d: (old_edges.get(row_key("dependencies.json", d), len(old_edges)),
+                                                  row_key("dependencies.json", d))),
             "questions": sorted([q for q in base if topics[q["topicId"]]["volume"] == volume],
-                                key=lambda q: q["id"]),
+                                key=lambda q: (old_questions.get(q["id"], len(old_questions)),
+                                               natural_id_key(q["id"]))),
         }
         path = data_dir / source["path"]
-        if read_json(path) != payload:
+        if previous != payload:
             write_json(path, payload)
             changed.append(source["path"])
     return {"reason": reason, "changed_sources": changed}

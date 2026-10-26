@@ -16,6 +16,8 @@ sys.path.insert(0, str(ROOT))
 from cnkg.learning import load_units, LearningUnitError  # noqa: E402
 from cnkg.projects import load_projects, ProjectError, outline_activities  # noqa: E402
 from tools.teach_cards import check_card  # noqa: E402
+from cnkg.evidence import question_policy  # noqa: E402
+from tools.curriculum_compare import check_comparison_records  # noqa: E402
 
 
 def _read(data, name):
@@ -64,6 +66,15 @@ def check_version_registry(registry, standards):
         status = row.get('status')
         if status not in ('pending_source', 'pending_comparison', 'pending_review', 'reviewed'):
             errors.append(f'{sid}: 差异工作项状态无效')
+        if row.get('comparison_status') == 'complete':
+            target = index.get(row.get('to_version'), {})
+            comparison = row.get('comparison') or {}
+            if (target.get('full_text_status') != 'acquired'
+                    or not row.get('target_locator') or not row.get('change_class')
+                    or comparison.get('author_type') not in ('ai', 'human', 'mixed')
+                    or not comparison.get('summary') or not comparison.get('record_path')
+                    or comparison.get('target_file_sha256') != target.get('file_sha256')):
+                errors.append(f'{sid}: 完成条款比较须有全文哈希、定位和实际比较记录')
         if status == 'reviewed':
             review = row.get('review') or {}
             target = index.get(row.get('to_version'), {})
@@ -120,6 +131,7 @@ def build_report(data_dir=None):
         errors.extend(exc.errors)
     registry = _read(data, 'curriculum_versions.json')
     errors.extend(check_version_registry(registry, standards))
+    errors.extend(check_comparison_records(data, registry, standards))
     backlog = _read(data, 'coverage_backlog.json') if (data / 'coverage_backlog.json').exists() else {'items': []}
     app_open = []
     for item in backlog.get('items', []):
@@ -135,15 +147,34 @@ def build_report(data_dir=None):
     for uid, unit in units.items():
         for tid in unit['topic_ids']:
             associated_units[tid].append(uid)
+    practice_counts = Counter()
+    for question in bank.values():
+        if question_policy(question)['practice_eligible']:
+            practice_counts.update(set(question.get('topicIds') or [question.get('topicId')]))
     topic_rows = []
+    registered_objectives = []
     for tid, topic in topics.items():
+        card = cards.get(tid, {})
+        aligned = {r['criterion_index']: r for r in card.get('objective_coverage', [])
+                   if isinstance(r, dict) and isinstance(r.get('criterion_index'), int)} if tid in valid_cards else {}
+        count = len(topic.get('mastery_criteria', []))
+        complete = count > 0 and set(aligned) == set(range(count))
+        for i, title in enumerate(topic.get('mastery_criteria', [])):
+            registered_objectives.append({'topic_id': tid, 'criterion_index': i, 'title': title,
+                                          'tier': tiers[tid]['tier'], 'material_complete': i in aligned,
+                                          'source': f'data/teach/{tid}.json' if i in aligned else None})
         topic_rows.append({'id': tid, 'title': topic['name'], 'stage': stage_of(topic),
                            'tier': tiers.get(tid, {}).get('tier'),
                            'legacy_full_card': tid in valid_cards,
                            'reference_brief': tid in reference_ids,
                            'learning_unit_ids': sorted(associated_units[tid]),
-                           'full_objective_coverage': 'not_audited',
-                           'core_full_card_gap': tid in core and tid not in valid_cards})
+                           'full_objective_coverage': 'registered_targets_material_complete' if complete else 'not_complete',
+                           'registered_objective_count': count,
+                           'objectives_with_materials': len(aligned),
+                           'core_full_card_gap': tid in core and tid not in valid_cards,
+                           'practice_available': practice_counts[tid],
+                           'practice_target': tiers[tid].get('practice_target', 0),
+                           'practice_gap': max(0, tiers[tid].get('practice_target', 0) - practice_counts[tid])})
     activities = outline_activities(outline)
     project_refs = defaultdict(list)
     for pid, project in projects.items():
@@ -166,7 +197,17 @@ def build_report(data_dir=None):
         by_stage[stage] = {'navigation_topics': len(ids), 'core_topics': len(ids & core),
                            'legacy_full_cards': len(ids & valid_cards),
                            'core_full_card_gaps': len((ids & core) - valid_cards)}
-    pending_versions = sum(w.get('status') != 'reviewed' for w in registry.get('clause_worklist', []))
+    pending_versions = sum(w.get('comparison_status') != 'complete' and w.get('status') != 'reviewed'
+                           for w in registry.get('clause_worklist', []))
+    core_objectives = [r for r in registered_objectives if r['tier'] == 'core']
+    content_gaps = {
+        'core_full_cards': len(core - valid_cards),
+        'core_objective_materials': sum(not r['material_complete'] for r in core_objectives),
+        'practice_questions': sum(r['practice_gap'] for r in topic_rows),
+        'activities': sum(not a['project_ids'] for a in activity_rows),
+        'application_tasks': len(app_open),
+        'curriculum_comparisons': pending_versions,
+    }
     return {
         'schema': 1, 'ok': not errors, 'errors': errors,
         'scope': '资源计数与结构校验；关联一个单元不表示覆盖教材节点的全部目标；未进行全课程细技能穷举。',
@@ -185,6 +226,13 @@ def build_report(data_dir=None):
                         'whole_curriculum_objective_denominator': None,
                         'whole_curriculum_coverage_rate': None,
                         'explanation': '细技能总分母尚未逐条拆解；不能用目录节点数作目标覆盖率分母。'},
+        'registered_objectives': {'all_denominator': len(registered_objectives),
+                                  'core_denominator': len(core_objectives),
+                                  'core_with_materials': sum(r['material_complete'] for r in core_objectives),
+                                  'scope': '统计 topics.mastery_criteria 已登记目标的专属讲解、自检与参考量规；不等同于全课程所有可能细技能或教学效果。'},
+        'practice_inventory': {'available_questions': sum(question_policy(q)['practice_eligible'] for q in bank.values()),
+                              'topics_below_target': sum(r['practice_gap'] > 0 for r in topic_rows),
+                              'missing_question_count': sum(r['practice_gap'] for r in topic_rows)},
         'activities': {'outline_count': len(activities), 'draft_materials': len(projects),
                        'with_materials': sum(bool(a['project_ids']) for a in activity_rows),
                        'pending_development': sum(not a['project_ids'] for a in activity_rows),
@@ -200,11 +248,17 @@ def build_report(data_dir=None):
                              'scope': '匿名使用日志或演示会话不自动构成真实学生试点；独立迁移、实际延迟与教师评价须另行审核。'},
         'curriculum_versions': {'pending_clause_comparisons': pending_versions,
                                 'clause_denominator': len(standards),
-                                'status': 'pending' if pending_versions else 'reviewed'},
+                                'independent_review_pending': sum(w.get('status') != 'reviewed' for w in registry.get('clause_worklist', [])),
+                                'status': 'pending_comparison' if pending_versions else 'compared_pending_independent_review'},
         'application_task_backlog': {'open_count': len(app_open), 'core_denominator': len(core),
                                       'items': app_open},
         'by_stage': by_stage, 'topic_worklist': topic_rows,
         'objective_worklist': objectives, 'activity_worklist': activity_rows,
+        'registered_objective_worklist': registered_objectives,
+        'completion': {'content_and_engineering_complete': not errors and not any(content_gaps.values()),
+                       'gaps': content_gaps,
+                       'deferred_by_user': ['independent_teacher_review', 'real_student_effect_validation'],
+                       'scope': '对已列出的项目内容与技术验收；独立教师审核、真实学生效果验证按用户要求暂缓，不阻断本轮内容完成。'},
     }
 
 
@@ -213,10 +267,14 @@ def main(argv=None):
     parser.add_argument('--data-dir', type=Path, default=ROOT / 'data')
     parser.add_argument('--json', action='store_true')
     parser.add_argument('--check', action='store_true')
+    parser.add_argument('--require-complete', action='store_true', help='本轮内容清单不得有缺项；教师/学生独立验证仍单独登记')
     parser.add_argument('--output', type=Path, help='另存 JSON 报告')
     args = parser.parse_args(argv)
     try:
         report = build_report(args.data_dir)
+        if args.require_complete and not report['completion']['content_and_engineering_complete']:
+            report['ok'] = False
+            report['errors'].append('本轮内容未完成：' + json.dumps(report['completion']['gaps'], ensure_ascii=False))
     except (OSError, ValueError, KeyError, TypeError) as exc:
         report = {'ok': False, 'errors': [f'无法完成覆盖统计：{exc}']}
     if args.output:
@@ -230,10 +288,13 @@ def main(argv=None):
         n, e, f, a = (report[k] for k in ('navigation', 'explanations', 'fine_skills', 'activities'))
         print(f"教材导航 {n['topics']} 点；core {n['core_topics']} / tool {n['tool_topics']}。")
         print(f"既有完整卡 {e['legacy_full_cards']}/{e['topic_denominator']}；core 完整卡 {e['core_with_full_card']}/{e['core_denominator']}，缺口 {e['core_full_card_gaps']}。")
-        print(f"独立单元 {f['learning_units']} 个，细目标 {f['objectives']} 个，任务 {f['tasks']} 道；全课程目标分母尚未确定。")
+        print(f"独立单元 {f['learning_units']} 个，细目标 {f['objectives']} 个，任务 {f['tasks']} 道。")
+        r = report['registered_objectives']
+        print(f"核心点已登记目标材料 {r['core_with_materials']}/{r['core_denominator']}；可练题数量缺口 {report['practice_inventory']['missing_question_count']}。")
         print(f"综合实践已有材料 {a['with_materials']}/{a['outline_count']}，待开发 {a['pending_development']}。")
         print(f"应用任务待办 {report['application_task_backlog']['open_count']}；课标逐条差异待核对 {report['curriculum_versions']['pending_clause_comparisons']}。")
-        print('PASS 仅表示结构和引用可用；教师审核、真实学生证据及教育效果仍分别等待核验。')
+        print('内容完成状态：' + ('本轮已完成' if report['completion']['content_and_engineering_complete'] else '仍有内容缺项'))
+        print('教师独立审核与真实学生效果验证已按用户要求暂缓，单独保留状态。')
     return 0 if report['ok'] else 1
 
 

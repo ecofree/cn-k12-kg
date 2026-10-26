@@ -9,7 +9,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from tools import apply_content, rebuild_data as RD
+from tools import apply_content, balance_options as BO, build_db, rebuild_data as RD
 
 
 class SourceBuildTest(unittest.TestCase):
@@ -126,6 +126,159 @@ class RepositorySourceTest(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertTrue(any(q.get("source") == RD.APPLICATION_SOURCE for q in first["questions.json"]))
         self.assertEqual(len(origins["questions.json"]), len(first["questions.json"]))
+
+
+class TransformedSourceBuildTest(unittest.TestCase):
+    def setUp(self):
+        SourceBuildTest.setUp(self)
+        self.registry["question_generators"] = copy.deepcopy(RD.load_registry()["question_generators"])
+        self.registry["question_transforms"] = [{
+            "name": BO.TRANSFORM_NAME, "version": BO.TRANSFORM_VERSION,
+            "entrypoint": BO.TRANSFORM_ENTRYPOINT, "inputs": [],
+        }]
+
+        def choice(number, size=4, application=False):
+            return {"id": f"m1a.2.1-q{number}", "topicId": "m1a.2.1", "type": "choice",
+                    "prompt": f"题干{number}", "explanation": "正确内容为甲。", "answer": "o1",
+                    "choices": [{"id": f"o{i + 1}", "text": f"选项内容{i + 1}",
+                                 "metadata": {"value": i}} for i in range(size)],
+                    "source": RD.APPLICATION_SOURCE if application else "self-generated-completion"}
+
+        self.payload["questions"] = [choice(n) for n in range(1, 6)] + [choice(6, 3)]
+        self.generated = [choice(101, application=True), choice(102, application=True),
+                          choice(103, 3, application=True)]
+        RD.write_json(self.source, self.payload)
+        RD.write_json(self.data / RD.REGISTRY, self.registry)
+        self.generator_patch = patch.object(RD, "application_questions",
+                                            side_effect=lambda base: copy.deepcopy(self.generated))
+        self.generator_patch.start()
+        self.addCleanup(self.generator_patch.stop)
+
+    def test_complete_population_transform_and_clean_rebuild(self):
+        raw, _ = RD.build_data(self.data, apply_transforms=False)
+        built, _ = RD.build_data(self.data)
+        self.assertEqual(built["questions.json"], BO.balance_questions(raw["questions.json"]))
+        for size, counts in BO.display_position_counts(built["questions.json"]).items():
+            self.assertLessEqual(max(counts[i] for i in range(size)) -
+                                 min(counts[i] for i in range(size)), 1)
+        built_by_id = {q["id"]: q for q in built["questions.json"]}
+        subset = BO.balance_questions(self.generated)
+        self.assertTrue(any(built_by_id[q["id"]] != q for q in subset),
+                        "fixture must expose the incorrect generated-subset balancing strategy")
+        SourceBuildTest.test_clean_build_needs_no_existing_outputs_and_is_byte_reproducible(self)
+
+    def test_build_sync_build_is_a_fixed_point_and_does_not_rewrite_sources(self):
+        built, _ = RD.build_data(self.data)
+        for name, rows in built.items():
+            RD.write_json(self.data / name, rows)
+        original_bytes = self.source.read_bytes()
+        result = RD.synchronize_sources(self.data, "unchanged built display order")
+        self.assertEqual(result["changed_sources"], [])
+        self.assertEqual(self.source.read_bytes(), original_bytes)
+        self.assertEqual(RD.build_data(self.data)[0], built)
+
+    def test_sync_preserves_edited_option_payload_in_canonical_source_order(self):
+        built, _ = RD.build_data(self.data)
+        target = next(q for q in built["questions.json"] if q["id"] == "m1a.2.1-q1")
+        for option in target["choices"]:
+            if option["id"] == "o2":
+                option.update(text="有意修正的干扰项", extra={"review_note": "fixture"})
+        for name, rows in built.items():
+            RD.write_json(self.data / name, rows)
+        RD.synchronize_sources(self.data, "intentional option content correction")
+        stored = RD.read_json(self.source)["questions"][0]
+        self.assertEqual([o["id"] for o in stored["choices"]], ["o1", "o2", "o3", "o4"])
+        self.assertEqual(stored["choices"][1]["text"], "有意修正的干扰项")
+        self.assertEqual(stored["choices"][1]["extra"], {"review_note": "fixture"})
+        self.assertEqual(RD.build_data(self.data)[0], built)
+
+    def test_sync_does_not_launder_a_generated_question_edit(self):
+        built, _ = RD.build_data(self.data)
+        next(q for q in built["questions.json"] if q["source"] == RD.APPLICATION_SOURCE)["answer"] = "o2"
+        for name, rows in built.items():
+            RD.write_json(self.data / name, rows)
+        original_bytes = self.source.read_bytes()
+        with self.assertRaisesRegex(RD.SourceError, "generated output differs"):
+            RD.synchronize_sources(self.data, "must fix generator instead")
+        self.assertEqual(self.source.read_bytes(), original_bytes)
+
+    def test_pool_edits_in_generated_outputs_are_rejected_with_source_edit_guidance(self):
+        built, _ = RD.build_data(self.data)
+        actual_apps = {q['id']: q for q in built['questions.json'] if q['source'] == RD.APPLICATION_SOURCE}
+        extra = None
+        for number in range(7, 40):
+            candidate = copy.deepcopy(self.payload['questions'][0])
+            candidate.update(id=f'm1a.2.1-q{number}', prompt=f'新题{number}')
+            transformed = BO.balance_questions(built['questions.json'] + [candidate])
+            if any(q['source'] == RD.APPLICATION_SOURCE and q != actual_apps[q['id']] for q in transformed):
+                extra = candidate
+                break
+        self.assertIsNotNone(extra, 'fixture must change the full-pool application display order')
+        built['questions.json'].append(extra)
+        for name, rows in built.items():
+            RD.write_json(self.data / name, rows)
+        original_bytes = self.source.read_bytes()
+        with self.assertRaisesRegex(RD.SourceError, 'move those edits to the registered content source'):
+            RD.synchronize_sources(self.data, 'unsupported legacy output-pool edit')
+        self.assertEqual(self.source.read_bytes(), original_bytes)
+
+    def test_balance_cli_uses_sources_and_dry_run_writes_nothing(self):
+        original_bytes = self.source.read_bytes()
+        with redirect_stdout(StringIO()):
+            self.assertEqual(BO.main(["--data-dir", str(self.data), "--dry-run"]), 0)
+        self.assertTrue(all(not (self.data / name).exists() for name in RD.OUTPUTS))
+        with redirect_stdout(StringIO()):
+            self.assertEqual(BO.main(["--data-dir", str(self.data)]), 0)
+        actual = {name: RD.read_json(self.data / name) for name in RD.OUTPUTS}
+        self.assertEqual(actual, RD.build_data(self.data)[0])
+        self.assertEqual(self.source.read_bytes(), original_bytes)
+
+    def test_registry_rejects_an_unrecognized_transform_implementation(self):
+        self.registry["question_transforms"][0]["entrypoint"] = "tools/unknown.py"
+        RD.write_json(self.data / RD.REGISTRY, self.registry)
+        with self.assertRaisesRegex(RD.SourceError, "identity or inputs"):
+            RD.build_data(self.data)
+
+    def test_manifest_hashes_transform_and_curriculum_evidence(self):
+        built, _ = RD.build_data(self.data)
+        for name, rows in built.items():
+            RD.write_json(self.data / name, rows)
+        RD.write_json(self.data / "standards.json", [])
+        RD.write_json(self.data / "outline.json", {"volumes": []})
+        capsule = self.data / "curriculum_comparisons" / "fixture.json"
+        RD.write_json(capsule, {"comparison_status": "complete"})
+        actual_root = build_db.ROOT
+
+        def fixture_hash(path):
+            # Runtime code lives in the real checkout; fixture data lives in its
+            # temporary root.  Hash both real contents, without copying the repo.
+            path = pathlib.Path(path)
+            if path.is_file():
+                return RD.sha256_lf(path)
+            return RD.sha256_lf(actual_root / path.relative_to(self.data.parent))
+
+        with patch.object(build_db.store, "DATA", self.data), \
+                patch.object(build_db, "ROOT", self.data.parent), \
+                patch.object(build_db, "sha256", fixture_hash):
+            manifest_path = build_db.write_manifest({}, include_external=False)
+        manifest = RD.read_json(manifest_path)
+        sources = {item["name"]: item["sha256"] for item in manifest["sources"]}
+        self.assertEqual(sources[BO.TRANSFORM_ENTRYPOINT], RD.sha256_lf(actual_root / BO.TRANSFORM_ENTRYPOINT))
+        for name in ("tools/curriculum_compare.py", "tools/teach_cards.py", "tools/coverage_report.py"):
+            self.assertIn(name, sources)
+        assets = {item["name"]: item["sha256"] for item in manifest["learning_assets"]}
+        self.assertEqual(assets["data/curriculum_comparisons/fixture.json"], RD.sha256_lf(capsule))
+
+
+class ApplicationWriterBuildTest(unittest.TestCase):
+    def test_write_cli_delegates_to_registered_build_without_existing_outputs(self):
+        from tools import write_application_items as writer
+        with tempfile.TemporaryDirectory() as directory:
+            data = pathlib.Path(directory) / "data"
+            with patch.object(writer, "DATA", data), patch("sys.argv", ["write_application_items.py"]), \
+                    patch.object(RD, "main", return_value=0) as rebuild:
+                self.assertEqual(writer.main(), 0)
+            rebuild.assert_called_once_with(["--data-dir", str(data), "--write"])
 
 
 if __name__ == "__main__":

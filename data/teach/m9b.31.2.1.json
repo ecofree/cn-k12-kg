@@ -1,0 +1,77 @@
+{
+ "schema": 1,
+ "review_status": "draft",
+ "author": "ai",
+ "author_type": "ai",
+ "topicId": "m9b.31.2.1",
+ "name": "平行线分线段成比例",
+ "tier": "core",
+ "hook": "同一组平行线截在两条斜线上的长度不同，哪些比值却保持一致？",
+ "definition": "三条平行线截两条直线，所得的对应线段成比例；这一基本事实是判定三角形相似的出发点。",
+ "why": "沿固定方向把一条截线投到另一条截线，平行投射保持线上分点的比例，虽然长度整体改变。对应截段必须位于同一对平行线之间；换成整段时分子分母也要同步对应。",
+ "when_to_use": [
+  "三条平行线截两条直线",
+  "三角形一边的平行线截其余两边"
+ ],
+ "steps": [
+  "确定共同的平行线组及两条截线",
+  "按同一对平行线匹配相应分段或整段",
+  "列比例求值，并用段长相加检查"
+ ],
+ "worked_example": {
+  "prompt": "△ABC中D在AB上、E在AC上且DE∥BC，AD=3、DB=2、AC=10，求AE。",
+  "answer": "6",
+  "steps": [
+   "AB=AD+DB=5；平行截线关系给出AD/AB=AE/AC。",
+   "所以3/5=AE/10，AE=6，EC=4也满足AD/DB=AE/EC。"
+  ],
+  "verify": "3/(3+2)*10"
+ },
+ "pitfalls": [
+  "AD/DB对应AE/EC，而AD/AB对应AE/AC，不能交叉混搭。",
+  "没有平行条件时不能只凭示意图直接列截线比例。"
+ ],
+ "check": "独立完成并解释：三条平行线依次交两条截线于A、B、C和D、E、F，写两条等价比例式。；△ABC中，D在边AB上、E在边AC上，DE∥BC。AD=4、DB=6、AE=6，求EC。 请写出判断或计算依据。",
+ "objective_coverage": [
+  {
+   "criterion_index": 0,
+   "title": "能说出平行线分线段成比例的基本事实",
+   "explanation": "三条平行线在两截线上截得的对应线段成比例，先说明对应范围。",
+   "self_check": {
+    "prompt": "三条平行线依次交两条截线于A、B、C和D、E、F，写两条等价比例式。",
+    "reference_answer": "AB/BC=DE/EF，也可写AB/AC=DE/DF；AB与DE、BC与EF分别在同一对平行线之间。",
+    "criteria": [
+     "两条比例均对应正确",
+     "解释同一对平行线之间"
+    ]
+   }
+  },
+  {
+   "criterion_index": 1,
+   "title": "能用它求线段的长度",
+   "explanation": "分段长度的比例可转为方程，求后用整段关系核查。",
+   "self_check": {
+    "prompt": "△ABC中，D在边AB上、E在边AC上，DE∥BC。AD=4、DB=6、AE=6，求EC。 请写出判断或计算依据。",
+    "reference_answer": "平行线分线段成比例，AD/DB=AE/EC，即4/6=6/EC，解得EC=9；分段与整段不能混用。",
+    "criteria": [
+     "列4/6=6/EC",
+     "EC=9且整段比例4/10=6/15"
+    ]
+   }
+  }
+ ],
+ "practice": [
+  {
+   "id": "m9b.31.2.1-q201",
+   "note": "独立作答后，按解析检查关键条件和推理。"
+  },
+  {
+   "id": "m9b.31.2.1-q202",
+   "note": "独立作答后，按解析检查关键条件和推理。"
+  },
+  {
+   "id": "m9b.31.2.1-q101",
+   "note": "独立作答后，按解析检查关键条件和推理。"
+  }
+ ]
+}

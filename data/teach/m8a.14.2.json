@@ -1,0 +1,76 @@
+{
+ "schema": 1,
+ "review_status": "draft",
+ "author": "ai",
+ "author_type": "ai",
+ "topicId": "m8a.14.2",
+ "name": "三角形全等的判定",
+ "tier": "core",
+ "hook": "知道两边和一个角，为什么有时够判全等，有时却不够？",
+ "definition": "判定两个三角形全等有 SSS、SAS、ASA、AAS，直角三角形还有 HL；两边及其中一边的对角（SSA）和三个角（AAA）都不能判定全等。",
+ "why": "全等判定的条件必须足以锁定三角形形状和大小。SAS中的夹角固定两边张开的程度，SSA的角不在两边之间可能形成两种三角形；AAA只固定形状，整体放大后角不变而边长改变。",
+ "when_to_use": [
+  "要从已知边角证明两个三角形全等",
+  "已知条件中需要区分夹角与非夹角"
+ ],
+ "steps": [
+  "先按对应顺序列可用的边角条件",
+  "选SSS、SAS、ASA、AAS，直角三角形可选HL",
+  "核查夹角或直角等前提，写全条件和结论"
+ ],
+ "worked_example": {
+  "prompt": "△ABC与△DEF中，AB=DE、AC=DF、∠A=∠D。证明两三角形全等。",
+  "answer": "△ABC≌△DEF（SAS）",
+  "steps": [
+   "∠A由AB、AC组成，∠D由DE、DF组成，两角都是已知两边的夹角。",
+   "两边及夹角对应相等，因此根据SAS，△ABC≌△DEF。"
+  ]
+ },
+ "pitfalls": [
+  "SSA不是一般全等判定，直角三角形的HL有直角前提。",
+  "AAA只能保证相似，不能限制图形大小。"
+ ],
+ "check": "独立完成并解释：△ABC与△ADC中，AB=AD、BC=DC，证明△ABC≌△ADC。；给出AAA不保证全等的例子，并解释SSA为什么一般不充分。",
+ "objective_coverage": [
+  {
+   "criterion_index": 0,
+   "title": "能根据已知条件选择合适的判定方法",
+   "explanation": "选择判定要把三条条件逐一对上，并标明对应顶点。",
+   "self_check": {
+    "prompt": "△ABC与△ADC中，AB=AD、BC=DC，证明△ABC≌△ADC。",
+    "reference_answer": "AC为公共边，AC=AC；加上AB=AD、BC=DC，三边对应相等，因此△ABC≌△ADC（SSS）。",
+    "criteria": [
+     "补出公共边条件",
+     "三组边对应且结论顺序正确"
+    ]
+   }
+  },
+  {
+   "criterion_index": 1,
+   "title": "能说明 SSA 与 AAA 为什么不能判定全等",
+   "explanation": "无效判定可用两种大小或形状不同但满足条件的三角形反驳。",
+   "self_check": {
+    "prompt": "给出AAA不保证全等的例子，并解释SSA为什么一般不充分。",
+    "reference_answer": "边长1与2的两个等边三角形各角都60°但不全等。SSA未固定夹角；例如固定A=30°、AC=4、BC=3，点B在射线AB上且到C距离3的圆可交射线两点，得到不同三角形。",
+    "criteria": [
+     "AAA给出实际反例",
+     "SSA说明圆与射线可有两个交点的结构"
+    ]
+   }
+  }
+ ],
+ "practice": [
+  {
+   "id": "m8a.14.2-q101",
+   "note": "独立作答后，按解析检查关键条件和推理。"
+  },
+  {
+   "id": "m8a.14.2-q102",
+   "note": "独立作答后，按解析检查关键条件和推理。"
+  },
+  {
+   "id": "m8a.14.2-q3",
+   "note": "独立作答后，按解析检查关键条件和推理。"
+  }
+ ]
+}

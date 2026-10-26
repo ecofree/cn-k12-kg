@@ -1,13 +1,18 @@
-"""把选择题的正确选项均匀打散到各位置。
+"""Build-time balancing of displayed correct-option positions.
 
-为什么需要：题库是分批手写的，正确项习惯性落在 B 上。实测 422 道选择题里
-B 占 51%、D 只占 3%——学生只要一路选 B 就能答对一半，比随机猜测高出一倍。
+Questions with the same number of choices are sorted by the hash of their
+stable question ID, then assigned positions in round-robin order.  The largest
+and smallest position counts differ by at most one.  Rotating the option array
+preserves option IDs, option content and the answer ID.  Reapplying the same
+transform to the same population is a no-op.  Adding or removing questions can
+change other target positions in their option-count group.
 
-做法：对每道题按 id 的哈希在 A/B/C/D 里挑一个目标位置，然后把选项整体旋转，
-让正确项落在该位置，再按 A、B、C、D 重新贴标签。旋转保留选项之间的相对顺序，
-不会改变题意，也不会让正确项与干扰项互换内容。
-
-幂等：目标位置只由 id 决定，跑第二遍时正确项已在目标位置，旋转量为 0。
+This is an explicit transform in data/content_sources.json, applied after all
+authoring sources and application generators have been merged.  The CLI uses
+that same source build; it never patches either generated questions or source
+files in isolation.  Quality-review records are preserved, never re-signed:
+their content hash includes choice order, so a moved question needs a review
+of its resulting version before the old approval can be accepted again.
 
     python tools/balance_options.py --dry-run
     python tools/balance_options.py
@@ -16,122 +21,174 @@ from __future__ import annotations
 
 import argparse
 import collections
+import copy
 import hashlib
-import json
 import pathlib
+import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
+TRANSFORM_NAME = "balanced-choice-positions"
+TRANSFORM_VERSION = 1
+TRANSFORM_ENTRYPOINT = "tools/balance_options.py"
+
+# These are conservative checks for explicit option references, not a proof
+# that arbitrary prose is order-independent.  Geometry labels and mathematical
+# terms such as "余弦差角中第二项" are not display positions.  Bare ordinals need
+# a content review; do not automatically rewrite mathematical explanations.
+OPTION_REF_RE = re.compile(
+    r"(?:^|[，。；、\s（(])([ABCD])\s*(?:错|对|正确|错误|项|选项)"
+    r"|选项\s*[ABCD]"
+    r"|只有\s*[ABCD]\s*(?:符合|是|对)"
+    r"|(?:故选|所以选|因此选|应选|应选择)\s*[:：]?\s*[ABCD](?![A-Za-z])"
+    r"|(?:正确)?答案(?:应为|为|是)\s*[:：]?\s*[ABCD](?![A-Za-z])")
+OPTION_ORDINAL_RE = re.compile(
+    r"第\s*[一二三四五六七八九十\d]+\s*(?:个)?选项"
+    r"|(?:前|后)\s*[一二两三四五六七八九十\d]+\s*(?:个)?选项")
+RELATIVE_CHOICE_RE = re.compile(r"(?:以上|上述|前面|上面|以下|下面)(?:的)?(?:都|均|皆|全|各|选项)")
 
 
-def dump(path: pathlib.Path, rows: list):
-    lines = ",\n".join(json.dumps(r, ensure_ascii=False, separators=(",", ":")) for r in rows)
-    path.write_text("[\n" + lines + "\n]\n", encoding="utf-8")
+class ChoiceOrderError(ValueError):
+    """A question cannot safely participate in the option-order transform."""
+
+
+def correct_position(question: dict) -> int | None:
+    """Return the actual zero-based display position, never an option-ID label."""
+    if question.get("type") != "choice":
+        return None
+    choices = question.get("choices")
+    if not isinstance(choices, list) or not choices:
+        return None
+    if any(not isinstance(choice, dict) for choice in choices):
+        return None
+    ids = [choice.get("id") for choice in choices]
+    if any(not isinstance(oid, str) or not oid for oid in ids) or len(set(ids)) != len(ids):
+        return None
+    answer = question.get("answer")
+    return ids.index(answer) if answer in ids else None
+
+
+def position_label(position: int) -> str:
+    return chr(ord("A") + position) if 0 <= position < 26 else str(position + 1)
+
+
+def display_position_counts(questions: list) -> dict[int, collections.Counter]:
+    """Group actual correct positions by option count, excluding malformed rows."""
+    groups = collections.defaultdict(collections.Counter)
+    for question in questions:
+        position = correct_position(question)
+        if position is not None:
+            groups[len(question["choices"])][position] += 1
+    return dict(groups)
+
+
+def position_reference_fields(question: dict) -> list[str]:
+    """Identify explicit order-dependent text; callers must fix its source."""
+    if question.get("type") != "choice":
+        return []
+    fields = {name: question.get(name) or "" for name in ("prompt", "explanation")}
+    for i, choice in enumerate(question.get("choices") or []):
+        if isinstance(choice, dict):
+            fields[f"choices[{i}].text"] = choice.get("text") or ""
+    found = []
+    for name, value in fields.items():
+        value = str(value)
+        if (OPTION_REF_RE.search(value) or OPTION_ORDINAL_RE.search(value)
+                or (name.startswith("choices[") and RELATIVE_CHOICE_RE.search(value))):
+            found.append(name)
+    return found
 
 
 def hash_rank(qid: str) -> int:
-    """用 id 的哈希当排序键：同 id 永远得到同一个位置，与当前选项顺序无关。"""
-    return int(hashlib.sha256(qid.encode("utf-8")).hexdigest()[:12], 16)
+    """A stable rank independent of current option order or input-file order."""
+    return int(hashlib.sha256(qid.encode("utf-8")).hexdigest(), 16)
 
 
-def assign_targets(questions: list) -> dict:
-    """按选项数分组，哈希排序后轮流分配目标位置，保证每组内近似完全均衡。
-
-    单靠 hash % n 在大样本下会有 2—3 个百分点的随机偏差（实测 4 选项组 C 占 31%），
-    轮流分配把偏差压到 1 道题以内。
-    """
-    groups = {}
-    for q in questions:
-        if q.get("type") == "choice" and q.get("choices"):
-            groups.setdefault(len(q["choices"]), []).append(q)
+def assign_targets(questions: list) -> dict[str, int]:
+    """Assign a balanced position per option-count group in stable ID order."""
+    groups = collections.defaultdict(list)
+    seen = set()
+    for question in questions:
+        if question.get("type") != "choice":
+            continue
+        qid = question.get("id")
+        if not isinstance(qid, str) or not qid or qid in seen:
+            raise ChoiceOrderError(f"missing or duplicate choice question ID: {qid!r}")
+        seen.add(qid)
+        if correct_position(question) is None:
+            raise ChoiceOrderError(f"{qid}: choices need unique stable IDs and a matching answer ID")
+        groups[len(question["choices"])].append(question)
     targets = {}
-    for n, rows in groups.items():
-        rows.sort(key=lambda q: hash_rank(q["id"]))
-        for i, q in enumerate(rows):
-            targets[q["id"]] = i % n
+    for size, rows in groups.items():
+        # The ID tie-break also makes the result deterministic in a hash collision.
+        for i, question in enumerate(sorted(rows, key=lambda q: (hash_rank(q["id"]), q["id"]))):
+            targets[question["id"]] = i % size
     return targets
 
 
 def balance(question: dict, want: int) -> dict:
-    """把正确项挪到第 want 个位置，返回重排后的题目。
-
-    **option_id 改造后，这里不再有方向陷阱。**
-    选项带着自己的 id 一起移动，答案指向的是 id，所以答案**完全不用改**——
-    不可能再出现"旋转后答案指错"这类事故。
-    旧的实现要按 (old - want) % n 计算旋转量，写反一次就让 307 道题的答案键失效（见 D19）。
-
-    返回的 choices 顺序变了，但 id 不变；显示用的字母由前端按下标生成。
-    """
-    choices = question.get("choices") or []
-    if question.get("type") != "choice" or not choices:
+    """Rotate choices to a zero-based position without modifying any payload."""
+    if question.get("type") != "choice":
         return question
-    ids = [c.get("id") for c in choices]
-    answer_id = question.get("answer")
-    if answer_id not in ids:
-        return question
-
-    n = len(choices)
-    old = ids.index(answer_id)
+    old = correct_position(question)
+    if old is None:
+        raise ChoiceOrderError(f"{question.get('id')}: invalid choice IDs or answer ID")
+    choices = question["choices"]
+    if not isinstance(want, int) or not 0 <= want < len(choices):
+        raise ChoiceOrderError(f"{question.get('id')}: invalid target position {want!r}")
     if old == want:
         return question
-
-    k = (old - want) % n          # 左移 k 位后，old 位置的元素落到 want
-    rotated = choices[k:] + choices[:k]
-    assert [c["id"] for c in rotated][want] == answer_id, "旋转后正确项丢失"
-    return {**question, "choices": rotated}
+    shift = (old - want) % len(choices)
+    return {**question, "choices": choices[shift:] + choices[:shift]}
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--dry-run", action="store_true")
-    args = ap.parse_args()
-
-    path = DATA / "questions.json"
-    questions = json.loads(path.read_text(encoding="utf-8"))
-    before = collections.Counter()
-    after = collections.Counter()
-    changed = 0
-    updated = {}
+def balance_questions(questions: list) -> list:
+    """Pure, idempotent transform of the complete merged question population."""
     targets = assign_targets(questions)
+    for question in questions:
+        fields = position_reference_fields(question)
+        if fields:
+            raise ChoiceOrderError(f"{question['id']}: display-position reference in {', '.join(fields)}; "
+                                   "explain the option content in its authoring source")
+    # Do not let callers mutate source data, flags or review records via aliases.
+    return [balance(q, targets[q["id"]]) if q.get("type") == "choice" else q
+            for q in copy.deepcopy(questions)]
 
-    for i, q in enumerate(questions):
-        if q.get("type") != "choice":
-            continue
-        before[q["answer"]] += 1
-        new = balance(q, targets[q["id"]])
-        if new != q:
-            changed += 1
-            questions[i] = new
-            updated[q["id"]] = new
-            q = new
-        after[q["answer"]] += 1
 
-    print(f"选择题 {sum(before.values())}，调整 {changed} 道")
-    print("调整前", dict(sorted(before.items())), "最大占比",
-          f"{max(before.values()) / max(sum(before.values()), 1):.0%}")
-    print("调整后", dict(sorted(after.items())), "最大占比",
-          f"{max(after.values()) / max(sum(after.values()), 1):.0%}")
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--data-dir", type=pathlib.Path, default=DATA)
+    args = ap.parse_args(argv)
+    # Import only at the CLI boundary: rebuild_data imports this pure transform.
+    sys.path.insert(0, str(ROOT))
+    from tools import rebuild_data
 
-    if args.dry_run:
+    try:
+        registry = rebuild_data.load_registry(args.data_dir)
+        if not any(t.get("name") == TRANSFORM_NAME for t in registry.get("question_transforms", [])):
+            raise rebuild_data.SourceError("register balanced-choice-positions before building")
+        rows, _ = rebuild_data.build_data(args.data_dir, apply_transforms=False)
+        before = rows["questions.json"]
+        after = rebuild_data.apply_question_transforms(before, registry)
+        changed = sum(left != right for left, right in zip(before, after))
+        print(f"选择题 {sum(q.get('type') == 'choice' for q in before)}，构建变换调整 {changed} 道")
+        counts_before, counts_after = display_position_counts(before), display_position_counts(after)
+        for size in sorted(counts_after):
+            first = {position_label(i): counts_before[size][i] for i in range(size)}
+            last = {position_label(i): counts_after[size][i] for i in range(size)}
+            print(f"{size} 选项实际显示位置：变换前 {first}；变换后 {last}")
+        if args.dry_run:
+            return 0
+        rows["questions.json"] = after
+        for name, output in rows.items():
+            rebuild_data.write_json(args.data_dir / name, output)
+        print(f"已从登记源重建 {', '.join(rebuild_data.OUTPUTS)}；内容源与审核记录未改写")
         return 0
-
-    dump(path, questions)
-    synced = 0
-    for content in sorted((DATA / "content").glob("*.json")):
-        payload = json.loads(content.read_text(encoding="utf-8"))
-        hit = 0
-        for i, q in enumerate(payload.get("questions", [])):
-            if q.get("id") in updated:
-                payload["questions"][i] = updated[q["id"]]
-                hit += 1
-        if hit:
-            content.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-                               encoding="utf-8")
-            synced += hit
-            print(f"  同步 {content.name}：{hit} 题")
-    print(f"已写入 questions.json，并同步内容文件 {synced} 题")
-    return 0
+    except (rebuild_data.SourceError, OSError, ValueError, KeyError, TypeError) as exc:
+        print(f"OPTION BALANCE FAILED: {exc}", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":

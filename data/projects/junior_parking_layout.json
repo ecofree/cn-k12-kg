@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "id": "junior_parking_layout",
+  "title": "综合与实践 停车位设计问题",
+  "stage": "junior",
+  "outline_refs": [
+    {
+      "book_id": "九下",
+      "title": "综合与实践 停车位设计问题"
+    }
+  ],
+  "standard_ids": [
+    "cms-2022:4.GE.14",
+    "cms-2022:4.NA.19",
+    "cms-2022:4.GE.16"
+  ],
+  "standard_alignment_note": "仅用目录原题名定位；下列情境、数据、步骤与评价材料为原创。课标关联为作者按活动涉及的数学内容所作映射，未标作教师审定。",
+  "task_brief": "在24米×18米的模拟矩形场地中比较两排停车位，中间留6米通道。每个车位视为5米×2.5米矩形，长边与通道边成90°或60°。只比较给定几何约束下矩形能否放入，不把图纸容量当实际车辆通行能力或规范结论。要求计入斜列两端的完整矩形外伸，不能仅用场地长度除以车位间距。",
+  "duration_hint": "3课时，每课时约40分钟；允许分组测量、计算与交流各占一课时。",
+  "objectives": [
+    {
+      "id": "junior_parking_layout:o1",
+      "statement": "能画出垂直与斜列车位，并用三角函数把车位长度宽度投影为占地深度和首末外伸。"
+    },
+    {
+      "id": "junior_parking_layout:o2",
+      "statement": "能计算两方案每排的整数车位数，核验整个图形在场地内且通道保持6米。"
+    },
+    {
+      "id": "junior_parking_layout:o3",
+      "statement": "能用比例图复核数量并说明矩形排列模型未包含的实际转弯、出入口等因素。"
+    }
+  ],
+  "materials": [
+    "24×18米场地和5×2.5米车位的课堂参数",
+    "方格纸、量角器、直尺、计算器",
+    "1:200比例尺；sin60°=√3/2，cos60°=1/2"
+  ],
+  "steps": [
+    {
+      "title": "推导一排尺寸",
+      "objective_ids": [
+        "junior_parking_layout:o1"
+      ],
+      "instructions": "设车位长边与通道边夹角θ。车位深度d=5sinθ+2.5cosθ；相邻车位沿通道平移间距p=2.5/sinθ；单个矩形沿通道投影宽e=5cosθ+2.5sinθ。一排N个的总跨度为e+(N−1)p，画线说明三量各指哪里。",
+      "deliverable": "带方向标记的尺寸推导图。"
+    },
+    {
+      "title": "算整数容量",
+      "objective_ids": [
+        "junior_parking_layout:o2"
+      ],
+      "instructions": "分别代θ=90°、60°，找满足e+(N−1)p≤24的最大整数N，并检查2d+6≤18。近似计算至少保留3位小数，最后向下取整数。",
+      "deliverable": "两个方案的尺寸和容量表。"
+    },
+    {
+      "title": "画完整两排",
+      "objective_ids": [
+        "junior_parking_layout:o1",
+        "junior_parking_layout:o2",
+        "junior_parking_layout:o3"
+      ],
+      "instructions": "按1:200画场地、两排和中央通道，标明斜列的最左最右角，检查末端是否越界。不得把每个车位简化成只占p宽的竖条。",
+      "deliverable": "含首末车位轮廓的比例图。"
+    },
+    {
+      "title": "说明评价边界",
+      "objective_ids": [
+        "junior_parking_layout:o3"
+      ],
+      "instructions": "比较容纳数量和余量，写出本模型中较多的方案；另列出实际出入口、转弯或场地障碍等还需补充的信息，不把未建模因素写成已经验证。",
+      "deliverable": "数量结论与模型限制说明。"
+    }
+  ],
+  "deliverables": [
+    "两种角度的投影推导与整数计算表",
+    "1:200完整比例图",
+    "容量比较及未建模因素说明"
+  ],
+  "rubric": [
+    {
+      "objective_ids": [
+        "junior_parking_layout:o1"
+      ],
+      "criterion": "深度、相邻间距和端部投影区分清楚，公式有图形依据。",
+      "points": 2,
+      "example": "60°时d≈5.580，p≈2.887，e≈4.665，一排总长不是Np。"
+    },
+    {
+      "objective_ids": [
+        "junior_parking_layout:o2"
+      ],
+      "criterion": "整数容量及双排加通道条件正确。",
+      "points": 2,
+      "example": "90°每排9个、总18个，占深16米；60°每排7个、总14个，占深约17.160米。"
+    },
+    {
+      "objective_ids": [
+        "junior_parking_layout:o3"
+      ],
+      "criterion": "图形未越界，结论只限给定几何条件。",
+      "points": 2,
+      "example": "60°第7位后的跨度约21.986米，第8位约24.872米超出24；实际转弯可行性未由此证明。"
+    }
+  ],
+  "teacher_reference_solution": {
+    "scenario": "θ=90°与60°，两排、6米通道。",
+    "steps": [
+      "90°：d=5，p=e=2.5，N≤24/2.5=9.6，取9；双排深2×5+6=16≤18。",
+      "60°：d=5√3/2+1.25≈5.580，p=5/√3≈2.887，e=2.5+1.25√3≈4.665。",
+      "7位跨度e+6p≈21.986≤24；8位跨度e+7p≈24.872>24，因此每排7位。双排深2d+6≈17.160≤18。",
+      "总位数分别18与14；采用完整矩形投影核算比只用24/p更严格。"
+    ],
+    "conclusion": "在本纸面矩形模型下90°方案数量更多；真实场地设计还需另核通道与车辆动作等约束。"
+  },
+  "teacher_notes": [
+    "各车位沿通道方向平移p时，其在宽边法向的间距为p sinθ=2.5，保证矩形内部不重叠。",
+    "若学生采用另一种端部安排，允许不同方案，但须画全角点并重新核算外轮廓，不能混用公式。"
+  ],
+  "assessment_note": "每项目标依据相应作品独立评分：0分为未展示或关键结论错误，1分为部分正确但缺条件、依据或核对，2分为完整正确且可复核。共6分；反馈指出具体证据，不把参加活动或排版漂亮当作目标达成。",
+  "review_status": "draft",
+  "author_type": "ai",
+  "teacher_review": {
+    "status": "pending"
+  },
+  "provenance": {
+    "kind": "original_activity",
+    "outline_used_for": "title_and_navigation",
+    "textbook_text_reproduced": false
+  }
+}
