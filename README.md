@@ -130,7 +130,7 @@ data/
   content/           按册撰写的内容（bx1 = 必修一，bx2 = 必修二），apply_content.py 的输入
   topics.json        知识点（477 个，全部 draft）
   dependencies.json  先修边（586 条，含 hard/soft 与理由；跨学段 27 条）
-  questions.json     自有题库（2235 题：数值 1257 / 短答 91 / 选择 887；数值题强制带 verify）
+  questions.json     自有题库（2401 题：数值 1414 / 短答 100 / 选择 887；数值题强制带 verify）
   questions_ext.json 外部题库（23313 题：可诊断 9005，其余按准入等级留在库内）
   stage_policy.json  三学段独立策略；顶部 `_口径` 定义三套统计口径，改动前先读
   standards.json     课标条款（78 条：小学 28 + 初中 33 + 高中 20，自撰摘要，标 verbatim=false）
@@ -167,7 +167,7 @@ tools/
   build_review_page.py 生成题目复核工作台（web/static/review.html）
   find_duplicates.py 近似重复题检测（题干+选项 / 仅题干 两条通道）
   apply_graph_fix.py 按清单修正先修边，并同步内容源文件
-tests/               81 个单元测试
+tests/               300 个单元测试
 web/                 本地 Web 服务与单页前端
 build/               kg.sqlite、verification_report.json（可删除重建）
 ```
@@ -241,7 +241,7 @@ id 是唯一主键，跨学段重名不会冲突——按 name 做 join 必错�
 ## License
 
 - **代码**（`cnkg/`、`tools/`、`web/`）：MIT。
-- **本项目原创数据**（知识点表、先修关系、2303 道自有题、309 张讲解卡、
+- **本项目原创数据**（知识点表、先修关系、2401 道自有题、54 张核心讲解卡、
   50 张速查卡）：CC BY 4.0，署名「cn-k12-kg」。
 - **第三方数据不随仓库分发**：`data/questions_ext.json`（CMM / smse / 高考真题）
   的来源分散、许可未逐一确认，已在 `.gitignore` 中排除；重建方式见
