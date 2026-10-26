@@ -40,6 +40,7 @@ class PlannerTests(unittest.TestCase):
         self.assertEqual(revise["work_resource_id"], "session_task:s1:p1")
         self.assertIn("transfer", [action["action"] for action in first["next_steps"]])
         work = {"resource_id": revise["work_resource_id"], "kind": "session_task", "self_assessment_reported": True,
+                "self_assessment_completed": True,
                 "has_draft": True, "source_ref": {"session_id": "s1", "question_id": "p1"}}
         second = plan(catalog(), [original], [work], now=NOW)
         self.assertFalse(any(action.get("continuation") == "reflect_and_revise" for action in second["next_steps"]))
@@ -61,11 +62,11 @@ class PlannerTests(unittest.TestCase):
 
     def test_aggregated_review_counts_preserve_one_three_seven_day_rule(self):
         delayed = record(mode="delayed")
-        delayed["phase_completion_count"] = 1
+        delayed["qualified_review_count"] = 1
         suggestion = plan(catalog(), [delayed], now=NOW)["next_steps"][0]
         self.assertEqual(suggestion["interval_days"], 3)
         self.assertFalse(suggestion["ready"])
-        delayed["phase_completion_count"] = 8
+        delayed["qualified_review_count"] = 8
         suggestion = plan(catalog(), [delayed], now=NOW)["next_steps"][0]
         self.assertEqual(suggestion["interval_days"], 7)
 
@@ -152,7 +153,7 @@ class PlannerTests(unittest.TestCase):
         session["answers"] += [{"question_id": "p2", "status": "needs_review"},
                                {"question_id": "p3", "status": "needs_review"}]
         works = [{"resource_id": "session_task:s1:p1", "kind": "session_task", "has_draft": True,
-                  "self_assessment_reported": True},
+                  "self_assessment_reported": True, "self_assessment_completed": True},
                  {"resource_id": "session_task:earlier:p1", "kind": "session_task", "has_draft": True}]
         steps = plan(catalog(), [session], works, now=NOW)["next_steps"]
         revisions = [step for step in steps if step.get("continuation") == "reflect_and_revise"]

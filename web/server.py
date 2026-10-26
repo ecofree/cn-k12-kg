@@ -14,6 +14,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import os
 import json
 import pathlib
@@ -39,6 +40,7 @@ from cnkg import catalog as catalog_module  # noqa: E402
 from cnkg.graph import VOLUME_ORDER, load_graph  # noqa: E402
 from cnkg.verify import compare, compare_short, to_number, to_fraction, normalize_text  # noqa: E402
 from cnkg.answers import grade_answer  # noqa: E402
+from cnkg.review_timing import interval_context  # noqa: E402
 
 # 外部题（真题源）默认不加载。
 # 可选题库的实际准入量由当前证据策略决定；题量不等于独立学科审核。
@@ -439,8 +441,11 @@ def _version_problem(record):
         elif record["content_sha256"] != graph_version():
             return "旧版会话缺少完整内容快照。原记录已保留，请重新开始检查；本题尚未计分。"
     if record["kind"] == "unit":
-        current_hash = (session_content.unit_hash(record["unit_snapshot"], record["asset_snapshots"])
-                        if "asset_snapshots" in record else learning.unit_content_sha256(record["unit_snapshot"]))
+        try:
+            current_hash = (session_content.unit_hash(record["unit_snapshot"], record["asset_snapshots"])
+                            if "asset_snapshots" in record else learning.unit_content_sha256(record["unit_snapshot"]))
+        except (KeyError, TypeError, ValueError):
+            return "保存的任务或图示快照不完整。原记录已保留，本题尚未计分。"
         if current_hash != record["content_sha256"]:
             return "本次任务的内容版本校验失败。旧记录已保留，请重新开始；本题尚未计分。"
     if record["kind"] == "unit" and record.get("grader_sha256") != unit_grader_version():
@@ -507,6 +512,46 @@ def export_record(record):
             shown.update({k: copy.deepcopy(entry[k]) for k in
                           ("status", "reason", "answer", "explanation", "feedback", "rubric") if k in entry})
         out["answers"].append(shown)
+    # Public task snapshots make stable option IDs and diagram-dependent
+    # responses interpretable without today's catalog. Only tasks that were
+    # actually presented are exported; unreleased reference answers stay hidden.
+    tasks = ({task["id"]: task for task in record.get("unit_snapshot", {}).get("tasks", [])}
+             if record["kind"] == "unit" else record.get("question_snapshots", {}))
+    out["presented_tasks"], out["assets"] = [], {}
+    observed_objectives = set()
+    for qid, presentation in record.get("presentations", {}).items():
+        question = tasks.get(qid)
+        item = {"question_id": qid, **copy.deepcopy(presentation)}
+        if question is None:
+            answer = next((entry for entry in record["answers"] if entry["question_id"] == qid), {})
+            item.update(question={"id": qid, "prompt": answer.get("prompt", "")},
+                        snapshot_status="partial_legacy_record")
+        else:
+            item.update(question=public_question(question), snapshot_status="saved_public_task")
+            metadata = presented_metadata(record, qid)
+            item["task_metadata"] = {key: copy.deepcopy(metadata[key]) for key in
+                ("resource_version", "skill_ids", "family_id", "family_status", "alignment", "answer_spec")
+                if key in metadata}
+            if "answer_spec" in metadata:
+                item["question"]["answer_spec"] = copy.deepcopy(metadata["answer_spec"])
+            observed_objectives.update(question.get("objective_ids", []))
+            diagram = question.get("diagram")
+            if diagram:
+                src = diagram["src"]
+                if src not in out["assets"]:
+                    try:
+                        raw = session_content.asset_bytes(record, src.rsplit("/", 1)[-1])
+                        out["assets"][src] = ({"status": "verified_frozen_asset", "content_type": "image/svg+xml",
+                            "sha256": hashlib.sha256(raw).hexdigest(),
+                            "body_base64": base64.b64encode(raw).decode("ascii")} if raw is not None else
+                            {"status": "not_saved_in_original_record"})
+                    except (KeyError, ValueError):
+                        out["assets"][src] = {"status": "saved_asset_failed_integrity_check"}
+        out["presented_tasks"].append(item)
+    if record["kind"] == "unit":
+        out["objective_definitions"] = [copy.deepcopy(objective)
+            for objective in record.get("unit_snapshot", {}).get("objectives", [])
+            if objective["id"] in observed_objectives]
     if record.get("completed_at"):
         out["summary"] = session_summary(record)
         out["verdictText"] = record.get("verdict_snapshot", "这是原内容版本保存的结果，请查看各项目证据。")
@@ -734,11 +779,38 @@ class Handler(BaseHTTPRequestHandler):
     def _work_exposure(self, resource):
         snapshot = resource["resource_snapshot"]
         task_ids = snapshot.get("task_ids", [])
+        if resource["kind"] == "session_task":
+            source = resource["source_ref"]
+            record = get_store().load(source["session_id"], self._owner())
+            if record:
+                self._provided_tasks(record, [source["question_id"]])
+            return
         if task_ids:
             get_store().add_event(self._owner(), {"event_type": "question_presented", "occurred_at": _now(),
                 "resource_id": resource["resource_id"], "content_sha256": resource["resource_version"],
                 "payload": {"task_ids": task_ids, "family_ids": snapshot.get("family_ids", []),
                             "evidence": "work_task_provided_not_proof_of_completion"}})
+
+    def _provided_tasks(self, record, task_ids, event_type="session_content_provided"):
+        """Append a replay exposure without changing frozen answers or timing."""
+        known = set(record.get("presentations", {})) | {entry["question_id"] for entry in record.get("answers", [])}
+        shown = sorted(set(task_ids) & known)
+        if not shown:
+            return
+        families = sorted({metadata["family_id"] for qid in shown
+            if (metadata := presented_metadata(record, qid)).get("family_status") == "declared"
+            and metadata.get("family_id")})
+        get_store().add_event(self._owner(), {"event_type": event_type, "occurred_at": _now(),
+            "resource_id": record.get("unit_id"), "content_sha256": record.get("resource_version", record["content_sha256"]),
+            "payload": {"task_ids": shown, "family_ids": families,
+                        "evidence": "saved_content_provided_again_not_proof_of_reading"}}, session_id=record["id"])
+
+    def _session_response_exposure(self, record, response):
+        shown = [entry["question_id"] for entry in response.get("summary", {}).get("answers", [])]
+        shown += [entry["question_id"] for entry in response.get("saved_answers", [])]
+        if response.get("item"):
+            shown.append(response["item"]["question"]["id"])
+        self._provided_tasks(record, shown)
 
     def do_GET(self):  # noqa: N802
         parsed = urllib.parse.urlparse(self.path)
@@ -784,11 +856,21 @@ class Handler(BaseHTTPRequestHandler):
                     body = session_content.asset_bytes(record, urllib.parse.unquote(asset.group(2)))
                 except ValueError as exc:
                     return self._error(409, str(exc))
+                if body:
+                    tasks = (record.get("unit_snapshot", {}).get("tasks", []) if record["kind"] == "unit"
+                             else record.get("question_snapshots", {}).values())
+                    self._provided_tasks(record, [task["id"] for task in tasks
+                        if task.get("diagram", {}).get("src", "").rsplit("/", 1)[-1] == urllib.parse.unquote(asset.group(2))],
+                        "diagram_provided")
                 return self._send(200, body, CONTENT_TYPES["svg"]) if body else self._error(404, "图示尚未呈现")
             sid = path.rsplit("/", 1)[-1]
             with _SESSION_LOCK:
                 record = get_store().load(sid, self._owner())
-                return self._json(200, session_payload(record)) if record else self._error(404, "会话不存在或不属于本浏览器")
+                if record is None:
+                    return self._error(404, "会话不存在或不属于本浏览器")
+                response = session_payload(record)
+                self._session_response_exposure(record, response)
+                return self._json(200, response)
         if path == "/api/history":
             try:
                 limit, offset = int(params.get("limit", "50")), int(params.get("offset", "0"))
@@ -807,7 +889,7 @@ class Handler(BaseHTTPRequestHandler):
                 if not scope.get("completed_at"):
                     saved = get_store().load(scope["id"], owner)
                     scope["resume_blocked"] = bool(_version_problem(saved))
-            return self._json(200, planner.plan(get_catalog(), scopes, get_store().works(owner, limit=1000), stage=stage))
+            return self._json(200, planner.plan(get_catalog(), scopes, get_store().works(owner, limit=None), stage=stage))
         if path in ("/api/work", "/api/works", "/api/work/revisions"):
             owner = self._owner()
             try:
@@ -831,10 +913,19 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/export":
             owner = self._owner()
             with _SESSION_LOCK:
-                return self._json(200, {"schema": 2, "exported_at": _now(),
+                records = get_store().records(owner)
+                exported_sessions = [export_record(record) for record in records]
+                for record in records:
+                    self._provided_tasks(record, list(record.get("presentations", {})), "export_content_provided")
+                exported_works = export_works(owner)
+                for work in exported_works:
+                    if work["revisions"]:
+                        self._work_exposure(portfolio.from_work(work["revisions"][0]))
+                return self._json(200, {"schema": 3, "exported_at": _now(),
+                    "export_kind": "readable_learning_record_not_database_backup",
                     "evidence_notice": "匿名浏览器记录；请求材料和服务端放出反馈不证明实际阅读，时间间隔不证明独立作答。",
-                    "sessions": [export_record(r) for r in get_store().records(owner)],
-                    "works": export_works(owner),
+                    "sessions": exported_sessions,
+                    "works": exported_works,
                     "events": get_store().events(owner)})
         if path == "/api/topics":
             excluded, _, _ = exposure_exclusions(self._owner())
@@ -1026,16 +1117,20 @@ class Handler(BaseHTTPRequestHandler):
             record["context"].update(material_requested=True,
                 material_requested_at=material["occurred_at"], material_content_sha256=material["content_sha256"],
                 material_exposure_evidence="http_request_only_not_completion")
-        if not previous and not previous_id:
-            candidates = [r for r in get_store().latest_scope_records(owner)
-                          if r.get("completed_at") and r.get("answered_count", 0) and _same_scope(record, r)]
-            previous = max(candidates, key=lambda r: r["completed_at"]) if candidates else None
-        if previous:
-            same_scope = _same_scope(record, previous)
-            delay = _seconds(record["created_at"], previous.get("completed_at")) if same_scope else None
-            record["context"].update(previous_session_id=previous["id"], same_learning_scope=same_scope,
-                previous_created_at=previous["created_at"], previous_completed_at=previous.get("completed_at"),
-                actual_delay_seconds=delay, delay_window_met=bool(delay is not None and delay >= 86400))
+        # A stale result page may name an old predecessor. The server chooses
+        # the latest completed same-scope record and checks intervening exposure.
+        # Keep the requested link for provenance instead of trusting it as a clock.
+        candidates = [r for r in get_store().latest_scope_records(owner)
+                      if r.get("completed_at") and r.get("answered_count", 0) and _same_scope(record, r)]
+        families = {item.get("family_id") for item in record["task_metadata"].values()
+                    if item.get("family_status") == "declared" and item.get("family_id")}
+        for resource in resources:
+            families.update(get_catalog().materials.get(resource, {}).get("family_ids", []))
+        activity = get_store().latest_scope_activity(owner,
+            [*resources, *([record["unit_id"]] if record["kind"] == "unit" else [])],
+            question_ids=record["task_metadata"], family_ids=families)
+        record["context"].update(interval_context(record, candidates,
+            requested_previous=previous, requested_same_scope=_same_scope(record, previous), latest_activity=activity))
         record["feedback_policy"] = "immediate" if mode == "practice" else "deferred"
         events = [_event("session_started", record["created_at"], record, mode=mode, context=record["context"])]
         _present_question(record, events)
@@ -1063,6 +1158,8 @@ class Handler(BaseHTTPRequestHandler):
             response["duplicate"] = True
             response["feedback"] = ({k: prior[k] for k in ("status", "reason", "answer", "explanation", "feedback", "rubric") if k in prior}
                                     if record["feedback_policy"] == "immediate" else {"deferred": True})
+            self._session_response_exposure(record, response)
+            self._provided_tasks(record, [qid])
             return self._json(200, response)
         problem = _version_problem(record)
         if problem:

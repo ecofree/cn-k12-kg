@@ -1,6 +1,8 @@
 """学生闭环的 HTTP 契约：服务端会话、反馈隔离、复测与过程题。"""
 from __future__ import annotations
 import copy
+import base64
+import hashlib
 import json
 from http.cookiejar import CookieJar
 from pathlib import Path
@@ -340,6 +342,163 @@ class LearningWebTest(unittest.TestCase):
         self.assertNotIn('teacher_notes', detail)
         self.assertTrue(all('example' not in row for row in detail['rubric']))
         self.assertEqual(self.request('/api/projects/missing-project')[0], 404)
+
+    def test_stale_previous_link_uses_recent_completion_and_does_not_accelerate_review(self):
+        with patch.object(server, '_now', return_value='2026-10-20T00:00:00+00:00'):
+            _, first = self.request('/api/session', {'unit_id': 'contract', 'mode': 'practice'})
+            _, first = self.answer(first)
+        with patch.object(server, '_now', return_value='2026-10-26T00:00:00+00:00'):
+            _, recent = self.request('/api/session', {'unit_id': 'contract', 'mode': 'practice'})
+            _, recent = self.answer(recent)
+        with patch.object(server, '_now', return_value='2026-10-26T00:01:00+00:00'):
+            code, delayed = self.request('/api/session', {'unit_id': 'contract', 'mode': 'delayed',
+                'previous_session_id': first['session']['id']})
+        self.assertEqual(code, 200)
+        context = delayed['session']['context']
+        self.assertEqual(context['requested_previous_session_id'], first['session']['id'])
+        self.assertEqual(context['previous_session_id'], recent['session']['id'])
+        self.assertEqual(context['actual_delay_seconds'], 60)
+        self.assertFalse(context['delay_window_met'])
+        self.assertFalse(context['review_interval_qualified'])
+
+    def test_landing_material_and_unfinished_attempt_reset_review_quiet_window(self):
+        with patch.object(server, '_now', return_value='2026-10-20T00:00:00+00:00'):
+            _, first = self.request('/api/session', {'unit_id': 'contract', 'mode': 'practice'})
+            self.answer(first)
+        with patch.object(server, '_now', return_value='2026-10-25T23:59:00+00:00'):
+            self.request('/api/learning/units/contract')
+        with patch.object(server, '_now', return_value='2026-10-26T00:00:00+00:00'):
+            _, delayed = self.request('/api/session', {'unit_id': 'contract', 'mode': 'delayed'})
+        context = delayed['session']['context']
+        self.assertEqual(context['actual_delay_seconds'], 6 * 86400)
+        self.assertEqual(context['actual_quiet_seconds'], 60)
+        self.assertEqual(context['interval_reason'], 'recent_material_or_reference')
+        with patch.object(server, '_now', return_value='2026-10-26T00:01:00+00:00'):
+            _, another = self.request('/api/session', {'unit_id': 'contract', 'mode': 'delayed'})
+        self.assertEqual(another['session']['context']['interval_reason'], 'recent_task_activity')
+        self.assertFalse(another['session']['context']['delay_window_met'])
+
+    def test_direct_delayed_start_has_no_material_side_effect_and_qualifies_after_24h(self):
+        with patch.object(server, '_now', return_value='2026-10-25T00:00:00+00:00'):
+            _, first = self.request('/api/session', {'unit_id': 'contract', 'mode': 'practice'})
+            self.answer(first)
+        with patch.object(server, '_now', return_value='2026-10-26T00:00:00+00:00'):
+            _, delayed = self.request('/api/session', {'unit_id': 'contract', 'mode': 'delayed'})
+            _, done = self.answer(delayed, '2/5')
+        context = done['session']['context']
+        self.assertEqual(context['actual_quiet_seconds'], 86400)
+        self.assertTrue(context['review_interval_qualified'])
+        self.assertFalse(context['independent_evidence'])
+        self.assertFalse(context['material_requested'])
+        owner = next(cookie.value for cookie in self.cookies if cookie.name == server._OWNER_COOKIE)
+        observed = [row for row in server.get_store().latest_scope_records(owner) if row['mode'] == 'delayed']
+        self.assertEqual(observed[0]['qualified_review_count'], 1)
+
+    def test_reopening_old_feedback_resets_interval_without_rewriting_original_session(self):
+        with patch.object(server, '_now', return_value='2026-10-20T00:00:00+00:00'):
+            _, started = self.request('/api/session', {'unit_id': 'contract', 'mode': 'practice'})
+            _, completed = self.answer(started)
+        owner = next(cookie.value for cookie in self.cookies if cookie.name == server._OWNER_COOKIE)
+        sid = completed['session']['id']
+        before = server.get_store().load(sid, owner)
+        with patch.object(server, '_now', return_value='2026-10-25T23:59:00+00:00'):
+            _, restored = self.request('/api/session/' + sid)
+        self.assertEqual(restored['summary'], completed['summary'])
+        self.assertEqual(server.get_store().load(sid, owner), before)
+        with patch.object(server, '_now', return_value='2026-10-26T00:00:00+00:00'):
+            _, delayed = self.request('/api/session', {'unit_id': 'contract', 'mode': 'delayed'})
+        self.assertEqual(delayed['session']['context']['actual_quiet_seconds'], 60)
+        self.assertFalse(delayed['session']['context']['review_interval_qualified'])
+
+    def test_exported_old_feedback_counts_as_provided_content_not_a_fresh_interval(self):
+        with patch.object(server, '_now', return_value='2026-10-20T00:00:00+00:00'):
+            _, started = self.request('/api/session', {'unit_id': 'contract', 'mode': 'practice'})
+            self.answer(started)
+        with patch.object(server, '_now', return_value='2026-10-25T23:59:00+00:00'):
+            _, exported = self.request('/api/export')
+        self.assertTrue(any(event['event_type'] == 'export_content_provided' for event in exported['events']))
+        with patch.object(server, '_now', return_value='2026-10-26T00:00:00+00:00'):
+            _, delayed = self.request('/api/session', {'unit_id': 'contract', 'mode': 'delayed'})
+        self.assertEqual(delayed['session']['context']['actual_quiet_seconds'], 60)
+        self.assertFalse(delayed['session']['context']['review_interval_qualified'])
+
+    def test_export_preserves_choice_meaning_and_only_presented_frozen_diagram(self):
+        old_dir = server.learning.DIAGRAM_DIR
+        diagrams = Path(self.tmp.name) / 'export-diagrams'
+        diagrams.mkdir()
+        visible = '<svg xmlns="http://www.w3.org/2000/svg"><text>original-half</text></svg>'.encode()
+        hidden = '<svg xmlns="http://www.w3.org/2000/svg"><text>unseen-task-diagram</text></svg>'.encode()
+        (diagrams / 'visible.svg').write_bytes(visible)
+        (diagrams / 'hidden.svg').write_bytes(hidden)
+        task = server._UNIT_CACHE['contract']['tasks'][1]
+        task.update(type='choice', answer='o2', prompt='图中哪个说法正确？',
+            choices=[{'id': 'o2', 'text': '原来的第一项：一半'}, {'id': 'o1', 'text': '原来的第二项：四分之一'}],
+            answer_spec={'kind': 'choice'}, diagram={'src': '/static/diagrams/visible.svg', 'alt': '一半'})
+        server._UNIT_CACHE['contract']['tasks'][2]['diagram'] = {'src': '/static/diagrams/hidden.svg', 'alt': '未呈现的图'}
+        try:
+            server.learning.DIAGRAM_DIR = diagrams
+            _, started = self.request('/api/session', {'unit_id': 'contract', 'mode': 'transfer'})
+            (diagrams / 'visible.svg').write_text('<svg>changed-after-start</svg>')
+            exported = self.request('/api/export')[1]
+            self.assertEqual(exported['schema'], 3)
+            record = exported['sessions'][0]
+            self.assertEqual(len(record['presented_tasks']), 1)
+            shown = record['presented_tasks'][0]['question']
+            self.assertEqual(shown['choices'][0], {'id': 'o2', 'text': '原来的第一项：一半'})
+            self.assertNotIn('answer', shown)
+            self.assertNotIn('explanation', shown)
+            self.assertEqual(set(record['assets']), {'/static/diagrams/visible.svg'})
+            asset = record['assets']['/static/diagrams/visible.svg']
+            self.assertEqual(base64.b64decode(asset['body_base64']), visible)
+            self.assertEqual(asset['sha256'], hashlib.sha256(visible).hexdigest())
+            self.assertEqual(asset['status'], 'verified_frozen_asset')
+            self.assertNotIn(base64.b64encode(hidden).decode(), json.dumps(exported))
+            self.assertEqual(self.answer(started, 'o2')[0], 200)
+            exported = self.request('/api/export')[1]
+            self.assertEqual(exported['sessions'][0]['answers'][0]['normalized_answer'], 'o2')
+            self.assertNotIn('answer', exported['sessions'][0]['answers'][0])
+        finally:
+            server.learning.DIAGRAM_DIR = old_dir
+
+    def test_export_marks_corrupted_and_missing_legacy_assets_without_using_current_files(self):
+        question = {'id': 'p1', 'type': 'choice', 'prompt': '保存的原题',
+                    'choices': [{'id': 'o1', 'text': '保存的选项'}], 'answer': 'o1',
+                    'diagram': {'src': '/static/diagrams/legacy.svg', 'alt': '旧图'}}
+        record = {'id': 'legacy', 'owner_id': 'alice', 'kind': 'unit', 'unit_id': 'contract', 'mode': 'transfer',
+                  'created_at': '2026-10-20T00:00:00+00:00', 'content_sha256': 'original-hash',
+                  'context': {}, 'answers': [], 'feedback_exposed': [], 'index': 0, 'task_ids': ['p1'],
+                  'presentations': {'p1': {'presented_at': '2026-10-20T00:00:00+00:00'}},
+                  'unit_snapshot': {'tasks': [question], 'objectives': []},
+                  'asset_snapshots': {'/static/diagrams/legacy.svg': {'sha256': 'wrong', 'body_base64': base64.b64encode(b'<svg/>').decode()}}}
+        exported = server.export_record(record)
+        asset = exported['assets']['/static/diagrams/legacy.svg']
+        self.assertEqual(asset, {'status': 'saved_asset_failed_integrity_check'})
+        record['asset_snapshots'] = {}
+        self.assertEqual(server.export_record(record)['assets']['/static/diagrams/legacy.svg'],
+                         {'status': 'not_saved_in_original_record'})
+        record['unit_snapshot']['tasks'] = []
+        exported = server.export_record(record)
+        self.assertEqual(exported['presented_tasks'][0]['snapshot_status'], 'partial_legacy_record')
+
+    def test_plan_does_not_drop_old_drafts_behind_1000_newer_submitted_works(self):
+        self.request('/api/history')
+        owner = next(cookie.value for cookie in self.cookies if cookie.name == server._OWNER_COOKIE)
+        value = {'kind': 'project', 'source_ref': 'project:fixture', 'resource_version': 'a' * 64,
+                 'resource_snapshot': {'title': '旧作品', 'fields': [{'id': 'response'}],
+                                       'criteria': ['检查'], 'stage': 'primary'},
+                 'draft': {'response': '继续补充'}, 'self_assessment': [], 'status': 'draft'}
+        with patch('cnkg.learning_store._now', return_value='2026-10-20T00:00:00+00:00'):
+            server.get_store().save_work(owner, 'old-unfinished', value, 0, 'first')
+        value['status'] = 'submitted'
+        with patch('cnkg.learning_store._now', return_value='2026-10-26T00:00:00+00:00'):
+            for index in range(1000):
+                server.get_store().save_work(owner, f'new-submitted-{index:04}', value, 0, f'new-{index}')
+            value['status'] = 'draft'
+            server.get_store().save_work('other-owner', 'foreign-draft', value, 0, 'foreign')
+        plan = self.request('/api/plan')[1]
+        resources = [row.get('work_resource_id') for row in plan['next_steps']]
+        self.assertIn('old-unfinished', resources)
+        self.assertNotIn('foreign-draft', resources)
 
 if __name__ == '__main__':
     unittest.main()

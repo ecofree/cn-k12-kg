@@ -8,7 +8,9 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
 
-RULE_VERSION = "activity-plan-v1"
+from .review_timing import qualified_review
+
+RULE_VERSION = "activity-plan-v2"
 REVIEW_INTERVAL_DAYS = (1, 3, 7)
 _PHASES = {"practice", "transfer", "delayed"}
 
@@ -184,7 +186,7 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None):
             for answer in unresolved:
                 work_key = f"session_task:{latest['id']}:{answer['question_id']}"
                 saved = next((work for work in works if work.get("resource_id") == work_key), None)
-                if not saved or not saved.get("self_assessment_reported"):
+                if not saved or not saved.get("self_assessment_completed"):
                     pending_questions.append(answer["question_id"])
             if pending_questions:
                 single = ({"question_id": pending_questions[0],
@@ -206,9 +208,11 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None):
                 continue
             if "delayed" in phases:
                 delayed = [record for record in completed if record.get("mode") == "delayed"]
-                # Aggregated summaries retain the total so an old review is not
-                # forgotten by pagination. A review count is not a success count.
-                review_count = max([len(delayed)] + [int(record.get("phase_completion_count", 0)) for record in delayed])
+                # Immediate repeats and legacy sessions with unknown timing
+                # cannot accelerate the interval ladder. This counts interval
+                # observations, never correct answers or established mastery.
+                review_count = max([sum(qualified_review(record) for record in delayed)]
+                                   + [int(record.get("qualified_review_count", 0)) for record in delayed])
                 interval = REVIEW_INTERVAL_DAYS[min(review_count, len(REVIEW_INTERVAL_DAYS) - 1)]
                 due = _time(latest["completed_at"]) + timedelta(days=interval)
                 ready = current >= due
@@ -217,7 +221,9 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None):
                      else "已为这个单元保留下一次间隔观察时间；可先继续其他学习。"),
                     100 if ready else 10, phase="delayed", ready=ready, due_at=_iso(due),
                     interval_days=interval, previous_session_id=latest["id"],
-                    timing_basis="last_completed_same_scope", review_rule="product_default_1_3_7_days")
+                    qualified_review_count=review_count,
+                    timing_basis="last_completed_same_scope", review_rule="product_default_1_3_7_days",
+                    progression_basis="completed_same_version_reviews_with_recorded_24h_quiet_interval")
                 continue
         if "practice" not in phases:
             continue
@@ -265,5 +271,5 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None):
     return {"schema": 1, "generated_at": _iso(current), "rule_version": RULE_VERSION,
             "policy": {"review_intervals_days": list(REVIEW_INTERVAL_DAYS),
                 "basis": "product_default_not_validated_adaptive_model",
-                "notice": "建议依据已保存的学习活动生成。1、3、7 天是产品默认间隔；完成记录、自评与草稿不等于掌握，也不证明独立作答。"},
+                "notice": "建议依据已保存的学习活动生成。1、3、7 天是产品默认间隔；只有内容版本相同且记录间隔达到24小时的复测才推进间隔，立即重做不推进。完成、自评与草稿不等于掌握，也不证明独立作答。"},
             "next_steps": [item for _, item in candidates[:limit]], "total_candidates": len(candidates)}

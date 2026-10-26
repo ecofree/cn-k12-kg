@@ -11,7 +11,7 @@ import threading
 import unittest
 from unittest import mock
 
-from cnkg.learning_store import ConflictError, LearningStore
+from cnkg.learning_store import ConflictError, LearningStore, SCHEMA_VERSION
 
 
 NOW = "2026-10-26T00:00:00+00:00"
@@ -66,7 +66,7 @@ class LearningStoreV2Tests(unittest.TestCase):
         path, original_json = self._legacy_database()
         upgraded = LearningStore(path)
         with sqlite3.connect(path) as db:
-            self.assertEqual(db.execute("PRAGMA user_version").fetchone()[0], 2)
+            self.assertEqual(db.execute("PRAGMA user_version").fetchone()[0], SCHEMA_VERSION)
             self.assertEqual(db.execute("SELECT record_json FROM sessions").fetchone()[0], original_json)
         q1 = upgraded.exposures("alice")["questions"]["q1"]
         self.assertEqual((q1["presentation_count"], q1["answer_count"], q1["feedback_count"]), (1, 1, 1))
@@ -86,11 +86,11 @@ class LearningStoreV2Tests(unittest.TestCase):
             self.assertEqual(db.execute("PRAGMA user_version").fetchone()[0], 1)
             self.assertEqual(db.execute("SELECT record_json FROM sessions").fetchone()[0], original_json)
             self.assertIsNone(db.execute("SELECT name FROM sqlite_master WHERE name='works'").fetchone())
-            db.execute("PRAGMA user_version=3")
+            db.execute(f"PRAGMA user_version={SCHEMA_VERSION + 1}")
         with self.assertRaisesRegex(ValueError, "版本高于"):
             LearningStore(path)
         with sqlite3.connect(path) as db:
-            self.assertEqual(db.execute("PRAGMA user_version").fetchone()[0], 3)
+            self.assertEqual(db.execute("PRAGMA user_version").fetchone()[0], SCHEMA_VERSION + 1)
 
     def test_revision_history_and_request_replay_return_original_result(self):
         first = payload()

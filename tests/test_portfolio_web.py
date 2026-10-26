@@ -154,7 +154,7 @@ class PortfolioWebTests(unittest.TestCase):
         self.assertEqual(code, 200)
         self.assertEqual([row["revision"] for row in history["revisions"]], [2, 1])
         exported = self.request("/api/export")[1]
-        self.assertEqual(exported["schema"], 2)
+        self.assertEqual(exported["schema"], 3)
         self.assertEqual(len(exported["works"][0]["revisions"]), 2)
         self.assertEqual(len([event for event in exported["events"] if event["event_type"] == "work_saved"]), 2)
 

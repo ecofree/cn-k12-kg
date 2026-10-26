@@ -14,14 +14,18 @@ import os
 from pathlib import Path
 import sqlite3
 
+from .review_timing import timestamp, qualified_review
+
 ROOT = Path(__file__).resolve().parents[1]
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 WORK_KINDS = frozenset({"self_check", "project", "unit", "session_task"})
 _IMMUTABLE_WORK_FIELDS = ("kind", "source_ref", "resource_version", "resource_snapshot")
 _EXPOSURE_EVENTS = {"question_presented": "presentation_count",
                     "worked_example_presented": "presentation_count",
                     "answer_submitted": "answer_count", "feedback_released": "feedback_count",
-                    "material_provided": "material_count", "reference_opened": "reference_count"}
+                    "material_provided": "material_count", "reference_opened": "reference_count",
+                    "session_content_provided": "presentation_count", "diagram_provided": "presentation_count",
+                    "export_content_provided": "material_count"}
 
 
 class ConflictError(RuntimeError):
@@ -76,8 +80,42 @@ def _session_summary(record):
     result["answered_count"] = len(result["answers"])
     result["context"] = {key: record.get("context", {})[key] for key in
                          ("previous_session_id", "same_learning_scope", "actual_delay_seconds",
-                          "delay_window_met", "independent_evidence") if key in record.get("context", {})}
+                          "delay_window_met", "independent_evidence", "timing_policy",
+                          "actual_quiet_seconds", "same_content_version", "review_interval_qualified",
+                          "latest_scope_activity_at", "latest_scope_activity_type",
+                          "interval_reason", "interval_notice") if key in record.get("context", {})}
     return result
+
+
+def _work_summary(result):
+    """Derived, rebuildable state; never change the learner's original payload."""
+    payload = result["payload"]
+    snapshot = payload["resource_snapshot"]
+    criteria = snapshot.get("criteria", [])
+    criteria = criteria if isinstance(criteria, list) else []
+    assessment = payload.get("self_assessment", [])
+    assessment = assessment if isinstance(assessment, list) else []
+    draft = payload.get("draft", {})
+    draft_values = list(draft.values()) if isinstance(draft, dict) else [draft]
+    reflection = payload.get("reflection", "")
+    assessed = {row["criterion_index"] for row in assessment
+                if isinstance(row, dict) and isinstance(row.get("criterion_index"), int)
+                and not isinstance(row["criterion_index"], bool)
+                and 0 <= row["criterion_index"] < len(criteria)
+                and isinstance(row.get("status"), str) and row["status"] in {"met", "partial", "revisit"}}
+    source = payload["source_ref"]
+    summary = {key: result[key] for key in
+               ("resource_id", "resource_version", "revision", "created_at", "updated_at", "evidence_type")}
+    summary.update(_revision=result["revision"], kind=payload["kind"], source_ref=source,
+                   title=(snapshot.get("title") or snapshot.get("prompt")
+                          or (source if isinstance(source, str) else source["question_id"])),
+                   has_draft=any(isinstance(value, str) and value.strip() for value in draft_values),
+                   has_reflection=isinstance(reflection, str) and bool(reflection.strip()),
+                   self_assessment_reported=bool(assessed),
+                   self_assessment_completed=bool(criteria) and len(assessed) == len(criteria),
+                   assessed_criterion_count=len(assessed), criterion_count=len(criteria),
+                   stage=snapshot.get("stage"), status=payload.get("status", "draft"))
+    return summary
 
 
 class LearningStore:
@@ -95,6 +133,8 @@ class LearningStore:
                 raise ValueError("学习数据库版本高于当前程序；请使用匹配版本读取")
             if version < 2:
                 self._migrate_v2(db)
+            if version < 3:
+                self._migrate_v3(db)
 
     @contextmanager
     def _connect(self):
@@ -191,6 +231,21 @@ class LearningStore:
                     cls._index_exposure(db, record["owner_id"], event, 0, record)
         db.execute("PRAGMA user_version = 2")
 
+    @classmethod
+    def _migrate_v3(cls, db):
+        # Only derived indexes change. The session/work JSON, event log, request
+        # identities and immutable work revision rows remain byte-for-byte.
+        db.execute("ALTER TABLE sessions ADD COLUMN review_interval_qualified INTEGER NOT NULL DEFAULT 0")
+        for row in db.execute("SELECT id, record_json FROM sessions").fetchall():
+            record = json.loads(row["record_json"])
+            db.execute("UPDATE sessions SET summary_json=?, review_interval_qualified=? WHERE id=?",
+                       (_json(_session_summary(record)), int(qualified_review(record)), row["id"]))
+        for row in db.execute("SELECT owner_id, resource_id, record_json FROM works").fetchall():
+            result = json.loads(row["record_json"])
+            db.execute("UPDATE works SET summary_json=? WHERE owner_id=? AND resource_id=?",
+                       (_json(_work_summary(result)), row["owner_id"], row["resource_id"]))
+        db.execute("PRAGMA user_version = 3")
+
     @staticmethod
     def _record(row):
         if row is None:
@@ -235,15 +290,17 @@ class LearningStore:
         query = f"""WITH ranked AS (
             SELECT summary_json, completed_at,
               ROW_NUMBER() OVER (PARTITION BY scope_id, COALESCE(resource_version, content_sha256), mode, completed_at IS NOT NULL
-                ORDER BY COALESCE(completed_at, updated_at) DESC, id DESC) AS position,
-              COUNT(completed_at) OVER (PARTITION BY scope_id, COALESCE(resource_version, content_sha256), mode) AS completion_count
+                ORDER BY julianday(COALESCE(completed_at, updated_at)) DESC, id DESC) AS position,
+              COUNT(completed_at) OVER (PARTITION BY scope_id, COALESCE(resource_version, content_sha256), mode) AS completion_count,
+              SUM(review_interval_qualified) OVER (PARTITION BY scope_id, COALESCE(resource_version, content_sha256), mode) AS qualified_review_count
             FROM sessions WHERE {where})
-            SELECT summary_json, completion_count FROM ranked WHERE position=1"""
+            SELECT summary_json, completion_count, qualified_review_count FROM ranked WHERE position=1"""
         with self._connect() as db:
             result = []
             for row in db.execute(query, values):
                 item = json.loads(row["summary_json"])
                 item["phase_completion_count"] = row["completion_count"]
+                item["qualified_review_count"] = row["qualified_review_count"]
                 result.append(item)
             return result
 
@@ -340,21 +397,23 @@ class LearningStore:
         stored = {k: v for k, v in record.items() if k != "_revision"}
         metadata = (_scope(record), record.get("kind"), record.get("mode"), record.get("completed_at"),
                     record.get("content_sha256"), record.get("resource_version"), _json(_session_summary(record)),
-                    len(record.get("answers", [])))
+                    len(record.get("answers", [])), int(qualified_review(record)))
         with self._connect() as db:
             if expected == 0:
                 try:
                     db.execute("""INSERT INTO sessions
                         (id, owner_id, created_at, updated_at, revision, record_json,
-                         scope_id, kind, mode, completed_at, content_sha256, resource_version, summary_json, answered_count)
-                        VALUES (?, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                         scope_id, kind, mode, completed_at, content_sha256, resource_version, summary_json, answered_count,
+                         review_interval_qualified)
+                        VALUES (?, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                         (record["id"], record["owner_id"], record["created_at"],
                          record.get("updated_at", record["created_at"]), _json(stored), *metadata))
                 except sqlite3.IntegrityError as exc:
                     raise ConflictError("会话已存在") from exc
             else:
                 cursor = db.execute("""UPDATE sessions SET record_json=?, updated_at=?, revision=revision+1,
-                    scope_id=?, kind=?, mode=?, completed_at=?, content_sha256=?, resource_version=?, summary_json=?, answered_count=?
+                    scope_id=?, kind=?, mode=?, completed_at=?, content_sha256=?, resource_version=?, summary_json=?, answered_count=?,
+                    review_interval_qualified=?
                     WHERE id=? AND owner_id=? AND revision=?""",
                     (_json(stored), record.get("updated_at", record["created_at"]), *metadata,
                      record["id"], record["owner_id"], expected))
@@ -388,6 +447,42 @@ class LearningStore:
                 ORDER BY seq DESC LIMIT 1""", [owner_id, *resource_ids]).fetchone()
         return ({"resource_id": row["resource_id"], "occurred_at": row["occurred_at"],
                  "content_sha256": row["content_sha256"]} if row else None)
+
+    def latest_scope_activity(self, owner_id, resource_ids, *, question_ids=(), family_ids=()):
+        """Latest related material/reference, task presentation, answer or feedback.
+
+        Scope matching uses server-resolved resource IDs and exposure indexes;
+        no client timestamp or unrelated owner's activity can establish a gap.
+        """
+        resources = list(dict.fromkeys(resource_ids))
+        candidates = []
+        with self._connect() as db:
+            for start in range(0, len(resources), 900):
+                chunk = resources[start:start + 900]
+                marks = ",".join("?" for _ in chunk)
+                rows = db.execute(f"""SELECT seq, occurred_at, event_type FROM events
+                    WHERE owner_id=? AND resource_id IN ({marks}) AND event_type IN
+                      ('material_requested','material_provided','reference_opened','question_presented',
+                       'answer_submitted','feedback_released','session_content_provided',
+                       'diagram_provided','export_content_provided')""", [owner_id, *chunk])
+                candidates.extend({**dict(row), "from_event": True} for row in rows)
+        observed = self.exposures(owner_id, question_ids=question_ids, family_ids=family_ids)
+        for kind, values in observed.items():
+            for item in values.values():
+                event_type = ("reference_opened" if item["last_reference_at"] == item["last_seen_at"] else
+                              "material_provided" if item["last_material_at"] == item["last_seen_at"] else kind + "_exposure")
+                candidates.append({"occurred_at": item["last_seen_at"], "event_type": event_type,
+                                   "seq": item["last_event_seq"], "from_event": False})
+        if candidates:
+            last_written = max(candidates, key=lambda item: (item["seq"], item["from_event"]))
+            if timestamp(last_written["occurred_at"]) is None:
+                return {key: last_written[key] for key in ("occurred_at", "event_type")}
+        candidates = [item for item in candidates if timestamp(item["occurred_at"]) is not None]
+        if not candidates:
+            return None
+        latest = max(candidates, key=lambda item: (timestamp(item["occurred_at"]),
+            item["event_type"] in {"material_requested", "material_provided", "reference_opened"}))
+        return {key: latest[key] for key in ("occurred_at", "event_type")}
 
     def exposures(self, owner_id, question_ids=None, family_ids=None):
         """Index-only exposure counts. None means all; [] means none for that kind."""
@@ -484,13 +579,7 @@ class LearningStore:
                       "revision": actual_revision + 1, "created_at": current["created_at"] if current else now,
                       "updated_at": now, "payload": json.loads(serialized), "evidence_type": "learner_reported"}
             record_json = _json(result)
-            summary = {key: result[key] for key in ("resource_id", "resource_version", "revision", "created_at", "updated_at", "evidence_type")}
-            summary.update(_revision=result["revision"], kind=payload["kind"], source_ref=payload["source_ref"],
-                           title=(payload["resource_snapshot"].get("title") or payload["resource_snapshot"].get("prompt")
-                                  or (source if isinstance(source, str) else source["question_id"])),
-                           has_draft=bool(payload.get("draft")), has_reflection=bool(payload.get("reflection")),
-                           self_assessment_reported=bool(payload.get("self_assessment")),
-                           stage=payload["resource_snapshot"].get("stage"), status=payload.get("status", "draft"))
+            summary = _work_summary(result)
             db.execute("""INSERT INTO works
                 (owner_id, resource_id, revision, created_at, updated_at, resource_version, record_json, summary_json)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(owner_id, resource_id) DO UPDATE SET
