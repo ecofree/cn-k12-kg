@@ -154,6 +154,63 @@ function previewHash(value) {
   // objects): recursive key sorting, UTF-8 and no formatting whitespace.
   return require("node:crypto").createHash("sha256").update(JSON.stringify(sorted(value)), "utf8").digest("hex");
 }
+async function openPreviewReference(task, summary, kind, pageStarted) {
+  const started = Date.now(), evidence = { path: task.path, material_id: task.material_id,
+    started_after_page_ms: started - pageStarted, requests: [], responses: [] };
+  result.observations.preview_reference_interactions ||= [];
+  result.observations.preview_reference_interactions.push(evidence);
+  const requestData = request => {
+    try { return { body: request.postDataJSON() }; }
+    catch (error) { return { body_error: String(error) }; }
+  };
+  const observedRequest = request => {
+    if (request.method() === "POST" && new URL(request.url()).pathname === "/api/exposure")
+      evidence.requests.push({ elapsed_ms: Date.now() - started, url: request.url(), method: request.method(), ...requestData(request) });
+  };
+  const observedResponse = response => {
+    if (isResponse(response, "/api/exposure", "POST")) evidence.responses.push({ elapsed_ms: Date.now() - started,
+      url: response.url(), status: response.status(), request: requestData(response.request()) });
+  };
+  const timed = (name, promise) => promise.then(value => {
+    evidence[name] = { status: "fulfilled", elapsed_ms: Date.now() - started }; return value;
+  }, error => {
+    evidence[name] = { status: "rejected", elapsed_ms: Date.now() - started }; throw error;
+  });
+  page.on("request", observedRequest); page.on("response", observedResponse);
+  try {
+    // Arm the same exact POST/resource matcher before the real pointer click.
+    // Settling both outcomes preserves a click failure that a response timeout
+    // could otherwise mask. No retry or alternative interaction is performed.
+    const responseAttempt = timed("response", (async () => {
+      const response = await page.waitForResponse(response => isResponse(response, "/api/exposure", "POST") &&
+        response.request().postDataJSON().resource_id === task.material_id);
+      const body = await response.json();
+      evidence.matched_response = { status: response.status(), request: requestData(response.request()), body };
+      assert.equal(response.status(), 200, "/api/exposure: " + JSON.stringify(body));
+      assert.equal(body.recorded, true, "The reference exposure must actually be recorded: " + task.path);
+      return body;
+    })());
+    const clickAttempt = timed("click", summary.click());
+    const [clicked, responded] = await Promise.allSettled([clickAttempt, responseAttempt]);
+    evidence.clickError = clicked.status === "rejected" ? String(clicked.reason.stack || clicked.reason) : null;
+    evidence.responseError = responded.status === "rejected" ? String(responded.reason.stack || responded.reason) : null;
+    if (clicked.status === "rejected" || responded.status === "rejected") {
+      try {
+        evidence.failure_details = await page.evaluate(kind => {
+          const view = document.getElementById("view-" + kind), selector = kind === "teach" ? ".self-check-answer" : ".worked-example";
+          const details = view?.querySelector(selector), summary = details?.querySelector("summary"), bounds = summary?.getBoundingClientRect();
+          return { url: location.pathname + location.search, visibility: document.visibilityState, view_hidden: view?.hidden,
+            details_count: view?.querySelectorAll(selector).length, connected: details?.isConnected, open: details?.open,
+            summary: summary?.textContent, summary_bounds: bounds ? { x: bounds.x, y: bounds.y, width: bounds.width, height: bounds.height } : null };
+        }, kind);
+      } catch (error) { evidence.failure_details_error = String(error); }
+      throw clicked.status === "rejected" ? clicked.reason : responded.reason;
+    }
+    return responded.value;
+  } finally {
+    page.off("request", observedRequest); page.off("response", observedResponse);
+  }
+}
 async function openContentPreview(task, first) {
   const target = new URL(task.path, args["base-url"]), entries = [...target.searchParams];
   const routes = { teach: "/api/teach/", unit: "/api/learning/units/", project: "/api/projects/",
@@ -370,9 +427,11 @@ const journeys = {
     // Playwright couples its built-in HAR to snapshots, so network evidence here
     // is the actual HTTP log plus the exact API response records below, not HAR.
     await context.tracing.stop();
-    await context.tracing.start({ screenshots: true, snapshots: false, sources: true });
-    result.observations.tracing = { screenshots: true, snapshots: false, sources: true, built_in_har: false,
-      network_evidence: ["http.log", "previews[].identity.api_responses"] };
+    // Per-frame trace screenshots add capture work; explicit representative and
+    // failure PNGs remain unchanged. This is not a claim about a timeout cause.
+    await context.tracing.start({ screenshots: false, snapshots: false, sources: true });
+    result.observations.tracing = { screenshots: false, snapshots: false, sources: true, built_in_har: false,
+      network_evidence: ["http.log", "previews[].identity.api_responses", "preview_reference_interactions"] };
     const review = read("build/content-review.json");
     assert.ok(review.preview_tasks.length, "A content review must nominate actual pages");
     result.observations.content_fingerprint = review.content_fingerprint;
@@ -394,8 +453,7 @@ const journeys = {
       const pageStarted = Date.now(), { kind, identity } = await openContentPreview(task, !result.observations.previews.length);
       const main = page.locator("#view-" + kind);
       const open = main.locator(kind === "teach" ? ".self-check-answer > summary" : ".worked-example > summary");
-      if (await open.count()) await actionResponse(() => open.first().click(), "/api/exposure", "POST",
-        response => response.request().postDataJSON().resource_id === task.material_id);
+      if (await open.count()) await openPreviewReference(task, open.first(), kind, pageStarted);
       await page.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.querySelectorAll(".view:not([hidden]) img")].map(image => image.complete ? Promise.resolve() : new Promise(resolve => { image.onload = image.onerror = resolve; }))); });
       const reading = await main.evaluate(element => ({
         title: element.querySelector("h2")?.textContent,
