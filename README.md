@@ -18,7 +18,9 @@ python web/server.py --port 8765
 
 打开 <http://127.0.0.1:8765>。HTTP服务使用Python标准库，完整档案备份使用固定版本的 `cryptography`；公式字体和图片随源码提供。
 
-完整的内容、回归和浏览器验收需要Node.js 20+：
+源码ZIP可按上述命令构建和运行，也可执行 `python tools/build_project.py --check` 等不依赖Git历史的检查。完整固定版本验收会读取语义审查的真实Git基线；使用源码ZIP的维护者须先从 `current-branch.bundle` 克隆包含该基线历史的仓库，再执行下列验收。克隆方法见 [交付包使用说明](docs/release-workflow.md#使用交付包)。
+
+在保留真实基线历史的Git仓库中，完整的内容、回归和浏览器验收还需要Node.js 20+：
 
 ```bash
 npm ci

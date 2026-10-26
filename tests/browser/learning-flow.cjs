@@ -141,20 +141,261 @@ async function noHorizontalOverflow(label) {
   assert.ok(measurement.width <= measurement.viewport + 1, label + " overflows: " + JSON.stringify(measurement));
 }
 
+// These helpers are exclusive to the exhaustive content preview. Other journeys
+// retain their document navigation and interaction/recovery checks.
+function previewText(value) {
+  return String(value ?? "").replace(/\$\$([\s\S]*?)\$\$|\$([^$\n]*?)\$|\\\(([\s\S]*?)\\\)|\\\[([\s\S]*?)\\\]/g,
+    (_, display, inline, parens, brackets) => display ?? inline ?? parens ?? brackets).replace(/\s+/g, "");
+}
+function previewHash(value) {
+  const sorted = item => Array.isArray(item) ? item.map(sorted) : item && typeof item === "object"
+    ? Object.fromEntries(Object.keys(item).sort().map(key => [key, sorted(item[key])])) : item;
+  // Matches server._hash for these JSON contracts (integers, strings, arrays and
+  // objects): recursive key sorting, UTF-8 and no formatting whitespace.
+  return require("node:crypto").createHash("sha256").update(JSON.stringify(sorted(value)), "utf8").digest("hex");
+}
+async function openContentPreview(task, first) {
+  const target = new URL(task.path, args["base-url"]), entries = [...target.searchParams];
+  const routes = { teach: "/api/teach/", unit: "/api/learning/units/", project: "/api/projects/",
+    scope: "/api/quality-scope", needs: "/api/plan", history: "/api/history", profile: "/api/profile" };
+  assert.equal(target.origin, new URL(args["base-url"]).origin);
+  assert.equal(target.pathname, "/"); assert.equal(target.hash, ""); assert.equal(entries.length, 1);
+  const [kind, id] = entries[0]; assert.ok(Object.hasOwn(routes, kind) && id, "Unknown preview route: " + task.path);
+  const material = ["teach", "unit", "project"].includes(kind);
+  assert.equal(task.material_id, material ? (kind === "teach" ? "topic" : kind) + ":" + id : null);
+  if (first) await goto();
+  const container = { scope: "scope-policy", needs: "needs-list", history: "history-list" }[kind] || kind + "-content";
+  // Capture the destination container, not the previous active view: other views
+  // intentionally stay attached while hidden by the application's real router.
+  const previous = first ? null : await page.$("#" + container + " > :first-child");
+  const responses = [], evidence = [];
+  const observed = response => responses.push(response);
+  page.on("response", observed);
+  async function responseBody(pathname, params = {}) {
+    const matches = response => {
+      const url = new URL(response.url());
+      return url.origin === target.origin && isResponse(response, pathname, "GET") &&
+        [...url.searchParams].length === Object.keys(params).length &&
+        Object.entries(params).every(([key, value]) => url.searchParams.get(key) === String(value));
+    };
+    const response = responses.find(matches) || await page.waitForResponse(matches);
+    const body = await response.json();
+    assert.equal(response.status(), 200, response.url() + ": " + JSON.stringify(body));
+    assert.ok(body && typeof body === "object" && !Array.isArray(body), "Expected an object: " + response.url());
+    evidence.push({ url: new URL(response.url()).pathname + new URL(response.url()).search, status: response.status() });
+    return body;
+  }
+  try {
+    const endpoint = routes[kind] + (material ? encodeURIComponent(id) : "");
+    const [body, navigated] = await Promise.all([
+      responseBody(endpoint, kind === "history" ? { limit: "20", offset: "0" } : {}),
+      page.evaluate(async ({ kind, id }) => {
+        // Await the production route, including its draft-flush and navigation
+        // token checks. No mock, synthetic DOM or direct API replacement is used.
+        const route = { teach: () => openTeach(id, "replace"), unit: () => openUnit(id, "replace"),
+          project: () => openProject(id, "replace"), scope: () => openScope("replace"),
+          needs: () => openNeeds("replace"), history: () => openHistory("replace"), profile: () => openProfile("replace") };
+        return route[kind]();
+      }, { kind, id }),
+    ]);
+    assert.equal(navigated, true, "Production route refused navigation: " + task.path);
+    assert.equal(page.url(), target.href, "The rendered route must retain the exact requested URL");
+    if (material) assert.equal(kind === "teach" ? body.topicId : body.id, id, "Wrong material response: " + task.path);
+    const checks = kind === "teach" ? body.objective_coverage : [];
+    assert.ok(Array.isArray(checks), "The teaching response must include its explicit self-check set");
+    if (kind === "teach") {
+      const prefix = `self_check:${id}:`;
+      const expectedIndices = Object.keys(authoredCatalog.source_index).filter(key => key.startsWith(prefix))
+        .map(key => Number(key.slice(prefix.length))).sort((a, b) => a - b);
+      assert.ok(expectedIndices.length, "The previewed teaching material must have catalogued self-check tasks");
+      assert.deepEqual(checks.map(row => row.criterion_index).sort((a, b) => a - b), expectedIndices,
+        "A missing or empty self-check set cannot pass by vacuous completion: " + task.path);
+    }
+    const sources = kind === "teach" ? checks.map(row => ({ kind: "self_check", topic_id: id, criterion_index: String(row.criterion_index) }))
+      : material ? [{ kind, [kind + "_id"]: id }] : [];
+    const works = await Promise.all(sources.map(source => responseBody("/api/work", source)));
+    for (const [index, loaded] of works.entries()) {
+      const descriptor = loaded.descriptor, source = sources[index];
+      assert.equal(descriptor?.kind, source.kind);
+      assert.equal(descriptor.source_ref, kind === "teach" ? `topic:${id}:check:${source.criterion_index}` : `${kind}:${id}`);
+      assert.match(descriptor.resource_version, /^[a-f0-9]{64}$/);
+      assert.ok(Array.isArray(descriptor.resource_snapshot.fields) && descriptor.resource_snapshot.fields.length);
+      assert.ok(Array.isArray(descriptor.resource_snapshot.criteria));
+      let expectedVersion, expectedResource;
+      if (kind === "teach") {
+        const taskId = authoredCatalog.source_index[`self_check:${id}:${source.criterion_index}`], task = authoredCatalog.tasks[taskId];
+        assert.ok(task && task.id === taskId);
+        expectedVersion = previewHash({ task: task.resource_version, source: checks[index] });
+        expectedResource = `self_check:${taskId}`;
+        assert.deepEqual(descriptor.resource_snapshot.task_ids, [taskId]);
+        assert.deepEqual(descriptor.resource_snapshot.fields.map(field => ({ id: field.id, prompt: field.prompt })),
+          [{ id: "response", prompt: checks[index].self_check.prompt }]);
+        assert.deepEqual(descriptor.resource_snapshot.criteria, checks[index].self_check.criteria);
+      } else if (kind === "unit") {
+        expectedVersion = authoredCatalog.units[id].resource_version;
+        expectedResource = `unit:unit:${id}`;
+        assert.equal(descriptor.resource_version, body.resource_version);
+        assert.deepEqual(descriptor.resource_snapshot.fields.map(field => field.id), ["notes"]);
+        assert.deepEqual(descriptor.resource_snapshot.criteria, body.objectives.map(goal => goal.statement));
+      } else {
+        const project = authoredCatalog.projects[id];
+        assert.match(body.content_sha256, /^[a-f0-9]{64}$/);
+        expectedVersion = previewHash({ source: body.content_sha256, catalog: project.resource_version });
+        expectedResource = `project:project:${id}`;
+        assert.deepEqual(descriptor.resource_snapshot.task_ids, project.task_ids);
+        assert.deepEqual(descriptor.resource_snapshot.fields.map(field => field.id), project.task_ids);
+        assert.deepEqual(descriptor.resource_snapshot.fields.map(field => ({ label: field.label, prompt: field.prompt })),
+          body.steps.map(step => ({ label: step.title, prompt: step.instructions })));
+        assert.deepEqual(descriptor.resource_snapshot.criteria, body.rubric.map(row => row.criterion));
+      }
+      assert.equal(descriptor.resource_version, expectedVersion, "Work descriptor version differs from its content/catalog contract");
+      assert.equal(descriptor.resource_id, `${expectedResource}@${expectedVersion.slice(0, 16)}`, "Wrong stable work resource identity");
+    }
+    let manipulation = null, histories = null;
+    if (kind === "unit" && body.manipulative) {
+      manipulation = await responseBody("/api/manipulative", { unit_id: id });
+      assert.equal(manipulation.resource_version, body.resource_version);
+      assert.equal(manipulation.representation_version, body.manipulative.representation_version);
+    }
+    if (kind === "history") histories = await responseBody("/api/works", { limit: "20", offset: "0" });
+    const readiness = { kind, id, count: works.length, indices: checks.map(row => row.criterion_index), hasManipulative: Boolean(manipulation) };
+    try {
+      // Poll asynchronous DOM mounting independently of drawing frames. The
+      // original 15-second default and every readiness condition remain intact.
+      await page.waitForFunction(({ kind, id, count, indices, hasManipulative }) => {
+        const view = document.getElementById("view-" + kind), editors = [...(view?.querySelectorAll(".work-editor") || [])];
+        return view && !view.hidden && editors.length === count && editors.every(editor =>
+          editor.querySelector(".work-revisions") && [...editor.querySelectorAll("textarea, select")].every(input => !input.disabled)) &&
+          indices.every(index => { const input = view.querySelector("#self-check-" + index); return input && !input.disabled; }) &&
+          (!hasManipulative || (view.querySelector("#manip-explanation-" + id)?.disabled === false &&
+            view.querySelector(".manipulative svg") && view.querySelectorAll(".manip-controls input, .manip-controls select").length > 0 &&
+            [...view.querySelectorAll(".manip-controls input, .manip-controls select")].every(input => !input.disabled)));
+      }, readiness, { polling: 100 });
+    } catch (error) {
+      const observed = await page.evaluate(({ kind, id, indices }) => {
+        const view = document.getElementById("view-" + kind);
+        const controls = root => [...(root?.querySelectorAll("textarea, select, input") || [])]
+          .map(input => ({ tag: input.tagName, id: input.id, disabled: input.disabled }));
+        const editors = [...(view?.querySelectorAll(".work-editor") || [])];
+        const manipulation = view?.querySelector(".manipulative"), explanation = view?.querySelector("#manip-explanation-" + id);
+        return { url: location.href, visibility: document.visibilityState, document_hidden: document.hidden,
+          view_exists: Boolean(view), view_hidden: view?.hidden, editor_count: editors.length,
+          editors: editors.map(editor => ({ history_ready: Boolean(editor.querySelector(".work-revisions")), controls: controls(editor) })),
+          self_checks: indices.map(index => { const input = view?.querySelector("#self-check-" + index);
+            return { index, exists: Boolean(input), disabled: input?.disabled }; }),
+          manipulation: { exists: Boolean(manipulation), explanation_exists: Boolean(explanation), explanation_disabled: explanation?.disabled,
+            svg_exists: Boolean(manipulation?.querySelector("svg")), controls: controls(manipulation?.querySelector(".manip-controls")) },
+          alerts: [...(view?.querySelectorAll('[role="alert"]') || [])].map(element => element.textContent), performance_now: performance.now() };
+      }, readiness).catch(snapshotError => ({ snapshot_error: snapshotError.message }));
+      result.observations.preview_readiness_failure = { path: task.path, expected: readiness, observed, api_responses: evidence };
+      throw error;
+    }
+    if (previous) assert.equal(await previous.evaluate(element => element.isConnected), false, "Old destination content survived: " + task.path);
+    const dom = await page.locator("#view-" + kind).evaluate((view, kind) => {
+      // Read the formula's existing KaTeX source once, without its duplicate
+      // accessibility/rendering text. Never render expected content into the DOM.
+      const sourceText = node => node.nodeType === Node.TEXT_NODE ? node.textContent : node.matches?.(".katex")
+        ? node.querySelector('annotation[encoding="application/x-tex"]')?.textContent || node.textContent
+        : [...node.childNodes].map(sourceText).join("");
+      const text = selector => [...view.querySelectorAll(selector)].map(sourceText);
+      const content = view.querySelector("#" + kind + "-content");
+      const goalTitle = { teach: "本节目标", unit: "这次逐项练习", project: "活动中需要展示" }[kind];
+      const goals = [...(content?.children || [])].find(card => card.querySelector(":scope > h3")?.textContent === goalTitle);
+      return { title: view.querySelector("h2")?.textContent,
+        goals: goals ? [...goals.querySelectorAll(":scope > ul > li")].map(sourceText) : [],
+        prompts: text(".self-check-prompt"), indices: [...view.querySelectorAll('textarea[id^="self-check-"]')].map(input => input.id),
+        editors: [...view.querySelectorAll(".work-editor")].map(editor => ({ prompts: [...editor.querySelectorAll(".work-prompt")].map(sourceText),
+          criteria: [...editor.querySelectorAll(".self-assessment-row > label")].map(label => label.textContent),
+          fields: editor.querySelectorAll(".work-field textarea").length })),
+        scopeIds: text("#scope-goals > article > details > p:first-of-type"), scopeSummary: view.querySelector("#scope-summary")?.textContent,
+        needTitles: text("#needs-list > article > h3"), needFilter: view.querySelector("#need-filter")?.value, needsStatus: view.querySelector("#needs-status")?.textContent,
+        sessionTitles: text("#history-list > article h3"), workTitles: text("#history-works > article h3"), historyStatus: view.querySelector("#history-status")?.textContent,
+        profileTitle: view.querySelector("#profile-content > section > h3")?.textContent,
+        profileFields: ["backup-code", "recover-code", "restore-backup"].filter(id => view.querySelector("#" + id)),
+      };
+    }, kind);
+    const canonical = values => values.map(previewText);
+    if (material) {
+      assert.equal(dom.title, kind === "teach" ? body.topicName : body.title);
+      const goals = kind === "teach" ? body.mastery_criteria : kind === "unit" && body.objectives.some(goal => goal.granularity === "observable")
+        ? body.objectives.filter(goal => goal.granularity === "observable").map(goal => goal.statement) : body.objectives.map(goal => goal.statement);
+      assert.ok(Array.isArray(goals) && goals.length, "The material must provide actual goals");
+      assert.deepEqual(canonical(dom.goals), canonical(goals), "Displayed goals differ from this material: " + task.path);
+      if (kind === "teach") {
+        assert.deepEqual(dom.indices, checks.map(row => "self-check-" + row.criterion_index));
+        assert.deepEqual(canonical(dom.prompts), canonical(checks.map(row => row.self_check.prompt)));
+      }
+      for (const [index, loaded] of works.entries()) {
+        const snapshot = loaded.descriptor.resource_snapshot, editor = dom.editors[index];
+        assert.deepEqual(editor.criteria, snapshot.criteria);
+        assert.equal(editor.fields, kind === "teach" ? 0 : snapshot.fields.length);
+        assert.deepEqual(canonical(editor.prompts), kind === "teach" ? [] : canonical(snapshot.fields.map(field => field.prompt)));
+      }
+    } else if (kind === "scope") {
+      assert.ok(Array.isArray(body.goals) && body.goals.length);
+      assert.deepEqual(dom.scopeIds, body.goals.slice(0, 30).map(goal => "稳定目标ID：" + goal.goal_id));
+      assert.equal(dom.scopeSummary, `当前显示 ${body.goals.length} 项。完整清单：${body.summary.topic_goals} 项教材目标、${body.summary.unit_goals} 项单元目标、${body.summary.project_goals} 项活动目标；这些层级分别统计，不相加为课标覆盖率。`);
+    } else if (kind === "needs") {
+      assert.ok(Array.isArray(body.learning_needs));
+      const shown = body.learning_needs.filter(need => dom.needFilter === "all" || need.status === dom.needFilter);
+      assert.deepEqual(dom.needTitles, shown.map(need => need.title));
+      assert.equal(dom.needsStatus, `当前显示 ${shown.length} 项；全部 ${body.learning_needs.length} 项均保留原始来源与内容版本。`);
+    } else if (kind === "history") {
+      assert.ok(Array.isArray(body.sessions) && Array.isArray(histories.works));
+      assert.deepEqual(dom.sessionTitles, body.sessions.map(session => session.title || "知识点检查"));
+      assert.deepEqual(dom.workTitles, histories.works.map(work => work.title || "学习作品"));
+      assert.equal(dom.historyStatus, body.total ? `共 ${body.total} 次作答，已显示 ${body.sessions.length} 次。` : "本浏览器还没有作答记录，可以从目录选择一个目标开始。");
+    } else {
+      assert.equal(typeof body.enabled, "boolean");
+      assert.equal(dom.profileTitle, body.enabled ? body.label : "为当前学习记录设置恢复方式");
+      assert.deepEqual(dom.profileFields, ["backup-code", "recover-code", "restore-backup"]);
+    }
+    return { kind, identity: { requested_url: target.pathname + target.search, rendered_url: new URL(page.url()).pathname + new URL(page.url()).search,
+      response_id: material ? kind === "teach" ? body.topicId : body.id : kind, response_title: dom.title,
+      old_destination_detached: previous ? true : null, checked_goal_count: dom.goals.length, checked_self_check_count: checks.length,
+      work_descriptors: works.map(row => ({ resource_id: row.descriptor.resource_id, source_ref: row.descriptor.source_ref,
+        resource_version: row.descriptor.resource_version, field_count: row.descriptor.resource_snapshot.fields.length })),
+      manipulation_version: manipulation?.representation_version || null, api_responses: evidence } };
+  } finally {
+    page.off("response", observed);
+    if (previous) await previous.dispose();
+  }
+}
+
 const journeys = {
   async changed_content_preview() {
+    // Exhaustive previews retain the real DOM assertions and representative PNGs.
+    // Automatic full-DOM snapshots also traverse the hidden whole-site catalogue
+    // before/after locator/evaluate calls; the other journeys keep that tracing.
+    // Playwright couples its built-in HAR to snapshots, so network evidence here
+    // is the actual HTTP log plus the exact API response records below, not HAR.
+    await context.tracing.stop();
+    await context.tracing.start({ screenshots: true, snapshots: false, sources: true });
+    result.observations.tracing = { screenshots: true, snapshots: false, sources: true, built_in_har: false,
+      network_evidence: ["http.log", "previews[].identity.api_responses"] };
     const review = read("build/content-review.json");
     assert.ok(review.preview_tasks.length, "A content review must nominate actual pages");
     result.observations.content_fingerprint = review.content_fingerprint;
     result.observations.previews = [];
-    const captured = new Set();
+    result.observations.expected_preview_count = review.preview_tasks.length;
+    result.observations.document_navigations = [];
+    result.observations.bootstrap_requests = {};
+    assert.equal(new Set(review.preview_tasks.map(task => task.path)).size, review.preview_tasks.length, "Preview paths must be unique");
+    const observeRequest = request => {
+      if (request.isNavigationRequest() && request.frame() === page.mainFrame() && request.resourceType() === "document")
+        result.observations.document_navigations.push({ url: request.url(), elapsed_ms: Date.now() - started });
+      const pathname = new URL(request.url()).pathname;
+      if (request.method() === "GET" && ["/api/topics", "/api/learning/units", "/api/projects"].includes(pathname))
+        result.observations.bootstrap_requests[pathname] = (result.observations.bootstrap_requests[pathname] || 0) + 1;
+    };
+    const started = Date.now(), captured = new Set();
+    page.on("request", observeRequest);
     for (const task of review.preview_tasks) {
-      await goto(task.path.slice(1));
-      const query = new URLSearchParams(new URL(page.url()).search), kind = query.has("teach") ? "teach" : query.has("unit") ? "unit" : query.has("project") ? "project" : query.has("scope") ? "scope" : query.has("needs") ? "needs" : query.has("profile") ? "profile" : "history";
-      await visible("#view-" + kind);
+      const pageStarted = Date.now(), { kind, identity } = await openContentPreview(task, !result.observations.previews.length);
       const main = page.locator("#view-" + kind);
       const open = main.locator(kind === "teach" ? ".self-check-answer > summary" : ".worked-example > summary");
-      if (await open.count()) await open.first().click();
+      if (await open.count()) await actionResponse(() => open.first().click(), "/api/exposure", "POST",
+        response => response.request().postDataJSON().resource_id === task.material_id);
       await page.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.querySelectorAll(".view:not([hidden]) img")].map(image => image.complete ? Promise.resolve() : new Promise(resolve => { image.onload = image.onerror = resolve; }))); });
       const reading = await main.evaluate(element => ({
         title: element.querySelector("h2")?.textContent,
@@ -169,12 +410,20 @@ const journeys = {
       assert.ok(reading.images.every(image => image.loaded), task.path + " has an unloaded diagram");
       assert.equal(reading.emptyButtons, 0, task.path + " has an unnamed control");
       assert.ok(reading.width <= reading.viewport + 1, task.path + " overflows on desktop");
-      result.observations.previews.push({ path: task.path, material_id: task.material_id, reason: task.reason, ...reading });
+      result.observations.previews.push({ path: task.path, material_id: task.material_id, reason: task.reason,
+        ...reading, identity, elapsed_ms: Date.now() - pageStarted });
+      result.observations.preview_count = result.observations.previews.length;
+      if (result.observations.preview_count % 50 === 0) console.log(`[preview] ${result.observations.preview_count}/${review.preview_tasks.length} pages, ${Date.now() - started} ms`);
       const screenshot = { teach: "primary-entry.png", unit: "desktop-unit.png", project: "desktop-project.png", scope: "desktop-home.png" }[kind];
       if (screenshot && !captured.has(kind)) { await page.screenshot({ path: path.join(output, screenshot), fullPage: true }); captured.add(kind); }
     }
-    result.observations.preview_count = result.observations.previews.length;
+    page.off("request", observeRequest);
+    result.observations.elapsed_ms = Date.now() - started;
+    assert.equal(result.observations.previews.length, review.preview_tasks.length);
+    assert.deepEqual(result.observations.previews.map(row => row.path), review.preview_tasks.map(row => row.path));
+    assert.equal(result.observations.document_navigations.length, 1, "Exhaustive preview must use one real document startup and subsequent production SPA routes");
     claim("Every directly affected or declared dependent material in the change-impact checklist was opened in the actual application.");
+    claim("Each preview matched its exact URL, response identity, displayed goals and prompts; all associated work editors and operation widgets completed their real loads.");
     claim("Rendered titles, mathematical markup, image loading, named controls and desktop overflow were checked; representative screenshots were retained.");
     claim("These previews supplement recorded semantic checks and interaction journeys; they are not teacher approval or student-effect evidence.");
   },
