@@ -47,7 +47,7 @@ class BatchShapeTest(unittest.TestCase):
                     self.assertGreaterEqual(len(it.get("why") or ""), 8)
 
     def test_topics_are_core(self):
-        """应用题只配给核心点：工具点只到「练熟」，不要求迁移。"""
+        """现有应用题批次归属独立教学点；不排除工具点也需要理解和应用。"""
         for it in ITEMS:
             with self.subTest(topic=it["topic"]):
                 self.assertEqual(TIERS.get(it["topic"], {}).get("tier"), "core")
@@ -90,18 +90,24 @@ class BatchMachineCheckTest(unittest.TestCase):
 
 
 class CoverageTest(unittest.TestCase):
-    """全部核心点必须是「全覆盖」：讲了就得能练。
+    """保留已有覆盖，并将资源分层修正后新增的缺口逐项列入工作清单。
 
-    这不是凑数指标——有讲解卡却没有一道 standard/advanced 的点，
-    学生学完只能做基础题，等于没练（用户原话「掌握如何运用」）。
-    309 个核心点现在全部有题，所以不再分学段放水。
+    题目存在不证明目标对齐；新增核心点仍有真实缺口。不能通过压低
+    核心点分母来继续声称全覆盖，也不能默默丢掉既有应用题。
     """
 
-    def test_all_core_points_covered(self):
+    def test_every_application_gap_is_explicit_and_no_stale_gap_is_claimed(self):
         covered = {it["topic"] for it in ITEMS}
         want = {tid for tid, info in TIERS.items() if info.get("tier") == "core"}
-        missing = sorted(want - covered)
-        self.assertEqual(missing, [], f"这些核心点还没有应用题：{missing}")
+        backlog = json.loads((ROOT / "data" / "coverage_backlog.json").read_text(encoding="utf-8"))
+        entries = backlog["items"]
+        declared = {row["topic_id"] for row in entries}
+        self.assertEqual(len(entries), len(declared), "缺口不能重复计数")
+        self.assertEqual(want - covered, declared, "应用题新增缺口或已关闭缺口必须同步登记")
+        for row in entries:
+            self.assertEqual(row["status"], "open")
+            self.assertTrue(row["target_objectives"])
+            self.assertTrue(row["resource_needed"])
 
     def test_points_above_primary_have_standard_and_advanced(self):
         """初中与高中每点都要两种难度：standard 会用、advanced 会换一步想。"""

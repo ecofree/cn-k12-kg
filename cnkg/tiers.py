@@ -1,42 +1,22 @@
-"""知识点分层：把 477 个点分成「核心点」和「工具点」，并归到教学簇。
+"""按教学目标标注理解与熟练两个独立维度，再给出资源编写优先级。
 
-## 为什么必须分层
+年级不能决定一个目标是否需要理解。概念的建立、应用、推理与建模需要
+讲清依据；同一点也可能需要计算、表征、操作的熟练练习。core/tool 只作为
+现有资源计划的组织标签：core 按独立单元规划，tool 可在同簇同册组织。
+understanding=True 不自动要求独立卡；簇教学同样需要解释原理。速查卡
+的存在不能证明全部目标已讲清，tool 也不表示学习无需理解。
 
-项目初衷是「每个知识点讲清楚，配够题，让学生在做的过程中学会用」。
-但 477 个点不是同一种东西：
-
-- 一年级「1～5 的认识」「分与合」「9 加几」这类点，学会的标准是**能自动执行**，
-  一句话说清、两三道题验证就够。给它们写四步讲解、配七道题，
-  学生不会因此更懂，只会把时间从「用」挪到「练手势」上。
-- 五年级「组合图形的面积」、六年级「百分数的应用」、八年级「实际问题与一次函数」
-  这类点，学会的标准是**能选策略、能建模、能多步推进**，必须讲透、必须配变式。
-
-同一个「讲解卡 ≥4 题」的标准套在两类点上，结果是：基础点过度教学，
-核心点题量反而不够。所以先分层，再按层定验收标准。
-
-## 两条判据
-
-1. **学段**：小学 1–2 年级整册都是工具点（20 以内加减、乘法口诀、除法意义）。
-   这不是贬低它们，而是它们的教学目标是「熟练」，不是「理解应用」。
-2. **点本身的性质**：应用题 / 建模 / 推理，或名称落在「运算律、混合运算、面积、
-   体积、分数、小数、百分数、比例、方程、函数、统计、概率」这些**可迁移技能**上，
-   算核心点；名称落在「认识、读写、数数、比大小、口诀、口算、笔算、单位」上的，
-   算工具点。
-
-初中高中反过来：默认是核心点，只有纯识记（正数和负数、科学记数法、普查抽样）
-才降为工具点。
-
-## 簇（cluster）
-
-工具点不单独写卡，按簇合并成一张「速查卡」；核心点每个一张完整卡。
-簇 id 同时是挑战题挂靠的单位——竞赛题不硬映射到课时级知识点，
-只挂到簇，映射置信度标 `cluster`，见 tools/tal_link.py。
+判定优先看类型和 mastery_criteria，名称规则只作兜底。所有自动分层都是
+draft，仍须逐点学科校订；不再以“教学单元必须少于某比例”约束结果。
+旧速查卡的参考范围由 brief_groups 显式登记，可继续辅助 core 点。
 """
 from __future__ import annotations
 
 import json
 import pathlib
 import re
+
+from cnkg.brief_groups import BRIEF_REFERENCE_GROUPS
 
 DATA_DIR = pathlib.Path(__file__).resolve().parent.parent / "data"
 
@@ -61,6 +41,21 @@ TOOL_NAME = re.compile(
     "千米|克|千克|吨|人民币|单位换算|进率|面积单位|展开|三视图|普查|抽样|科学记数法|"
     "正数和负数|绝对值|近似数|四舍五入"
 )
+
+# 依据达标目标而非年级识别理解/迁移要求。两个轴可以同时为 True。
+UNDERSTANDING_CRITERIA = re.compile(
+    "理解|解释|说明|说清|道理|原因|意义|含义|关系|为何|为什么|推导|推理|推断|推出|"
+    "证明|探索|探究|发现.*规律|选择|区分|辨析|建模|提出|解决|合理|验证|检验|检查|"
+    "每一步.*意思|相同加数.*乘法|对应|平均分|等分|标准|具体情境|表示什么|"
+    "把.*写成.*算式|转化|交换.*简化"
+)
+FLUENCY_CRITERIA = re.compile(
+    "计算|口算|笔算|列式|求出|求值|求商|求积|读|写|数出|数数|熟|认|辨|换算|"
+    "画|背诵|量|比较|表示|找出|识别|代入|解方程|解不等式|化简|作图"
+)
+REFERENCE_GROUP_BY_TOPIC = {
+    tid: group for group, members in BRIEF_REFERENCE_GROUPS.items() for tid in members
+}
 
 # ------------------------------------------------------------------ 簇规则
 # 顺序即优先级：先匹配到的赢。
@@ -156,24 +151,20 @@ def stage_of(topic: dict) -> str:
     return "primary" if g <= 6 else ("junior" if g <= 9 else "senior")
 
 
-# 规则覆盖：规则只看名字和类型，必然有误判。这里逐条人工改，并写明理由。
-# 原则仍是「这个点学会的标志是熟练执行，还是能选策略、能迁移」。
+# 逐点目标校订（draft），理由引用现有目标，不冒充教师审核。
 OVERRIDES = {
-    # 名字里带「三角形/平行四边形」但实际是「认识图形」，不是计算
-    ("三角形", 4): ("tool", "认识三角形，不是解三角形"),
-    ("平行四边形和梯形", 4): ("tool", "图形认识，面积在五年级单独成点"),
-    # 观察物体系列：空间想象的第一步，做两题建立经验即可
-    ("根据直观图猜测积木形状", 3): ("tool", "观察物体的单点技能"),
-    ("长方体纸盒的展开", 3): ("tool", "展开图识别，属经验积累"),
-    ("观察简单组合体", 5): ("tool", "三视图前的观察经验"),
-    ("用圆规比较线段的长短", 3): ("tool", "圆规使用技能"),
-    ("设计图案", 5): ("tool", "操作性任务，不承载新概念"),
-    ("利用圆设计图案", 6): ("tool", "操作性任务，不承载新概念"),
-    # 反例：名字里有「简单的」，但三角恒等变换是高中核心工具链
+    ("三角形", 4): ("core", "目标含分类、内角和与三边关系的运用，需要概念与推理依据"),
+    ("长方体和正方体", 5): ("core", "目标含空间结构、表面积和体积，不是仅识记图形名称"),
+    ("平行四边形和梯形", 4): ("core", "区分类别与画高需要理解平行关系及高的含义"),
+    ("根据直观图猜测积木形状", 3): ("core", "目标要求由多个方向的视图推断立体图形"),
+    ("长方体纸盒的展开", 3): ("core", "目标要求空间展开与相对面的对应关系"),
+    ("观察简单组合体", 5): ("core", "目标要求多方向表征并理解单个视图的不唯一性"),
+    ("用圆规比较线段的长短", 3): ("tool", "测量操作与圆规两脚距离的含义可在同组展开，不省略理解要求"),
+    ("设计图案", 5): ("core", "目标要求运用图形变换并说明变换依据"),
+    ("利用圆设计图案", 6): ("core", "目标要求说明多个圆的位置关系"),
     ("简单的三角恒等变换", 10): ("core", "恒等变换是三角求值/证明的主干"),
-    # 大小比较是单一技能，讲一次就够
-    ("简单的分数大小比较", 3): ("tool", "同分母/同分子比较，规则单一"),
-    ("小数的大小比较", 3): ("tool", "对齐数位比较，规则单一"),
+    ("简单的分数大小比较", 3): ("core", "比较规则须联系相同整体、份数和每份大小解释"),
+    ("小数的大小比较", 3): ("core", "目标要求说清比较顺序，需要数位意义支撑"),
 }
 
 
@@ -181,27 +172,44 @@ def override_of(topic: dict):
     return OVERRIDES.get((topic.get("name"), topic.get("grade")))
 
 
-def classify(topic: dict) -> str:
-    """返回 'core' 或 'tool'。规则见模块 docstring；人工覆盖优先。"""
-    ov = override_of(topic)
-    if ov:
-        return ov[0]
+def learning_axes(topic: dict) -> dict:
+    """Independent needs, with traceable objective signals (not student mastery)."""
     g = topic.get("grade") or 0
     name = topic.get("name") or ""
     typ = topic.get("type") or ""
+    criteria = topic.get("mastery_criteria") or []
+    understanding_basis = [c for c in criteria if UNDERSTANDING_CRITERIA.search(c)]
+    fluency_basis = [c for c in criteria if FLUENCY_CRITERIA.search(c)]
+    ov = override_of(topic)
+    if typ in ("application", "reasoning", "modeling"):
+        understanding_basis.insert(0, f"目标类型 {typ}：需要策略、关系或依据")
+    elif typ == "conceptual":
+        understanding_basis.insert(0, "概念目标：需要建立概念、区分边界或联系表征")
+    if ov and ov[0] == "core":
+        understanding_basis.insert(0, ov[1])
+    if not understanding_basis and CORE_NAME.search(name) and not TOOL_NAME.search(name):
+        understanding_basis.append("名称规则提示可迁移技能，待逐目标学科校订")
+    if not understanding_basis and g >= 7 and not TOOL_NAME.search(name):
+        understanding_basis.append("初高中主干目标暂按完整讲解规划，待逐目标学科校订")
+    if typ == "procedural" and not fluency_basis:
+        fluency_basis.append("程序性目标需要操作或方法执行的熟练练习")
+    return {"fluency": bool(fluency_basis), "understanding": bool(understanding_basis),
+            "axis_basis": {"fluency": fluency_basis, "understanding": understanding_basis}}
 
-    if g <= 2:
-        return "tool"
-    if typ in ("application", "modeling"):
+
+def classify(topic: dict) -> str:
+    """教学组织粒度，不从理解需求轴机械推导独立卡数量。"""
+    typ = topic.get("type") or ""
+    if typ in ("application", "reasoning", "modeling"):
         return "core"
-    if g >= 7:
-        # 初中高中默认核心；只有纯识记且不含可迁移词才降为工具
-        if TOOL_NAME.search(name) and typ in ("conceptual", "procedural") \
-                and not CORE_NAME.search(name):
+    ov = override_of(topic)
+    if ov:
+        return ov[0]
+    name = topic.get("name") or ""
+    grade = topic.get("grade") or 0
+    if grade >= 7:
+        if TOOL_NAME.search(name) and typ in ("conceptual", "procedural") and not CORE_NAME.search(name):
             return "tool"
-        return "core"
-    # 小学 3–6
-    if typ == "reasoning":
         return "core"
     if CORE_NAME.search(name) and not TOOL_NAME.search(name):
         return "core"
@@ -241,7 +249,12 @@ def build(topics: list[dict]) -> dict:
             "teach_mode": "full" if tier == "core" else "brief",
             "practice_target": practice_target(t),
             "why": _why(t, tier),
+            "review_status": "draft",
+            **learning_axes(t),
         }
+        reference = REFERENCE_GROUP_BY_TOPIC.get(t["id"])
+        if reference:
+            info["reference_group"] = reference
         if tier == "tool":
             # 速查卡的粒度：同一簇内再按册次切，否则「一上的加减法」和
             # 「二下的有余数除法」会被塞进同一张卡，谁也不适用。
@@ -266,23 +279,20 @@ def build(topics: list[dict]) -> dict:
         # 每个核心点一张完整卡；工具点按 (簇 × 册次) 合并成一张速查卡
         c["full_cards_needed"] = c["core"]
         c["brief_cards_needed"] = len(c["brief_groups"])
-    return {"schema": 1, "topics": out, "clusters": clusters}
+    return {"schema": 2, "review_status": "draft",
+            "axis_scope": "fluency/understanding 是可同时成立的教学需求，不是学生掌握状态；False 不等于不需理解",
+            "topics": out, "clusters": clusters}
 
 
 def _why(t: dict, tier: str) -> str:
     ov = override_of(t)
     if ov:
-        return f"人工覆盖：{ov[1]}"
+        return f"目标校订（待学科审核）：{ov[1]}"
     if tier == "tool":
-        g = t.get("grade")
-        if g <= 2:
-            return "低年级基础技能：目标是熟练，不是迁移"
-        if TOOL_NAME.search(t.get("name") or ""):
-            return "单一执行技能（识记/换算/口算），并入簇速查卡"
-        return "规则判定为工具点"
-    if t.get("type") in ("application", "modeling"):
-        return "应用题/建模：必须讲透并配变式"
-    return "可迁移技能：需理解策略与多步推进"
+        return "可在同簇同册组织教学；原理与熟练要求见独立需求轴，现有速查不等于全部目标已覆盖"
+    if t.get("type") in ("application", "reasoning", "modeling"):
+        return "目标要求应用、推理或建模，按独立单元规划；依据：" + "；".join(t.get("mastery_criteria") or [])
+    return "沿用主干主题的独立教学单元规划；理解与熟练需求另行标注，待逐目标学科校订"
 
 
 def load(path: pathlib.Path | None = None) -> dict:

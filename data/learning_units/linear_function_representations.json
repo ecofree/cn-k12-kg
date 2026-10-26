@@ -1,0 +1,244 @@
+{
+  "schema": 1,
+  "id": "linear_function_representations",
+  "title": "一次函数：让表格、图象和式子说同一件事",
+  "stage": "junior",
+  "topic_ids": [
+    "m8b.22.2",
+    "m8b.23.1",
+    "m8b.23.2",
+    "m8b.23.4"
+  ],
+  "standard_ids": [
+    "cms-2022:4.NA.15",
+    "cms-2022:4.NA.16"
+  ],
+  "review_status": "draft",
+  "author_type": "ai",
+  "objectives": [
+    {
+      "id": "linear_function_representations:o1",
+      "statement": "能从数值表计算变化率和初始值，写出一次函数表达式并用表中数据检查。"
+    },
+    {
+      "id": "linear_function_representations:o2",
+      "statement": "能读取一次函数图象中的坐标信息，并说明点、表中数据和函数式之间的对应关系。"
+    },
+    {
+      "id": "linear_function_representations:o3",
+      "statement": "能结合单位解释斜率、截距和自变量范围，比较模型结果并排除不符合情境的延伸。"
+    }
+  ],
+  "prerequisites": [
+    "能在平面直角坐标系中读写点的坐标。",
+    "能理解输入与输出的对应关系，并能解一元一次方程。"
+  ],
+  "explanation": {
+    "intuition": "表格记录若干次观察，式子告诉我们怎样计算任意允许的输入，图象把这些对应关系放在同一张坐标图上。一次函数的变化率保持不变，但起点不一定是0。",
+    "reasoning": "对一次函数y=kx+b，先计算两行数据的Δy/Δx，再用另一组数据核对变化率。已知k后，把一个点代入求b。每个满足函数式的(x,y)都是图象上的点。实际情境中，k和b分别要连同单位、初始条件和允许的x范围解释。",
+    "conditions": [
+      "一次函数要求k≠0；取变化率时Δx不能为0。",
+      "有限个表格点呈线性关系，只能支持当前的线性模型；题设若未说明规律，不能断言所有未观测数据都按同一规律变化。",
+      "自变量的范围由情境决定；计费分档、储水容量和时间终点都可能使一个式子只在一段范围内适用。"
+    ],
+    "counterexample": "y=2x+3的变化率是2，但y/x并不恒定，所以它不是正比例函数。又如排水模型y=12−3t只适用于0≤t≤4，不能继续代入t=6后把−6升当作实际水量。"
+  },
+  "worked_examples": [
+    {
+      "prompt": "已知y是x的一次函数，表中x依次为0、1、2，y依次为2、5、8。求函数式并检查。",
+      "steps": [
+        "x每增加1，y增加3，所以k=(5−2)/(1−0)=3；另一组数据也给出(8−5)/(2−1)=3。",
+        "当x=0时y=2，所以b=2，函数式为y=3x+2。",
+        "代入x=2得到y=8，与第三行一致。"
+      ],
+      "answer": "y=3x+2"
+    },
+    {
+      "prompt": "两种服务的费用分别为A=6+3x、B=12+2x，x表示使用时长（小时），允许取非负实数。使用多少小时两种费用相同？",
+      "steps": [
+        "6和12是各自固定费用，3和2是每小时费用，比较时要使用同一个x。",
+        "令6+3x=12+2x，解得x=6。",
+        "两种费用此时都是24元，x=6也满足非负条件。"
+      ],
+      "answer": "6",
+      "verify": "(12-6)/(3-2)"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "linear_function_representations:practice-1",
+      "objective_ids": [
+        "linear_function_representations:o1"
+      ],
+      "phase": "practice",
+      "type": "rubric",
+      "prompt": "已知y是x的一次函数。表中三组数据为(0,3)、(2,7)、(4,11)。求变化率k、初始值b和函数式，并用一个未参与求k的点检查。",
+      "rubric": [
+        {
+          "criterion": "计算单位变化率",
+          "points": 1,
+          "example": "k=(7−3)/(2−0)=2。"
+        },
+        {
+          "criterion": "确定截距和表达式",
+          "points": 1,
+          "example": "b=3，y=2x+3。"
+        },
+        {
+          "criterion": "用另一点检查",
+          "points": 1,
+          "example": "x=4时y=2×4+3=11。"
+        }
+      ],
+      "explanation": "k=(7−3)/(2−0)=2，x=0时y=3，所以b=3，y=2x+3。代入x=4得11，符合第三个点。这里每次x增加2，不能把y的增量4直接当作k。",
+      "feedback": {
+        "correct": "按量规检查是否除以了x的增量，并核对截距与代入检查。",
+        "incorrect": "先写Δy/Δx；表中横坐标并非每次增加1，纵坐标的增量不一定就是斜率。"
+      }
+    },
+    {
+      "id": "linear_function_representations:practice-2",
+      "objective_ids": [
+        "linear_function_representations:o2"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "观察配图中标出的点。当纵坐标y=5时，对应的横坐标x是多少？先在图中找到这个点，再填写横坐标。请只填数值，不写变量名或等号。",
+      "answer": "2",
+      "verify": "(5-1)/2",
+      "diagram": {
+        "src": "/static/diagrams/linear-function.svg",
+        "alt": "直角坐标系中的直线y=2x+1经过(0,1)、(1,3)、(2,5)、(3,7)，横轴为x，纵轴为y。"
+      },
+      "explanation": "图中点(2,5)的纵坐标是5、横坐标是2。坐标的顺序为(横坐标,纵坐标)，也可用5=2x+1核对。",
+      "feedback": {
+        "correct": "读取的横坐标匹配。请在图上沿y=5水平找到交点，再向横轴投影核对。",
+        "incorrect": "不要把坐标顺序反过来；先定位纵轴上的5，再读取直线上对应点的横坐标。"
+      }
+    },
+    {
+      "id": "linear_function_representations:practice-3",
+      "objective_ids": [
+        "linear_function_representations:o3"
+      ],
+      "phase": "practice",
+      "type": "rubric",
+      "prompt": "水箱开始有5升水，在接下来4分钟内以每分钟2升的稳定速度进水，期间没有出水且未装满。写出水量y与时间t的关系，解释两个系数的意义，并写出t的范围。",
+      "rubric": [
+        {
+          "criterion": "建立关系并解释系数和单位",
+          "points": 2,
+          "example": "y=5+2t；5升是初始量，2升/分钟是变化率。"
+        },
+        {
+          "criterion": "明确适用范围",
+          "points": 1,
+          "example": "t以分钟计，0≤t≤4。"
+        }
+      ],
+      "explanation": "y=5+2t，其中5升是开始水量，2升/分钟是进水速度，0≤t≤4。式子描述题设这4分钟，不能自行假设4分钟后仍按原条件进水。",
+      "feedback": {
+        "correct": "按量规检查单位、初始量和时间范围；只有一个式子不能完整描述模型。",
+        "incorrect": "把“开始有多少”“每分钟增加多少”和“持续多久”分别写出来，再放入模型。"
+      }
+    },
+    {
+      "id": "linear_function_representations:transfer-1",
+      "objective_ids": [
+        "linear_function_representations:o3"
+      ],
+      "phase": "transfer",
+      "type": "numeric",
+      "prompt": "某月两种流量计费方案为：A收18元基础费，另每GB收2元；B收6元基础费，另每GB收5元。用量x可取非负实数，且本题没有其他收费。两方案费用相等时用了多少GB？答案单位为GB，请只填数字。",
+      "answer": "4",
+      "verify": "(18-6)/(5-2)",
+      "explanation": "费用相等时18+2x=6+5x，得3x=12，x=4GB。此时两方案都收26元；结果满足非负条件。",
+      "feedback": {
+        "correct": "结果匹配。请核对基础费与每GB单价的位置，并检查两边是否都为26元。",
+        "incorrect": "分别写完整总费用，不能只比较单价，也不能把基础费除以用量后当成固定单价。"
+      }
+    },
+    {
+      "id": "linear_function_representations:transfer-2",
+      "objective_ids": [
+        "linear_function_representations:o1",
+        "linear_function_representations:o2"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "某容器在0至4分钟内均匀进水且没有出水。记录为：t=0、1、3、4分钟时，水量y=4、6、10、12升。求函数式；任选表中两个点写出坐标，并说明如何用它们画出这段时间的图象。",
+      "rubric": [
+        {
+          "criterion": "求出并核对变化率与表达式",
+          "points": 2,
+          "example": "k=2，y=2t+4；两组不同时距数据得到同一变化率。"
+        },
+        {
+          "criterion": "连接表、点与图象",
+          "points": 2,
+          "example": "如标出(0,4)、(4,12)，连接得到0≤t≤4上的线段，横轴为时间、纵轴为水量。"
+        }
+      ],
+      "explanation": "变化率(6−4)/(1−0)=2升/分钟，也等于(10−6)/(3−1)=2。初始量为4升，所以y=2t+4，0≤t≤4。可标(0,4)、(4,12)，连接并保留这两个端点之间的线段；表中其余点也在线段上。",
+      "feedback": {
+        "correct": "按量规检查非等距记录的变化率、坐标顺序和图象的时间范围。",
+        "incorrect": "注意1到3分钟相隔2分钟；先除以时间增量，再决定斜率。实际图象只画题设时间内的部分。"
+      }
+    },
+    {
+      "id": "linear_function_representations:delayed-1",
+      "objective_ids": [
+        "linear_function_representations:o1"
+      ],
+      "phase": "delayed",
+      "type": "numeric",
+      "prompt": "已知y是x的一次函数。三组数据为(1,0)、(3,6)、(5,12)。求y=kx+b中的b。请只填数值，不写变量名或等号。",
+      "answer": "-3",
+      "verify": "0-(6-0)/(3-1)*1",
+      "explanation": "k=(6−0)/(3−1)=3，再用(1,0)得0=3+b，所以b=−3。用(5,12)检查：3×5−3=12。第一个记录点不在x=0处，其y值不能直接作为b。",
+      "feedback": {
+        "correct": "截距匹配；请确认先求变化率，再代入实际横坐标求b。",
+        "incorrect": "表中第一行并非x=0，不能把第一行的y值当初始值。"
+      }
+    },
+    {
+      "id": "linear_function_representations:delayed-2",
+      "objective_ids": [
+        "linear_function_representations:o2",
+        "linear_function_representations:o3"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "水箱有15升水，以每分钟3升的恒定速度排水，排空后停止。有人把y=15−3t的直线延长到t=7，声称7分钟后水量为−6升。解释错误，并说明实际水量图象在0至7分钟内应怎样画。",
+      "rubric": [
+        {
+          "criterion": "指出越界使用模型",
+          "points": 1,
+          "example": "排空时间15÷3=5分钟，原下降式只适用于0≤t≤5。"
+        },
+        {
+          "criterion": "描述正确图象及物理量",
+          "points": 2,
+          "example": "先从(0,15)到(5,0)，再水平到(7,0)，后两分钟水量为0。"
+        }
+      ],
+      "explanation": "前5分钟水量由15升降到0，故0≤t≤5时y=15−3t；5分钟后水量保持0。图象先连接(0,15)和(5,0)，再沿横轴到(7,0)。负水量是越过模型适用范围的结果。",
+      "feedback": {
+        "correct": "按量规检查分段条件和图象描述；指出“不可能为负”还需说明哪里改变了规律。",
+        "incorrect": "先求排空时间，再分别描述排空前后水量如何变化，不能把一个线性式用于所有时间。"
+      }
+    }
+  ],
+  "teacher_review": {
+    "status": "pending"
+  },
+  "diagram": {
+    "src": "/static/diagrams/linear-function.svg",
+    "alt": "直角坐标系中的直线y=2x+1经过(0,1)、(1,3)、(2,5)、(3,7)，横轴为x，纵轴为y。"
+  },
+  "prerequisite_topic_ids": [
+    "m7b.9.1.1",
+    "m7a.5.2",
+    "m8b.22.1"
+  ]
+}

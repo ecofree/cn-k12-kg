@@ -3,86 +3,62 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>K12 数学知识图谱 · 先修补学</title>
+<title>K12 数学 · 学习与补学</title>
 <link rel="stylesheet" href="/static/style.css">
 <link rel="stylesheet" href="/static/vendor/katex/katex.min.css">
 </head>
 <body>
 <header class="topbar">
-  <div class="brand">
-    <span class="logo">kg</span>
-    <div>
-      <h1>K12 数学知识图谱 · 先修补学</h1>
-      <p class="sub" id="stats">加载中…</p>
-    </div>
-  </div>
-  <div class="topnav">
-    <a class="ghost" href="/static/review.html">题目复核</a>
-    <button class="ghost" id="restart" hidden>重新开始</button>
-  </div>
+  <div class="brand"><span class="logo">kg</span><div><h1>K12 数学 · 学习与补学</h1><p class="sub" id="stats">加载中…</p></div></div>
+  <nav class="topnav"><a class="ghost" href="/static/review.html">内容复核</a><button class="ghost" id="restart" hidden>回到目录</button></nav>
 </header>
-
 <main>
   <section id="view-home" class="view">
-    <div class="hero">
-      <p>选一个知识点检查掌握情况，或按册筛查。结果会给出补学线索；尚未测到的先修和需要进一步确认的内容会单独标明。</p>
-    </div>
-    <div class="search-row">
-      <input id="search" type="search" placeholder="搜索知识点，如 绝对值 / 方程" autocomplete="off">
-    </div>
+    <div class="hero"><h2>从一个具体目标开始</h2><p>先看为什么，再独立练习。检查结果会区分已经观察到的表现、需要巩固的内容和仍待确认的部分。</p></div>
+    <button id="resume" class="ghost" hidden>继续上次作答</button>
+    <h3>教学样板 · 含独立任务与过程评价</h3>
+    <div id="learning-units" class="unit-grid"></div>
+    <div class="section-heading"><h2>按教材查找</h2><span class="muted">教材节点中可能包含多个细技能</span></div>
+    <div class="search-row"><input id="search" type="search" placeholder="搜索知识点，如 分数 / 方程 / 方向" autocomplete="off" aria-label="搜索教材知识点"></div>
     <div id="chapters"></div>
   </section>
-
+  <section id="view-teach" class="view" hidden>
+    <p class="eyebrow">教材讲解</p><h2 id="teach-title"></h2><p class="muted" id="teach-status"></p>
+    <div id="teach-content"></div><div id="teach-units" class="unit-grid"></div><div id="teach-actions" class="actions"></div>
+  </section>
+  <section id="view-unit" class="view" hidden>
+    <p class="eyebrow">细目标学习单元</p><h2 id="unit-title"></h2><p class="muted" id="unit-status"></p>
+    <div id="unit-content"></div><div id="unit-actions" class="actions"></div>
+    <p class="muted">练习即时反馈；独立迁移与复测完成整组后再看解析。过程题需按量规复核。</p>
+  </section>
   <section id="view-quiz" class="view" hidden>
-    <div class="quiz-head">
-      <span class="pill" id="quiz-topic"></span>
-      <span class="muted" id="quiz-progress"></span>
-    </div>
+    <div class="quiz-head"><span class="pill" id="quiz-topic"></span><span class="muted" id="quiz-progress"></span></div>
     <div class="card question">
-      <p class="qmeta" id="quiz-meta"></p>
-      <p class="prompt" id="quiz-prompt"></p>
-      <div id="choices" class="choices"></div>
-      <div id="numeric" class="numeric" hidden>
-        <input id="numeric-input" type="text" inputmode="decimal" placeholder="填数字，如 -3 或 1.5">
-      </div>
-      <button class="primary" id="submit">提交</button>
-      <p class="hint muted" id="quiz-hint"></p>
+      <p class="qmeta" id="quiz-meta"></p><div class="prompt" id="quiz-prompt"></div><div id="quiz-diagram"></div>
+      <div id="quiz-rubric"></div><div id="choices" class="choices"></div>
+      <div id="numeric" class="numeric" hidden><input id="numeric-input" type="text" aria-label="你的答案" placeholder="如 -3、0.5 或 1/2"></div>
+      <div id="process-answer" hidden><label for="process-input">写出过程、依据和结论</label><textarea id="process-input" rows="6" maxlength="8000"></textarea></div>
+      <div class="actions"><button class="primary" id="submit">提交</button><button class="ghost" id="skip">暂时不会</button></div>
+      <p class="hint muted" id="quiz-hint" aria-live="polite"></p>
     </div>
-    <div class="card feedback" id="feedback" hidden>
-      <p class="fb-title" id="fb-title"></p>
-      <p id="fb-answer"></p>
-      <p class="muted" id="fb-explain"></p>
-      <button class="primary" id="next">继续</button>
-    </div>
+    <div class="card feedback" id="feedback" hidden aria-live="polite"><p class="fb-title" id="fb-title"></p><div id="fb-answer"></div><div id="fb-explain"></div><div id="fb-rubric"></div><button class="primary" id="next">继续</button></div>
   </section>
-
   <section id="view-result" class="view" hidden>
-    <h2>诊断结果</h2>
-    <p class="verdict" id="verdict"></p>
-    <div class="grid">
-      <div class="card stat"><h3>薄弱线索</h3><p id="res-weak">—</p></div>
-      <div class="card stat"><h3>不稳</h3><p id="res-shaky">—</p></div>
-      <div class="card stat"><h3>已核查先修的缺口线索</h3><p id="res-roots">—</p></div>
+    <h2 id="result-title">本次结果</h2><p class="verdict" id="verdict"></p><p class="muted" id="result-context"></p>
+    <div id="diagnostic-result">
+      <div class="grid"><div class="card stat"><h3>补学线索</h3><p id="res-weak">—</p></div><div class="card stat"><h3>需要巩固</h3><p id="res-shaky">—</p></div><div class="card stat"><h3>已有先修证据的起点</h3><p id="res-roots">—</p></div></div>
+      <p class="muted" id="res-candidates"></p><div class="card"><h3>下一步</h3><ol id="res-path" class="path"></ol></div>
+      <details class="card"><summary>本次检查范围</summary><table id="res-chapters"></table></details>
     </div>
-    <p class="muted" id="res-candidates"></p>
-    <div class="card">
-      <h3>建议补学顺序</h3>
-      <ol id="res-path" class="path"></ol>
-    </div>
-    <div class="card">
-      <h3>按章分布</h3>
-      <table id="res-chapters"></table>
-    </div>
-    <button class="primary" id="again">再测一次</button>
+    <div id="objective-result" class="card" hidden><h3>各目标的作答表现</h3><div id="objective-list"></div></div>
+    <div class="card"><h3>回看作答与依据</h3><div id="answer-review"></div></div>
+    <div id="result-actions" class="actions"></div><button class="ghost" id="again">返回目录</button>
   </section>
-
-  <p class="foot muted">
-    数据为 AI 生成初稿，未经教师审核；判定只作线索，不代替考试与课堂观察。
-  </p>
+  <p class="foot muted">内容仍为初稿，教师独立审核与真实学习效果验证尚未完成。结果用于学习反馈和补学线索。</p>
 </main>
-<script src="/static/app.js"></script>
 <script src="/static/vendor/katex/katex.min.js"></script>
 <script src="/static/vendor/katex/auto-render.min.js"></script>
 <script src="/static/math.js"></script>
+<script src="/static/app.js"></script>
 </body>
 </html>

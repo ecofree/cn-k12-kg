@@ -1,392 +1,237 @@
-const state = {
-  session: null,
-  item: null,
-  nextItem: null,
-  done: false,
-  selected: null,
-  pending: false,
-};
-
+const state = { session: null, item: null, nextItem: null, done: false, selected: null,
+  pending: false, volumes: [], units: [], lastResultSession: null, viewedTopics: new Set(), viewedUnits: new Set() };
 const $ = (id) => document.getElementById(id);
-
+const PHASE = { diagnose: "知识点检查", screen: "整册抽查", practice: "练习", transfer: "独立迁移", delayed: "复测题" };
+const STATUS = { correct: "答对了", wrong: "还需练习", invalid: "请检查格式", needs_review: "过程已提交，等待复核",
+  not_attempted: "暂未作答", demonstrated: "本组题已展示该能力", practice_needed: "建议再练习", not_observed: "本组未观察到该目标" };
 async function api(path, body) {
-  const res = await fetch(path, {
-    method: body ? "POST" : "GET",
-    headers: body ? { "Content-Type": "application/json" } : {},
-    body: body ? JSON.stringify(body) : undefined,
-  });
+  const res = await fetch(path, { method: body ? "POST" : "GET", headers: body ? { "Content-Type": "application/json" } : {}, body: body ? JSON.stringify(body) : undefined });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || `请求失败（${res.status}）`);
   return data;
 }
-
 function show(view) {
-  for (const id of ["view-home", "view-quiz", "view-result"]) {
-    $(id).hidden = id !== `view-${view}`;
-  }
+  for (const name of ["home", "teach", "unit", "quiz", "result"]) $(`view-${name}`).hidden = name !== view;
   $("restart").hidden = view === "home";
+  window.scrollTo({ top: 0, behavior: "instant" });
 }
-
-/* ------------------------------------------------------------------ 首页 */
-
+function node(tag, text, cls) {
+  const el = document.createElement(tag); if (text != null) el.textContent = text; if (cls) el.className = cls; return el;
+}
+function rich(tag, text, cls) { const el = node(tag, null, cls); window.setRichText(el, text || ""); return el; }
+function button(text, action, cls = "ghost") {
+  const el = node("button", text, cls); el.type = "button"; el.addEventListener("click", action); return el;
+}
+function list(items, ordered = false) {
+  const el = node(ordered ? "ol" : "ul"); for (const text of items || []) el.append(rich("li", text)); return el;
+}
+function section(title, content) { const el = node("div", null, "card"); el.append(node("h3", title), content); return el; }
+function diagram(value) {
+  const el = node("figure", null, "lesson-diagram"); if (!value) return el;
+  if (!/^\/static\/diagrams\/[a-zA-Z0-9_-]+\.svg$/.test(value.src)) return el;
+  const img = node("img"); img.src = value.src; img.alt = value.alt || "数学示意图";
+  el.append(img, node("figcaption", value.alt || "", "muted")); return el;
+}
+function reviewLabel(value) { return value && value.status === "approved" ? "已有独立审核记录，请查看具体版本" : "内容初稿 · 教师独立审核待完成"; }
+function unitCard(unit) {
+  const card = node("article", null, "card unit-card");
+  card.append(node("p", { primary: "小学", junior: "初中", senior: "高中" }[unit.stage], "eyebrow"), node("h3", unit.title),
+    node("p", `${unit.objectives.length} 个学习目标 · ${unit.task_counts.practice || 0} 道练习 · 含独立任务`, "muted"),
+    button("开始学习", () => openUnit(unit.id), "primary")); return card;
+}
 async function initHome() {
-  const data = await api("/api/topics");
-  const s = data.stats;
-  $("stats").textContent =
-    `${s.edition} · 框架 ${s.topics} 点（已建 ${s.filled}）· `
-    + `${s.edges} 条先修 · ${s.questions} 道题`;
-  renderChapters(data.volumes, "");
-  $("search").addEventListener("input", (event) => renderChapters(data.volumes, event.target.value.trim()));
-  window.__volumes = data.volumes;
+  const [data, lessons] = await Promise.all([api("/api/topics"), api("/api/learning/units")]);
+  state.volumes = data.volumes; window.__volumes = data.volumes; state.units = lessons.units;
+  $("stats").textContent = `${data.stats.edition} · ${data.stats.topics} 个教材节点 · ${lessons.units.length} 个细目标单元`;
+  $("learning-units").replaceChildren(...lessons.units.map(unitCard)); renderChapters("");
 }
-
-function renderChapters(volumes, keyword) {
-  const root = $("chapters");
-  root.textContent = "";
+function renderChapters(keyword) {
+  const root = $("chapters"); root.textContent = "";
   const match = (t) => !keyword || t.name.includes(keyword) || t.section.includes(keyword);
-
-  for (const vol of volumes) {
-    const chapters = vol.chapters
-      .map((c) => ({ ...c, topics: c.topics.filter(match) }))
-      .filter((c) => c.topics.length);
+  for (const vol of state.volumes) {
+    const chapters = vol.chapters.map(c => ({ ...c, topics: c.topics.filter(match) })).filter(c => c.topics.length);
     if (!chapters.length) continue;
-
-    const heading = document.createElement("div");
-    heading.className = "volume-title";
-    const label = document.createElement("span");
-    label.textContent = `${vol.stage} · ${vol.volume}`;
-    const screener = document.createElement("button");
-    screener.type = "button";
-    screener.className = "mini";
-    screener.textContent = "整册筛查";
-    screener.addEventListener("click", () => startSession([], "screen", vol.volume));
-    heading.append(label, screener);
-    root.append(heading);
-
-    // 小学部分册次是课时级（一上/一下/二上/三上/三下），一章多点，
-    // 不能再按“一章一点”平铺，统一走折叠分组。
+    const heading = node("div", null, "volume-title"); heading.append(node("span", `${vol.stage} · ${vol.volume}`), button("整册抽查", () => startSession({ mode: "screen", volume: vol.volume }), "mini")); root.append(heading);
     for (const chapter of chapters) {
-      const wrap = document.createElement("div");
-      wrap.className = "chapter";
-
-      const head = document.createElement("button");
-      head.type = "button";
-      head.setAttribute("aria-expanded", keyword ? "true" : "false");
-      const title = document.createElement("span");
-      title.textContent = chapter.title;
-      const count = document.createElement("span");
-      count.className = "count";
-      count.textContent = `${chapter.topics.length} 个点`;
-      head.append(title, count);
-
-      const rows = document.createElement("div");
-      rows.className = "rows";
-      rows.hidden = !keyword;
+      const wrap = node("div", null, "chapter"), head = button("", () => { const open = head.getAttribute("aria-expanded") === "true"; head.setAttribute("aria-expanded", String(!open)); rows.hidden = open; });
+      head.setAttribute("aria-expanded", keyword ? "true" : "false"); head.append(node("span", chapter.title), node("span", `${chapter.topics.length} 个点`, "count"));
+      const rows = node("div", null, "rows"); rows.hidden = !keyword;
       for (const topic of chapter.topics) {
-        rows.append(makeRow(topic.name, `${topic.section} · ${topic.questionCount} 题`, topic));
+        const row = node("div", null, "row"), label = node("div"), actions = node("div", null, "row-actions");
+        label.append(node("div", topic.name, "name"), node("div", `${topic.section} · 可练 ${topic.practiceCount} 题 · 可检查 ${topic.questionCount} 题`, "sec"));
+        const study = button("讲解", () => openTeach(topic.id));
+        const practice = button("练习", () => startSession({ targets: [topic.id], mode: "practice", instruction_seen: state.viewedTopics.has(topic.id) })); practice.disabled = !topic.practiceCount;
+        const check = button("检查", () => startSession({ targets: [topic.id], mode: "diagnose", instruction_seen: state.viewedTopics.has(topic.id) })); check.disabled = !topic.questionCount;
+        actions.append(study, practice, check); row.append(label, actions); rows.append(row);
       }
-
-      head.addEventListener("click", () => {
-        const open = head.getAttribute("aria-expanded") === "true";
-        head.setAttribute("aria-expanded", String(!open));
-        rows.hidden = open;
-      });
-
-      wrap.append(head, rows);
-      root.append(wrap);
+      wrap.append(head, rows); root.append(wrap);
     }
   }
-
-  if (!root.children.length) {
-    const empty = document.createElement("p");
-    empty.className = "muted";
-    empty.textContent = "没有匹配的知识点。";
-    root.append(empty);
-  }
+  if (!root.children.length) root.append(node("p", "没有匹配的知识点。", "muted"));
 }
-
-function makeRow(name, sub, topic) {
-  const row = document.createElement("div");
-  row.className = "row";
-  const left = document.createElement("div");
-  const nameEl = document.createElement("div");
-  nameEl.className = "name";
-  nameEl.textContent = name;
-  const secEl = document.createElement("div");
-  secEl.className = "sec";
-  secEl.textContent = sub;
-  left.append(nameEl, secEl);
-
-  const btn = document.createElement("button");
-  btn.type = "button";
-  if (!topic.questionCount) {
-    btn.textContent = "待建";
-    btn.disabled = true;
-    btn.className = "pending";
-    nameEl.classList.add("todo");
-  } else {
-    btn.textContent = "诊断";
-    btn.addEventListener("click", () => startSession([topic.id], "diagnose"));
-  }
-  row.append(left, btn);
-  return row;
-}
-
-/* ------------------------------------------------------------------ 答题 */
-
-async function startSession(targets, mode, volume) {
+async function openTeach(id) {
   try {
-    const data = await api("/api/session", mode === "screen" ? { mode, volume } : { targets });
-    state.session = data.session;
-    state.item = data.item;
-    state.done = data.done;
-    state.selected = null;
-    if (mode === "screen") {
-      $("quiz-hint").textContent = "整册筛查：每个知识点抽查 1 题，仅提供待确认线索，不作根因判断。";
-    } else {
-      $("quiz-hint").textContent = "";
-    }
-    show("quiz");
-    renderItem();
-  } catch (err) {
-    alert(err.message);
-  }
+    const card = await api(`/api/teach/${encodeURIComponent(id)}`); state.viewedTopics.add(id); show("teach");
+    $("teach-title").textContent = card.topicName;
+    $("teach-status").textContent = `${card.mode === "full" ? "已有单点讲解" : card.mode === "brief" ? "辅助速查；完整细目标覆盖仍需检查" : "完整讲解待补充"} · 内容初稿`;
+    const root = $("teach-content"); root.textContent = "";
+    root.append(section("本节目标", list(card.mastery_criteria)));
+    if (card.hook) root.append(section("先想一想", rich("div", card.hook)));
+    if (card.definition || card.one_liner) root.append(section("理解概念", rich("div", card.definition || card.one_liner)));
+    if (card.why) root.append(section("为什么成立", rich("div", card.why)));
+    if (card.when_to_use) root.append(section("什么时候用", list(card.when_to_use)));
+    if (card.steps || card.key_points) root.append(section("思路与要点", list(card.steps || card.key_points, true)));
+    if (card.worked_example) root.append(workedExample(card.worked_example));
+    if (card.pitfalls) root.append(section("检查这些易错处", list(card.pitfalls)));
+    if (card.check) root.append(section("学习后能做到什么", rich("div", card.check)));
+    $("teach-units").replaceChildren(...card.learning_units.map(unitCard));
+    const actions = $("teach-actions"); actions.textContent = "";
+    const practice = button("开始练习", () => startSession({ targets: [id], mode: "practice", instruction_seen: true }), "primary"); practice.disabled = !card.practice_count;
+    const retest = button("用新题检查", () => startSession({ targets: [id], mode: "diagnose", instruction_seen: true, previous_session_id: state.lastResultSession })); retest.disabled = !card.diagnostic_count;
+    actions.append(practice, retest);
+  } catch (err) { alert(err.message); }
 }
-
-function renderItem() {
-  const item = state.item;
-  $("feedback").hidden = true;
-  $("submit").disabled = false;
-  $("submit").hidden = false;
-  state.selected = null;
-
-  $("quiz-topic").textContent = item.topicName;
-  $("quiz-progress").textContent = `第 ${state.session.log.length + 1} 题`;
-  $("quiz-meta").textContent = `难度：${item.question.difficulty} · ${item.attempt === 1 ? "首次作答" : "追问一次"}`;
-  window.setRichText($("quiz-prompt"), item.question.prompt);
-
-  const choices = $("choices");
-  choices.textContent = "";
-  const numeric = $("numeric");
-  if (item.question.type === "choice") {
-    numeric.hidden = true;
-    item.question.choices.forEach((choice, idx) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      const key = document.createElement("span");
-      key.className = "key";
-      // 字母是显示标签，按当前顺序生成；身份是 choice.id
-      key.textContent = String.fromCharCode(65 + idx) + ".";
-      const text = document.createElement("span");
-      window.setRichText(text, choice.text);
-      btn.append(key, text);
-      btn.addEventListener("click", () => {
-        state.selected = choice.id || choice.key;
-        for (const other of choices.children) other.classList.remove("selected");
-        btn.classList.add("selected");
-      });
-      choices.append(btn);
-    });
-  } else {
-    numeric.hidden = false;
-    choices.textContent = "";
-    const input = $("numeric-input");
-    const isShort = item.question.type === "short";
-    input.value = "";
-    input.placeholder = isShort ? "填答案（一个词或一个数）" : "填数字，如 -3 或 3/4";
-    input.inputMode = isShort ? "text" : "decimal";
-    setTimeout(() => input.focus(), 30);
-  }
+function workedExample(ex, index) {
+  const root = node("details", null, "card worked-example"); root.append(node("summary", `例题${index == null ? "" : index + 1} · 展开推导`));
+  root.append(rich("div", ex.prompt), list(ex.steps, true), rich("div", `结论：${ex.answer}`)); return root;
 }
-
-async function submit() {
+async function openUnit(id) {
+  try {
+    const unit = await api(`/api/learning/units/${encodeURIComponent(id)}`); state.viewedUnits.add(id); state.unit = unit; show("unit");
+    $("unit-title").textContent = unit.title; $("unit-status").textContent = reviewLabel(unit.teacher_review);
+    const root = $("unit-content"); root.textContent = "";
+    root.append(section("学完后能够", list(unit.objectives.map(o => o.statement))));
+    if (unit.prerequisites && unit.prerequisites.length) root.append(section("先准备这些基础", list(unit.prerequisites)));
+    const ex = unit.explanation;
+    root.append(section("从直观开始", rich("div", ex.intuition)), section("为什么成立", rich("div", ex.reasoning)));
+    if (unit.diagram) root.append(section("把信息放到图上", diagram(unit.diagram)));
+    root.append(section("使用条件", list(ex.conditions)), section("用反例检查边界", rich("div", ex.counterexample)));
+    root.append(...unit.worked_examples.map(workedExample));
+    const actions = $("unit-actions"); actions.textContent = "";
+    for (const phase of ["practice", "transfer", "delayed"]) actions.append(button(phase === "delayed" ? "复测题（建议隔1–3天）" : PHASE[phase], () => startSession({ unit_id: id, mode: phase, instruction_seen: true, previous_session_id: state.lastResultSession }), phase === "practice" ? "primary" : "ghost"));
+  } catch (err) { alert(err.message); }
+}
+async function startSession(options) {
   if (state.pending) return;
-  const question = state.item.question;
-  let answer = "";
-  if (question.type === "choice") {
-    answer = state.selected || "";
-    if (!answer) {
-      $("quiz-hint").textContent = "先选一个选项。";
-      return;
-    }
-  } else {
-    answer = $("numeric-input").value.trim();
-    if (!answer) {
-      $("quiz-hint").textContent = question.type === "short" ? "先填答案。" : "先填一个数。";
-      return;
-    }
-  }
-
   state.pending = true;
-  $("submit").disabled = true;
   try {
-    const data = await api("/api/answer", { session: state.session, answer });
-    state.session = data.session;
-    state.nextItem = data.item;
-    state.done = data.done;
-    if (data.done) {
-      state.summary = data.summary;
-      state.verdictText = data.verdictText;
-    }
+    const data = await api("/api/session", options); state.session = data.session; state.item = data.item; state.done = data.done; state.summary = data.summary; state.verdictText = data.verdictText;
+    try { sessionStorage.setItem("cnkg-session-id", data.session.id); $("resume").hidden = false; } catch (_) { /* 无存储权限时仍可作答 */ }
+    if (data.done) showResult(); else { show("quiz"); renderItem(); }
+  } catch (err) { alert(err.message); } finally { state.pending = false; }
+}
+function renderItem() {
+  const item = state.item; if (!item) return;
+  state.shownAt = performance.now(); state.selected = null;
+  $("feedback").hidden = true; $("submit").disabled = false; $("submit").hidden = false; $("skip").disabled = false; $("skip").hidden = false;
+  $("quiz-topic").textContent = item.topicName; $("quiz-progress").textContent = `第 ${state.session.answered_count + 1} 题`;
+  $("quiz-meta").textContent = `${PHASE[state.session.mode]}${item.question.difficulty ? ` · 设计难度 ${item.question.difficulty}（待实测校准）` : ""}`;
+  $("quiz-hint").textContent = state.session.feedback_policy === "deferred" ? "先完成这组题，再一起看答案与解析。" : "练习反馈用于学习，不作为初始掌握的证明。";
+  window.setRichText($("quiz-prompt"), item.question.prompt); $("quiz-diagram").replaceChildren(...(item.question.diagram ? [diagram(item.question.diagram)] : []));
+  renderRubric($("quiz-rubric"), item.question.rubric, false);
+  const type = item.question.type; $("choices").textContent = ""; $("numeric").hidden = type === "choice" || type === "rubric"; $("process-answer").hidden = type !== "rubric";
+  if (type === "choice") {
+    item.question.choices.forEach((choice, index) => {
+      const btn = button("", () => { state.selected = choice.id; for (const other of $("choices").children) other.classList.remove("selected"); btn.classList.add("selected"); }, "");
+      btn.append(node("span", String.fromCharCode(65 + index) + ".", "key"), rich("span", choice.text)); $("choices").append(btn);
+    });
+  } else if (type === "rubric") { $("process-input").value = ""; $("process-input").focus(); }
+  else { const input = $("numeric-input"); input.value = ""; input.placeholder = type === "short" ? "按题目要求填写" : "如 -3、0.5 或 1/2；单位见题干"; input.inputMode = "text"; input.focus(); }
+}
+function renderRubric(root, rubric, examples) {
+  root.textContent = ""; if (!rubric || !rubric.length) return;
+  root.append(node("p", "过程评价标准", "muted"));
+  const items = rubric.map(r => `${r.criterion}（${r.points}分）${examples && r.example ? `：${r.example}` : ""}`); root.append(list(items));
+}
+async function submit(skipped = false) {
+  if (state.pending || !state.item) return;
+  const type = state.item.question.type;
+  const answer = type === "choice" ? state.selected || "" : type === "rubric" ? $("process-input").value.trim() : $("numeric-input").value.trim();
+  if (!skipped && !answer) { $("quiz-hint").textContent = "请填写答案或选择暂时不会。"; return; }
+  state.pending = true; $("submit").disabled = true; $("skip").disabled = true;
+  try {
+    const data = await api("/api/answer", { session_id: state.session.id, question_id: state.item.question.id, answer, skip: skipped,
+      elapsed_ms: Math.round(performance.now() - state.shownAt) });
+    state.session = data.session; state.nextItem = data.item; state.done = data.done; state.summary = data.summary; state.verdictText = data.verdictText;
     showFeedback(data.feedback);
-  } catch (err) {
-    $("quiz-hint").textContent = err.message;
-    $("submit").disabled = false;
-  } finally {
-    state.pending = false;
-  }
+  } catch (err) { $("quiz-hint").textContent = err.message; $("submit").disabled = false; $("skip").disabled = false; }
+  finally { state.pending = false; }
 }
-
 function showFeedback(feedback) {
-  $("submit").hidden = true;
-  $("feedback").hidden = false;
-  const title = $("fb-title");
-  title.textContent = feedback.correct ? "答对了" : "答错了";
-  title.className = `fb-title ${feedback.correct ? "ok" : "no"}`;
-  window.setRichText($("fb-answer"), `参考答案：${feedback.answer}`);
-  window.setRichText($("fb-explain"), feedback.explanation);
-  $("next").textContent = state.done ? "看结果" : "下一题";
-  $("next").focus();
+  $("submit").hidden = true; $("skip").hidden = true; $("feedback").hidden = false;
+  const deferred = feedback.deferred; const status = feedback.status;
+  $("fb-title").textContent = deferred ? "答案已记录" : STATUS[status] || "已提交";
+  $("fb-title").className = `fb-title ${status === "correct" ? "ok" : status === "wrong" ? "no" : ""}`;
+  window.setRichText($("fb-answer"), !deferred && feedback.answer ? `参考：${feedback.answer}` : "");
+  const detail = typeof feedback.feedback === "string" ? feedback.feedback : "";
+  window.setRichText($("fb-explain"), deferred ? "整组结束后显示答案，避免影响下一题的独立作答。" : `${detail}\n${feedback.explanation || ""}`);
+  renderRubric($("fb-rubric"), deferred ? null : feedback.rubric, true);
+  $("next").textContent = state.done ? "看本次结果" : "下一题"; $("next").focus();
 }
-
-function next() {
-  if (state.done) {
-    showResult();
-  } else {
-    state.item = state.nextItem;
-    renderItem();
-  }
-}
-
-/* ------------------------------------------------------------------ 结果 */
-
-function showResult() {
-  const summary = state.summary;
-  if (!summary) return;
-  show("result");
-  $("verdict").textContent = state.verdictText || "";
-  $("res-weak").textContent = summary.weak.length
-    ? summary.weak.map((id) => nameOf(id)).join("、") : "无";
-  $("res-shaky").textContent = summary.shaky.length
-    ? summary.shaky.map((id) => nameOf(id)).join("、") : "无";
-  $("res-roots").textContent = summary.roots.length
-    ? summary.roots.map((id) => nameOf(id)).join("、") : "无";
-  const candidates = summary.root_candidates || [];
-  $("res-candidates").textContent = (candidates.length
-    ? `仍需确认：${candidates.map(nameOf).join("、")}。` : "")
-    + (summary.incomplete ? "本次检查尚未覆盖全部必要范围，请结合未测项继续确认。" : "");
-
-  const path = $("res-path");
-  path.textContent = "";
-  const weakSet = new Set(summary.weak);
-  for (const id of summary.path) {
-    const li = document.createElement("li");
-    li.textContent = nameOf(id) + (weakSet.has(id) ? "（补学）"
-      : summary.shaky.includes(id) ? "（巩固）" : "（需进一步确认）");
-    path.append(li);
-  }
-  if (!summary.path.length) {
-    const li = document.createElement("li");
-    li.textContent = "本次作答尚未形成明确补学任务；这不代表所有相关内容均已掌握。";
-    path.append(li);
-  }
-
-  const table = $("res-chapters");
-  table.textContent = "";
-  const head = document.createElement("tr");
-  for (const label of ["章节", "掌握", "不稳", "薄弱", "未测"]) {
-    const th = document.createElement("th");
-    th.textContent = label;
-    head.append(th);
-  }
-  table.append(head);
-  for (const [chapter, bucket] of Object.entries(summary.by_chapter)) {
-    const tr = document.createElement("tr");
-    const name = document.createElement("td");
-    name.textContent = chapter;
-    tr.append(name);
-    for (const key of ["mastered", "shaky", "weak", "untested"]) {
-      const td = document.createElement("td");
-      td.className = "num";
-      td.textContent = bucket[key];
-      tr.append(td);
-    }
-    table.append(tr);
-  }
-}
-
-let NAME_CACHE = {};
+function next() { if (state.done) showResult(); else { state.item = state.nextItem; renderItem(); } }
 function nameOf(id) {
-  if (NAME_CACHE[id]) return NAME_CACHE[id];
-  for (const vol of window.__volumes || []) {
-    for (const chapter of vol.chapters) {
-      for (const topic of chapter.topics) {
-        NAME_CACHE[topic.id] = topic.name;
-      }
-    }
-  }
-  return NAME_CACHE[id] || id;
+  for (const vol of state.volumes) for (const chapter of vol.chapters) for (const topic of chapter.topics) if (topic.id === id) return topic.name;
+  return id;
 }
-
-/* ------------------------------------------------------------------ 事件 */
-
-$("submit").addEventListener("click", submit);
-$("next").addEventListener("click", next);
-$("restart").addEventListener("click", () => {
-  state.session = null;
-  state.item = null;
-  $("search").value = "";
-  renderChapters(window.__volumes || [], "");
-  show("home");
+function showResult() {
+  const summary = state.summary; if (!summary) return; show("result"); state.lastResultSession = state.session.id;
+  $("result-title").textContent = summary.title || "本次结果"; $("verdict").textContent = state.verdictText || "";
+  $("result-context").textContent = summary.context && (summary.context.instruction_seen || summary.context.post_instruction)
+    ? "这是学习或反馈之后的表现，与首次独立检查分开记录。" : "仅反映本次任务的表现；未覆盖的目标仍需另行观察。";
+  const isUnit = state.session.kind === "unit";
+  $("diagnostic-result").hidden = isUnit; $("objective-result").hidden = !isUnit;
+  if (isUnit) {
+    $("objective-list").textContent = "";
+    for (const goal of summary.objective_results) { const row = node("div", null, "objective-row"); row.append(node("p", goal.statement), node("span", STATUS[goal.status], "muted")); $("objective-list").append(row); }
+  } else {
+    $("res-weak").textContent = summary.weak.map(nameOf).join("、") || "本次未形成";
+    $("res-shaky").textContent = summary.shaky.map(nameOf).join("、") || "本次未形成";
+    $("res-roots").textContent = summary.roots.map(nameOf).join("、") || "尚无";
+    $("res-candidates").textContent = ((summary.root_candidates || []).length ? `待确认起点：${summary.root_candidates.map(nameOf).join("、")}。` : "")
+      + (summary.incomplete ? "本次确认未完成，请先处理待确认任务。" : "") + "先修推断与直接作答的证据分别记录。";
+    const path = $("res-path"); path.textContent = "";
+    for (const task of summary.support_tasks || []) {
+      const li = node("li"), actions = node("div", null, "actions"); li.append(node("strong", nameOf(task.topicId)), node("p", task.reason, "muted"));
+      actions.append(button("查看讲解", () => openTeach(task.topicId)), button("换题确认", () => startSession({ targets: [task.topicId], mode: "diagnose", previous_session_id: state.lastResultSession }))); li.append(actions); path.append(li);
+    }
+    if (!path.children.length) path.append(node("li", state.session.mode === "practice" ? "继续看逐题反馈，理解后用新题检查。" : "本次没有形成明确补学任务，未测内容仍需另行确认。"));
+    const table = $("res-chapters"); table.textContent = ""; const header = node("tr");
+    for (const label of ["章节", "已测表现", "推断", "不稳", "补学", "证据不足", "未测"]) header.append(node("th", label)); table.append(header);
+    for (const [chapter, bucket] of Object.entries(summary.by_chapter || {})) { const row = node("tr"); row.append(node("td", chapter)); for (const key of ["mastered", "assumed", "shaky", "weak", "insufficient_evidence", "untested"]) row.append(node("td", bucket[key] || 0, "num")); table.append(row); }
+  }
+  const review = $("answer-review"); review.textContent = "";
+  for (const answer of summary.answers || []) {
+    const entry = node("details", null, "answer-entry"); entry.append(node("summary", `${STATUS[answer.status] || "已提交"} · ${answer.question_id}`), rich("div", answer.prompt), rich("div", `你的答案：${answer.raw_answer || "暂未作答"}`));
+    if (answer.answer) entry.append(rich("div", `参考：${answer.answer}`)); if (answer.explanation) entry.append(rich("div", answer.explanation));
+    const rubric = node("div"); renderRubric(rubric, answer.rubric, true); entry.append(rubric); review.append(entry);
+  }
+  const actions = $("result-actions"); actions.textContent = "";
+  if (isUnit) {
+    actions.append(button("回看讲解", () => openUnit(state.session.unit_id)), button("独立迁移", () => startSession({ unit_id: state.session.unit_id, mode: "transfer", previous_session_id: state.lastResultSession }), "primary"),
+      button("复测题（建议稍后）", () => startSession({ unit_id: state.session.unit_id, mode: "delayed", previous_session_id: state.lastResultSession })));
+  } else if (state.session.targets.length) actions.append(button("新题复测", () => startSession({ targets: state.session.targets, mode: "diagnose", previous_session_id: state.lastResultSession }), "primary"));
+}
+$("search").addEventListener("input", e => renderChapters(e.target.value.trim()));
+$("submit").addEventListener("click", () => submit(false)); $("skip").addEventListener("click", () => submit(true)); $("next").addEventListener("click", next);
+$("numeric-input").addEventListener("keydown", e => { if (e.key === "Enter") submit(false); });
+$("restart").addEventListener("click", () => show("home")); $("again").addEventListener("click", () => show("home"));
+$("resume").addEventListener("click", async () => {
+  try {
+    const id = sessionStorage.getItem("cnkg-session-id"); if (!id) return;
+    const data = await api(`/api/session/${encodeURIComponent(id)}`);
+    state.session = data.session; state.item = data.item; state.done = data.done; state.summary = data.summary; state.verdictText = data.verdictText;
+    if (data.done) showResult(); else { show("quiz"); renderItem(); }
+  } catch (err) { $("resume").hidden = true; alert(err.message); }
 });
-$("numeric-input").addEventListener("keydown", (event) => {
-  if (event.key === "Enter") submit();
-});
-$("again").addEventListener("click", () => {
-  $("restart").click();
-});
-
 async function boot() {
   try {
-    await initHome();
-    show("home");
-    const params = new URLSearchParams(location.search);
-    const target = params.get("target");
-    const volume = params.get("volume");
-    const query = params.get("q");
-    if (query) {
-      $("search").value = query;
-      renderChapters(window.__volumes || [], query);
-    }
-    if (params.get("demo") === "wrong") {
-      await runDemo();  // 自测用：全部答错，直接跑到结果页
-    } else if (target) {
-      await startSession([target], "diagnose");
-    } else if (volume) {
-      await startSession([], "screen", volume);
-    }
-  } catch (err) {
-    $("stats").textContent = "加载失败：" + err.message;
-  }
+    await initHome(); show("home"); const params = new URLSearchParams(location.search);
+    try { $("resume").hidden = !sessionStorage.getItem("cnkg-session-id"); } catch (_) { /* 可选恢复 */ }
+    if (params.get("unit")) await openUnit(params.get("unit"));
+    else if (params.get("teach")) await openTeach(params.get("teach"));
+    else if (params.get("target")) await startSession({ targets: [params.get("target")], mode: "diagnose" });
+    else if (params.get("volume")) await startSession({ volume: params.get("volume"), mode: "screen" });
+    else if (params.get("q")) { $("search").value = params.get("q"); renderChapters(params.get("q")); }
+  } catch (err) { $("stats").textContent = `加载失败：${err.message}`; }
 }
-
-async function runDemo() {
-  await startSession([new URLSearchParams(location.search).get("target") || "m7a.5.2"], "diagnose");
-  let guard = 0;
-  while (!state.done && guard < 30) {
-    guard += 1;
-    const question = state.item.question;
-    const answer = question.type === "choice" ? "Z" : "-999999";
-    const data = await api("/api/answer", { session: state.session, answer });
-    state.session = data.session;
-    state.item = data.item;
-    state.done = data.done;
-    if (data.done) {
-      state.summary = data.summary;
-      state.verdictText = data.verdictText;
-    }
-  }
-  showResult();
-}
-
 boot();

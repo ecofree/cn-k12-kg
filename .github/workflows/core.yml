@@ -20,6 +20,8 @@ jobs:
         run: python tools/rebuild_data.py --check --report build/source-differences.json
       - name: Structural validation
         run: python tools/validate.py
+      - name: Teaching objectives and independent task structure
+        run: python tools/check_learning_units.py --json
       - name: Arithmetic checks (independent subject review is separate)
         run: python tools/verify_questions.py
       - name: Core regression suite (optional external bundles may be absent)

@@ -111,17 +111,13 @@ def check_card(card: dict, topics: dict, bank: dict) -> list[str]:
 
 def check_brief(card: dict, topics: dict, tier_data: dict,
                 bank: dict | None = None) -> list[str]:
-    """速查卡校验：一张卡覆盖同簇同册的一组工具点。
+    """校验同簇同册的辅助参考卡；core 可以引用，但不能冒充完整讲解。
 
-    速查卡故意比完整卡短：工具点的教学目标是熟练，不是理解。
-    但「短」不等于可以空：至少要有一句话定位、3–5 条可操作要点、
-    至少一个真易错点、一条能当场执行的过关标准，以及 1–3 道当场验证的题。
-
-    `covers` 允许只有 1 个点：按「簇 × 册次」切完，本来就有 20 个组只含
-    1–2 个点（如「认识人民币」「抽样调查」）。硬要求 3 个，这些点就一张卡
-    都没有——那比「卡不够合并」更糟。
-    """
+`covers` 只表示本卡的参考范围，不证明全部目标已经被讲清或测量。
+"""
     errs = []
+    if card.get("reference_only") is not True:
+        errs.append("速查卡必须标记 reference_only=true，不能冒充完整讲解")
     cid = card.get("cluster")
     vol = card.get("volume")
     if cid not in (tier_data.get("clusters") or {}):
@@ -135,8 +131,6 @@ def check_brief(card: dict, topics: dict, tier_data: dict,
             errs.append(f"覆盖的知识点不存在：{tid}")
             continue
         info = (tier_data.get("topics") or {}).get(tid) or {}
-        if info.get("tier") != "tool":
-            errs.append(f"{tid} 不是工具点，不该进速查卡")
         if info.get("cluster") != cid:
             errs.append(f"{tid} 属于 {info.get('cluster')}，与卡片的 {cid} 不符")
         if t.get("volume") != vol:
@@ -156,10 +150,9 @@ def check_brief(card: dict, topics: dict, tier_data: dict,
     if len((card.get("check") or "").strip()) < 10:
         errs.append("缺过关标准")
 
-    # 一张速查卡 = 一个「簇 × 册次」组，不能漏点。
-    # 漏了点，那个点在系统里就既没有完整卡、也不在任何速查卡里，等于没讲。
+    # 与显式登记的参考范围一致，不随核心/工具分类自动扩大。
     members = {tid for tid, info in (tier_data.get("topics") or {}).items()
-               if info.get("brief_group") == f"{cid}@{vol}"}
+               if (info.get("reference_group") or info.get("brief_group")) == f"{cid}@{vol}"}
     if covers and members:
         for tid in sorted(members - set(covers)):
             errs.append(f"漏了同组的 {tid}（{topics.get(tid, {}).get('name')}）")
@@ -214,8 +207,9 @@ def main() -> int:
         for e in check_brief(card, topics, tier_data, bank):
             problems.append({"topicId": key, "error": e, "kind": "brief"})
 
-    covered_tool = {tid for c in brief_cards.values() for tid in (c.get("covers") or [])}
-    per_stage = {s: {"topics": 0, "cards": 0, "ready": 0, "brief": 0, "taught": 0}
+    referenced = {tid for c in brief_cards.values() for tid in (c.get("covers") or [])}
+    tool_ids = {tid for tid, info in tier_data.get("topics", {}).items() if info.get("tier") == "tool"}
+    per_stage = {s: {"topics": 0, "cards": 0, "ready": 0, "brief": 0, "with_resource": 0}
                  for s in STAGES}
     for tid, t in topics.items():
         st = stage_of(t)
@@ -226,22 +220,25 @@ def main() -> int:
             per_stage[st]["cards"] += 1
             if not any(p["topicId"] == tid for p in problems):
                 per_stage[st]["ready"] += 1
-        if tid in covered_tool:
+        if tid in referenced:
             per_stage[st]["brief"] += 1
-        if tid in cards or tid in covered_tool:
-            per_stage[st]["taught"] += 1
+        if tid in cards or tid in referenced:
+            per_stage[st]["with_resource"] += 1
 
     total = {"topics": len(topics), "cards": len(cards),
-             "brief_cards": len(brief_cards), "brief_covers": len(covered_tool),
+             "brief_cards": len(brief_cards), "brief_covers": len(referenced),
+             "brief_tool_covers": len(referenced & tool_ids),
+             "brief_core_references": len(referenced - tool_ids),
              "ready": sum(1 for tid in cards
                           if not any(p["topicId"] == tid for p in problems))}
     print(f"完整讲解卡 {len(cards)}/{len(topics)} 个知识点，通过校验 {total['ready']}")
-    print(f"速查卡 {len(brief_cards)} 张，覆盖工具点 {len(covered_tool)}")
+    print(f"速查参考卡 {len(brief_cards)} 张，关联 {len(referenced)} 点"
+          f"（工具点 {total['brief_tool_covers']}，核心点辅助参考 {total['brief_core_references']}）")
     for st in STAGES:
         x = per_stage[st]
         print(f"  {st:<8} 点 {x['topics']:3}  完整卡 {x['cards']:3}"
-              f"  速查覆盖 {x['brief']:3}  教学覆盖 {x['taught']:3}"
-              f" ({x['taught'] / max(x['topics'], 1):.1%})")
+              f"  速查参考 {x['brief']:3}  有资源 {x['with_resource']:3}"
+              f" ({x['with_resource'] / max(x['topics'], 1):.1%}；含速查，不代表完整讲解)")
     if problems:
         print(f"\n问题 {len(problems)} 条：")
         for p in problems[:20]:
@@ -250,6 +247,7 @@ def main() -> int:
         print("\n全部通过：引用完整、例题可验算、题型不全是选择题。")
 
     out = {"total": total, "by_stage": per_stage, "problems": problems,
+           "scope": "ready 仅表示结构校验通过；速查只作参考，独立学科审核与技能覆盖另计",
            "brief_cards": sorted(brief_cards)}
     path = ROOT / args.json
     path.parent.mkdir(parents=True, exist_ok=True)

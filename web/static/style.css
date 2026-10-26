@@ -162,3 +162,45 @@ td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .math-table th { background: rgba(127, 127, 127, .08); font-weight: 600; }
 .katex { font-size: 1.02em; }
 .katex-display { margin: 6px 0; }
+
+/* 教学、独立练习与过程评价 */
+main, .topbar { max-width: 960px; }
+[hidden] { display: none !important; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+button:focus-visible, summary:focus-visible, a:focus-visible { outline: 3px solid #84b6a8; outline-offset: 3px; }
+.unit-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 14px; margin: 16px 0 28px; }
+.unit-card { margin: 0; display: flex; flex-direction: column; align-items: flex-start; }
+.unit-card h3 { color: var(--text); font-size: 17px; }
+.unit-card button { margin-top: auto; }
+.eyebrow { color: var(--accent); font-size: 12px; letter-spacing: .06em; margin: 0 0 8px; }
+.section-heading { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.actions, .row-actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
+.row-actions { flex-shrink: 0; margin: 0; gap: 6px; }
+.card h3 { font-size: 15px; color: #3a5448; }
+.card > ul, .card > ol { padding-left: 24px; }
+.card li { margin-bottom: 8px; }
+summary { cursor: pointer; font-weight: 600; }
+.worked-example[open] summary { margin-bottom: 16px; }
+.worked-example summary::marker, .answer-entry summary::marker { color: var(--accent); }
+.lesson-diagram { margin: 0 auto; max-width: 540px; }
+.lesson-diagram img { display: block; width: 100%; height: auto; }
+.lesson-diagram figcaption { margin-top: 10px; }
+textarea { width: 100%; box-sizing: border-box; padding: 12px; border-radius: 8px; border: 1px solid var(--line); font: inherit; margin-top: 8px; resize: vertical; }
+textarea:focus { outline: 2px solid var(--accent-weak); border-color: var(--accent); }
+.objective-row { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.objective-row p { margin: 0 0 6px; }
+.answer-entry { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.answer-entry[open] summary { margin-bottom: 12px; }
+.path li { margin-bottom: 18px; }
+.feedback > div { margin-bottom: 12px; }
+@media (max-width: 620px) {
+  .topbar { align-items: flex-start; flex-wrap: wrap; }
+  .row { flex-wrap: wrap; }
+  .row-actions { width: 100%; }
+  .row-actions button { flex: 1; min-height: 42px; }
+  .unit-grid { grid-template-columns: 1fr; }
+  .grid { grid-template-columns: 1fr; }
+  .card { padding: 16px; }
+  .actions > button { flex: 1; min-width: 120px; }
+  table { display: block; overflow-x: auto; }
+}

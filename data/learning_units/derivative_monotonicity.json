@@ -1,0 +1,272 @@
+{
+  "schema": 1,
+  "id": "derivative_monotonicity",
+  "title": "导数与单调性：符号、区间和极值",
+  "stage": "senior",
+  "topic_ids": [
+    "mh4.5.3.1",
+    "mh4.5.3.2"
+  ],
+  "standard_ids": [
+    "cms-2017:H.FU.06"
+  ],
+  "review_status": "draft",
+  "author_type": "ai",
+  "objectives": [
+    {
+      "id": "derivative_monotonicity:o1",
+      "statement": "能先确定定义域，再由导数零点与未定义点划分区间，判断各区间导数的符号。"
+    },
+    {
+      "id": "derivative_monotonicity:o2",
+      "statement": "能把导数符号转化为相应区间上的单调性，并说明不能跨定义域空缺直接合并结论。"
+    },
+    {
+      "id": "derivative_monotonicity:o3",
+      "statement": "能根据驻点两侧的变化判断极值，说明导数为0只是候选条件而非极值的充分条件。"
+    }
+  ],
+  "prerequisites": [
+    "能求多项式与1/x的导数，使用导数的加减运算法则。",
+    "能确定简单函数的定义域，并用数轴分析乘积、分式的正负。"
+  ],
+  "explanation": {
+    "intuition": "导数描述局部变化方向。把各处的方向放到数轴上，才能得到一段区间的整体上升或下降趋势。单看某一点“变平”，还不知道曲线有没有掉头。",
+    "reasoning": "先看函数定义域，再求导并标出导数为0或无定义的位置，在被分出的每个开区间判断符号。区间上处处f′>0可推出严格递增，处处f′<0可推出严格递减。可导驻点附近若由正变负，可判断局部极大；由负变正可判断局部极小；若两侧符号不变，则不能仅因该点导数为0而判极值。",
+    "conditions": [
+      "导数符号的单调性结论用于函数可导的区间；先检查函数与导数各自的定义域。",
+      "不能把由未定义点隔开的两段区间直接合并成整个定义域上的单调性。",
+      "f′(x0)=0是内点可导函数出现极值的必要条件，但不是充分条件；不可导点和区间端点需另按定义检查。",
+      "严格递增函数的导数也可能在个别点等于0；不能把“处处导数为正”误当成严格递增的必要条件。"
+    ],
+    "counterexample": "f(x)=x³在x=0处导数为0，但0两侧导数均为正，函数仍递增，没有在0处取得极值。点上导数为0并不表示附近方向反转。"
+  },
+  "worked_examples": [
+    {
+      "prompt": "求f(x)=x³−3x的单调区间，并说明分区依据。",
+      "steps": [
+        "定义域为实数。f′(x)=3x²−3=3(x−1)(x+1)，零点为−1和1。",
+        "在(−∞,−1)、(−1,1)、(1,+∞)三个区间内，导数符号依次为正、负、正。",
+        "因此分别在(−∞,−1)、(1,+∞)递增，在(−1,1)递减；这里用开区间表示符号分析得到的单调段。"
+      ],
+      "answer": "递增区间(−∞,−1)、(1,+∞)；递减区间(−1,1)。"
+    },
+    {
+      "prompt": "f(x)=1/x的导数在所有定义点都小于0，能否说它在整个定义域上递减？",
+      "steps": [
+        "函数在x=0处没有定义，定义域分成(−∞,0)和(0,+∞)。",
+        "f′(x)=−1/x²<0，所以在这两个区间上分别递减。",
+        "不能据此说整个定义域上递减：取−1<1，却有f(−1)=−1<f(1)=1，违背整体递减所要求的比较。"
+      ],
+      "answer": "只能说在(−∞,0)和(0,+∞)上分别递减，不能合并为整个定义域递减。"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "derivative_monotonicity:practice-1",
+      "objective_ids": [
+        "derivative_monotonicity:o1"
+      ],
+      "phase": "practice",
+      "type": "choice",
+      "prompt": "函数f在实数范围内可导，且f′(x)=2x−6。由导数符号可以确定哪个结论？",
+      "choices": [
+        {
+          "id": "A",
+          "text": "f在(3,+∞)递增，在(−∞,3)递减。"
+        },
+        {
+          "id": "B",
+          "text": "f在(−∞,3)递增，在(3,+∞)递减。"
+        },
+        {
+          "id": "C",
+          "text": "f在整个实数范围递增。"
+        }
+      ],
+      "answer": "A",
+      "explanation": "导数在x=3处为0，x<3时为负，x>3时为正。因此f在(−∞,3)递减，在(3,+∞)递增。",
+      "feedback": {
+        "correct": "区间匹配；分区点应来自导数等于0，不能把原函数值当作分区依据。",
+        "incorrect": "先解2x−6=0，再在3的左右各选一个点判断符号。"
+      }
+    },
+    {
+      "id": "derivative_monotonicity:practice-2",
+      "objective_ids": [
+        "derivative_monotonicity:o1",
+        "derivative_monotonicity:o2"
+      ],
+      "phase": "practice",
+      "type": "choice",
+      "prompt": "f(x)=1/(x−2)，且f′(x)=−1/(x−2)²。以下表述哪项准确？",
+      "choices": [
+        {
+          "id": "A",
+          "text": "函数在整个实数范围递减。"
+        },
+        {
+          "id": "B",
+          "text": "函数在(−∞,2)和(2,+∞)上分别递减。"
+        },
+        {
+          "id": "C",
+          "text": "导数恒负，所以函数在整个定义域上递减。"
+        }
+      ],
+      "answer": "B",
+      "explanation": "函数在x=2没有定义，在两段定义区间内导数均为负，所以分别递减。若跨过2比较，如x=1与3，函数值为−1与1，不能说在整个定义域递减。",
+      "feedback": {
+        "correct": "表述匹配；定义域中的断点要先标出，再写各段区间。",
+        "incorrect": "先找分母为0的位置，再考虑导数的符号结论能在哪段连续区间使用。"
+      }
+    },
+    {
+      "id": "derivative_monotonicity:practice-3",
+      "objective_ids": [
+        "derivative_monotonicity:o3"
+      ],
+      "phase": "practice",
+      "type": "rubric",
+      "prompt": "对f(x)=x³，有f′(0)=0。请用0两侧的导数符号说明：0是否为极值点？“导数等于0就一定有极值”缺了什么判断？",
+      "rubric": [
+        {
+          "criterion": "分析驻点两侧符号",
+          "points": 1,
+          "example": "x<0和x>0时3x²都大于0。"
+        },
+        {
+          "criterion": "据变化作判断",
+          "points": 2,
+          "example": "两侧均递增，没有掉头，因此0不是极值点；须检查附近的变化。"
+        }
+      ],
+      "explanation": "f′(x)=3x²，0左侧和右侧都为正，函数在两侧均递增，经过0没有由增到减或由减到增，所以0不是极值点。需要检查附近的变化，不能仅凭一个点的导数值。",
+      "feedback": {
+        "correct": "按量规核对两侧符号和极值结论，不能只复述导数为0。",
+        "incorrect": "在0左右各取一个非零数代入3x²；再判断方向是否反转。"
+      }
+    },
+    {
+      "id": "derivative_monotonicity:transfer-1",
+      "objective_ids": [
+        "derivative_monotonicity:o1",
+        "derivative_monotonicity:o2"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "在x>0的范围研究f(x)=x+1/x。求导，写出导数为0的位置，判断符号并给出单调区间。请明确为什么不讨论x≤0。",
+      "rubric": [
+        {
+          "criterion": "求导并筛选分区点",
+          "points": 2,
+          "example": "f′=1−1/x²；本题x>0，只有x=1为允许的零点。"
+        },
+        {
+          "criterion": "判断符号与区间",
+          "points": 2,
+          "example": "(0,1)递减，(1,+∞)递增；x≤0不在本题范围。"
+        }
+      ],
+      "explanation": "题设限定x>0。f′(x)=1−1/x²=(x−1)(x+1)/x²，正范围内零点为1。因x+1、x²为正，(0,1)上导数负、(1,+∞)上导数正，故先减后增。x≤0不属于本题研究范围。",
+      "feedback": {
+        "correct": "按量规检查定义范围、零点筛选和每段符号；解导数方程得到−1时也要排除。",
+        "incorrect": "先把x>0写在数轴上。分式符号判断时分别标出分子因式和分母的符号。"
+      }
+    },
+    {
+      "id": "derivative_monotonicity:transfer-2",
+      "objective_ids": [
+        "derivative_monotonicity:o3"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "f(x)=x³−3x²，定义域为实数。判断x=0和x=2是否为极值点，分别是什么极值，并用导数符号变化说明。",
+      "rubric": [
+        {
+          "criterion": "依据两侧符号分类",
+          "points": 2,
+          "example": "导数符号正、负、正；0处极大，2处极小。"
+        },
+        {
+          "criterion": "求对应函数值并区分概念",
+          "points": 2,
+          "example": "f(0)=0为极大值，f(2)=−4为极小值；均为局部极值。"
+        }
+      ],
+      "explanation": "f′(x)=3x(x−2)，在(−∞,0)、(0,2)、(2,+∞)上依次为正、负、正。因此x=0处由增到减，是极大值点，极大值f(0)=0；x=2处由减到增，是极小值点，极小值f(2)=−4。这里是局部极值，不是整个实数域的最大最小值。",
+      "feedback": {
+        "correct": "按量规核对符号变化、极值类型与函数值；导数的值0并不是函数的极值。",
+        "incorrect": "先列三个区间的导数符号，再将驻点代回原函数求极值，不要代入导数。"
+      }
+    },
+    {
+      "id": "derivative_monotonicity:delayed-1",
+      "objective_ids": [
+        "derivative_monotonicity:o1",
+        "derivative_monotonicity:o2"
+      ],
+      "phase": "delayed",
+      "type": "choice",
+      "prompt": "f在实数范围内可导，f′(x)=(x+2)(x−4)。哪项给出了正确的递增区间？",
+      "choices": [
+        {
+          "id": "A",
+          "text": "(−∞,−2)和(4,+∞)"
+        },
+        {
+          "id": "B",
+          "text": "(−2,4)"
+        },
+        {
+          "id": "C",
+          "text": "(−∞,4)"
+        },
+        {
+          "id": "D",
+          "text": "整个实数范围"
+        }
+      ],
+      "answer": "A",
+      "explanation": "零点为−2、4，导数在两根外为正、两根内为负，所以在(−∞,−2)和(4,+∞)分别递增。",
+      "feedback": {
+        "correct": "符号区间匹配；请在数轴上写出正、负、正的变化。",
+        "incorrect": "两因式同号时积为正；不要把“在两根之间”机械地理解为导数正。"
+      }
+    },
+    {
+      "id": "derivative_monotonicity:delayed-2",
+      "objective_ids": [
+        "derivative_monotonicity:o3"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "f(x)=x²与g(x)=x⁵在x=0处导数都为0。分别判断0是否为极值点，并解释为什么相同的驻点条件会有不同结论。",
+      "rubric": [
+        {
+          "criterion": "判断x²的局部行为",
+          "points": 1,
+          "example": "2x左负右正，0为极小值点。"
+        },
+        {
+          "criterion": "判断x⁵并说明区别",
+          "points": 2,
+          "example": "5x⁴两侧均正，0不是极值点；驻点条件不说明是否掉头。"
+        }
+      ],
+      "explanation": "f′=2x，0左负右正，因此f在0处取得极小值0。g′=5x⁴，0两侧均为正，g保持递增，0不是极值点。是否极值还取决于附近的函数变化，单看导数在一点为0无法区分。",
+      "feedback": {
+        "correct": "按量规分别检查两组符号，不能把两函数的结论一起套用。",
+        "incorrect": "分别写出两个导数，比较0左右符号是否改变；不要只计算导数在0的值。"
+      }
+    }
+  ],
+  "teacher_review": {
+    "status": "pending"
+  },
+  "prerequisite_topic_ids": [
+    "mh4.5.2.1",
+    "mh4.5.2.2",
+    "mh1.2.3"
+  ]
+}

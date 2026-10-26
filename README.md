@@ -100,11 +100,12 @@ python tools/validate.py                       # 5. 校验
 python web/server.py            # http://127.0.0.1:8765
 ```
 
-- 首页按学段 / 册次分组：小学按单元平铺，初中高中按章折叠；骨架点显示「待建」且不可点
-- 判题在服务端做，题面不下发 `answer`/`verify`/`explanation`
-- 结果页给薄弱 / 不稳 / 根因 / 补学顺序 / 按章分布；未测过的祖先标「未测，需确认」
-- 深链：`/?target=m7a.5.2` 开测，`/?volume=七上` 整册筛查，`/?q=导数` 直接带搜索
-- 自测：`/?demo=wrong&target=m7a.5.2` 全部答错直达结果页
+- 首页提供细目标教学单元与教材目录搜索；每个教材点可分别进入讲解、练习与检查。
+- 讲解包含直观、理由、适用条件、反例与分步例题；速查参考与完整讲解分别标注。
+- 判题与会话状态由服务端维护；题面不下发 `answer`/`verify`/`explanation`。
+- 练习即时反馈；检查、独立迁移和复测在整组完成后展示解析。过程题按量规等待复核，不自动判定掌握。
+- 结果页区分补学线索、不稳、已有先修证据的起点和证据不足；可回看讲解并换题检查。
+- 深链：`/?unit=fraction_equivalence` 打开单元，`/?teach=m7a.5.2` 看讲解，`/?target=m7a.5.2` 开测，`/?volume=七上` 整册抽查，`/?q=导数` 搜索。
 
 ## 目录结构
 
@@ -112,7 +113,7 @@ python web/server.py            # http://127.0.0.1:8765
 data/
   content/           按册撰写的内容（bx1 = 必修一，bx2 = 必修二），apply_content.py 的输入
   topics.json        知识点（477 个，全部 draft）
-  dependencies.json  先修边（586 条，含 hard/soft 与理由；跨学段 27 条）
+  dependencies.json  先修边（589 条，含 hard/soft 与理由）
   questions.json     自有题库（2873 题：数值 1884 / 短答 102 / 选择 887；数值题强制带 verify）
   questions_ext.json 外部题库（23313 题：可诊断 9005，其余按准入等级留在库内）
   stage_policy.json  三学段独立策略；顶部 `_口径` 定义三套统计口径，改动前先读
@@ -120,10 +121,12 @@ data/
   outline.json       教材目录（23 册 129 章/单元 477 叶子 + 课时）
   outline.draft.json 抓取原始结果（build_outline.py 的输入）
   outline.override.json 人工核对的补充目录（8 册），优先于 draft
+  learning_units/    细目标教学单元：解释、独立任务、过程量规及版本指纹
   manifest.json      计数 + 每个文件的 SHA-256
 cnkg/
   graph.py           图结构：祖先集合、拓扑排序、课程顺序
   engine.py          诊断引擎：出题、判定、回溯、汇总
+  learning.py        教学单元校验、内容指纹、安全题面与任务判分
   verify.py          verify 表达式沙箱（AST 白名单）
   store.py           SQLite 装载与递归 CTE 查询
 schema/              三个 JSON Schema

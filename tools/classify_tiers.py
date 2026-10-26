@@ -54,6 +54,8 @@ def main() -> int:
             "name": t.get("name"),
             "type": t.get("type"),
             "tier": info["tier"],
+            "fluency": info["fluency"],
+            "understanding": info["understanding"],
             "cluster": info["cluster"],
             "practice_target": info["practice_target"],
             "own_questions": qcnt[t["id"]],
@@ -87,6 +89,12 @@ def main() -> int:
     report = {
         "generated_by": "tools/classify_tiers.py",
         "by_stage": {f"{st}_{k}": v for (st, k), v in per.items()},
+        "axis_scope": data["axis_scope"],
+        "axes": {
+            "fluency": sum(i["fluency"] for i in by_topic.values()),
+            "understanding": sum(i["understanding"] for i in by_topic.values()),
+            "both": sum(i["fluency"] and i["understanding"] for i in by_topic.values()),
+        },
         "clusters": cl,
         "workload": {
             st: {

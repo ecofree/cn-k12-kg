@@ -36,22 +36,28 @@ class TierTest(unittest.TestCase):
             with self.subTest(topic=tid):
                 self.assertIn(i["cluster"], tiers.CLUSTER_NAMES)
 
-    def test_low_grade_is_tool(self):
-        """一二年级默认工具点。
-
-        这不是贬低：20 以内加减、乘法口诀的教学目标是「不用想就能算」，
-        不是「能建模」。给它们写四步讲解+七道题，挤掉的是高年级应用题的时间。
-        """
+    def test_low_grade_application_and_reasoning_need_independent_units(self):
         for t in self.topics:
-            if (t.get("grade") or 0) <= 2:
+            if (t.get("grade") or 0) <= 2 and t.get("type") in ("application", "reasoning", "modeling"):
                 with self.subTest(topic=t["id"]):
-                    self.assertEqual(self.info[t["id"]]["tier"], "tool")
+                    self.assertEqual(self.info[t["id"]]["tier"], "core")
+                    self.assertTrue(self.info[t["id"]]["understanding"])
 
-    def test_application_is_core_unless_overridden(self):
+    def test_fluency_and_understanding_are_independent_of_resource_grouping(self):
+        # 加法含义与口算可以在一个簇中教学，仍然同时需要理解与熟练。
+        arithmetic = self.info["m1a.1.5"]
+        self.assertEqual(arithmetic["tier"], "tool")
+        self.assertTrue(arithmetic["fluency"])
+        self.assertTrue(arithmetic["understanding"])
+        self.assertEqual(self.info["m1a.2.5"]["tier"], "core")
+        for info in self.info.values():
+            self.assertIsInstance(info["fluency"], bool)
+            self.assertIsInstance(info["understanding"], bool)
+            self.assertEqual(info["review_status"], "draft")
+
+    def test_application_reasoning_modeling_plan_independent_units(self):
         for t in self.topics:
-            if t.get("type") in ("application", "modeling") and t.get("grade", 0) >= 3:
-                if tiers.override_of(t):
-                    continue  # 人工覆盖优先，理由写在 OVERRIDES 里
+            if t.get("type") in ("application", "modeling", "reasoning"):
                 with self.subTest(topic=t["id"]):
                     self.assertEqual(self.info[t["id"]]["tier"], "core")
 
@@ -69,20 +75,23 @@ class TierTest(unittest.TestCase):
 
     def test_overrides_take_effect(self):
         by_name = {(t["name"], t.get("grade")): t["id"] for t in self.topics}
-        cases = [("三角形的面积", 5, "core"), ("三角形", 4, "tool"),
-                 ("观察简单组合体", 5, "tool")]
+        cases = [("三角形的面积", 5, "core"), ("三角形", 4, "core"),
+                 ("长方体和正方体", 5, "core"), ("观察简单组合体", 5, "core"),
+                 ("用圆规比较线段的长短", 3, "tool")]
         for name, grade, want in cases:
             tid = by_name[(name, grade)]
             with self.subTest(topic=name):
                 self.assertEqual(self.info[tid]["tier"], want)
 
-    def test_workload_much_smaller_than_flat_plan(self):
-        """分层之后教学单元必须显著少于逐点平摊，否则分层没有意义。"""
-        clusters = self.data["clusters"]
-        units = sum(c["full_cards_needed"] + c["brief_cards_needed"]
-                    for c in clusters.values())
-        self.assertLess(units, len(self.topics) * 0.8,
-                        f"教学单元 {units} 与点数 {len(self.topics)} 差别太小")
+    def test_saved_tiers_match_current_rules_and_objectives(self):
+        self.assertEqual(self.data, tiers.build(self.topics))
+
+    def test_promoted_topics_retain_reference_without_claiming_full_card(self):
+        for tid in ("m4b.3.1", "m5b.4.1", "m1a.2.5"):
+            info = self.info[tid]
+            self.assertEqual(info["teach_mode"], "full")
+            self.assertTrue(info["reference_group"])
+            self.assertNotIn("brief_group", info)
 
 
 if __name__ == "__main__":

@@ -5,10 +5,11 @@
     python web/server.py            # http://127.0.0.1:8765
     python web/server.py --port 9000
 
-接口（无状态，session 由前端保存并回传）：
+接口（服务端持有会话，前端只提交会话ID与答案）：
     GET  /api/topics                知识点树 + 统计
     POST /api/session               {targets:[...]} 或 {volume:"七上", mode:"screen"}
-    POST /api/answer                {session, verdict}
+    GET  /api/learning/units        细目标教学单元
+    POST /api/answer                {session_id, question_id, answer}
 """
 from __future__ import annotations
 
@@ -18,6 +19,10 @@ import json
 import pathlib
 import sys
 import urllib.parse
+import copy
+import threading
+import uuid
+from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -25,25 +30,27 @@ STATIC = pathlib.Path(__file__).resolve().parent / "static"
 DATA = ROOT / "data"
 sys.path.insert(0, str(ROOT))
 
-from cnkg import engine  # noqa: E402
+from cnkg import engine, learning  # noqa: E402
 from cnkg.graph import VOLUME_ORDER, load_graph  # noqa: E402
 from cnkg.verify import compare, compare_short, to_number  # noqa: E402
 
 # 外部题（真题源）默认不加载。
-# 打开后题池 2235 → 11240（自有 + 9005 道可诊断外部题），477 个点里 268 个
-# 能有真题撑着（按主知识点），题量下限不足的点从 54/117/139 降到 30/50/45
-# （小学/初中/高中）。数字很诱人，但外部题只做了「两个来源互证」，
-# 没有第二人复核，所以默认仍关闭；教学场景要开，显式设 CNKG_INCLUDE_EXTERNAL=1。
+# 可选题库的实际准入量由当前证据策略决定；题量不等于独立学科审核。
+# 教学场景要开，显式设 CNKG_INCLUDE_EXTERNAL=1。
 # 开关用环境变量而不是命令行参数，方便后台启动时控制。
 _INCLUDE_EXTERNAL = os.environ.get("CNKG_INCLUDE_EXTERNAL", "0") == "1"
 GRAPH = load_graph(include_external=_INCLUDE_EXTERNAL)
 # 出题轮转计数器：每建一个会话 +1，让同一知识点的后续诊断抽到不同的题。
 # 不用随机数——同一组参数要可复现，诊断记录要可审计。
 _SESSION_COUNTER = 0
+_SESSIONS: dict[str, dict] = {}
+_SESSION_LOCK = threading.RLock()
+_UNIT_CACHE = None
 ALLOWED_STATIC = {"index.html", "app.js", "style.css", "review.html", "math.js",
                   "ext.html", "ext-data.json"}
 # 第三方静态资源只允许这个子目录，避免把整个磁盘暴露出去
 ALLOWED_PREFIX = "vendor/"
+ALLOWED_DIAGRAM_PREFIX = "diagrams/"
 CONTENT_TYPES = {
     "html": "text/html; charset=utf-8",
     "js": "application/javascript; charset=utf-8",
@@ -138,79 +145,127 @@ def _challenge_pool() -> dict:
     return _CHALLENGE_CACHE
 
 
-def build_teach(topic_id: str) -> dict | None:
-    """讲解卡 + 该点的练习题（题面脱敏）+ 拓展挑战。
+def learning_units() -> dict:
+    global _UNIT_CACHE
+    if _UNIT_CACHE is None:
+        _UNIT_CACHE = learning.load_units(DATA)
+    return _UNIT_CACHE
 
-    讲解卡是 `data/teach/<topicId>.json`。工具点没有独立卡，退回
-    `data/teach/clusters/<brief_group>.json` 的簇速查卡——一层一张，
-    覆盖同册同类的十来个基础点，不再逐点写四步讲解。
-    练习题只给题面，答案与解析留在服务端：讲完之后学生要真的算，
-    不是照着解析抄。
-    挑战题**给解析**：它是「见识竞赛怎么想」的阅读材料，不是测验。
-    """
+
+def unit_summary(unit: dict) -> dict:
+    return {"id": unit["id"], "title": unit["title"], "stage": unit["stage"],
+            "topic_ids": unit.get("topic_ids", []), "objectives": unit["objectives"],
+            "review_status": unit.get("review_status", "draft"),
+            "teacher_review": unit.get("teacher_review", {"status": "pending"}),
+            "task_counts": {phase: sum(t["phase"] == phase for t in unit["tasks"])
+                            for phase in ("practice", "transfer", "delayed")}}
+
+
+def build_teach(topic_id: str) -> dict | None:
+    """返回真实存在的讲解和目标单元；速查仅作为辅助参考。"""
     topic = GRAPH.by_id.get(topic_id)
+    if topic is None:
+        return None
     tier = GRAPH.tiers.get(topic_id) or {}
-    card, mode = None, "full"
     path = DATA / "teach" / f"{topic_id}.json"
+    mode, card = "none", {}
     if path.is_file():
         card = json.loads(path.read_text(encoding="utf-8"))
-    elif tier.get("tier") == "tool" and tier.get("brief_group"):
-        brief = DATA / "teach" / "clusters" / f"{tier['brief_group']}.json"
-        if brief.is_file():
+        mode = "full"
+    else:
+        group = tier.get("reference_group") or tier.get("brief_group")
+        brief = DATA / "teach" / "clusters" / f"{group}.json"
+        if group and brief.is_file():
             card = json.loads(brief.read_text(encoding="utf-8"))
             mode = "brief"
-    if card is None:
-        # 还没有卡的知识点也要能打开：学生至少能看到这个点是什么、
-        # 有哪几道题、竞赛怎么考。返回 None 会让 309 个核心点在页面上是空白。
-        if topic is None:
-            return None
-        out = {
-            "topicId": topic_id,
-            "mode": "none",
-            "tier": tier.get("tier"),
-            "cluster": tier.get("cluster"),
-            "topicName": topic.get("name"),
-            "description": topic.get("description"),
-            "mastery_criteria": topic.get("mastery_criteria") or [],
-            "practice": [],
-            "practice_questions": [
-                public_question(q) for q in GRAPH.bank.get(topic_id, [])[:4]
-            ],
-        }
-        pool = _challenge_pool()
-        ids = (pool["links"].get(topic_id) or [])[:3]
-        out["challenge"] = [
-            {k: pool["items"][i].get(k) for k in
-             ("id", "level", "prompt", "choices", "answer", "solution",
-              "steps", "source_competition")}
-            for i in ids if i in pool["items"]
-        ]
-        return out
-    out = dict(card)
-    out["mode"] = mode
-    out["tier"] = tier.get("tier")
-    out["cluster"] = tier.get("cluster")
-    out["topicName"] = topic.get("name") if topic else card.get("name")
-    out["description"] = topic.get("description") if topic else None
-    out["mastery_criteria"] = topic.get("mastery_criteria") if topic else []
-    practice = []
-    for ref in card.get("practice") or []:
-        q = next((x for x in GRAPH.questions if x["id"] == ref.get("id")), None)
-        if q:
-            practice.append({**public_question(q), "note": ref.get("note")})
-    out["practice_questions"] = practice
-    # 例题的答案与步骤要给学生看，这是"教会"的部分；
-    # 练习题的答案不能给，这是"检查"的部分。两者明确分开。
+    pool = GRAPH.practice_bank.get(topic_id, [])
+    by_id = {q["id"]: q for q in pool}
+    refs = [ref for ref in card.get("practice", []) if ref.get("id") in by_id]
+    selected = [by_id[ref["id"]] for ref in refs] or pool[:4]
+    return {
+        **card, "topicId": topic_id, "mode": mode, "tier": tier.get("tier"),
+        "topicName": topic["name"], "description": topic.get("description"),
+        "mastery_criteria": topic.get("mastery_criteria", []),
+        "review_status": card.get("review_status", "draft"),
+        "practice_questions": [public_question(q) for q in selected],
+        "diagnostic_count": len(GRAPH.bank.get(topic_id, [])),
+        "practice_count": len(pool),
+        "learning_units": [unit_summary(u) for u in learning_units().values()
+                           if topic_id in u.get("topic_ids", [])],
+        # 板块散列匹配没有目标关联证据，不能作为本课后的推荐。
+        "challenge": [], "challenge_status": "target_alignment_pending",
+    }
 
-    pool = _challenge_pool()
-    ids = (pool["links"].get(topic_id) or [])[:3]
-    out["challenge"] = [
-        {k: pool["items"][i].get(k) for k in
-         ("id", "level", "prompt", "choices", "answer", "solution",
-          "steps", "source_competition")}
-        for i in ids if i in pool["items"]
-    ]
-    return out
+
+def _now() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="milliseconds")
+
+
+def session_question(record: dict) -> dict | None:
+    if record["kind"] == "unit":
+        if record["index"] >= len(record["task_ids"]):
+            return None
+        unit = learning_units()[record["unit_id"]]
+        return next(t for t in unit["tasks"] if t["id"] == record["task_ids"][record["index"]])
+    current = record["engine"].get("current")
+    return GRAPH.questions_by_id.get(current["questionId"]) if current else None
+
+
+def session_item(record: dict) -> dict | None:
+    question = session_question(record)
+    if question is None:
+        return None
+    if record["kind"] == "unit":
+        unit = learning_units()[record["unit_id"]]
+        public = next(t for t in learning.public_unit(unit)["tasks"] if t["id"] == question["id"])
+        return {"topicId": (unit.get("topic_ids") or [None])[0], "topicName": unit["title"],
+                "attempt": record["index"] + 1, "question": public}
+    current = record["engine"]["current"]
+    return {"topicId": current["topicId"], "topicName": GRAPH.name(current["topicId"]),
+            "attempt": current["attempt"], "question": public_question(question)}
+
+
+def session_summary(record: dict) -> dict:
+    if record["kind"] == "topic":
+        summary = engine.summarize(GRAPH, record["engine"])
+        summary["title"] = "本次练习" if record["mode"] == "practice" else "本次检查"
+    else:
+        unit = learning_units()[record["unit_id"]]
+        tasks = {t["id"]: t for t in unit["tasks"]}
+        goals = []
+        for objective in unit["objectives"]:
+            entries = [a for a in record["answers"]
+                       if objective["id"] in tasks[a["question_id"]]["objective_ids"]]
+            statuses = [a["status"] for a in entries]
+            status = ("not_observed" if not entries else "needs_review" if "needs_review" in statuses
+                      else "practice_needed" if any(x != "correct" for x in statuses) else "demonstrated")
+            goals.append({**objective, "status": status, "observations": len(entries)})
+        summary = {"kind": "unit", "unit_id": record["unit_id"], "mode": record["mode"],
+                   "title": unit["title"], "objective_results": goals,
+                   "asked_count": len(record["answers"]), "confidence": "provisional",
+                   "teacher_review": unit.get("teacher_review", {"status": "pending"}),
+                   "incomplete": record["index"] < len(record["task_ids"])}
+    summary["answers"] = copy.deepcopy(record["answers"])
+    summary["context"] = record.get("context", {})
+    summary["created_at"] = record["created_at"]
+    return summary
+
+
+def session_payload(record: dict) -> dict:
+    item = session_item(record)
+    done = item is None
+    response = {"session": {"id": record["id"], "kind": record["kind"],
+                            "mode": record["mode"], "answered_count": len(record["answers"]),
+                            "targets": record.get("engine", {}).get("targets", []),
+                            "unit_id": record.get("unit_id"),
+                            "feedback_policy": record["feedback_policy"]},
+                "item": item, "done": done}
+    if done:
+        response["summary"] = session_summary(record)
+        response["verdictText"] = (engine.verdict_label(response["summary"])
+                                  if record["kind"] == "topic" else
+                                  "逐个目标查看本次表现；过程题等待教师或同伴按量规复核。")
+    return response
 
 
 def stage_of(volume: str) -> str:
@@ -240,6 +295,8 @@ def build_topics() -> dict:
             "section": topic["section"],
             "status": topic["review_status"],
             "questionCount": len(GRAPH.bank[topic["id"]]),
+            "practiceCount": len(GRAPH.practice_bank[topic["id"]]),
+            "tier": (GRAPH.tiers.get(topic["id"]) or {}).get("tier"),
         })
     for vol in volumes.values():
         for chapter in vol["chapters"].values():
@@ -291,6 +348,17 @@ class Handler(BaseHTTPRequestHandler):
             return self._static("index.html")
         if path.startswith("/static/"):
             return self._static(urllib.parse.unquote(path[len("/static/"):]))
+        if path == "/api/learning/units":
+            return self._json(200, {"units": [unit_summary(u) for u in learning_units().values()]})
+        if path.startswith("/api/learning/units/"):
+            uid = urllib.parse.unquote(path.rsplit("/", 1)[-1])
+            unit = learning_units().get(uid)
+            return self._json(200, learning.public_unit(unit)) if unit else self._error(404, "学习单元不存在")
+        if path.startswith("/api/session/"):
+            sid = path.rsplit("/", 1)[-1]
+            with _SESSION_LOCK:
+                record = _SESSIONS.get(sid)
+                return self._json(200, session_payload(record)) if record else self._error(404, "会话不存在或已过期")
         if path == "/api/topics":
             return self._json(200, build_topics())
         if path.startswith("/api/teach/"):
@@ -304,7 +372,8 @@ class Handler(BaseHTTPRequestHandler):
     def _static(self, name: str):
         """name 是 /static/ 之后的相对路径，可以含子目录（KaTeX 有 60+ 字体文件）。"""
         name = name.replace("\\", "/").lstrip("/")
-        allowed = name in ALLOWED_STATIC or name.startswith(ALLOWED_PREFIX)
+        allowed = (name in ALLOWED_STATIC or name.startswith(ALLOWED_PREFIX)
+                   or name.startswith(ALLOWED_DIAGRAM_PREFIX) and name.endswith(".svg"))
         if not allowed or ".." in name.split("/"):
             return self._error(404, "not found")
         target = (STATIC / name).resolve()
@@ -317,89 +386,123 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):  # noqa: N802
         path = urllib.parse.urlparse(self.path).path
-        length = int(self.headers.get("Content-Length") or 0)
-        if length > 1_000_000:
+        try:
+            length = int(self.headers.get("Content-Length") or 0)
+        except ValueError:
+            return self._error(400, "请求长度不合法")
+        if length < 0 or length > 1_000_000:
             return self._error(413, "请求过大")
         try:
             payload = json.loads(self.rfile.read(length) or b"{}")
-        except json.JSONDecodeError:
+        except (json.JSONDecodeError, UnicodeDecodeError):
             return self._error(400, "请求不是合法 JSON")
-
-        if path == "/api/session":
-            return self._create_session(payload)
-        if path == "/api/answer":
-            return self._answer(payload)
+        if not isinstance(payload, dict):
+            return self._error(400, "请求必须是 JSON 对象")
+        with _SESSION_LOCK:
+            if path == "/api/session":
+                return self._create_session(payload)
+            if path == "/api/answer":
+                return self._answer(payload)
         return self._error(404, "not found")
 
     def _create_session(self, payload):
         global _SESSION_COUNTER
-        self._session_counter = _SESSION_COUNTER
         mode = payload.get("mode", "diagnose")
-        limit = payload.get("limit")
-        if mode == "screen":
-            volume = payload.get("volume")
-            targets = [t["id"] for t in GRAPH.topics
-                       if t["volume"] == volume and GRAPH.bank[t["id"]]]
-            if not targets:
-                return self._error(400, f"{volume} 还没有可用的题目")
+        if not isinstance(mode, str):
+            return self._error(400, "模式必须是字符串")
+        if "unit_id" in payload and not isinstance(payload["unit_id"], str):
+            return self._error(400, "学习单元ID必须是字符串")
+        record = {"id": uuid.uuid4().hex, "mode": mode, "created_at": _now(), "answers": [],
+                  "feedback_exposed": [], "context": {"instruction_seen": bool(payload.get("instruction_seen"))}}
+        previous = _SESSIONS.get(str(payload.get("previous_session_id", "")))
+        if previous:
+            record["context"].update(previous_session_id=previous["id"],
+                                      previous_created_at=previous["created_at"], post_instruction=True)
+        if payload.get("unit_id"):
+            unit = learning_units().get(payload["unit_id"])
+            if unit is None or mode not in ("practice", "transfer", "delayed"):
+                return self._error(400, "学习单元或练习阶段不合法")
+            task_ids = [t["id"] for t in unit["tasks"] if t["phase"] == mode]
+            if not task_ids:
+                return self._error(409, "这个阶段还没有可用任务")
+            record.update(kind="unit", unit_id=unit["id"], task_ids=task_ids, index=0,
+                          content_sha256=learning.unit_content_sha256(unit))
         else:
-            targets = payload.get("targets") or []
-        # 出题轮转偏移：同一知识点反复诊断时换一道题问。
-        # 由服务端维护的会话计数给出（不用随机数，保证可复现可审计）。
-        rotate = payload.get("rotate")
-        if rotate is None:
-            rotate = _SESSION_COUNTER
-            _SESSION_COUNTER += 1
-        try:
-            session = engine.create_session(GRAPH, targets, mode=mode,
-                                           limit=limit, rotate=int(rotate))
-        except ValueError as exc:
-            return self._error(400, str(exc))
-        if all(not GRAPH.bank.get(tid) for tid in session["targets"]):
-            return self._error(409, "这个知识点还是骨架，尚未录入题目")
-        item = engine.next_item(GRAPH, session)
-        return self._json(200, {"session": session, "item": item_payload(item), "done": item is None})
+            if mode not in engine.MODES:
+                return self._error(400, "未知练习或诊断模式")
+            if mode == "screen":
+                volume = payload.get("volume")
+                targets = [t["id"] for t in GRAPH.topics if t["volume"] == volume]
+            else:
+                targets = payload.get("targets") or []
+            if not isinstance(targets, list) or not targets or len(targets) > len(GRAPH.topics):
+                return self._error(400, "请选择有效的知识点")
+            if any(not isinstance(t, str) for t in targets):
+                return self._error(400, "知识点ID必须是字符串")
+            try:
+                limit = payload.get("limit")
+                if limit is not None and (isinstance(limit, bool) or not isinstance(limit, int) or not 1 <= limit <= 500):
+                    raise ValueError("出题上限须为1到500的整数")
+                session = engine.create_session(GRAPH, targets, mode=mode, limit=limit, rotate=_SESSION_COUNTER)
+                _SESSION_COUNTER += 1
+            except (TypeError, ValueError) as exc:
+                return self._error(400, str(exc))
+            if previous and previous["kind"] == "topic":
+                # 复测不复用刚看过答案的题，题池不足时由引擎报告证据缺口。
+                session["seen"] = list(previous["engine"]["seen"])
+            engine.next_item(GRAPH, session)
+            record.update(kind="topic", engine=session)
+        record["feedback_policy"] = "immediate" if mode == "practice" else "deferred"
+        _SESSIONS[record["id"]] = record
+        return self._json(200, session_payload(record))
 
     def _answer(self, payload):
-        session = payload.get("session")
-        if not isinstance(session, dict):
-            return self._error(400, "缺少 session")
-        if not session.get("current"):
-            return self._error(409, "当前没有待答的题")
-
-        current = session["current"]
-        question = next((q for q in GRAPH.questions if q["id"] == current["questionId"]), None)
+        sid = payload.get("session_id")
+        record = _SESSIONS.get(sid) if isinstance(sid, str) else None
+        if record is None:
+            return self._error(404, "会话不存在，请重新开始")
+        question = session_question(record)
         if question is None:
-            return self._error(409, "题目不存在")
-
-        # 判题在服务端做：前端只提交作答文本，避免"自我宣布答对"
-        if "answer" in payload:
-            verdict = judge(question, payload.get("answer"))
+            return self._error(409, "当前会话已经完成")
+        if payload.get("question_id") != question["id"]:
+            return self._error(409, "题号与当前题不一致，请恢复当前会话；答案尚未计入")
+        skipped = payload.get("skip") is True
+        raw = payload.get("answer")
+        if not skipped and (not isinstance(raw, str) or not raw.strip() or len(raw) > 8000):
+            return self._error(400, "请填写答案（不超过8000字），或选择暂时不会")
+        if skipped:
+            result = {"status": "not_attempted", "answer": display_answer(question),
+                      "explanation": question.get("explanation", ""), "feedback": "先学习相关内容，再做一道新题确认。"}
+            if question.get("type") == "rubric":
+                result["rubric"] = question.get("rubric", [])
+        elif record["kind"] == "unit":
+            result = learning.grade_task(question, raw)
+            if question.get("type") == "choice" and result["status"] in ("correct", "wrong"):
+                result["answer"] = display_answer(question)
         else:
-            return self._error(400, "缺少 answer")
-        if verdict == "invalid":
-            return self._error(422, "请输入数值，例如 -3、0.5 或 1/2；单位按题干约定填写，不必重复输入。")
-
-        try:
-            engine.apply_answer(GRAPH, session, verdict, text=str(payload["answer"]))
-        except ValueError as exc:
-            return self._error(409, str(exc))
-
-        item = engine.next_item(GRAPH, session)
-        done = item is None
-        response = {
-            "session": session,
-            "item": item_payload(item),
-            "done": done,
-            "feedback": {
-                "correct": verdict == "correct",
-                "answer": display_answer(question),
-                "explanation": question.get("explanation", ""),
-            },
-        }
-        if done:
-            response["summary"] = engine.summarize(GRAPH, session)
-            response["verdictText"] = engine.verdict_label(response["summary"])
+            result = {"status": judge(question, raw), "answer": display_answer(question),
+                      "explanation": question.get("explanation", "")}
+        if result["status"] == "invalid":
+            return self._error(422, "答案格式无法识别。数值可写小数或分数（如1/2），单位按题干约定；格式问题不计作答错。")
+        entry = {**result, "question_id": question["id"], "prompt": question["prompt"],
+                 "raw_answer": raw if not skipped else "", "answered_at": _now(),
+                 "objective_ids": question.get("objective_ids", [])}
+        record["answers"].append(entry)
+        if record["kind"] == "unit":
+            record["index"] += 1
+        else:
+            verdict = "skip" if skipped else result["status"]
+            engine.apply_answer(GRAPH, record["engine"], verdict, text=raw)
+            engine.next_item(GRAPH, record["engine"])
+        response = session_payload(record)
+        if record["feedback_policy"] == "immediate":
+            response["feedback"] = result
+            record["feedback_exposed"].append(question["id"])
+        else:
+            response["feedback"] = {"deferred": True}
+        if response["done"]:
+            record["feedback_exposed"] = [a["question_id"] for a in record["answers"]]
+            record["completed_at"] = _now()
         return self._json(200, response)
 
 

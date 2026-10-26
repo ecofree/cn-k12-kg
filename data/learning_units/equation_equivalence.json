@@ -1,0 +1,236 @@
+{
+  "schema": 1,
+  "id": "equation_equivalence",
+  "title": "等式变形：为什么可以这样解方程",
+  "stage": "junior",
+  "topic_ids": [
+    "m7a.5.1.2",
+    "m7a.5.2",
+    "m7a.5.3"
+  ],
+  "standard_ids": [
+    "cms-2022:4.NA.06"
+  ],
+  "review_status": "draft",
+  "author_type": "ai",
+  "objectives": [
+    {
+      "id": "equation_equivalence:o1",
+      "statement": "能判断等式变形是否保持等价，特别检查除数不能为0和两边操作一致。"
+    },
+    {
+      "id": "equation_equivalence:o2",
+      "statement": "能正确处理括号和分母，解一元一次方程并代回原方程检验。"
+    },
+    {
+      "id": "equation_equivalence:o3",
+      "statement": "能由实际数量关系列方程，并根据整数、非负数和单位等条件解释所得解。"
+    }
+  ],
+  "prerequisites": [
+    "能合并同类项，按分配律去括号，并正确计算有理数。",
+    "能理解等号两边表示相同的量，用字母表示一个未知数。"
+  ],
+  "explanation": {
+    "intuition": "等式像一架平衡的天平。两边同加同减可以保持平衡；同乘或同除也要检查操作能否逆回去，尤其不能除以0。",
+    "reasoning": "解方程的每一步都应保留同一组解。去分母是在两边的每一项上乘同一个非零公倍数；去括号要把符号乘到每一项。求出候选解后代回原方程，实际问题还要检查它是否满足情境限制。",
+    "conditions": [
+      "同除的数必须非零；若除以含未知数的式子，要先处理它可能为0的情况。",
+      "去分母必须作用于两边每一项，包括不带分母的常数。",
+      "方程的数学解不一定就是问题允许的解；人数、件数、整小时计费等限制要单独核对。"
+    ],
+    "counterexample": "从0×2=0×3不能两边除以0推出2=3。类似地，解2x=0时不能直接除以可能为0的x，否则会丢掉真正的解x=0。"
+  },
+  "worked_examples": [
+    {
+      "prompt": "解方程3(x−2)=12，并检验。",
+      "steps": [
+        "两边同除以非零数3，得到x−2=4。",
+        "两边同时加2，得到x=6。",
+        "代回原式：3×(6−2)=12，检验成立。"
+      ],
+      "answer": "6",
+      "verify": "12/3+2"
+    },
+    {
+      "prompt": "解方程(x+1)/3−(x−2)/2=1。",
+      "steps": [
+        "两边每一项同乘6：2(x+1)−3(x−2)=6，右边的1也要乘6。",
+        "去括号得2x+2−3x+6=6，合并为−x+8=6。",
+        "解得x=2，代回：(2+1)/3−(2−2)/2=1。"
+      ],
+      "answer": "2",
+      "verify": "(2+6-6)/(3-2)"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "equation_equivalence:practice-1",
+      "objective_ids": [
+        "equation_equivalence:o1"
+      ],
+      "phase": "practice",
+      "type": "choice",
+      "prompt": "有人解2x=0时，两边同除以x，得到2=0，于是说方程无解。哪一项解释正确？",
+      "choices": [
+        {
+          "id": "A",
+          "text": "合法，字母也可以任意作除数。"
+        },
+        {
+          "id": "B",
+          "text": "不合法，因为x可能为0，原方程有解x=0。"
+        },
+        {
+          "id": "C",
+          "text": "不合法，因为等式两边只能除以正数。"
+        }
+      ],
+      "answer": "B",
+      "explanation": "x可能等于0，不能把x当作确定非零的除数。原方程的解恰好是x=0，错误除法把这个解排除了。",
+      "feedback": {
+        "correct": "限制条件判断正确；使用等式性质前先确认除数非零。",
+        "incorrect": "先代入x=0检查原方程，再看“除以x”是否对这个解有意义。"
+      }
+    },
+    {
+      "id": "equation_equivalence:practice-2",
+      "objective_ids": [
+        "equation_equivalence:o2"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "解方程(2x−1)/3=(x+2)/2，填x的值，并在草稿上代回原方程检验。请只填数值，不写变量名或等号。",
+      "answer": "8",
+      "verify": "(3*2+2)/(2*2-3)",
+      "explanation": "两边同乘6得2(2x−1)=3(x+2)，即4x−2=3x+6，解得x=8。代回两边分别为15/3和10/2，都等于5。",
+      "feedback": {
+        "correct": "结果匹配。请核对左右两边的每个括号是否完整乘上2或3。",
+        "incorrect": "先去分母，不要把括号内的常数漏乘；最后代回最初的分式等式。"
+      }
+    },
+    {
+      "id": "equation_equivalence:practice-3",
+      "objective_ids": [
+        "equation_equivalence:o3"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "买5本同价笔记本，另付2元包装费，共付37元。每本笔记本多少元？答案单位为元，请只填数字。",
+      "answer": "7",
+      "verify": "(37-2)/5",
+      "explanation": "设每本x元，5x+2=37。先扣除一次性的包装费，再分给5本：(37−2)/5=7元。检验5×7+2=37。",
+      "feedback": {
+        "correct": "单价匹配；包装费是整笔订单的一次性费用，不应每本重复算。",
+        "incorrect": "先写出“5本的价钱+包装费=总价”，区分单价与总价。"
+      }
+    },
+    {
+      "id": "equation_equivalence:transfer-1",
+      "objective_ids": [
+        "equation_equivalence:o1",
+        "equation_equivalence:o2"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "某同学解(x−2)/4+1=(x+1)/2，去分母写成x−2+1=2(x+1)。指出错误，写出正确变形并求解，最后检验。",
+      "rubric": [
+        {
+          "criterion": "指出漏乘并写正确等价式",
+          "points": 2,
+          "example": "常数1漏乘4；正确为x−2+4=2(x+1)。"
+        },
+        {
+          "criterion": "解出正确结果",
+          "points": 1,
+          "example": "化简得到x=0。"
+        },
+        {
+          "criterion": "代回原方程检验",
+          "points": 1,
+          "example": "左边−2/4+1=1/2，右边1/2。"
+        }
+      ],
+      "explanation": "同乘4时常数1也要乘4，应为x−2+4=2(x+1)。化简x+2=2x+2，得x=0；代回左右两边都为1/2。",
+      "feedback": {
+        "correct": "按量规检查漏乘、正确解和原方程检验三部分；仅得到0还不够说明变形依据。",
+        "incorrect": "给原方程的每一项单独画括号，再让两边每项都乘4。"
+      }
+    },
+    {
+      "id": "equation_equivalence:transfer-2",
+      "objective_ids": [
+        "equation_equivalence:o3"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "一项场地服务收20元固定费用，另按每整小时8元收费，只接受整小时预约。小林付44元，对应预约几小时？若有人称按同一规则付42元，这是否可能？请列式并解释。",
+      "rubric": [
+        {
+          "criterion": "建立数量关系并解44元情况",
+          "points": 2,
+          "example": "20+8t=44，t=3小时。"
+        },
+        {
+          "criterion": "检查42元情况的实际限制",
+          "points": 2,
+          "example": "算得2.75小时，但不是整数，故按给定规则不可能。"
+        }
+      ],
+      "explanation": "设预约t小时，20+8t=44，t=3，符合非负整数条件。若总价42元则t=2.75，不是整小时，因此不符合题设收费规则。",
+      "feedback": {
+        "correct": "按量规检查方程和整数约束；数学算出2.75不等于实际规则允许2.75小时预约。",
+        "incorrect": "两次都先解20+8t=总价，再用“只接受整小时”检查解。"
+      }
+    },
+    {
+      "id": "equation_equivalence:delayed-1",
+      "objective_ids": [
+        "equation_equivalence:o2"
+      ],
+      "phase": "delayed",
+      "type": "numeric",
+      "prompt": "独立解方程2(3x+1)−5=3(x+4)，填写x。请只填数值，不写变量名或等号。",
+      "answer": "5",
+      "verify": "(3*4-2+5)/(2*3-3)",
+      "explanation": "展开得到6x+2−5=3x+12，合并为3x=15，所以x=5。代回左右均为27。",
+      "feedback": {
+        "correct": "结果匹配；核对左边的2和右边的3都乘到了括号里的每一项。",
+        "incorrect": "把去括号步骤完整写出，再合并同类项，避免心算漏掉常数项。"
+      }
+    },
+    {
+      "id": "equation_equivalence:delayed-2",
+      "objective_ids": [
+        "equation_equivalence:o1"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "小明解3(x−4)=2(x−4)，把两边的(x−4)约去，得到3=2，便说原方程无解。这个变形允许吗？请找出原方程的解并说明约去时缺少的条件。",
+      "rubric": [
+        {
+          "criterion": "找出并检验真解",
+          "points": 1,
+          "example": "x=4，原方程两边均为0。"
+        },
+        {
+          "criterion": "说明不等价的原因",
+          "points": 2,
+          "example": "同除的式子x−4必须非零，但它在真解处为0，约去会丢解。"
+        }
+      ],
+      "explanation": "x−4可能为0，不能直接把它当作非零除数。两边相减得x−4=0，所以x=4；代入原方程两边都是0。恰好在真解处，所谓约去是在除以0。",
+      "feedback": {
+        "correct": "按量规核对真解与非零条件；只说“不能随便约去”还需说明具体原因。",
+        "incorrect": "先把x=4代入检验，再把“约去(x−4)”改写成两边同时除以(x−4)，检查这个除数。"
+      }
+    }
+  ],
+  "teacher_review": {
+    "status": "pending"
+  },
+  "prerequisite_topic_ids": [
+    "m7a.4.2",
+    "m7a.2.2.2"
+  ]
+}

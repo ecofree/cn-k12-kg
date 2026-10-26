@@ -78,11 +78,7 @@ class TeachCardTest(unittest.TestCase):
 
 
 class BriefCardTest(unittest.TestCase):
-    """速查卡：工具点的合并卡。
-
-    工具点不逐点写四步讲解，但也不能没有卡——一年级 157 个基础点
-    一张都没有，学生学「9 加几」时看到的还是空的。合并卡是这两者之间的解。
-    """
+    """速查卡保留原参考范围，允许辅助 core，但不能冒充完整讲解。"""
 
     @classmethod
     def setUpClass(cls):
@@ -103,13 +99,14 @@ class BriefCardTest(unittest.TestCase):
                 self.assertEqual(check_brief(card, self.topics, self.tiers,
                                              self.bank), [])
 
-    def test_all_tool_points_are_covered(self):
-        """每个工具点必须正好被一张速查卡覆盖。
+    def test_brief_generators_reproduce_saved_reference_cards(self):
+        from tools import teach_brief_1, teach_brief_2, teach_brief_3
+        generated = teach_brief_1.CARDS + teach_brief_2.CARDS + teach_brief_3.CARDS
+        by_file = {f"{c['cluster']}@{c['volume']}.json": c for c in generated}
+        self.assertEqual(dict(self.cards), by_file)
 
-        漏一个点，这个点在系统里就既没有完整卡、也不在任何速查卡里，
-        等于这个知识点根本没讲——这比「卡片不够精致」严重得多。
-        重复覆盖则会出现两套说法，学生不知道信哪套。
-        """
+    def test_all_tool_points_are_covered(self):
+        """既有工具点有可查参考，不把关联等同于全部目标已讲清。"""
         seen: dict[str, str] = {}
         for name, card in self.cards:
             for tid in card["covers"]:
@@ -120,14 +117,15 @@ class BriefCardTest(unittest.TestCase):
         tools = {tid for tid, info in self.tiers["topics"].items()
                  if info["tier"] == "tool"}
         self.assertEqual(sorted(tools - set(seen)), [], "有工具点没有任何速查卡")
-        self.assertEqual(sorted(set(seen) - tools), [], "速查卡覆盖了非工具点")
+        self.assertTrue(set(seen) - tools, "升级后的 core 参考内容不应被丢弃")
 
     def test_one_card_per_group(self):
         """一张卡 = 一个「簇 × 册次」组，不多不少。"""
         groups = {}
         for tid, info in self.tiers["topics"].items():
-            if info["tier"] == "tool":
-                groups.setdefault(info["brief_group"], set()).add(tid)
+            group = info.get("reference_group") or info.get("brief_group")
+            if group:
+                groups.setdefault(group, set()).add(tid)
         for name, card in self.cards:
             key = f"{card['cluster']}@{card['volume']}"
             with self.subTest(card=name):
@@ -139,11 +137,14 @@ class BriefCardTest(unittest.TestCase):
             with self.subTest(card=name):
                 self.assertEqual(f"{card['cluster']}@{card['volume']}.json", name)
 
-    def test_covers_only_tool_topics(self):
+    def test_core_references_are_explicitly_not_full_teaching(self):
         for name, card in self.cards:
+            self.assertTrue(card["reference_only"])
             for tid in card["covers"]:
                 with self.subTest(card=name, topic=tid):
-                    self.assertEqual(self.tiers["topics"][tid]["tier"], "tool")
+                    if self.tiers["topics"][tid]["tier"] == "core":
+                        self.assertEqual(self.tiers["topics"][tid]["teach_mode"], "full")
+                        self.assertEqual(card["kind"], "brief")
 
 
 if __name__ == "__main__":

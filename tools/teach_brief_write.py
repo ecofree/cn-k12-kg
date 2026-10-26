@@ -1,16 +1,8 @@
-"""速查卡（工具点合并卡）的统一落盘器。
+"""速查参考卡的统一落盘器。
 
-## 一张卡 = 一个「簇 × 册次」组
-
-组由 `cnkg/tiers.py` 切出来，`covers` 不再手写——脚本按组自动填满，
-少一个点都会在校验时报错。理由很直接：漏掉的点既没有完整卡、
-也不在任何速查卡里，等于这个知识点根本没讲。
-
-## 练习题自动挑
-
-工具点的验证题不需要精挑，只要求「当场能做、不是纯选择」：
-按知识点顺序，每个点取第一道非选择题，最多 3 道。
-这样既保证至少一道非选择，也不会因为手写题号而引用到不存在的题。
+参考范围由 cnkg.brief_groups 明确登记，不因 core/tool 变化而扩大或丢失。
+这些卡可以辅助核心点，但不计作完整讲解或技能达标。自动选择的少量练习
+用于复习抽查，不能代表已测量 covers 中所有目标。
 """
 from __future__ import annotations
 
@@ -37,7 +29,7 @@ for _q in json.loads((DATA / "questions.json").read_text(encoding="utf-8")):
 
 def group_members(key: str) -> list[str]:
     ids = [tid for tid, info in (_TIERS.get("topics") or {}).items()
-           if info.get("brief_group") == key]
+           if (info.get("reference_group") or info.get("brief_group")) == key]
     return sorted(ids, key=lambda x: (_TOPICS[x].get("grade") or 0, x))
 
 
@@ -83,6 +75,8 @@ def B(key: str, name: str, one_liner: str, kp: list[str],
     return {
         "schema": 1,
         "kind": "brief",
+        "reference_only": True,
+        "coverage_scope": "辅助速查；不替代核心点的完整讲解，不证明本组全部技能达标",
         "cluster": cid,
         "volume": vol,
         "name": name,

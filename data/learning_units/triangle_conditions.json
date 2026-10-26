@@ -1,0 +1,245 @@
+{
+  "schema": 1,
+  "id": "triangle_conditions",
+  "title": "三角形：条件、内外角与说理",
+  "stage": "junior",
+  "topic_ids": [
+    "m8a.13.1",
+    "m8a.13.2",
+    "m8a.13.3"
+  ],
+  "standard_ids": [
+    "cms-2022:4.GE.06"
+  ],
+  "review_status": "draft",
+  "author_type": "ai",
+  "objectives": [
+    {
+      "id": "triangle_conditions:o1",
+      "statement": "能用严格的三角形三边关系判断正长度能否围成三角形，并处理等号和整数范围。"
+    },
+    {
+      "id": "triangle_conditions:o2",
+      "statement": "能区分内角、邻补外角与不相邻内角，依据角的关系计算并核对。"
+    },
+    {
+      "id": "triangle_conditions:o3",
+      "statement": "能用已知条件和定理组织可检查的说理，区分测量例子、反例与一般证明。"
+    }
+  ],
+  "prerequisites": [
+    "能计算角的和与差，并识别互补的两个角。",
+    "能使用平行线的内错角相等、同位角相等性质说明角的关系。"
+  ],
+  "explanation": {
+    "intuition": "三根线段围成三角形要真正“拐起来”。若较短两边刚好等于最长边，就只能摊在一条直线上。角的关系也要看位置：一个外角对应的是与它不相邻的两个内角。",
+    "reasoning": "对正长度a、b、c，任意两边之和必须大于第三边；已知最大边时，检查其是否小于另外两边之和即可。平面三角形的内角和为180°，可借过顶点作对边平行线，把三个内角转化为一个平角来说明。外角与相邻内角互补，因此外角等于两个不相邻内角之和。",
+    "conditions": [
+      "讨论的是平面内的非退化三角形，边长为正且单位一致。",
+      "三边关系中的大于是严格不等号，等于不能围成非退化三角形。",
+      "这里的外角由一边与相邻边的延长线组成；“外角大于内角”只对两个不相邻内角分别成立。",
+      "图形比例和测量值可帮助发现关系，但一般结论需要依据条件和定理说明。"
+    ],
+    "counterexample": "内角为20°、30°、130°的三角形，在130°角处的外角为50°。50°大于两个不相邻内角20°、30°，却小于与它相邻的130°内角，所以不能删掉“不相邻”这个条件。"
+  },
+  "worked_examples": [
+    {
+      "prompt": "长度为4cm、5cm、7cm的三条线段能围成三角形吗？若把7cm改成9cm呢？",
+      "steps": [
+        "最长边为7cm，只需核对4+5>7，成立；另外两组不等式因长度为正也成立。",
+        "所以4cm、5cm、7cm可以围成三角形。",
+        "改成9cm后4+5=9，不满足严格大于；三段拉直，不能围成非退化三角形。"
+      ],
+      "answer": "4、5、7可以；4、5、9不可以。"
+    },
+    {
+      "prompt": "三角形ABC中，∠A=40°，∠B=75°。延长BC到D，求∠ACD。",
+      "steps": [
+        "内角和给出∠ACB=180°−40°−75°=65°。",
+        "BC与CD在一条直线上，∠ACD=180°−65°=115°。",
+        "也可直接用外角定理：∠ACD=∠A+∠B=115°；相邻的∠ACB不在这个和里。"
+      ],
+      "answer": "115",
+      "verify": "40+75"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "triangle_conditions:practice-1",
+      "objective_ids": [
+        "triangle_conditions:o1"
+      ],
+      "phase": "practice",
+      "type": "choice",
+      "prompt": "以下四组长度（单位均为cm）中，哪组能围成非退化三角形？",
+      "choices": [
+        {
+          "id": "A",
+          "text": "2，3，5"
+        },
+        {
+          "id": "B",
+          "text": "3，4，8"
+        },
+        {
+          "id": "C",
+          "text": "6，8，10"
+        },
+        {
+          "id": "D",
+          "text": "1，2，4"
+        }
+      ],
+      "answer": "C",
+      "explanation": "只有6、8、10满足6+8>10。2+3=5是等号；3+4<8、1+2<4均无法闭合。",
+      "feedback": {
+        "correct": "判断匹配；最长边必须小于另外两边之和，等于也不行。",
+        "incorrect": "每组选出最长边，比较“另外两边之和”和它，特别检查等号。"
+      }
+    },
+    {
+      "id": "triangle_conditions:practice-2",
+      "objective_ids": [
+        "triangle_conditions:o2"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "观察配图，BC延长到D。∠A=50°，∠B=60°，求外角∠ACD的度数。答案单位为度，请只填数字。",
+      "answer": "110",
+      "verify": "50+60",
+      "diagram": {
+        "src": "/static/diagrams/triangle-angles.svg",
+        "alt": "三角形ABC中，A角为50°，B角为60°；边BC从C向右延长到D，所求外角为AC与CD组成的∠ACD。"
+      },
+      "explanation": "∠ACD等于两个不相邻内角之和，50°+60°=110°。相邻内角∠ACB为70°，与110°互补。",
+      "feedback": {
+        "correct": "外角值匹配；请指出50°、60°为什么是两个不相邻内角。",
+        "incorrect": "先辨认所求角在三角形外部；不要把它当作内角直接用180°减去另外两角。"
+      }
+    },
+    {
+      "id": "triangle_conditions:practice-3",
+      "objective_ids": [
+        "triangle_conditions:o3"
+      ],
+      "phase": "practice",
+      "type": "rubric",
+      "prompt": "量了几个三角形后，都得到内角和约为180°，这能证明所有三角形的内角和吗？请说明局限，再用“过顶点A作BC的平行线”解释一个不依赖测量的证明思路。",
+      "rubric": [
+        {
+          "criterion": "区别例子与一般证明",
+          "points": 1,
+          "example": "有限测量有误差，不能证明所有三角形。"
+        },
+        {
+          "criterion": "用平行线和角的性质说明",
+          "points": 2,
+          "example": "作过A且平行BC的直线，内错角分别等于B、C角，和A角组成180°平角。"
+        }
+      ],
+      "explanation": "有限次测量有误差，也不能涵盖任意三角形。过A作BC的平行线后，利用平行线的内错角相等，把B、C两角移到A处，与A角一起拼成平角，所以三角形内角和为180°。",
+      "feedback": {
+        "correct": "按量规检查测量局限、平行线依据和拼成平角这三步。",
+        "incorrect": "把“看起来相等”改成“依据平行线的哪条性质相等”，再说明三个角为何恰好形成平角。"
+      }
+    },
+    {
+      "id": "triangle_conditions:transfer-1",
+      "objective_ids": [
+        "triangle_conditions:o1"
+      ],
+      "phase": "transfer",
+      "type": "numeric",
+      "prompt": "三角形的两边长为7cm和10cm，第三边x以cm计是整数。x共有多少种可能的取值？请只填写可能取值的个数。",
+      "answer": "13",
+      "verify": "(7+10-1)-(10-7+1)+1",
+      "explanation": "由三边关系得10−7<x<10+7，即3<x<17。整数值为4至16，共16−4+1=13个；边界3和17均不能取。",
+      "feedback": {
+        "correct": "个数匹配；请核对最小与最大允许整数，没有把两个等号边界算入。",
+        "incorrect": "先写严格范围，再列最小、最大整数。直接计算17−3会把边界处理错。"
+      }
+    },
+    {
+      "id": "triangle_conditions:transfer-2",
+      "objective_ids": [
+        "triangle_conditions:o2",
+        "triangle_conditions:o3"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "三角形ABC在C处的外角∠ACD为130°，且∠A比∠B大20°。求三个内角，并说明你用到的角关系。",
+      "rubric": [
+        {
+          "criterion": "正确使用外角及差的条件",
+          "points": 2,
+          "example": "A+B=130°，A−B=20°，因为A、B是不相邻内角。"
+        },
+        {
+          "criterion": "求角并核对",
+          "points": 2,
+          "example": "A=75°、B=55°、C=50°，均为正且总和180°。"
+        }
+      ],
+      "explanation": "外角等于两个不相邻内角之和，所以A+B=130°，又A−B=20°，得A=75°、B=55°。C=180°−130°=50°。三角均为正且和为180°。",
+      "feedback": {
+        "correct": "按量规检查外角与哪两个内角相关、差的条件和最后核对。",
+        "incorrect": "不要把130°作为三角形的内角。先用外角写出A+B，再结合差为20°。"
+      }
+    },
+    {
+      "id": "triangle_conditions:delayed-1",
+      "objective_ids": [
+        "triangle_conditions:o1"
+      ],
+      "phase": "delayed",
+      "type": "numeric",
+      "prompt": "三角形两边分别为6cm、10cm，第三边长为整数厘米。第三边最长是多少厘米？答案单位为厘米，请只填数字。",
+      "answer": "15",
+      "verify": "6+10-1",
+      "explanation": "4<x<16，最大的允许整数为15。取16会出现6+10=16而退化，不能作为边长。",
+      "feedback": {
+        "correct": "最大值匹配；请同时检查15大于10−6，满足另一侧约束。",
+        "incorrect": "最长边界是严格小于16，整数最大值应比16小1。"
+      }
+    },
+    {
+      "id": "triangle_conditions:delayed-2",
+      "objective_ids": [
+        "triangle_conditions:o2",
+        "triangle_conditions:o3"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "有人说：“三角形任意一个外角都大于这个三角形的每一个内角。”请构造一个含120°内角的三角形作为反例：写出另两个内角和相关外角，再把原结论改写成正确表述。",
+      "rubric": [
+        {
+          "criterion": "构造有效反例并指出矛盾",
+          "points": 2,
+          "example": "如25°、35°、120°；相邻外角60°小于120°。其他两个正角和为60°也成立。"
+        },
+        {
+          "criterion": "补回必要条件",
+          "points": 1,
+          "example": "外角大于与它不相邻的任何一个内角。"
+        }
+      ],
+      "explanation": "另两个内角可取25°和35°，三角形内角和为180°。与120°相邻的外角为60°，小于120°，否定原命题。正确表述是：三角形的一个外角大于与它不相邻的任何一个内角。另两个正角只要和为60°也都可以。",
+      "feedback": {
+        "correct": "按量规检查三角形角度自洽、外角位置和被反驳的不等关系，再核对“不相邻”条件。",
+        "incorrect": "先用180°减去120°得到另外两角的和，再求与120°相邻的外角；反例可以有多种。"
+      }
+    }
+  ],
+  "teacher_review": {
+    "status": "pending"
+  },
+  "diagram": {
+    "src": "/static/diagrams/triangle-angles.svg",
+    "alt": "三角形ABC中，A角为50°，B角为60°；边BC从C向右延长到D，所求外角为AC与CD组成的∠ACD。"
+  },
+  "prerequisite_topic_ids": [
+    "m7a.6.3.2",
+    "m7a.6.3.3",
+    "m7b.7.2.3"
+  ]
+}
