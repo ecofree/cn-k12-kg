@@ -53,10 +53,12 @@ def write_manifest(counts: dict, *, include_external=True) -> pathlib.Path:
     code_inputs = {"tools/rebuild_data.py", "cnkg/engine.py", "cnkg/graph.py",
                    "cnkg/evidence.py", "cnkg/verify.py", "cnkg/learning.py",
                    "cnkg/answers.py", "cnkg/contracts.py", "cnkg/learning_store.py", "cnkg/store.py",
+                   "cnkg/catalog.py", "cnkg/planner.py", "cnkg/portfolio.py", "cnkg/session_content.py",
+                   "tools/compile_catalog.py", "tools/register_catalog.py",
                    "cnkg/projects.py", "cnkg/challenge.py", "web/server.py",
                    "tools/curriculum_compare.py", "tools/teach_cards.py", "tools/coverage_report.py",
                    "tools/release_check.py", "web/static/index.html", "web/static/app.js",
-                   "web/static/style.css", "web/static/math.js", "requirements-dev.txt"}
+                   "web/static/style.css", "web/static/math.js", "web/static/work.js", "requirements-dev.txt"}
     code_inputs.update(str(path.relative_to(ROOT)) for path in (ROOT / "schema").glob("*.schema.json"))
     for build_step in registry.get("question_generators", []) + registry.get("question_transforms", []):
         code_inputs.add(build_step["entrypoint"])
@@ -67,9 +69,9 @@ def write_manifest(counts: dict, *, include_external=True) -> pathlib.Path:
                        for t in read_json(store.DATA / "topics.json")})
     # 教学材料、图形与质量登记也参与发布指纹；匿名学习库不属于发布产物。
     asset_paths = set()
-    for directory in ("learning_units", "projects", "teach", "curriculum_comparisons"):
+    for directory in ("learning_units", "projects", "teach", "curriculum_comparisons", "skills"):
         asset_paths.update((store.DATA / directory).rglob("*.json"))
-    for name in ("topic_tiers.json", "curriculum_versions.json", "coverage_backlog.json",
+    for name in ("catalog.json", "topic_tiers.json", "curriculum_versions.json", "coverage_backlog.json",
                  "challenge/alignments.json", "challenge/links.json"):
         path = store.DATA / name
         if path.is_file():

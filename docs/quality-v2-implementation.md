@@ -18,9 +18,15 @@ Reproduce: `python -m pip install -r requirements-dev.txt`, then `python tools/r
 
 ## Batch 2 — one coherent learning chain
 
-Planned: stable skill IDs, textbook placement mappings, unified task/answer contracts, task-family exposure, saved self-checks, next-step/review planning, safe continuation of sessions under immutable content versions. First coherent chain: fractions → ratio/proportion → linear functions, using the existing authored materials.
+Completed: stable skill IDs, textbook placement mappings, unified task/answer contracts, task-family exposure, saved self-checks and project work, next-step/review planning, and safe continuation of sessions under immutable content versions. The first coherent chain is fractions → ratio/proportion → linear functions, with explicit prerequisite links.
 
-Gate: a learner can study, attempt, inspect feedback, save reasoning, return to the next step and review with honest exposure/time records. Legacy IDs and records remain readable.
+The registry contains 1,058 skills (20 observable, 84 composite, 954 legacy composite), 4,439 tasks and 505 materials. The three extended units contain 60 tasks and 20 new observable objectives, supported by six new mathematical diagrams. Counts describe registered resources; they do not imply that every legacy criterion is atomic or independently validated. All 477 quarantined bank records remain excluded from practice and diagnosis.
+
+Learner drafts and revisions are stored transactionally with conflict detection and idempotent retries. Self-assessment remains learner-reported evidence. Material and reference exposure are recorded, and repeated task families do not become independent evidence. New checks with an exhausted pool offer a working practice route. Stored session content and SVGs preserve the original task version across content updates.
+
+Acceptance: all 13 release gates passed. The full core run contained 543 tests (527 passed; 16 optional external-data tests skipped). A subsequent 25-test planner/HTTP run verified the final recommendation grouping. All six frozen browser journeys passed: self-check autosave, rubric revision, the complete 20-task linear-function unit, project history/export, stage-aware mobile layouts, and exhausted-pool recovery. The immediate retest correctly records that the delay window was not met. These are synthetic functional checks, not real-student outcome evidence.
+
+Evidence: `build/quality-v2/batch2/` preserves the gate report/logs; `build/quality-v2/batch2-browser/` preserves the six browser results and screenshots. Legacy IDs and learning records remain readable.
 
 ## Batch 3 — course depth and maintainable delivery
 

@@ -1,0 +1,1565 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cn-k12-kg.local/schema/v1/catalog.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "subject": {
+      "const": "mathematics"
+    },
+    "skills": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^sk_[a-f0-9]{20}$"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "granularity": {
+            "type": "string",
+            "enum": [
+              "legacy_composite",
+              "composite",
+              "observable"
+            ]
+          },
+          "stage": {
+            "type": "string",
+            "enum": [
+              "primary",
+              "junior",
+              "senior"
+            ]
+          },
+          "domain": {
+            "type": "string",
+            "minLength": 1
+          },
+          "prerequisite_skill_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "refines_skill_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "id",
+          "statement",
+          "granularity",
+          "stage",
+          "domain",
+          "prerequisite_skill_ids",
+          "refines_skill_ids"
+        ]
+      }
+    },
+    "placements": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "topic_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "criterion_skill_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "skill_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stage": {
+            "type": "string",
+            "enum": [
+              "primary",
+              "junior",
+              "senior"
+            ]
+          },
+          "curriculum_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "edition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "volume": {
+            "type": "string"
+          },
+          "standard_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "topic_id",
+          "criterion_skill_ids",
+          "skill_ids",
+          "title",
+          "stage",
+          "curriculum_version",
+          "edition",
+          "volume",
+          "standard_ids"
+        ]
+      }
+    },
+    "tasks": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schema_version": {
+            "type": "integer",
+            "const": 1
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "topicId": {
+            "type": "string",
+            "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
+          },
+          "topicIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "primaryTopicId": {
+            "type": "string",
+            "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
+          },
+          "difficulty": {
+            "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/difficulty"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "numeric",
+              "choice",
+              "short",
+              "rubric"
+            ]
+          },
+          "prompt": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/choice"
+            },
+            "minItems": 0
+          },
+          "answer": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "verify": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "explanation": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "accept": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "minItems": 0
+          },
+          "difficulty_basis": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "drill_kind": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "drill_basis": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "generated": {
+            "type": "boolean"
+          },
+          "review_status": {
+            "type": "string",
+            "enum": [
+              "ai-generated",
+              "draft",
+              "reviewed",
+              "rejected"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "diagnosis_eligible": {
+            "type": "boolean"
+          },
+          "target_alignment": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "alignment_note": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "tested_criterion_indices": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "difficulty_calibration": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "evidence_level": {
+            "type": "string",
+            "enum": [
+              "verified",
+              "corroborated",
+              "explained",
+              "bare",
+              "defective",
+              "broken",
+              "teacher_reviewed"
+            ]
+          },
+          "evidence_signals": {
+            "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/evidenceSignals"
+          },
+          "evidence_notes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "minItems": 0
+          },
+          "author_type": {
+            "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/authorType"
+          },
+          "for_diagnosis": {
+            "type": "boolean"
+          },
+          "clarification_note": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "author": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "completion_batch": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "quality_review": {
+            "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/teacherReview"
+          },
+          "answer_spec": {
+            "$ref": "https://cn-k12-kg.local/schema/v1/answer-spec.schema.json"
+          },
+          "diagram": {
+            "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/diagram"
+          },
+          "provenance": {
+            "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/questionProvenance"
+          },
+          "cross_source_evidence": {
+            "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/crossSourceEvidence"
+          },
+          "objective_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "phase": {
+            "type": "string",
+            "enum": [
+              "practice",
+              "transfer",
+              "delayed"
+            ]
+          },
+          "feedback": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "correct": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "incorrect": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            },
+            "required": [
+              "correct",
+              "incorrect"
+            ]
+          },
+          "rubric": {
+            "type": "array",
+            "items": {
+              "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/rubricRow"
+            },
+            "minItems": 1
+          },
+          "family_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "variant_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "representation": {
+            "type": "string",
+            "enum": [
+              "verbal",
+              "symbolic",
+              "number_line",
+              "area_model",
+              "table",
+              "graph",
+              "geometry",
+              "manipulative",
+              "mixed",
+              "unknown"
+            ]
+          },
+          "cognitive_demand": {
+            "type": "string",
+            "enum": [
+              "recall",
+              "execute",
+              "explain",
+              "choose_strategy",
+              "prove",
+              "model",
+              "unknown"
+            ]
+          },
+          "resource_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "resource_version": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "source_kind": {
+            "type": "string",
+            "enum": [
+              "bank",
+              "self_check",
+              "unit",
+              "project_step"
+            ]
+          },
+          "source_ref": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "legacy_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "locator": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "path",
+              "legacy_id",
+              "locator"
+            ]
+          },
+          "material_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "topic_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "skill_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "alignment": {
+            "type": "string",
+            "enum": [
+              "topic_only",
+              "explicit_component",
+              "explicit"
+            ]
+          },
+          "purpose": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "practice",
+                "check",
+                "self_check",
+                "transfer",
+                "delayed",
+                "project"
+              ]
+            },
+            "uniqueItems": true
+          },
+          "availability": {
+            "type": "string",
+            "enum": [
+              "active",
+              "quarantined"
+            ]
+          },
+          "policy": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "practice_eligible": {
+                "type": "boolean"
+              },
+              "diagnosis_eligible": {
+                "type": "boolean"
+              },
+              "may_confirm_mastery": {
+                "type": "boolean"
+              },
+              "may_judge_weak": {
+                "type": "boolean"
+              },
+              "reviewer_pending": {
+                "type": "boolean"
+              },
+              "independent_evidence": {
+                "type": "boolean"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "evidence_level": {
+                "type": "string",
+                "minLength": 1
+              },
+              "confidence": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "practice_eligible",
+              "diagnosis_eligible",
+              "may_confirm_mastery",
+              "may_judge_weak",
+              "reviewer_pending",
+              "independent_evidence",
+              "reason"
+            ]
+          },
+          "reference_answer": {
+            "type": "string",
+            "minLength": 1
+          },
+          "criterion_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "deliverable": {
+            "type": "string",
+            "minLength": 1
+          },
+          "family_status": {
+            "type": "string",
+            "enum": [
+              "declared",
+              "unclassified"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "prompt",
+          "answer_spec",
+          "resource_id",
+          "resource_version",
+          "source_kind",
+          "source_ref",
+          "material_id",
+          "topic_ids",
+          "skill_ids",
+          "alignment",
+          "purpose",
+          "availability",
+          "policy",
+          "family_id",
+          "variant_id",
+          "family_status",
+          "representation",
+          "cognitive_demand"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "rubric"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "rubric"
+              ],
+              "properties": {
+                "answer_spec": {
+                  "properties": {
+                    "kind": {
+                      "const": "rubric"
+                    }
+                  }
+                }
+              }
+            },
+            "else": {
+              "required": [
+                "answer"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "numeric"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "answer_spec": {
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "number"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "choice"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "answer_spec": {
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "choice"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "short"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "answer_spec": {
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "number",
+                        "text",
+                        "coordinate",
+                        "number_list",
+                        "number_set",
+                        "interval",
+                        "polynomial"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "materials": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "topic",
+              "unit",
+              "project"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "topic_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "task_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "family_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "assessment_family_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "reference_scope": {
+            "const": "provided_examples_and_self_check_references"
+          },
+          "resource_version": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "title",
+          "topic_ids",
+          "task_ids",
+          "family_ids",
+          "assessment_family_ids",
+          "reference_scope",
+          "resource_version"
+        ]
+      }
+    },
+    "families": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "declared",
+              "unclassified"
+            ]
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "author_audit",
+              "author_declared",
+              "same_prompt_migration",
+              "unclassified"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "task_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "material_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "independence_established": {
+            "const": false
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "basis",
+          "description",
+          "task_ids",
+          "material_ids",
+          "independence_established"
+        ]
+      }
+    },
+    "units": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "stage": {
+            "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/stage"
+          },
+          "topic_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          },
+          "standard_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(cms-2022:[1-4]\\.(NA|GE|SP|CP)\\.\\d{2}|cms-2017:H\\.(PR|FU|GA|PS|MM)\\.\\d{2})$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "objectives": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                },
+                "statement": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "granularity": {
+                  "type": "string",
+                  "enum": [
+                    "legacy_composite",
+                    "composite",
+                    "observable"
+                  ]
+                },
+                "refines_objective_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                  },
+                  "uniqueItems": true
+                },
+                "skill_id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                }
+              },
+              "required": [
+                "id",
+                "statement"
+              ]
+            }
+          },
+          "resource_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "resource_version": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "skill_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "task_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "prerequisite_unit_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "prerequisite_skill_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                },
+                "resource_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "resource_version": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "source_kind": {
+                  "type": "string",
+                  "enum": [
+                    "bank",
+                    "self_check",
+                    "unit",
+                    "project_step"
+                  ]
+                },
+                "material_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "numeric",
+                    "choice",
+                    "short",
+                    "rubric"
+                  ]
+                },
+                "prompt": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "deliverable": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "choices": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/choice"
+                  },
+                  "minItems": 0
+                },
+                "diagram": {
+                  "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/diagram"
+                },
+                "phase": {
+                  "type": "string",
+                  "enum": [
+                    "practice",
+                    "transfer",
+                    "delayed"
+                  ]
+                },
+                "objective_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "skill_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                  },
+                  "uniqueItems": true
+                },
+                "topic_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                  },
+                  "uniqueItems": true
+                },
+                "alignment": {
+                  "type": "string",
+                  "enum": [
+                    "topic_only",
+                    "explicit_component",
+                    "explicit"
+                  ]
+                },
+                "purpose": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "practice",
+                      "check",
+                      "self_check",
+                      "transfer",
+                      "delayed",
+                      "project"
+                    ]
+                  },
+                  "uniqueItems": true
+                },
+                "family_id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                },
+                "variant_id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                },
+                "family_status": {
+                  "type": "string",
+                  "enum": [
+                    "declared",
+                    "unclassified"
+                  ]
+                },
+                "representation": {
+                  "type": "string",
+                  "enum": [
+                    "verbal",
+                    "symbolic",
+                    "number_line",
+                    "area_model",
+                    "table",
+                    "graph",
+                    "geometry",
+                    "manipulative",
+                    "mixed",
+                    "unknown"
+                  ]
+                },
+                "cognitive_demand": {
+                  "type": "string",
+                  "enum": [
+                    "recall",
+                    "execute",
+                    "explain",
+                    "choose_strategy",
+                    "prove",
+                    "model",
+                    "unknown"
+                  ]
+                },
+                "availability": {
+                  "type": "string",
+                  "enum": [
+                    "active",
+                    "quarantined"
+                  ]
+                },
+                "rubric": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "criterion": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "points": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "objective_ids": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                        },
+                        "uniqueItems": true
+                      }
+                    },
+                    "required": [
+                      "criterion",
+                      "points"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "type",
+                "prompt",
+                "resource_version",
+                "skill_ids",
+                "family_id",
+                "availability"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "stage",
+          "topic_ids",
+          "standard_ids",
+          "objectives",
+          "resource_id",
+          "resource_version",
+          "skill_ids",
+          "task_ids",
+          "prerequisite_unit_ids",
+          "prerequisite_skill_ids",
+          "tasks"
+        ]
+      }
+    },
+    "projects": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "stage": {
+            "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/stage"
+          },
+          "objectives": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                },
+                "statement": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "granularity": {
+                  "type": "string",
+                  "enum": [
+                    "composite",
+                    "observable"
+                  ]
+                },
+                "refines_objective_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                  },
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "id",
+                "statement"
+              ]
+            }
+          },
+          "resource_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "resource_version": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "task_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "skill_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "stage",
+          "objectives",
+          "resource_id",
+          "resource_version",
+          "task_ids",
+          "skill_ids"
+        ]
+      }
+    },
+    "source_index": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+      }
+    },
+    "source_hashes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "skill_granularity": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "registered": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "with_explicit_tasks": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "without_explicit_tasks": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "registered",
+              "with_explicit_tasks",
+              "without_explicit_tasks"
+            ]
+          }
+        },
+        "task_source_counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "task_alignment_counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "answer_kind_counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "active_tasks": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "quarantined_tasks": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "declared_families": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unclassified_families": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "topic_placements": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "independent_mastery_evidence": {
+          "const": false
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "bank_policy_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "original": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "practice_eligible": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "diagnosis_eligible": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "practice_eligible",
+                "diagnosis_eligible"
+              ]
+            },
+            "compiled": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "practice_eligible": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "diagnosis_eligible": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "practice_eligible",
+                "diagnosis_eligible"
+              ]
+            }
+          },
+          "required": [
+            "original",
+            "compiled"
+          ]
+        },
+        "policy_migration_changes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "task_id": {
+                "type": "string"
+              },
+              "before": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "practice_eligible": {
+                    "type": "boolean"
+                  },
+                  "diagnosis_eligible": {
+                    "type": "boolean"
+                  },
+                  "may_confirm_mastery": {
+                    "type": "boolean"
+                  },
+                  "may_judge_weak": {
+                    "type": "boolean"
+                  },
+                  "reviewer_pending": {
+                    "type": "boolean"
+                  },
+                  "independent_evidence": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence_level": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "confidence": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "practice_eligible",
+                  "diagnosis_eligible",
+                  "may_confirm_mastery",
+                  "may_judge_weak",
+                  "reviewer_pending",
+                  "reason"
+                ]
+              },
+              "after": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "practice_eligible": {
+                    "type": "boolean"
+                  },
+                  "diagnosis_eligible": {
+                    "type": "boolean"
+                  },
+                  "may_confirm_mastery": {
+                    "type": "boolean"
+                  },
+                  "may_judge_weak": {
+                    "type": "boolean"
+                  },
+                  "reviewer_pending": {
+                    "type": "boolean"
+                  },
+                  "independent_evidence": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence_level": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "confidence": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "practice_eligible",
+                  "diagnosis_eligible",
+                  "may_confirm_mastery",
+                  "may_judge_weak",
+                  "reviewer_pending",
+                  "reason"
+                ]
+              }
+            },
+            "required": [
+              "task_id",
+              "before",
+              "after"
+            ]
+          }
+        }
+      },
+      "required": [
+        "skill_granularity",
+        "task_source_counts",
+        "task_alignment_counts",
+        "answer_kind_counts",
+        "active_tasks",
+        "quarantined_tasks",
+        "declared_families",
+        "unclassified_families",
+        "topic_placements",
+        "independent_mastery_evidence",
+        "limitations",
+        "bank_policy_counts",
+        "policy_migration_changes"
+      ]
+    },
+    "content_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "subject",
+    "skills",
+    "placements",
+    "tasks",
+    "materials",
+    "families",
+    "units",
+    "projects",
+    "source_index",
+    "source_hashes",
+    "coverage",
+    "content_sha256"
+  ]
+}

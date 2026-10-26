@@ -15,15 +15,76 @@
   "objectives": [
     {
       "id": "ratio_models:o1",
-      "statement": "能说明一个比的前后项各表示什么，并区分部分与部分的比、部分占整体的比。"
+      "statement": "能说明一个比的前后项各表示什么，并区分部分与部分的比、部分占整体的比。",
+      "granularity": "composite"
     },
     {
       "id": "ratio_models:o2",
-      "statement": "能根据不变量判断正比例、反比例或都不是，并说明结论的适用条件。"
+      "statement": "能根据不变量判断正比例、反比例或都不是，并说明结论的适用条件。",
+      "granularity": "composite"
     },
     {
       "id": "ratio_models:o3",
-      "statement": "能在按比例分配、比例尺等情境中列数量关系、统一单位，并检验结果。"
+      "statement": "能在按比例分配、比例尺等情境中列数量关系、统一单位，并检验结果。",
+      "granularity": "composite"
+    },
+    {
+      "id": "ratio_models:referent",
+      "statement": "能给比的前项、后项各标明数量与单位，判断同一个比是否在比较同类量。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "ratio_models:o1"
+      ]
+    },
+    {
+      "id": "ratio_models:part_whole",
+      "statement": "能把部分与部分的比转为部分占整体的份额，并说明分母为何是总份数。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "ratio_models:o1"
+      ]
+    },
+    {
+      "id": "ratio_models:equivalent_ratio",
+      "statement": "能用相同倍数扩大或缩小比，并区分乘法关系与两项同加的变化。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "ratio_models:o1",
+        "ratio_models:o3"
+      ]
+    },
+    {
+      "id": "ratio_models:unit_rate",
+      "statement": "能从数量对应关系求每一单位的量，带单位比较单位率，并在表格或双数轴上表示。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "ratio_models:o2",
+        "ratio_models:o3"
+      ]
+    },
+    {
+      "id": "ratio_models:invariant",
+      "statement": "能用恒定比值或恒定乘积检验正反比例，并指出有限记录和情境固定条件的限制。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "ratio_models:o2"
+      ]
+    },
+    {
+      "id": "ratio_models:allocation",
+      "statement": "能把总量、已知部分量或部分差对应到份数，求按比分配的数量并核对。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "ratio_models:o3"
+      ]
+    },
+    {
+      "id": "ratio_models:scale",
+      "statement": "能在同一长度单位下使用比例尺，并解释图纸缩放后比例尺怎样改变。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "ratio_models:o3"
+      ]
     }
   ],
   "prerequisites": [
@@ -32,11 +93,12 @@
   ],
   "explanation": {
     "intuition": "糖与水的比2:7表示把糖看成2份、水看成7份，混合后总共是9份。比例模型要先找“谁和谁相比”及保持不变的量。",
-    "reasoning": "按比例分配时先求总份数，再求每份是多少。两个正量的比值恒定时可以用正比例；乘积恒定时可以用反比例。有固定起步量的关系通常不能只凭“一个增大、另一个也增大”就认定正比例。",
+    "reasoning": "按比例分配时先求总份数，再求每份是多少。两个正量的比值恒定时可以用正比例；乘积恒定时可以用反比例。有固定起步量的关系通常不能只凭“一个增大、另一个也增大”就认定正比例。 单位率把对应关系改写成“每1单位有多少”：如3升售价12元，则每升4元。数量单位不同，单位率通常带有复合单位；同类长度的比例尺要先换成相同单位。把购买量与费用同时按同一倍数变化，可以在双数轴和对应表中记录。若没有固定附加量，费用=单位率×数量，正比例是后来一次函数中初始值为0的特殊情形。",
     "conditions": [
       "比的后项不能为0；本单元情境中的数量与单位须明确。",
       "判断正比例要确认比值不变，判断反比例要确认乘积不变，并明确其他条件固定。",
-      "比例尺的前后项使用相同的长度单位；部分占整体的分母应是总份数。"
+      "比例尺的前后项使用相同的长度单位；部分占整体的分母应是总份数。",
+      "从几个数对观察到比值相同，只能描述已有数据；推广到其他输入需题设给出固定单价等规律，不能把有限观察当作普遍证明。"
     ],
     "counterexample": "收费y=8+2x中，x=1时y=10，x=2时y=12，y/x分别为10和6，虽然两者一起增加，却不是正比例。"
   },
@@ -49,7 +111,9 @@
         "糖为100克、水为350克；100:350=2:7，总质量仍为450克。"
       ],
       "answer": "100",
-      "verify": "450/(2+7)*2"
+      "verify": "450/(2+7)*2",
+      "family_id": "ratio.allocate-from-total",
+      "variant_id": "ratio_models:example-1"
     },
     {
       "prompt": "同一条24千米的路线，匀速速度由6千米/时提高到8千米/时。时间由多少小时变成多少小时？速度与时间成什么关系？",
@@ -58,14 +122,40 @@
         "原时间24÷6=4小时，新时间24÷8=3小时。",
         "乘积恒定而不是比值恒定，因此在路程固定、速度为正的条件下成反比例。"
       ],
-      "answer": "由4小时变为3小时；速度与时间成反比例。"
+      "answer": "由4小时变为3小时；速度与时间成反比例。",
+      "family_id": "ratio.fixed-distance-inverse",
+      "variant_id": "ratio_models:example-2"
+    },
+    {
+      "prompt": "饮用水按固定单价出售，不另收费用，3升12元。1升与5升各需多少元？在双数轴上怎样表示？",
+      "steps": [
+        "每升费用12÷3=4元/升。",
+        "两条数轴分别记录升与元：0对应0，1对应4，3对应12，5对应20。",
+        "水量扩大到原来的同一倍数，费用也按这个倍数变化；没有基础费是这个模型的条件。"
+      ],
+      "answer": "1升4元，5升20元；每升4元。",
+      "family_id": "ratio.unit-rate-projection",
+      "variant_id": "ratio_models:example-3"
+    },
+    {
+      "prompt": "收费规则为先收8元，再每小时收2元。虽然时间和总费一起增加，为什么仍不是正比例？",
+      "steps": [
+        "使用1小时需10元，使用2小时需12元。",
+        "总费/时长分别为10元/小时和6元/小时，并不相等。",
+        "固定基础费使初始费用不为0；每增加1小时多2元只说明增量固定。"
+      ],
+      "answer": "不是正比例；固定增量不能代替总量比值恒定。",
+      "family_id": "ratio.constant-increment-vs-proportion",
+      "variant_id": "ratio_models:example-4"
     }
   ],
   "tasks": [
     {
       "id": "ratio_models:practice-1",
       "objective_ids": [
-        "ratio_models:o1"
+        "ratio_models:o1",
+        "ratio_models:referent",
+        "ratio_models:part_whole"
       ],
       "phase": "practice",
       "type": "choice",
@@ -93,12 +183,17 @@
       "feedback": {
         "correct": "基准选对了：题目问的是糖占糖水，而不是糖与水相比。",
         "incorrect": "先写出“糖、 水、糖水”各对应几份，再决定分母。"
-      }
+      },
+      "family_id": "ratio.part-part-to-whole",
+      "variant_id": "ratio_models:practice-1",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "ratio_models:practice-2",
       "objective_ids": [
-        "ratio_models:o2"
+        "ratio_models:o2",
+        "ratio_models:invariant"
       ],
       "phase": "practice",
       "type": "choice",
@@ -122,12 +217,17 @@
       "feedback": {
         "correct": "分类与理由匹配；每个结论都要连同固定条件使用。",
         "incorrect": "逐项寻找不变量：是比值固定，还是乘积固定，或二者都不固定？只看是否同增同减不够。"
-      }
+      },
+      "family_id": "ratio.invariant-classify",
+      "variant_id": "ratio_models:practice-2",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "id": "ratio_models:practice-3",
       "objective_ids": [
-        "ratio_models:o3"
+        "ratio_models:o3",
+        "ratio_models:allocation"
       ],
       "phase": "practice",
       "type": "numeric",
@@ -138,13 +238,19 @@
       "feedback": {
         "correct": "数量匹配；请检查两组总数是否仍是56，且24:32能化成3:4。",
         "incorrect": "56对应7份，不是4份。先求一份，再取甲组的3份。"
-      }
+      },
+      "family_id": "ratio.allocate-from-total",
+      "variant_id": "ratio_models:practice-3",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "ratio_models:transfer-1",
       "objective_ids": [
         "ratio_models:o1",
-        "ratio_models:o3"
+        "ratio_models:o3",
+        "ratio_models:referent",
+        "ratio_models:part_whole"
       ],
       "phase": "transfer",
       "type": "rubric",
@@ -165,12 +271,17 @@
       "feedback": {
         "correct": "请按量规核对是否把各自的总份数作为基准，并给出可比较的占比。",
         "incorrect": "先把“果汁:水”转成“果汁/果汁与水总量”，再通分或比较交叉乘积。"
-      }
+      },
+      "family_id": "ratio.concentration-comparison",
+      "variant_id": "ratio_models:transfer-1",
+      "representation": "verbal",
+      "cognitive_demand": "model"
     },
     {
       "id": "ratio_models:transfer-2",
       "objective_ids": [
-        "ratio_models:o3"
+        "ratio_models:o3",
+        "ratio_models:scale"
       ],
       "phase": "transfer",
       "type": "numeric",
@@ -181,12 +292,17 @@
       "feedback": {
         "correct": "距离匹配；请核对最后一步从厘米换成千米。",
         "incorrect": "比例尺中的200000与图上长度使用同一单位，先求厘米，再换算千米。"
-      }
+      },
+      "family_id": "ratio.map-length-convert",
+      "variant_id": "ratio_models:transfer-2",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "ratio_models:delayed-1",
       "objective_ids": [
-        "ratio_models:o2"
+        "ratio_models:o2",
+        "ratio_models:invariant"
       ],
       "phase": "delayed",
       "type": "choice",
@@ -210,12 +326,18 @@
       "feedback": {
         "correct": "判断匹配；依据是面积固定，不是所有长方形的长宽都成反比例。",
         "incorrect": "分别用80除以两次的长；同时说明哪个量在题目中固定不变。"
-      }
+      },
+      "family_id": "ratio.invariant-classify",
+      "variant_id": "ratio_models:delayed-1",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "id": "ratio_models:delayed-2",
       "objective_ids": [
-        "ratio_models:o1"
+        "ratio_models:o1",
+        "ratio_models:part_whole",
+        "ratio_models:referent"
       ],
       "phase": "delayed",
       "type": "rubric",
@@ -236,6 +358,441 @@
       "feedback": {
         "correct": "请按量规核对：需要说明分母由谁组成，不能只报1/4。",
         "incorrect": "画出1份糖和3份水，把整体圈出来，再写糖所占的分率。"
+      },
+      "family_id": "ratio.part-whole-error",
+      "variant_id": "ratio_models:delayed-2",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
+    },
+    {
+      "id": "ratio_models:practice-4",
+      "objective_ids": [
+        "ratio_models:o1",
+        "ratio_models:o3",
+        "ratio_models:referent",
+        "ratio_models:unit_rate"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "750克一种谷物售价18元，单价固定。250克售价多少元？请只填数字。",
+      "explanation": "750克含3个250克，因此250克售价18÷3=6元。也可先求每克18/750元，再乘250。比较前后的重量单位相同。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "先看250克是750克的几分之几；价格应按同一倍数变化。"
+      },
+      "family_id": "ratio.unit-rate-projection",
+      "variant_id": "ratio_models:practice-4",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "answer": "6",
+      "verify": "18/750*250",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      }
+    },
+    {
+      "id": "ratio_models:practice-5",
+      "objective_ids": [
+        "ratio_models:o1",
+        "ratio_models:o3",
+        "ratio_models:referent",
+        "ratio_models:equivalent_ratio",
+        "ratio_models:scale"
+      ],
+      "phase": "practice",
+      "type": "choice",
+      "prompt": "一张平面图上2厘米表示实际8米。先统一单位，再把图上长度与实际长度的比化简，比例尺是哪一个？",
+      "explanation": "8米=800厘米。图上与实际的长度比是2:800，两项同除以2得到1:400。不能把厘米与米的数值直接写成2:8。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "比例尺的前后项必须使用相同长度单位，再同时除以同一个非零数。"
+      },
+      "family_id": "ratio.map-scale-infer",
+      "variant_id": "ratio_models:practice-5",
+      "representation": "mixed",
+      "cognitive_demand": "execute",
+      "answer": "B",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "1:4"
+        },
+        {
+          "id": "B",
+          "text": "1:400"
+        },
+        {
+          "id": "C",
+          "text": "1:800"
+        },
+        {
+          "id": "D",
+          "text": "4:1"
+        }
+      ]
+    },
+    {
+      "id": "ratio_models:practice-6",
+      "objective_ids": [
+        "ratio_models:o2",
+        "ratio_models:o3",
+        "ratio_models:unit_rate",
+        "ratio_models:invariant"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "数量x（千克）为2、5、7时，总价y（元）分别为6、15、21。题设保证单价固定且无其他收费。单价是多少元/千克？请只填数值。",
+      "explanation": "6/2=15/5=21/7=3，故单价为3元/千克。这里要算总价除以数量，不能把价格相邻两项的差直接当单价。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "表中重量间隔不相等；按“元÷千克”逐行求比值。"
+      },
+      "family_id": "ratio.table-unit-rate",
+      "variant_id": "ratio_models:practice-6",
+      "representation": "table",
+      "cognitive_demand": "execute",
+      "answer": "3",
+      "verify": "15/5",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      }
+    },
+    {
+      "id": "ratio_models:practice-7",
+      "objective_ids": [
+        "ratio_models:o1",
+        "ratio_models:equivalent_ratio"
+      ],
+      "phase": "practice",
+      "type": "choice",
+      "prompt": "红、蓝颜料原来质量比为4:6，各加2克后成为6:8。原来的配色比例是否保持？",
+      "explanation": "4/6=2/3，6/8=3/4，二者不同。红色扩大到1.5倍而蓝色扩大到4/3倍，变化倍数不同。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "两项同加不等于同比例放大；比较两个比值或各自倍数。"
+      },
+      "family_id": "ratio.additive-change-error",
+      "variant_id": "ratio_models:practice-7",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "answer": "B",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "保持，因为两种都增加2克。"
+        },
+        {
+          "id": "B",
+          "text": "不保持，因为两个比值不同。"
+        },
+        {
+          "id": "C",
+          "text": "保持，因为红色仍比蓝色少。"
+        }
+      ]
+    },
+    {
+      "id": "ratio_models:practice-8",
+      "objective_ids": [
+        "ratio_models:o1",
+        "ratio_models:o3",
+        "ratio_models:part_whole",
+        "ratio_models:allocation"
+      ],
+      "phase": "practice",
+      "type": "rubric",
+      "prompt": "现有80克纯果汁和120克水混合成饮料。只加水，使果汁占总质量的1/5。需要加多少克水？写清保持不变的量，并核对总量。",
+      "explanation": "果汁始终80克，若它占1/5，总质量应为80×5=400克。原饮料200克，所以加水200克；最终水320克，80/400=1/5。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "只加水时果汁没有增加；先由果汁占比还原新的总质量，再减原来的总质量。"
+      },
+      "family_id": "ratio.change-one-component",
+      "variant_id": "ratio_models:practice-8",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "确定不变量与目标总量",
+          "points": 2,
+          "example": "果汁保持80克，80克对应1/5，所以总量400克。"
+        },
+        {
+          "criterion": "求加水量并核对",
+          "points": 2,
+          "example": "加400−200=200克水；80/(80+120+200)=1/5。"
+        }
+      ]
+    },
+    {
+      "id": "ratio_models:transfer-3",
+      "objective_ids": [
+        "ratio_models:o1",
+        "ratio_models:o3",
+        "ratio_models:referent",
+        "ratio_models:unit_rate"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "甲6分钟走0.9千米，乙4分钟走800米，都匀速行进。谁更快？请先统一长度单位，用单位率比较，不能只看路程或时间中的一个。",
+      "explanation": "甲0.9千米=900米，速度900÷6=150米/分钟；乙800÷4=200米/分钟，所以乙更快。两个速度都使用相同的复合单位。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "两个人走的路程和用时都不同，把每分钟走的米数放在同一单位下比较。"
+      },
+      "family_id": "ratio.rate-compare-unit-conversion",
+      "variant_id": "ratio_models:transfer-3",
+      "representation": "mixed",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "统一单位并求两个单位率",
+          "points": 2,
+          "example": "甲150米/分钟，乙200米/分钟。"
+        },
+        {
+          "criterion": "依单位率作结论",
+          "points": 1,
+          "example": "乙更快，因为每分钟走得更多，而非因为总用时较短。"
+        }
+      ]
+    },
+    {
+      "id": "ratio_models:transfer-4",
+      "objective_ids": [
+        "ratio_models:o3",
+        "ratio_models:allocation"
+      ],
+      "phase": "transfer",
+      "type": "numeric",
+      "prompt": "两组获得的图书数之比为5:3，甲组比乙组多18本。甲组有多少本？请只填整数。",
+      "explanation": "18本对应5−3=2份，一份9本，甲组5份是45本。乙27本，差18本且45:27=5:3。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "这里已知的是差，不是总数。先找18本对应几份。"
+      },
+      "family_id": "ratio.allocate-from-difference",
+      "variant_id": "ratio_models:transfer-4",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer": "45",
+      "verify": "18/(5-3)*5",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      }
+    },
+    {
+      "id": "ratio_models:transfer-5",
+      "objective_ids": [
+        "ratio_models:o2",
+        "ratio_models:o3",
+        "ratio_models:unit_rate",
+        "ratio_models:invariant"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "两种收费都按固定规则计算。A在用量0、2、5时收费0、8、20元；B在同样用量时收费3、11、23元。两个规则都是每增加1单位多4元。哪一种是费用与用量成正比例？请用0用量和非零用量的比值分别检查。",
+      "explanation": "A无初始费，比值8/2=20/5=4，且0用量0元；B有3元初始费，11/2与23/5不同。每单位增量相同并不保证总价与用量的比值恒定。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "把“增加1单位多收多少”和“总费用/总用量”分开，看看基础费是否为0。"
+      },
+      "family_id": "ratio.constant-increment-vs-proportion",
+      "variant_id": "ratio_models:transfer-5",
+      "representation": "table",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "正确分类并检验非零比值",
+          "points": 2,
+          "example": "A正比例；B的11/2与23/5不相等。"
+        },
+        {
+          "criterion": "解释初始费用的影响",
+          "points": 2,
+          "example": "A过0用量0费用；B即使用量0仍有3元，增量固定不等于比值固定。"
+        }
+      ]
+    },
+    {
+      "id": "ratio_models:transfer-6",
+      "objective_ids": [
+        "ratio_models:o2",
+        "ratio_models:invariant"
+      ],
+      "phase": "transfer",
+      "type": "choice",
+      "prompt": "只观察到两次记录：(x,y)=(1,2)、(2,4)，没有给出生成规则。能否据此保证以后的所有记录都满足y=2x？",
+      "explanation": "这两组记录符合y=2x，但许多其他规律也能经过这两个点，之后可以不同。若要推广，需要给出相应固定规则或明确把正比例作为待检验假设。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "区分“已有两次相符”与“所有输入都必定相符”。"
+      },
+      "family_id": "model.finite-data-limit",
+      "variant_id": "ratio_models:transfer-6",
+      "representation": "table",
+      "cognitive_demand": "explain",
+      "answer": "C",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "能，两组相同比值已证明全部输入的规律。"
+        },
+        {
+          "id": "B",
+          "text": "不能，而且已有两组也不符合正比例。"
+        },
+        {
+          "id": "C",
+          "text": "不能保证；已有两组符合，但还缺推广所需的规则或依据。"
+        }
+      ]
+    },
+    {
+      "id": "ratio_models:delayed-3",
+      "objective_ids": [
+        "ratio_models:o3",
+        "ratio_models:unit_rate"
+      ],
+      "phase": "delayed",
+      "type": "numeric",
+      "prompt": "一个未装满的容器以每分钟1.2升的恒定速度进水，开始时是空的，中途不出水。装入3.6升需要多少分钟？请只填数值。",
+      "explanation": "时间=水量÷单位时间进水量，3.6÷1.2=3分钟。单位为升÷(升/分钟)=分钟；容器未装满与没有出水是使用此关系的条件。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "想清楚未知量是时间；用总水量除以每分钟水量。"
+      },
+      "family_id": "ratio.inverse-unit-rate-query",
+      "variant_id": "ratio_models:delayed-3",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer": "3",
+      "verify": "3.6/1.2",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      }
+    },
+    {
+      "id": "ratio_models:delayed-4",
+      "objective_ids": [
+        "ratio_models:o2",
+        "ratio_models:invariant"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "长方形周长固定为24米，长和宽都大于0。有人说“长增大、宽减小，所以长宽成反比例”。用长为2米与4米的两种情况检验，指出真正固定的数量。",
+      "explanation": "长+宽=12。长2时宽10，乘积20；长4时宽8，乘积32。乘积不固定，不是反比例；固定的是和12米，也不是比值。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "反比例需要乘积固定，不能只看一个增大另一个减小。"
+      },
+      "family_id": "ratio.invariant-classify",
+      "variant_id": "ratio_models:delayed-4",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "计算两种宽及乘积",
+          "points": 2,
+          "example": "对应宽10、8米，面积乘积20、32。"
+        },
+        {
+          "criterion": "指出不变量并否定错误推理",
+          "points": 2,
+          "example": "固定的是长宽之和12米；反向变化不保证反比例。"
+        }
+      ]
+    },
+    {
+      "id": "ratio_models:delayed-5",
+      "objective_ids": [
+        "ratio_models:o3",
+        "ratio_models:scale",
+        "ratio_models:equivalent_ratio"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "一张图原比例尺为1:100。把图中所有长度打印成原来的2倍，实际物体不变。新图的比例尺是多少？说明为什么不能把后项改成200。",
+      "explanation": "原来图上1厘米代表实际100厘米；放大后图上2厘米仍代表实际100厘米，所以2:100=1:50。图变大时，相同图上1厘米代表的实长变小。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "追踪同一段实际长度：图上长度翻倍，实际长度并没有翻倍。"
+      },
+      "family_id": "ratio.rescaled-map",
+      "variant_id": "ratio_models:delayed-5",
+      "representation": "mixed",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "以同一实际长度写出新比",
+          "points": 2,
+          "example": "2:100=1:50。"
+        },
+        {
+          "criterion": "解释反向变化的基准",
+          "points": 2,
+          "example": "实际物体未变；1:200表示缩小更多，与图放大相反。"
+        }
+      ]
+    },
+    {
+      "id": "ratio_models:delayed-6",
+      "objective_ids": [
+        "ratio_models:o1",
+        "ratio_models:o3",
+        "ratio_models:part_whole",
+        "ratio_models:allocation"
+      ],
+      "phase": "delayed",
+      "type": "numeric",
+      "prompt": "一盒红珠与蓝珠的颗数比为2:3，其中蓝珠18颗。盒中共多少颗珠子？请只填整数。",
+      "explanation": "蓝珠18颗对应3份，一份6颗。总共2+3=5份，所以30颗；红珠12颗，12:18=2:3。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "18不是总数，而是蓝珠3份的数量。"
+      },
+      "family_id": "ratio.reconstruct-total-from-part",
+      "variant_id": "ratio_models:delayed-6",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer": "30",
+      "verify": "18/3*(2+3)",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
       }
     }
   ],
@@ -245,5 +802,17 @@
   "prerequisite_topic_ids": [
     "m5b.2.1",
     "m4a.4.2"
-  ]
+  ],
+  "prerequisite_unit_ids": [
+    "fraction_equivalence"
+  ],
+  "prerequisite_objective_ids": [
+    "fraction_equivalence:whole",
+    "fraction_equivalence:scale",
+    "fraction_equivalence:operate"
+  ],
+  "diagram": {
+    "src": "/static/diagrams/ratio-double-number-line.svg",
+    "alt": "上下两条对齐的数轴，水量以升计，费用以元计。水量0、1、3、5分别对应费用0、4、12、20；每升4元，且0升对应0元。"
+  }
 }

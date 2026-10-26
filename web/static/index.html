@@ -10,16 +10,21 @@
 <body>
 <header class="topbar">
   <div class="brand"><span class="logo">kg</span><div><h1>K12 数学 · 学习与补学</h1><p class="sub" id="stats">加载中…</p></div></div>
-  <nav class="topnav"><button class="ghost" id="open-history" disabled>学习记录</button><a class="ghost" href="/static/review.html">内容复核</a><button class="ghost" id="restart" hidden>回到目录</button></nav>
+  <nav class="topnav"><button class="ghost" id="open-history" disabled>学习记录与作品</button><button class="ghost" id="restart" hidden>回到首页</button></nav>
 </header>
 <main>
+  <div id="save-notice" class="card save-notice" hidden role="status"><p id="save-notice-text"></p><button id="retry-save" class="ghost">重试保存</button></div>
+  <div id="action-notice" class="card" hidden role="status"></div>
   <section id="view-home" class="view">
-    <div class="hero"><h2>从一个具体目标开始</h2><p>先看为什么，再独立练习。检查结果会区分已经观察到的表现、需要巩固的内容和仍待确认的部分。</p></div>
+    <div class="hero"><h2>从一个具体目标开始</h2><p>先理解一个概念，再动手练习。把你的思路留下来，下次从这里继续。</p></div>
     <button id="resume" class="ghost" hidden>继续上次作答</button>
-    <h3>教学样板 · 含独立任务与过程评价</h3>
+    <div class="stage-picker"><label for="stage-select">当前学习学段</label><select id="stage-select"><option value="">全部学段</option><option value="primary">小学</option><option value="junior">初中</option><option value="senior">高中</option></select></div>
+    <section class="card"><h3>接下来可以做什么</h3><div id="learning-plan" aria-live="polite">正在读取学习安排…</div><p id="plan-policy" class="muted"></p></section>
+    <section id="path-section"><h3>连起来学 · 从分数到函数</h3><p class="muted">按需要回看基础。每个单元都有讲解、练习、迁移任务和稍后的复测。</p><div id="learning-path" class="unit-grid"></div></section>
+    <h3>学习单元 · 理解、应用与解释</h3>
     <div id="learning-units" class="unit-grid"></div>
     <h3>综合与实践 · 动手、记录与解释</h3>
-    <p class="muted">按任务说明完成作品，再依据量规获取反馈。</p>
+    <p class="muted">按任务说明动手，把步骤、结果与反思保存在作品中。</p>
     <div id="learning-projects" class="unit-grid"></div>
     <div class="section-heading"><h2>按教材查找</h2><span class="muted">教材节点中可能包含多个细技能</span></div>
     <div class="search-row"><input id="search" type="search" placeholder="搜索知识点，如 分数 / 方程 / 方向" autocomplete="off" aria-label="搜索教材知识点"></div>
@@ -30,7 +35,7 @@
     <div id="teach-content"></div><div id="teach-units" class="unit-grid"></div><div id="teach-actions" class="actions"></div>
   </section>
   <section id="view-unit" class="view" hidden>
-    <p class="eyebrow">细目标学习单元</p><h2 id="unit-title"></h2><p class="muted" id="unit-status"></p>
+    <p class="eyebrow">学习单元</p><h2 id="unit-title"></h2><p class="muted" id="unit-status"></p>
     <div id="unit-content"></div><div id="unit-actions" class="actions"></div>
     <p class="muted">练习即时反馈；独立迁移与复测完成整组后再看解析。过程题需按量规复核。</p>
   </section>
@@ -63,15 +68,18 @@
     <div id="project-content"></div><button class="ghost" id="project-return">返回目录</button>
   </section>
   <section id="view-history" class="view" hidden>
-    <h2>学习记录</h2><p class="muted">显示本浏览器的匿名作答记录。时间以北京时间显示；清除本网站的浏览器数据后将无法从本浏览器找回这些记录。</p>
+    <h2>学习记录与作品</h2><p class="muted">显示本浏览器的匿名记录。时间以北京时间显示；清除本网站的浏览器数据后将无法从本浏览器找回这些记录。</p>
     <div class="actions"><button class="ghost" id="refresh-history">刷新记录</button><button class="ghost" id="export-history">导出本浏览器的学习记录</button></div>
-    <p class="muted" id="history-status" aria-live="polite"></p><div id="history-list"></div>
+    <h3>我的过程与作品</h3><div id="history-works"></div><button id="works-more" class="ghost" hidden>更多作品</button>
+    <h3>练习与检查</h3><p class="muted" id="history-status" aria-live="polite"></p><div id="history-list"></div><button id="history-more" class="ghost" hidden>更早的作答</button>
   </section>
-  <p class="foot muted">内容仍为初稿，教师独立审核与真实学习效果验证尚未完成。结果用于学习反馈和补学线索。</p>
+  <section id="view-work" class="view" hidden><p class="eyebrow">我的学习作品</p><h2 id="work-title"></h2><p class="muted">这里保留原任务与每次修订。可以继续补充，也可以查看以前怎样思考。</p><div id="work-content"></div><button class="ghost" id="work-return">返回学习记录</button></section>
+  <p class="foot muted">本项目提供数学学习材料与过程反馈。内容为作者初稿，独立学科审核与真实学习效果验证尚未完成。<a href="/static/review.html">内容说明与复核</a></p>
 </main>
 <script src="/static/vendor/katex/katex.min.js"></script>
 <script src="/static/vendor/katex/auto-render.min.js"></script>
 <script src="/static/math.js"></script>
+<script src="/static/work.js"></script>
 <script src="/static/app.js"></script>
 </body>
 </html>

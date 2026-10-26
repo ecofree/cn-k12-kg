@@ -21,6 +21,7 @@ SCHEMA_BASE = "https://cn-k12-kg.local/schema/v1/"
 RESOURCE_KINDS = frozenset({
     "topic", "dependency", "question", "teaching-card", "learning-task",
     "learning-unit", "project", "answer-spec",
+    "skills-registry", "catalog-bindings", "catalog",
 })
 
 

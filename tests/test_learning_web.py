@@ -238,18 +238,22 @@ class LearningWebTest(unittest.TestCase):
         self.assertNotIn('用小数表示3/4', json.dumps(detail, ensure_ascii=False))
         self.assertNotIn('解释为什么2/4和1/2相等', json.dumps(detail, ensure_ascii=False))
 
-    def test_topic_revision_change_blocks_scoring_but_preserves_history(self):
+    def test_topic_content_release_keeps_original_scope_and_answers_available(self):
         _, response = self.request('/api/session', {'targets': ['m7a.5.2'], 'mode': 'diagnose'})
+        qid = response['item']['question']['id']
+        original_answer = str(server.GRAPH.questions_by_id[qid]['answer'])
         old_graph = server.GRAPH
         try:
-            server.GRAPH = copy.deepcopy(old_graph)
-            server.GRAPH._web_content_version = 'new-revision'
+            server.GRAPH = Graph([], [], [])
             code, restored = self.request('/api/session/' + response['session']['id'])
             self.assertEqual(code, 200)
-            self.assertTrue(restored['session']['resume_blocked'])
-            self.assertEqual(self.answer(response, '1')[0], 409)
+            self.assertFalse(restored['session'].get('resume_blocked', False))
+            self.assertEqual(restored['item']['question']['id'], qid)
+            code, continued = self.answer(restored, original_answer)
+            self.assertEqual(code, 200)
+            self.assertEqual(continued['session']['answered_count'], 1)
             self.assertEqual(self.request('/api/history')[1]['total'], 1)
-            self.assertEqual(self.request('/api/export')[1]['sessions'][0]['answers'], [])
+            self.assertEqual(self.request('/api/export')[1]['sessions'][0]['answers'][0]['raw_answer'], original_answer)
         finally:
             server.GRAPH = old_graph
 
@@ -282,6 +286,7 @@ class LearningWebTest(unittest.TestCase):
         _, response = self.answer(response, raw)
         self.assertFalse(response['done'])
         with patch.object(server, 'GRAPH', Graph([], [], [])), \
+             patch.object(server, 'topic_grader_version', return_value='changed-grading-code'), \
              patch.object(server.engine, 'summarize', side_effect=AssertionError('旧会话不重算')):
             code, restored = self.request('/api/session/' + sid)
             self.assertEqual(code, 200)
@@ -292,7 +297,7 @@ class LearningWebTest(unittest.TestCase):
             self.assertNotIn('answer', restored['saved_answers'][0])
             self.assertEqual(self.answer(restored, '1')[0], 409)
 
-    def test_diagram_revision_change_blocks_old_task(self):
+    def test_diagram_release_preserves_frozen_asset_and_task(self):
         old_dir = server.learning.DIAGRAM_DIR
         diagrams = Path(self.tmp.name) / 'diagrams'
         diagrams.mkdir()
@@ -301,12 +306,16 @@ class LearningWebTest(unittest.TestCase):
         try:
             server.learning.DIAGRAM_DIR = diagrams
             server._UNIT_CACHE['contract']['diagram'] = {'src': '/static/diagrams/contract.svg', 'alt': '半份'}
+            server._UNIT_CACHE['contract']['tasks'][0]['diagram'] = {'src': '/static/diagrams/contract.svg', 'alt': '半份'}
             _, response = self.request('/api/session', {'unit_id': 'contract', 'mode': 'practice'})
             svg.write_text('<svg xmlns="http://www.w3.org/2000/svg"><text>3/4</text></svg>')
-            self.assertEqual(self.answer(response)[0], 409)
+            asset_path = response['item']['question']['diagram']['src']
+            with self.opener.open(self.base + asset_path) as resource:
+                self.assertIn('1/2', resource.read().decode())
+            self.assertEqual(self.answer(response)[0], 200)
             _, restored = self.request('/api/session/' + response['session']['id'])
-            self.assertTrue(restored['session']['resume_blocked'])
-            self.assertEqual(restored['session']['answered_count'], 0)
+            self.assertFalse(restored['session'].get('resume_blocked', False))
+            self.assertEqual(restored['session']['answered_count'], 1)
         finally:
             server.learning.DIAGRAM_DIR = old_dir
 

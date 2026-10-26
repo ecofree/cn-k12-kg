@@ -201,6 +201,27 @@ textarea:focus { outline: 2px solid var(--accent-weak); border-color: var(--acce
 .resume-notice { border-left: 3px solid var(--warn); }
 .resume-notice p { margin-top: 0; }
 #result-context { line-height: 1.8; }
+.stage-picker { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 20px 0; }
+select { font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; min-height: 44px; max-width: 100%; padding: 8px 12px; }
+select:focus-visible { outline: 3px solid #84b6a8; outline-offset: 2px; }
+.plan-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.plan-row:last-child { border-bottom: 0; }
+.plan-row > div { min-width: 0; }
+.plan-row p { margin: 4px 0; }
+.plan-row > button { flex-shrink: 0; }
+.work-editor { margin-top: 14px; }
+.work-field { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.work-field label { display: block; font-weight: 600; }
+.work-prompt { margin-bottom: 10px; }
+.work-status { min-height: 22px; }
+.self-assessment { margin-top: 14px; }
+.self-assessment[open] > summary { margin-bottom: 14px; }
+.self-assessment-row { display: grid; grid-template-columns: 1fr 140px; gap: 12px; align-items: center; margin: 12px 0; }
+.work-revisions { margin: 12px 0; font-size: 13px; }
+.preserve-lines { white-space: pre-wrap; overflow-wrap: anywhere; }
+.save-notice { border-left: 3px solid var(--warn); background: #fff9eb; }
+body[data-stage="primary"] .prompt { font-size: 20px; }
+body[data-stage="primary"] .choices button, body[data-stage="primary"] textarea { font-size: 17px; }
 @media (max-width: 620px) {
   .topbar { align-items: flex-start; flex-wrap: wrap; }
   .row { flex-wrap: wrap; }
@@ -212,4 +233,6 @@ textarea:focus { outline: 2px solid var(--accent-weak); border-color: var(--acce
   .history-card { flex-direction: column; align-items: stretch; }
   .actions > button { flex: 1; min-width: 120px; }
   table { display: block; overflow-x: auto; }
+  .plan-row { align-items: stretch; flex-direction: column; }
+  .self-assessment-row { grid-template-columns: 1fr; }
 }

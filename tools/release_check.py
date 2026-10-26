@@ -16,6 +16,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 CHECKS = [
     ('sources', '来源与全部构建字段一致', ['tools/rebuild_data.py', '--check', '--report', 'build/source-differences.json']),
+    ('registry', '稳定技能与任务身份登记完整', ['tools/register_catalog.py', '--check']),
+    ('catalog', '统一资源目录与作者来源一致', ['tools/compile_catalog.py', '--check']),
     ('structure', '图、目录、题库与答案结构', ['tools/validate.py']),
     ('teaching', '完整讲解与逐目标材料', ['tools/teach_cards.py', '--check']),
     ('units', '分阶段学习单元与任务', ['tools/check_learning_units.py']),

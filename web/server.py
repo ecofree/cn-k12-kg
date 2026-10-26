@@ -34,7 +34,8 @@ STATIC = pathlib.Path(__file__).resolve().parent / "static"
 DATA = ROOT / "data"
 sys.path.insert(0, str(ROOT))
 
-from cnkg import engine, learning, evidence, learning_store, projects  # noqa: E402
+from cnkg import engine, learning, evidence, learning_store, projects, session_content, portfolio, planner  # noqa: E402
+from cnkg import catalog as catalog_module  # noqa: E402
 from cnkg.graph import VOLUME_ORDER, load_graph  # noqa: E402
 from cnkg.verify import compare, compare_short, to_number, to_fraction, normalize_text  # noqa: E402
 from cnkg.answers import grade_answer  # noqa: E402
@@ -54,8 +55,9 @@ _OWNER_PATTERN = re.compile(r"[0-9a-f]{64}\Z")
 _SESSION_LOCK = threading.RLock()
 _UNIT_CACHE = None
 _PROJECT_CACHE = None
+_CATALOG_CACHE = None
 ALLOWED_STATIC = {"index.html", "app.js", "style.css", "review.html", "math.js",
-                  "ext.html", "ext-data.json"}
+                  "ext.html", "ext-data.json", "work.js"}
 # 第三方静态资源只允许这个子目录，避免把整个磁盘暴露出去
 ALLOWED_PREFIX = "vendor/"
 ALLOWED_DIAGRAM_PREFIX = "diagrams/"
@@ -95,14 +97,20 @@ def judge(question: dict, text) -> str:
 
 def public_question(question: dict) -> dict:
     """给前端的题面：不含答案与解析，避免在浏览器里提前泄露。"""
-    return {
+    shown = {
         "id": question["id"],
-        "topicId": question["topicId"],
+        "topicId": question.get("topicId"),
         "difficulty": question.get("difficulty"),
         "type": question.get("type"),
         "prompt": question["prompt"],
         "choices": question.get("choices"),
     }
+    for key in ("objective_ids", "phase", "diagram", "answer_spec"):
+        if key in question:
+            shown[key] = copy.deepcopy(question[key])
+    if question.get("rubric"):
+        shown["rubric"] = [{k: r[k] for k in ("criterion", "points")} for r in question["rubric"]]
+    return shown
 
 
 def display_answer(question: dict) -> str:
@@ -185,15 +193,11 @@ def build_teach(topic_id: str) -> dict | None:
             card = json.loads(brief.read_text(encoding="utf-8"))
             mode = "brief"
     pool = GRAPH.practice_bank.get(topic_id, [])
-    by_id = {q["id"]: q for q in pool}
-    refs = [ref for ref in card.get("practice", []) if ref.get("id") in by_id]
-    selected = [by_id[ref["id"]] for ref in refs] or pool[:4]
     return {
         **card, "topicId": topic_id, "mode": mode, "tier": tier.get("tier"),
         "topicName": topic["name"], "description": topic.get("description"),
         "mastery_criteria": topic.get("mastery_criteria", []),
         "review_status": card.get("review_status", "draft"),
-        "practice_questions": [public_question(q) for q in selected],
         "diagnostic_count": len(GRAPH.bank.get(topic_id, [])),
         "practice_count": len(pool),
         "learning_units": [unit_summary(u) for u in learning_units().values()
@@ -212,6 +216,43 @@ def get_store():
     if _STORE is None:
         _STORE = learning_store.LearningStore()
     return _STORE
+
+
+def get_catalog():
+    global _CATALOG_CACHE
+    if _CATALOG_CACHE is None:
+        _CATALOG_CACHE = catalog_module.load_catalog(DATA)
+    return _CATALOG_CACHE
+
+
+def task_metadata(question):
+    task = get_catalog().tasks.get(question["id"], {})
+    if task and task.get("prompt") != question.get("prompt"):
+        task = {}
+    return {key: copy.deepcopy(task[key]) for key in
+            ("resource_version", "skill_ids", "family_id", "family_status", "alignment", "answer_spec")
+            if key in task}
+
+
+def presented_metadata(record, question_id):
+    return record.get("task_metadata", {}).get(question_id, {})
+
+
+def exposure_exclusions(owner):
+    observed = get_store().exposures(owner)
+    questions = set(observed["questions"])
+    families = set(observed["families"])
+    excluded = questions | {qid for qid, task in get_catalog().tasks.items()
+                            if task.get("family_status") == "declared" and task.get("family_id") in families}
+    return excluded, questions, families
+
+
+def available_questions(targets, excluded=()):
+    blocked = set(excluded)
+    diagnostic = {q["id"] for tid in targets for q in GRAPH.bank.get(tid, [])}
+    practice = {q["id"] for tid in targets for q in GRAPH.practice_bank.get(tid, [])}
+    return {"unseen_count": len(diagnostic - blocked), "diagnostic_count": len(diagnostic),
+            "practice_count": len(practice), "novelty_basis": "recorded_question_and_declared_family_exposure"}
 
 
 def _hash(value):
@@ -238,6 +279,16 @@ def unit_grader_version():
                                "cnkg/contracts.py", "schema/answer-spec.schema.json")})
 
 
+def topic_grader_version():
+    return _hash({name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
+                  for name in ("cnkg/engine.py", "cnkg/graph.py", "cnkg/evidence.py", "cnkg/verify.py",
+                               "cnkg/answers.py", "cnkg/contracts.py", "schema/answer-spec.schema.json")})
+
+
+def session_graph(record):
+    return session_content.restore_graph(record["graph_snapshot"]) if record.get("graph_snapshot") else GRAPH
+
+
 def _seconds(later, earlier):
     if not earlier:
         return None
@@ -245,17 +296,21 @@ def _seconds(later, earlier):
 
 
 def _event(kind, when, record=None, question=None, **payload):
+    meta = presented_metadata(record, question["id"]) if record and question else {}
     return {"event_type": kind, "occurred_at": when,
             "resource_id": (record.get("unit_id") if record else None),
             "question_id": question.get("id") if question else None,
             "content_sha256": (question_hash(record, question) if question else
                                record.get("content_sha256") if record else None),
-            "payload": payload}
+            "family_id": meta.get("family_id"), "family_status": meta.get("family_status", "unclassified"),
+            "payload": {**payload, "skill_ids": meta.get("skill_ids", [])}}
 
 
 def question_hash(record, question):
-    return (_hash({"task": question, "unit_content_sha256": record["content_sha256"]})
+    base = (_hash({"task": question, "unit_content_sha256": record["content_sha256"]})
             if record["kind"] == "unit" else evidence.question_content_sha256(question))
+    meta = presented_metadata(record, question["id"])
+    return _hash({"content": base, "metadata": meta}) if meta else base
 
 
 def session_question(record: dict) -> dict | None:
@@ -274,19 +329,24 @@ def session_item(record: dict) -> dict | None:
         return None
     if record["kind"] == "unit":
         unit = record["unit_snapshot"]
-        public = next(t for t in learning.public_unit(unit)["tasks"] if t["id"] == question["id"])
+        public = public_question(question)
+        if public.get("diagram"):
+            public["diagram"] = session_content.public_diagram(record, public["diagram"])
         return {"topicId": (unit.get("topic_ids") or [None])[0], "topicName": unit["title"],
                 "attempt": record["index"] + 1, "question": public}
     current = record["engine"]["current"]
+    public = public_question(question)
+    if public.get("diagram"):
+        public["diagram"] = session_content.public_diagram(record, public["diagram"])
     return {"topicId": current["topicId"],
             "topicName": record.get("topic_names", {}).get(current["topicId"], current["topicId"]),
-            "attempt": current["attempt"], "question": public_question(question)}
+            "attempt": current["attempt"], "question": public}
 
 
 def _present_question(record, events):
     if record["kind"] == "topic" and record["engine"].get("current"):
         qid = record["engine"]["current"]["questionId"]
-        record["question_snapshots"][qid] = copy.deepcopy(GRAPH.questions_by_id[qid])
+        record["question_snapshots"][qid] = copy.deepcopy(session_graph(record).questions_by_id[qid])
     question = session_question(record)
     if question is None or question["id"] in record["presentations"]:
         return
@@ -299,6 +359,15 @@ def _present_question(record, events):
         repeated = record["context"]["repeated_question_ids"]
         if question["id"] not in repeated:
             repeated.append(question["id"])
+    meta = presented_metadata(record, question["id"])
+    family = meta.get("family_id")
+    if family and meta.get("family_status") == "declared" and family in record.get("prior_seen_family_ids", []):
+        repeated = record["context"].setdefault("repeated_family_ids", [])
+        if family not in repeated:
+            repeated.append(family)
+    if meta.get("family_status") != "declared":
+        record["context"]["unclassified_question_ids"] = sorted(set(
+            record["context"].get("unclassified_question_ids", []) + [question["id"]]))
 
 
 def _release_feedback(record, question_ids, events):
@@ -311,6 +380,8 @@ def _release_feedback(record, question_ids, events):
         record["feedback_exposed"].append(qid)
         events.append({"event_type": "feedback_released", "occurred_at": now,
                        "question_id": qid, "content_sha256": entry["content_sha256"],
+                       "family_id": presented_metadata(record, qid).get("family_id"),
+                       "family_status": presented_metadata(record, qid).get("family_status", "unclassified"),
                        "payload": {"feedback_policy": record["feedback_policy"],
                                    "evidence": "server_response_available_not_proof_of_reading"}})
 
@@ -319,7 +390,7 @@ def session_summary(record: dict) -> dict:
     if record.get("summary_snapshot"):
         return copy.deepcopy(record["summary_snapshot"])
     if record["kind"] == "topic":
-        summary = engine.summarize(GRAPH, record["engine"])
+        summary = engine.summarize(session_graph(record), record["engine"])
         summary["title"] = "本次练习" if record["mode"] == "practice" else "本次检查"
     else:
         unit = record["unit_snapshot"]
@@ -342,6 +413,7 @@ def session_summary(record: dict) -> dict:
     summary["created_at"] = record["created_at"]
     summary["completed_at"] = record.get("completed_at")
     summary["content_sha256"] = record["content_sha256"]
+    summary["resource_version"] = record.get("resource_version", record["content_sha256"])
     return summary
 
 
@@ -350,17 +422,27 @@ def _freeze_result(record):
     summary = session_summary(record)
     record["summary_snapshot"] = summary
     record["verdict_snapshot"] = (engine.verdict_label(summary) if record["kind"] == "topic" else
-                                  "逐个目标查看本次表现；过程题等待教师或同伴按量规复核。")
+                                  "逐个目标查看本次表现；过程题已保存，可以按量规自查、补充依据并继续修订。")
 
 
 def _version_problem(record):
     if record.get("completed_at"):
         return None
-    if record["kind"] == "topic" and record["content_sha256"] != graph_version():
-        return "题库或诊断规则已经更新。旧记录已保留，请重新开始检查；本题尚未计分。"
-    if (record["kind"] == "unit" and
-            learning.unit_content_sha256(record["unit_snapshot"]) != record["content_sha256"]):
-        return "本次任务引用的图形已更新。旧记录已保留，请重新开始；本题尚未计分。"
+    if record.get("metadata_sha256") and _hash(record.get("task_metadata", {})) != record["metadata_sha256"]:
+        return "保存的任务契约校验失败。原记录保留，本题尚未计分。"
+    if record["kind"] == "topic":
+        if record.get("graph_snapshot"):
+            if session_content.digest(record["graph_snapshot"]) != record["content_sha256"]:
+                return "保存的题目版本校验失败。原记录保留，本题尚未计分。"
+            if record.get("grader_sha256") != topic_grader_version():
+                return "判分规则已经更新。原题目与作答已保留，请重新开始检查；本题尚未计分。"
+        elif record["content_sha256"] != graph_version():
+            return "旧版会话缺少完整内容快照。原记录已保留，请重新开始检查；本题尚未计分。"
+    if record["kind"] == "unit":
+        current_hash = (session_content.unit_hash(record["unit_snapshot"], record["asset_snapshots"])
+                        if "asset_snapshots" in record else learning.unit_content_sha256(record["unit_snapshot"]))
+        if current_hash != record["content_sha256"]:
+            return "本次任务的内容版本校验失败。旧记录已保留，请重新开始；本题尚未计分。"
     if record["kind"] == "unit" and record.get("grader_sha256") != unit_grader_version():
         return "任务判分规则已经更新。旧记录已保留，请重新开始；本题尚未计分。"
     return None
@@ -375,6 +457,7 @@ def session_payload(record: dict) -> dict:
                             "unit_id": record.get("unit_id"), "created_at": record["created_at"],
                             "feedback_policy": record["feedback_policy"],
                             "content_sha256": record["content_sha256"],
+                            "resource_version": record.get("resource_version", record["content_sha256"]),
                             "context": copy.deepcopy(record["context"])},
                 "item": item, "done": done}
     problem = _version_problem(record)
@@ -386,6 +469,9 @@ def session_payload(record: dict) -> dict:
     if done:
         response["summary"] = session_summary(record)
         response["verdictText"] = record.get("verdict_snapshot", "这是原内容版本保存的结果，请查看各项目证据。")
+        if record["kind"] == "topic":
+            excluded, _, _ = exposure_exclusions(record["owner_id"])
+            response["availability"] = available_questions(record["engine"]["targets"], excluded)
     return response
 
 
@@ -394,7 +480,7 @@ def _same_scope(record, previous):
         return False
     if record["kind"] == "unit":
         return record["unit_id"] == previous["unit_id"]
-    return set(record["engine"]["targets"]) == set(previous["engine"]["targets"])
+    return set(record["engine"]["targets"]) == set(previous.get("engine", {}).get("targets", previous.get("targets", [])))
 
 
 def history_entry(record):
@@ -404,6 +490,7 @@ def history_entry(record):
             "created_at": record["created_at"], "completed_at": record.get("completed_at"),
             "answered_count": len(record["answers"]), "content_sha256": record["content_sha256"],
             "grader_sha256": record.get("grader_sha256"),
+            "resource_version": record.get("resource_version", record["content_sha256"]),
             "context": copy.deepcopy(record["context"]), "resume_blocked": bool(_version_problem(record))}
 
 
@@ -411,7 +498,7 @@ def export_record(record):
     # 不直接导出内部状态：单元快照中含有尚未作答的任务及答案。
     out = history_entry(record)
     out["answers"] = []
-    raw_fields = ("question_id", "prompt", "raw_answer", "normalized_answer", "normalized_answer_format", "objective_ids",
+    raw_fields = ("question_id", "prompt", "raw_answer", "normalized_answer", "normalized_answer_format", "objective_ids", "skill_ids", "family_id", "family_status",
                   "presented_at", "answered_at", "duration_ms", "client_elapsed_ms",
                   "content_sha256", "feedback_available_at", "skipped")
     for entry in record["answers"]:
@@ -440,7 +527,7 @@ def topic_sort_key(topic_id: str):
     return (parts[0],) + tuple(int(x) for x in parts[1])
 
 
-def build_topics() -> dict:
+def build_topics(excluded=()) -> dict:
     """按册→章分组，供前端做选择列表。"""
     volumes = {}
     for topic in GRAPH.topics:
@@ -453,6 +540,7 @@ def build_topics() -> dict:
             "section": topic["section"],
             "status": topic["review_status"],
             "questionCount": len(GRAPH.bank[topic["id"]]),
+            "unseenCount": len({q["id"] for q in GRAPH.bank[topic["id"]]} - set(excluded)),
             "practiceCount": len(GRAPH.practice_bank[topic["id"]]),
             "tier": (GRAPH.tiers.get(topic["id"]) or {}).get("tier"),
         })
@@ -477,6 +565,108 @@ def build_topics() -> dict:
             "curriculumVersion": "小学·初中 2024 版 / 高中 2019 版",
         },
     }
+
+
+def work_descriptor(values, owner):
+    """Resolve learner work from server content, never from a client snapshot."""
+    if "resource_id" in values and (not isinstance(values["resource_id"], str) or not values["resource_id"]):
+        raise ValueError("作品ID必须为非空字符串")
+    if values.get("resource_id"):
+        work = get_store().load_work(owner, values["resource_id"])
+        if work:
+            return portfolio.from_work(work)
+        if not values.get("kind"):
+            raise KeyError("作品不存在或不属于本浏览器")
+    kind = values.get("kind")
+    if kind == "self_check":
+        tid = values.get("topic_id")
+        if isinstance(values.get("criterion_index"), bool):
+            raise ValueError("目标序号不正确")
+        try:
+            index = int(values.get("criterion_index", -1))
+        except (ValueError, TypeError):
+            raise ValueError("目标序号不正确") from None
+        card = build_teach(tid) if isinstance(tid, str) else None
+        row = next((row for row in (card or {}).get("objective_coverage", [])
+                    if row["criterion_index"] == index), None)
+        if row is None:
+            raise KeyError("这个目标暂时没有自检任务")
+        task = get_catalog().self_check(tid, index)
+        version = _hash({"task": task["resource_version"], "source": row})
+        resource = portfolio.descriptor(kind, f"topic:{tid}:check:{index}", version,
+            f"{card['topicName']} · {row['title']}",
+            [{"id": "response", "label": "我的思路与过程", "prompt": row["self_check"]["prompt"]}],
+            row["self_check"]["criteria"], stage=get_catalog().placements[tid].get("stage"),
+            work_id=f"self_check:{task['id']}@{version[:16]}")
+        resource["resource_snapshot"].update(task_ids=[task["id"]], family_ids=[task["family_id"]]
+            if task.get("family_status") == "declared" else [])
+        return resource
+    if kind == "project":
+        pid = values.get("project_id")
+        project = learning_projects().get(pid) if isinstance(pid, str) else None
+        if project is None:
+            raise KeyError("实践任务不存在")
+        tasks = get_catalog().project_steps(pid)
+        fields = [{"id": task["id"], "label": step["title"],
+                   "prompt": step["instructions"], "deliverable": step["deliverable"]}
+                  for step, task in zip(project["steps"], tasks)]
+        version = _hash({"source": projects.project_content_sha256(project),
+                         "catalog": get_catalog().projects[pid]["resource_version"]})
+        resource = portfolio.descriptor(kind, "project:" + pid, version,
+            project["title"], fields, [row["criterion"] for row in project["rubric"]], stage=project["stage"])
+        resource["resource_snapshot"].update(task_ids=[task["id"] for task in tasks], family_ids=sorted({
+            task["family_id"] for task in tasks if task.get("family_status") == "declared"}))
+        return resource
+    if kind == "unit":
+        uid = values.get("unit_id")
+        unit = learning_units().get(uid) if isinstance(uid, str) else None
+        if unit is None:
+            raise KeyError("学习单元不存在")
+        version = get_catalog().units.get(uid, {}).get("resource_version", learning.unit_content_sha256(unit))
+        return portfolio.descriptor(kind, "unit:" + uid, version, unit["title"],
+            [{"id": "notes", "label": "我的解释、疑问和笔记", "prompt": "把你理解的方法与仍想核对的问题写下来。"}],
+            [obj["statement"] for obj in unit["objectives"]], stage=unit["stage"])
+    if kind == "session_task":
+        sid, qid = values.get("session_id"), values.get("question_id")
+        record = get_store().load(sid, owner) if isinstance(sid, str) else None
+        if record is None or not isinstance(qid, str) or qid not in record["presentations"]:
+            raise KeyError("任务尚未呈现或不属于本浏览器")
+        tasks = (record["unit_snapshot"]["tasks"] if record["kind"] == "unit"
+                 else list(record["question_snapshots"].values()))
+        question = next((task for task in tasks if task["id"] == qid), None)
+        if question is None:
+            raise KeyError("保存的任务不存在")
+        answer = next((entry for entry in record["answers"] if entry["question_id"] == qid), {})
+        criteria = [row["criterion"] for row in question.get("rubric", [])]
+        if not criteria:
+            criteria = ["说明所用的方法与条件", "检查计算、单位与结论"]
+        stage = record.get("unit_snapshot", {}).get("stage")
+        if not stage:
+            topic = next((t for t in record.get("graph_snapshot", {}).get("topics", []) if t["id"] == question.get("topicId")), {})
+            if topic.get("volume"):
+                stage = {"小学": "primary", "初中": "junior", "高中": "senior"}.get(stage_of(topic["volume"]))
+        return portfolio.descriptor(kind, {"session_id": sid, "question_id": qid}, question_hash(record, question),
+            record.get("title", "任务") + " · 过程记录",
+            [{"id": "response", "label": "我的过程与修订", "prompt": question["prompt"],
+              "initial_value": answer.get("raw_answer", "")}], criteria,
+            work_id=f"session_task:{sid}:{qid}", stage=stage)
+    raise ValueError("不支持的作品类型")
+
+
+def export_works(owner):
+    output = []
+    for offset in range(0, get_store().count_works(owner), 1000):
+        for summary in get_store().works(owner, limit=1000, offset=offset):
+            revisions = []
+            cursor = 0
+            while True:
+                page = get_store().work_history(owner, summary["resource_id"], limit=1000, offset=cursor)
+                revisions.extend(page)
+                if len(page) < 1000:
+                    break
+                cursor += len(page)
+            output.append({"resource_id": summary["resource_id"], "revisions": revisions})
+    return output
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -523,9 +713,37 @@ class Handler(BaseHTTPRequestHandler):
         get_store().add_event(self._owner(), {"event_type": "material_requested",
             "occurred_at": _now(), "resource_id": resource_id, "content_sha256": content_sha256,
             "payload": {"evidence": "http_request_only_not_completion"}})
+        material = get_catalog().materials.get(resource_id)
+        if material:
+            families = [fid for fid in material["family_ids"]
+                        if get_catalog().families[fid]["status"] == "declared"]
+            tasks = [tid for tid in material["task_ids"]
+                     if get_catalog().tasks[tid]["source_kind"] == "self_check"]
+            get_store().add_event(self._owner(), {"event_type": "material_provided", "occurred_at": _now(),
+                "resource_id": resource_id, "content_sha256": material["resource_version"],
+                "payload": {"family_ids": families, "task_ids": tasks,
+                            "evidence": "reference_available_in_response_not_proof_of_reading"}})
+            if material["kind"] == "project":
+                families = [fid for fid in material["assessment_family_ids"]
+                            if get_catalog().families[fid]["status"] == "declared"]
+                get_store().add_event(self._owner(), {"event_type": "question_presented", "occurred_at": _now(),
+                    "resource_id": resource_id, "content_sha256": material["resource_version"],
+                    "payload": {"task_ids": material["task_ids"], "family_ids": families,
+                                "evidence": "project_steps_provided_not_proof_of_completion"}})
+
+    def _work_exposure(self, resource):
+        snapshot = resource["resource_snapshot"]
+        task_ids = snapshot.get("task_ids", [])
+        if task_ids:
+            get_store().add_event(self._owner(), {"event_type": "question_presented", "occurred_at": _now(),
+                "resource_id": resource["resource_id"], "content_sha256": resource["resource_version"],
+                "payload": {"task_ids": task_ids, "family_ids": snapshot.get("family_ids", []),
+                            "evidence": "work_task_provided_not_proof_of_completion"}})
 
     def do_GET(self):  # noqa: N802
-        path = urllib.parse.urlparse(self.path).path
+        parsed = urllib.parse.urlparse(self.path)
+        path = parsed.path
+        params = {key: values[-1] for key, values in urllib.parse.parse_qs(parsed.query).items()}
         if path in ("/", "/index.html"):
             return self._static("index.html")
         if path.startswith("/static/"):
@@ -552,31 +770,83 @@ class Handler(BaseHTTPRequestHandler):
             # 教学页保留例题；各评价阶段的题面仅在会话中逐题呈现。
             teaching.pop("tasks", None)
             teaching["task_counts"] = unit_summary(unit)["task_counts"]
+            teaching["prerequisite_unit_ids"] = unit.get("prerequisite_unit_ids", [])
+            teaching["objectives"] = copy.deepcopy(unit["objectives"])
+            teaching["resource_version"] = get_catalog().units.get(uid, {}).get("resource_version", teaching["content_sha256"])
             return self._json(200, teaching)
         if path.startswith("/api/session/"):
+            asset = re.fullmatch(r"/api/session/([0-9a-f]{32})/assets/([^/]+)", path)
+            if asset:
+                record = get_store().load(asset.group(1), self._owner())
+                if record is None:
+                    return self._error(404, "图示不存在或不属于本浏览器")
+                try:
+                    body = session_content.asset_bytes(record, urllib.parse.unquote(asset.group(2)))
+                except ValueError as exc:
+                    return self._error(409, str(exc))
+                return self._send(200, body, CONTENT_TYPES["svg"]) if body else self._error(404, "图示尚未呈现")
             sid = path.rsplit("/", 1)[-1]
             with _SESSION_LOCK:
                 record = get_store().load(sid, self._owner())
                 return self._json(200, session_payload(record)) if record else self._error(404, "会话不存在或不属于本浏览器")
         if path == "/api/history":
-            records = get_store().records(self._owner())
-            return self._json(200, {"sessions": [history_entry(r) for r in records[:100]],
-                                    "total": len(records), "limit": 100})
+            try:
+                limit, offset = int(params.get("limit", "50")), int(params.get("offset", "0"))
+                records = get_store().records(self._owner(), limit=limit, offset=offset)
+            except ValueError as exc:
+                return self._error(400, str(exc))
+            return self._json(200, {"sessions": [history_entry(r) for r in records],
+                                    "total": get_store().count(self._owner()), "limit": limit, "offset": offset})
+        if path == "/api/plan":
+            stage = params.get("stage")
+            if stage not in (None, "primary", "junior", "senior"):
+                return self._error(400, "学段不正确")
+            owner = self._owner()
+            scopes = get_store().latest_scope_records(owner)
+            for scope in scopes:
+                if not scope.get("completed_at"):
+                    saved = get_store().load(scope["id"], owner)
+                    scope["resume_blocked"] = bool(_version_problem(saved))
+            return self._json(200, planner.plan(get_catalog(), scopes, get_store().works(owner, limit=1000), stage=stage))
+        if path in ("/api/work", "/api/works", "/api/work/revisions"):
+            owner = self._owner()
+            try:
+                if path == "/api/works":
+                    limit, offset = int(params.get("limit", "50")), int(params.get("offset", "0"))
+                    return self._json(200, {"works": get_store().works(owner, limit=limit, offset=offset),
+                        "total": get_store().count_works(owner), "limit": limit, "offset": offset})
+                resource = work_descriptor(params, owner)
+                self._work_exposure(resource)
+                if path == "/api/work/revisions":
+                    return self._json(200, {"revisions": get_store().work_history(owner, resource["resource_id"],
+                        limit=int(params.get("limit", "50")), offset=int(params.get("offset", "0")))})
+                return self._json(200, {"descriptor": resource,
+                    "work": get_store().load_work(owner, resource["resource_id"])})
+            except KeyError:
+                return self._error(404, "作品资源不存在或不属于本浏览器")
+            except ValueError as exc:
+                return self._error(400, str(exc))
+        if path == "/api/catalog/coverage":
+            return self._json(200, {"version": get_catalog().version, "coverage": get_catalog().coverage})
         if path == "/api/export":
             owner = self._owner()
             with _SESSION_LOCK:
-                return self._json(200, {"schema": 1, "exported_at": _now(),
+                return self._json(200, {"schema": 2, "exported_at": _now(),
                     "evidence_notice": "匿名浏览器记录；请求材料和服务端放出反馈不证明实际阅读，时间间隔不证明独立作答。",
                     "sessions": [export_record(r) for r in get_store().records(owner)],
+                    "works": export_works(owner),
                     "events": get_store().events(owner)})
         if path == "/api/topics":
-            return self._json(200, build_topics())
+            excluded, _, _ = exposure_exclusions(self._owner())
+            return self._json(200, build_topics(excluded))
         if path.startswith("/api/teach/"):
             tid = urllib.parse.unquote(path[len("/api/teach/"):])
             card = build_teach(tid)
             if card is None:
                 return self._error(404, f"{tid} 还没有讲解卡")
             self._material("topic:" + tid, _hash(card))
+            excluded, _, _ = exposure_exclusions(self._owner())
+            card["availability"] = available_questions([tid], excluded)
             return self._json(200, card)
         return self._error(404, "not found")
 
@@ -615,8 +885,58 @@ class Handler(BaseHTTPRequestHandler):
                     return self._create_session(payload)
                 if path == "/api/answer":
                     return self._answer(payload)
+                if path == "/api/work":
+                    owner = self._owner()
+                    resource = work_descriptor(payload, owner)
+                    if payload.get("resource_id") and payload["resource_id"] != resource["resource_id"]:
+                        return self._error(409, "内容版本已改变，请恢复原作品或重新打开当前任务")
+                    saved = get_store().save_work(owner, resource["resource_id"], portfolio.learner_payload(resource, payload),
+                        payload.get("expected_revision"), payload.get("request_id"))
+                    self._work_exposure(resource)
+                    return self._json(200, {"descriptor": resource, "work": saved})
+                if path == "/api/exposure":
+                    resource = payload.get("resource_id")
+                    if not isinstance(resource, str) or resource not in get_catalog().materials:
+                        return self._error(400, "材料不存在")
+                    material = get_catalog().material(resource)
+                    if payload.get("event_type") != "reference_opened":
+                        return self._error(400, "不支持的学习事件")
+                    reference = payload.get("reference_key")
+                    if not isinstance(reference, str) or not re.fullmatch(r"(?:self_check|example):\d{1,3}", reference):
+                        return self._error(400, "参考项目不正确")
+                    family_ids, task_ids = [], []
+                    reference_kind, index_text = reference.split(":")
+                    index = int(index_text)
+                    if reference_kind == "self_check" and resource.startswith("topic:"):
+                        task = get_catalog().self_check(resource[6:], index)
+                        task_ids = [task["id"]]
+                        if task["family_status"] == "declared":
+                            family_ids = [task["family_id"]]
+                    elif reference_kind == "example" and resource.startswith("unit:"):
+                        examples = learning_units()[resource[5:]]["worked_examples"]
+                        if index >= len(examples):
+                            return self._error(400, "参考例题不存在")
+                        family = examples[index].get("family_id")
+                        if family in get_catalog().families and get_catalog().families[family]["status"] == "declared":
+                            family_ids = [family]
+                    elif reference_kind == "example" and resource.startswith("topic:") and index == 0:
+                        checks = [get_catalog().tasks[tid]["family_id"] for tid in material["task_ids"]
+                                  if get_catalog().tasks[tid]["source_kind"] == "self_check"]
+                        family_ids = [fid for fid in material["family_ids"] if fid not in checks
+                                      and get_catalog().families[fid]["status"] == "declared"]
+                    else:
+                        return self._error(400, "这份材料不包含该参考项目")
+                    get_store().add_event(self._owner(), {"event_type": "reference_opened", "occurred_at": _now(),
+                        "resource_id": resource, "content_sha256": material["resource_version"],
+                        "payload": {"family_ids": family_ids, "task_ids": task_ids, "reference_key": reference,
+                                    "evidence": "client_reported_open_not_proof_of_understanding"}})
+                    return self._json(200, {"recorded": True})
             except learning_store.ConflictError as exc:
                 return self._error(409, str(exc))
+            except KeyError:
+                return self._error(404, "学习资源不存在或不属于本浏览器")
+            except ValueError as exc:
+                return self._error(400, str(exc))
         return self._error(404, "not found")
 
     def _create_session(self, payload):
@@ -640,7 +960,8 @@ class Handler(BaseHTTPRequestHandler):
         previous = get_store().load(previous_id, owner) if previous_id else None
         if previous_id and not previous:
             return self._error(404, "前次会话不存在或不属于本浏览器")
-        prior_records = get_store().records(owner)
+        prior_count = get_store().count(owner)
+        excluded, prior_questions, prior_families = exposure_exclusions(owner)
         if payload.get("unit_id"):
             unit = learning_units().get(payload["unit_id"])
             if unit is None or mode not in ("practice", "transfer", "delayed"):
@@ -651,8 +972,10 @@ class Handler(BaseHTTPRequestHandler):
             record.update(kind="unit", unit_id=unit["id"], title=unit["title"],
                           unit_snapshot=copy.deepcopy(unit), task_ids=task_ids, index=0,
                           content_sha256=learning.unit_content_sha256(unit),
+                          asset_snapshots=session_content.unit_assets(unit),
+                          resource_version=get_catalog().units.get(unit["id"], {}).get("resource_version", learning.unit_content_sha256(unit)),
                           grader_sha256=unit_grader_version())
-            matching = [r for r in prior_records if r["kind"] == "unit" and r["unit_id"] == unit["id"]]
+            record["task_metadata"] = {q["id"]: task_metadata(q) for q in unit["tasks"]}
             resources = ["unit:" + unit["id"]]
         else:
             if mode not in engine.MODES:
@@ -671,25 +994,42 @@ class Handler(BaseHTTPRequestHandler):
                 if limit is not None and (isinstance(limit, bool) or not isinstance(limit, int) or not 1 <= limit <= 500):
                     raise ValueError("出题上限须为1到500的整数")
                 session = engine.create_session(GRAPH, targets, mode=mode, limit=limit,
-                                                rotate=len(prior_records))
+                                                rotate=prior_count)
                 _SESSION_COUNTER += 1
             except (TypeError, ValueError) as exc:
                 return self._error(400, str(exc))
-            matching = [r for r in prior_records if r["kind"] == "topic"]
-            # 正式检查排除本浏览器已经呈现的题；练习允许重复但必须记下曝光。
+            # 新题检查排除已有题目与已声明同族曝光；复习练习仍可重复。
             if mode != "practice":
-                session["seen"] = sorted({qid for r in matching for qid in r["presentations"]})
-            engine.next_item(GRAPH, session)
-            record.update(kind="topic", engine=session, content_sha256=graph_version(),
+                available = available_questions(session["targets"], excluded)
+                if available["unseen_count"] == 0:
+                    return self._json(409, {"error": "这些目标目前没有未呈现且未暴露同族参考的检查题。可以继续复习练习，重复记录会保留。",
+                        "code": "no_fresh_tasks", "availability": available,
+                        "next_action": {"targets": session["targets"], "mode": "practice"}})
+                session["seen"] = sorted(excluded)
+            frozen_graph = session_content.graph_snapshot(GRAPH, session["targets"])
+            local_graph = session_content.restore_graph(frozen_graph)
+            engine.next_item(local_graph, session)
+            record.update(kind="topic", engine=session, graph_snapshot=frozen_graph,
+                          content_sha256=session_content.digest(frozen_graph), grader_sha256=topic_grader_version(),
                           topic_names={tid: GRAPH.name(tid) for tid in GRAPH.by_id},
                           title="、".join(GRAPH.name(tid) for tid in targets))
+            record["resource_version"] = record["content_sha256"]
+            record["task_metadata"] = {q["id"]: task_metadata(q) for q in frozen_graph["questions"]}
             resources = ["topic:" + tid for tid in session["targets"]]
-        record["prior_seen_question_ids"] = sorted({qid for r in matching for qid in r["presentations"]})
+        record["metadata_sha256"] = _hash(record["task_metadata"])
+        record["prior_seen_question_ids"] = sorted(prior_questions)
+        record["prior_seen_family_ids"] = sorted(prior_families)
+        record["context"]["repeated_family_ids"] = []
+        record["context"]["novelty_policy"] = "question_ids_and_declared_families; unclassified_not_independent"
         material = get_store().latest_material(owner, resources)
         if material:
             record["context"].update(material_requested=True,
                 material_requested_at=material["occurred_at"], material_content_sha256=material["content_sha256"],
                 material_exposure_evidence="http_request_only_not_completion")
+        if not previous and not previous_id:
+            candidates = [r for r in get_store().latest_scope_records(owner)
+                          if r.get("completed_at") and r.get("answered_count", 0) and _same_scope(record, r)]
+            previous = max(candidates, key=lambda r: r["completed_at"]) if candidates else None
         if previous:
             same_scope = _same_scope(record, previous)
             delay = _seconds(record["created_at"], previous.get("completed_at")) if same_scope else None
@@ -738,11 +1078,15 @@ class Handler(BaseHTTPRequestHandler):
             if question.get("type") == "rubric":
                 result["rubric"] = question.get("rubric", [])
         elif record["kind"] == "unit":
-            result = learning.grade_task(question, raw)
+            grading_question = {**question, **({"answer_spec": presented_metadata(record, qid)["answer_spec"]}
+                if "answer_spec" in presented_metadata(record, qid) else {})}
+            result = learning.grade_task(grading_question, raw)
             if question.get("type") == "choice" and result["status"] in ("correct", "wrong"):
                 result["answer"] = display_answer(question)
         else:
-            result = {**grade_answer(question, raw), "answer": display_answer(question),
+            grading_question = {**question, **({"answer_spec": presented_metadata(record, qid)["answer_spec"]}
+                if "answer_spec" in presented_metadata(record, qid) else {})}
+            result = {**grade_answer(grading_question, raw), "answer": display_answer(question),
                       "explanation": question.get("explanation", "")}
         if result["status"] == "invalid":
             return self._error(422, result.get("feedback") or "答案格式无法识别。请按题干要求填写；格式问题不计作答错。")
@@ -761,7 +1105,10 @@ class Handler(BaseHTTPRequestHandler):
                  "skipped": skipped, "presented_at": presentation["presented_at"], "answered_at": now,
                  "duration_ms": round(_seconds(now, presentation["presented_at"]) * 1000),
                  "client_elapsed_ms": client_elapsed, "content_sha256": presentation["content_sha256"],
-                 "objective_ids": question.get("objective_ids", [])}
+                 "objective_ids": question.get("objective_ids", []),
+                 "skill_ids": presented_metadata(record, qid).get("skill_ids", []),
+                 "family_id": presented_metadata(record, qid).get("family_id"),
+                 "family_status": presented_metadata(record, qid).get("family_status", "unclassified")}
         record["answers"].append(entry)
         events = [_event("answer_submitted", now, record, question,
                           raw_answer=entry["raw_answer"], normalized_answer=normalized, skipped=skipped,
@@ -771,8 +1118,9 @@ class Handler(BaseHTTPRequestHandler):
             record["index"] += 1
         else:
             verdict = "skip" if skipped else result["status"]
-            engine.apply_answer(GRAPH, record["engine"], verdict, text=raw)
-            engine.next_item(GRAPH, record["engine"])
+            local_graph = session_graph(record)
+            engine.apply_answer(local_graph, record["engine"], verdict, text=raw)
+            engine.next_item(local_graph, record["engine"])
         _present_question(record, events)
         if record["feedback_policy"] == "immediate":
             _release_feedback(record, [qid], events)

@@ -1,18 +1,21 @@
 const state = { session: null, item: null, nextItem: null, done: false, selected: null,
-  pending: false, volumes: [], units: [], projects: [], savedAnswers: [], lastResultSession: null, viewedTopics: new Set(), viewedUnits: new Set() };
+  pending: false, volumes: [], units: [], projects: [], savedAnswers: [], lastResultSession: null, stage: "", historyOffset: 0, worksOffset: 0, viewedTopics: new Set(), viewedUnits: new Set() };
 const $ = (id) => document.getElementById(id);
-const PHASE = { diagnose: "知识点检查", screen: "整册抽查", practice: "练习", transfer: "独立迁移", delayed: "复测题" };
-const STATUS = { correct: "答对了", wrong: "还需练习", invalid: "请检查格式", needs_review: "过程已提交，等待复核",
+const PHASE = { diagnose: "知识点检查", screen: "整册抽查", practice: "练习", transfer: "迁移任务", delayed: "复测题" };
+const STATUS = { correct: "答对了", wrong: "还需练习", invalid: "请检查格式", needs_review: "过程已记录，可按量规自查",
   not_attempted: "暂未作答", demonstrated: "本组题已展示该能力", practice_needed: "建议再练习", not_observed: "本组未观察到该目标" };
 async function api(path, body) {
   const res = await fetch(path, { method: body ? "POST" : "GET", headers: body ? { "Content-Type": "application/json" } : {}, body: body ? JSON.stringify(body) : undefined });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) { const error = new Error(data.error || `请求失败（${res.status}）`); error.status = res.status; throw error; }
+    if (!res.ok) { const error = new Error(data.error || `请求失败（${res.status}）`); error.status = res.status; error.data = data; throw error; }
   return data;
 }
 function show(view) {
-  for (const name of ["home", "teach", "unit", "quiz", "result", "project", "history"]) $(`view-${name}`).hidden = name !== view;
+  window.CNKGWork.flushAll();
+  for (const name of ["home", "teach", "unit", "quiz", "result", "project", "history", "work"]) $(`view-${name}`).hidden = name !== view;
   $("restart").hidden = view === "home";
+  $("action-notice").hidden = true;
+  if (view === "home") refreshPlan();
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 function node(tag, text, cls) {
@@ -28,15 +31,16 @@ function list(items, ordered = false) {
 function section(title, content) { const el = node("div", null, "card"); el.append(node("h3", title), content); return el; }
 function diagram(value) {
   const el = node("figure", null, "lesson-diagram"); if (!value) return el;
-  if (!/^\/static\/diagrams\/[a-zA-Z0-9_-]+\.svg$/.test(value.src)) return el;
+  if (!/^\/(?:static\/diagrams|api\/session\/[a-f0-9]{32}\/assets)\/[a-zA-Z0-9_.-]+\.svg$/.test(value.src)) return el;
   const img = node("img"); img.src = value.src; img.alt = value.alt || "数学示意图";
   el.append(img, node("figcaption", value.alt || "", "muted")); return el;
 }
-function reviewLabel(value) { return value && value.status === "approved" ? "已有独立审核记录，请查看具体版本" : "内容初稿 · 教师独立审核待完成"; }
+function reviewLabel(value) { return value && value.status === "approved" ? "已有独立审核记录，请查看具体版本" : "学习材料 · 支持练习与过程自查"; }
 function unitCard(unit) {
   const card = node("article", null, "card unit-card");
+  const goalCount = unit.objectives.filter(goal => goal.granularity === "observable").length || unit.objectives.length;
   card.append(node("p", { primary: "小学", junior: "初中", senior: "高中" }[unit.stage], "eyebrow"), node("h3", unit.title),
-    node("p", `${unit.objectives.length} 个学习目标 · ${unit.task_counts.practice || 0} 道练习 · 含独立任务`, "muted"),
+    node("p", `${goalCount} 项学习目标 · ${unit.task_counts.practice || 0} 道练习 · 含迁移任务`, "muted"),
     button("开始学习", () => openUnit(unit.id), "primary")); return card;
 }
 function projectCard(project) {
@@ -45,17 +49,64 @@ function projectCard(project) {
     node("p", `${project.objective_count} 个活动目标 · ${project.duration_hint}`, "muted"),
     button("查看实践任务", () => openProject(project.id), "primary")); return card;
 }
+function notice(message, action) {
+  const root = $("action-notice"); root.replaceChildren(node("p", message)); root.hidden = false;
+  if (action) root.append(button("继续复习练习", () => { root.hidden = true; startSession(action); }, "primary"));
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function renderHome() {
+  document.body.dataset.stage = state.stage;
+  const units = state.units.filter(unit => !state.stage || unit.stage === state.stage);
+  const projects = state.projects.filter(project => !state.stage || project.stage === state.stage);
+  $("learning-units").replaceChildren(...units.map(unitCard));
+  $("learning-projects").replaceChildren(...projects.map(projectCard));
+  if (!projects.length) $("learning-projects").append(node("p", "当前学段可以先从学习单元的情境任务开始。", "muted"));
+  const chain = ["fraction_equivalence", "ratio_models", "linear_function_representations"].map(id => state.units.find(unit => unit.id === id)).filter(unit => unit && (!state.stage || unit.stage === state.stage));
+  $("learning-path").replaceChildren(...chain.map(unitCard)); $("path-section").hidden = state.stage === "senior";
+  renderChapters($("search").value.trim());
+}
+async function refreshPlan() {
+  const requestedStage = state.stage;
+  try {
+    const [plan, topics] = await Promise.all([api("/api/plan" + (requestedStage ? "?stage=" + requestedStage : "")), api("/api/topics")]);
+    if (state.stage !== requestedStage) return;
+    state.volumes = topics.volumes; renderChapters($("search").value.trim());
+    const root = $("learning-plan"); root.textContent = "";
+    const activeSteps = plan.next_steps.filter(step => step.session_id || step.work_resource_id || step.previous_session_id);
+    for (const step of activeSteps.slice(0, 3)) {
+      const row = node("article", null, "plan-row"), detail = node("div");
+      detail.append(node("strong", step.title), node("p", step.reason, "muted"));
+      if (step.due_at) detail.append(node("p", `建议复测时间：${formatTime(step.due_at)}`, "muted"));
+      const label = step.continuation === "reflect_and_revise" ? "自查并修订" : step.work_resource_id && !step.session_id ? "继续作品" : step.action === "continue" ? "继续" : step.action === "due_review" ? step.ready ? "开始复测" : "回看讲解" : step.action === "transfer" ? "迁移任务" : "开始学习";
+      row.append(detail, button(label, () => {
+        if (step.session_id) return resumeSession(step.session_id);
+        if (step.work_resource_id) return openSavedWork(step.work_resource_id);
+        if (step.action === "practice" || !step.ready) return openUnit(step.unit_id);
+        return startSession({ unit_id: step.unit_id, mode: step.phase || "practice", previous_session_id: step.previous_session_id });
+      })); root.append(row);
+    }
+    if (!root.children.length) root.append(node("p", "还没有保存的学习活动。选择学段后，可从下面的学习路径或教材目录开始。", "muted"));
+    $("plan-policy").textContent = "复习安排采用1、3、7天的默认间隔，可按自己的学习情况提前或稍后开始。";
+  } catch (error) { $("learning-plan").textContent = error.message; }
+}
+function trackReference(element, resource, reference) {
+  element.addEventListener("toggle", () => {
+    if (element.open) api("/api/exposure", { resource_id: resource, event_type: "reference_opened", reference_key: reference }).catch(() => {});
+  });
+}
 async function initHome() {
   const [data, lessons, activities] = await Promise.all([api("/api/topics"), api("/api/learning/units"), api("/api/projects")]);
   state.volumes = data.volumes; window.__volumes = data.volumes; state.units = lessons.units; state.projects = activities.projects;
-  $("stats").textContent = `${data.stats.edition} · ${data.stats.topics} 个教材节点 · ${lessons.units.length} 个细目标单元`;
-  $("learning-units").replaceChildren(...lessons.units.map(unitCard));
-  $("learning-projects").replaceChildren(...activities.projects.map(projectCard)); renderChapters("");
+  $("stats").textContent = `${data.stats.edition}参考目录 · 小学至高中`;
+  try { state.stage = localStorage.getItem("cnkg-stage") || ""; } catch (_) { /* optional preference */ }
+  if (!["", "primary", "junior", "senior"].includes(state.stage)) state.stage = "";
+  $("stage-select").value = state.stage; renderHome();
 }
 function renderChapters(keyword) {
   const root = $("chapters"); root.textContent = "";
   const match = (t) => !keyword || t.name.includes(keyword) || t.section.includes(keyword);
   for (const vol of state.volumes) {
+    if (state.stage && vol.stage !== { primary: "小学", junior: "初中", senior: "高中" }[state.stage]) continue;
     const chapters = vol.chapters.map(c => ({ ...c, topics: c.topics.filter(match) })).filter(c => c.topics.length);
     if (!chapters.length) continue;
     const heading = node("div", null, "volume-title"); heading.append(node("span", `${vol.stage} · ${vol.volume}`), button("整册抽查", () => startSession({ mode: "screen", volume: vol.volume }), "mini")); root.append(heading);
@@ -68,7 +119,8 @@ function renderChapters(keyword) {
         label.append(node("div", topic.name, "name"), node("div", `${topic.section} · 可练 ${topic.practiceCount} 题 · 可检查 ${topic.questionCount} 题`, "sec"));
         const study = button("讲解", () => openTeach(topic.id));
         const practice = button("练习", () => startSession({ targets: [topic.id], mode: "practice", instruction_seen: state.viewedTopics.has(topic.id) })); practice.disabled = !topic.practiceCount;
-        const check = button("检查", () => startSession({ targets: [topic.id], mode: "diagnose", instruction_seen: state.viewedTopics.has(topic.id) })); check.disabled = !topic.questionCount;
+        const check = button("检查", () => startSession({ targets: [topic.id], mode: "diagnose", instruction_seen: state.viewedTopics.has(topic.id) })); check.disabled = !(topic.unseenCount ?? topic.questionCount);
+        if (check.disabled && topic.practiceCount) check.title = "暂无未呈现的检查题，可继续复习练习。";
         actions.append(study, practice, check); row.append(label, actions); rows.append(row);
       }
       wrap.append(head, rows); root.append(wrap);
@@ -89,7 +141,7 @@ async function openTeach(id) {
     if (card.diagram) root.append(section("把条件放到图上", diagram(card.diagram)));
     if (card.when_to_use) root.append(section("什么时候用", list(card.when_to_use)));
     if (card.steps || card.key_points) root.append(section("思路与要点", list(card.steps || card.key_points, true)));
-    if (card.worked_example) root.append(workedExample(card.worked_example));
+    if (card.worked_example) root.append(workedExample(card.worked_example, 0, "topic:" + id));
     if (card.pitfalls) root.append(section("检查这些易错处", list(card.pitfalls)));
     if (card.objective_coverage && card.objective_coverage.length) {
       root.append(section("逐项目标自检", node("p", "先独立写出解答或完成作图，再展开参考过程逐条比较。开放任务的自检记录用于整理思路。", "muted")));
@@ -100,10 +152,14 @@ async function openTeach(id) {
         const label = node("label", "我的思路与过程");
         const input = node("textarea"); input.rows = 4;
         input.id = `self-check-${objective.criterion_index}`; label.htmlFor = input.id;
-        input.placeholder = "可以写计算步骤、理由，或记录纸上作图的结果。当前页面临时记录，离开页面前请复制保存。";
+        input.placeholder = "可以写计算步骤、理由，或记录纸上作图的结果。填写后会自动保存。";
         content.append(label, input);
+        const workRoot = node("div"); content.append(workRoot); input.disabled = true;
+        window.CNKGWork.mount(workRoot, { kind: "self_check", topic_id: id, criterion_index: objective.criterion_index },
+          { externalFields: { response: input }, hidePrompt: true, compact: true }).then(() => { input.disabled = false; }).catch(() => { input.disabled = false; });
         const answer = node("details", null, "self-check-answer");
         answer.append(node("summary", "完成后查看参考过程与检查点"), rich("div", task.reference_answer), list(task.criteria));
+        trackReference(answer, "topic:" + id, "self_check:" + objective.criterion_index);
         content.append(answer);
         root.append(section(`目标 ${objective.criterion_index + 1} · ${objective.title}`, content));
       }
@@ -112,13 +168,15 @@ async function openTeach(id) {
     $("teach-units").replaceChildren(...card.learning_units.map(unitCard));
     const actions = $("teach-actions"); actions.textContent = "";
     const practice = button("开始练习", () => startSession({ targets: [id], mode: "practice", instruction_seen: true }), "primary"); practice.disabled = !card.practice_count;
-    const retest = button("用新题检查", () => startSession({ targets: [id], mode: "diagnose", instruction_seen: true, previous_session_id: state.lastResultSession })); retest.disabled = !card.diagnostic_count;
+    const retest = button("用未呈现题检查", () => startSession({ targets: [id], mode: "diagnose", instruction_seen: true, previous_session_id: state.lastResultSession })); retest.disabled = !(card.availability?.unseen_count ?? card.diagnostic_count);
     actions.append(practice, retest);
+    if (retest.disabled) actions.append(node("p", "暂无未呈现且未暴露同族参考的检查题；仍可继续练习。", "muted"));
   } catch (err) { alert(err.message); }
 }
-function workedExample(ex, index) {
+function workedExample(ex, index, resource) {
   const root = node("details", null, "card worked-example"); root.append(node("summary", `例题${index == null ? "" : index + 1} · 展开推导`));
-  root.append(rich("div", ex.prompt), list(ex.steps, true), rich("div", `结论：${ex.answer}`)); return root;
+  root.append(rich("div", ex.prompt), list(ex.steps, true), rich("div", `结论：${ex.answer}`));
+  if (resource) trackReference(root, resource, "example:" + (index || 0)); return root;
 }
 async function openUnit(id) {
   try {
@@ -127,13 +185,22 @@ async function openUnit(id) {
     const root = $("unit-content"); root.textContent = "";
     const scopeNotes = [unit.navigation_note, unit.coverage_note, ...(unit.standard_alignment || []).map(row => row.note)].filter(Boolean);
     if (scopeNotes.length) root.append(section("这个单元的学习范围", list([...new Set(scopeNotes)])));
-    root.append(section("学完后能够", list(unit.objectives.map(o => o.statement))));
+    const goals = unit.objectives.some(goal => goal.granularity === "observable") ? unit.objectives.filter(goal => goal.granularity === "observable") : unit.objectives;
+    root.append(section("这次逐项练习", list(goals.map(o => o.statement))));
     if (unit.prerequisites && unit.prerequisites.length) root.append(section("先准备这些基础", list(unit.prerequisites)));
+    if (unit.prerequisite_unit_ids?.length) {
+      const links = node("div", null, "actions");
+      for (const prerequisite of unit.prerequisite_unit_ids) links.append(button(state.units.find(row => row.id === prerequisite)?.title || "回看基础", () => openUnit(prerequisite)));
+      root.append(section("需要时回到这些基础", links));
+    }
     const ex = unit.explanation;
     root.append(section("从直观开始", rich("div", ex.intuition)), section("为什么成立", rich("div", ex.reasoning)));
     if (unit.diagram) root.append(section("把信息放到图上", diagram(unit.diagram)));
     root.append(section("使用条件", list(ex.conditions)), section("用反例检查边界", rich("div", ex.counterexample)));
-    root.append(...unit.worked_examples.map(workedExample));
+    root.append(...unit.worked_examples.map((example, index) => workedExample(example, index, "unit:" + id)));
+    const notes = node("details", null, "card"); notes.append(node("summary", "保存我的解释与疑问"));
+    const notesRoot = node("div"); notes.append(notesRoot); root.append(notes);
+    window.CNKGWork.mount(notesRoot, { kind: "unit", unit_id: id }, { compact: true }).catch(() => {});
     const actions = $("unit-actions"); actions.textContent = "";
     for (const phase of ["practice", "transfer", "delayed"]) actions.append(button(phase === "delayed" ? "复测题（建议隔1–3天）" : PHASE[phase], () => startSession({ unit_id: id, mode: phase, instruction_seen: true, previous_session_id: state.lastResultSession }), phase === "practice" ? "primary" : "ghost"));
   } catch (err) { alert(err.message); }
@@ -147,15 +214,11 @@ async function openProject(id) {
     root.append(section("要完成的任务", rich("div", project.task_brief)),
       section("活动中需要展示", list(project.objectives.map(goal => goal.statement))),
       section("准备材料", list(project.materials)));
-    for (const [index, step] of project.steps.entries()) {
-      const content = node("div");
-      content.append(Array.isArray(step.instructions) ? list(step.instructions, true) : rich("div", step.instructions));
-      if (step.deliverable) content.append(rich("p", `这一步留下的作品：${step.deliverable}`, "muted"));
-      root.append(section(`${index + 1}. ${step.title}`, content));
-    }
+    const workRoot = node("div", null, "card project-work"); root.append(workRoot);
+    window.CNKGWork.mount(workRoot, { kind: "project", project_id: id }).catch(() => {});
     root.append(section("整理这些作品", list(project.deliverables)));
     const rubric = node("div"); renderRubric(rubric, project.rubric, false);
-    rubric.append(rich("p", project.assessment_note), node("p", "请保留作品和过程记录，交给教师或同伴逐条反馈。", "muted"));
+    rubric.append(rich("p", project.assessment_note), node("p", "先按检查点自评，补充依据并保存修订。", "muted"));
     root.append(section("怎样评价作品", rubric));
     const scope = node("details", null, "card"); scope.append(node("summary", "活动范围与课程关联"), rich("p", project.standard_alignment_note)); root.append(scope);
   } catch (err) { alert(err.message); }
@@ -171,6 +234,8 @@ function contextText(context = {}, mode) {
   else if (context.reported_instruction_seen) notes.push("本次提交标记为看过讲解，这是自述信息，尚无相关材料的打开记录。");
   const repeats = context.repeated_question_ids || [];
   if (repeats.length) notes.push(`本组包含 ${repeats.length} 道先前呈现过的题，重复作答不作为新的独立题证据。`);
+  if (context.repeated_family_ids?.length) notes.push(`本组有 ${context.repeated_family_ids.length} 类题的相同结构或参考过程已经提供过，这些作答按复习记录保留。`);
+  if (context.unclassified_question_ids?.length) notes.push("部分题目尚未完成结构分族，题号不同本身不能证明考查独立。");
   if (typeof context.actual_delay_seconds === "number" && Number.isFinite(context.actual_delay_seconds)) {
     const seconds = Math.max(0, context.actual_delay_seconds);
     const duration = seconds < 60 ? "不足1分钟" : seconds < 3600 ? `约${Math.floor(seconds / 60)}分钟` : seconds < 86400 ? `约${(seconds / 3600).toFixed(1)}小时` : `约${(seconds / 86400).toFixed(1)}天`;
@@ -185,17 +250,23 @@ async function resumeSession(id) {
   state.pending = true;
   try {
     const data = await api(`/api/session/${encodeURIComponent(id)}`);
-    state.session = data.session; state.item = data.item; state.done = data.done; state.summary = data.summary; state.verdictText = data.verdictText;
+    state.session = data.session; state.item = data.item; state.done = data.done; state.summary = data.summary; state.verdictText = data.verdictText; state.availability = data.availability;
     state.savedAnswers = Array.isArray(data.saved_answers) ? data.saved_answers : [];
     try { sessionStorage.setItem("cnkg-session-id", data.session.id); $("resume").hidden = false; } catch (_) { /* 可选恢复 */ }
     if (data.done) showResult(); else { show("quiz"); renderItem(); }
   } catch (err) { alert(err.message); } finally { state.pending = false; }
 }
 async function openHistory() {
-  show("history"); $("history-status").textContent = "正在读取记录…";
+  await window.CNKGWork.flushAll(); show("history"); state.historyOffset = 0; state.worksOffset = 0;
+  $("history-list").textContent = ""; $("history-works").textContent = "";
+  await Promise.all([moreHistory(), moreWorks()]);
+}
+async function moreHistory() {
+  $("history-status").textContent = "正在读取记录…";
   try {
-    const data = await api("/api/history"); const root = $("history-list"); root.textContent = "";
-    $("history-status").textContent = data.total ? `共 ${data.total} 次作答，显示最近 ${data.sessions.length} 次。` : "本浏览器还没有作答记录，可以从目录选择一个目标开始。";
+    const data = await api(`/api/history?limit=20&offset=${state.historyOffset}`); const root = $("history-list");
+    state.historyOffset += data.sessions.length;
+    $("history-status").textContent = data.total ? `共 ${data.total} 次作答，已显示 ${state.historyOffset} 次。` : "本浏览器还没有作答记录，可以从目录选择一个目标开始。";
     for (const item of data.sessions) {
       const card = node("article", null, "card history-card"), detail = node("div");
       detail.append(node("h3", item.title || "知识点检查"), node("p", `${PHASE[item.mode] || "作答"} · 已记录 ${item.answered_count} 题 · ${item.completed_at ? "已完成" : "未完成"}`, "muted"),
@@ -204,7 +275,27 @@ async function openHistory() {
       card.append(detail, button(item.completed_at ? "查看结果" : item.resume_blocked ? "查看原作答" : "继续作答", () => resumeSession(item.id)));
       root.append(card);
     }
+    $("history-more").hidden = state.historyOffset >= data.total;
   } catch (err) { $("history-status").textContent = err.message; }
+}
+async function moreWorks() {
+  try {
+    const data = await api(`/api/works?limit=20&offset=${state.worksOffset}`), root = $("history-works");
+    state.worksOffset += data.works.length;
+    for (const work of data.works) {
+      const card = node("article", null, "card history-card"), detail = node("div");
+      detail.append(node("h3", work.title || "学习作品"), node("p", `最近保存：${formatTime(work.updated_at)} · 保留 ${work.revision} 版`, "muted"));
+      card.append(detail, button("继续整理", () => openSavedWork(work.resource_id))); root.append(card);
+    }
+    if (!data.total) root.append(node("p", "填写自检、过程题或实践任务后，作品会保存在这里。", "muted"));
+    $("works-more").hidden = state.worksOffset >= data.total;
+  } catch (error) { $("history-works").append(node("p", error.message, "muted")); }
+}
+async function openSavedWork(resourceId) {
+  await window.CNKGWork.flushAll(); show("work"); $("work-title").textContent = "正在恢复作品…";
+  const root = $("work-content"); root.replaceChildren();
+  try { const editor = await window.CNKGWork.mount(root, { resource_id: resourceId }); $("work-title").textContent = editor.descriptor.resource_snapshot.title; }
+  catch (error) { $("work-title").textContent = "暂时无法恢复作品"; }
 }
 async function exportHistory() {
   const control = $("export-history"); if (control.disabled) return; control.disabled = true;
@@ -219,10 +310,10 @@ async function startSession(options) {
   if (state.pending) return;
   state.pending = true; state.savedAnswers = []; $("quiz-saved-answers").replaceChildren();
   try {
-    const data = await api("/api/session", options); state.session = data.session; state.item = data.item; state.done = data.done; state.summary = data.summary; state.verdictText = data.verdictText;
+    const data = await api("/api/session", options); state.session = data.session; state.item = data.item; state.done = data.done; state.summary = data.summary; state.verdictText = data.verdictText; state.availability = data.availability;
     try { sessionStorage.setItem("cnkg-session-id", data.session.id); $("resume").hidden = false; } catch (_) { /* 无存储权限时仍可作答 */ }
     if (data.done) showResult(); else { show("quiz"); renderItem(); }
-  } catch (err) { alert(err.message); } finally { state.pending = false; }
+  } catch (err) { if (err.data?.code === "no_fresh_tasks") notice(err.message, err.data.availability.practice_count ? err.data.next_action : null); else notice(err.message); } finally { state.pending = false; }
 }
 function renderItem() {
   const item = state.item, blocked = !!state.session.resume_blocked;
@@ -253,10 +344,20 @@ function renderItem() {
       const btn = button("", () => { state.selected = choice.id; for (const other of $("choices").children) other.classList.remove("selected"); btn.classList.add("selected"); }, "");
       btn.append(node("span", String.fromCharCode(65 + index) + ".", "key"), rich("span", choice.text)); $("choices").append(btn);
     });
-  } else if (type === "rubric") { $("process-input").value = ""; if (!blocked) $("process-input").focus(); }
+  } else if (type === "rubric") {
+    const root = $("process-answer"), label = node("label", "写出过程、依据和结论"), input = node("textarea"), workRoot = node("div");
+    input.id = "process-input"; input.rows = 6; input.maxLength = 8000; input.disabled = true; label.htmlFor = input.id;
+    root.replaceChildren(label, input, workRoot);
+    const qid = item.question.id;
+    state.currentWorkMount = window.CNKGWork.mount(workRoot, { kind: "session_task", session_id: state.session.id, question_id: qid },
+      { externalFields: { response: input }, hidePrompt: true, compact: true }).then(editor => {
+        if (state.item?.question.id === qid && !blocked) { input.disabled = false; $("submit").disabled = false; $("skip").disabled = false; input.focus(); }
+        return editor;
+      }).catch(() => { if (state.item?.question.id === qid && !blocked) { input.disabled = false; $("submit").disabled = false; $("skip").disabled = false; } });
+  }
   else { const input = $("numeric-input"); input.value = ""; input.placeholder = type === "short" ? "按题目要求填写" : "如 -3、0.5 或 1/2；单位见题干"; input.inputMode = "text"; if (!blocked) input.focus(); }
-  $("submit").disabled = blocked; $("skip").disabled = blocked;
-  $("numeric-input").disabled = blocked; $("process-input").disabled = blocked;
+  $("submit").disabled = blocked || type === "rubric"; $("skip").disabled = blocked || type === "rubric";
+  $("numeric-input").disabled = blocked; $("process-input").disabled = blocked || type === "rubric";
   for (const choice of $("choices").children) choice.disabled = blocked;
   if (blocked) $("quiz-hint").textContent = "这份作答暂不能继续提交，请从目录重新开始。";
 }
@@ -268,13 +369,14 @@ function renderRubric(root, rubric, examples) {
 async function submit(skipped = false) {
   if (state.pending || !state.item || state.session.resume_blocked) return;
   const type = state.item.question.type;
+  if (type === "rubric" && state.currentWorkMount) await state.currentWorkMount;
   const answer = type === "choice" ? state.selected || "" : type === "rubric" ? $("process-input").value.trim() : $("numeric-input").value.trim();
   if (!skipped && !answer) { $("quiz-hint").textContent = "请填写答案或选择暂时不会。"; return; }
   state.pending = true; $("submit").disabled = true; $("skip").disabled = true;
   try {
     const data = await api("/api/answer", { session_id: state.session.id, question_id: state.item.question.id, answer, skip: skipped,
       elapsed_ms: Math.round(performance.now() - state.shownAt) });
-    state.session = data.session; state.nextItem = data.item; state.done = data.done; state.summary = data.summary; state.verdictText = data.verdictText;
+    state.session = data.session; state.nextItem = data.item; state.done = data.done; state.summary = data.summary; state.verdictText = data.verdictText; state.availability = data.availability;
     showFeedback(data.feedback);
   } catch (err) { $("quiz-hint").textContent = err.message; $("submit").disabled = false; $("skip").disabled = false; }
   finally { state.pending = false; }
@@ -324,13 +426,23 @@ function showResult() {
   for (const [index, answer] of (summary.answers || []).entries()) {
     const entry = node("details", null, "answer-entry"); entry.append(node("summary", `第 ${index + 1} 题 · ${STATUS[answer.status] || "已提交"}`), rich("div", answer.prompt), rich("div", `你的答案：${answer.raw_answer || "暂未作答"}`));
     if (answer.answer) entry.append(rich("div", `参考：${answer.answer}`)); if (answer.explanation) entry.append(rich("div", answer.explanation));
-    const rubric = node("div"); renderRubric(rubric, answer.rubric, true); entry.append(rubric); review.append(entry);
+    const rubric = node("div"); renderRubric(rubric, answer.rubric, true); entry.append(rubric);
+    if (answer.status === "needs_review") {
+      const workRoot = node("div"); entry.append(workRoot);
+      window.CNKGWork.mount(workRoot, { kind: "session_task", session_id: state.session.id, question_id: answer.question_id }, { hidePrompt: true, compact: true }).catch(() => {});
+    }
+    review.append(entry);
   }
   const actions = $("result-actions"); actions.textContent = "";
   if (isUnit) {
-    actions.append(button("回看讲解", () => openUnit(state.session.unit_id)), button("独立迁移", () => startSession({ unit_id: state.session.unit_id, mode: "transfer", previous_session_id: state.lastResultSession }), "primary"),
+    actions.append(button("回看讲解", () => openUnit(state.session.unit_id)), button("迁移任务", () => startSession({ unit_id: state.session.unit_id, mode: "transfer", previous_session_id: state.lastResultSession }), "primary"),
       button("复测题（建议稍后）", () => startSession({ unit_id: state.session.unit_id, mode: "delayed", previous_session_id: state.lastResultSession })));
-  } else if (state.session.targets.length) actions.append(button("新题复测", () => startSession({ targets: state.session.targets, mode: "diagnose", previous_session_id: state.lastResultSession }), "primary"));
+  } else if (state.session.targets.length) {
+    const check = button("未呈现题检查", () => startSession({ targets: state.session.targets, mode: "diagnose", previous_session_id: state.lastResultSession }), "primary");
+    check.disabled = state.availability?.unseen_count === 0;
+    actions.append(check, button("复习练习", () => startSession({ targets: state.session.targets, mode: "practice", previous_session_id: state.lastResultSession })));
+    if (check.disabled) actions.append(node("p", "当前检查题已呈现完，复习练习仍可继续。", "muted"));
+  }
 }
 $("search").addEventListener("input", e => renderChapters(e.target.value.trim()));
 $("submit").addEventListener("click", () => submit(false)); $("skip").addEventListener("click", () => submit(true)); $("next").addEventListener("click", next);
@@ -339,6 +451,9 @@ $("restart").addEventListener("click", () => show("home")); $("again").addEventL
 $("resume").addEventListener("click", () => { try { resumeSession(sessionStorage.getItem("cnkg-session-id")); } catch (_) { $("resume").hidden = true; } });
 $("open-history").addEventListener("click", openHistory); $("refresh-history").addEventListener("click", openHistory);
 $("export-history").addEventListener("click", exportHistory);
+$("history-more").addEventListener("click", moreHistory); $("works-more").addEventListener("click", moreWorks);
+$("work-return").addEventListener("click", openHistory); $("retry-save").addEventListener("click", () => window.CNKGWork.flushAll());
+$("stage-select").addEventListener("change", event => { state.stage = event.target.value; try { localStorage.setItem("cnkg-stage", state.stage); } catch (_) {} renderHome(); refreshPlan(); });
 $("project-return").addEventListener("click", () => show("home")); $("quiz-return").addEventListener("click", () => show("home"));
 async function boot() {
   try {
