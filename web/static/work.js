@@ -9,15 +9,26 @@ window.CNKGWork = (() => {
     const banner = document.getElementById("save-notice");
     if (!banner) return;
     banner.hidden = !pending.some(editor => editor.failed);
-    if (!banner.hidden) document.getElementById("save-notice-text").textContent = `有 ${pending.length} 份记录尚未保存成功。文字仍留在本页，可以重试保存。`;
+    if (!banner.hidden) document.getElementById("save-notice-text").textContent = `有 ${pending.length} 份记录尚未保存成功。请先在本页重试保存或处理版本冲突，再切换学习页面。`;
     for (const editor of editors) if (!editor.unsaved() && !editor.root.isConnected) editors.delete(editor);
   }
   async function mount(root, source, options = {}) {
     root.classList.add("work-editor");
+    for (const input of Object.values(options.externalFields || {})) input.disabled = true;
     const loading = create("p", "正在恢复记录…", "muted"); root.append(loading);
     let data;
     try { data = await api("/api/work?" + new URLSearchParams(source)); }
-    catch (error) { loading.textContent = error.message; throw error; }
+    catch (error) {
+      loading.textContent = `暂时无法恢复记录：${error.message}。恢复成功后才可填写，避免覆盖原有文字。`;
+      loading.setAttribute("role", "alert");
+      const retry = create("button", "重试恢复记录", "ghost"); retry.type = "button";
+      retry.addEventListener("click", () => {
+        root.replaceChildren();
+        mount(root, source, options).catch(() => {});
+      });
+      root.append(retry); options.onError?.(error); throw error;
+    }
+    if (!root.isConnected) return null;
     loading.remove();
     const descriptor = data.descriptor, snapshot = descriptor.resource_snapshot;
     const saved = data.work?.payload || {};
@@ -34,6 +45,7 @@ window.CNKGWork = (() => {
         root.append(group);
       }
       input.value = saved.draft?.[field.id] ?? field.initial_value ?? "";
+      input.disabled = Boolean(options.disabled);
       fields.set(field.id, input);
     }
     const reflection = create("textarea"); reflection.rows = 3; reflection.maxLength = 8000;
@@ -78,7 +90,9 @@ window.CNKGWork = (() => {
       if (!pending) pending = { ...source, resource_id: descriptor.resource_id, expected_revision: revision, request_id: identifier(), ...values() };
       const request = pending;
       const sent = JSON.stringify({ draft: request.draft, reflection: request.reflection, self_assessment: request.self_assessment, status: request.status });
-      save.disabled = finish.disabled = true; status.textContent = "正在保存…";
+      // Keep explicit save/submit intent available while an autosave is in flight.
+      // persist() serializes requests; disabling a button mid-pointer click can swallow it.
+      controls.setAttribute("aria-busy", "true"); status.textContent = "正在保存…";
       running = (async () => {
         try {
           const response = await api("/api/work", request);
@@ -88,7 +102,7 @@ window.CNKGWork = (() => {
         } catch (error) {
           failed = true; conflictSeen = error.status === 409; conflict.hidden = !conflictSeen;
           status.textContent = conflictSeen ? "另一处已保存较新的版本。本页文字保留，旧版和新版都可以查阅。" : `尚未保存：${error.message}`;
-        } finally { save.disabled = finish.disabled = false; running = null; statusBanner(); }
+        } finally { controls.setAttribute("aria-busy", "false"); running = null; statusBanner(); }
       })();
       await running;
       if (!failed && editor.unsaved()) return persist();
@@ -127,9 +141,13 @@ window.CNKGWork = (() => {
         if (result.revisions.length === 50) historyList.append(create("p", "这里显示最近50版，完整历史包含在学习记录导出中。", "muted"));
       } catch (error) { historyList.textContent = error.message; }
     });
+    options.onReady?.(editor);
     return editor;
   }
-  async function flushAll() { await Promise.allSettled([...editors].map(editor => editor.save())); statusBanner(); }
+  async function flushAll() {
+    await Promise.allSettled([...editors].map(editor => editor.save())); statusBanner();
+    return ![...editors].some(editor => editor.unsaved());
+  }
   addEventListener("online", flushAll);
   addEventListener("beforeunload", event => { if ([...editors].some(editor => editor.unsaved())) { event.preventDefault(); event.returnValue = ""; } });
   return { mount, flushAll, hasUnsaved: () => [...editors].some(editor => editor.unsaved()) };

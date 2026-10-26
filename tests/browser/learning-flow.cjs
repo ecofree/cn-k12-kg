@@ -81,6 +81,7 @@ async function fillAnswer(question, override) {
     await image.waitFor();
     const source = await image.getAttribute("src");
     assert.match(source, /^\/api\/session\/[a-f0-9]{32}\/assets\//, "Task SVG must load from the frozen session asset");
+    assert.equal(await page.locator("#quiz-diagram .diagram-enlarge").getAttribute("href"), source);
     await page.waitForFunction(() => { const image = document.querySelector("#quiz-diagram img"); return image?.complete && image.naturalWidth > 0; });
     result.observations.snapshotted_diagrams ||= [];
     if (!result.observations.snapshotted_diagrams.includes(source)) result.observations.snapshotted_diagrams.push(source);
@@ -90,7 +91,7 @@ async function fillAnswer(question, override) {
   if (question.type === "choice") {
     const index = question.choices.findIndex(choice => choice.id === answer);
     assert.ok(index >= 0, "Authored choice ID is absent from the presented options");
-    await page.locator("#choices button").nth(index).click();
+    await page.locator('#choices input[type="radio"]').nth(index).check();
   } else if (question.type === "rubric") await page.locator("#process-input").fill(answer);
   else await page.locator("#numeric-input").fill(answer);
 }
@@ -130,6 +131,145 @@ async function noHorizontalOverflow(label) {
 }
 
 const journeys = {
+  async navigation_recovery() {
+    let creates = 0;
+    const countSession = request => { if (request.method() === "POST" && new URL(request.url()).pathname === "/api/session") creates++; };
+    page.on("request", countSession);
+    await goto("?target=m7a.5.2");
+    await visible("#view-quiz");
+    await page.waitForFunction(() => new URLSearchParams(location.search).has("session"));
+    const sid = new URL(page.url()).searchParams.get("session"), first = await apiRead("/api/session/" + sid);
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await visible("#view-quiz");
+    assert.equal(new URL(page.url()).searchParams.get("session"), sid);
+    assert.equal(creates, 1, "Refresh must not create another diagnostic session");
+    assert.equal((await apiRead("/api/session/" + sid)).item.question.id, first.item.question.id);
+    await page.locator("#restart").click(); await visible("#view-home");
+    await page.goBack(); await visible("#view-quiz");
+    assert.equal(new URL(page.url()).searchParams.get("session"), sid);
+    await page.goForward(); await visible("#view-home");
+    assert.equal(creates, 1, "Back/forward must reuse the concrete saved session");
+
+    const unavailableRead = route => {
+      const url = new URL(route.request().url());
+      return url.searchParams.get("criterion_index") === "1" ? route.abort("failed") : route.continue();
+    };
+    await page.route("**/api/work?**", unavailableRead);
+    await goto("?teach=m5b.4.1"); await visible("#view-teach");
+    let input = page.locator("#self-check-1"), card = page.locator("#teach-content > .card").filter({ has: input });
+    await card.getByRole("button", { name: "重试恢复记录", exact: true }).waitFor();
+    assert.equal(await input.isDisabled(), true, "Failed draft recovery must not enable an unsaved editor");
+    await page.unroute("**/api/work?**", unavailableRead);
+    await actionResponse(() => card.getByRole("button", { name: "重试恢复记录", exact: true }).click(), "/api/work", "GET");
+    await input.waitFor();
+    await page.waitForFunction(() => !document.querySelector("#self-check-1").disabled);
+    const initialText = "合成验收：恢复记录后填写，核对面积和体积的单位。";
+    const original = await saveText(card.locator(".work-editor"), input, initialText);
+
+    // Create a real intervening revision in the same isolated owner, like another tab.
+    const fresh = await apiRead("/api/work?resource_id=" + encodeURIComponent(original.resource_id));
+    const competingText = "合成验收另一处修订：逐个检查六个面的面积。";
+    const competing = await context.request.post(args["base-url"] + "/api/work", { data: {
+      resource_id: original.resource_id, expected_revision: fresh.work.revision,
+      request_id: "browser-conflict-" + Date.now(), draft: { response: competingText },
+      reflection: "", self_assessment: [], status: "draft",
+    } });
+    assert.equal(competing.status(), 200);
+    const currentText = "合成验收本页修订：补充展开图，并说明每个面积项。";
+    const conflictResponse = page.waitForResponse(response => isResponse(response, "/api/work", "POST") && response.status() === 409);
+    await input.fill(currentText); await conflictResponse;
+    const conflictControl = card.getByRole("button", { name: "保留两版并保存本页内容", exact: true });
+    await conflictControl.waitFor();
+    await page.locator("#restart").click();
+    await visible("#save-notice"); assert.equal(await page.locator("#view-teach").isVisible(), true);
+    assert.equal(await input.inputValue(), currentText);
+    await actionResponse(() => conflictControl.click(), "/api/work", "POST");
+    await card.locator(".work-status").filter({ hasText: "已保存。" }).waitFor();
+    const revisions = await apiRead("/api/work/revisions?resource_id=" + encodeURIComponent(original.resource_id));
+    assert.ok(revisions.revisions.some(row => row.payload.draft.response === competingText));
+    assert.ok(revisions.revisions.some(row => row.payload.draft.response === currentText));
+
+    const topicTitle = (await page.locator("#teach-title").textContent()).trim();
+    await page.locator("#restart").click(); await visible("#view-home");
+    await page.locator("#search").fill(topicTitle);
+    await page.locator(".row").filter({ has: page.getByText(topicTitle, { exact: true }) }).getByRole("button", { name: "讲解", exact: true }).click();
+    await visible("#view-teach"); await valueEquals("#self-check-1", currentText);
+    input = page.locator("#self-check-1"); card = page.locator("#teach-content > .card").filter({ has: input });
+    const renderedUrl = page.url(), routeIndex = await page.evaluate(() => history.state.cnkgIndex);
+    const failedWrite = route => route.request().method() === "POST" ? route.abort("failed") : route.continue();
+    await page.route("**/api/work", failedWrite);
+    const offlineText = "合成验收连接中断草稿：文字必须留在可访问的输入框。";
+    await input.fill(offlineText); await card.locator(".work-status").filter({ hasText: "尚未保存" }).waitFor();
+    await page.locator("#restart").click(); await visible("#save-notice");
+    assert.equal(await page.locator("#view-teach").isVisible(), true); assert.equal(page.url(), renderedUrl);
+    await page.goBack();
+    await page.waitForFunction(({ url, index }) => location.href === url && history.state?.cnkgIndex === index,
+      { url: renderedUrl, index: routeIndex });
+    assert.equal(await input.inputValue(), offlineText);
+    await page.unroute("**/api/work", failedWrite);
+    await actionResponse(() => page.locator("#retry-save").click(), "/api/work", "POST");
+    await card.locator(".work-status").filter({ hasText: "已保存。" }).waitFor();
+    await page.locator("#restart").click(); await visible("#view-home");
+    await page.goBack(); await visible("#view-teach"); await valueEquals("#self-check-1", offlineText);
+    page.off("request", countSession);
+    result.observations.session_id = sid;
+    result.observations.session_creates = creates;
+    result.observations.injected_failures = ["draft_read_network_failure", "stale_revision_conflict", "draft_write_network_failure"];
+    claim("A diagnostic launch link becomes a saved-session URL; refresh/back/forward never create a duplicate session.");
+    claim("A failed draft load disables input and offers a retry that restores the saved editor.");
+    claim("Conflicts and failed writes keep the original editor reachable and block page/back navigation until resolved.");
+    claim("The conflicting revision, current revision and retried offline draft all remain in the learner history.");
+  },
+
+  async keyboard_accessibility() {
+    await goto("?unit=common_factors_multiples"); await visible("#view-unit");
+    await page.waitForFunction(() => document.activeElement?.id === "unit-title");
+    const practice = page.locator("#unit-actions").getByRole("button", { name: "练习", exact: true });
+    for (let tabs = 0; !(await practice.evaluate(element => element === document.activeElement)); tabs++) {
+      assert.ok(tabs < 40, "Practice must be reachable with a bounded keyboard path"); await page.keyboard.press("Tab");
+    }
+    const current = await actionResponse(() => page.keyboard.press("Enter"), "/api/session");
+    assert.equal(current.item.question.type, "choice");
+    await page.waitForFunction(() => document.activeElement?.id === "quiz-prompt");
+    const group = page.getByRole("group", { name: "选择一个答案", exact: true });
+    assert.equal(await group.count(), 1);
+    const radios = group.getByRole("radio"); assert.equal(await radios.count(), current.item.question.choices.length);
+    for (let index = 0; index < await radios.count(); index++) assert.ok((await radios.nth(index).getAttribute("value")));
+    await page.keyboard.press("Tab"); await page.keyboard.press("Space");
+    assert.equal(await radios.first().isChecked(), true);
+    await page.keyboard.press("ArrowRight"); assert.equal(await radios.nth(1).isChecked(), true);
+    assert.equal(await radios.first().isChecked(), false);
+    await page.screenshot({ path: path.join(output, "desktop-unit.png"), fullPage: true });
+    const wanted = String(answerBank.get(current.item.question.id).answer);
+    for (let steps = 0; (await group.locator("input:checked").getAttribute("value")) !== wanted; steps++) {
+      assert.ok(steps < current.item.question.choices.length); await page.keyboard.press("ArrowRight");
+    }
+    await page.keyboard.press("Tab");
+    assert.equal(await page.locator("#submit").evaluate(element => element === document.activeElement), true);
+    const answered = await actionResponse(() => page.keyboard.press("Enter"), "/api/answer");
+    assert.equal(answered.feedback.status, "correct");
+    assert.equal(await page.locator("#next").evaluate(element => element === document.activeElement), true);
+    assert.equal(await group.locator("input:enabled").count(), 0, "Submitted choices are frozen on the feedback view");
+    await page.keyboard.press("Enter");
+    await page.waitForFunction(() => document.activeElement?.id === "quiz-prompt");
+    assert.equal(answered.item.question.type, "numeric");
+    await page.keyboard.press("Tab");
+    assert.equal(await page.getByLabel("你的答案", { exact: true }).evaluate(element => element === document.activeElement), true);
+    await page.keyboard.type(String(answerBank.get(answered.item.question.id).answer));
+    const numeric = await actionResponse(() => page.keyboard.press("Enter"), "/api/answer");
+    assert.equal(numeric.feedback.status, "correct");
+    await page.locator("#restart").focus(); await page.keyboard.press("Enter"); await visible("#view-home");
+    await page.waitForFunction(() => document.activeElement === document.querySelector("#view-home h2"));
+    await page.locator(".skip-link").focus(); await page.keyboard.press("Enter");
+    assert.equal(await page.locator("#main-content").evaluate(element => element === document.activeElement), true);
+    result.observations.choice_input_type = "native_radio";
+    result.observations.keyboard_actions = ["Tab", "Space", "ArrowRight", "Enter"];
+    claim("Native radio choices expose selection and support Tab, Space and arrow-key operation.");
+    claim("View changes focus their heading; question changes focus the prompt before answer controls.");
+    claim("Choice and numeric answers submit through keyboard controls with stable answer IDs and visible labels.");
+    claim("A keyboard skip link reaches the main learning content; this is a scoped functional check, not complete WCAG conformance.");
+  },
+
   async self_check_autosave() {
     await goto("?teach=m5b.4.1");
     await visible("#view-teach");
@@ -178,9 +318,26 @@ const journeys = {
     await editor.locator(".self-assessment select").first().selectOption("met");
     const assessmentComment = "合成验收：我补充了事件独立的依据，还需要检查模型条件。";
     await editor.locator(".self-assessment-comment > summary").first().click();
-    await editor.locator(".self-assessment-comment textarea").first().fill(assessmentComment);
-    const saved = await actionResponse(() => editor.getByRole("button", { name: "提交我的自查", exact: true }).click(), "/api/work", "POST",
-      response => response.request().postDataJSON().status === "submitted");
+    let releaseDraft, startedDraft;
+    const draftStarted = new Promise(resolve => { startedDraft = resolve; });
+    const holdDraft = async route => {
+      const request = route.request(), payload = request.method() === "POST" ? request.postDataJSON() : {};
+      if (payload.status === "draft" && payload.self_assessment?.some(row => row.comment === assessmentComment)) {
+        await new Promise(resolve => { releaseDraft = resolve; startedDraft(); });
+      }
+      await route.continue();
+    };
+    await page.route("**/api/work", holdDraft);
+    let saved, autosaveTimeout;
+    try {
+      await editor.locator(".self-assessment-comment textarea").first().fill(assessmentComment);
+      await Promise.race([draftStarted, new Promise((_, reject) => { autosaveTimeout = setTimeout(() => reject(new Error("Autosave did not start")), 15000); })]);
+      clearTimeout(autosaveTimeout);
+      const finish = editor.getByRole("button", { name: "提交我的自查", exact: true });
+      assert.equal(await finish.isEnabled(), true, "An in-flight autosave must not swallow explicit submission");
+      saved = await actionResponse(async () => { await finish.click(); releaseDraft(); }, "/api/work", "POST",
+        response => response.request().postDataJSON().status === "submitted");
+    } finally { clearTimeout(autosaveTimeout); releaseDraft?.(); await page.unroute("**/api/work", holdDraft); }
     await editor.locator(".work-status").filter({ hasText: "自查记录已保存" }).waitFor();
     const exported = await apiRead("/api/export");
     const session = exported.sessions.find(session => session.id === sid);
@@ -189,8 +346,10 @@ const journeys = {
     assert.equal(saved.work.payload.self_assessment[0].comment, assessmentComment);
     result.observations.session_id = sid;
     result.observations.retained_grade = "needs_review";
+    result.observations.submission_queued_during_autosave = true;
     claim("A rubric draft survives reload and resumes through the visible Continue control.");
     claim("Learner self-assessment creates a work revision while the original grade remains needs_review.");
+    claim("Explicit submission queues behind an in-flight autosave instead of being dropped by a disabled button.");
   },
 
   async unit_phases() {
@@ -256,7 +415,7 @@ const journeys = {
     const filename = path.join(output, "synthetic-learning-records.json");
     await download.saveAs(filename);
     const exported = JSON.parse(fs.readFileSync(filename, "utf8"));
-    assert.equal(exported.schema, 2);
+    assert.equal(exported.schema, 3);
     const work = exported.works.find(work => work.resource_id === first.resource_id);
     assert.ok(work.revisions.length >= 2);
     assert.ok(work.revisions.every(revision => revision.resource_version === first.resource_version));
@@ -274,8 +433,29 @@ const journeys = {
       response => new URL(response.url()).searchParams.get("stage") === "primary");
     assert.ok((await page.locator("#learning-units .eyebrow").allTextContents()).every(text => text === "小学"));
     assert.ok((await page.locator("#learning-projects .eyebrow").allTextContents()).every(text => text === "小学"));
+    assert.deepEqual(await page.locator("#data-learning-path .eyebrow").allTextContents(), ["小学"]);
     assert.ok((await page.locator("#chapters .volume-title").allTextContents()).every(text => text.includes("小学")));
     await noHorizontalOverflow("primary_home_390");
+    await page.locator("#data-learning-path").getByRole("button", { name: "开始学习", exact: true }).click();
+    await visible("#view-unit");
+    assert.equal(new URL(page.url()).searchParams.get("unit"), "data_reading_and_mean");
+    await page.waitForFunction(() => { const image = document.querySelector("#unit-content .lesson-diagram img"); return image?.complete && image.naturalWidth > 0; });
+    await noHorizontalOverflow("primary_data_unit_390");
+    const notes = page.locator("#unit-content > details").filter({ has: page.getByText("保存我的解释与疑问", { exact: true }) });
+    await notes.locator(":scope > summary").click();
+    const noteInput = notes.locator(".work-field textarea").first(), note = "合成验收：放大图表时保留本页读数草稿。";
+    const savedNote = page.waitForResponse(response => isResponse(response, "/api/work", "POST") && Object.values(response.request().postDataJSON().draft || {}).includes(note));
+    await noteInput.fill(note);
+    const enlarge = page.locator("#unit-content .diagram-enlarge").first(), source = await page.locator("#unit-content .lesson-diagram img").first().getAttribute("src");
+    assert.equal(await enlarge.getAttribute("href"), source); assert.equal(await enlarge.getAttribute("target"), "_blank");
+    assert.ok((await enlarge.getAttribute("rel")).split(" ").includes("noopener"));
+    const originalUrl = page.url(), opened = page.waitForEvent("popup");
+    await enlarge.click();
+    const popup = await opened; await popup.waitForLoadState("domcontentloaded");
+    assert.equal(new URL(popup.url()).pathname, source); assert.equal(await popup.locator("svg").count(), 1);
+    assert.equal(page.url(), originalUrl); assert.equal(await noteInput.inputValue(), note);
+    assert.equal((await savedNote).status(), 200); await popup.close();
+    result.observations.mobile_diagram_popup = { source, original_page_preserved: true, draft_preserved: true };
     await goto("?unit=ten_frame_place_value");
     await visible("#view-unit");
     await page.waitForFunction(() => { const image = document.querySelector("#unit-content .lesson-diagram img"); return image?.complete && image.naturalWidth > 0; });
@@ -289,6 +469,7 @@ const journeys = {
       response => new URL(response.url()).searchParams.get("stage") === "senior");
     assert.ok((await page.locator("#learning-units .eyebrow").allTextContents()).every(text => text === "高中"));
     assert.equal(await page.locator("#path-section").isVisible(), false);
+    assert.deepEqual(await page.locator("#data-learning-path .eyebrow").allTextContents(), ["高中"]);
     await noHorizontalOverflow("senior_home_390");
     await goto("?teach=m5b.4.1");
     await page.locator("#self-check-1").waitFor();
@@ -300,6 +481,7 @@ const journeys = {
     await page.locator("#project-content .work-field textarea").first().waitFor();
     await noHorizontalOverflow("project_390");
     claim("Home cards and textbook navigation follow the selected school stage and preserve the selection.");
+    claim("The stage-filtered data learning chain is reachable on a 390px screen; the full SVG opens in another tab without discarding the original draft.");
     claim("Home, teaching, unit and project views have no viewport-level horizontal overflow at 390px.");
     claim("The optional primary entry unit displays a working ten-frame diagram and oral/manipulative alternatives on a narrow screen.");
   },

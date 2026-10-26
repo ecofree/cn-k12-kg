@@ -39,7 +39,7 @@ CHECKS = [
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--with-browser', action='store_true', help='同时执行六条浏览器学习流程；需要先安装Playwright与Chromium')
+    parser.add_argument('--with-browser', action='store_true', help='同时执行八条浏览器学习流程；需要先安装Playwright与Chromium')
     args = parser.parse_args(argv)
     for name in ('regression_report.json', 'regression_report.md'):
         (ROOT / 'build' / name).unlink(missing_ok=True)
@@ -51,7 +51,7 @@ def main(argv=None):
     context = capture(ROOT)
     generated_at = datetime.now(timezone.utc).isoformat(timespec='seconds')
     results = []
-    checks = CHECKS + ([('browser', '六条真实界面的合成功能流程', ['tools/browser_check.py'])] if args.with_browser else [])
+    checks = CHECKS + ([('browser', '八条真实界面的合成功能流程', ['tools/browser_check.py'])] if args.with_browser else [])
     for key, title, check_args in checks:
         command = [sys.executable, *check_args]
         started = time.monotonic()

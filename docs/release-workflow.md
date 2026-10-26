@@ -32,15 +32,17 @@ npx playwright install --with-deps chromium
 1. 完成作者文件与代码修改，运行 `python tools/build_project.py --write`。
 2. 检查差异，将作者源、注册表、派生目录、内容清单和 `release-manifest.json` 一并提交。
 3. 确认工作树干净，运行 `python tools/release_check.py --with-browser`。
-4. 检查核心与六条浏览器流程全部通过，运行 `python tools/package_release.py`。
+4. 检查核心与八条浏览器流程全部通过，运行 `python tools/package_release.py`。
 
 Git历史包要求完整历史。若 `git rev-parse --is-shallow-repository` 返回 `true`，先运行 `git fetch --unshallow origin` 补齐历史；该操作不会切换分支或更改工作树。打包器拒绝用浅克隆生成一个看似完整但缺少父提交的包。
 
 构建之后如果又修改文档、代码、Schema、字体或其他发行文件，应重新生成清单并提交，再验收。运行中改变提交、清单或源码会使报告失败。缺依赖或启动失败时不会继续沿用上一次报告作为本次通过证据。
 
-当前14项核心门禁包括发布清单、来源一致性、稳定身份、catalog、图与答案结构、讲解、单元、实践、课标、既定结构覆盖、数值复算、回归、状态与数据库构建。`--with-browser`增加第15项门禁，其中运行六条浏览器旅程。
+当前14项核心门禁包括发布清单、来源一致性、稳定身份、catalog、图与答案结构、讲解、单元、实践、课标、既定结构覆盖、数值复算、回归、状态与数据库构建。`--with-browser`增加第15项门禁，其中运行八条浏览器旅程。
 
 浏览器旅程验证自检保存与参考曝光、过程草稿与自评、完整单元的三阶段作答、实践修订与导出、学段选择及手机布局、题池耗尽后的复习入口。每条使用独立临时学习库与浏览器上下文。它们使用作者答案，证据类型固定为 `synthetic_browser_test`。
+
+V3增加 `navigation_recovery` 与 `keyboard_accessibility`：实际验证刷新与前进／后退恢复同一会话、断网保存及409冲突时保留草稿、作品加载失败与重试、键盘单选和焦点。已有手机旅程也检查新统计链及图示。人工设置的网络失败属于明确的测试情境，不掩盖其他脚本或服务器错误。
 
 ## 文件与验证
 
@@ -66,15 +68,15 @@ Bundle扫描完整可达历史路径，包括合并提交引入的文件。发�
 保留本轮完整分支历史时，可以克隆bundle：
 
 ```bash
-git clone -b codex/cnkg-quality-v2 current-branch.bundle cn-k12-kg-v2
-cd cn-k12-kg-v2
+git clone -b codex/cnkg-quality-v3 current-branch.bundle cn-k12-kg-v3
+cd cn-k12-kg-v3
 ```
 
 已有仓库可先导入为一个新本地分支，再检查差异：
 
 ```bash
-git fetch /absolute/path/current-branch.bundle refs/heads/codex/cnkg-quality-v2:refs/heads/imported-quality-v2
-git log --oneline imported-quality-v2
+git fetch /absolute/path/current-branch.bundle refs/heads/codex/cnkg-quality-v3:refs/heads/imported-quality-v3
+git log --oneline imported-quality-v3
 ```
 
 这些操作不覆盖现有分支。是否推送远程仍以远程实际引用为准；本地包、提交或验收通过不等于GitHub已经更新。

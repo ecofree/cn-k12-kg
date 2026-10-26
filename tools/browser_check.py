@@ -27,7 +27,8 @@ sys.path.insert(0, str(ROOT))
 from tools.verification_context import capture, changes, raw_digest
 SCRIPT = ROOT / "tests/browser/learning-flow.cjs"
 JOURNEYS = ("self_check_autosave", "rubric_revision", "unit_phases",
-            "project_history", "mobile_stage", "pool_exhaustion")
+            "project_history", "mobile_stage", "pool_exhaustion",
+            "navigation_recovery", "keyboard_accessibility")
 ARTIFACT_NAMES = ("result.json", "browser.log", "http.log", "final.png",
                   "desktop-unit.png", "desktop-home.png", "desktop-project.png", "primary-entry.png")
 INPUTS = ("web/server.py", "web/static/index.html", "web/static/app.js", "web/static/work.js",

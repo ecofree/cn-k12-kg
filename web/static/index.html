@@ -8,12 +8,13 @@
 <link rel="stylesheet" href="/static/vendor/katex/katex.min.css">
 </head>
 <body>
+<a class="skip-link" href="#main-content">跳到学习内容</a>
 <header class="topbar">
   <div class="brand"><span class="logo">kg</span><div><h1>K12 数学 · 学习与补学</h1><p class="sub" id="stats">加载中…</p></div></div>
   <nav class="topnav"><button class="ghost" id="open-history" disabled>学习记录与作品</button><button class="ghost" id="restart" hidden>回到首页</button></nav>
 </header>
-<main>
-  <div id="save-notice" class="card save-notice" hidden role="status"><p id="save-notice-text"></p><button id="retry-save" class="ghost">重试保存</button></div>
+<main id="main-content" tabindex="-1">
+  <div id="save-notice" class="card save-notice" hidden role="alert"><p id="save-notice-text"></p><button id="retry-save" class="ghost">重试保存</button></div>
   <div id="action-notice" class="card" hidden role="status"></div>
   <section id="view-home" class="view">
     <div class="hero"><h2>从一个具体目标开始</h2><p>先理解一个概念，再动手练习。把你的思路留下来，下次从这里继续。</p></div>
@@ -21,6 +22,7 @@
     <div class="stage-picker"><label for="stage-select">当前学习学段</label><select id="stage-select"><option value="">全部学段</option><option value="primary">小学</option><option value="junior">初中</option><option value="senior">高中</option></select></div>
     <section class="card"><h3>接下来可以做什么</h3><div id="learning-plan" aria-live="polite">正在读取学习安排…</div><p id="plan-policy" class="muted"></p></section>
     <section id="path-section"><h3>连起来学 · 从分数到函数</h3><p class="muted">按需要回看基础。每个单元都有讲解、练习、迁移任务和稍后的复测。</p><div id="learning-path" class="unit-grid"></div></section>
+    <section id="data-path-section"><h3>连起来学 · 从读数据到回归</h3><p class="muted">从读懂图表与平均数，逐步学习抽样、波动和相关关系。按当前学段选择，也可以回看先修单元。</p><div id="data-learning-path" class="unit-grid"></div></section>
     <h3>学习单元 · 理解、应用与解释</h3>
     <div id="learning-units" class="unit-grid"></div>
     <h3>综合与实践 · 动手、记录与解释</h3>
@@ -43,9 +45,9 @@
     <div class="quiz-head"><span class="pill" id="quiz-topic"></span><span class="muted" id="quiz-progress"></span></div>
     <div class="card resume-notice" id="quiz-resume-notice" hidden role="status"><p id="quiz-resume-message"></p><div id="quiz-saved-answers"></div><button class="ghost" id="quiz-return">回到目录重新开始</button></div>
     <div class="card question">
-      <p class="qmeta" id="quiz-meta"></p><div class="prompt" id="quiz-prompt"></div><div id="quiz-diagram"></div>
-      <div id="quiz-rubric"></div><div id="choices" class="choices"></div>
-      <div id="numeric" class="numeric" hidden><input id="numeric-input" type="text" aria-label="你的答案" placeholder="如 -3、0.5 或 1/2"></div>
+      <p class="qmeta" id="quiz-meta"></p><div class="prompt" id="quiz-prompt" tabindex="-1" role="heading" aria-level="2"></div><div id="quiz-diagram"></div>
+      <div id="quiz-rubric"></div><fieldset id="choices" class="choices" aria-describedby="quiz-prompt quiz-hint"><legend class="sr-only">选择一个答案</legend></fieldset>
+      <div id="numeric" class="numeric" hidden><label for="numeric-input">你的答案</label><input id="numeric-input" type="text" aria-describedby="quiz-prompt quiz-hint" placeholder="如 -3、0.5 或 1/2"></div>
       <div id="process-answer" hidden><label for="process-input">写出过程、依据和结论</label><textarea id="process-input" rows="6" maxlength="8000"></textarea></div>
       <div class="actions"><button class="primary" id="submit">提交</button><button class="ghost" id="skip">暂时不会</button></div>
       <p class="hint muted" id="quiz-hint" aria-live="polite"></p>
