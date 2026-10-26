@@ -2,7 +2,7 @@ const state = { session: null, item: null, nextItem: null, done: false, selected
   pending: false, volumes: [], units: [], projects: [], savedAnswers: [], lastResultSession: null, stage: "", historyOffset: 0, worksOffset: 0, viewedTopics: new Set(), viewedUnits: new Set(),
   navigation: 0, view: "home", routeIndex: 0, renderedUrl: location.href, restoringHistory: false };
 const $ = (id) => document.getElementById(id);
-const PHASE = { diagnose: "知识点检查", screen: "整册抽查", practice: "练习", transfer: "迁移任务", delayed: "复测题" };
+const PHASE = { diagnose: "知识点检查", screen: "整册抽查", practice: "练习", transfer: "迁移任务", delayed: "复测题", support: "辨别与指导练习" };
 const STATUS = { correct: "答对了", wrong: "还需练习", invalid: "请检查格式", needs_review: "过程已记录，可按量规自查",
   not_attempted: "暂未作答", demonstrated: "本组题已展示该能力", practice_needed: "建议再练习", not_observed: "本组未观察到该目标" };
 async function api(path, body) {
@@ -13,7 +13,7 @@ async function api(path, body) {
 }
 function show(view) {
   state.view = view;
-  for (const name of ["home", "teach", "unit", "quiz", "result", "project", "history", "work"]) $(`view-${name}`).hidden = name !== view;
+  for (const name of ["home", "teach", "unit", "quiz", "result", "project", "history", "work", "needs", "support", "profile", "scope"]) $(`view-${name}`).hidden = name !== view;
   $("restart").hidden = view === "home";
   $("action-notice").hidden = true;
   if (view === "home") refreshPlan();
@@ -110,22 +110,140 @@ async function refreshPlan() {
     if (state.stage !== requestedStage) return;
     state.volumes = topics.volumes; renderChapters($("search").value.trim());
     const root = $("learning-plan"); root.textContent = "";
-    const activeSteps = plan.next_steps.filter(step => step.session_id || step.work_resource_id || step.previous_session_id);
+    const activeSteps = plan.next_steps;
     for (const step of activeSteps.slice(0, 3)) {
       const row = node("article", null, "plan-row"), detail = node("div");
       detail.append(node("strong", step.title), node("p", step.reason, "muted"));
       if (step.due_at) detail.append(node("p", `建议复测时间：${formatTime(step.due_at)}`, "muted"));
       const label = step.continuation === "reflect_and_revise" ? "自查并修订" : step.work_resource_id && !step.session_id ? "继续作品" : step.action === "continue" ? "继续" : step.action === "due_review" ? step.ready ? "开始复测" : "回看讲解" : step.action === "transfer" ? "迁移任务" : "开始学习";
-      row.append(detail, button(label, () => {
-        if (step.session_id) return resumeSession(step.session_id);
-        if (step.work_resource_id) return openSavedWork(step.work_resource_id);
-        if (step.action === "practice" || !step.ready) return openUnit(step.unit_id);
-        return startSession({ unit_id: step.unit_id, mode: step.phase || "practice", previous_session_id: step.previous_session_id });
-      })); root.append(row);
+      row.append(detail, button(label, () => followPlan(step, plan))); root.append(row);
     }
     if (!root.children.length) root.append(node("p", "还没有保存的学习活动。选择学段后，可从下面的学习路径或教材目录开始。", "muted"));
-    $("plan-policy").textContent = "复习安排采用1、3、7天的默认间隔，可按自己的学习情况提前或稍后开始。";
+    const counts = plan.need_counts || {};
+    $("need-counts").textContent = `各学段累计：${counts.open || 0} 项待处理，${counts.deferred || 0} 项已暂缓，${counts.resolved || 0} 项已有具体后续证据。`;
+    $("plan-policy").textContent = plan.policy.notice;
   } catch (error) { $("learning-plan").textContent = error.message; }
+}
+async function followPlan(step, plan) {
+  if (step.session_id) return resumeSession(step.session_id);
+  if (step.work_resource_id) return openSavedWork(step.work_resource_id);
+  if (step.need_ids?.length) {
+    const need = plan.learning_needs.find(n => n.need_id === step.need_ids[0]);
+    if (need) return actOnNeed(need);
+  }
+  if (step.targets?.length) return openTeach(step.targets[0]);
+  if (step.action === "practice" || !step.ready) return openUnit(step.unit_id);
+  return startSession({ unit_id: step.unit_id, mode: step.phase || "practice", previous_session_id: step.previous_session_id,
+    focus_skill_ids: step.skill_ids || [] });
+}
+async function openProfile(routeMode = "push") {
+  const token = await prepareNavigation(); if (!token) return false;
+  show("profile"); rememberRoute({ profile: "1" }, routeMode);
+  try { await window.CNKGProfile.mount($("profile-content"), { api, node, button, formatTime, prepare: prepareNavigation, busy: value => { state.pending = value; },
+    identityChanged: () => { try { sessionStorage.removeItem("cnkg-session-id"); } catch (_) {} location.replace("/"); } }); }
+  catch (error) { $("profile-content").textContent = error.message; }
+  return true;
+}
+async function openScope(routeMode = "push") {
+  const token = await prepareNavigation(); if (!token) return false;
+  show("scope"); rememberRoute({ scope: "1" }, routeMode);
+  $("scope-summary").textContent = "正在读取逐目标目录…";
+  try {
+    const report = await api("/api/quality-scope"); if (token !== state.navigation) return false;
+    const policy = $("scope-policy"); policy.replaceChildren(rich("p", report.scope));
+    for (const role of Object.values(report.roles)) policy.append(section(role.label, list([role.learner_requirement, role.author_requirement])));
+    policy.append(node("p", report.limits.join(" "), "muted"));
+    const render = () => {
+      const role = $("scope-role").value, stage = $("scope-stage").value, search = $("scope-search").value.trim().toLowerCase();
+      const goals = report.goals.filter(g => (!role || g.role === role) && (!stage || g.stage === stage) && (!search || (g.title + g.statement + g.goal_id).toLowerCase().includes(search)));
+      $("scope-summary").textContent = `当前显示 ${goals.length} 项。完整清单：${report.summary.topic_goals} 项教材目标、${report.summary.unit_goals} 项单元目标、${report.summary.project_goals} 项活动目标；这些层级分别统计，不相加为课标覆盖率。`;
+      const root = $("scope-goals"); root.replaceChildren();
+      let offset = 0;
+      const more = button("显示更多目标", append);
+      function append() {
+        more.remove();
+        for (const goal of goals.slice(offset, offset + 30)) {
+          const card = node("article", null, "card");
+          card.append(node("h3", goal.title), rich("p", goal.statement), node("p", `${report.roles[goal.role].label} · ${goal.status === "materials_ready" ? "材料与任务已有对应" : "仍有材料缺口"}`, "muted"), rich("p", goal.observation_boundary || "按活动步骤、作品和量规核对，仍需保留未解决的问题。"));
+          if (goal.gaps.length) card.append(list(goal.gaps.map(g => g.message || g.code)));
+          card.append(button("打开学习材料与任务", () => goal.resource_kind === "topic" ? openTeach(goal.resource_id) : goal.resource_kind === "unit" ? openUnit(goal.resource_id) : openProject(goal.resource_id), "primary"));
+          const sources = node("details"); sources.append(node("summary", "目标与材料引用"), node("p", `稳定目标ID：${goal.goal_id}`, "muted"));
+          for (const ref of goal.material_refs) sources.append(node("p", ref.path + ref.json_pointer, "muted"));
+          card.append(sources); root.append(card);
+        }
+        offset += 30; if (offset < goals.length) root.append(more);
+      }
+      append();
+    };
+    $("scope-role").onchange = $("scope-stage").onchange = $("scope-search").oninput = render; render(); return true;
+  } catch (error) { $("scope-summary").textContent = error.message; return false; }
+}
+function renderSupport(data, routeMode) {
+  show("support"); rememberRoute({ session: data.session.id }, routeMode);
+  window.CNKGSupport.mount($("support-content"), data, { api, node, rich, button, diagram, list, notice, openNeeds, openUnit, busy: value => { state.pending = value; } });
+  try { sessionStorage.setItem("cnkg-session-id", data.session.id); } catch (_) {}
+}
+async function openSupport(unitId, supportId, needIds = [], routeMode = "push") {
+  const token = await prepareNavigation(); if (!token) return false;
+  state.pending = true;
+  try {
+    const data = await api("/api/support/start", { unit_id: unitId, support_id: supportId, need_ids: needIds });
+    if (token !== state.navigation) return false;
+    renderSupport(data, routeMode); return true;
+  } catch (error) { notice(error.message); return false; } finally { state.pending = false; }
+}
+async function actOnNeed(need) {
+  if (need.kind === "work_revision") return openSavedWork(need.work_resource_id);
+  if (need.kind === "process_revision" || need.kind === "support_revision") return resumeSession(need.source_ref.session_id);
+  if (need.unit_id && need.objective_ids?.length) {
+    try {
+      const unit = await api(`/api/learning/units/${encodeURIComponent(need.unit_id)}`);
+      const support = unit.instructional_support?.find(s => need.objective_ids.includes(s.objective_id));
+      if (support) return openSupport(need.unit_id, support.id, [need.need_id]);
+    } catch (error) { notice(error.message); return false; }
+    return openUnit(need.unit_id);
+  }
+  if (need.targets?.length) return openTeach(need.targets[0]);
+  return resumeSession(need.source_ref.session_id);
+}
+async function openNeeds(routeMode = "push") {
+  const token = await prepareNavigation(); if (!token) return false;
+  show("needs"); rememberRoute({ needs: "1" }, routeMode);
+  $("needs-status").textContent = "正在读取各学段的学习事项…";
+  try {
+    const plan = await api("/api/plan"); if (token !== state.navigation) return false;
+    const render = () => {
+      const filter = $("need-filter").value, root = $("needs-list"); root.replaceChildren();
+      const rows = plan.learning_needs.filter(n => filter === "all" || n.status === filter);
+      $("needs-status").textContent = `当前显示 ${rows.length} 项；全部 ${plan.learning_needs.length} 项均保留原始来源与内容版本。`;
+      for (const need of rows) {
+        const card = node("article", null, "card"), actions = node("div", null, "actions");
+        const kind = { answer_support: "作答后需进一步辨别", process_revision: "过程待自查或修订", work_revision: "作品待修订", support_revision: "指导练习待确认" };
+        card.append(node("h3", need.title), node("p", `${kind[need.kind] || "学习事项"} · ${formatTime(need.observed_at)}`, "muted"), node("p", need.notice));
+        if (need.criterion_outcomes?.length) card.append(list(need.criterion_outcomes.filter(r => r.status !== "met").map(r => `${r.criterion}：${{ partial: "部分达到", revisit: "需要重做", not_checked: "尚未核对" }[r.status] || r.status}`)));
+        if (need.resolution) card.append(node("p", need.resolution.notice, "muted"));
+        if (need.explicit_state) card.append(node("p", `暂缓或重开说明：${need.explicit_state.reason}`, "muted"));
+        if (need.status !== "resolved") actions.append(button(need.kind === "answer_support" ? "辨别与补学" : "继续处理", () => actOnNeed(need), "primary"));
+        if (need.unit_id && need.skill_ids?.length && need.status !== "resolved") actions.append(button("针对这些目标再练习", () => startSession({ unit_id: need.unit_id, mode: "practice", focus_skill_ids: need.skill_ids })));
+        if (need.source_ref.session_id) actions.append(button("查看原作答", () => resumeSession(need.source_ref.session_id)));
+        if (need.status !== "resolved") {
+          const details = node("details"), summary = node("summary", need.status === "deferred" ? "重新列入计划" : "暂缓这件事");
+          const label = node("label", "说明原因"), input = node("textarea"); input.id = "reason-" + need.need_id; input.rows = 2; input.maxLength = 1000; label.htmlFor = input.id;
+          const message = node("p", "", "muted"); message.setAttribute("role", "status");
+          const save = button("保存原因与状态", async () => {
+            save.disabled = true;
+            try { await api("/api/learning-needs/state", { need_id: need.need_id, action: need.status === "deferred" ? "reopen" : "defer", reason: input.value }); await openNeeds("replace"); }
+            catch (error) { message.textContent = error.message; } finally { save.disabled = false; }
+          }); details.append(summary, label, input, save, message); card.append(details);
+        }
+        const provenance = node("details"); provenance.append(node("summary", "来源与观察边界"), node("p", `内容版本：${need.resource_version || "旧记录未保存版本"}`, "muted"),
+          node("p", need.family_status === "declared" ? `已登记题族：${need.family_id}` : "原题没有已确认的题族信息，不能把它当作独立的新题证据。", "muted"));
+        card.append(actions, provenance); root.append(card);
+      }
+      if (!rows.length) root.append(node("p", "这个状态下没有记录。可以切换状态查看暂缓事项或已有后续证据的事项。", "muted"));
+    };
+    $("need-filter").onchange = render; render(); return true;
+  } catch (error) { $("needs-status").textContent = error.message; return false; }
 }
 function trackReference(element, resource, reference) {
   element.addEventListener("toggle", () => {
@@ -172,7 +290,7 @@ async function openTeach(id, routeMode = "push") {
     const card = await api(`/api/teach/${encodeURIComponent(id)}`); if (token !== state.navigation) return false;
     state.viewedTopics.add(id); show("teach"); rememberRoute({ teach: id }, routeMode);
     $("teach-title").textContent = card.topicName;
-    $("teach-status").textContent = `${card.mode === "full" ? "已有单点讲解" : card.mode === "brief" ? "辅助速查；完整细目标覆盖仍需检查" : "完整讲解待补充"} · 内容初稿`;
+    $("teach-status").textContent = `${card.tier === "tool" ? "基础支持" : "核心学习"} · ${card.mode === "full" ? "已有单点讲解" : card.mode === "brief" ? "辅助速查；完整细目标覆盖仍需检查" : "完整讲解待补充"} · 内容初稿`;
     const root = $("teach-content"); root.textContent = "";
     root.append(section("本节目标", list(card.mastery_criteria)));
     if (card.hook) root.append(section("先想一想", rich("div", card.hook)));
@@ -180,6 +298,8 @@ async function openTeach(id, routeMode = "push") {
     if (card.why) root.append(section("为什么成立", rich("div", card.why)));
     if (card.diagram) root.append(section("把条件放到图上", diagram(card.diagram)));
     if (card.when_to_use) root.append(section("什么时候用", list(card.when_to_use)));
+    if (card.conditions) root.append(section("使用前先核对", list(card.conditions)));
+    if (card.representation_note) root.append(section("怎样摆、画或表示", rich("p", card.representation_note)));
     if (card.steps || card.key_points) root.append(section("思路与要点", list(card.steps || card.key_points, true)));
     if (card.worked_example) root.append(workedExample(card.worked_example, 0, "topic:" + id));
     if (card.pitfalls) root.append(section("检查这些易错处", list(card.pitfalls)));
@@ -189,6 +309,12 @@ async function openTeach(id, routeMode = "push") {
         const task = objective.self_check;
         const content = node("div");
         content.append(rich("p", objective.explanation), rich("p", task.prompt, "self-check-prompt"));
+        content.append(node("p", objective.observation_note || "这次自检观察下面的具体检查点。完成一题或自报达到，仍不足以确认其他情形与稍后迁移。", "muted"));
+        if (objective.difficulty_support) {
+          const support = node("details"), help = objective.difficulty_support;
+          support.append(node("summary", "遇到困难时，从这里辨别与修订"), rich("p", help.discriminating_prompt), rich("p", help.hint), rich("p", help.revision_prompt));
+          trackReference(support, "topic:" + id, "self_check:" + objective.criterion_index); content.append(support);
+        }
         const label = node("label", "我的思路与过程");
         const input = node("textarea"); input.rows = 4;
         input.id = `self-check-${objective.criterion_index}`; label.htmlFor = input.id;
@@ -241,6 +367,16 @@ async function openUnit(id, routeMode = "push") {
     if (unit.diagram) root.append(section("把信息放到图上", diagram(unit.diagram)));
     root.append(section("使用条件", list(ex.conditions)), section("用反例检查边界", rich("div", ex.counterexample)));
     root.append(...unit.worked_examples.map((example, index) => workedExample(example, index, "unit:" + id)));
+    if (window.CNKGManipulatives) window.CNKGManipulatives.mount(root, unit, { node, rich, button, api, busy: value => { state.pending = value; } });
+    if (unit.instructional_support?.length) {
+      const help = node("div");
+      for (const support of unit.instructional_support) {
+        const row = node("article", null, "support-link");
+        row.append(node("h4", support.title), rich("p", support.observation_note), button("辨别困难并跟着练", () => openSupport(id, support.id)));
+        help.append(row);
+      }
+      root.append(section("遇到困难，从具体目标开始", help));
+    }
     const notes = node("details", null, "card"); notes.append(node("summary", "保存我的解释与疑问"));
     const notesRoot = node("div"); notes.append(notesRoot); root.append(notes);
     window.CNKGWork.mount(notesRoot, { kind: "unit", unit_id: id }, { compact: true }).catch(() => {});
@@ -302,6 +438,7 @@ async function resumeSession(id, routeMode = "push") {
   try {
     const data = await api(`/api/session/${encodeURIComponent(id)}`);
     if (token !== state.navigation) return false;
+    if (data.session.kind === "support") { renderSupport(data, routeMode); return true; }
     state.session = data.session; state.item = data.item; state.done = data.done; state.summary = data.summary; state.verdictText = data.verdictText; state.availability = data.availability;
     state.savedAnswers = Array.isArray(data.saved_answers) ? data.saved_answers : [];
     try { sessionStorage.setItem("cnkg-session-id", data.session.id); $("resume").hidden = false; } catch (_) { /* 可选恢复 */ }
@@ -537,6 +674,8 @@ $("numeric-input").addEventListener("keydown", e => { if (e.key === "Enter") sub
 $("restart").addEventListener("click", () => goHome()); $("again").addEventListener("click", () => goHome());
 $("resume").addEventListener("click", () => { try { resumeSession(sessionStorage.getItem("cnkg-session-id")); } catch (_) { $("resume").hidden = true; } });
 $("open-history").addEventListener("click", () => openHistory()); $("refresh-history").addEventListener("click", () => openHistory("replace"));
+$("open-profile").addEventListener("click", () => openProfile()); $("open-needs").addEventListener("click", () => openNeeds());
+$("open-scope").addEventListener("click", () => openScope());
 $("export-history").addEventListener("click", exportHistory);
 $("history-more").addEventListener("click", moreHistory); $("works-more").addEventListener("click", moreWorks);
 $("work-return").addEventListener("click", () => openHistory()); $("retry-save").addEventListener("click", () => window.CNKGWork.flushAll());
@@ -547,6 +686,9 @@ async function restoreLocation(routeMode) {
   if (params.get("session")) return resumeSession(params.get("session"), routeMode);
   if (params.get("work")) return openSavedWork(params.get("work"), routeMode);
   if (params.has("history")) return openHistory(routeMode);
+  if (params.has("profile")) return openProfile(routeMode);
+  if (params.has("needs")) return openNeeds(routeMode);
+  if (params.has("scope")) return openScope(routeMode);
   if (params.get("project")) return openProject(params.get("project"), routeMode);
   if (params.get("unit")) return openUnit(params.get("unit"), routeMode);
   if (params.get("teach")) return openTeach(params.get("teach"), routeMode);

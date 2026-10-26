@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3a.2.1",
+  "name": "同级运算",
+  "tier": "tool",
+  "hook": "24÷6×2为什么不是把6×2先算成12？",
+  "definition": "没有括号且只有加减或只有乘除的算式，按从左到右依次计算。这是同级运算的统一约定；不能把“先乘除”误读为乘法总比除法先算。",
+  "why": "24÷6×2表示先把24平均分6份得到4，再把4取2倍得8。若改成24÷(6×2)，就变为分12份得2，是另一个表达式。括号会改变计算关系。",
+  "conditions": [
+    "无括号，算式只含加减或只含乘除。",
+    "本卡按基本顺序展开，不把未说明的重组当原顺序。"
+  ],
+  "representation_note": "把算式画成连续两步箭头：原数→第一步结果→第二步结果。",
+  "when_to_use": [
+    "无括号，算式只含加减或只含乘除。",
+    "本卡按基本顺序展开，不把未说明的重组当原顺序。"
+  ],
+  "steps": [
+    "辨认只含同一层级运算。",
+    "从左边第一个运算开始，写出中间值。",
+    "按顺序完成余下运算，比较加括号后的不同含义。"
+  ],
+  "worked_example": {
+    "prompt": "30−12+5应怎样算？",
+    "steps": [
+      "先30−12=18。",
+      "再18+5=23。"
+    ],
+    "answer": "23",
+    "family_id": "arithmetic.same-level-left-to-right",
+    "variant_id": "m3a.2.1:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "verify": "30-12+5"
+  },
+  "pitfalls": [
+    "加法不比减法优先，乘法也不比除法优先。",
+    "把后两项合并可能改变减法或除法的作用范围。"
+  ],
+  "practice": [
+    {
+      "id": "m3a.2.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3a.2.1-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "同级按左到右，每次只把最左的一个运算替换成结果；其余符号保留。",
+      "observation_note": "观察顺序与运算事实，两个结果均需过程支持。",
+      "self_check": {
+        "prompt": "计算18−7+4和36÷6×3，写中间式。",
+        "reference_answer": "11+4=15；6×3=18。",
+        "criteria": [
+          "左到右顺序",
+          "中间量与结果正确"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "36÷6×3先算6×3，会把除数变成什么？",
+        "hint": "它会变成18，相当于另加括号。",
+        "revision_prompt": "先写36÷6=6，再完成6×3。"
+      },
+      "criterion_index": 0,
+      "title": "能按从左到右的顺序计算同级运算"
+    },
+    {
+      "explanation": "顺序是统一表达约定，使同一算式有确定解释。若希望把后两数作为一组，必须用括号或清楚文字表达。",
+      "observation_note": "观察规则解释，不要求把约定说成必然定理。",
+      "self_check": {
+        "prompt": "比较20−8+2与20−(8+2)，说明两者顺序与结果。",
+        "reference_answer": "前者12+2=14；后者20−10=10，括号将后两数合成被减部分。",
+        "criteria": [
+          "区分两种顺序",
+          "说明括号改变作用范围"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "20−8+2能不写括号就理解成减10吗？",
+        "hint": "后面的+2是加回2，不是多减2。",
+        "revision_prompt": "用一步步数量变化写两条不同箭头链。"
+      },
+      "criterion_index": 1,
+      "title": "能说明运算顺序的依据"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-26",
+    "teacher_review": "pending"
+  }
+}

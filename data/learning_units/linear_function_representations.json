@@ -812,6 +812,73 @@
           "example": "斜率相同、截距不同，两直线平行，竖直差4。"
         }
       ]
+    },
+    {
+      "id": "linear_function_representations:delayed-7",
+      "objective_ids": [
+        "linear_function_representations:o1",
+        "linear_function_representations:formula",
+        "linear_function_representations:rate",
+        "linear_function_representations:intercept"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "已知y是x的一次函数，经过(−1,5)、(2,−1)。求函数式，再用记录(4,−5)检验。请写出斜率、截距和代入检查；只写式子不能展示检查过程。",
+      "explanation": "k=(−1−5)/(2−(−1))=−2，5=(−2)×(−1)+b，所以b=3，y=−2x+3。代入x=4得−5，与第三条记录一致；一致性检查不是从有限数据证明现实关系永远线性。",
+      "feedback": {
+        "correct": "请核对过程、条件和单位；本次表现只对应本题观察到的部分。",
+        "incorrect": "先除以横坐标的变化量3，再用一个已知点求b；最后把另一个输入代回完整式子。"
+      },
+      "family_id": "linear.table-to-parameters",
+      "variant_id": "linear_function_representations:delayed-7",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "rubric": [
+        {
+          "criterion": "由两点求系数和式子",
+          "points": 2,
+          "example": "k=−2，b=3，y=−2x+3。"
+        },
+        {
+          "criterion": "用另一个点核对",
+          "points": 1,
+          "example": "x=4时−2×4+3=−5，符合记录。"
+        }
+      ],
+      "answer_spec": {
+        "kind": "rubric"
+      }
+    },
+    {
+      "id": "linear_function_representations:transfer-8",
+      "objective_ids": [
+        "linear_function_representations:o2",
+        "linear_function_representations:read_graph",
+        "linear_function_representations:rate"
+      ],
+      "phase": "transfer",
+      "type": "numeric",
+      "prompt": "图中记录的是匀速进水时水量y（升）与时间t（分钟）的关系。根据P、Q两点，求每分钟增加多少升。注意两轴每格代表的量不同。请只填数值。",
+      "explanation": "从图上读得P=(2,10)、Q=(6,20)。水量增加10升，时间增加4分钟，变化率10÷4=2.5升/分钟；纸面上升格数与横向格数之比不是带单位的变化率。",
+      "feedback": {
+        "correct": "请核对过程、条件和单位；本次表现只对应本题观察到的部分。",
+        "incorrect": "先把P、Q的坐标按各轴刻度读出来，再用水量差除以时间差。"
+      },
+      "family_id": "linear.scale-aware-slope",
+      "variant_id": "linear_function_representations:transfer-8",
+      "representation": "graph",
+      "cognitive_demand": "execute",
+      "answer": "2.5",
+      "verify": "(20-10)/(6-2)",
+      "diagram": {
+        "src": "/static/diagrams/v4-linear-scaled-axes.svg",
+        "alt": "匀速进水图，横轴t的单位为分钟，每格2分钟，标0、2、4、6、8；纵轴y的单位为升，每格5升，标0到25。直线上标出P（2，10）与Q（6，20），两轴的每格单位量不同。"
+      },
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      }
     }
   ],
   "teacher_review": {
@@ -835,5 +902,776 @@
     "ratio_models:invariant",
     "equation_equivalence:reversible",
     "equation_equivalence:solve_check"
-  ]
+  ],
+  "instructional_support": {
+    "schema": 1,
+    "supports": [
+      {
+        "id": "linear_function_representations:support:o1",
+        "objective_id": "linear_function_representations:o1",
+        "title": "从变化率到式子，再用另一点核对",
+        "observation_note": "复合目标先观察求变化率和截距的顺序；完整建式与独立点检查由后续过程题确认。",
+        "hypotheses": [
+          "可能把纵坐标增量直接当斜率。",
+          "可能把表格第一行的y当截距。"
+        ],
+        "diagnostic": {
+          "prompt": "一次函数经过(2,9)、(5,15)，已算出k=2。下一步怎样求b？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "b=9，因为9是第一条记录",
+              "feedback": "只有x=0时的y才等于b。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "b=9−2×2=5",
+              "feedback": "对，把一个点代入y=kx+b后解出b。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "b=15−9=6",
+              "feedback": "6是这两点的纵坐标差，不是截距。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "k先用Δy/Δx求得，再用b=y−kx求截距。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "把两点横坐标差与纵坐标差分别写出来。"
+          },
+          {
+            "level": 2,
+            "text": "先算k=Δy/Δx，再代入任一点求b；最后检查未参与求系数的点。"
+          },
+          {
+            "level": 3,
+            "text": "点(1,4)、(3,10)给k=6/2=3，b=4−3=1，式子y=3x+1；若另有(4,13)，代入得13，记录一致。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "已知一次函数过(1,5)、(3,9)，第三条记录为(4,11)。哪项完成了建式和核对？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "y=2x+3，代入x=4得11"
+            },
+            {
+              "id": "B",
+              "text": "y=4x+1，因为y增加4"
+            },
+            {
+              "id": "C",
+              "text": "y=2x+5，因为第一条y为5"
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "斜率4/2=2，b=5−2=3，第三个点符合。"
+        },
+        "followup_task_ids": [
+          "linear_function_representations:practice-1",
+          "linear_function_representations:transfer-2",
+          "linear_function_representations:delayed-1"
+        ]
+      },
+      {
+        "id": "linear_function_representations:support:o2",
+        "objective_id": "linear_function_representations:o2",
+        "title": "坐标是连接表、图和式子的同一信息",
+        "observation_note": "复合目标短题检查坐标顺序；画图的刻度、离散输入和函数单值性还需后续任务。",
+        "hypotheses": [
+          "可能交换横纵坐标。",
+          "可能看图的纸面斜角而忽略轴刻度。"
+        ],
+        "diagnostic": {
+          "prompt": "横轴是时间t（分钟），纵轴是水量y（升）。点(3,8)表示什么？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "3升水对应8分钟",
+              "feedback": "坐标第一项对横轴，应是3分钟。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "3分钟时水量8升",
+              "feedback": "对，顺序为(输入时间,输出水量)。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "每分钟增加8升",
+              "feedback": "一个点给某时刻的水量，不能单凭它求变化率。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "坐标顺序跟轴名一致；变化率需要比较两点或知道规则。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "从点向横轴、纵轴各作辅助线，分别读输入和输出。"
+          },
+          {
+            "level": 2,
+            "text": "把读到的(x,y)代入函数式检查；画图时先选轴刻度，再标点。"
+          },
+          {
+            "level": 3,
+            "text": "y=2x+1中的点(2,5)，表示x为2时输出5。换一组绘图刻度会改变纸面角度，但坐标关系和斜率2不变。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "函数y=3x−1的表格有x=2时y=5。图中应标哪个点？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "(5,2)"
+            },
+            {
+              "id": "B",
+              "text": "(2,5)"
+            },
+            {
+              "id": "C",
+              "text": "(3,−1)"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "横坐标是输入2，纵坐标是输出3×2−1=5。"
+        },
+        "followup_task_ids": [
+          "linear_function_representations:practice-2",
+          "linear_function_representations:transfer-2",
+          "linear_function_representations:delayed-2"
+        ]
+      },
+      {
+        "id": "linear_function_representations:support:o3",
+        "objective_id": "linear_function_representations:o3",
+        "title": "让模型带上单位和允许范围",
+        "observation_note": "复合目标短题检查容量限制；模型比较与系数意义仍需进一步展示。",
+        "hypotheses": [
+          "可能把算式允许的所有实数当作实际允许输入。",
+          "可能忽略排空、装满或整数购买等条件。"
+        ],
+        "diagnostic": {
+          "prompt": "水箱初有6升，以每分钟2升进水，容量10升，装满即停。y=6+2t可直接描述进水阶段的哪个范围？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "所有t≥0",
+              "feedback": "2分钟后已满，不能继续按原速增大水量。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "0≤t≤2",
+              "feedback": "对，由6+2t≤10得到t≤2。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "只有t=0",
+              "feedback": "进水期间也符合，只要容量尚未超过。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "模型公式和适用时间必须一起给出；装满后的行为需另写规则。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先给每个变量和系数写单位，再找情境中的限制词。"
+          },
+          {
+            "level": 2,
+            "text": "时间非负，水量不能负也不能超容量；本数和人数通常取整数。"
+          },
+          {
+            "level": 3,
+            "text": "水量y=12−3t，排空即停：0≤t≤4时用这个式子，t≥4时水量为0；把t=6代得−6只是超出了模型段。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "一本书4元，每单包装费3元，只能买1至5本。哪项完整？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "y=4x+3，x为1、2、3、4、5"
+            },
+            {
+              "id": "B",
+              "text": "y=4x，x为任意实数"
+            },
+            {
+              "id": "C",
+              "text": "y=4x+3，1≤x≤5内任意小数均可"
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "固定费计入截距，整本要求离散输入。"
+        },
+        "followup_task_ids": [
+          "linear_function_representations:practice-3",
+          "linear_function_representations:transfer-1",
+          "linear_function_representations:delayed-2"
+        ]
+      },
+      {
+        "id": "linear_function_representations:support:rate",
+        "objective_id": "linear_function_representations:rate",
+        "title": "把纵向变化除以横向变化",
+        "observation_note": "观察非单位步长下的斜率；一次算错可能是符号或算术问题，需要这道追问区分。",
+        "hypotheses": [
+          "可能把Δy当k，漏除Δx。",
+          "可能交换一对差的顺序造成符号错误。"
+        ],
+        "diagnostic": {
+          "prompt": "从(1,9)到(4,3)，x增加3，y减少6，k是多少？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "−6",
+              "feedback": "这是纵向增量，仍需除以横向增量3。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "2",
+              "feedback": "y随x下降，应检查符号；两组差需同方向相减。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "C",
+              "text": "−2",
+              "feedback": "对，−6÷3=−2。",
+              "next_hint_level": 1
+            }
+          ],
+          "answer": "C",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "k=(3−9)/(4−1)=−2，表示每增加1单位x，y减少2单位。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "选定从第一点到第二点，两个差都按同样顺序算。"
+          },
+          {
+            "level": 2,
+            "text": "写出Δy/Δx，横向间隔不等于1时不能省略除法。"
+          },
+          {
+            "level": 3,
+            "text": "从(−2,8)到(2,−4)，Δy=−12、Δx=4，k=−3；反向同时取差得到12/(−4)，结果仍是−3。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "一次函数从(−1,6)到(2,0)，斜率是多少？",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "-2",
+          "verify": "(0-6)/(2-(-1))",
+          "explanation": "纵坐标变−6，横坐标变3，斜率−2。"
+        },
+        "followup_task_ids": [
+          "linear_function_representations:practice-1",
+          "linear_function_representations:transfer-2",
+          "linear_function_representations:delayed-1"
+        ]
+      },
+      {
+        "id": "linear_function_representations:support:intercept",
+        "objective_id": "linear_function_representations:intercept",
+        "title": "截距对应输入为0",
+        "observation_note": "观察第一行不是x=0时求b的方法；正确数值不自动说明已理解其实际意义。",
+        "hypotheses": [
+          "可能把任意记录中的y当截距。",
+          "可能把b与x轴交点混淆。"
+        ],
+        "diagnostic": {
+          "prompt": "y=3x+b经过(2,10)。b是哪一个？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "10",
+              "feedback": "10是x=2时的值，不是x=0时的值。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "4",
+              "feedback": "对，10−3×2=4。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "−4/3",
+              "feedback": "这是求横轴交点时才会出现的值，不是b。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "纵截距为x=0的输出；可以从任何已知点反求。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "把“截距b”旁边写上x=0。"
+          },
+          {
+            "level": 2,
+            "text": "若没有x=0那一行，用已知点代入，算b=y−kx。"
+          },
+          {
+            "level": 3,
+            "text": "k=−2且过(3,1)，则1=−6+b，b=7；图象穿过纵轴(0,7)，不是(0,1)。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "一次函数斜率为−1，经过(4,3)。纵截距b是多少？",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "7",
+          "verify": "3-(-1)*4",
+          "explanation": "b=y−kx=3−(−1)×4=7。"
+        },
+        "followup_task_ids": [
+          "linear_function_representations:practice-1",
+          "linear_function_representations:transfer-2",
+          "linear_function_representations:delayed-1"
+        ]
+      },
+      {
+        "id": "linear_function_representations:support:formula",
+        "objective_id": "linear_function_representations:formula",
+        "title": "求出系数后用未使用记录检查",
+        "observation_note": "观察候选式与点的一致性；从有限数据推到全域线性还需要题设或机制依据。",
+        "hypotheses": [
+          "可能漏写截距或把系数放反。",
+          "可能认为几个点排成一线就证明所有未来记录线性。"
+        ],
+        "diagnostic": {
+          "prompt": "已知关系是一次函数，k=−2、b=5。哪项是正确式子并能通过点(3,−1)检查？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "y=5x−2，代入得13",
+              "feedback": "把斜率与截距交换了，点也不符合。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "y=−2x+5，代入得−1",
+              "feedback": "对，式子与给定系数和检验点一致。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "y=−2x，省略5不影响变化率",
+              "feedback": "变化率相同不代表同一个函数，截距不能省。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "斜率乘输入，再加截距。检查点时两个坐标必须同时符合。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "把模板y=kx+b写下，再逐项放入系数。"
+          },
+          {
+            "level": 2,
+            "text": "代入一个未用于求系数的x，检查输出是否符合原记录。"
+          },
+          {
+            "level": 3,
+            "text": "由(0,2)、(2,8)得y=3x+2；另有(3,11)时符合。若没有“一次函数”的已知条件，有限个相合点仍不足以保证其他输入也遵循此式。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "已知一次函数经过(0,4)、(2,10)，哪项通过第三点(5,19)检查？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "y=3x+4，3×5+4=19"
+            },
+            {
+              "id": "B",
+              "text": "y=6x+4，因为两点y差6"
+            },
+            {
+              "id": "C",
+              "text": "y=3x+10，因为第二行y为10"
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "k=(10−4)/2=3，b=4；使用第三点验证。"
+        },
+        "followup_task_ids": [
+          "linear_function_representations:practice-6",
+          "linear_function_representations:transfer-6",
+          "linear_function_representations:delayed-7"
+        ]
+      },
+      {
+        "id": "linear_function_representations:support:read_graph",
+        "objective_id": "linear_function_representations:read_graph",
+        "title": "刻度换成量，再算变化率",
+        "observation_note": "观察格数与实际单位的转换；短题使用文字描述，真实图读取仍由配图任务确认。",
+        "hypotheses": [
+          "可能直接用上升格数除以右移格数。",
+          "可能把横纵轴单位或刻度混用。"
+        ],
+        "diagnostic": {
+          "prompt": "横轴每格2分钟，纵轴每格3升；从P到Q右移2格、上升4格。变化率是多少？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "2升/分钟",
+              "feedback": "2是格数之比，未换成对应单位量。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "3升/分钟",
+              "feedback": "对，上升12升，经过4分钟，商为3。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "6升/分钟",
+              "feedback": "纵向已换成12升，但横向2格还需换成4分钟。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "读图必须使用各自轴的单位和刻度，纸面角度不是直接的数值斜率。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "分别标记横轴一格表示多少、纵轴一格表示多少。"
+          },
+          {
+            "level": 2,
+            "text": "把两个点读成实际坐标，或把格数分别换算成Δx和Δy。"
+          },
+          {
+            "level": 3,
+            "text": "横轴一格4秒、纵轴一格10米，右移3格升2格，速度为20/12=5/3米/秒；不是2/3米/秒。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "横轴每格5分钟、纵轴每格2升，直线右移2格时上升5格。每分钟增加几升？",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "1",
+          "verify": "(5*2)/(2*5)",
+          "explanation": "上升10升，时间10分钟，变化率1升/分钟。"
+        },
+        "followup_task_ids": [
+          "linear_function_representations:practice-2",
+          "linear_function_representations:transfer-8",
+          "linear_function_representations:delayed-4"
+        ]
+      },
+      {
+        "id": "linear_function_representations:support:representations",
+        "objective_id": "linear_function_representations:representations",
+        "title": "同一个输入只能有一个函数输出",
+        "observation_note": "观察表格是否已违反函数定义；图象绘制和公式转换还需后续确认。",
+        "hypotheses": [
+          "可能认为任意两点都可直接连成所需函数。",
+          "可能忽略同一输入出现两个不同准确输出。"
+        ],
+        "diagnostic": {
+          "prompt": "表格把(2,4)、(2,7)都列为同一y关于x函数的准确记录。能直接连线建一次函数吗？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "能，两点总能确定直线",
+              "feedback": "连成的是竖直线，同一个x有两个输出，不满足这里的函数要求。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "不能，要先核对记录或变量定义",
+              "feedback": "对，问题先发生在输入与输出关系。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "能，把两个输出平均成5.5即可",
+              "feedback": "擅自平均改变了准确记录，需要数据纠错依据。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "y关于x的函数要求每个允许输入x对应唯一输出y。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先检查同一x是否重复出现且对应不同y。"
+          },
+          {
+            "level": 2,
+            "text": "再检查坐标、单位、表格标题一致，最后才作图或建式。"
+          },
+          {
+            "level": 3,
+            "text": "若温度表在同一时刻记录了两个地点温度，可能漏掉地点变量；不能把它直接视为一个地点的温度函数。先补变量说明或更正记录。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "哪组准确点可以属于同一个y关于x的一次函数？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "(1,2)、(1,3)"
+            },
+            {
+              "id": "B",
+              "text": "(0,1)、(2,5)、(3,7)"
+            },
+            {
+              "id": "C",
+              "text": "(0,1)、(2,5)、(2,7)"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "第二组满足y=2x+1，且没有同一输入的冲突输出。"
+        },
+        "followup_task_ids": [
+          "linear_function_representations:practice-2",
+          "linear_function_representations:transfer-2",
+          "linear_function_representations:delayed-2"
+        ]
+      },
+      {
+        "id": "linear_function_representations:support:units_domain",
+        "objective_id": "linear_function_representations:units_domain",
+        "title": "把可计算输入与可发生输入分开检查",
+        "observation_note": "观察整数量限制；容量、时长和单位还需按情境逐项确认。",
+        "hypotheses": [
+          "可能把实际离散数据画成连续线段。",
+          "可能把单位换算前后的系数原样使用。"
+        ],
+        "diagnostic": {
+          "prompt": "每盒有6支笔，只能买整盒，x是盒数。图象上x=1.5对应9支，能代表本题可购买方案吗？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "能，算出来是整数9支",
+              "feedback": "输出是整数不能替代输入必须整盒的限制。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "不能，x必须是允许的整数盒数",
+              "feedback": "对，需画允许的离散点。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "不能，因为任何函数都不允许小数输入",
+              "feedback": "其他连续情境可以用小数；限制来自此题整盒规则。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "定义域由实际条件给出，不由代数运算单独决定。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "标出变量代表什么，单位是什么。"
+          },
+          {
+            "level": 2,
+            "text": "逐一列出非负、整数、容量、允许时段等约束，再决定点或线段。"
+          },
+          {
+            "level": 3,
+            "text": "固定费2元、每本5元，允许买1到3本：点为(1,7)、(2,12)、(3,17)。连线中(1.5,9.5)不代表本题允许的订单。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "水箱20升，以4升/分钟排水，空后停止。哪项描述前7分钟正确？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "一直用20−4t，允许负水量"
+            },
+            {
+              "id": "B",
+              "text": "0≤t≤5用20−4t，5≤t≤7水量为0"
+            },
+            {
+              "id": "C",
+              "text": "只画整数分钟的点，因为时间只能为整数"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "时间可连续，5分钟排空后换为0的规则。"
+        },
+        "followup_task_ids": [
+          "linear_function_representations:practice-3",
+          "linear_function_representations:transfer-1",
+          "linear_function_representations:delayed-2"
+        ]
+      },
+      {
+        "id": "linear_function_representations:support:compare_models",
+        "objective_id": "linear_function_representations:compare_models",
+        "title": "比较同一个输入下的输出差",
+        "observation_note": "观察严格不等式和整数阈值；图象相交、平行以及费用范围仍要结合具体条件。",
+        "hypotheses": [
+          "可能把费用相等的次数当成严格更省的最小次数。",
+          "可能认为平行直线在足够远处会相交。"
+        ],
+        "diagnostic": {
+          "prompt": "A费为10+2n，B费为3n，n为正整数。A严格更便宜需什么条件？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "n≥10",
+              "feedback": "n=10时只是相等，不满足严格更便宜。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "n>10，因此最少11次",
+              "feedback": "对，解10+2n<3n后再用整数条件。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "n<10",
+              "feedback": "把比较方向反了；代入n=1可检查。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "先比较相同n的两个费用，再处理严格符号和整数约束。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "写出A−B，差小于0表示A更便宜。"
+          },
+          {
+            "level": 2,
+            "text": "求相等点后检查两侧；若输入是整数，最小可行值可能在交点之后。"
+          },
+          {
+            "level": 3,
+            "text": "y=2x+1与z=2x+4的差恒为−3，永不相交。若两斜率不同，先解交点，再结合允许的输入范围讨论。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "A=15+2n元，B=5n元，n为正整数。A严格更便宜至少购买几次？",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "6",
+          "verify": "15/(5-2)+1",
+          "explanation": "15<3n，所以n>5，最小整数6。"
+        },
+        "followup_task_ids": [
+          "linear_function_representations:practice-7",
+          "linear_function_representations:transfer-1",
+          "linear_function_representations:delayed-6"
+        ]
+      }
+    ]
+  }
 }

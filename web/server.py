@@ -1,6 +1,7 @@
 """极简本地 Web 服务：把诊断引擎接到浏览器上。
 
-只依赖标准库。默认只绑定 127.0.0.1，不对外网开放。
+本地服务；完整备份使用 requirements.txt 中的 cryptography。
+默认只绑定 127.0.0.1，不对外网开放。
 
     python web/server.py            # http://127.0.0.1:8765
     python web/server.py --port 9000
@@ -35,19 +36,28 @@ STATIC = pathlib.Path(__file__).resolve().parent / "static"
 DATA = ROOT / "data"
 sys.path.insert(0, str(ROOT))
 
-from cnkg import engine, learning, evidence, learning_store, projects, session_content, portfolio, planner  # noqa: E402
+from cnkg import engine, learning, evidence, learning_store, projects, session_content, portfolio, planner, instruction, profile_recovery  # noqa: E402
 from cnkg import catalog as catalog_module  # noqa: E402
 from cnkg.graph import VOLUME_ORDER, load_graph  # noqa: E402
 from cnkg.verify import compare, compare_short, to_number, to_fraction, normalize_text  # noqa: E402
 from cnkg.answers import grade_answer  # noqa: E402
 from cnkg.review_timing import interval_context  # noqa: E402
+from cnkg import manipulatives  # noqa: E402
+from cnkg.content_repository import ContentRepository  # noqa: E402
+from cnkg.runtime_version import freeze_grader  # noqa: E402
+
+# This process runs the imported grading functions until it is restarted.
+# Freeze eagerly; the first new session may arrive after files have changed.
+_UNIT_GRADER_RUNTIME = freeze_grader("unit")
+_TOPIC_GRADER_RUNTIME = freeze_grader("topic")
 
 # 外部题（真题源）默认不加载。
 # 可选题库的实际准入量由当前证据策略决定；题量不等于独立学科审核。
 # 教学场景要开，显式设 CNKG_INCLUDE_EXTERNAL=1。
 # 开关用环境变量而不是命令行参数，方便后台启动时控制。
 _INCLUDE_EXTERNAL = os.environ.get("CNKG_INCLUDE_EXTERNAL", "0") == "1"
-GRAPH = load_graph(include_external=_INCLUDE_EXTERNAL)
+_CONTENT = ContentRepository(DATA, include_external=_INCLUDE_EXTERNAL)
+GRAPH = _CONTENT.graph
 # 出题轮转计数器：每建一个会话 +1，让同一知识点的后续诊断抽到不同的题。
 # 不用随机数——同一组参数要可复现，诊断记录要可审计。
 _SESSION_COUNTER = 0
@@ -55,11 +65,15 @@ _STORE = None
 _OWNER_COOKIE = "cnkg_owner"
 _OWNER_PATTERN = re.compile(r"[0-9a-f]{64}\Z")
 _SESSION_LOCK = threading.RLock()
+_REQUEST_CONTEXT = threading.local()
 _UNIT_CACHE = None
 _PROJECT_CACHE = None
 _CATALOG_CACHE = None
 ALLOWED_STATIC = {"index.html", "app.js", "style.css", "review.html", "math.js",
-                  "ext.html", "ext-data.json", "work.js"}
+                  "ext.html", "ext-data.json", "work.js", "support.js", "profile.js", "manipulatives.js"}
+_STATIC_SNAPSHOTS = {name: (STATIC / name).read_bytes() for name in ALLOWED_STATIC
+                     if (STATIC / name).is_file()}
+_STATIC_SNAPSHOTS["manipulatives.js"] = manipulatives.renderer_bytes()
 # 第三方静态资源只允许这个子目录，避免把整个磁盘暴露出去
 ALLOWED_PREFIX = "vendor/"
 ALLOWED_DIAGRAM_PREFIX = "diagrams/"
@@ -105,7 +119,8 @@ def public_question(question: dict) -> dict:
         "difficulty": question.get("difficulty"),
         "type": question.get("type"),
         "prompt": question["prompt"],
-        "choices": question.get("choices"),
+        "choices": [{k: choice[k] for k in ("id", "text") if k in choice}
+                    for choice in question.get("choices") or []] if question.get("choices") is not None else None,
     }
     for key in ("objective_ids", "phase", "diagram", "answer_spec"):
         if key in question:
@@ -135,36 +150,17 @@ def item_payload(item) -> dict | None:
     }
 
 
-_CHALLENGE_CACHE: dict | None = None
-
-
-def _challenge_pool() -> dict:
-    """挑战题（TAL 竞赛题）：按 links.json 的点→id 索引取正文。懒加载并缓存。"""
-    global _CHALLENGE_CACHE
-    if _CHALLENGE_CACHE is not None:
-        return _CHALLENGE_CACHE
-    items_path = DATA / "challenge" / "tal.json"
-    links_path = DATA / "challenge" / "links.json"
-    if not (items_path.is_file() and links_path.is_file()):
-        _CHALLENGE_CACHE = {"items": {}, "links": {}}
-        return _CHALLENGE_CACHE
-    items = json.loads(items_path.read_text(encoding="utf-8"))["items"]
-    links = json.loads(links_path.read_text(encoding="utf-8"))["samples"]
-    _CHALLENGE_CACHE = {"items": {x["id"]: x for x in items}, "links": links}
-    return _CHALLENGE_CACHE
-
-
 def learning_units() -> dict:
     global _UNIT_CACHE
     if _UNIT_CACHE is None:
-        _UNIT_CACHE = learning.load_units(DATA)
+        _UNIT_CACHE = copy.deepcopy(_CONTENT.units)
     return _UNIT_CACHE
 
 
 def learning_projects() -> dict:
     global _PROJECT_CACHE
     if _PROJECT_CACHE is None:
-        _PROJECT_CACHE = projects.load_projects(DATA)
+        _PROJECT_CACHE = copy.deepcopy(_CONTENT.projects)
     return _PROJECT_CACHE
 
 
@@ -183,17 +179,8 @@ def build_teach(topic_id: str) -> dict | None:
     if topic is None:
         return None
     tier = GRAPH.tiers.get(topic_id) or {}
-    path = DATA / "teach" / f"{topic_id}.json"
-    mode, card = "none", {}
-    if path.is_file():
-        card = json.loads(path.read_text(encoding="utf-8"))
-        mode = "full"
-    else:
-        group = tier.get("reference_group") or tier.get("brief_group")
-        brief = DATA / "teach" / "clusters" / f"{group}.json"
-        if group and brief.is_file():
-            card = json.loads(brief.read_text(encoding="utf-8"))
-            mode = "brief"
+    group = tier.get("reference_group") or tier.get("brief_group")
+    mode, card = _CONTENT.topic_card(topic_id, group)
     pool = GRAPH.practice_bank.get(topic_id, [])
     return {
         **card, "topicId": topic_id, "mode": mode, "tier": tier.get("tier"),
@@ -215,16 +202,35 @@ def _now() -> str:
 
 def get_store():
     global _STORE
+    requested_store = getattr(_REQUEST_CONTEXT, "store", None)
+    if requested_store is not None:
+        return requested_store
     if _STORE is None:
         _STORE = learning_store.LearningStore()
     return _STORE
 
 
+def get_profile():
+    store = get_store()
+    service = getattr(store, "_profile_service", None)
+    if service is None:
+        service = profile_recovery.ProfileRecovery(store)
+        store._profile_service = service
+    return service
+
+
 def get_catalog():
     global _CATALOG_CACHE
     if _CATALOG_CACHE is None:
-        _CATALOG_CACHE = catalog_module.load_catalog(DATA)
+        _CATALOG_CACHE = _CONTENT.catalog
     return _CATALOG_CACHE
+
+
+def unit_assets(unit):
+    if unit == _CONTENT.units.get(unit.get("id")):
+        return _CONTENT.assets_for([unit, *unit["tasks"]])
+    # Explicit in-process test fixtures can supply their own local assets.
+    return session_content.unit_assets(unit)
 
 
 def task_metadata(question):
@@ -232,7 +238,8 @@ def task_metadata(question):
     if task and task.get("prompt") != question.get("prompt"):
         task = {}
     return {key: copy.deepcopy(task[key]) for key in
-            ("resource_version", "skill_ids", "family_id", "family_status", "alignment", "answer_spec")
+            ("resource_version", "skill_ids", "family_id", "family_status", "alignment", "answer_spec",
+             "representation", "purpose", "topic_ids")
             if key in task}
 
 
@@ -266,9 +273,7 @@ def graph_version():
     # 数据与推断规则共同决定一次诊断的含义；不能用升级后的图悄悄继续旧会话。
     cached = getattr(GRAPH, "_web_content_version", None)
     if cached is None:
-        sources = {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
-                   for name in ("cnkg/engine.py", "cnkg/graph.py", "cnkg/evidence.py", "cnkg/verify.py",
-                                "cnkg/answers.py", "cnkg/contracts.py", "schema/answer-spec.schema.json")}
+        sources = dict(_TOPIC_GRADER_RUNTIME.source_hashes)
         cached = _hash({"topics": GRAPH.topics, "dependencies": GRAPH.dependencies,
                         "questions": GRAPH.questions, "tiers": GRAPH.tiers, "runtime": sources})
         GRAPH._web_content_version = cached
@@ -276,15 +281,11 @@ def graph_version():
 
 
 def unit_grader_version():
-    return _hash({name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
-                  for name in ("cnkg/learning.py", "cnkg/verify.py", "cnkg/answers.py",
-                               "cnkg/contracts.py", "schema/answer-spec.schema.json")})
+    return _UNIT_GRADER_RUNTIME.version
 
 
 def topic_grader_version():
-    return _hash({name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
-                  for name in ("cnkg/engine.py", "cnkg/graph.py", "cnkg/evidence.py", "cnkg/verify.py",
-                               "cnkg/answers.py", "cnkg/contracts.py", "schema/answer-spec.schema.json")})
+    return _TOPIC_GRADER_RUNTIME.version
 
 
 def session_graph(record):
@@ -391,7 +392,11 @@ def _release_feedback(record, question_ids, events):
 def session_summary(record: dict) -> dict:
     if record.get("summary_snapshot"):
         return copy.deepcopy(record["summary_snapshot"])
-    if record["kind"] == "topic":
+    if record["kind"] == "support":
+        summary = {"kind": "support", "title": record["title"], "asked_count": len(record["answers"]),
+                   "independent_evidence": False, "incomplete": not bool(record.get("completed_at")),
+                   "notice": "有帮助的练习与确认，不能据此声明独立掌握。"}
+    elif record["kind"] == "topic":
         summary = engine.summarize(session_graph(record), record["engine"])
         summary["title"] = "本次练习" if record["mode"] == "practice" else "本次检查"
     else:
@@ -430,6 +435,8 @@ def _freeze_result(record):
 def _version_problem(record):
     if record.get("completed_at"):
         return None
+    if record["kind"] == "support":
+        return instruction.version_problem(record)
     if record.get("metadata_sha256") and _hash(record.get("task_metadata", {})) != record["metadata_sha256"]:
         return "保存的任务契约校验失败。原记录保留，本题尚未计分。"
     if record["kind"] == "topic":
@@ -454,6 +461,8 @@ def _version_problem(record):
 
 
 def session_payload(record: dict) -> dict:
+    if record["kind"] == "support":
+        return instruction.public_session(record)
     item = session_item(record)
     done = item is None
     response = {"session": {"id": record["id"], "kind": record["kind"],
@@ -495,6 +504,7 @@ def history_entry(record):
             "created_at": record["created_at"], "completed_at": record.get("completed_at"),
             "answered_count": len(record["answers"]), "content_sha256": record["content_sha256"],
             "grader_sha256": record.get("grader_sha256"),
+            "selection_basis": copy.deepcopy(record.get("selection_basis")),
             "resource_version": record.get("resource_version", record["content_sha256"]),
             "context": copy.deepcopy(record["context"]), "resume_blocked": bool(_version_problem(record))}
 
@@ -717,6 +727,16 @@ def export_works(owner):
 class Handler(BaseHTTPRequestHandler):
     server_version = "cnkg/0.1"
 
+    def setup(self):
+        super().setup()
+        _REQUEST_CONTEXT.store = getattr(self.server, "learning_store", None)
+
+    def finish(self):
+        try:
+            super().finish()
+        finally:
+            _REQUEST_CONTEXT.store = None
+
     def log_message(self, fmt, *args):  # 安静一点
         sys.stderr.write("[web] " + fmt % args + "\n")
 
@@ -746,13 +766,22 @@ class Handler(BaseHTTPRequestHandler):
         except Exception:
             cookies = SimpleCookie()
         token = cookies.get(_OWNER_COOKIE)
-        owner = token.value if token else ""
-        if not _OWNER_PATTERN.fullmatch(owner):
+        owner = get_profile().resolve_owner(token.value if token else "")
+        if not owner:
             owner = secrets.token_hex(32)
             self._pending_owner_cookie = (f"{_OWNER_COOKIE}={owner}; Path=/; HttpOnly; "
                                           "SameSite=Strict; Max-Age=31536000")
         self._owner_id = owner
         return owner
+
+    def _profile_response(self, result):
+        result = copy.deepcopy(result)
+        token = result.pop("cookie_token", None)
+        if token:
+            self._pending_owner_cookie = (f"{_OWNER_COOKIE}={token}; Path=/; HttpOnly; "
+                                          "SameSite=Strict; Max-Age=31536000")
+            self._owner_id = get_profile().resolve_owner(token)
+        return self._json(200, result)
 
     def _material(self, resource_id, content_sha256):
         get_store().add_event(self._owner(), {"event_type": "material_requested",
@@ -801,15 +830,17 @@ class Handler(BaseHTTPRequestHandler):
             if (metadata := presented_metadata(record, qid)).get("family_status") == "declared"
             and metadata.get("family_id")})
         get_store().add_event(self._owner(), {"event_type": event_type, "occurred_at": _now(),
-            "resource_id": record.get("unit_id"), "content_sha256": record.get("resource_version", record["content_sha256"]),
+            "resource_id": record.get("unit_id") or ("unit:" + record["source_origin"]["unit_id"] if record["kind"] == "support" else None), "content_sha256": record.get("resource_version", record["content_sha256"]),
             "payload": {"task_ids": shown, "family_ids": families,
                         "evidence": "saved_content_provided_again_not_proof_of_reading"}}, session_id=record["id"])
 
     def _session_response_exposure(self, record, response):
         shown = [entry["question_id"] for entry in response.get("summary", {}).get("answers", [])]
         shown += [entry["question_id"] for entry in response.get("saved_answers", [])]
+        if record["kind"] == "support":
+            shown += [entry["question_id"] for entry in response.get("answers", [])]
         if response.get("item"):
-            shown.append(response["item"]["question"]["id"])
+            shown.append(response["item"]["id"] if record["kind"] == "support" else response["item"]["question"]["id"])
         self._provided_tasks(record, shown)
 
     def do_GET(self):  # noqa: N802
@@ -820,6 +851,21 @@ class Handler(BaseHTTPRequestHandler):
             return self._static("index.html")
         if path.startswith("/static/"):
             return self._static(urllib.parse.unquote(path[len("/static/"):]))
+        if path == "/api/profile":
+            return self._json(200, get_profile().status(self._owner()))
+        if path == "/api/quality-scope":
+            return self._json(200, _CONTENT.scope_report)
+        if path == "/api/manipulative":
+            uid = params.get("unit_id")
+            if uid not in manipulatives.CONFIG:
+                return self._error(404, "操作表征不存在")
+            version = get_catalog().units[uid]["resource_version"]
+            representation_version = manipulatives.representation_version(uid)
+            saved = get_store().latest_resource_event(self._owner(), "unit:" + uid, "manipulation_saved")
+            return self._json(200, {"saved": saved, "resource_version": version,
+                "representation_version": representation_version,
+                "same_version": bool(saved and saved["content_sha256"] == version
+                    and saved["payload"].get("representation_version") == representation_version)})
         if path == "/api/learning/units":
             return self._json(200, {"units": [unit_summary(u) for u in learning_units().values()]})
         if path == "/api/projects":
@@ -837,14 +883,19 @@ class Handler(BaseHTTPRequestHandler):
             unit = learning_units().get(uid)
             if unit is None:
                 return self._error(404, "学习单元不存在")
-            self._material("unit:" + uid, learning.unit_content_sha256(unit))
+            unit_digest = session_content.unit_hash(unit, unit_assets(unit))
+            self._material("unit:" + uid, unit_digest)
             teaching = learning.public_unit(unit)
+            teaching["content_sha256"] = unit_digest
             # 教学页保留例题；各评价阶段的题面仅在会话中逐题呈现。
             teaching.pop("tasks", None)
             teaching["task_counts"] = unit_summary(unit)["task_counts"]
             teaching["prerequisite_unit_ids"] = unit.get("prerequisite_unit_ids", [])
             teaching["objectives"] = copy.deepcopy(unit["objectives"])
+            teaching["instructional_support"] = instruction.support_index(unit)
             teaching["resource_version"] = get_catalog().units.get(uid, {}).get("resource_version", teaching["content_sha256"])
+            if uid in manipulatives.CONFIG:
+                teaching["manipulative"] = manipulatives.public_config(uid)
             return self._json(200, teaching)
         if path.startswith("/api/session/"):
             asset = re.fullmatch(r"/api/session/([0-9a-f]{32})/assets/([^/]+)", path)
@@ -884,12 +935,13 @@ class Handler(BaseHTTPRequestHandler):
             if stage not in (None, "primary", "junior", "senior"):
                 return self._error(400, "学段不正确")
             owner = self._owner()
-            scopes = get_store().latest_scope_records(owner)
+            scopes = get_store().planning_records(owner)
             for scope in scopes:
                 if not scope.get("completed_at"):
                     saved = get_store().load(scope["id"], owner)
                     scope["resume_blocked"] = bool(_version_problem(saved))
-            return self._json(200, planner.plan(get_catalog(), scopes, get_store().works(owner, limit=None), stage=stage))
+            return self._json(200, planner.plan(get_catalog(), scopes, get_store().works(owner, limit=None),
+                need_states=get_store().need_states(owner), exposures=get_store().exposures(owner), stage=stage))
         if path in ("/api/work", "/api/works", "/api/work/revisions"):
             owner = self._owner()
             try:
@@ -951,10 +1003,15 @@ class Handler(BaseHTTPRequestHandler):
         target = (STATIC / name).resolve()
         root = STATIC.resolve()
         # 解析后必须仍在 static/ 内，挡住 ../ 与符号链接逃逸
-        if root not in target.parents or not target.is_file():
+        if root not in target.parents:
             return self._error(404, "not found")
         ext = name.rsplit(".", 1)[-1].lower()
-        self._send(200, target.read_bytes(), CONTENT_TYPES.get(ext, "application/octet-stream"))
+        frozen = _STATIC_SNAPSHOTS.get(name)
+        if frozen is None:
+            frozen = _CONTENT.asset_bytes("/static/" + name)
+        if frozen is None and not target.is_file():
+            return self._error(404, "not found")
+        self._send(200, frozen if frozen is not None else target.read_bytes(), CONTENT_TYPES.get(ext, "application/octet-stream"))
 
     def do_POST(self):  # noqa: N802
         path = urllib.parse.urlparse(self.path).path
@@ -962,7 +1019,8 @@ class Handler(BaseHTTPRequestHandler):
             length = int(self.headers.get("Content-Length") or 0)
         except ValueError:
             return self._error(400, "请求长度不合法")
-        if length < 0 or length > 1_000_000:
+        maximum = profile_recovery.MAX_ENVELOPE_BYTES + 4096 if path == "/api/profile/restore" else 1_000_000
+        if length < 0 or length > maximum:
             return self._error(413, "请求过大")
         try:
             payload = json.loads(self.rfile.read(length) or b"{}")
@@ -972,6 +1030,70 @@ class Handler(BaseHTTPRequestHandler):
             return self._error(400, "请求必须是 JSON 对象")
         with _SESSION_LOCK:
             try:
+                if path == "/api/profile/enable":
+                    return self._profile_response(get_profile().enable(self._owner(), payload.get("label", "我的学习档案")))
+                if path == "/api/profile/rotate":
+                    return self._profile_response(get_profile().rotate(self._owner()))
+                if path == "/api/profile/recover":
+                    return self._profile_response(get_profile().recover(payload.get("recovery_code")))
+                if path == "/api/profile/backup":
+                    return self._json(200, get_profile().backup(self._owner(), payload.get("recovery_code")))
+                if path == "/api/profile/restore":
+                    return self._profile_response(get_profile().restore(payload.get("envelope"), payload.get("recovery_code")))
+                if path == "/api/learning-needs/state":
+                    return self._json(200, get_store().set_need_state(self._owner(), payload.get("need_id"),
+                        payload.get("action"), payload.get("reason")))
+                if path == "/api/manipulative":
+                    uid = payload.get("unit_id")
+                    manip_state = manipulatives.validate_state(uid, payload.get("state"))
+                    version = get_catalog().units[uid]["resource_version"]
+                    if (payload.get("resource_version") != version or payload.get("representation_version")
+                            != manipulatives.representation_version(uid)):
+                        return self._error(409, "材料或操作表征版本已改变，请保留当前解释后重新打开单元")
+                    reflection = payload.get("reflection", "")
+                    if not isinstance(reflection, str) or len(reflection) > 2000:
+                        return self._error(400, "解释须为不超过2000字的文字")
+                    event = {"event_type": "manipulation_saved", "occurred_at": _now(), "resource_id": "unit:" + uid,
+                        "content_sha256": version, "payload": {"state": manip_state, "reflection": reflection,
+                            "objective_ids": manipulatives.CONFIG[uid]["objective_ids"], "independent_evidence": False,
+                            "representation_version": manipulatives.representation_version(uid),
+                            "representation_snapshot": manipulatives.snapshot(uid),
+                            "evidence": "learner_saved_operation_not_correctness"}}
+                    get_store().add_event(self._owner(), event)
+                    get_store().add_event(self._owner(), {**event, "event_type": "reference_opened",
+                        "payload": {"family_ids": get_catalog().materials["unit:" + uid]["family_ids"],
+                            "task_ids": [], "evidence": "interactive_representation_used_not_mastery"}})
+                    return self._json(200, {"saved": True})
+                if path == "/api/support/start":
+                    owner = self._owner()
+                    unit = learning_units().get(payload.get("unit_id"))
+                    if not unit:
+                        return self._error(404, "学习单元不存在")
+                    need_ids = payload.get("need_ids", [])
+                    if not isinstance(need_ids, list) or not all(isinstance(n, str) for n in need_ids) or len(need_ids) != len(set(need_ids)):
+                        return self._error(400, "学习事项须为无重复的标识列表")
+                    from cnkg.learning_needs import derive_needs
+                    known = {n["need_id"]: n for n in derive_needs(get_catalog(), get_store().planning_records(owner),
+                        get_store().works(owner, limit=None), get_store().need_states(owner))}
+                    if any(n not in known for n in need_ids):
+                        return self._error(404, "学习事项不存在或不属于当前档案")
+                    record, events = instruction.create(unit, payload.get("support_id"), owner, get_catalog(),
+                        get_store().exposures(owner), [known[n] for n in need_ids], _now(),
+                        assets=unit_assets(unit))
+                    get_store().save(record, events)
+                    return self._json(200, instruction.public_session(record))
+                if path in ("/api/support/answer", "/api/support/hint"):
+                    record = get_store().load(payload.get("session_id"), self._owner())
+                    if not record or record["kind"] != "support":
+                        return self._error(404, "指导活动不存在或不属于当前档案")
+                    if path.endswith("/hint"):
+                        feedback, events = instruction.hint(record, payload.get("level"), _now())
+                    else:
+                        feedback, events = instruction.answer(record, payload.get("question_id"),
+                            payload.get("answer", ""), _now(), payload.get("skipped") is True)
+                    if events:
+                        get_store().save(record, events)
+                    return self._json(200, {**instruction.public_session(record), "feedback": feedback})
                 if path == "/api/session":
                     return self._create_session(payload)
                 if path == "/api/answer":
@@ -1022,12 +1144,14 @@ class Handler(BaseHTTPRequestHandler):
                         "payload": {"family_ids": family_ids, "task_ids": task_ids, "reference_key": reference,
                                     "evidence": "client_reported_open_not_proof_of_understanding"}})
                     return self._json(200, {"recorded": True})
-            except learning_store.ConflictError as exc:
+            except (learning_store.ConflictError, profile_recovery.ProfileConflictError) as exc:
                 return self._error(409, str(exc))
             except KeyError:
                 return self._error(404, "学习资源不存在或不属于本浏览器")
             except ValueError as exc:
                 return self._error(400, str(exc))
+            except profile_recovery.ProfileDependencyError as exc:
+                return self._error(503, str(exc))
         return self._error(404, "not found")
 
     def _create_session(self, payload):
@@ -1058,12 +1182,25 @@ class Handler(BaseHTTPRequestHandler):
             if unit is None or mode not in ("practice", "transfer", "delayed"):
                 return self._error(400, "学习单元或练习阶段不合法")
             task_ids = [t["id"] for t in unit["tasks"] if t["phase"] == mode]
+            focus = payload.get("focus_skill_ids", [])
+            if not isinstance(focus, list) or not all(isinstance(sid, str) for sid in focus) or len(focus) != len(set(focus)):
+                return self._error(400, "目标技能须为无重复的标识列表")
+            if focus:
+                if not set(focus).issubset(get_catalog().units.get(unit["id"], {}).get("skill_ids", [])):
+                    return self._error(400, "所选技能不属于这个单元")
+                from cnkg.learning_needs import task_options
+                selected = task_options(get_catalog(), focus, get_store().planning_records(owner),
+                    get_store().exposures(owner), allowed_task_ids=set(task_ids), limit=None)
+                task_ids = [option["task_id"] for option in selected]
+                record["selection_basis"] = {"focus_skill_ids": focus, "task_options": selected,
+                    "notice": "仅按显式目标筛选，再按题族、表征及参考帮助曝光排序；间隔由实际记录另行计算。"}
+                record["context"]["focus_skill_ids"] = list(focus)
             if not task_ids:
                 return self._error(409, "这个阶段还没有可用任务")
             record.update(kind="unit", unit_id=unit["id"], title=unit["title"],
                           unit_snapshot=copy.deepcopy(unit), task_ids=task_ids, index=0,
-                          content_sha256=learning.unit_content_sha256(unit),
-                          asset_snapshots=session_content.unit_assets(unit),
+                          content_sha256=session_content.unit_hash(unit, unit_assets(unit)),
+                          asset_snapshots=unit_assets(unit),
                           resource_version=get_catalog().units.get(unit["id"], {}).get("resource_version", learning.unit_content_sha256(unit)),
                           grader_sha256=unit_grader_version())
             record["task_metadata"] = {q["id"]: task_metadata(q) for q in unit["tasks"]}
@@ -1097,7 +1234,8 @@ class Handler(BaseHTTPRequestHandler):
                         "code": "no_fresh_tasks", "availability": available,
                         "next_action": {"targets": session["targets"], "mode": "practice"}})
                 session["seen"] = sorted(excluded)
-            frozen_graph = session_content.graph_snapshot(GRAPH, session["targets"])
+            frozen_graph = session_content.graph_snapshot(GRAPH, session["targets"],
+                assets=_CONTENT.assets_for(GRAPH.questions) if GRAPH is _CONTENT.graph else None)
             local_graph = session_content.restore_graph(frozen_graph)
             engine.next_item(local_graph, session)
             record.update(kind="topic", engine=session, graph_snapshot=frozen_graph,
@@ -1145,6 +1283,8 @@ class Handler(BaseHTTPRequestHandler):
         record = get_store().load(sid, self._owner()) if isinstance(sid, str) else None
         if record is None:
             return self._error(404, "会话不存在或不属于本浏览器，请重新开始")
+        if record["kind"] == "support":
+            return self._error(400, "指导活动请使用专用的支持任务入口")
         skipped = payload.get("skip") is True
         raw = payload.get("answer")
         if not skipped and (not isinstance(raw, str) or not raw.strip() or len(raw) > 8000):
@@ -1241,7 +1381,8 @@ def main():
     args = parser.parse_args()
 
     httpd = ThreadingHTTPServer((args.host, args.port), Handler)
-    print(f"服务已启动：http://{args.host}:{args.port}")
+    httpd.learning_store = learning_store.LearningStore()
+    print(f"服务已启动：http://{args.host}:{httpd.server_port}")
     print("按 Ctrl+C 停止")
     try:
         httpd.serve_forever()

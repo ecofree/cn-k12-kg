@@ -72,7 +72,16 @@ def check_project(project, outline=None, standards=None):
     refs = project.get('outline_refs')
     known = {(a['book_id'], a['title']): a for a in outline_activities(outline)} if outline is not None else None
     seen = set()
-    if not isinstance(refs, list) or not refs:
+    supplement = project.get('coverage_kind') == 'curriculum_supplement'
+    if project.get('coverage_kind', 'outline_activity') not in ('outline_activity', 'curriculum_supplement'):
+        errors.append('coverage_kind 必须明确为目录活动或课程补充')
+    if supplement:
+        if refs != [] or not _texts(project.get('topic_ids')):
+            errors.append('课程补充须提供真实 topic_ids，outline_refs 应为空，不能冒充教材原活动')
+        provenance = project.get('provenance', {})
+        if provenance.get('outline_used_for') != 'topic_navigation_only':
+            errors.append('课程补充须明确目录仅用于主题导航')
+    if not isinstance(refs, list) or (not refs and not supplement):
         errors.append('outline_refs 必须关联原目录的实际活动')
     else:
         for ref in refs:
@@ -179,6 +188,9 @@ def load_projects(data_dir=None):
             errors.append(f'{path.name}: {exc}')
             continue
         problems = check_project(project, outline, standards)
+        if project.get('coverage_kind') == 'curriculum_supplement':
+            topics = {t['id'] for t in json.loads((data / 'topics.json').read_text(encoding='utf-8'))}
+            problems.extend(f'不存在教材主题 {tid}' for tid in project.get('topic_ids', []) if tid not in topics)
         errors.extend(f'{path.name}: {e}' for e in problems)
         if problems:
             continue

@@ -644,6 +644,41 @@
           "example": "两边6米，周长24米，面积单位平方米。"
         }
       ]
+    },
+    {
+      "id": "derivative_monotonicity:transfer-6",
+      "objective_ids": [
+        "derivative_monotonicity:o3",
+        "derivative_monotonicity:boundary_maximum",
+        "derivative_monotonicity:domain_split"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "某长方形模型的面积为A(x)=x(8−x)平方米，施工条件只允许1≤x≤3（米）。小林求得A′(x)=0时x=4，就报告最大面积16平方米。指出问题，在允许范围内求真正最大面积，并说明为何没有漏掉候选点。",
+      "explanation": "x=4不在施工允许范围。对1≤x≤3，A′(x)=8−2x>0，面积持续增加；比较端点A(1)=7、A(3)=15，允许范围内最大15平方米，在x=3处取得。实际约束不能被代数驻点替代。",
+      "feedback": {
+        "correct": "请核对过程、条件和单位；本次表现只对应本题观察到的部分。",
+        "incorrect": "把允许区间画在数轴上，先排除区间外的驻点，再检查内部变化和两个端点。"
+      },
+      "family_id": "derivative.closed-interval-extrema",
+      "variant_id": "derivative_monotonicity:transfer-6",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "rubric": [
+        {
+          "criterion": "使用真实定义域筛选候选",
+          "points": 1,
+          "example": "x=4不满足1≤x≤3，不能采用。"
+        },
+        {
+          "criterion": "用导数与端点给出充分依据",
+          "points": 2,
+          "example": "区间内A′>0，无内部驻点，A(1)=7、A(3)=15，因此最大15平方米。"
+        }
+      ],
+      "answer_spec": {
+        "kind": "rubric"
+      }
     }
   ],
   "teacher_review": {
@@ -655,5 +690,658 @@
     "mh1.2.3"
   ],
   "prerequisite_unit_ids": [],
-  "prerequisite_objective_ids": []
+  "prerequisite_objective_ids": [],
+  "instructional_support": {
+    "schema": 1,
+    "supports": [
+      {
+        "id": "derivative_monotonicity:support:o1",
+        "objective_id": "derivative_monotonicity:o1",
+        "title": "先画定义域，再放分界点",
+        "observation_note": "复合目标先检查定义域空缺；导数零点、符号表和区间结论另需完整过程。",
+        "hypotheses": [
+          "可能只求导数零点而漏掉函数无定义点。",
+          "可能把导数无定义误认为函数也无定义。"
+        ],
+        "diagnostic": {
+          "prompt": "f(x)=1/(x−1)，f′(x)=−1/(x−1)²。研究单调性应怎样分段？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "没有导数零点，因此不分段",
+              "feedback": "x=1不在函数定义域，必须在这里断开。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "分成(−∞,1)和(1,+∞)",
+              "feedback": "对，先处理定义域空缺，再分别看导数符号。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "把x=1作为函数的极值点",
+              "feedback": "函数在1处不存在，不能说该点取得极值。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "定义域是除1外的实数，导数在两个区间均为负。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先独立求函数定义域，标空点和允许端点。"
+          },
+          {
+            "level": 2,
+            "text": "再在定义域内找导数为0或不存在的位置，以这些点划分开区间。"
+          },
+          {
+            "level": 3,
+            "text": "f(x)=|x|在0有定义但不可导，需要检查0附近函数值；1/x在0无定义，0只能分隔区间，不能作为极值取值点。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "只研究x>0的f(x)=x+1/x，f′=1−1/x²。需要在定义域内部新增哪个分界点？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "−1和1"
+            },
+            {
+              "id": "B",
+              "text": "1"
+            },
+            {
+              "id": "C",
+              "text": "0"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "导数零点为±1，但−1不在研究范围；0是已排除的边界。"
+        },
+        "followup_task_ids": [
+          "derivative_monotonicity:practice-1",
+          "derivative_monotonicity:transfer-1",
+          "derivative_monotonicity:delayed-1"
+        ]
+      },
+      {
+        "id": "derivative_monotonicity:support:o2",
+        "objective_id": "derivative_monotonicity:o2",
+        "title": "单调性结论只在合适区间内成立",
+        "observation_note": "复合目标检查不跨空缺合并；符号判定与严格性还需进一步确认。",
+        "hypotheses": [
+          "可能把各区间都递减写成整个不连通定义域递减。",
+          "可能把导数负误读为函数值负。"
+        ],
+        "diagnostic": {
+          "prompt": "f=1/x在(−∞,0)和(0,+∞)上导数都小于0。能直接说它在整个非零实数集合递减吗？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "能，只看导数符号就够",
+              "feedback": "跨过0比较−1与1，函数值从−1到1增加，不能这样合并。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "不能，应分别给出两个区间",
+              "feedback": "对，定义域空缺阻断了区间上的结论。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "不能，因为函数值有正有负",
+              "feedback": "问题不在函数值正负，而在跨空缺比较的失效。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "导数单调性判定在适当区间内使用，不能跳过缺口。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "把定义域画在数轴上，遇到函数不存在的点就断开。"
+          },
+          {
+            "level": 2,
+            "text": "每段根据f′正负写增减；若要合并，另检查跨段任意两点是否满足定义。"
+          },
+          {
+            "level": 3,
+            "text": "1/x在两段分别递减，但−1<1且f(−1)=−1<f(1)=1，直接否定“在全部非零实数上递减”。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "f在整个实数域可导，f′(x)=2x−4。哪项正确？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "函数在x<2处值都为负"
+            },
+            {
+              "id": "B",
+              "text": "在(−∞,2)递减，在(2,+∞)递增"
+            },
+            {
+              "id": "C",
+              "text": "在整个实数域递减"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "导数负说明下降，正说明上升，与函数值是否正无关。"
+        },
+        "followup_task_ids": [
+          "derivative_monotonicity:practice-2",
+          "derivative_monotonicity:transfer-1",
+          "derivative_monotonicity:delayed-1"
+        ]
+      },
+      {
+        "id": "derivative_monotonicity:support:o3",
+        "objective_id": "derivative_monotonicity:o3",
+        "title": "驻点先当候选，再看两侧变化",
+        "observation_note": "复合目标先区分驻点与极值；实际全局最值和边界需另检查。",
+        "hypotheses": [
+          "可能认为f′=0一定是极值。",
+          "可能只看一个点，未比较两侧符号或函数值。"
+        ],
+        "diagnostic": {
+          "prompt": "f(x)=x³，f′(0)=0；0两侧f′=3x²都为正。0是什么点？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "极小值点，因为导数为0",
+              "feedback": "左右都上升，没有从减到增。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "极大值点，因为曲线变平",
+              "feedback": "瞬间切线水平不意味着附近函数值都较小。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "C",
+              "text": "驻点，但不是极值点",
+              "feedback": "对，两侧仍递增。",
+              "next_hint_level": 1
+            }
+          ],
+          "answer": "C",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "驻点是候选，极值要检查邻域内的大小关系。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先列驻点，再在每个点左右各检查一个区间的符号。"
+          },
+          {
+            "level": 2,
+            "text": "连续的内点由正到负可判极大，由负到正可判极小；不变号时不可仅凭驻点定极值。"
+          },
+          {
+            "level": 3,
+            "text": "x²在0左导数负、右正，有极小值0；x³导数两侧正，没有极值。两者导数在0都为0，却结论不同。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "f=x⁴，f′=4x³。0左侧负、右侧正，且f连续。0应判断为？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "极小值点"
+            },
+            {
+              "id": "B",
+              "text": "极大值点"
+            },
+            {
+              "id": "C",
+              "text": "不是极值点"
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "函数先减后增，0附近函数值均不小于f(0)=0。"
+        },
+        "followup_task_ids": [
+          "derivative_monotonicity:practice-3",
+          "derivative_monotonicity:transfer-2",
+          "derivative_monotonicity:delayed-2"
+        ]
+      },
+      {
+        "id": "derivative_monotonicity:support:domain_split",
+        "objective_id": "derivative_monotonicity:domain_split",
+        "title": "函数有值、导数有值和端点是三件事",
+        "observation_note": "观察不可导内点是否保留为候选；闭区间端点仍需另行比较。",
+        "hypotheses": [
+          "可能只保留可导驻点。",
+          "可能把函数定义域与导数定义域完全等同。"
+        ],
+        "diagnostic": {
+          "prompt": "f=|x|在[−1,2]上求最小值，x=0不可导。应怎样处理0？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "删去0，因为导数不存在",
+              "feedback": "函数在0有定义，而且可能在此取得极值。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "把0连同端点纳入函数值检查",
+              "feedback": "对，不可导内点不能漏掉。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "直接判0无函数值",
+              "feedback": "|0|=0，函数与导数的定义情况不同。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "候选可包含导数零点、函数有定义但不可导点，以及允许端点。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "分别列函数定义域与导数定义域，不要合成一张不加区别的表。"
+          },
+          {
+            "level": 2,
+            "text": "函数有值但不可导的点，用函数值或定义判断；函数无值的点不能取得最值。"
+          },
+          {
+            "level": 3,
+            "text": "|x|在[−1,2]需比较−1、0、2，函数值1、0、2，最小在0。1/x在相同区间的0则没有函数值。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "f=√x只在[0,4]研究，0处通常导数公式1/(2√x)无定义。哪项正确？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "0属于函数定义域，求最值时应检查f(0)"
+            },
+            {
+              "id": "B",
+              "text": "0必须从函数定义域删除"
+            },
+            {
+              "id": "C",
+              "text": "只需要检查导数为0的位置"
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "端点0的函数值为0，导数无定义不妨碍它作为最值候选。"
+        },
+        "followup_task_ids": [
+          "derivative_monotonicity:practice-2",
+          "derivative_monotonicity:transfer-1",
+          "derivative_monotonicity:delayed-4"
+        ]
+      },
+      {
+        "id": "derivative_monotonicity:support:sign_chart",
+        "objective_id": "derivative_monotonicity:sign_chart",
+        "title": "乘积符号与零点重数分别看",
+        "observation_note": "观察偶重零点不必变号；一次选对仍需能填写整张区间符号表。",
+        "hypotheses": [
+          "可能每过一个零点都机械翻转符号。",
+          "可能把导函数的零点当原函数的零点。"
+        ],
+        "diagnostic": {
+          "prompt": "f′(x)=(x−2)²(x+1)。经过x=2时导数符号怎样？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "从正变负",
+              "feedback": "平方因子两侧均非负，x+1在2附近为正。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "两侧都正，2处为0",
+              "feedback": "对，偶重因子在该点不改变符号。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "两侧都负",
+              "feedback": "检查x=1和x=3，乘积均为正。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "在−1两侧由负变正；在2两侧不变号。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "把每个因子的零点按顺序放到数轴上。"
+          },
+          {
+            "level": 2,
+            "text": "逐区间检查各因子正负，再相乘；偶数次幂不因跨零点而变号。"
+          },
+          {
+            "level": 3,
+            "text": "f′=(x−1)²(x+3)：x<−3时负，−3<x<1和x>1时正。1只是导数为0，不能据此断言f(1)=0或有极值。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "f′=(x+2)(x−4)，在−2<x<4时导数的符号是？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "正"
+            },
+            {
+              "id": "B",
+              "text": "负"
+            },
+            {
+              "id": "C",
+              "text": "恒为0"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "第一因子正、第二负，乘积负；只在边界零点为0。"
+        },
+        "followup_task_ids": [
+          "derivative_monotonicity:practice-1",
+          "derivative_monotonicity:transfer-1",
+          "derivative_monotonicity:delayed-1"
+        ]
+      },
+      {
+        "id": "derivative_monotonicity:support:monotonic_intervals",
+        "objective_id": "derivative_monotonicity:monotonic_intervals",
+        "title": "非负导数允许平坦区间",
+        "observation_note": "观察严格递增与非递减的区别；孤立零点不必破坏严格递增，需看具体函数。",
+        "hypotheses": [
+          "可能把f′≥0一律写成严格递增。",
+          "可能认为只要某点导数0就不能严格递增。"
+        ],
+        "diagnostic": {
+          "prompt": "f(x)=0（x≤0），f(x)=x³（x>0）。它处处f′≥0，是否在整个实数上严格递增？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "是，导数非负足够",
+              "feedback": "取−2<−1，函数值都为0，违反严格递增。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "不是，但它非递减",
+              "feedback": "对，存在平坦区间，整体没有下降。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "不是，所以它递减",
+              "feedback": "不严格递增不等于递减，正半轴仍上升。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "严格递增要求任意x₁<x₂有f(x₁)<f(x₂)；非递减允许相等。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先确认结论中是否要求严格不等号。"
+          },
+          {
+            "level": 2,
+            "text": "f′>0给出区间严格递增的充分条件；f′≥0一般先得非递减，再查是否存在常值段。"
+          },
+          {
+            "level": 3,
+            "text": "x³虽在0处导数0，仍严格递增；上题在负半轴恒为0则不严格。不能只数导数零点，要看它们是否形成平坦段等实际结构。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "f(x)=x³在实数上，哪项正确？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "因f′(0)=0，不能严格递增"
+            },
+            {
+              "id": "B",
+              "text": "严格递增，孤立的零导数不造成平坦区间"
+            },
+            {
+              "id": "C",
+              "text": "在0处必有极值"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "对任意x₁<x₂，立方值也严格增大；驻点并不自动改变单调性。"
+        },
+        "followup_task_ids": [
+          "derivative_monotonicity:practice-1",
+          "derivative_monotonicity:transfer-1",
+          "derivative_monotonicity:delayed-1"
+        ]
+      },
+      {
+        "id": "derivative_monotonicity:support:extrema",
+        "objective_id": "derivative_monotonicity:extrema",
+        "title": "符号变化还要连上该点的函数值",
+        "observation_note": "观察不连续点套用符号规则的风险；判定必须回到附近实际函数值。",
+        "hypotheses": [
+          "可能忽略连续性直接套用负到正为极小。",
+          "可能认为不可导就不可能取得极值。"
+        ],
+        "diagnostic": {
+          "prompt": "f(x)=x²（x≠0），f(0)=10。0两侧导数负到正，0是极小值点吗？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "是，不用看f(0)",
+              "feedback": "附近x²很小，但f(0)=10，跳点改变了比较。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "不是；0附近函数值小于10，0反为局部极大",
+              "feedback": "对，需把该点函数值与邻近值比较。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "0不是函数定义域的点",
+              "feedback": "题目明确给出了f(0)=10。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "标准连续内点的符号判别不能忽略连续性；极值定义比较的是实际函数值。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先查该点有无函数值、是否连续；不要只看导数在点两旁的表达式。"
+          },
+          {
+            "level": 2,
+            "text": "若适用连续内点判别，再用两侧导数符号；否则直接找邻域比较f(x)与f(c)。"
+          },
+          {
+            "level": 3,
+            "text": "|x|在0连续但不可导，附近值均大于等于0，所以有极小值；x²在0改值为10则在足够小邻域取得局部极大。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "f连续，c左侧导数正、右侧负。c处应如何判断？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "局部极大值点"
+            },
+            {
+              "id": "B",
+              "text": "局部极小值点"
+            },
+            {
+              "id": "C",
+              "text": "只要连续就不能有极值"
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "先增后减，在该点附近函数值不超过f(c)。"
+        },
+        "followup_task_ids": [
+          "derivative_monotonicity:practice-3",
+          "derivative_monotonicity:transfer-2",
+          "derivative_monotonicity:delayed-2"
+        ]
+      },
+      {
+        "id": "derivative_monotonicity:support:boundary_maximum",
+        "objective_id": "derivative_monotonicity:boundary_maximum",
+        "title": "实际范围决定候选和是否取得",
+        "observation_note": "观察区间外驻点与允许端点；开放边界可能只有上界而无最大值。",
+        "hypotheses": [
+          "可能只求驻点而漏掉端点。",
+          "可能把不允许的边界或区间外驻点当答案。"
+        ],
+        "diagnostic": {
+          "prompt": "f(x)=−(x−4)²只研究[1,3]。驻点4在范围外，最大值应怎样找？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "直接取f(4)=0",
+              "feedback": "4不在允许区间，不能作为实际答案。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "检查区间内变化和端点，最大在3",
+              "feedback": "对，该区间f′=8−2x>0，最大值f(3)=−1。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "没有内部驻点就没有最大值",
+              "feedback": "闭区间连续函数仍可在端点取最值。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "筛选候选必须先服从真实定义域。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "把允许范围写在求导步骤之前，端点画实心或空心。"
+          },
+          {
+            "level": 2,
+            "text": "比较区间内驻点、不可导点和允许端点；用单调性排除其余位置。"
+          },
+          {
+            "level": 3,
+            "text": "f=x在[0,1]最大1并在1取得；在(0,1)上可无限接近1但不能取到，因而没有最大值。上界不等于已取得的最值。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "f(x)=x(6−x)，只允许1≤x≤2。哪个最大面积结论符合范围？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "9，在x=3"
+            },
+            {
+              "id": "B",
+              "text": "8，在x=2"
+            },
+            {
+              "id": "C",
+              "text": "无最大值"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "导数6−2x在[1,2]正，函数递增，允许端点2给8。"
+        },
+        "followup_task_ids": [
+          "derivative_monotonicity:practice-4",
+          "derivative_monotonicity:transfer-6",
+          "derivative_monotonicity:delayed-5"
+        ]
+      }
+    ]
+  }
 }

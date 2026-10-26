@@ -620,5 +620,544 @@
   "diagram": {
     "src": "/static/diagrams/common-factor-equal-cuts.svg",
     "alt": "两根绳子分别长12厘米、18厘米，在相同比例下画成2段和3段，每段6厘米；较长绳子多一段，分段单位相同。"
+  },
+  "instructional_support": {
+    "schema": 1,
+    "supports": [
+      {
+        "id": "common_factors_multiples:support:o1",
+        "objective_id": "common_factors_multiples:o1",
+        "title": "先找公有，再证明已经最大",
+        "observation_note": "复合目标短题检查公因数与最大公因数的区别；列举完整性仍需后续说明。",
+        "hypotheses": [
+          "可能找到一个公因数就停止。",
+          "可能把公倍数与公因数的整除方向颠倒。"
+        ],
+        "diagnostic": {
+          "prompt": "12与18都能被2整除。能立刻说最大公因数为2吗？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "能，2同时整除两个数",
+              "feedback": "还需排除更大的公因数，例如6。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "不能，6也同时整除两数且更大",
+              "feedback": "对，公有不等于最大。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "不能，因为2不是公因数",
+              "feedback": "2确实是公因数，问题在是否最大。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "12因数1、2、3、4、6、12；18因数1、2、3、6、9、18，公有1、2、3、6，最大6。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先说清“候选数能整除两个原数”。"
+          },
+          {
+            "level": 2,
+            "text": "分别列因数，找交集，再比较所有公因数大小。"
+          },
+          {
+            "level": 3,
+            "text": "8与12的共同因数为1、2、4，最大4。只验证2同时整除，只能证明2公有，不能证明最大。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "10与15的全部公因数和最大者是哪项？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "1、5；最大5"
+            },
+            {
+              "id": "B",
+              "text": "1、2、5；最大5"
+            },
+            {
+              "id": "C",
+              "text": "5、10、15；最大15"
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "2不整除15，10和15也不是两数共有因数。"
+        },
+        "followup_task_ids": [
+          "common_factors_multiples:practice-1",
+          "common_factors_multiples:transfer-1",
+          "common_factors_multiples:delayed-1"
+        ]
+      },
+      {
+        "id": "common_factors_multiples:support:o2",
+        "objective_id": "common_factors_multiples:o2",
+        "title": "在正公倍数中找第一个",
+        "observation_note": "复合目标先检查排除0和最小性；倍数捷径与应用条件仍需后续任务。",
+        "hypotheses": [
+          "可能把0当最小公倍数。",
+          "可能把两数乘积一律当最小公倍数。"
+        ],
+        "diagnostic": {
+          "prompt": "求6与8的最小公倍数，哪条理由充分？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "0是两数倍数，所以选0",
+              "feedback": "本单元最小公倍数指最小正公倍数，排除0。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "6×8=48，所以一定最小",
+              "feedback": "48是公倍数，但24更小。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "C",
+              "text": "正倍数表中首个公共数为24",
+              "feedback": "对，6、12、18、24与8、16、24在24首次相遇。",
+              "next_hint_level": 1
+            }
+          ],
+          "answer": "C",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "公倍数须是两数的整数倍；最小性需排除更小的正公共值。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "把倍数从第一正倍数开始列，不从0选答案。"
+          },
+          {
+            "level": 2,
+            "text": "找两列第一个共同数，并检查它被两原数都整除。"
+          },
+          {
+            "level": 3,
+            "text": "4与10的乘积40是公倍数，但20也是并且更小；列4、8、12、16、20和10、20可确认最小20。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "求5与15的最小正公倍数。",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "15",
+          "verify": "15",
+          "explanation": "15本来就是5的倍数；正公倍数不可能小于15的第一个正倍数15。"
+        },
+        "followup_task_ids": [
+          "common_factors_multiples:practice-2",
+          "common_factors_multiples:transfer-2",
+          "common_factors_multiples:delayed-2"
+        ]
+      },
+      {
+        "id": "common_factors_multiples:support:o3",
+        "objective_id": "common_factors_multiples:o3",
+        "title": "整分单位和同步周期用相反的整除方向",
+        "observation_note": "复合目标短题区分模型；约分、通分和周期起点条件仍需后续确认。",
+        "hypotheses": [
+          "可能听到“最”就机械选择最小公倍数。",
+          "可能忽略共同周期需要起点与规则一致。"
+        ],
+        "diagnostic": {
+          "prompt": "两根长12厘米和20厘米的绳子，要剪成一样长的整厘米小段、不剩余，求最长段。需要哪种数？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "能同时整除12和20的最大正整数",
+              "feedback": "对，段长必须是两根长度的公因数。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "B",
+              "text": "12与20的最小公倍数",
+              "feedback": "公倍数比绳长还大，不能作为无拼接小段长度。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "C",
+              "text": "12+20",
+              "feedback": "总长没有保证每根都能按它整分。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "段长分别整除每根长度，所以找最大公因数4。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "把候选量放进句子：原数÷候选是整数，还是候选÷原数是整数？"
+          },
+          {
+            "level": 2,
+            "text": "整分单位对应公因数；从共同起点按固定周期同时发生对应公倍数。"
+          },
+          {
+            "level": 3,
+            "text": "12与18厘米剪等长段找最大公因数6；每12、18分钟从同刻开始鸣响，下次同响找最小公倍数36。若开始时刻不同，必须重新检查时间表。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "两灯从0秒同时开始，之后分别每4秒和6秒闪，求0秒之后首次同时闪，应选？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "最大公因数2秒"
+            },
+            {
+              "id": "B",
+              "text": "最小正公倍数12秒"
+            },
+            {
+              "id": "C",
+              "text": "0秒"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "时间要同时是两个周期的倍数，且明确排除起始时刻。"
+        },
+        "followup_task_ids": [
+          "common_factors_multiples:practice-3",
+          "common_factors_multiples:transfer-1",
+          "common_factors_multiples:delayed-3"
+        ]
+      },
+      {
+        "id": "common_factors_multiples:support:gcd",
+        "objective_id": "common_factors_multiples:gcd",
+        "title": "成对列因数，避免漏项",
+        "observation_note": "观察完整列公因数；最大性的解释由列表完整性支持。",
+        "hypotheses": [
+          "可能漏掉中间一对因数。",
+          "可能把一个数的因数全部当共同因数。"
+        ],
+        "diagnostic": {
+          "prompt": "16的因数为1、2、4、8、16，24的因数为1、2、3、4、6、8、12、24。公因数是哪组？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "1、2、4、8",
+              "feedback": "对，逐个在两列都能找到。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "B",
+              "text": "1、2、3、4、8",
+              "feedback": "3不在16的因数中。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "C",
+              "text": "1、2、4",
+              "feedback": "漏掉了8，16÷8与24÷8都是整数。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "取两列交集，最大者8。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "用乘积配对列因数，如16=1×16=2×8=4×4。"
+          },
+          {
+            "level": 2,
+            "text": "两数各自列全后，圈出共同出现者，再按从小到大排列。"
+          },
+          {
+            "level": 3,
+            "text": "18=1×18=2×9=3×6，30=1×30=2×15=3×10=5×6，共同为1、2、3、6，最大6。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "求20与28的最大公因数。",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "4",
+          "verify": "4",
+          "explanation": "20因数1、2、4、5、10、20；28因数1、2、4、7、14、28，共同最大4。"
+        },
+        "followup_task_ids": [
+          "common_factors_multiples:practice-1",
+          "common_factors_multiples:transfer-1",
+          "common_factors_multiples:delayed-1"
+        ]
+      },
+      {
+        "id": "common_factors_multiples:support:lcm",
+        "objective_id": "common_factors_multiples:lcm",
+        "title": "整除关系可缩短列举，但仍要给理由",
+        "observation_note": "观察一个数为另一个倍数时的捷径；不能把这条规则用于任意数对。",
+        "hypotheses": [
+          "可能总把两数相乘。",
+          "可能把较大数一律当最小公倍数。"
+        ],
+        "diagnostic": {
+          "prompt": "8与24的最小公倍数为什么是24？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "任意两个数都选较大的",
+              "feedback": "例如8与12的较大数12不能被8整除。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "24是8的倍数，且24的正倍数没有更小者",
+              "feedback": "对，同时满足公有与最小。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "因为24−8=16",
+              "feedback": "差值并不能证明最小公倍数。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "只有一个数整除另一个时，较大数就是最小公倍数。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先检查较大数能否被较小数整除。"
+          },
+          {
+            "level": 2,
+            "text": "若能，它已是首个公共正倍数；若不能，就继续列举或分解。"
+          },
+          {
+            "level": 3,
+            "text": "6与18选18，因为18是6的倍数；6与15不能选15，首个公共正倍数为30。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "求6与9的最小正公倍数。",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "18",
+          "verify": "18",
+          "explanation": "6的正倍数6、12、18；9的正倍数9、18，首次相遇18。"
+        },
+        "followup_task_ids": [
+          "common_factors_multiples:practice-2",
+          "common_factors_multiples:transfer-2",
+          "common_factors_multiples:delayed-2"
+        ]
+      },
+      {
+        "id": "common_factors_multiples:support:choose_model",
+        "objective_id": "common_factors_multiples:choose_model",
+        "title": "周期模型先检查是否同一起跑",
+        "observation_note": "观察错峰周期不能直接套最小公倍数；整分单位模型仍需另题确认。",
+        "hypotheses": [
+          "可能只看到两个周期就忽略起始偏移。",
+          "可能把某个公倍数时刻当成首次实际同时发生。"
+        ],
+        "diagnostic": {
+          "prompt": "灯甲在0、4、8、12秒闪，灯乙在2、8、14秒闪。0秒后首次同闪是哪时刻？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "12秒，4和6的最小公倍数",
+              "feedback": "乙不在12秒闪，忽略了它从2秒开始。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "8秒",
+              "feedback": "对，直接核对实际两列时间的首次交集。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "2秒，乙第一次闪",
+              "feedback": "甲不在2秒闪，必须同时属于两列。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "周期不同起点时，先检查完整时间关系，不能只对周期求最小公倍数。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "写出每个量的实际规则，特别标起点和步长。"
+          },
+          {
+            "level": 2,
+            "text": "同步且同起点才直接用周期的公倍数；错峰先列表或按相应时间式求交集。"
+          },
+          {
+            "level": 3,
+            "text": "甲从0起每3秒，乙从1起每4秒，时刻列为0、3、6、9…和1、5、9…，首次同闪9秒，而不是周期最小公倍数12秒。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "把18、30厘米两根绳分成等长、不余的整数段，候选段长6厘米应核对什么？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "6÷18和6÷30为整数"
+            },
+            {
+              "id": "B",
+              "text": "18÷6和30÷6为整数"
+            },
+            {
+              "id": "C",
+              "text": "18+30=48"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "段长是公因数，原长度除以段长都应为整数；要证明最长还需排除更大公因数。"
+        },
+        "followup_task_ids": [
+          "common_factors_multiples:practice-3",
+          "common_factors_multiples:transfer-1",
+          "common_factors_multiples:delayed-3"
+        ]
+      },
+      {
+        "id": "common_factors_multiples:support:justify_optimum",
+        "objective_id": "common_factors_multiples:justify_optimum",
+        "title": "找到可用值，还要排除更好的值",
+        "observation_note": "观察最小公分母与一般公分母的区别；最大公因数同样需要完整候选依据。",
+        "hypotheses": [
+          "可能用一个成功例子证明最优。",
+          "可能混淆通分正确与公分母最小两个结论。"
+        ],
+        "diagnostic": {
+          "prompt": "1/4和1/6化成6/24与4/24，能说24必是最小公分母吗？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "能，两个分数都等值",
+              "feedback": "等值只证明通分正确，不能证明最小。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "不能，12也是正公分母且更小",
+              "feedback": "对，3/12与2/12已足够。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "不能，所以24不能作公分母",
+              "feedback": "24仍可用，只是不最小。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "“可行”与“最优”是两层命题，需要分别给依据。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先核对候选是否同时满足两个要求。"
+          },
+          {
+            "level": 2,
+            "text": "再问还有没有更小的正公倍数或更大的公因数，列全相关候选给出排除依据。"
+          },
+          {
+            "level": 3,
+            "text": "12与16都是偶数只能说明2是公因数；共同因数1、2、4列全后，才可确认最大为4。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "已完整列出两个数的公因数1、2、5、10，最大公因数是10的充分理由是哪项？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "10排在纸面最右边"
+            },
+            {
+              "id": "B",
+              "text": "所有共同因数已列全，10是其中最大"
+            },
+            {
+              "id": "C",
+              "text": "两个原数都大于10"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "完整性加大小比较支持最大性，位置和原数大小不够。"
+        },
+        "followup_task_ids": [
+          "common_factors_multiples:practice-1",
+          "common_factors_multiples:transfer-1",
+          "common_factors_multiples:delayed-2"
+        ]
+      }
+    ]
   }
 }

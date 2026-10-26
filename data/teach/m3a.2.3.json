@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3a.2.3",
+  "name": "含有小括号的两级运算",
+  "tier": "tool",
+  "hook": "同样是6、4和3，加一对括号为什么结果变了？",
+  "definition": "小括号把一段运算合成一个整体，计算时先做括号内，再按外部运算顺序。括号内若仍含两级运算，也按先乘除后加减处理。",
+  "why": "(6+4)×3先求每组10再取3组，得30；6+4×3则是单独6加3组4，得18。括号改变的是哪个量被当成整体，不能仅把它看作装饰。",
+  "conditions": [
+    "先完成最内层括号，再处理外部运算。",
+    "本卡主要用一层小括号和整数四则运算。"
+  ],
+  "representation_note": "用大框圈出整组数量，与算式的小括号对应，画两种不同分组比较。",
+  "when_to_use": [
+    "先完成最内层括号，再处理外部运算。",
+    "本卡主要用一层小括号和整数四则运算。"
+  ],
+  "steps": [
+    "圈出括号内要先完成的整体。",
+    "括号内按规则算出一个值。",
+    "替换括号整体后完成外式，检查情境。"
+  ],
+  "worked_example": {
+    "prompt": "36÷(3+3)是多少？",
+    "steps": [
+      "先括号3+3=6。",
+      "再36÷6=6。"
+    ],
+    "answer": "6",
+    "family_id": "arithmetic.parenthesized-group",
+    "variant_id": "m3a.2.3:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "verify": "36/(3+3)"
+  },
+  "pitfalls": [
+    "不能漏掉括号而先算左边除法。",
+    "括号内也要按它自己的运算顺序，不从符号外观任意挑一步。"
+  ],
+  "practice": [
+    {
+      "id": "m3a.2.3-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3a.2.3-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "把括号整体替换为计算值，其余符号暂不变，可避免将括号中的数分散处理。",
+      "observation_note": "观察两阶段顺序，不用一次心算结果代替过程。",
+      "self_check": {
+        "prompt": "计算(8+4)÷3和20−(2+3)×2，保留两步。",
+        "reference_answer": "12÷3=4；20−5×2=20−10=10。",
+        "criteria": [
+          "先括号",
+          "外式仍先乘后减"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "20−5×2在括号去掉后能先算20−5吗？",
+        "hint": "外层仍有乘减，要先乘5×2。",
+        "revision_prompt": "重写每个中间式并在当前优先部分下面画线。"
+      },
+      "criterion_index": 0,
+      "title": "能正确计算含小括号的两级运算"
+    },
+    {
+      "explanation": "括号指定先组成的量，改变后可能改变答案和题意。要说明所组的是除数、被乘的一组还是被减去的总量。",
+      "observation_note": "观察括号作用的具体解释，不能只复述“先算括号”。",
+      "self_check": {
+        "prompt": "比较18÷3+3与18÷(3+3)，解释括号把哪个量合成一组。",
+        "reference_answer": "前者6+3=9；后者18÷6=3，括号把3+3作为整个除数。",
+        "criteria": [
+          "计算两式正确",
+          "说明除数范围变化"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "第二式中的两个3是先后操作，还是共同组成除数？",
+        "hint": "用方框把3+3圈成一个除数6。",
+        "revision_prompt": "为两式分别写出“先…再…”的不同描述。"
+      },
+      "criterion_index": 1,
+      "title": "能说明小括号的作用"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-26",
+    "teacher_review": "pending"
+  }
+}

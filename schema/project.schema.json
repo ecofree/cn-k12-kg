@@ -44,7 +44,7 @@
           "title"
         ]
       },
-      "minItems": 1
+      "minItems": 0
     },
     "standard_ids": {
       "type": "array",
@@ -226,7 +226,10 @@
           "const": "original_activity"
         },
         "outline_used_for": {
-          "const": "title_and_navigation"
+          "enum": [
+            "title_and_navigation",
+            "topic_navigation_only"
+          ]
         },
         "textbook_text_reproduced": {
           "type": "boolean",
@@ -238,6 +241,22 @@
         "outline_used_for",
         "textbook_text_reproduced"
       ]
+    },
+    "coverage_kind": {
+      "enum": [
+        "outline_activity",
+        "curriculum_supplement"
+      ]
+    },
+    "topic_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "minItems": 1,
+      "uniqueItems": true
     }
   },
   "required": [
@@ -260,5 +279,44 @@
     "author_type",
     "review_status",
     "teacher_review"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "coverage_kind": {
+            "const": "curriculum_supplement"
+          }
+        },
+        "required": [
+          "coverage_kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "topic_ids",
+          "provenance"
+        ],
+        "properties": {
+          "outline_refs": {
+            "maxItems": 0
+          },
+          "provenance": {
+            "properties": {
+              "outline_used_for": {
+                "const": "topic_navigation_only"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "outline_refs": {
+            "minItems": 1
+          }
+        }
+      }
+    }
   ]
 }

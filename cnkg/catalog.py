@@ -68,9 +68,23 @@ class Catalog:
     """
 
     def __init__(self, payload):
+        self._initialize(payload, copy_payload=True)
+
+    @classmethod
+    def _from_owned_payload(cls, payload):
+        """Take the loader's newly parsed, verified dictionary without recopying.
+
+        Only ``load_catalog`` owns this input exclusively. Public construction
+        and all snapshot accessors keep their independent-copy guarantees.
+        """
+        catalog = cls.__new__(cls)
+        catalog._initialize(payload, copy_payload=False)
+        return catalog
+
+    def _initialize(self, payload, *, copy_payload):
         if payload.get("schema_version") != CATALOG_VERSION:
             raise CatalogError(["未知 catalog 版本，请重新编译"])
-        self.data = copy.deepcopy(payload)
+        self.data = copy.deepcopy(payload) if copy_payload else payload
         self.skills = self.data["skills"]
         self.placements = self.data["placements"]
         self.tasks = self.data["tasks"]
@@ -129,7 +143,7 @@ def load_catalog(data_dir=None, *, check_sources=True):
                 errors.append(f"目录源已改变：{name}；请重新编译")
         if errors:
             raise CatalogError(errors)
-    return Catalog(payload)
+    return Catalog._from_owned_payload(payload)
 
 
 def compile_catalog(data_dir=None, *, schema_dir=None):
@@ -147,6 +161,13 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
 
     source_paths = {data / "skills/registry.json", data / "skills/catalog-bindings.json",
                     data / "topics.json", data / "questions.json"}
+    admission_rows = None
+    if (data / "task_admissions.json").is_file():
+        admission_manifest = _read(data / "task_admissions.json")
+        if admission_manifest.get("schema") != 1:
+            raise CatalogError(["准入登记版本不正确"])
+        admission_rows = admission_manifest.get("tasks", {})
+        source_paths.add(data / "task_admissions.json")
     retired_source_ids = set()
     if (data / "content_sources.json").is_file():
         manifest = _read(data / "content_sources.json")
@@ -169,6 +190,8 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
     if errors:
         raise CatalogError(errors)
     topics = {row["id"]: row for row in topic_rows}
+    if admission_rows is not None and set(admission_rows) != {q["id"] for q in questions}:
+        errors.append("准入登记与题目身份集合不一致")
     if len(topics) != len(topic_rows):
         errors.append("教材节点 ID 重复")
     cards, units, projects = {}, {}, {}
@@ -431,6 +454,14 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
         if qid in retired_source_ids and (policy["practice_eligible"] or policy["diagnosis_eligible"]):
             errors.append(f"{qid}: 退役题源仍声明可练或可诊断，必须核对准入依据")
         original_policy = question_policy(question)
+        if admission_rows is not None:
+            from .admissions import policies
+            try:
+                original_policy, policy = policies(question, {**question, "answer_spec": meta["answer_spec"]},
+                                                     admission_rows.get(qid))
+            except ValueError as exc:
+                errors.append(f"{qid}: {exc}")
+                continue
         for field in ("practice_eligible", "diagnosis_eligible"):
             original_bank_policy[field] += original_policy[field]
             compiled_bank_policy[field] += policy[field]
@@ -528,11 +559,11 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
                    "rubric": rubric, "explanation": project["assessment_note"]}
             task_id = add_task(_task_key("project_step", pid, index), raw, source_kind="project_step",
                                path=f"data/projects/{pid}.json", legacy_id=pid, locator=index,
-                               material_id=mid, topic_ids=[], skill_ids=[mapped[o] for o in objective_ids if o in mapped],
+                               material_id=mid, topic_ids=project.get("topic_ids", []), skill_ids=[mapped[o] for o in objective_ids if o in mapped],
                                alignment="explicit", purpose=["project"])
             task_ids.append(task_id)
         material = add_material(mid, "project", project, task_ids=task_ids,
-                                reference_families=[], topic_ids=[])
+                                reference_families=[], topic_ids=project.get("topic_ids", []))
         compiled_projects[pid] = {k: copy.deepcopy(project[k]) for k in ("id", "title", "stage", "objectives")}
         compiled_projects[pid].update(resource_id=mid, resource_version=material["resource_version"],
                                      task_ids=[x for x in task_ids if x], skill_ids=sorted(mapped.values()))

@@ -633,5 +633,647 @@
     "m7a.2.2.2"
   ],
   "prerequisite_unit_ids": [],
-  "prerequisite_objective_ids": []
+  "prerequisite_objective_ids": [],
+  "instructional_support": {
+    "schema": 1,
+    "supports": [
+      {
+        "id": "equation_equivalence:support:o1",
+        "objective_id": "equation_equivalence:o1",
+        "title": "等价变形要保留同一解集",
+        "observation_note": "复合目标先检查两边操作与除数；完整解方程时的每一步仍需核对。",
+        "hypotheses": [
+          "可能只在等式一边操作。",
+          "可能除以未知量而漏掉它等于0的情况。"
+        ],
+        "diagnostic": {
+          "prompt": "从2x=0两边直接除以x，得到2=0，能据此说原方程无解吗？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "能，两边做了同一操作",
+              "feedback": "除以x须先保证x≠0；原方程恰有x=0。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "不能，除数x可能为0",
+              "feedback": "对，操作丢掉了原方程的解。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "不能，因为所有两边相除都禁止",
+              "feedback": "除以已知非零数可以保持等价，问题在此处的零风险。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "原方程解为x=0，直接除以x不适用于这个解。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "写下每步给两边做的操作，检查是否对所有允许解都有效。"
+          },
+          {
+            "level": 2,
+            "text": "加减同一个式子可逆；乘除已知非零数可逆。含未知数的除数需先分情况。"
+          },
+          {
+            "level": 3,
+            "text": "3x=6可两边除以3得x=2；x=0若两边乘0，变成0=0，会新增任意数，因而不能说解集保持。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "由x+4=9到x=5，哪条理由充分？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "等式两边同时减4，且可用加4还原"
+            },
+            {
+              "id": "B",
+              "text": "把4搬走，不用管符号"
+            },
+            {
+              "id": "C",
+              "text": "右边减4，左边任意删除4"
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "同减4是可逆操作，所以解集不变。"
+        },
+        "followup_task_ids": [
+          "equation_equivalence:practice-1",
+          "equation_equivalence:transfer-1",
+          "equation_equivalence:delayed-2"
+        ]
+      },
+      {
+        "id": "equation_equivalence:support:o2",
+        "objective_id": "equation_equivalence:o2",
+        "title": "每项处理完，再回原式核对",
+        "observation_note": "复合目标检查去括号的分配；分母处理和最终原式检验仍由后续任务确认。",
+        "hypotheses": [
+          "可能只把括号外系数乘第一项。",
+          "可能负号分配不完整。"
+        ],
+        "diagnostic": {
+          "prompt": "−2(x−3)应展开成什么？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "−2x−6",
+              "feedback": "−2乘−3为+6，注意负负得正。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "−2x+6",
+              "feedback": "对，两项都乘了−2。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "−2x−3",
+              "feedback": "第二项也要乘−2，不能漏乘。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "把外面的−2看作同时作用于x和−3。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先把括号内每项连到括号外因数，逐项相乘。"
+          },
+          {
+            "level": 2,
+            "text": "去分母时给等式每一项乘同一非零公倍数，整数项也不能漏掉。"
+          },
+          {
+            "level": 3,
+            "text": "解2(x−1)=x+4：2x−2=x+4，x=6；回原式左边10、右边10才完成检查。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "解3(x−2)=x+4，先去括号再移项，最后代回原式。填x。",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "5",
+          "verify": "(4+6)/(3-1)",
+          "explanation": "3x−6=x+4，2x=10，x=5；原式两边均9。"
+        },
+        "followup_task_ids": [
+          "equation_equivalence:practice-2",
+          "equation_equivalence:transfer-1",
+          "equation_equivalence:delayed-1"
+        ]
+      },
+      {
+        "id": "equation_equivalence:support:o3",
+        "objective_id": "equation_equivalence:o3",
+        "title": "方程的解还要经过情境检查",
+        "observation_note": "复合目标先观察整数限制；建模关系和单位说明仍需完整过程任务。",
+        "hypotheses": [
+          "可能把数值解不加解释当实际答案。",
+          "可能将不可行的小数随意四舍五入。"
+        ],
+        "diagnostic": {
+          "prompt": "每袋装4个，再散放2个，共17个；x表示完整袋数。4x+2=17得x=3.75，怎样报告？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "四舍五入成4袋",
+              "feedback": "4袋会有18个，不满足原来的总数。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "给定条件下没有整数袋数解，应检查条件",
+              "feedback": "对，代数解不满足整袋要求。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "直接说3.75袋，完整袋数也可以小数",
+              "feedback": "违背了题目对x的含义和范围。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "实际可行性需同时满足方程与整数条件。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "设未知量时写清名称、单位和允许取值。"
+          },
+          {
+            "level": 2,
+            "text": "先解方程，再核对非负、整数、容量等限制；不满足时报告无可行方案。"
+          },
+          {
+            "level": 3,
+            "text": "每车坐6人，另有2人步行，共20人：6x+2=20得3辆，符合整数；若总数19，所得17/6不能通过四舍五入变成准确方案。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "x是人数，解方程得−2。下一步应怎样做？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "保留−2人作为最终人数"
+            },
+            {
+              "id": "B",
+              "text": "改成2人"
+            },
+            {
+              "id": "C",
+              "text": "说明不满足人数非负条件，检查模型或给定条件"
+            }
+          ],
+          "answer": "C",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "改变符号或取整都会改变原问题，必须返回检查。"
+        },
+        "followup_task_ids": [
+          "equation_equivalence:practice-3",
+          "equation_equivalence:transfer-2",
+          "equation_equivalence:delayed-5"
+        ]
+      },
+      {
+        "id": "equation_equivalence:support:reversible",
+        "objective_id": "equation_equivalence:reversible",
+        "title": "零乘除会改变可逆性",
+        "observation_note": "观察乘0产生额外解；含未知数除法造成漏解另需继续检查。",
+        "hypotheses": [
+          "可能认为两边操作一致就一定等价。",
+          "可能只验证原解仍满足新式，未检查新增解。"
+        ],
+        "diagnostic": {
+          "prompt": "把x=3两边乘0得0=0。新旧方程是否同解？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "同解，因为操作一致",
+              "feedback": "0=0对任何x成立，新增了不是3的解。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "不同解，新式允许所有x",
+              "feedback": "对，乘0不可逆，无法从0=0推出x=3。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "不同解，因为新式无解",
+              "feedback": "0=0恒成立，不是矛盾。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "等价须双向推出、解集相同；保留旧解但新增解仍不等价。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "问能否用一个允许操作从新式恢复旧式。"
+          },
+          {
+            "level": 2,
+            "text": "乘0无法逆回，除0没有定义；除以可能为0的式子必须分开讨论零情况。"
+          },
+          {
+            "level": 3,
+            "text": "由5x=10除以5可逆，得x=2；由x=2乘(x−1)得到新式时，x=1也满足新式，不能直接宣称等价。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "哪一步可对所有实数候选x保持解集？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "两边除以x"
+            },
+            {
+              "id": "B",
+              "text": "两边乘0"
+            },
+            {
+              "id": "C",
+              "text": "两边同时减去2x"
+            }
+          ],
+          "answer": "C",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "同减2x可由同加2x还原，不引入零除问题。"
+        },
+        "followup_task_ids": [
+          "equation_equivalence:practice-1",
+          "equation_equivalence:transfer-1",
+          "equation_equivalence:delayed-2"
+        ]
+      },
+      {
+        "id": "equation_equivalence:support:distribute",
+        "objective_id": "equation_equivalence:distribute",
+        "title": "每一项都要接受同一个操作",
+        "observation_note": "观察去分母漏乘整数项；负号和多括号仍须逐项核对。",
+        "hypotheses": [
+          "可能只乘带分母的项。",
+          "可能把括号前负号只作用在首项。"
+        ],
+        "diagnostic": {
+          "prompt": "方程x/3+2=5两边乘3，正确结果是？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "x+2=15",
+              "feedback": "2也在等式左边，必须乘3。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "x+6=15",
+              "feedback": "对，三项都乘了3。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "x+6=5",
+              "feedback": "右边5也要乘3。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "等式两边乘3相当于各边每一项乘3。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "用竖线或圈分清每边有几项。"
+          },
+          {
+            "level": 2,
+            "text": "把共同乘数写到每一项旁，再消分母；括号前负号视为乘−1。"
+          },
+          {
+            "level": 3,
+            "text": "(x−1)/2+3=x两边乘2得x−1+6=2x；不是x−1+3=2x。若为−(x−1)，展开是−x+1。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "2−3(x+1)正确展开是？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "2−3x+1"
+            },
+            {
+              "id": "B",
+              "text": "−3x−1"
+            },
+            {
+              "id": "C",
+              "text": "−3x+5"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "2−3x−3=−3x−1，系数−3乘括号内两项。"
+        },
+        "followup_task_ids": [
+          "equation_equivalence:practice-2",
+          "equation_equivalence:transfer-1",
+          "equation_equivalence:delayed-1"
+        ]
+      },
+      {
+        "id": "equation_equivalence:support:solve_check",
+        "objective_id": "equation_equivalence:solve_check",
+        "title": "回到原方程检查，并辨认特殊结果",
+        "observation_note": "观察无解与恒等的区别；普通唯一解还需完成等价变形与代回。",
+        "hypotheses": [
+          "可能把矛盾式当成x=0。",
+          "可能把恒等式误当成只有一个解。"
+        ],
+        "diagnostic": {
+          "prompt": "化简方程2(x+1)=2x+5，最后得到2=5。它意味着什么？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "x=0",
+              "feedback": "代入x=0也有2≠5，不是解。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "无解",
+              "feedback": "对，等价化简得到无法成立的常数等式。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "所有实数都是解",
+              "feedback": "所有实数对应的是恒成立，如2=2。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "矛盾式表示无解；恒等式则须结合原定义域判断所有允许值。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "把含x项与常数项分别整理，不急着给x赋值。"
+          },
+          {
+            "level": 2,
+            "text": "得到ax=b且a≠0可求唯一解；a=0时分清0=b是矛盾还是恒等。"
+          },
+          {
+            "level": 3,
+            "text": "3x+2=3x+2化为2=2，对所有实数成立；3x+2=3x+4化为2=4，无解。唯一解也要代回原式而非只查最后一步。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "方程4(x−1)=4x−4的解是什么？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "只有x=0"
+            },
+            {
+              "id": "B",
+              "text": "无解"
+            },
+            {
+              "id": "C",
+              "text": "所有实数"
+            }
+          ],
+          "answer": "C",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "展开后两边完全相同，没有额外定义域限制，所以所有实数满足。"
+        },
+        "followup_task_ids": [
+          "equation_equivalence:practice-2",
+          "equation_equivalence:transfer-1",
+          "equation_equivalence:delayed-1"
+        ]
+      },
+      {
+        "id": "equation_equivalence:support:model_quantity",
+        "objective_id": "equation_equivalence:model_quantity",
+        "title": "先写相等数量，不按关键词猜运算",
+        "observation_note": "观察未知量的定义与等量关系；完整建模仍需画图、单位和解释。",
+        "hypotheses": [
+          "可能设x后未说明它代表什么。",
+          "可能把“多”一律转换为加到错误对象上。"
+        ],
+        "diagnostic": {
+          "prompt": "小青有x本书，小红比小青多4本，两人共18本。方程是哪项？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "x+(x+4)=18",
+              "feedback": "对，小红是x+4，两人数量相加。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "B",
+              "text": "x+4=18",
+              "feedback": "把小红一个人的书数当成两人总数。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "C",
+              "text": "x+(x−4)=18",
+              "feedback": "题意是小红更多，应为x+4。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "先给每个量写表达式，再根据“总数18”建立等式。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "设x并写单位，再将其他相关量用x表示。"
+          },
+          {
+            "level": 2,
+            "text": "画线段或列“谁、多少”的表，把相等的两边分别说成完整短句。"
+          },
+          {
+            "level": 3,
+            "text": "长比宽多3厘米，周长22厘米：设宽x，则长x+3，方程2[x+(x+3)]=22；不能只把长加宽等于周长。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "每本5元，另收包装费2元，总价22元，设本数x。应列哪式？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "5(x+2)=22"
+            },
+            {
+              "id": "B",
+              "text": "5x+2=22"
+            },
+            {
+              "id": "C",
+              "text": "2x+5=22"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "书费5x元与一次包装费2元相加，包装费不按本数重复收。"
+        },
+        "followup_task_ids": [
+          "equation_equivalence:practice-3",
+          "equation_equivalence:transfer-2",
+          "equation_equivalence:delayed-5"
+        ]
+      },
+      {
+        "id": "equation_equivalence:support:domain_constraint",
+        "objective_id": "equation_equivalence:domain_constraint",
+        "title": "代数成立与实际可行分两步核对",
+        "observation_note": "观察整数解限制；也需分别检查单位、正数与容量条件，不能凭一个条件替代其余。",
+        "hypotheses": [
+          "可能把四舍五入后的数视为精确解。",
+          "可能只核对方程，忘记未知量的实际范围。"
+        ],
+        "diagnostic": {
+          "prompt": "x是整本书数，3x=10得x=10/3。四舍五入成3本能满足原条件吗？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "能，接近即可",
+              "feedback": "代入x=3得到3×3=9≠10，不满足原方程。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "不能，原条件没有整数解",
+              "feedback": "对，除非题目允许近似或改动条件，不能取整替代。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "改成4本就一定可以",
+              "feedback": "代入x=4得到3×4=12≠10，也不满足原方程。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "离散问题要检查精确可行性；近似答案必须有允许误差的依据。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "给未知量写取值集合，如正整数、非负实数。"
+          },
+          {
+            "level": 2,
+            "text": "把代数解放进集合检查，再代回原关系核对。"
+          },
+          {
+            "level": 3,
+            "text": "x为边长时x=−3不允许；x为温度时负数可能允许。限制来自量的意义，不能机械排除所有负数。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "温度T可为负数，方程T+5=2得T=−3℃。该解怎样判断？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "负数一律排除"
+            },
+            {
+              "id": "B",
+              "text": "符合温度范围且代回成立，可保留"
+            },
+            {
+              "id": "C",
+              "text": "把−3改成3"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "−3+5=2，且题设温度允许负值；实际约束需按具体量判断。"
+        },
+        "followup_task_ids": [
+          "equation_equivalence:practice-5",
+          "equation_equivalence:transfer-2",
+          "equation_equivalence:delayed-5"
+        ]
+      }
+    ]
+  }
 }

@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3a.5.4",
+  "name": "直角、锐角、钝角",
+  "tier": "tool",
+  "hook": "不用先记度数，怎样用三角尺的直角比较一个角？",
+  "definition": "直角是90°；大于0°且小于90°的角是锐角；大于90°且小于180°的是钝角。把三角尺直角的顶点与一边对齐，可以比较开口。",
+  "why": "直角提供一个固定基准。若待测角另一边在基准开口内部，角较小；在基准外但未到平角则较大。顶点或基准边错位会把位置差误认成角度差。",
+  "conditions": [
+    "本卡比较0°到180°之间的角，平角单独处理。",
+    "用三角尺明确标出的直角作比较，不凭图上边长。"
+  ],
+  "representation_note": "把三角尺直角与纸上角叠合，先顶点、再一边，观察另一边。",
+  "when_to_use": [
+    "本卡比较0°到180°之间的角，平角单独处理。",
+    "用三角尺明确标出的直角作比较，不凭图上边长。"
+  ],
+  "steps": [
+    "找到三角尺的直角。",
+    "顶点重合且一边重合。",
+    "比较另一边开口，写锐、直、钝，并排除平角。"
+  ],
+  "worked_example": {
+    "prompt": "一个角比直角大，但比平角小，属于哪类？",
+    "steps": [
+      "直角90°、平角180°给出上下界。",
+      "开口严格在二者之间。"
+    ],
+    "answer": "钝角。",
+    "family_id": "geometry.angle-classify-benchmark",
+    "variant_id": "m3a.5.4:worked-v4",
+    "representation": "geometry",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "比直角大不必都是钝角，还要小于平角。",
+    "量角基准没对齐，视觉比较可能失效。"
+  ],
+  "practice": [
+    {
+      "id": "m3a.5.4-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3a.5.4-q3",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "类型由开口范围确定，不随摆放方向改变。90°是直角，恰好180°是平角，不能放进钝角。",
+      "observation_note": "观察典型与边界；图上测量还需下一自检。",
+      "self_check": {
+        "prompt": "把40°、90°、120°、180°分别分类，并说180°为什么不叫钝角。",
+        "reference_answer": "锐、直、钝、平；钝角要求小于180°。",
+        "criteria": [
+          "四类边界正确",
+          "解释严格范围"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "179°和180°都大于90°，为什么名称不同？",
+        "hint": "比较钝角的上界是否允许等号。",
+        "revision_prompt": "用范围0<角<90、=90、90<角<180、=180重新分类。"
+      },
+      "criterion_index": 0,
+      "title": "能辨认直角、锐角、钝角"
+    },
+    {
+      "explanation": "三角尺叠合要使顶点与一边重合，再看另一边是小于、等于或大于直角开口。",
+      "observation_note": "观察操作依据；手绘形状需通过实际尺具核对。",
+      "self_check": {
+        "prompt": "自行画一个锐角和一个钝角，用三角尺叠合判断，画出对齐的顶点与基准边。",
+        "reference_answer": "两图分别比直角小与大且小于平角，基准标注正确。",
+        "criteria": [
+          "顶点与一边均对齐",
+          "依据开口作判断"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "只把三角尺放在角旁边，没有对齐，能可靠比较吗？",
+        "hint": "先让两个顶点重合，再旋转到一边重合。",
+        "revision_prompt": "重做叠合，在图上保留基准边位置与结论。"
+      },
+      "criterion_index": 1,
+      "title": "能用三角尺的直角判断角的类型"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-26",
+    "teacher_review": "pending"
+  }
+}

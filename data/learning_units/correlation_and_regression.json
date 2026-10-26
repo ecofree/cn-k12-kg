@@ -577,5 +577,382 @@
   "diagram": {
     "src": "/static/diagrams/statistics-senior-regression.svg",
     "alt": "上图A三条成对数据为(0,1)、(1,2)、(2,6)，横轴x、纵轴y均从0开始。含截距最小二乘拟合线为ŷ=0.5+2.5x；在x=1处预测3、观测2，竖向箭头从3指到2，图中未给出残差的计算结果。下图B五点(−2,4)、(−1,1)、(0,0)、(1,1)、(2,4)呈U形，横轴从−2至2；数据非线性且r=0。两图数据为教学构造，轴单位均为任意单位。"
+  },
+  "instructional_support": {
+    "schema": 1,
+    "supports": [
+      {
+        "id": "correlation_and_regression:support:correlation",
+        "objective_id": "correlation_and_regression:correlation",
+        "title": "零线性相关与无法定义要分开",
+        "observation_note": "观察r的分母退化；判断非线性关系还需结合散点形状。",
+        "hypotheses": [
+          "可能把常量变量的相关系数写成0。",
+          "可能把r=0理解为两个变量完全没有关系。"
+        ],
+        "diagnostic": {
+          "prompt": "三对记录中x都为2，y分别1、3、5。通常样本相关系数r如何报告？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "r=0，完全无关",
+              "feedback": "x的离差平方和为0，公式分母为0，不是算出0。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "r未定义，因为x无变异",
+              "feedback": "对，不能用0代替未定义。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "r=1，因为x保持稳定",
+              "feedback": "稳定并不意味着完全正线性相关。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "r=Sxy/√(SxxSyy)要求两个变量都有非零变异。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先检查所有x或所有y是否相同，再谈相关系数大小。"
+          },
+          {
+            "level": 2,
+            "text": "有变异时，r符号表示线性趋势方向，|r|衡量线性贴近程度；r=0仍可能存在曲线关系。"
+          },
+          {
+            "level": 3,
+            "text": "对称点(−1,1)、(0,0)、(1,1)，Sxy=0，r=0，但y=x²的关系清楚；若x全部相同，则r根本未定义。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "非退化样本r=−0.9，哪项可支持？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "较强负线性关联，但不据此断言因果"
+            },
+            {
+              "id": "B",
+              "text": "完全没有关系，因为r为负"
+            },
+            {
+              "id": "C",
+              "text": "必定是反比例函数"
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "负号是方向，绝对值大表示样本中线性关联强；不能推出特定函数或因果。"
+        },
+        "followup_task_ids": [
+          "correlation_and_regression:practice-1",
+          "correlation_and_regression:transfer-1",
+          "correlation_and_regression:delayed-1"
+        ]
+      },
+      {
+        "id": "correlation_and_regression:support:ols",
+        "objective_id": "correlation_and_regression:ols",
+        "title": "系数公式带着含截距与非退化条件",
+        "observation_note": "观察截距由样本中心反求；独立计算斜率和检验退化情况仍需后续任务。",
+        "hypotheses": [
+          "可能把均值ȳ直接当截距。",
+          "可能把有无截距的拟合公式混用。"
+        ],
+        "diagnostic": {
+          "prompt": "含截距拟合ŷ=a+bx，b=3，样本中心(2,8)，x有非零变异。a是多少？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "8",
+              "feedback": "ȳ对应x̄=2，不是x=0的截距。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "2",
+              "feedback": "对，a=ȳ−bx̄=8−6。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "6",
+              "feedback": "6是b乘x̄，还需从ȳ中减去。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "含截距的一元最小二乘直线经过样本中心，故a=ȳ−bx̄。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "确认拟合允许截距，并检查Sxx>0。"
+          },
+          {
+            "level": 2,
+            "text": "先求b=Sxy/Sxx，再用a=ȳ−bx̄；两个系数使用同一组成对数据。"
+          },
+          {
+            "level": 3,
+            "text": "样本中心(4,9)，Sxx=10、Sxy=20，得b=2、a=1。若所有x相同，Sxx=0，不能沿用此式得到唯一斜率。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "含截距拟合中Sxx=4、Sxy=−8，样本中心(3,2)。截距a是多少？",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "8",
+          "verify": "2-(-8/4)*3",
+          "explanation": "b=−2，a=2−(−2)×3=8。"
+        },
+        "followup_task_ids": [
+          "correlation_and_regression:practice-2",
+          "correlation_and_regression:transfer-2",
+          "correlation_and_regression:delayed-2"
+        ]
+      },
+      {
+        "id": "correlation_and_regression:support:residual",
+        "objective_id": "correlation_and_regression:residual",
+        "title": "残差按观测减预测保留符号",
+        "observation_note": "观察减法顺序和图上上下位置；绝对误差与平方残差是另外的量。",
+        "hypotheses": [
+          "可能把预测减观测。",
+          "可能把所有误差取正，丢失偏高或偏低信息。"
+        ],
+        "diagnostic": {
+          "prompt": "某点预测值10，观测值7，按e=y−ŷ定义，残差是多少？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "3",
+              "feedback": "这是预测减观测或绝对误差，不是约定的有符号残差。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "−3",
+              "feedback": "对，观测点在预测线下方。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "17",
+              "feedback": "残差比较两者之差，不是相加。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "观测低于预测时e<0；高于预测时e>0。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "写下定义e=观测−预测，再代数值。"
+          },
+          {
+            "level": 2,
+            "text": "先用完整模型和该点x算ŷ，再减；图上箭头从预测点到观测点，上为正、下为负。"
+          },
+          {
+            "level": 3,
+            "text": "ŷ=2x+1，观测(4,12)，预测9，残差3；若观测改为6，残差−3。两者平方残差都为9，但方向不同。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "模型ŷ=1+2x，观测为x=4、y=7。残差e是多少？",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "-2",
+          "verify": "7-(1+2*4)",
+          "explanation": "预测9，观测7，e=−2。"
+        },
+        "followup_task_ids": [
+          "correlation_and_regression:practice-3",
+          "correlation_and_regression:transfer-3",
+          "correlation_and_regression:delayed-3"
+        ]
+      },
+      {
+        "id": "correlation_and_regression:support:r_squared",
+        "objective_id": "correlation_and_regression:r_squared",
+        "title": "解释的是同一样本中的平方变异",
+        "observation_note": "观察R²解释边界；R²=r²的适用条件和无截距反例仍需进一步计算。",
+        "hypotheses": [
+          "可能把R²当作预测正确率或因果解释比例。",
+          "可能忘记同样本、含截距、一元最小二乘等条件。"
+        ],
+        "diagnostic": {
+          "prompt": "同一非退化样本的含截距一元最小二乘回归R²=0.64。哪项准确？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "预测每个新样本有64%概率正确",
+              "feedback": "R²不是新个体预测正确率。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "按该样本平方变异分解，拟合解释64%的总变异",
+              "feedback": "对，需保留样本和拟合条件。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "x造成了64%的y变化",
+              "feedback": "拟合分解不能直接给因果解释。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "R²=1−SSE/SST，在所述条件下也等于r²；它描述样本拟合，不保证外部预测。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先写SST=Σ(y−ȳ)²，SSE=Σ(y−ŷ)²，确认SST>0。"
+          },
+          {
+            "level": 2,
+            "text": "解释1−SSE/SST时保留“这个样本、这个拟合”；只有规定条件下才把它替为r²。"
+          },
+          {
+            "level": 3,
+            "text": "含截距一元OLS且r=−0.8时，R²=0.64，残差平方和占36%。强制过原点时不能自动用r²，按中心化SST定义的R²甚至可能为负。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "同一样本SST=50、SSE=18，采用R²=1−SSE/SST。R²是多少？",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "0.64",
+          "verify": "1-18/50",
+          "explanation": "1−18/50=0.64；这不是预测正确率。"
+        },
+        "followup_task_ids": [
+          "correlation_and_regression:practice-4",
+          "correlation_and_regression:transfer-4",
+          "correlation_and_regression:delayed-4"
+        ]
+      },
+      {
+        "id": "correlation_and_regression:support:prediction_limits",
+        "objective_id": "correlation_and_regression:prediction_limits",
+        "title": "算得出预测值，还要交代它凭什么",
+        "observation_note": "短题观察外推和因果边界；完整报告需要检查样本来源、残差和新情境。",
+        "hypotheses": [
+          "可能把代入公式正确当作现实保证。",
+          "可能由观察相关直接断言干预效果。"
+        ],
+        "diagnostic": {
+          "prompt": "只用x在1至5之间的观察数据拟合，代入x=50得预测100。哪句话严谨？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "模型算得100，但远超样本范围，可靠性需另查",
+              "feedback": "对，计算结果与现实保证不同。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "B",
+              "text": "代入没有算错，所以实际一定100",
+              "feedback": "没有说明关系在新范围仍有效，也未考虑误差。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "C",
+              "text": "相关强就证明改变x必然使y同样变化",
+              "feedback": "观察关联不足以排除混杂和反向因果。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "外推超出了已观察范围；因果解释还需要相应设计或额外依据。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "标出用于拟合的x范围，再标出预测对象是否在其中。"
+          },
+          {
+            "level": 2,
+            "text": "检查数据来源、机制能否延续、残差模式和潜在混杂；给条件性预测而非必然承诺。"
+          },
+          {
+            "level": 3,
+            "text": "炎热月份冰饮和游泳同时增加，温度可共同影响两者。即使相关很强，也不能据此保证多卖冰饮就使更多人游泳。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "自愿提交的学习记录中练习时间与成绩相关，下一句应怎样写？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "任何人加练一小时必定提高同样分数"
+            },
+            {
+              "id": "B",
+              "text": "仅支持这些记录中的关联，选择因素与原有水平等仍可能影响结果"
+            },
+            {
+              "id": "C",
+              "text": "相关系数越大越不需要检查样本来源"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "对象选择和共同影响因素限制因果与推广；需保留原始证据的范围。"
+        },
+        "followup_task_ids": [
+          "correlation_and_regression:practice-5",
+          "correlation_and_regression:transfer-5",
+          "correlation_and_regression:delayed-5"
+        ]
+      }
+    ]
   }
 }

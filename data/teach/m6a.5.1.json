@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m6a.5.1",
+  "name": "圆和扇形的认识",
+  "tier": "tool",
+  "hook": "穿过圆心的线段为什么恰好由两条半径接成？",
+  "definition": "圆上各点到圆心距离相等，这一长度是半径。通过圆心且两端在圆上的线段是直径，同圆或等圆中d=2r。扇形由两条半径和其间一段弧围成，圆心角顶点在圆心。",
+  "why": "直径两端到圆心分别是一条半径，合起来2r；没有经过圆心的弦不能当直径。辨扇形时不仅看像一块“扇面”，还要两直边是同圆半径、夹角顶点为圆心。",
+  "conditions": [
+    "半径直径关系限定同一个圆或等圆。",
+    "本卡扇形的边界是两条半径和同圆的一段弧。"
+  ],
+  "representation_note": "用圆规画圆并标O，画经过O的弦与不经过O的弦，再涂一个扇形。",
+  "when_to_use": [
+    "半径直径关系限定同一个圆或等圆。",
+    "本卡扇形的边界是两条半径和同圆的一段弧。"
+  ],
+  "steps": [
+    "标圆心，连接到圆上点得到半径。",
+    "检查直径通过圆心且端点在圆上，用d=2r换算。",
+    "在扇形中标两半径、弧和圆心角。"
+  ],
+  "worked_example": {
+    "prompt": "同一圆半径4厘米，直径是多少厘米？",
+    "steps": [
+      "一条直径由圆心两侧的两条半径组成。",
+      "4+4=8厘米。"
+    ],
+    "answer": "8",
+    "family_id": "geometry.radius-diameter",
+    "variant_id": "m6a.5.1:worked-v4",
+    "representation": "geometry",
+    "cognitive_demand": "explain",
+    "verify": "2*4"
+  },
+  "pitfalls": [
+    "不经过圆心的弦不是直径。",
+    "扇形面积大小要同时看半径和圆心角，不能跨不同圆只比较角度。"
+  ],
+  "practice": [
+    {
+      "id": "m6a.5.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m6a.5.1-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "同圆所有半径相等，直径是两倍半径。关系的前提是同圆或等圆，不能把大圆半径与小圆直径直接套用。",
+      "observation_note": "观察换算与模型条件，数值正确仍要标图。",
+      "self_check": {
+        "prompt": "一个圆直径14厘米，求半径并画图标明两段半径；说明另一个圆半径不一定也是7。",
+        "reference_answer": "同圆半径7厘米，直径两段各7；其他圆需另有大小条件。",
+        "criteria": [
+          "正确使用d=2r",
+          "保留同圆条件"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "线段长14厘米但没经过圆心，能直接推出半径7吗？",
+        "hint": "它可能只是一般弦，先核对直径条件。",
+        "revision_prompt": "重画通过圆心的直径，在两段上分别写r。"
+      },
+      "criterion_index": 0,
+      "title": "能说出半径与直径的关系"
+    },
+    {
+      "explanation": "扇形圆心角的顶点就是圆心，两边是半径。圆上的三个点围成的三角形即使像切片，也没有圆弧边界。",
+      "observation_note": "观察组成与边界，不要求本卡计算扇形面积。",
+      "self_check": {
+        "prompt": "画圆O及半径OA、OB，以弧AB围成扇形，标出圆心角；再说明弦AB替代圆弧后得到的图为什么不同。",
+        "reference_answer": "圆心角∠AOB，OA、OB为半径；替换成弦后边界全是线段，成为三角形。",
+        "criteria": [
+          "标出圆心角与两半径",
+          "区分弧与弦"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "扇形的第三条边界是直线段还是圆弧？",
+        "hint": "沿圆周从A到B走，与直接连接A、B比较。",
+        "revision_prompt": "用不同颜色标弧和弦，把误画三角形改为扇形。"
+      },
+      "criterion_index": 1,
+      "title": "能指出扇形的圆心角与半径"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-26",
+    "teacher_review": "pending"
+  }
+}

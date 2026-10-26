@@ -1,0 +1,147 @@
+{
+  "schema": 1,
+  "id": "senior_probability_simulation",
+  "title": "课程补充：相同成功率，不同联合机制",
+  "stage": "senior",
+  "coverage_kind": "curriculum_supplement",
+  "outline_refs": [],
+  "topic_ids": [
+    "mh2.10.2",
+    "mh2.10.3.2"
+  ],
+  "standard_ids": [
+    "cms-2017:H.PS.02"
+  ],
+  "standard_alignment_note": "本项目是作者新增的课程补充活动，教材节点仅用于相关主题导航，不声称原教材含有同名项目。目标按实际涉及内容对应课标；模拟数据、计算与活动步骤为原创，教师独立审核和真实学习效果验证仍待进行。",
+  "task_brief": "比较两种公开给定的模拟机制。机制I每轮独立生成两个均匀的1至6整数U、V；机制II每轮只生成一个均匀整数U，再令V=U。定义A为U≤3，B为V≤3。两机制各自P(A)=P(B)=1/2，但同时成功、至少一次与恰好一次未必一样。先枚举理论概率，再检查给定20轮伪随机演示记录，并规划100、1000轮复核；所有记录是模拟，不是装置实测，也不是用频率证明独立性。",
+  "duration_hint": "2至3课时，每课时40至45分钟；可手工枚举并核对20轮，扩展模拟可用计算器或短程序。",
+  "objectives": [
+    {
+      "id": "senior_probability_simulation:o1",
+      "statement": "能把随机机制写成明确的样本空间和事件，区别独立生成与复制共同结果。"
+    },
+    {
+      "id": "senior_probability_simulation:o2",
+      "statement": "能通过枚举或条件关系算出两机制的边际、交集、至少一次与恰好一次概率，并检查独立乘积。"
+    },
+    {
+      "id": "senior_probability_simulation:o3",
+      "statement": "能按事先说明的模拟规则记录逐轮结果、样本量、随机源或种子及频率，区分频率波动与理论概率。"
+    },
+    {
+      "id": "senior_probability_simulation:o4",
+      "statement": "能指出模拟支持的范围、独立性判断的依据与程序核对办法，并保留异常记录及修订理由。"
+    }
+  ],
+  "materials": [
+    "机制I演示20轮(U,V)：(1,2)、(6,2)、(4,4)、(5,1)、(1,4)、(5,3)、(3,3)、(2,6)、(5,3)、(4,3)、(6,6)、(3,1)、(2,3)、(4,5)、(2,4)、(2,4)、(4,3)、(2,5)、(4,4)、(3,3)。",
+    "机制II演示20轮U：2、1、2、2、5、2、4、1、2、1、1、4、4、4、5、1、1、6、4、2；每轮V复制U。",
+    "演示记录由Python random.Random生成：机制I种子20261026，每轮两次randint(1,6)；机制II种子20261027，每轮一次randint(1,6)后复制。保存原始记录用于核查，不要求所有运行环境随机库细节相同。",
+    "6×6方格、事件列联表、可选计算器或保留代码和运行环境的脚本。"
+  ],
+  "steps": [
+    {
+      "title": "先写机制与理论预期",
+      "objective_ids": [
+        "senior_probability_simulation:o1",
+        "senior_probability_simulation:o2"
+      ],
+      "instructions": "机制I画36个等可能有序对的6×6表；机制II只有6个等可能对角点。分别圈出A、B、交集、并集和恰好一个。记录独立性来自机制及概率检验，不来自两者名称不同。",
+      "deliverable": "两张样本空间图及理论概率表。"
+    },
+    {
+      "title": "核对给定20轮记录",
+      "objective_ids": [
+        "senior_probability_simulation:o2",
+        "senior_probability_simulation:o3"
+      ],
+      "instructions": "逐轮标记A、B、两者都发生、至少一个、恰好一个。每个计数都能追到轮次。保留看似偏离理论的结果，不删除、重抽或改成期望次数。",
+      "deliverable": "完整逐轮表、计数和频率。"
+    },
+    {
+      "title": "扩大模拟并保存生成规则",
+      "objective_ids": [
+        "senior_probability_simulation:o3",
+        "senior_probability_simulation:o4"
+      ],
+      "instructions": "预先约定100与1000轮及统计指标；机制I每轮独立抽两次，机制II抽一次复制。若用程序，保留代码、随机库/版本、种子与原始结果；若手工无法扩展，提交伪代码及20轮核对即可，不伪造运行输出。比较不同样本量或种子的频率，不能要求每次扩样都更接近理论。",
+      "deliverable": "实际运行记录或明确未运行的可复核算法说明。"
+    },
+    {
+      "title": "辨别错误解释并修订",
+      "objective_ids": [
+        "senior_probability_simulation:o1",
+        "senior_probability_simulation:o4"
+      ],
+      "instructions": "反驳“边际都是1/2，所以两个机制的交集都1/4”。若代码把机制II又抽一次随机数，指出它改变了什么机制。将发现、原输出、修改和重算结果一起保留；不能把模拟巧合的乘积相等当成真实独立性的证明。",
+      "deliverable": "错误机制的定位、修订记录与有边界结论。"
+    }
+  ],
+  "deliverables": [
+    "机制说明、样本空间和理论概率表",
+    "带轮次的20轮记录与核对计数",
+    "已运行的扩展模拟记录或标为未运行的算法",
+    "机制辨别、频率波动解释和修订记录"
+  ],
+  "rubric": [
+    {
+      "objective_ids": [
+        "senior_probability_simulation:o1"
+      ],
+      "criterion": "机制与事件可准确复现。",
+      "points": 2,
+      "example": "I有36个等可能有序对；II只有(1,1)至(6,6)六个点，V不是第二次独立抽取。"
+    },
+    {
+      "objective_ids": [
+        "senior_probability_simulation:o2"
+      ],
+      "criterion": "理论概率完整正确。",
+      "points": 2,
+      "example": "I交集1/4、至少一次3/4、恰好一次1/2；II交集1/2、至少一次1/2、恰好一次0。"
+    },
+    {
+      "objective_ids": [
+        "senior_probability_simulation:o3"
+      ],
+      "criterion": "模拟计数与来源诚实可查。",
+      "points": 2,
+      "example": "I的20轮A=10、B=11、交集5、并集16、恰好一次11；II两者都成功12轮，其余均失败，恰好一次0。"
+    },
+    {
+      "objective_ids": [
+        "senior_probability_simulation:o4"
+      ],
+      "criterion": "局限与修订有依据。",
+      "points": 2,
+      "example": "模拟频率有波动，不能靠小样本证明独立；改变复制为重抽改变了模型，必须保留修订前后记录。"
+    }
+  ],
+  "teacher_reference_solution": {
+    "scenario": "I使用两次独立均匀整数；II把一次均匀整数复制。给定20轮为可复核伪随机演示，不作为现实装置测试。",
+    "steps": [
+      "机制I：A、B各18/36=1/2；交集9/36=1/4；并集27/36=3/4；恰好一次18/36=1/2。交集等于边际乘积。",
+      "机制II：A=B={1,2,3}，交集3/6=1/2，并集同为1/2；恰好一次为空，概率0；1/2≠1/4，不独立。",
+      "给定I记录中A发生10次、B发生11次、交集5次，因此并集10+11−5=16次、恰好一次10+11−2×5=11次。相应频率0.5、0.55、0.25、0.8、0.55。",
+      "给定II记录中U≤3共12次，所以A、B、交集、并集频率均12/20=0.6，恰好一次0；理论边际仍是1/2，频率0.6不改变预定机制。",
+      "扩展的每个结果必须来自实际执行并记录参数；不同样本量频率可能暂时更偏离，不应修饰成单调逼近。"
+    ],
+    "conclusion": "同样的边际成功率可以对应不同联合概率。独立性判断必须依据机制或充分的联合概率资料；模拟用于理解与检查，不能把频率巧合升级为现实独立性的证明。"
+  },
+  "teacher_notes": [
+    "若只会相乘，要求先在6×6表圈交集，再对照复制机制只有对角线这一改变。",
+    "若频率恰好等于理论值，仍追问机制；若不相等，先检查计数与随机流程，不直接判理论错误。",
+    "本项目不要求真实学生实验或外部效果验证；作品评价关注机制、计算、可复现记录与解释的边界。"
+  ],
+  "assessment_note": "共8分，各目标分别依据作品评分：0分为缺失或关键关系错误；1分为部分正确但缺条件、核对或解释；2分为结论、过程与限制均可核查。算对一项不抵消其他目标缺口；先记录原稿和具体反馈，再提交修订稿。自评与组内讨论不等同于独立教师审核或真实学生效果验证。",
+  "review_status": "draft",
+  "author_type": "ai",
+  "teacher_review": {
+    "status": "pending"
+  },
+  "provenance": {
+    "kind": "original_activity",
+    "outline_used_for": "topic_navigation_only",
+    "textbook_text_reproduced": false
+  }
+}

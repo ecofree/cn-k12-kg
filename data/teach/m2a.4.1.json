@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2a.4.1",
+  "name": "认识厘米及用厘米量",
+  "tier": "tool",
+  "hook": "尺子上的0刻度掉了一截，还能量一条线段吗？",
+  "definition": "厘米是长度单位。尺上相邻整数厘米刻度间通常相差1厘米；量长度是求两端间的距离，不是把最右端数字直接当长度。1米=100厘米。",
+  "why": "从0对齐时末端读数恰好等于长度；若从2厘米刻度起到7厘米刻度，走过5个厘米间隔，长度是7−2。刻度线的条数与间隔数不同。",
+  "conditions": [
+    "用厘米刻度均匀且单位明确的直尺测量。",
+    "尺边沿被测长度放直，端点与所读刻度清楚对应。"
+  ],
+  "representation_note": "把物体一端对0，再故意对2厘米重复测量，比较末端读数和长度的区别。",
+  "when_to_use": [
+    "用厘米刻度均匀且单位明确的直尺测量。",
+    "尺边沿被测长度放直，端点与所读刻度清楚对应。"
+  ],
+  "steps": [
+    "尺子放直，找起点刻度。",
+    "读另一端刻度并求差。",
+    "写厘米单位，重复测量核对；认识100厘米组成1米。"
+  ],
+  "worked_example": {
+    "prompt": "线段两端对准尺的2厘米和8厘米，长多少厘米？",
+    "steps": [
+      "量的是两端间隔，不是末端数字8。",
+      "8−2=6厘米。"
+    ],
+    "answer": "6",
+    "family_id": "measure.ruler-offset-length",
+    "variant_id": "m2a.4.1:worked-v4",
+    "representation": "manipulative",
+    "cognitive_demand": "explain",
+    "verify": "8-2"
+  },
+  "pitfalls": [
+    "从非0刻度起量要减起点。",
+    "数刻度间隔，不把两个端点都算成长度单位。"
+  ],
+  "practice": [
+    {
+      "id": "m2a.4.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m2a.4.1-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "正确测量先让尺与线段同方向，读起止刻度差。写下数字和单位才能表达长度。",
+      "observation_note": "观察测量动作和读数差；实测图未给尺寸时不要求预设数值。",
+      "self_check": {
+        "prompt": "画一条线段，实际用尺量并记录起止读数；再给出起点3、终点9厘米时长度。",
+        "reference_answer": "实测值按实际图报告；给定读数差为6厘米。",
+        "criteria": [
+          "尺与端点对应",
+          "起止差与厘米单位正确"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "尺起点为3时，右端读9能直接写长9厘米吗？",
+        "hint": "数3到9之间经过的1厘米间隔。",
+        "revision_prompt": "用减法重写长度，再换0刻度对齐验证。"
+      },
+      "criterion_index": 0,
+      "title": "能用厘米作单位量物体长度"
+    },
+    {
+      "explanation": "米与厘米计量同一种长度，1米长可分成100个1厘米。长度不变，只改变单位与计数。",
+      "observation_note": "观察进率理解与整数倍应用，不是实际量遍100格的速度。",
+      "self_check": {
+        "prompt": "用一条1米示意带分10段，每段10厘米，说明共有多少厘米；再填2米有多少厘米。",
+        "reference_answer": "10×10=100厘米，2米=200厘米。",
+        "criteria": [
+          "说明100的来源",
+          "2米正确换算"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "一米只分10段，每段都一定是1厘米吗？",
+        "hint": "本题每段10厘米，总长10×10厘米。",
+        "revision_prompt": "给每段标10厘米，补全米与厘米的两种标记。"
+      },
+      "criterion_index": 1,
+      "title": "知道 1 米=100 厘米"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-26",
+    "teacher_review": "pending"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m5a.4.3",
+  "name": "旋转",
+  "tier": "tool",
+  "hook": "同样转90°，绕哪个点、朝哪边转，结果会一样吗？",
+  "definition": "旋转由中心、方向和角度确定。每个点绕同一中心转同样角度，到中心的距离保持；中心本身不动。画90°旋转时既要转对方向，又要保留距离。",
+  "why": "以中心为固定针脚，点画圆弧移动。仅说“转90°”缺中心与方向会出现不同结果；原来离中心2格的点，旋转后仍在半径2格的圆上，不能任意移远。",
+  "conditions": [
+    "指定旋转中心、顺时针或逆时针、旋转角度。",
+    "在方格纸画简单图形90°旋转，保持点到中心距离。"
+  ],
+  "representation_note": "用透明纸固定中心转动，或用方格与直角尺逐顶点构造；中心涂实心。",
+  "when_to_use": [
+    "指定旋转中心、顺时针或逆时针、旋转角度。",
+    "在方格纸画简单图形90°旋转，保持点到中心距离。"
+  ],
+  "steps": [
+    "标中心并说明顺逆方向。",
+    "给每个顶点的中心连线转90°，保留原距离。",
+    "连新顶点，核对中心固定、距离不变。"
+  ],
+  "worked_example": {
+    "prompt": "点A在O右方2格，绕O逆时针转90°，落在哪里？",
+    "steps": [
+      "从右向上是逆时针四分之一周。",
+      "到O距离仍2格。"
+    ],
+    "answer": "O上方2格处。",
+    "family_id": "geometry.quarter-turn-point",
+    "variant_id": "m5a.4.3:worked-v4",
+    "representation": "geometry",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "中心不是随图移动的一个任意点。",
+    "顺时针与逆时针90°通常结果不同；不能只看角度数。"
+  ],
+  "practice": [
+    {
+      "id": "m5a.4.3-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m5a.4.3-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "一项完整旋转指令包含绕谁、朝哪边、转多少。缺任何一项都可能不能唯一确定新位置。",
+      "observation_note": "观察语言信息，不等于已会作图。",
+      "self_check": {
+        "prompt": "比较“旋转90°”和“绕O顺时针旋转90°”，指出前者缺什么，再写一条自己的完整指令。",
+        "reference_answer": "前者缺中心、方向；例如绕P逆时针旋转90°。",
+        "criteria": [
+          "指出三个要素",
+          "指令完整可执行"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "点在O右边时顺时针与逆时针90°分别到哪边？",
+        "hint": "用钟针方向比划，顺时针从右向下。",
+        "revision_prompt": "补齐原指令的中心与方向，再画一支示意箭头。"
+      },
+      "criterion_index": 0,
+      "title": "能说出旋转的三要素"
+    },
+    {
+      "explanation": "逐顶点画新位置：转中心连线的方向，并保持这条连线长度。固定中心与各点距离能检查错误的拉伸。",
+      "observation_note": "观察90°作图与距离；只给一个点不足以证明整图正确。",
+      "self_check": {
+        "prompt": "以O为顶点，A在O右2格、B在O上1格，连OAB。绕O顺时针转90°并画新三角形。",
+        "reference_answer": "O不动，A′在O下2格，B′在O右1格，连OA′B′。",
+        "criteria": [
+          "各点方向正确",
+          "中心固定且距离保持"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "A′方向对了但离O3格，图形还保持原大小吗？",
+        "hint": "旋转保持OA=OA′。",
+        "revision_prompt": "在OA与OA′标相同长度，修正新点后重连。"
+      },
+      "criterion_index": 1,
+      "title": "能画出简单图形旋转 90° 后的图形"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-26",
+    "teacher_review": "pending"
+  }
+}

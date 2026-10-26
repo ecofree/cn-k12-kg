@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2a.4.2",
+  "name": "认识米及用米量",
+  "tier": "tool",
+  "hook": "量课桌和量教室，为什么有时用厘米、有时用米更方便？",
+  "definition": "米和厘米都表示长度，1米=100厘米。同一长度可换不同单位表达；选择单位要结合物体尺度和需要的精细程度，不意味着小物体绝不能用米。",
+  "why": "教室长用几米比写几百厘米简便，铅笔用十几厘米比一小部分米直观。换单位不改变长度，从米变厘米把每米换成100厘米，反向则每100厘米合1米。",
+  "conditions": [
+    "比较或计算前统一长度单位。",
+    "结合对象尺度与测量精度选择方便的单位。"
+  ],
+  "representation_note": "用1米软尺与1厘米刻度建立实物参照，给物体长度同时写两种单位。",
+  "when_to_use": [
+    "比较或计算前统一长度单位。",
+    "结合对象尺度与测量精度选择方便的单位。"
+  ],
+  "steps": [
+    "估计对象大概多长。",
+    "选合适单位与工具再量。",
+    "按100的进率换算并反向检查数值方向。"
+  ],
+  "worked_example": {
+    "prompt": "2米40厘米等于多少厘米？",
+    "steps": [
+      "2米=200厘米。",
+      "200+40=240厘米。"
+    ],
+    "answer": "240",
+    "family_id": "measure.metres-centimetres",
+    "variant_id": "m2a.4.2:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "verify": "2*100+40"
+  },
+  "pitfalls": [
+    "米变厘米数值应变大100倍，长度不变。",
+    "复名数2米40厘米不能拼成240米。"
+  ],
+  "practice": [
+    {
+      "id": "m2a.4.2-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m2a.4.2-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "合适单位兼顾尺度和读数方便。短铅笔常用厘米，房间长度常用米；两种都能表示长度，但写法便利不同。",
+      "observation_note": "观察选择依据，不把“常用”误写成只有一个合法单位。",
+      "self_check": {
+        "prompt": "给一支铅笔、教室长、橡皮长选择米或厘米并说明理由。",
+        "reference_answer": "铅笔和橡皮常用厘米，教室长常用米；按尺度与精细程度解释。",
+        "criteria": [
+          "选择合理",
+          "说明尺度或精度理由"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "教室长度写成600厘米有没有数学错误？",
+        "hint": "它等于6米，只是表达便利性不同。",
+        "revision_prompt": "为一个对象写两种等值单位，再说明更方便的一种。"
+      },
+      "criterion_index": 0,
+      "title": "能选择米或厘米作单位"
+    },
+    {
+      "explanation": "整数米乘100化厘米；厘米按100分组化米，未满100的部分保留为厘米。",
+      "observation_note": "观察两向换算，未要求额外的小数表示。",
+      "self_check": {
+        "prompt": "换算3米5厘米与420厘米，并用原单位核对。",
+        "reference_answer": "305厘米；4米20厘米，4×100+20=420。",
+        "criteria": [
+          "换算方向正确",
+          "复名数余量正确"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "3米5厘米为什么不是35厘米？",
+        "hint": "3米已经是300厘米。",
+        "revision_prompt": "分别写各部分换算，再把同单位的量相加。"
+      },
+      "criterion_index": 1,
+      "title": "能进行米与厘米的换算"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-26",
+    "teacher_review": "pending"
+  }
+}

@@ -164,6 +164,37 @@
               "reference_answer",
               "criteria"
             ]
+          },
+          "observation_note": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "difficulty_support": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "discriminating_prompt": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "hint": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "revision_prompt": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            },
+            "required": [
+              "discriminating_prompt",
+              "hint",
+              "revision_prompt"
+            ]
           }
         },
         "required": [
@@ -203,6 +234,20 @@
     },
     "diagram": {
       "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/diagram"
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "minItems": 1
+    },
+    "representation_note": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
     }
   },
   "required": [

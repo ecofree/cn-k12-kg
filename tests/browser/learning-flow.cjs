@@ -32,12 +32,23 @@ function claim(text) { result.claims.push(text); }
 function apiPath(response) { return new URL(response.url()).pathname; }
 function isResponse(response, pathname, method = "GET") { return apiPath(response) === pathname && response.request().method() === method; }
 async function actionResponse(action, pathname, method = "POST", predicate = () => true) {
-  const waiting = page.waitForResponse(response => isResponse(response, pathname, method) && predicate(response));
-  await action();
-  const response = await waiting;
+  const [response] = await Promise.all([
+    page.waitForResponse(response => isResponse(response, pathname, method) && predicate(response)), action(),
+  ]);
   const body = await response.json();
   assert.equal(response.status(), 200, pathname + ": " + JSON.stringify(body));
   return body;
+}
+async function navigationAction(action, pathname) {
+  // Recovery intentionally replaces the page after its own fetch has succeeded.
+  // Chromium may discard that response body during navigation; verify the status
+  // here and the restored assets through the new page's actual API below.
+  const [response] = await Promise.all([
+    page.waitForResponse(response => isResponse(response, pathname, "POST")), action(),
+  ]);
+  assert.equal(response.status(), 200, pathname);
+  await visible("#view-home");
+  await page.locator("#open-history:not([disabled])").waitFor();
 }
 async function visible(selector) { await page.locator(selector).waitFor({ state: "visible" }); }
 async function valueEquals(selector, value) {
@@ -131,6 +142,229 @@ async function noHorizontalOverflow(label) {
 }
 
 const journeys = {
+  async changed_content_preview() {
+    const review = read("build/content-review.json");
+    assert.ok(review.preview_tasks.length, "A content review must nominate actual pages");
+    result.observations.content_fingerprint = review.content_fingerprint;
+    result.observations.previews = [];
+    const captured = new Set();
+    for (const task of review.preview_tasks) {
+      await goto(task.path.slice(1));
+      const query = new URLSearchParams(new URL(page.url()).search), kind = query.has("teach") ? "teach" : query.has("unit") ? "unit" : query.has("project") ? "project" : query.has("scope") ? "scope" : query.has("needs") ? "needs" : query.has("profile") ? "profile" : "history";
+      await visible("#view-" + kind);
+      const main = page.locator("#view-" + kind);
+      const open = main.locator(kind === "teach" ? ".self-check-answer > summary" : ".worked-example > summary");
+      if (await open.count()) await open.first().click();
+      await page.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.querySelectorAll(".view:not([hidden]) img")].map(image => image.complete ? Promise.resolve() : new Promise(resolve => { image.onload = image.onerror = resolve; }))); });
+      const reading = await main.evaluate(element => ({
+        title: element.querySelector("h2")?.textContent,
+        mathErrors: [...element.querySelectorAll(".katex-error")].map(e => e.textContent),
+        images: [...element.querySelectorAll("img")].map(e => ({ src: e.getAttribute("src"), loaded: e.complete && e.naturalWidth > 0 })),
+        emptyButtons: [...element.querySelectorAll("button")].filter(e => !e.textContent.trim() && !e.getAttribute("aria-label")).length,
+        viewport: innerWidth, width: document.documentElement.scrollWidth,
+        textLength: element.innerText.length,
+      }));
+      assert.ok(reading.title && reading.textLength > 30, task.path + " did not render its actual material");
+      assert.equal(reading.mathErrors.length, 0, task.path + " math errors: " + JSON.stringify(reading.mathErrors));
+      assert.ok(reading.images.every(image => image.loaded), task.path + " has an unloaded diagram");
+      assert.equal(reading.emptyButtons, 0, task.path + " has an unnamed control");
+      assert.ok(reading.width <= reading.viewport + 1, task.path + " overflows on desktop");
+      result.observations.previews.push({ path: task.path, material_id: task.material_id, reason: task.reason, ...reading });
+      const screenshot = { teach: "primary-entry.png", unit: "desktop-unit.png", project: "desktop-project.png", scope: "desktop-home.png" }[kind];
+      if (screenshot && !captured.has(kind)) { await page.screenshot({ path: path.join(output, screenshot), fullPage: true }); captured.add(kind); }
+    }
+    result.observations.preview_count = result.observations.previews.length;
+    claim("Every directly affected or declared dependent material in the change-impact checklist was opened in the actual application.");
+    claim("Rendered titles, mathematical markup, image loading, named controls and desktop overflow were checked; representative screenshots were retained.");
+    claim("These previews supplement recorded semantic checks and interaction journeys; they are not teacher approval or student-effect evidence.");
+  },
+
+  async learning_needs_support() {
+    const uid = "data_reading_and_mean", unit = read(`data/learning_units/${uid}.json`);
+    await goto("?unit=" + uid);
+    let current = await startFrom(page.locator("#unit-actions").getByRole("button", { name: "练习", exact: true }), "practice");
+    const origin = current.session.id;
+    await fillAnswer(current.item.question, "999");
+    current = await actionResponse(() => page.locator("#submit").click(), "/api/answer");
+    await page.locator("#next").click();
+    current = await completeSession(current);
+    let plan = await apiRead("/api/plan");
+    const originalNeed = plan.learning_needs.find(n => n.source_ref.session_id === origin && n.kind === "answer_support");
+    const processNeed = plan.learning_needs.find(n => n.source_ref.session_id === origin && n.kind === "process_revision");
+    assert.ok(originalNeed && processNeed, "Both the bounded wrong answer and unreviewed process must survive completion");
+    await goto("?needs=1");
+    const card = page.locator("#needs-list > article").filter({ hasText: "作答后需进一步辨别" }).first();
+    await card.locator("summary").filter({ hasText: "暂缓这件事" }).click();
+    await card.locator("textarea").fill("合成功能验证：保留问题，暂时处理其他任务。");
+    await actionResponse(() => card.getByRole("button", { name: "保存原因与状态" }).click(), "/api/learning-needs/state");
+    await page.locator("#need-filter").selectOption("deferred");
+    const deferred = page.locator("#needs-list > article").first();
+    await deferred.locator("summary").filter({ hasText: "重新列入计划" }).click();
+    await deferred.locator("textarea").fill("合成功能验证：现在继续辨别。");
+    await actionResponse(() => deferred.getByRole("button", { name: "保存原因与状态" }).click(), "/api/learning-needs/state");
+    await page.locator("#need-filter").selectOption("open");
+    const support = await actionResponse(() => page.locator("#needs-list > article").filter({ hasText: "作答后需进一步辨别" }).first().getByRole("button", { name: "辨别与补学", exact: true }).click(), "/api/support/start");
+    await visible("#view-support");
+    assert.equal(support.session.kind, "support");
+    assert.ok(!("answer" in support.item));
+    assert.ok(support.item.choices.every(c => !("feedback" in c)));
+    const authored = unit.instructional_support.supports.find(s => s.id === support.support.id);
+    async function answerSupport(response, value) {
+      if (response.item.type === "choice") await page.locator(`#view-support input[type=radio][value="${value}"]`).check();
+      else await page.locator("#support-answer").fill(String(value));
+      return actionResponse(() => page.getByRole("button", { name: "记录这一步", exact: true }).click(), "/api/support/answer");
+    }
+    let guided = await answerSupport(support, authored.diagnostic.choices.find(c => c.id !== authored.diagnostic.answer).id);
+    assert.equal(guided.support.step, 1, "A submitted valid probe must advance to guided practice: " + JSON.stringify(guided.feedback));
+    await page.getByRole("heading", { name: "按需要打开提示", exact: true }).waitFor();
+    await actionResponse(() => page.getByRole("button", { name: "提示2 · 分步引导", exact: true }).click(), "/api/support/hint");
+    assert.equal((await apiRead("/api/plan")).learning_needs.find(n => n.need_id === originalNeed.need_id).status, "open");
+    guided = await answerSupport(guided, authored.guided_task.answer);
+    assert.equal((await apiRead("/api/plan")).learning_needs.find(n => n.need_id === originalNeed.need_id).status, "open");
+    assert.notEqual(guided.item.type, "rubric", "This bounded numeric need has an objective follow-up candidate");
+    const finished = await answerSupport(guided, answerBank.get(guided.item.id).answer);
+    assert.ok(finished.done);
+    plan = await apiRead("/api/plan");
+    const closed = plan.learning_needs.find(n => n.need_id === originalNeed.need_id);
+    assert.equal(closed.status, "resolved");
+    assert.equal(closed.resolution.kind, "supported_confirmation");
+    assert.equal(closed.resolution.independent_evidence, false);
+    assert.equal(plan.learning_needs.find(n => n.need_id === processNeed.need_id).status, "open");
+    assert.ok((await apiRead("/api/session/" + origin)).summary.answers.some(a => a.status === "wrong"));
+    await goto();
+    await page.locator("#stage-select").selectOption("senior");
+    await page.waitForFunction(() => document.querySelector("#need-counts").textContent.includes("1 项待处理"));
+    await page.locator("#open-needs").click(); await visible("#view-needs");
+    assert.ok((await page.locator("#needs-list").textContent()).includes("过程待自查或修订"));
+    result.observations.need_id = originalNeed.need_id;
+    result.observations.support_session_id = support.session.id;
+    claim("Wrong-answer and process needs survive completion, explicit deferral and stage changes.");
+    claim("Intermediate help does not resolve the need; final confirmation records help and leaves the original wrong answer intact.");
+  },
+
+  async profile_backup_recovery() {
+    await goto("?teach=m1a.1.1");
+    const input = page.locator("#self-check-0"), editor = page.locator("#teach-content > .card").filter({ has: input });
+    const draft1 = "合成恢复验证：我摆了5颗计数片，一颗一颗地数。", draft2 = "合成恢复验证修订：改变摆法仍是5颗，因为没有添减。";
+    const first = await saveText(editor, input, draft1);
+    await saveText(editor, input, draft2);
+    await page.locator("#open-profile").click(); await visible("#view-profile");
+    const enabled = await actionResponse(() => page.getByRole("button", { name: "创建恢复码", exact: true }).click(), "/api/profile/enable");
+    let code = await page.locator("#new-recovery-code").inputValue();
+    assert.ok(code && code === enabled.recovery_code);
+    assert.ok(!("cookie_token" in enabled) && !("owner_id" in enabled.profile));
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await page.getByText("更换恢复码", { exact: true }).click();
+    for (let i = 0; i < 2; i++) {
+      const rotated = await actionResponse(() => page.getByRole("button", { name: "生成新恢复码", exact: true }).click(), "/api/profile/rotate");
+      const latest = await page.locator("#new-recovery-code").inputValue();
+      assert.notEqual(latest, code); assert.equal(latest, rotated.recovery_code);
+      assert.equal(await page.locator(".recovery-code").count(), 1);
+      code = latest;
+    }
+    const downloading = page.waitForEvent("download");
+    await page.getByRole("button", { name: "下载加密备份", exact: true }).click();
+    const downloaded = await downloading, filename = path.join(output, "synthetic-encrypted-backup.json");
+    await downloaded.saveAs(filename);
+    const encrypted = fs.readFileSync(filename, "utf8");
+    assert.ok(!encrypted.includes(draft1) && !encrypted.includes(draft2));
+    await context.clearCookies();
+    await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); });
+    await goto("?profile=1");
+    assert.equal((await apiRead("/api/works")).total, 0);
+    await page.locator("#recover-code").fill(code);
+    await navigationAction(() => page.getByRole("button", { name: "凭恢复码找回", exact: true }).click(), "/api/profile/recover");
+    const recovered = await apiRead("/api/work?resource_id=" + encodeURIComponent(first.resource_id));
+    assert.equal(recovered.work.payload.draft.response, draft2);
+    assert.equal((await apiRead("/api/work/revisions?resource_id=" + encodeURIComponent(first.resource_id))).revisions.length, 2);
+    const originalBase = args["base-url"];
+    args["base-url"] = args["restore-base-url"];
+    assert.ok(args["base-url"] && args["base-url"] !== originalBase);
+    await context.close();
+    context = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: "zh-CN", acceptDownloads: true });
+    page = await context.newPage(); page.on("pageerror", error => scriptErrors.push(error.message));
+    await goto("?profile=1");
+    assert.equal((await apiRead("/api/works")).total, 0);
+    await page.locator("#recover-code").fill(code);
+    await page.locator("#restore-backup").setInputFiles(filename);
+    await navigationAction(() => page.getByRole("button", { name: "导入备份并恢复", exact: true }).click(), "/api/profile/restore");
+    const imported = await apiRead("/api/work?resource_id=" + encodeURIComponent(first.resource_id));
+    assert.deepEqual(imported.work.payload, recovered.work.payload);
+    const importedRevisions = (await apiRead("/api/work/revisions?resource_id=" + encodeURIComponent(first.resource_id))).revisions;
+    assert.equal(importedRevisions.length, 2);
+    await goto("?teach=m1a.1.1"); await valueEquals("#self-check-0", draft2);
+    claim("Creating a recovery code preserves the current anonymous learning records and returns no cookie credential in JSON.");
+    claim("Clearing cookies and site data is recoverable using the code; an encrypted backup imports through the UI into a separate fresh SQLite installation.");
+    claim("Work identity, original snapshot and both revisions survive; the downloaded envelope does not expose the learner's text.");
+    result.observations.restored_revisions = importedRevisions.length;
+  },
+
+  async scope_and_manipulatives() {
+    await goto("?scope=1"); await visible("#view-scope");
+    const report = await apiRead("/api/quality-scope");
+    assert.equal(report.summary.core_topics, 342); assert.equal(report.summary.foundation_topics, 135);
+    assert.equal(report.summary.incomplete, 0);
+    await page.locator("#scope-role").selectOption("foundation_support");
+    await page.locator("#scope-stage").selectOption("primary");
+    await page.locator("#scope-search").fill("算盘");
+    assert.ok(await page.locator("#scope-goals article").count());
+    await page.locator("#scope-goals article").first().getByRole("button", { name: "打开学习材料与任务" }).click();
+    await visible("#view-teach"); assert.equal(await page.locator(".self-check-prompt").count(), 2);
+    await page.setViewportSize({ width: 390, height: 844 });
+    for (const [uid, control, action] of [
+      ["ten_frame_place_value", "a", "End"], ["fraction_equivalence", "factor", "3"],
+      ["data_reading_and_mean", "baseline", "5"], ["linear_function_representations", "slope", "Home"]]) {
+      let releaseRead, readCaptured, readContinued;
+      const readReady = new Promise(resolve => { readCaptured = resolve; });
+      const readFinished = new Promise(resolve => { readContinued = resolve; });
+      const readPattern = "**/api/manipulative?unit_id=" + uid;
+      if (uid === "ten_frame_place_value") await page.route(readPattern, async route => {
+        await new Promise(resolve => { releaseRead = resolve; readCaptured(); });
+        await route.continue(); readContinued();
+      });
+      await goto("?unit=" + uid); await visible(".manipulative");
+      const field = page.locator(`#manip-${uid}-${control}`);
+      if (uid === "ten_frame_place_value") {
+        await readReady;
+        assert.ok(await field.isDisabled());
+        assert.ok(await page.locator(`#manip-explanation-${uid}`).isDisabled());
+        releaseRead(); await readFinished; await page.unroute(readPattern);
+      }
+      await page.waitForFunction(id => document.getElementById(id)?.disabled === false, `manip-${uid}-${control}`);
+      if (action === "Home" || action === "End") { await field.focus(); await field.press(action); }
+      else await field.selectOption(action);
+      if (uid === "ten_frame_place_value") {
+        const second = page.locator("#manip-ten_frame_place_value-b");
+        await second.focus(); await second.press("End");
+        assert.ok((await page.locator(".manipulative").textContent()).includes("合成2个十和0个一"));
+      }
+      const reflection = `合成操作验证：${uid}，先预测，再记录表征中的实际变化。`;
+      await page.locator(`#manip-explanation-${uid}`).fill(reflection);
+      if (uid === "ten_frame_place_value") {
+        let releaseSave, saveCaptured;
+        const saveReady = new Promise(resolve => { saveCaptured = resolve; });
+        await page.route("**/api/manipulative", async route => {
+          await new Promise(resolve => { releaseSave = resolve; saveCaptured(); }); await route.continue();
+        });
+        const saving = actionResponse(() => page.getByRole("button", { name: "保存操作和解释", exact: true }).click(), "/api/manipulative");
+        await saveReady;
+        assert.ok(await field.isDisabled());
+        assert.ok(await page.locator(`#manip-explanation-${uid}`).isDisabled());
+        releaseSave(); await saving; await page.unroute("**/api/manipulative");
+      } else await actionResponse(() => page.getByRole("button", { name: "保存操作和解释", exact: true }).click(), "/api/manipulative");
+      const state = (await apiRead("/api/manipulative?unit_id=" + uid)).saved.payload.state;
+      await page.reload({ waitUntil: "domcontentloaded" });
+      await valueEquals(`#manip-explanation-${uid}`, reflection);
+      assert.deepEqual((await apiRead("/api/manipulative?unit_id=" + uid)).saved.payload.state, state);
+      await noHorizontalOverflow(uid + "_manipulative_390");
+    }
+    await page.screenshot({ path: path.join(output, "primary-entry.png"), fullPage: true });
+    const exported = await apiRead("/api/export");
+    assert.equal(exported.events.filter(e => e.event_type === "manipulation_saved").length, 4);
+    claim("The complete course inventory retains 342 core and 135 foundation topics with explicit materials for every registered goal.");
+    claim("Four mathematical representations support keyboard controls, mobile layout and saved action/reflection recovery without assigning mastery.");
+  },
+
   async navigation_recovery() {
     let creates = 0;
     const countSession = request => { if (request.method() === "POST" && new URL(request.url()).pathname === "/api/session") creates++; };

@@ -1,0 +1,322 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cn-k12-kg.local/schema/v1/instructional-support.schema.json",
+  "title": "Objective-specific instructional support v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": 1
+    },
+    "supports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "objective_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "observation_note": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "hypotheses": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "minItems": 1
+          },
+          "diagnostic": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "prompt": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "type": {
+                "enum": [
+                  "choice",
+                  "numeric",
+                  "short",
+                  "rubric"
+                ]
+              },
+              "answer_spec": {
+                "$ref": "https://cn-k12-kg.local/schema/v1/answer-spec.schema.json"
+              },
+              "answer": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "choices": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "text": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "feedback": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "next_hint_level": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 3
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "text"
+                  ]
+                },
+                "minItems": 2
+              },
+              "explanation": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "verify": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "accept": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "minItems": 1
+              },
+              "rubric": {
+                "type": "array",
+                "items": {
+                  "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/rubricRow"
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "prompt",
+              "type",
+              "answer_spec",
+              "explanation"
+            ]
+          },
+          "hints": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "level": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 3
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              },
+              "required": [
+                "level",
+                "text"
+              ]
+            },
+            "minItems": 3
+          },
+          "branch_hints": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "level": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 3
+                      },
+                      "text": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    },
+                    "required": [
+                      "level",
+                      "text"
+                    ]
+                  }
+                ]
+              },
+              "minItems": 1
+            }
+          },
+          "guided_task": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "prompt": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "type": {
+                "enum": [
+                  "choice",
+                  "numeric",
+                  "short",
+                  "rubric"
+                ]
+              },
+              "answer_spec": {
+                "$ref": "https://cn-k12-kg.local/schema/v1/answer-spec.schema.json"
+              },
+              "answer": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "choices": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "text": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "feedback": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    },
+                    "next_hint_level": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 3
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "text"
+                  ]
+                },
+                "minItems": 2
+              },
+              "explanation": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "verify": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "accept": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "minItems": 1
+              },
+              "rubric": {
+                "type": "array",
+                "items": {
+                  "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/rubricRow"
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "prompt",
+              "type",
+              "answer_spec",
+              "explanation"
+            ]
+          },
+          "followup_task_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "id",
+          "objective_id",
+          "title",
+          "observation_note",
+          "hypotheses",
+          "diagnostic",
+          "hints",
+          "guided_task",
+          "followup_task_ids"
+        ]
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schema",
+    "supports"
+  ]
+}

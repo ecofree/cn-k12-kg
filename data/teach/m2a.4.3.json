@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2a.4.3",
+  "name": "认识线段",
+  "tier": "tool",
+  "hook": "把一根绳子拉直并固定两头，能找到它从哪里开始到哪里结束吗？",
+  "definition": "线段是直的，有两个端点，长度有限。射线有一个端点并向一端无限延伸，直线没有端点并向两端无限延伸；纸上只能画它们的一部分。",
+  "why": "两点确定线段的起止，才能量出完整长度。图中的箭头表示还可继续延伸，不是新的端点；尺子量到的纸面画痕不能代表无限直线的总长。",
+  "conditions": [
+    "观察同一平面中的线段、射线、直线模型。",
+    "图上的端点与延伸箭头已作明确标记。"
+  ],
+  "representation_note": "用两点和直尺画线段，再把一个或两个端点改为延伸箭头作比较。",
+  "when_to_use": [
+    "观察同一平面中的线段、射线、直线模型。",
+    "图上的端点与延伸箭头已作明确标记。"
+  ],
+  "steps": [
+    "先检查是否笔直。",
+    "数明确的端点，区分箭头。",
+    "根据延伸方向命名，再判断能否量完整长度。"
+  ],
+  "worked_example": {
+    "prompt": "画A、B两点并用直尺连起来，这是什么图形？",
+    "steps": [
+      "图形笔直，起止都由A、B限定。",
+      "有两个端点，可以量A到B的长度。"
+    ],
+    "answer": "线段AB。",
+    "family_id": "geometry.endpoints-and-extension",
+    "variant_id": "m2a.4.3:worked-v4",
+    "representation": "geometry",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "纸上有限画痕不意味着直线长度有限。",
+    "弯曲的线有两个末端，也不是本卡所说的线段。"
+  ],
+  "practice": [
+    {
+      "id": "m2a.4.3-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m2a.4.3-q3",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "识别线段同时看直和两端有限。画得弯曲的线，或带无限延伸箭头的图，都不满足两个条件。",
+      "observation_note": "观察完整特征，不能凭“有两头”单独判断。",
+      "self_check": {
+        "prompt": "画一条线段和一条有两个末端的弯曲线，指出哪条是线段并说两个特征。",
+        "reference_answer": "笔直且有两个端点的一条是线段。",
+        "criteria": [
+          "直的条件",
+          "两个端点条件"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "一条弯曲绳子也有两头，它为什么不是线段？",
+        "hint": "比较拉直与弯曲两种状态。",
+        "revision_prompt": "重画笔直的AB并给两个端点做记号。"
+      },
+      "criterion_index": 0,
+      "title": "能识别线段并说出它的两个特征"
+    },
+    {
+      "explanation": "线段2端点、不能无限延伸；射线1端点、一侧无限延伸；直线0端点、两侧无限延伸。",
+      "observation_note": "观察端点与延伸性，不以纸上画痕长度代替数学模型。",
+      "self_check": {
+        "prompt": "分别画三种模型，标出端点或箭头，说明哪一种可测完整长度。",
+        "reference_answer": "线段可测；射线和直线无限延伸，不能量完整长度。",
+        "criteria": [
+          "端点数与箭头对应",
+          "说明可测完整长度的只有线段"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "射线的箭头尖算第二个端点吗？",
+        "hint": "箭头是“继续延伸”，不是停止。",
+        "revision_prompt": "把错误的端点符号改为箭头，并重写三个端点数。"
+      },
+      "criterion_index": 1,
+      "title": "能比较线段与直线、射线的区别"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-26",
+    "teacher_review": "pending"
+  }
+}

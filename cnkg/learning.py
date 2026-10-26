@@ -290,6 +290,8 @@ def check_unit(unit, topics=None, standards=None) -> list[str]:
         if not seen.intersection({"transfer", "delayed"}):
             errors.append(f"目标 {oid} 缺少独立迁移或延迟任务证据")
 
+    from .instruction import check_supports
+    errors.extend(check_supports(unit))
     review = unit.get("teacher_review")
     if (not isinstance(review, dict) or not isinstance(review.get("status"), str)
             or review["status"] not in {"pending", "approved", "rejected"}):

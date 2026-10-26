@@ -68,6 +68,44 @@ class CatalogFixtureTests(unittest.TestCase):
     def compile(self):
         return compile_catalog(self.data)
 
+    def test_public_constructor_and_accessors_keep_nested_payloads_independent(self):
+        payload = self.compile()
+        catalog = Catalog(payload)
+        qid = "m5b.4.1-q1"
+        original = catalog.task(qid)
+        payload["tasks"][qid]["prompt"] = "caller changed the input"
+        payload["tasks"][qid]["skill_ids"].append("caller-only-skill")
+        self.assertEqual(catalog.task(qid), original)
+        shown = catalog.task(qid)
+        shown["skill_ids"].append("accessor-only-skill")
+        self.assertEqual(catalog.task(qid), original)
+
+    def test_loaded_catalogs_are_isolated_and_every_load_revalidates_bytes(self):
+        payload = self.compile()
+        path = self.data / "catalog.json"
+        write(path, payload)
+        first = load_catalog(self.data)
+        qid = "m5b.4.1-q1"
+        expected = first.task(qid)
+        first.tasks[qid]["skill_ids"].append("first-instance-only")
+        second = load_catalog(self.data)
+        self.assertEqual(second.task(qid), expected)
+        returned = second.task(qid)
+        returned["skill_ids"].append("returned-copy-only")
+        self.assertEqual(second.task(qid), expected)
+
+        # The private ownership path must not bypass either integrity check.
+        payload["tasks"][qid]["prompt"] += " changed without rebuilding"
+        write(path, payload)
+        with self.assertRaisesRegex(CatalogError, "内容指纹不匹配"):
+            load_catalog(self.data)
+        write(path, second.data)
+        questions = read(self.data / "questions.json")
+        questions[0]["explanation"] += " source changed after a successful load"
+        write(self.data / "questions.json", questions)
+        with self.assertRaisesRegex(CatalogError, "目录源已改变"):
+            load_catalog(self.data)
+
     def test_known_material_answer_duplicates_share_families(self):
         c = Catalog(self.compile())
         circle = c.task("m6a.5.3-q2")
@@ -264,8 +302,9 @@ class FullCatalogTests(unittest.TestCase):
     def test_all_real_resource_classes_are_registered_and_contracts_explicit(self):
         counts = self.c.coverage["task_source_counts"]
         self.assertEqual(counts["bank"], 3568)
-        self.assertEqual(counts["self_check"], 684)
-        self.assertEqual(counts["project_step"], 72)
+        self.assertEqual(counts["self_check"], 954)
+        self.assertEqual(counts["project_step"], 84)
+        self.assertEqual(counts["unit"], 231)
         self.assertEqual(self.c.coverage["quarantined_tasks"], 489)
         self.assertTrue(all("answer_spec" in t for t in self.c.tasks.values()))
         self.assertEqual(validate_resource("catalog", self.c.data), [])

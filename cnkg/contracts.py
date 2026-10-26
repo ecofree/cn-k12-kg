@@ -22,7 +22,7 @@ RESOURCE_KINDS = frozenset({
     "topic", "dependency", "question", "teaching-card", "learning-task",
     "learning-unit", "project", "answer-spec",
     "skills-registry", "catalog-bindings", "catalog",
-    "content-manifest", "question-source",
+    "content-manifest", "question-source", "instructional-support", "curriculum-scope",
 })
 
 
@@ -168,6 +168,12 @@ def validate_repository(data_dir=None, *, include_references=True):
     # Author manifests and declared question files are checked independently of
     # the compiled trace view; they do not become a second reference graph.
     manifest_path = data / "content_sources.json"
+    scope_path = data / "curriculum_scope.json"
+    if scope_path.is_file():
+        try:
+            errors.extend(validate_resource("curriculum-scope", _read(scope_path)))
+        except (OSError, ValueError) as exc:
+            errors.append(f"curriculum_scope.json: {exc}")
     if manifest_path.is_file():
         try:
             manifest = _read(manifest_path)

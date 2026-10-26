@@ -532,6 +532,14 @@ class LearningStore:
         return ({"resource_id": row["resource_id"], "occurred_at": row["occurred_at"],
                  "content_sha256": row["content_sha256"]} if row else None)
 
+    def latest_resource_event(self, owner_id, resource_id, event_type):
+        """Recover one saved manipulation without scanning all learner events."""
+        with self._connect() as db:
+            row = db.execute("""SELECT * FROM events WHERE owner_id=? AND resource_id=? AND event_type=?
+                ORDER BY seq DESC LIMIT 1""", (owner_id, resource_id, event_type)).fetchone()
+        return ({"occurred_at": row["occurred_at"], "content_sha256": row["content_sha256"],
+                 "payload": json.loads(row["payload_json"])} if row else None)
+
     def latest_scope_activity(self, owner_id, resource_ids, *, question_ids=(), family_ids=()):
         """Latest related material/reference, task presentation, answer or feedback.
 

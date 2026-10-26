@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "topicId": "m1a.2.9",
+  "name": "10的认识",
+  "tier": "tool",
+  "author": "ai",
+  "author_type": "ai",
+  "review_status": "draft",
+  "hook": "散放的10根小棒捆成一捆，数量少了吗？新的一捆叫什么？",
+  "definition": "10个一合起来就是1个十。捆成一捆改变了计数单位，没有改变小棒总数。10写作两位，十位上的1表示1个十，个位上的0表示没有单独剩下的一。",
+  "why": "逐根数10次与把10根看成一捆数1次，描述的是同样数量。写10要留出个位；若只写1，数就变成1个一。按数序，9再添1是10，10再添1是11。",
+  "when_to_use": [
+    "需要把实物、数位或图示中的数量说清楚。",
+    "需要核对自己的读数、写数或表示方法。"
+  ],
+  "steps": [
+    "逐根数出10根小棒。",
+    "把10根捆成一捆，称为1个十。",
+    "在十位写1、个位写0，读十。",
+    "用添1或拿走1核对相邻的9与11。"
+  ],
+  "worked_example": {
+    "prompt": "1个十里面有几个一？",
+    "steps": [
+      "把一捆拆开逐根点数。",
+      "共有10根，所以1个十=10个一。"
+    ],
+    "answer": "10",
+    "verify": "5+5",
+    "family_id": "placevalue.ten-adjacent-units",
+    "variant_id": "m1a.2.9:worked-example-v4"
+  },
+  "pitfalls": [
+    "把1捆误说成只有1根，混淆单位。",
+    "写10时漏掉个位0。"
+  ],
+  "practice": [
+    {
+      "id": "m1a.2.9-q1",
+      "note": "结合实物或数位说明结果；自检量规另列。"
+    },
+    {
+      "id": "m1a.2.9-q2",
+      "note": "结合实物或数位说明结果；自检量规另列。"
+    }
+  ],
+  "check": "逐项目标完成下面的操作或解释，先留下过程，再对照量规修改；记录仍不确定的地方。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "知道 10 个一是 1 个十",
+      "explanation": "一捆必须约定恰好10根，才能把1捆作为1个十；随意扎一捆并不自动代表十。",
+      "self_check": {
+        "prompt": "把10根捆成1捆后再拆开，分别用“十”和“一”描述，并说明总量有没有变。",
+        "reference_answer": "捆着是1个十，拆开是10个一，总量没有变。",
+        "criteria": [
+          "捆内确为10根",
+          "两种单位表达相等",
+          "说明操作不改变总量"
+        ]
+      },
+      "observation_note": "观察单位转换的操作解释，不只看是否填出10。",
+      "difficulty_support": {
+        "discriminating_prompt": "如果一捆只有8根，还能叫1个十吗？",
+        "hint": "先点清每捆有10根，再使用“十”这个单位。",
+        "revision_prompt": "重新点数、捆扎，并写1个十=10个一。"
+      }
+    },
+    {
+      "criterion_index": 1,
+      "title": "能认、读、写 10 并说出相邻的数",
+      "explanation": "10的两个数字各占一个数位，1在十位、0在个位。相邻数是按一个一个数的顺序前后各一个。",
+      "self_check": {
+        "prompt": "读写10，在十位与个位表填数字，再说10前一个和后一个数。",
+        "reference_answer": "十位1、个位0，读十；前一个9，后一个11。",
+        "criteria": [
+          "读写及数位正确",
+          "相邻数9与11正确"
+        ]
+      },
+      "observation_note": "手写与口头读数须实际完成；录入结果只保存报告。",
+      "difficulty_support": {
+        "discriminating_prompt": "把0删掉后还是十吗？",
+        "hint": "在数位表中固定十位和个位两个位置。",
+        "revision_prompt": "重写10，并旁边摆一捆10根核对。"
+      }
+    }
+  ],
+  "conditions": [
+    "每捆严格包含10个同类计数对象。"
+  ],
+  "representation_note": "10根小棒、成捆模型与十位个位表。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-26",
+    "teacher_review": "pending"
+  }
+}

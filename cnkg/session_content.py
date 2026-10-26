@@ -42,7 +42,7 @@ def capture_assets(resources):
     return assets
 
 
-def graph_snapshot(graph, targets):
+def graph_snapshot(graph, targets, *, assets=None):
     scope = graph.scope(targets, hard_only=True)
     topics = [copy.deepcopy(t) for t in graph.topics if t["id"] in scope]
     questions = [copy.deepcopy(q) for q in graph.questions
@@ -55,7 +55,9 @@ def graph_snapshot(graph, targets):
         "tiers": {tid: copy.deepcopy(graph.tiers[tid]) for tid in scope if tid in graph.tiers},
         "standard_coverage": {kind: engine._standard_coverage(graph, kind)
                               for kind in ("all", "core", "tool")},
-        "assets": capture_assets(questions),
+        "assets": ({src: copy.deepcopy(assets[src]) for src in
+                    {q.get("diagram", {}).get("src") for q in questions} if src in assets}
+                   if assets is not None else capture_assets(questions)),
     }
 
 

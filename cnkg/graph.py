@@ -234,7 +234,10 @@ def load_graph(data_dir: pathlib.Path | None = None,
                 continue
             # The published compiler resolved the single authored contract.
             # CLI and Web now receive exactly that same contract.
-            active.append({**question, "answer_spec": task["answer_spec"]})
+            from .admissions import fingerprint
+            resolved = {**question, "answer_spec": task["answer_spec"]}
+            resolved["_admission"] = {"content_sha256": fingerprint(resolved), "policy": task["policy"]}
+            active.append(resolved)
         questions = active
     if include_external:
         from .evidence import DIAGNOSABLE

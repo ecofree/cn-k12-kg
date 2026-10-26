@@ -830,6 +830,44 @@
           "example": "两数之和小于1/2+1/2=1。"
         }
       ]
+    },
+    {
+      "id": "fraction_equivalence:delayed-7",
+      "objective_ids": [
+        "fraction_equivalence:o2",
+        "fraction_equivalence:common_unit",
+        "fraction_equivalence:scale"
+      ],
+      "phase": "delayed",
+      "type": "choice",
+      "prompt": "同一个单位“1”下，要把3/8和1/6改写为分母相同的两个等值分数。哪组改写同时保持两个分数的原值？",
+      "explanation": "公分母可取24；3/8的分子分母同乘3得到9/24，1/6的分子分母同乘4得到4/24。只改分母会改变原值。",
+      "feedback": {
+        "correct": "请核对过程、条件和单位；本次表现只对应本题观察到的部分。",
+        "incorrect": "分别核对两次变形：分母乘几，分子也要乘几。"
+      },
+      "family_id": "fraction.common-unit-equivalence-check",
+      "variant_id": "fraction_equivalence:delayed-7",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "answer": "B",
+      "choices": [
+        {
+          "id": "A",
+          "text": "3/24和1/24"
+        },
+        {
+          "id": "B",
+          "text": "9/24和4/24"
+        },
+        {
+          "id": "C",
+          "text": "4/14和4/14"
+        }
+      ],
+      "answer_spec": {
+        "kind": "choice"
+      }
     }
   ],
   "teacher_review": {
@@ -849,5 +887,673 @@
   "diagram": {
     "src": "/static/diagrams/fraction-unit-models.svg",
     "alt": "同样长的两个整体中，第一条等分为2份并涂1份，第二条等分为4份并涂2份；两条涂色长度相同。下方数轴从0到2，以0到1为单位长度，标出1/2的位置。"
+  },
+  "instructional_support": {
+    "schema": 1,
+    "supports": [
+      {
+        "id": "fraction_equivalence:support:o1",
+        "objective_id": "fraction_equivalence:o1",
+        "title": "先确定整体，再看等分",
+        "observation_note": "复合目标先检查等分条件；数轴、集合和整体改变仍需后续任务确认。",
+        "hypotheses": [
+          "可能只数涂色块而未检查等大。",
+          "可能把不同整体的相同分率当成相同数量。"
+        ],
+        "diagnostic": {
+          "prompt": "一张纸分成大小不同的6块，涂其中3块。能确定涂了整张纸的一半吗？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "能，3是6的一半",
+              "feedback": "块数之比不一定等于面积之比，需要等面积或实际面积信息。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "不能，仅凭块数还不够",
+              "feedback": "对，分数描述面积时需看等面积的份。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "一定不到一半",
+              "feedback": "涂色块也可能更大，目前不能确定多或少。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "分母6表示把同一整体平均分成6份；不等大的6块不满足这个条件。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先说清单位“1”是哪一个完整物体。"
+          },
+          {
+            "level": 2,
+            "text": "用同样大的份来数面积；若各块不等大，不能只用块数作分子、分母。"
+          },
+          {
+            "level": 3,
+            "text": "同一张纸等分成6份，涂3份才可直接写3/6；若3块合起来占纸的四分之三，虽仍是3块，面积占比却是3/4。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "两个面积不同的蛋糕，各取它的一半，哪项确定？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "两块一定一样大"
+            },
+            {
+              "id": "B",
+              "text": "都占各自蛋糕的1/2，实际面积不同"
+            },
+            {
+              "id": "C",
+              "text": "大蛋糕的一半一定比小蛋糕整块小"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "两个蛋糕原面积不同，各取1/2，相当于两面积同乘正数1/2，大小关系保持，因此取出的实际面积不同。"
+        },
+        "followup_task_ids": [
+          "fraction_equivalence:practice-1",
+          "fraction_equivalence:transfer-1",
+          "fraction_equivalence:delayed-2"
+        ]
+      },
+      {
+        "id": "fraction_equivalence:support:o2",
+        "objective_id": "fraction_equivalence:o2",
+        "title": "等值变形保持同一个量",
+        "observation_note": "复合目标短题检查等值变形的依据；最简判断与通分应用分别通过后续任务确认。",
+        "hypotheses": [
+          "可能以为分子分母同加就等值。",
+          "可能只改分母或约去不共同的因数。"
+        ],
+        "diagnostic": {
+          "prompt": "把2/5改写成分母15的等值分数，哪一步正确？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "分母加10，分子也加10，得12/15",
+              "feedback": "同加通常改变商；请比较12/15与2/5。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "只把分母改成15，得2/15",
+              "feedback": "每份缩小后，份数也需相应增加。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "C",
+              "text": "分子分母都乘3，得6/15",
+              "feedback": "对，每份变为原来的1/3，份数变为3倍，量不变。",
+              "next_hint_level": 1
+            }
+          ],
+          "answer": "C",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "等值变形将分子分母同乘或同除以同一个非零数；分母始终非零。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "把分子理解为份数，分母理解为把整体等分的份数。"
+          },
+          {
+            "level": 2,
+            "text": "分母从5到15是乘3，分子也乘3；约分则同时除以共同因数。"
+          },
+          {
+            "level": 3,
+            "text": "4/6的分子分母同除以2得2/3；为了与1/4比较，可把2/3同乘4得8/12，1/4同乘3得3/12，二者原值均未变。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "把15/25约成最简分数。先找15与25的共同因数，填最简分数。",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "simplest_fraction"
+          },
+          "answer": "3/5",
+          "verify": "15/25",
+          "explanation": "两者同除以5得3/5，3与5没有大于1的公因数。"
+        },
+        "followup_task_ids": [
+          "fraction_equivalence:practice-2",
+          "fraction_equivalence:transfer-2",
+          "fraction_equivalence:delayed-1"
+        ]
+      },
+      {
+        "id": "fraction_equivalence:support:o3",
+        "objective_id": "fraction_equivalence:o3",
+        "title": "用相同份单位做加减",
+        "observation_note": "短题观察异分母相加为何先通分；整体条件、比较和估计另需确认。",
+        "hypotheses": [
+          "可能把分母也相加。",
+          "可能使用不同整体却直接比较或合并实际数量。"
+        ],
+        "diagnostic": {
+          "prompt": "同样长的单位线段上，1/3+1/6应怎样解释？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "1份加1份，所以2/9",
+              "feedback": "两种“1份”大小不同，分母相加没有统一份单位。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "把1/3改为2/6，再加1/6得3/6",
+              "feedback": "对，三份都是同一单位长度的1/6。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "只比较3和6，取较大的分母即可",
+              "feedback": "选择分母后仍需保持每个原分数的值。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "先把同一整体分成六等份，二份加一份是三份，值为1/2。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先检查题中两个分数是否以同一个或同样大的整体为单位。"
+          },
+          {
+            "level": 2,
+            "text": "写出两个等值分数，使它们的每份大小相同，再加减份数。"
+          },
+          {
+            "level": 3,
+            "text": "同一单位下1/4+1/6=3/12+2/12=5/12；若分别是大小不同的两桶水的1/4与1/6，先知道桶容量才能求实际总量。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "同一条彩带先剪去全长的1/4，再剪去原全长的1/8，还剩原全长的几分之几？",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "5/8",
+          "verify": "1-1/4-1/8",
+          "explanation": "1/4=2/8，共剪去3/8，还剩5/8；第二次基准是原全长。"
+        },
+        "followup_task_ids": [
+          "fraction_equivalence:practice-3",
+          "fraction_equivalence:transfer-1",
+          "fraction_equivalence:delayed-3"
+        ]
+      },
+      {
+        "id": "fraction_equivalence:support:whole",
+        "objective_id": "fraction_equivalence:whole",
+        "title": "标明分数的单位“1”",
+        "observation_note": "观察同一个量换整体时分数如何变化；不能凭一次选择认定已能处理所有整体问题。",
+        "hypotheses": [
+          "可能把分数变小理解为实物缩小。",
+          "可能默认题中所有“1”一样大。"
+        ],
+        "diagnostic": {
+          "prompt": "一段6厘米红线不动，原来以12厘米为单位，后来以18厘米为单位。发生了什么？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "红线从1/2变成1/3，实际仍长6厘米",
+              "feedback": "对，改变的是计量的整体，不是红线。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "B",
+              "text": "分数变小，红线也变短",
+              "feedback": "请区分实物长度与表示它的单位。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "C",
+              "text": "红线没动，所以分数必须不变",
+              "feedback": "同一长度换用更大的单位，分数表示会改变。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "6/12=1/2，6/18=1/3，两个表示的参照整体不同。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "写出“谁的几分之几”，不要只留下孤立分数。"
+          },
+          {
+            "level": 2,
+            "text": "固定实际数量，再分别除以各自整体的数量。"
+          },
+          {
+            "level": 3,
+            "text": "8厘米相对于16厘米是1/2，相对于24厘米是1/3；实际都是8厘米。比较实际长度时需把分率乘回各自的整体。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "一串珠子的2/3是18颗。先求1/3有几颗，再求整串，填颗数。",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "27",
+          "verify": "18/(2/3)",
+          "explanation": "2份是18颗，1份9颗，3份27颗。"
+        },
+        "followup_task_ids": [
+          "fraction_equivalence:practice-4",
+          "fraction_equivalence:transfer-1",
+          "fraction_equivalence:delayed-2"
+        ]
+      },
+      {
+        "id": "fraction_equivalence:support:represent",
+        "objective_id": "fraction_equivalence:represent",
+        "title": "数份之前先看每份有多大",
+        "observation_note": "观察数轴上超出1的分数表示；集合与面积模型的互译仍需后续任务。",
+        "hypotheses": [
+          "可能只数刻度点而多算一份。",
+          "可能认为分数只能落在0和1之间。"
+        ],
+        "diagnostic": {
+          "prompt": "数轴上0到1等分为5段，从0向右走7段到P。P表示几？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "7/5",
+              "feedback": "对，每段1/5，七段是7/5，超过1。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "B",
+              "text": "7/6",
+              "feedback": "段数与刻度点数不同，单位始终分成5段。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "C",
+              "text": "2/5",
+              "feedback": "2/5只表示超过1的部分，漏掉前面的一个单位。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "分母由一个单位的等分段数决定，分子数从0起累计的份数。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "把0到1这一段框出来，确认它被等分成几段。"
+          },
+          {
+            "level": 2,
+            "text": "每一段都是一个单位的几分之一；走过多少段就累计多少份。"
+          },
+          {
+            "level": 3,
+            "text": "0到1分4段，每段1/4；从0走6段是6/4=3/2。图上有7个沿途端点，但只走了6段。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "12颗同样的珠子中有9颗蓝色，以整盒为整体，哪组表示一致？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "9/12=3/4"
+            },
+            {
+              "id": "B",
+              "text": "9/3=3"
+            },
+            {
+              "id": "C",
+              "text": "3/12=1/4"
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "蓝珠9颗、总数12颗；每3颗分一组，蓝珠3组、全盒4组。"
+        },
+        "followup_task_ids": [
+          "fraction_equivalence:practice-1",
+          "fraction_equivalence:transfer-3",
+          "fraction_equivalence:delayed-3"
+        ]
+      },
+      {
+        "id": "fraction_equivalence:support:scale",
+        "objective_id": "fraction_equivalence:scale",
+        "title": "区分同乘与同加",
+        "observation_note": "观察能否用数值检验错误等值规则；选对反例不等于能解释全部变形。",
+        "hypotheses": [
+          "可能把“同做一个运算”当作值不变的充分条件。",
+          "可能没有注意乘除因子必须相同且非零。"
+        ],
+        "diagnostic": {
+          "prompt": "有人说1/2=(1+2)/(2+2)。哪项检验有效？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "两边都加2，所以不用检验",
+              "feedback": "同加并不保持比值，应算出新旧分数。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "1/2=2/4，而新分数是3/4，不相等",
+              "feedback": "对，用同一分母比较直接看到值改变。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "3/4分子分母都大，所以一定等值",
+              "feedback": "大小都变大不能保证比例不变。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "1/2同乘2是2/4，分子分母同加2却是3/4。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "从原分母到新分母，找乘了或除了几。"
+          },
+          {
+            "level": 2,
+            "text": "检查分子是否使用同一个非零因子，不能把“相同操作”泛化到加减。"
+          },
+          {
+            "level": 3,
+            "text": "3/7同乘4得12/28；同加4得7/11，不是等值变形。约分时如12/28同除以4得3/7。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "把4/9写成分母27的等值分数，分子应是多少？",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "12",
+          "verify": "4*3",
+          "explanation": "分母乘3，分子也乘3，得到12/27。"
+        },
+        "followup_task_ids": [
+          "fraction_equivalence:practice-1",
+          "fraction_equivalence:transfer-2",
+          "fraction_equivalence:delayed-4"
+        ]
+      },
+      {
+        "id": "fraction_equivalence:support:simplify",
+        "objective_id": "fraction_equivalence:simplify",
+        "title": "约到没有共同因数为止",
+        "observation_note": "观察最简分数的停止条件；计算错误还可能来自漏除或写错，需看过程再判断。",
+        "hypotheses": [
+          "可能认为两个数都是奇数就最简。",
+          "可能只约一次便停止，未检查剩余公因数。"
+        ],
+        "diagnostic": {
+          "prompt": "21/35的分子分母都是奇数，它最简了吗？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "最简，因为都不能除以2",
+              "feedback": "还可以同时除以7；奇偶不是最简判据。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "不最简，可以同除以7得到3/5",
+              "feedback": "对，约分要检查所有大于1的共同因数。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "不最简，分别减7得到14/28",
+              "feedback": "相减不是约分，会改变原值。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "最简要求分子与分母没有大于1的公因数。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先找两个数共同含有的因数，不只找2。"
+          },
+          {
+            "level": 2,
+            "text": "将分子分母同除以共同因数，再对结果继续检查。"
+          },
+          {
+            "level": 3,
+            "text": "30/42先同除以2得15/21，还能同除以3得5/7；也可一步同除以6。5与7互质，才可以停止。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "将27/45约成最简分数。",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "simplest_fraction"
+          },
+          "answer": "3/5",
+          "verify": "27/45",
+          "explanation": "同时除以9得3/5，3与5互质。"
+        },
+        "followup_task_ids": [
+          "fraction_equivalence:practice-2",
+          "fraction_equivalence:transfer-4",
+          "fraction_equivalence:delayed-1"
+        ]
+      },
+      {
+        "id": "fraction_equivalence:support:common_unit",
+        "objective_id": "fraction_equivalence:common_unit",
+        "title": "公分母只是统一份大小",
+        "observation_note": "观察是否保持两个原值并统一份单位；不要求公分母一定最小，除非题目明确要求。",
+        "hypotheses": [
+          "可能把两个原分子原样放到新分母上。",
+          "可能把“可用公分母”和“最小公分母”混为一谈。"
+        ],
+        "diagnostic": {
+          "prompt": "给1/4与1/6通分，选24作分母可以吗？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "不可以，必须用12",
+              "feedback": "12最小，但24也能作共同的份单位。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "可以，改写为6/24与4/24",
+              "feedback": "对，分别同乘6和4，原值不变。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "可以，改写为1/24与1/24",
+              "feedback": "只改分母改变了两个原分数。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "共同分母取原分母的正公倍数；每个分数分别等值变形。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "找两个分母的正公倍数；先问题目是否要求最小。"
+          },
+          {
+            "level": 2,
+            "text": "把各自分母乘到共同分母，再把相同倍数作用在对应分子上。"
+          },
+          {
+            "level": 3,
+            "text": "2/3与3/4可化为8/12与9/12，也可化为16/24与18/24。两种做法都统一了单位，使用12通常更简便。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "把5/6与1/4通分为分母12，哪组正确？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "5/12与1/12"
+            },
+            {
+              "id": "B",
+              "text": "10/12与3/12"
+            },
+            {
+              "id": "C",
+              "text": "10/12与4/12"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "6到12乘2，5也乘2；4到12乘3，1也乘3。"
+        },
+        "followup_task_ids": [
+          "fraction_equivalence:practice-7",
+          "fraction_equivalence:transfer-2",
+          "fraction_equivalence:delayed-7"
+        ]
+      },
+      {
+        "id": "fraction_equivalence:support:operate",
+        "objective_id": "fraction_equivalence:operate",
+        "title": "相同单位下数份，结果还要检验",
+        "observation_note": "观察同分母减法保留份单位；比较、求余和估计仍需各自任务确认。",
+        "hypotheses": [
+          "可能减分子时也减分母。",
+          "可能只算已用部分，忘记题目问剩余或差。"
+        ],
+        "diagnostic": {
+          "prompt": "同一个单位下7/10−3/10，哪条解释正确？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "分子分母都减，得4/0",
+              "feedback": "每份大小没有改变，分母不能减成0。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "七个十分之一去掉三个，余四个十分之一",
+              "feedback": "对，4/10还可约成2/5。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "只比较7与3，不用看分母",
+              "feedback": "数份的前提是份的大小相同。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "同分母时相减的是份数，每份仍是1/10。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先标出要求的是总量、差，还是以1减去已用部分的余量。"
+          },
+          {
+            "level": 2,
+            "text": "异分母先等值通分，同分母只加减分子，最后约分。"
+          },
+          {
+            "level": 3,
+            "text": "3/4−1/6=9/12−2/12=7/12。结果应小于3/4且大于0；若算成负数或超过原量，要返回检查。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "同一单位长度下，5/6−1/3是多少？填最简分数。",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "simplest_fraction"
+          },
+          "answer": "1/2",
+          "verify": "5/6-1/3",
+          "explanation": "1/3=2/6，差为3/6=1/2，大小符合预期。"
+        },
+        "followup_task_ids": [
+          "fraction_equivalence:practice-3",
+          "fraction_equivalence:transfer-1",
+          "fraction_equivalence:delayed-3"
+        ]
+      }
+    ]
   }
 }

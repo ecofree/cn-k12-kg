@@ -547,6 +547,13 @@ def question_content_sha256(q: dict) -> str:
 
 
 def question_policy(q: dict) -> dict:
+    """Published bank tasks use their frozen admission, synthetic inputs keep legacy checks."""
+    from .admissions import runtime_policy
+    admitted = runtime_policy(q)
+    return admitted if admitted is not None else _legacy_question_policy(q)
+
+
+def _legacy_question_policy(q: dict) -> dict:
     """一道题在诊断和练习中能提供哪些证据；不修改原数据。
 
     旧自有题可从 verify/解析取得计算一致性或初步说明证据，绝不因“自有”

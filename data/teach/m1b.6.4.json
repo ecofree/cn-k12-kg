@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m1b.6.4",
+  "name": "认识人民币",
+  "tier": "tool",
+  "hook": "3角与3元数字相同，能买到同样价钱的东西吗？",
+  "definition": "元、角、分是人民币的金额单位。1元=10角，1角=10分，所以1元=100分。比较或相加前要看单位，不能只看数字。",
+  "why": "把1元换成10张1角示意卡，总金额不变；每角再换10分，共100分。单位越小，同样金额要用更多个单位计数，两个十进换算连起来是乘100。",
+  "conditions": [
+    "用标明金额的示意卡练习，不以卡片张数代替金额。",
+    "本卡处理非负的整元、整角、整分与简单复名数。"
+  ],
+  "representation_note": "用元、角、分三种纸卡进行等额兑换，10张1角与1张1元配对。",
+  "when_to_use": [
+    "用标明金额的示意卡练习，不以卡片张数代替金额。",
+    "本卡处理非负的整元、整角、整分与简单复名数。"
+  ],
+  "steps": [
+    "读清金额的数和单位。",
+    "按1元10角、1角10分逐级兑换。",
+    "把复名数换成同一单位，再合并或拆分并验回。"
+  ],
+  "worked_example": {
+    "prompt": "2元3角一共是多少角？",
+    "steps": [
+      "2元可换成20角。",
+      "20角与3角合成23角。"
+    ],
+    "answer": "23",
+    "family_id": "measure.money-unit-conversion",
+    "variant_id": "m1b.6.4:worked-v4",
+    "representation": "manipulative",
+    "cognitive_demand": "explain",
+    "verify": "2*10+3"
+  },
+  "pitfalls": [
+    "1元是100分，不是10分。",
+    "金额不按纸卡张数判断，1张1元与10张1角等值。"
+  ],
+  "practice": [
+    {
+      "id": "m1b.6.4-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m1b.6.4-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "每10个小单位换成1个相邻大单位。元到分要经过角，10×10=100。",
+      "observation_note": "观察兑换关系，不能只背数字而忽略单位。",
+      "self_check": {
+        "prompt": "摆出与1元等值的角卡，再说明1元等于多少分。",
+        "reference_answer": "10个1角等于1元，每角10分，所以100分。",
+        "criteria": [
+          "两个相邻进率正确",
+          "解释元到分为100"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "1元先换10角，每角再换10分，一共是10分还是100分？",
+        "hint": "画10组，每组10分。",
+        "revision_prompt": "重画元—角—分两次兑换，并在箭头写10。"
+      },
+      "criterion_index": 0,
+      "title": "知道元、角、分之间的进率"
+    },
+    {
+      "explanation": "复名数每一部分先换到同一单位再合并；23角拆成2个10角和3角，是2元3角。",
+      "observation_note": "观察复名换算和核对，不自动观察购物中找零建模。",
+      "self_check": {
+        "prompt": "把4元2角换成角，再把36角换成元角，并反向检查。",
+        "reference_answer": "42角；3元6角，3×10+6=36角。",
+        "criteria": [
+          "双向换算正确",
+          "单位与余量保留"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "36角写成36元，金额变了吗？",
+        "hint": "10角才换1元，先圈3组10角。",
+        "revision_prompt": "用三张1元卡与6角卡重新表示，并写回36角。"
+      },
+      "criterion_index": 1,
+      "title": "能进行简单的元角分换算"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-26",
+    "teacher_review": "pending"
+  }
+}

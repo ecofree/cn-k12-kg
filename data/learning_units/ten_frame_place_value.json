@@ -592,5 +592,360 @@
         }
       ]
     }
-  ]
+  ],
+  "instructional_support": {
+    "schema": 1,
+    "supports": [
+      {
+        "id": "ten_frame_place_value:support:count",
+        "objective_id": "ten_frame_place_value:count",
+        "title": "一个物体只数一次",
+        "observation_note": "短题观察重新摆放后数量是否不变；一一对应的动作还需摆物或画连线确认。",
+        "hypotheses": [
+          "可能把摆得更长看成数量变多。",
+          "可能点数时漏掉或重复数同一个物体。"
+        ],
+        "diagnostic": {
+          "prompt": "桌上8颗棋子，没有添也没有拿走，只把它们摆得更开。现在有几颗？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "更多了，因为一排更长",
+              "feedback": "看的是占的地方。请把每颗与原来的位置一一对应。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "仍有8颗",
+              "feedback": "对，只换位置，没有增减。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "少了，因为间隔变大",
+              "feedback": "间隔不是棋子，空位不改变颗数。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "只改变摆放，物体仍能一一配对，个数不变。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "用手指一颗，报一个数；数过的移到一边。"
+          },
+          {
+            "level": 2,
+            "text": "把新旧摆法的棋子逐个连线，看有没有多出或缺少。"
+          },
+          {
+            "level": 3,
+            "text": "5颗围成圈或排成行都还是5颗。围圈时给起点作记号，数一圈后停，避免再数起点。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "一排有● ● ● ●，另一排有● ● ●。每个圆点数一次，两排一共有几个？",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "7",
+          "verify": "4+3",
+          "explanation": "两排分别4个和3个，共7个；空格不计数。"
+        },
+        "followup_task_ids": [
+          "ten_frame_place_value:practice-1",
+          "ten_frame_place_value:transfer-5",
+          "ten_frame_place_value:delayed-3"
+        ]
+      },
+      {
+        "id": "ten_frame_place_value:support:compose_ten",
+        "objective_id": "ten_frame_place_value:compose_ten",
+        "title": "看十格里还空几格",
+        "observation_note": "观察能否找到10的缺少部分；能口答还需用十格或小物件说明拆分。",
+        "hypotheses": [
+          "可能把已有数量重复补一次。",
+          "可能把空格数与已有数颠倒。"
+        ],
+        "diagnostic": {
+          "prompt": "十格框每格放1颗，已经放6颗。再放几颗刚好满？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "6颗",
+              "feedback": "6是已经有的，再补6会超过10。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "4颗",
+              "feedback": "对，6和4合成10。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "10颗",
+              "feedback": "10是满框总数，不是还需补的数。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "已有6，目标10，还差10−6=4。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先数已经占的格，再数还空的格。"
+          },
+          {
+            "level": 2,
+            "text": "把10看成已有部分与缺少部分，两部分相加要是10。"
+          },
+          {
+            "level": 3,
+            "text": "已放7颗时，剩3格，所以7+3=10；检查时再数总数，不把补上的3颗算两遍。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "十格框已放8颗，每格1颗。还差几颗放满？",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "2",
+          "verify": "10-8",
+          "explanation": "8+2=10，还缺2颗。"
+        },
+        "followup_task_ids": [
+          "ten_frame_place_value:practice-2",
+          "ten_frame_place_value:transfer-2",
+          "ten_frame_place_value:delayed-2"
+        ]
+      },
+      {
+        "id": "ten_frame_place_value:support:place_value",
+        "objective_id": "ten_frame_place_value:place_value",
+        "title": "十位上的1是一捆十个",
+        "observation_note": "观察十位单位；从11到20的拆捆与数写对应仍要继续练习。",
+        "hypotheses": [
+          "可能把十位的1当1个一。",
+          "可能把个位0理解为整个数没有物体。"
+        ],
+        "diagnostic": {
+          "prompt": "14用一捆10根小棒和4根散棒表示。“1”表示什么？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "1根小棒",
+              "feedback": "这里是十位，表示1个十。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "10根小棒，也就是1个十",
+              "feedback": "对，一捆里有10根。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "14根小棒",
+              "feedback": "整个数14才表示14根，十位单独表示10根。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "相同数字在不同数位有不同单位，14=10+4。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "在十位和个位下分别写“捆”和“根”，一捆固定10根。"
+          },
+          {
+            "level": 2,
+            "text": "先数有几个十，再数剩下几个一。"
+          },
+          {
+            "level": 3,
+            "text": "18是一捆10根加8根；20是两捆10根、没有散棒。个位0只表示零个一，并不是没有小棒。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "1捆10根的小棒和7根散棒，一共有几根？",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "17",
+          "verify": "10+7",
+          "explanation": "1个十和7个一合成17。"
+        },
+        "followup_task_ids": [
+          "ten_frame_place_value:practice-3",
+          "ten_frame_place_value:transfer-1",
+          "ten_frame_place_value:delayed-1"
+        ]
+      },
+      {
+        "id": "ten_frame_place_value:support:make_ten",
+        "objective_id": "ten_frame_place_value:make_ten",
+        "title": "从一个加数里移走的不能再加一次",
+        "observation_note": "观察凑十后剩余部分；需要用移动小棒的动作确认总量保持。",
+        "hypotheses": [
+          "可能凑十后仍加完整的原加数。",
+          "可能拆出的两部分之和不等于原加数。"
+        ],
+        "diagnostic": {
+          "prompt": "算9+5，从5里拿1给9凑10。接下来该怎样算？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "10+5",
+              "feedback": "已经拿走1，原来的5只剩4。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "10+4",
+              "feedback": "对，5拆成1和4，移过的1不重复算。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "10+1",
+              "feedback": "1已经放进10，剩余的是4。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "9+5=9+1+4=10+4，总量没有变化。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先问前一个数离10差几。"
+          },
+          {
+            "level": 2,
+            "text": "从后一个数分出所需的一部分，标明剩下多少。"
+          },
+          {
+            "level": 3,
+            "text": "8+6：8差2到10，把6分成2和4；8+2成10，再加剩余4得14。不能写10+6。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "算8+5，从5拿2给8凑成10，再加余下的3，结果是多少？",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "13",
+          "verify": "8+5",
+          "explanation": "10+3=13，5里的2只用了一次。"
+        },
+        "followup_task_ids": [
+          "ten_frame_place_value:practice-4",
+          "ten_frame_place_value:transfer-2",
+          "ten_frame_place_value:delayed-2"
+        ]
+      },
+      {
+        "id": "ten_frame_place_value:support:operation",
+        "objective_id": "ten_frame_place_value:operation",
+        "title": "根据已知和未知的关系选算式",
+        "observation_note": "观察“还剩”情境中的未知量；不能仅凭某个词固定选择加法或减法。",
+        "hypotheses": [
+          "可能看到“吃了、还剩”就一律做减法。",
+          "可能没有区分求原来总数与求剩下数量。"
+        ],
+        "diagnostic": {
+          "prompt": "吃了2块，还剩4块。问原来有几块，应选什么？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "4−2",
+              "feedback": "4是剩下的部分，不是原来总数。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "2+4",
+              "feedback": "对，把吃掉与剩下合起来还原原数。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "2−4",
+              "feedback": "求原来总数应合并两部分，不是相减。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "词语相同，未知量不同，算式也会不同。先画“原来=吃掉+剩下”。"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "把题目摆出来：已知的是总数还是两部分？空着的是哪一块？"
+          },
+          {
+            "level": 2,
+            "text": "求合并总数用加法；已知总数和一部分求另一部分用减法。"
+          },
+          {
+            "level": 3,
+            "text": "原有9块，送出3块，剩9−3=6；若送出3块、还剩6块，求原有则3+6=9。用反向算式核对。"
+          }
+        ],
+        "guided_task": {
+          "prompt": "盒里原有12颗，送出一些后还剩7颗。送出了几颗？",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "5",
+          "verify": "12-7",
+          "explanation": "送出与剩下合起来是12，12−7=5，再查5+7=12。"
+        },
+        "followup_task_ids": [
+          "ten_frame_place_value:practice-5",
+          "ten_frame_place_value:transfer-1",
+          "ten_frame_place_value:delayed-3"
+        ]
+      }
+    ]
+  }
 }

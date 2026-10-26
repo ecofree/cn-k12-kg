@@ -288,7 +288,7 @@ def support_routes(catalog, skill_ids, *, preferred_unit=None):
     return prerequisites, routes
 
 
-def task_options(catalog, skill_ids, records, exposures=None):
+def task_options(catalog, skill_ids, records, exposures=None, *, allowed_task_ids=None, limit=5):
     """Rank concrete next observations with family, representation and help limits."""
     if not skill_ids:
         return []
@@ -305,6 +305,8 @@ def task_options(catalog, skill_ids, records, exposures=None):
     question_exposures, family_exposures = exposures.get("questions", {}), exposures.get("families", {})
     options = []
     for tid, task in _section(catalog, "tasks").items():
+        if allowed_task_ids is not None and tid not in allowed_task_ids:
+            continue
         if task.get("availability", "active") != "active" or not set(task.get("skill_ids", [])) & set(skill_ids):
             continue
         family = task.get("family_id")
@@ -331,4 +333,4 @@ def task_options(catalog, skill_ids, records, exposures=None):
                             else "可用于有帮助的复习；重复、同族或已看参考不能冒充新的独立检查。"})
     options.sort(key=lambda row: (row["repeated_question"], row["repeated_family"], row["help_exposed"],
                                  row["family_status"] != "declared", not row["new_representation"], row["task_id"]))
-    return options[:5]
+    return options if limit is None else options[:limit]

@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3a.3.3",
+  "name": "千米的认识及单位换算",
+  "tier": "tool",
+  "hook": "跑道一圈400米，走5圈可以怎样用更大的单位说？",
+  "definition": "千米又叫公里，是较大的长度单位。1千米=1000米；道路或较长路线常用千米，但计算时仍须统一单位并明确路程。",
+  "why": "把1000个1米合成1千米，写法改变而路程不变。2千米300米是两段1000米再加300米；它不是2300千米，也不是简单把23看成米数。",
+  "conditions": [
+    "用千米描述较长路程，和米比较前先统一单位。",
+    "本卡复名数换算保留不足1千米的米数。"
+  ],
+  "representation_note": "画每大段1000米的路线条，分段累计路程，再改写千米与米。",
+  "when_to_use": [
+    "用千米描述较长路程，和米比较前先统一单位。",
+    "本卡复名数换算保留不足1千米的米数。"
+  ],
+  "steps": [
+    "读取长度的单位和数值。",
+    "按1千米1000米换算各部分。",
+    "合并或拆分后用原单位反向核对。"
+  ],
+  "worked_example": {
+    "prompt": "每圈400米，走5圈共多少千米？",
+    "steps": [
+      "总路程400×5=2000米。",
+      "2000÷1000=2千米。"
+    ],
+    "answer": "2",
+    "family_id": "measure.route-metres-kilometres",
+    "variant_id": "m3a.3.3:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "verify": "400*5/1000"
+  },
+  "pitfalls": [
+    "千米与米进率1000，不是100。",
+    "数字变小不代表路程缩短，只是换更大的单位。"
+  ],
+  "practice": [
+    {
+      "id": "m3a.3.3-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3a.3.3-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "千米是1000米的集合。公里与千米是同一单位的两种名称，不是两种进率。",
+      "observation_note": "观察进率与单位别名，不从现实路线名猜距离。",
+      "self_check": {
+        "prompt": "写出1公里等于多少米，并用3段1000米说明3千米是多少米。",
+        "reference_answer": "1公里=1000米，3千米=3000米。",
+        "criteria": [
+          "同义单位明确",
+          "1000倍关系正确"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "1公里和1千米哪个更长？",
+        "hint": "它们指同一单位。",
+        "revision_prompt": "把两种名称写在同一条1000米线段旁。"
+      },
+      "criterion_index": 0,
+      "title": "知道 1 千米=1000 米"
+    },
+    {
+      "explanation": "复名数的整千米与余米分别换算；反向按1000分组，不足1000米的部分保留。",
+      "observation_note": "观察复名数中零位，不把2千米80米误写为280米。",
+      "self_check": {
+        "prompt": "把2千米80米化成米，把4050米化成千米和米。",
+        "reference_answer": "2080米；4千米50米。",
+        "criteria": [
+          "位数与进率正确",
+          "余量不丢失"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2千米本身已经多少米，能比280米小吗？",
+        "hint": "先写2000，再加80。",
+        "revision_prompt": "按完整算式2×1000+80改写，并验算大小。"
+      },
+      "criterion_index": 1,
+      "title": "能进行千米与米的换算"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-26",
+    "teacher_review": "pending"
+  }
+}

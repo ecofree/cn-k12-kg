@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3a.3.1",
+  "name": "毫米的认识",
+  "tier": "tool",
+  "hook": "一条线比2厘米多一点，怎样表示这多出来的小段？",
+  "definition": "毫米是比厘米更小的长度单位，1厘米=10毫米。厘米尺上的一个厘米区间若均分10小格，每小格是1毫米；测量时仍取起止刻度之差。",
+  "why": "同样长的一段用更小单位会包含更多个单位。2厘米有20毫米，再多3毫米就是23毫米；尺的刻度只能支持相应精度，不能凭空报更多小数位。",
+  "conditions": [
+    "使用有毫米刻度的尺，清楚每小格代表1毫米。",
+    "物体端点与尺对齐，读数精度不超出工具分辨能力。"
+  ],
+  "representation_note": "将一个厘米区间放大画成10格，配合真实尺测较短线段。",
+  "when_to_use": [
+    "使用有毫米刻度的尺，清楚每小格代表1毫米。",
+    "物体端点与尺对齐，读数精度不超出工具分辨能力。"
+  ],
+  "steps": [
+    "找0刻度或记录非0起点。",
+    "先读整厘米，再数余下毫米。",
+    "统一成毫米求起止差，并记录单位。"
+  ],
+  "worked_example": {
+    "prompt": "长度为2厘米7毫米，合多少毫米？",
+    "steps": [
+      "2厘米=20毫米。",
+      "20+7=27毫米。"
+    ],
+    "answer": "27",
+    "family_id": "measure.millimetre-conversion",
+    "variant_id": "m3a.3.1:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "verify": "2*10+7"
+  },
+  "pitfalls": [
+    "数小格间隔，不能把刻线数当毫米数。",
+    "厘米到毫米乘10，不是乘100。"
+  ],
+  "practice": [
+    {
+      "id": "m3a.3.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3a.3.1-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "一个厘米区间包含10个毫米间隔，所以cm到mm每级扩大计数10倍。",
+      "observation_note": "观察单位分割关系；示意图实际长度可用尺复核。",
+      "self_check": {
+        "prompt": "画1厘米被均分成10小段的示意图，写出3厘米和50毫米的另一单位表示。",
+        "reference_answer": "3厘米=30毫米；50毫米=5厘米。",
+        "criteria": [
+          "10进率明确",
+          "双向换算正确"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "从0到1厘米看到11条含端点刻线，是11毫米吗？",
+        "hint": "单位数的是10个间隔。",
+        "revision_prompt": "把间隔编号1至10，改正把端点当间隔的记数。"
+      },
+      "criterion_index": 0,
+      "title": "知道 1 厘米=10 毫米"
+    },
+    {
+      "explanation": "毫米测量取两端差，起点非0时要减去起读值；实际端点在小格之间时应说明近似精度。",
+      "observation_note": "观察测量方法；给定数据算对仍需呈现实测动作。",
+      "self_check": {
+        "prompt": "线段两端位于毫米尺6毫米和28毫米处，求长；再实测一小段并记录起止值。",
+        "reference_answer": "给定长度22毫米；实测按实际起止差报告。",
+        "criteria": [
+          "起止差正确",
+          "实测单位与精度交代"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "右端28毫米就表示线段长28吗？",
+        "hint": "起点已经在6毫米，不属于这条线段。",
+        "revision_prompt": "改写28−6=22，再将一端对0验证。"
+      },
+      "criterion_index": 1,
+      "title": "能用毫米作单位测量较短物体"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-26",
+    "teacher_review": "pending"
+  }
+}
