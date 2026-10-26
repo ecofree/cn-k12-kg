@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K12 数学知识图谱 · 先修补学</title>
+<link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="/static/vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">kg</span>
+    <div>
+      <h1>K12 数学知识图谱 · 先修补学</h1>
+      <p class="sub" id="stats">加载中…</p>
+    </div>
+  </div>
+  <div class="topnav">
+    <a class="ghost" href="/static/review.html">题目复核</a>
+    <button class="ghost" id="restart" hidden>重新开始</button>
+  </div>
+</header>
+
+<main>
+  <section id="view-home" class="view">
+    <div class="hero">
+      <p>选一个知识点诊断，或点册次右侧的「整册筛查」逐点过一遍；答错会往回追到最源头的那个概念。</p>
+    </div>
+    <div class="search-row">
+      <input id="search" type="search" placeholder="搜索知识点，如 绝对值 / 方程" autocomplete="off">
+    </div>
+    <div id="chapters"></div>
+  </section>
+
+  <section id="view-quiz" class="view" hidden>
+    <div class="quiz-head">
+      <span class="pill" id="quiz-topic"></span>
+      <span class="muted" id="quiz-progress"></span>
+    </div>
+    <div class="card question">
+      <p class="qmeta" id="quiz-meta"></p>
+      <p class="prompt" id="quiz-prompt"></p>
+      <div id="choices" class="choices"></div>
+      <div id="numeric" class="numeric" hidden>
+        <input id="numeric-input" type="text" inputmode="decimal" placeholder="填数字，如 -3 或 1.5">
+      </div>
+      <button class="primary" id="submit">提交</button>
+      <p class="hint muted" id="quiz-hint"></p>
+    </div>
+    <div class="card feedback" id="feedback" hidden>
+      <p class="fb-title" id="fb-title"></p>
+      <p id="fb-answer"></p>
+      <p class="muted" id="fb-explain"></p>
+      <button class="primary" id="next">继续</button>
+    </div>
+  </section>
+
+  <section id="view-result" class="view" hidden>
+    <h2>诊断结果</h2>
+    <p class="verdict" id="verdict"></p>
+    <div class="grid">
+      <div class="card stat"><h3>薄弱</h3><p id="res-weak">—</p></div>
+      <div class="card stat"><h3>不稳</h3><p id="res-shaky">—</p></div>
+      <div class="card stat"><h3>根因（已判定）</h3><p id="res-roots">—</p></div>
+    </div>
+    <div class="card">
+      <h3>建议补学顺序</h3>
+      <ol id="res-path" class="path"></ol>
+    </div>
+    <div class="card">
+      <h3>按章分布</h3>
+      <table id="res-chapters"></table>
+    </div>
+    <button class="primary" id="again">再测一次</button>
+  </section>
+
+  <p class="foot muted">
+    数据为 AI 生成初稿，未经教师审核；判定只作线索，不代替考试与课堂观察。
+  </p>
+</main>
+<script src="/static/app.js"></script>
+<script src="/static/vendor/katex/katex.min.js"></script>
+<script src="/static/vendor/katex/auto-render.min.js"></script>
+<script src="/static/math.js"></script>
+</body>
+</html>

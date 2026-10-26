@@ -1,0 +1,187 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.local/cn-k12-kg/topic.schema.json",
+  "title": "知识点",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "volume",
+    "chapter",
+    "section",
+    "grade",
+    "semester",
+    "domain",
+    "theme",
+    "type",
+    "description",
+    "mastery_criteria",
+    "standards",
+    "curriculum_version",
+    "edition",
+    "review_status",
+    "external"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 40
+    },
+    "volume": {
+      "type": "string",
+      "enum": [
+        "一上",
+        "一下",
+        "二上",
+        "二下",
+        "三上",
+        "三下",
+        "四上",
+        "四下",
+        "五上",
+        "五下",
+        "六上",
+        "六下",
+        "七上",
+        "七下",
+        "八上",
+        "八下",
+        "九上",
+        "九下",
+        "必修一",
+        "必修二",
+        "选必一",
+        "选必二",
+        "选必三"
+      ]
+    },
+    "chapter": {
+      "type": "string",
+      "minLength": 3
+    },
+    "section": {
+      "type": "string",
+      "pattern": "^[0-9]+(\\.[0-9]+)+ "
+    },
+    "grade": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 12
+    },
+    "semester": {
+      "type": "string",
+      "enum": [
+        "上",
+        "下",
+        "全"
+      ]
+    },
+    "domain": {
+      "type": "string",
+      "enum": [
+        "数与代数",
+        "图形与几何",
+        "统计与概率",
+        "综合与实践"
+      ]
+    },
+    "theme": {
+      "type": "string",
+      "enum": [
+        "数与式",
+        "方程与不等式",
+        "函数",
+        "图形的性质",
+        "图形的变化",
+        "图形与坐标",
+        "抽样与数据分析",
+        "随机事件的概率",
+        "综合与实践"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "conceptual",
+        "procedural",
+        "reasoning",
+        "application",
+        "modeling"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10
+    },
+    "mastery_criteria": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "string",
+        "minLength": 4
+      }
+    },
+    "standards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "confidence"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^(cms-2022:[1-4]\\.(NA|GE|SP|CP)\\.\\d{2}|cms-2017:H\\.(PR|FU|GA|PS|MM)\\.\\d{2})$"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "exact",
+              "inferred"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "curriculum_version": {
+      "type": "string",
+      "enum": [
+        "2019",
+        "2024"
+      ]
+    },
+    "edition": {
+      "type": "string",
+      "enum": [
+        "人教版"
+      ]
+    },
+    "review_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "reviewed",
+        "rejected"
+      ]
+    },
+    "external": {
+      "type": "boolean",
+      "const": false
+    },
+    "root_reason": {
+      "type": "string",
+      "minLength": 8
+    }
+  }
+}

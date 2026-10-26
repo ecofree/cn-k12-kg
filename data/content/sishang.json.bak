@@ -1,0 +1,63 @@
+{
+  "volume": "四上",
+  "topics": {
+    "m4a.1.1": {
+      "description": "万以上的数包括十万、百万、千万、亿等，相邻两个计数单位间的进率是 10；按四位一级分级读数、写数，大数可以用“万”“亿”作单位改写。",
+      "mastery_criteria": ["能按数级读写亿以内的数", "能把大数改写成以万或亿为单位的数"],
+      "type": "conceptual",
+      "standards": [{"id": "cms-2022:2.NA.01", "confidence": "exact"}]
+    },
+    "m4a.2.1": {
+      "description": "量角器是度量角的工具，把半圆平均分成 180 份，每份所对的角是 1 度；量角时中心对顶点、0 刻度线对一边，看另一边所指的刻度。",
+      "mastery_criteria": ["能量出指定角的度数", "能按度数画出角"],
+      "type": "procedural",
+      "standards": [{"id": "cms-2022:2.GE.02", "confidence": "exact"}]
+    },
+    "m4a.3.1": {
+      "description": "两位数乘两位数：先用第二个因数的个位去乘，再用十位去乘（积的末位与十位对齐），最后把两次的积相加。",
+      "mastery_criteria": ["能列竖式计算两位数乘两位数", "能说清第二部分积的对位道理"],
+      "type": "procedural",
+      "standards": [{"id": "cms-2022:2.NA.02", "confidence": "exact"}]
+    },
+    "m4a.4.1": {
+      "description": "加法模型把总量看成若干部份之和，乘法模型把总量看成几个相同部分的累积；常见数量关系如单价×数量=总价、速度×时间=路程。",
+      "mastery_criteria": ["能识别问题属于加法模型还是乘法模型", "能运用常见数量关系解决问题"],
+      "type": "reasoning",
+      "standards": [{"id": "cms-2022:2.NA.03", "confidence": "exact"}]
+    },
+    "m4a.5.1": {
+      "description": "两组对边分别平行的四边形是平行四边形，只有一组对边平行的四边形是梯形；平行四边形易变形，梯形分等腰梯形与直角梯形。",
+      "mastery_criteria": ["能区分平行四边形与梯形", "能画出平行四边形和梯形的高"],
+      "type": "conceptual",
+      "standards": [{"id": "cms-2022:2.GE.01", "confidence": "exact"}]
+    },
+    "m4a.6.1": {
+      "description": "条形统计图用直条的长短表示数量的多少，直条越长数量越多；它便于直观比较各组数量的差异。",
+      "mastery_criteria": ["能读懂条形统计图并提取数据", "能根据数据补全条形统计图"],
+      "type": "conceptual",
+      "standards": [{"id": "cms-2022:2.SP.01", "confidence": "exact"}]
+    }
+  },
+  "dependencies": [
+    {"topicId": "m4a.1.1", "prerequisiteId": "m2b.3.2", "strength": "hard", "reason": "万以上的数是万以内数认识的自然延伸。"},
+    {"topicId": "m4a.2.1", "prerequisiteId": "m3a.5.4", "strength": "hard", "reason": "量角要先认识角与直角、锐角、钝角。"},
+    {"topicId": "m4a.3.1", "prerequisiteId": "m3a.4.6", "strength": "hard", "reason": "两位数乘两位数建立在多位数乘一位数的笔算之上。"},
+    {"topicId": "m4a.4.1", "prerequisiteId": "m3a.2.5", "strength": "hard", "reason": "数量模型来自两步实际问题的概括。"},
+    {"topicId": "m4a.5.1", "prerequisiteId": "m3a.5.1", "strength": "hard", "reason": "平行与垂直关系要用线段、直线的概念来描述。"},
+    {"topicId": "m4a.6.1", "prerequisiteId": "m3b.5.1", "strength": "hard", "reason": "条形统计图是在统计表基础上的可视化。"}
+  ],
+  "questions": [
+    {"id": "m4a.1.1-q1", "topicId": "m4a.1.1", "difficulty": "basic", "type": "numeric", "prompt": "10 个一万是多少？（只填数字）", "answer": "100000", "verify": "10*10000", "explanation": "10 个一万是十万，即 100000。"},
+    {"id": "m4a.1.1-q2", "topicId": "m4a.1.1", "difficulty": "basic", "type": "numeric", "prompt": "350000 里面有几个万？（只填数字）", "answer": "35", "verify": "350000/10000", "explanation": "350000÷10000=35，即 35 个万。"},
+    {"id": "m4a.2.1-q1", "topicId": "m4a.2.1", "difficulty": "basic", "type": "numeric", "prompt": "直角是多少度？（只填数字）", "answer": "90", "verify": "90", "explanation": "直角是 90°。"},
+    {"id": "m4a.2.1-q2", "topicId": "m4a.2.1", "difficulty": "basic", "type": "numeric", "prompt": "平角是多少度？（只填数字）", "answer": "180", "verify": "180", "explanation": "平角的两边成一条直线，是 180°。"},
+    {"id": "m4a.3.1-q1", "topicId": "m4a.3.1", "difficulty": "basic", "type": "numeric", "prompt": "23×12=？（只填数字）", "answer": "276", "verify": "23*12", "explanation": "23×2=46，23×10=230，46+230=276。"},
+    {"id": "m4a.3.1-q2", "topicId": "m4a.3.1", "difficulty": "basic", "type": "numeric", "prompt": "145×20=？（只填数字）", "answer": "2900", "verify": "145*20", "explanation": "145×2=290，再补 1 个 0，得 2900。"},
+    {"id": "m4a.4.1-q1", "topicId": "m4a.4.1", "difficulty": "basic", "type": "numeric", "prompt": "每箱 12 瓶，25 箱一共多少瓶？（只填数字）", "answer": "300", "verify": "12*25", "explanation": "这是乘法模型：12×25=300 瓶。"},
+    {"id": "m4a.4.1-q2", "topicId": "m4a.4.1", "difficulty": "basic", "type": "numeric", "prompt": "汽车每小时行 80 千米，行 3 小时的路程是多少千米？（只填数字）", "answer": "240", "verify": "80*3", "explanation": "路程=速度×时间=80×3=240 千米。"},
+    {"id": "m4a.5.1-q1", "topicId": "m4a.5.1", "difficulty": "basic", "type": "choice", "prompt": "只有一组对边平行的四边形叫什么？", "choices": [{"key": "A", "text": "平行四边形"}, {"key": "B", "text": "梯形"}, {"key": "C", "text": "长方形"}], "answer": "B", "explanation": "只有一组对边平行的四边形是梯形。"},
+    {"id": "m4a.5.1-q2", "topicId": "m4a.5.1", "difficulty": "basic", "type": "numeric", "prompt": "平行四边形有几条边？（只填数字）", "answer": "4", "verify": "4", "explanation": "平行四边形是四边形，有 4 条边。"},
+    {"id": "m4a.6.1-q1", "topicId": "m4a.6.1", "difficulty": "basic", "type": "numeric", "prompt": "条形统计图中，A 班 25 人、B 班 30 人，两班相差几人？（只填数字）", "answer": "5", "verify": "30-25", "explanation": "30-25=5 人。"},
+    {"id": "m4a.6.1-q2", "topicId": "m4a.6.1", "difficulty": "basic", "type": "choice", "prompt": "条形统计图中，直条越长表示什么？", "choices": [{"key": "A", "text": "数量越多"}, {"key": "B", "text": "数量越少"}, {"key": "C", "text": "与数量无关"}], "answer": "A", "explanation": "直条长度与数量成正比，越长数量越多。"}
+  ]
+}

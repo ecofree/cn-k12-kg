@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.local/cn-k12-kg/question.schema.json",
+  "title": "题目",
+  "description": "数值题必须带 verify 表达式，由 cnkg/verify.py 在 AST 白名单沙箱中求值比对。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "topicId",
+    "difficulty",
+    "type",
+    "prompt",
+    "answer",
+    "explanation"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?-q[0-9]+$"
+    },
+    "topicId": {
+      "type": "string",
+      "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": [
+        "basic",
+        "standard",
+        "advanced"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "choice",
+        "numeric",
+        "short"
+      ]
+    },
+    "prompt": {
+      "type": "string",
+      "minLength": 6
+    },
+    "choices": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "key",
+          "text"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "enum": [
+              "A",
+              "B",
+              "C",
+              "D",
+              "E"
+            ]
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "answer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verify": {
+      "type": "string",
+      "description": "仅数值题使用，如 \"(7+5)/3\"；只允许数字、四则运算、乘方、取模与 abs/round/min/max/sqrt"
+    },
+    "explanation": {
+      "type": "string",
+      "minLength": 4
+    },
+    "accept": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "短答题可接受的同义写法（不含 answer 本身）"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "short"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "required": [
+          "accept"
+        ]
+      }
+    }
+  ]
+}

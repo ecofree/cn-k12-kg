@@ -1,0 +1,84 @@
+{
+  "volume": "二下",
+  "topics": {
+    "m2b.1.1": {
+      "description": "平均分物体时，有时会剩下不够再分一份的数，这样的除法叫有余数的除法；余数必须比除数小，算式写作“被除数÷除数=商……余数”。",
+      "mastery_criteria": ["能列出有余数的除法算式", "能判断余数是否合理（必须小于除数）"],
+      "type": "procedural",
+      "standards": [{"id": "cms-2022:1.NA.02", "confidence": "exact"}]
+    },
+    "m2b.2.1": {
+      "description": "乘法与除法是互逆的：已知每份数和份数求总数用乘法，已知总数和每份数（或份数）求份数（或每份数）用除法。",
+      "mastery_criteria": ["能说清乘除法之间的互逆关系", "能根据已知量选择合适的运算"],
+      "type": "conceptual",
+      "standards": [{"id": "cms-2022:1.NA.03", "confidence": "exact"}]
+    },
+    "m2b.3.1": {
+      "description": "1000 以内数的认识：10 个一百是一千，三位数由几个百、几个十、几个一组成；数位顺序从右起是个位、十位、百位、千位。",
+      "mastery_criteria": ["能说出 1000 以内数的组成", "能按数位顺序读写出三位数"],
+      "type": "conceptual",
+      "standards": [{"id": "cms-2022:1.NA.01", "confidence": "exact"}]
+    },
+    "m2b.3.2": {
+      "description": "10000 以内数的认识：10 个一千是一万，四位数由几个千、几个百、几个十、几个一组成，相邻两个计数单位之间的进率是 10。",
+      "mastery_criteria": ["知道相邻计数单位间的进率是 10", "能读写四位数并说出各数位上的数"],
+      "type": "conceptual",
+      "standards": [{"id": "cms-2022:1.NA.01", "confidence": "exact"}]
+    },
+    "m2b.3.3": {
+      "description": "整百、整千数的加减，可以按“几个百”“几个千”来算，再在结果后面补相应的 0。",
+      "mastery_criteria": ["能口算整百整千数的加减", "能说清按计数单位计算的方法"],
+      "type": "procedural",
+      "standards": [{"id": "cms-2022:1.NA.02", "confidence": "exact"}]
+    },
+    "m2b.4.1": {
+      "description": "万以内数的笔算加法：相同数位对齐，从个位加起，哪一位相加满十就向前一位进 1。",
+      "mastery_criteria": ["能列竖式计算万以内加法", "能正确处理连续进位"],
+      "type": "procedural",
+      "standards": [{"id": "cms-2022:1.NA.02", "confidence": "exact"}]
+    },
+    "m2b.4.2": {
+      "description": "万以内数的笔算减法：相同数位对齐，从个位减起，哪一位不够减就从前一位退 1 当十再减。",
+      "mastery_criteria": ["能列竖式计算万以内减法", "能正确处理连续退位"],
+      "type": "procedural",
+      "standards": [{"id": "cms-2022:1.NA.02", "confidence": "exact"}]
+    },
+    "m2b.4.3": {
+      "description": "加减法各部分之间的关系：和=加数+加数，一个加数=和-另一个加数；差=被减数-减数，减数=被减数-差，被减数=减数+差。",
+      "mastery_criteria": ["能由和与一个加数求另一个加数", "能由被减数与差求减数"],
+      "type": "reasoning",
+      "standards": [{"id": "cms-2022:1.NA.03", "confidence": "exact"}]
+    }
+  },
+  "dependencies": [
+    {"topicId": "m2b.1.1", "prerequisiteId": "m2a.3.7", "strength": "hard", "reason": "有余数的除法是有余下情况的平均分，先掌握表内除法。"},
+    {"topicId": "m2b.2.1", "prerequisiteId": "m2a.3.7", "strength": "hard", "reason": "乘除关系要在会用除法解决平均分问题之后总结。"},
+    {"topicId": "m2b.2.1", "prerequisiteId": "m2a.2.1", "strength": "soft", "reason": "乘法意义是理解乘除互逆的一端。"},
+    {"topicId": "m2b.3.1", "prerequisiteId": "m1b.3.3", "strength": "hard", "reason": "1000 以内数是 100 的认识的扩展。"},
+    {"topicId": "m2b.3.2", "prerequisiteId": "m2b.3.1", "strength": "hard", "reason": "万以内数在千以内数的基础上扩展。"},
+    {"topicId": "m2b.3.3", "prerequisiteId": "m2b.3.2", "strength": "hard", "reason": "整百整千的加减要用万以内数的组成。"},
+    {"topicId": "m2b.4.1", "prerequisiteId": "m2b.3.3", "strength": "hard", "reason": "笔算加法要先掌握万以内数的意义与数位。"},
+    {"topicId": "m2b.4.1", "prerequisiteId": "m1b.5.1", "strength": "soft", "reason": "两位数笔算加法的对位与进位方法可迁移。"},
+    {"topicId": "m2b.4.2", "prerequisiteId": "m2b.4.1", "strength": "hard", "reason": "笔算减法与加法对照学习，退位是进位的逆向操作。"},
+    {"topicId": "m2b.4.3", "prerequisiteId": "m2b.4.2", "strength": "hard", "reason": "各部分间的关系要借助加减计算来验证。"},
+    {"topicId": "m2b.4.3", "prerequisiteId": "m2b.4.1", "strength": "soft", "reason": "加法各部分关系是减法关系的基础。"}
+  ],
+  "questions": [
+    {"id": "m2b.1.1-q1", "topicId": "m2b.1.1", "difficulty": "basic", "type": "numeric", "prompt": "17÷5=3……2，余数是多少？（只填数字）", "answer": "2", "verify": "17-5*3", "explanation": "17 里面最多有 3 个 5，剩 2，余数是 2。"},
+    {"id": "m2b.1.1-q2", "topicId": "m2b.1.1", "difficulty": "basic", "type": "choice", "prompt": "计算有余数的除法时，余数必须满足什么条件？", "choices": [{"key": "A", "text": "比除数大"}, {"key": "B", "text": "比除数小"}, {"key": "C", "text": "等于除数"}], "answer": "B", "explanation": "余数若大于或等于除数，说明还能再分一份。"},
+    {"id": "m2b.2.1-q1", "topicId": "m2b.2.1", "difficulty": "basic", "type": "numeric", "prompt": "每盒装 6 个鸡蛋，4 盒一共有几个？（只填数字）", "answer": "24", "verify": "6*4", "explanation": "已知每份数与份数，用乘法 6×4=24。"},
+    {"id": "m2b.2.1-q2", "topicId": "m2b.2.1", "difficulty": "basic", "type": "numeric", "prompt": "24 个鸡蛋，每盒装 6 个，可以装几盒？（只填数字）", "answer": "4", "verify": "24/6", "explanation": "已知总数与每份数，求份数用除法 24÷6=4。"},
+    {"id": "m2b.3.1-q1", "topicId": "m2b.3.1", "difficulty": "basic", "type": "numeric", "prompt": "10 个一百是多少？（只填数字）", "answer": "1000", "verify": "10*100", "explanation": "10 个一百是一千。"},
+    {"id": "m2b.3.1-q2", "topicId": "m2b.3.1", "difficulty": "basic", "type": "numeric", "prompt": "356 里面有几个百？（只填数字）", "answer": "3", "verify": "3", "explanation": "356 的百位是 3，表示 3 个百。"},
+    {"id": "m2b.3.2-q1", "topicId": "m2b.3.2", "difficulty": "basic", "type": "numeric", "prompt": "10 个一千是多少？（只填数字）", "answer": "10000", "verify": "10*1000", "explanation": "10 个一千是一万。"},
+    {"id": "m2b.3.2-q2", "topicId": "m2b.3.2", "difficulty": "basic", "type": "numeric", "prompt": "2408 里面有几个千？（只填数字）", "answer": "2", "verify": "2", "explanation": "2408 的千位是 2，表示 2 个千。"},
+    {"id": "m2b.3.3-q1", "topicId": "m2b.3.3", "difficulty": "basic", "type": "numeric", "prompt": "300+500=？（只填数字）", "answer": "800", "verify": "300+500", "explanation": "3 个百加 5 个百是 8 个百，即 800。"},
+    {"id": "m2b.3.3-q2", "topicId": "m2b.3.3", "difficulty": "basic", "type": "numeric", "prompt": "1200-800=？（只填数字）", "answer": "400", "verify": "1200-800", "explanation": "12 个百减 8 个百是 4 个百，即 400。"},
+    {"id": "m2b.4.1-q1", "topicId": "m2b.4.1", "difficulty": "basic", "type": "numeric", "prompt": "345+278=？（只填数字）", "answer": "623", "verify": "345+278", "explanation": "个位 5+8=13 写 3 进 1；十位 4+7+1=12 写 2 进 1；百位 3+2+1=6，得 623。"},
+    {"id": "m2b.4.1-q2", "topicId": "m2b.4.1", "difficulty": "basic", "type": "numeric", "prompt": "199+1=？（只填数字）", "answer": "200", "verify": "199+1", "explanation": "个位 9+1=10，连续进位，结果是 200。"},
+    {"id": "m2b.4.2-q1", "topicId": "m2b.4.2", "difficulty": "basic", "type": "numeric", "prompt": "500-236=？（只填数字）", "answer": "264", "verify": "500-236", "explanation": "个位 0 不够减 6，连续退位后得 264。"},
+    {"id": "m2b.4.2-q2", "topicId": "m2b.4.2", "difficulty": "basic", "type": "numeric", "prompt": "703-458=？（只填数字）", "answer": "245", "verify": "703-458", "explanation": "个位 3 不够减 8，从百位退位后计算，得 245。"},
+    {"id": "m2b.4.3-q1", "topicId": "m2b.4.3", "difficulty": "basic", "type": "numeric", "prompt": "一个加数是 45，和是 80，另一个加数是多少？（只填数字）", "answer": "35", "verify": "80-45", "explanation": "加数=和-另一个加数，80-45=35。"},
+    {"id": "m2b.4.3-q2", "topicId": "m2b.4.3", "difficulty": "basic", "type": "numeric", "prompt": "被减数是 92，差是 37，减数是多少？（只填数字）", "answer": "55", "verify": "92-37", "explanation": "减数=被减数-差，92-37=55。"}
+  ]
+}
