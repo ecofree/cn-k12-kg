@@ -74,6 +74,8 @@ class Catalog:
         self.skills = self.data["skills"]
         self.placements = self.data["placements"]
         self.tasks = self.data["tasks"]
+        self.active_tasks = {key: task for key, task in self.tasks.items() if task["availability"] == "active"}
+        self.retired_tasks = {key: task for key, task in self.tasks.items() if task["availability"] != "active"}
         self.materials = self.data["materials"]
         self.families = self.data["families"]
         self.units = self.data["units"]
@@ -145,6 +147,18 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
 
     source_paths = {data / "skills/registry.json", data / "skills/catalog-bindings.json",
                     data / "topics.json", data / "questions.json"}
+    retired_source_ids = set()
+    if (data / "content_sources.json").is_file():
+        manifest = _read(data / "content_sources.json")
+        source_paths.add(data / "content_sources.json")
+        for source in manifest.get("content_sources", []) + manifest.get("question_sources", []):
+            path = data / source["path"]
+            if not path.is_file() or not path.resolve().is_relative_to(data.resolve()):
+                errors.append(f"目录作者源缺失或越界：{source['path']}")
+                continue
+            source_paths.add(path)
+            if source.get("status") == "retired":
+                retired_source_ids.update(q["id"] for q in _read(path).get("questions", []))
     topic_rows = _read(data / "topics.json")
     questions = _read(data / "questions.json")
     if not isinstance(topic_rows, list) or not isinstance(questions, list):
@@ -312,8 +326,16 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
             errors.append(f"{key}: 项目步骤已改名或重排，需显式核对固定任务映射")
         result = copy.deepcopy(registered)
         result.pop("source_anchor", None)
+        contract_source = result.pop("answer_spec_source")
+        if contract_source == "author":
+            if "answer_spec" not in raw:
+                errors.append(f"{key}: 指定的作者答案契约缺失")
+                return None
+            result["answer_spec"] = copy.deepcopy(raw["answer_spec"])
+        elif "answer_spec" in raw:
+            errors.append(f"{key}: 契约已归 binding，作者文件不能再保存第二份 answer_spec")
         # Current author declarations supersede the initial migration record.
-        for field in ("answer_spec", "family_id", "variant_id", "representation", "cognitive_demand"):
+        for field in ("family_id", "variant_id", "representation", "cognitive_demand"):
             if field in raw:
                 result[field] = copy.deepcopy(raw[field])
         if "family_id" in raw:
@@ -406,6 +428,8 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
         policy = question_policy({**question, "answer_spec": meta["answer_spec"]}) if meta else {}
         if not meta:
             continue
+        if qid in retired_source_ids and (policy["practice_eligible"] or policy["diagnosis_eligible"]):
+            errors.append(f"{qid}: 退役题源仍声明可练或可诊断，必须核对准入依据")
         original_policy = question_policy(question)
         for field in ("practice_eligible", "diagnosis_eligible"):
             original_bank_policy[field] += original_policy[field]

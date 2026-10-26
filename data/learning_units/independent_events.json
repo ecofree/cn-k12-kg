@@ -14,15 +14,59 @@
   "objectives": [
     {
       "id": "independent_events:o1",
-      "statement": "能用P(A∩B)=P(A)P(B)判断两个事件是否独立，并区分独立与互斥。"
+      "statement": "能用P(A∩B)=P(A)P(B)判断两个事件是否独立，并区分独立与互斥。",
+      "granularity": "composite"
     },
     {
       "id": "independent_events:o2",
-      "statement": "能根据放回、混匀和是否相互影响等试验机制，说明已知一次结果后另一次事件的概率是否改变。"
+      "statement": "能根据放回、混匀和是否相互影响等试验机制，说明已知一次结果后另一次事件的概率是否改变。",
+      "granularity": "composite"
     },
     {
       "id": "independent_events:o3",
-      "statement": "能在独立性或逐步条件已说明时求同时发生、至少一次发生的概率，并选择相应计算方法。"
+      "statement": "能在独立性或逐步条件已说明时求同时发生、至少一次发生的概率，并选择相应计算方法。",
+      "granularity": "composite"
+    },
+    {
+      "id": "independent_events:classify",
+      "statement": "能分别检验交集概率是否等于乘积、交集是否为空，区分独立与互斥及零概率边界。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "independent_events:o1"
+      ]
+    },
+    {
+      "id": "independent_events:conditional",
+      "statement": "能按已知事件更新样本条件，计算条件概率并与原概率区分。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "independent_events:o2"
+      ]
+    },
+    {
+      "id": "independent_events:multiply",
+      "statement": "能依据明确独立性或逐步条件求交事件概率，避免把变化后的条件当作原概率。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "independent_events:o3"
+      ]
+    },
+    {
+      "id": "independent_events:complement",
+      "statement": "能把至少一次、恰好一次等事件准确拆成补事件或互斥路径后计算。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "independent_events:o3"
+      ]
+    },
+    {
+      "id": "independent_events:assumptions",
+      "statement": "能从随机机制或给定联合分布判断独立性依据是否充分，不由边际概率或名称不同自行补出独立。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "independent_events:o1",
+        "independent_events:o2"
+      ]
     }
   ],
   "prerequisites": [
@@ -49,7 +93,9 @@
         "也可列出四个等可能结果：正正、正反、反正、反反，其中一个符合要求。"
       ],
       "answer": "1/4",
-      "verify": "(1/2)*(1/2)"
+      "verify": "(1/2)*(1/2)",
+      "family_id": "probability.independent-intersection",
+      "variant_id": "independent_events:example-1"
     },
     {
       "prompt": "袋中有4个红球、2个白球，球除颜色外相同。每次等可能随机摸一个，连续摸两次且不放回。两次都是红球的概率是多少？第二次红球事件与第一次红球事件独立吗？",
@@ -58,14 +104,28 @@
         "两次都红的概率为(4/6)×(3/5)=2/5。",
         "第二次红球原本的概率为4/6，但在第一次红球条件下变为3/5，因此两个红球事件不独立。"
       ],
-      "answer": "两次都红的概率为2/5；两个红球事件不独立。"
+      "answer": "两次都红的概率为2/5；两个红球事件不独立。",
+      "family_id": "probability.without-replacement",
+      "variant_id": "independent_events:example-2"
+    },
+    {
+      "prompt": "只掷一次公平硬币，正面事件与反面事件为什么互斥却不独立？",
+      "steps": [
+        "一次结果不能同时正面和反面，因此交集为空，概率为0。",
+        "两边际概率均为1/2，乘积为1/4。",
+        "0不等于1/4，所以不满足独立的定义。"
+      ],
+      "answer": "互斥但不独立。",
+      "family_id": "probability.independence-vs-exclusive",
+      "variant_id": "independent_events:example-3"
     }
   ],
   "tasks": [
     {
       "id": "independent_events:practice-1",
       "objective_ids": [
-        "independent_events:o1"
+        "independent_events:o1",
+        "independent_events:classify"
       ],
       "phase": "practice",
       "type": "choice",
@@ -89,12 +149,17 @@
       "feedback": {
         "correct": "关系匹配；请用交集概率和概率乘积核对，而不是把“互不同时发生”理解成独立。",
         "incorrect": "先计算同时正面和反面的概率，再与1/2乘1/2比较。"
-      }
+      },
+      "family_id": "probability.independence-vs-exclusive",
+      "variant_id": "independent_events:practice-1",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "id": "independent_events:practice-2",
       "objective_ids": [
-        "independent_events:o3"
+        "independent_events:o3",
+        "independent_events:multiply"
       ],
       "phase": "practice",
       "type": "numeric",
@@ -105,12 +170,18 @@
       "feedback": {
         "correct": "概率匹配；请把“每次同样的红球比例”和“抽取独立”两条依据一起写在草稿上。",
         "incorrect": "先确认放回使球数恢复，再检查题设是否保证独立，最后相乘。"
-      }
+      },
+      "family_id": "probability.independent-intersection",
+      "variant_id": "independent_events:practice-2",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "independent_events:practice-3",
       "objective_ids": [
-        "independent_events:o2"
+        "independent_events:o2",
+        "independent_events:conditional",
+        "independent_events:assumptions"
       ],
       "phase": "practice",
       "type": "rubric",
@@ -131,12 +202,18 @@
       "feedback": {
         "correct": "按量规检查条件下的袋子、第二次边际概率以及独立性结论。",
         "incorrect": "分别画“知道第一球红后的袋子”和“尚不知道第一球颜色的试验”；不要把两种信息状态混为一谈。"
-      }
+      },
+      "family_id": "probability.without-replacement",
+      "variant_id": "independent_events:practice-3",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "id": "independent_events:transfer-1",
       "objective_ids": [
-        "independent_events:o3"
+        "independent_events:o3",
+        "independent_events:complement",
+        "independent_events:multiply"
       ],
       "phase": "transfer",
       "type": "numeric",
@@ -147,13 +224,19 @@
       "feedback": {
         "correct": "结果匹配；“至少一台”的补事件是“两台都未检测到”。",
         "incorrect": "先写出题目事件的补事件，再用独立性计算补事件概率。"
-      }
+      },
+      "family_id": "probability.at-least-one-independent",
+      "variant_id": "independent_events:transfer-1",
+      "representation": "verbal",
+      "cognitive_demand": "model"
     },
     {
       "id": "independent_events:transfer-2",
       "objective_ids": [
         "independent_events:o1",
-        "independent_events:o2"
+        "independent_events:o2",
+        "independent_events:classify",
+        "independent_events:assumptions"
       ],
       "phase": "transfer",
       "type": "rubric",
@@ -174,12 +257,17 @@
       "feedback": {
         "correct": "按量规核对样本集合、交集和独立性定义；共享一次试验也不自动决定是否独立。",
         "incorrect": "先列六个等可能点数，用集合筛出同时满足条件的点数。"
-      }
+      },
+      "family_id": "probability.enumerated-independence",
+      "variant_id": "independent_events:transfer-2",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
     },
     {
       "id": "independent_events:delayed-1",
       "objective_ids": [
-        "independent_events:o1"
+        "independent_events:o1",
+        "independent_events:classify"
       ],
       "phase": "delayed",
       "type": "choice",
@@ -207,13 +295,19 @@
       "feedback": {
         "correct": "判断匹配；独立可以允许同时发生。",
         "incorrect": "分别用“交集是否等于乘积”和“交集是否为0”检验两个概念。"
-      }
+      },
+      "family_id": "probability.given-joint-independence",
+      "variant_id": "independent_events:delayed-1",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "independent_events:delayed-2",
       "objective_ids": [
         "independent_events:o2",
-        "independent_events:o3"
+        "independent_events:o3",
+        "independent_events:conditional",
+        "independent_events:multiply"
       ],
       "phase": "delayed",
       "type": "numeric",
@@ -224,7 +318,275 @@
       "feedback": {
         "correct": "概率匹配；请核对第二步分子和分母都随第一次摸球改变。",
         "incorrect": "画出第一次白球移出后的袋子，再填写第二步概率，不要默认两次独立。"
+      },
+      "family_id": "probability.without-replacement",
+      "variant_id": "independent_events:delayed-2",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
+    },
+    {
+      "id": "independent_events:practice-4",
+      "objective_ids": [
+        "independent_events:o3",
+        "independent_events:complement",
+        "independent_events:multiply"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "两次尝试相互独立，成功概率分别为0.6和0.7。至少一次成功的概率是多少？请填小数或分数。",
+      "explanation": "补事件为两次都失败，概率(1−0.6)(1−0.7)=0.12，因此至少一次成功为0.88。0.6+0.7重复计入两次都成功。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "先明确“至少一次”的补事件，再依据独立性计算两次都失败。"
+      },
+      "family_id": "probability.at-least-one-independent",
+      "variant_id": "independent_events:practice-4",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "answer": "0.88",
+      "verify": "1-(1-0.6)*(1-0.7)",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
       }
+    },
+    {
+      "id": "independent_events:practice-5",
+      "objective_ids": [
+        "independent_events:o1",
+        "independent_events:o2",
+        "independent_events:classify",
+        "independent_events:assumptions"
+      ],
+      "phase": "practice",
+      "type": "choice",
+      "prompt": "掷一次公平硬币，并把同一结果原样复制到记录甲、乙。每条记录为正面的概率都为1/2。两条记录的“正面”事件独立吗？",
+      "explanation": "两条记录必相同，同时正面的概率为1/2，不等于(1/2)(1/2)=1/4。每条边际概率都是1/2并不能保证两条之间独立。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "先观察第二条记录是怎样生成的，不要把“记录两次”误当“独立试验两次”。"
+      },
+      "family_id": "probability.coupled-mechanism",
+      "variant_id": "independent_events:practice-5",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer": "B",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "独立，因为两条记录都各有1/2概率。"
+        },
+        {
+          "id": "B",
+          "text": "不独立，因为复制使两条结果完全关联。"
+        },
+        {
+          "id": "C",
+          "text": "独立，因为甲和乙是不同的事件名称。"
+        }
+      ]
+    },
+    {
+      "id": "independent_events:transfer-3",
+      "objective_ids": [
+        "independent_events:o1",
+        "independent_events:o2",
+        "independent_events:classify",
+        "independent_events:conditional",
+        "independent_events:assumptions"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "从20张等可能抽到的卡中随机抽1张：同时有A、B标记的6张；只有A的4张；只有B的6张；两标记都没有的4张。检验“抽到A标记”与“抽到B标记”是否独立，并再用已知A后的概率核对。这里是完整卡组，不是抽样频数估计。",
+      "explanation": "P(A)=10/20=1/2，P(B)=12/20=3/5，交集6/20=3/10，等于乘积。已知A后在10张A卡中有6张B，条件概率6/10=3/5，仍与P(B)相等，因此独立。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "把四格数量分别合成为行列总数；条件概率的分母只保留满足条件的卡。"
+      },
+      "family_id": "probability.two-way-table-independence",
+      "variant_id": "independent_events:transfer-3",
+      "representation": "table",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "求边际与交集并检验乘积",
+          "points": 2,
+          "example": "1/2、3/5、3/10，且(1/2)(3/5)=3/10。"
+        },
+        {
+          "criterion": "在条件样本中复核",
+          "points": 2,
+          "example": "P(B|A)=6/10=3/5，等于原来B的概率。"
+        }
+      ]
+    },
+    {
+      "id": "independent_events:transfer-4",
+      "objective_ids": [
+        "independent_events:o3",
+        "independent_events:complement",
+        "independent_events:multiply"
+      ],
+      "phase": "transfer",
+      "type": "numeric",
+      "prompt": "两个检测器独立工作，检测成功的概率分别为0.8与0.6。恰好一个检测成功的概率是多少？请填小数或分数。",
+      "explanation": "恰好一个由两条互斥路径组成：甲成功乙失败0.8×0.4，甲失败乙成功0.2×0.6，合计0.44。它与“至少一个”不同，不包含两者都成功。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "分成“只甲成功”和“只乙成功”，每条用独立性相乘，再将互斥路径相加。"
+      },
+      "family_id": "probability.exactly-one",
+      "variant_id": "independent_events:transfer-4",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer": "0.44",
+      "verify": "0.8*(1-0.6)+(1-0.8)*0.6",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      }
+    },
+    {
+      "id": "independent_events:transfer-5",
+      "objective_ids": [
+        "independent_events:o1",
+        "independent_events:classify",
+        "independent_events:assumptions"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "有人说“互斥事件绝不可能独立”。令A为不可能事件，B的概率为0.4。按独立的乘积定义检验这句话，并说明为何这里不能使用P(B|A)=P(A∩B)/P(A)。",
+      "explanation": "A与B的交集为空，概率0；P(A)P(B)=0×0.4=0，因此二者既互斥又独立。原结论需加上两个事件概率均大于0的条件。P(A)=0时所给条件概率除法分母为0，不能使用。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "乘积定义仍可处理0概率；条件概率的除法公式却有分母非零的要求。"
+      },
+      "family_id": "probability.zero-probability-boundary",
+      "variant_id": "independent_events:transfer-5",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "用定义给出反例",
+          "points": 2,
+          "example": "0=0×0.4，所以独立；同时交集为空，互斥。"
+        },
+        {
+          "criterion": "说明条件与修正命题",
+          "points": 2,
+          "example": "除以P(A)=0不合法；两个正概率互斥事件才一定不独立。"
+        }
+      ]
+    },
+    {
+      "id": "independent_events:delayed-3",
+      "objective_ids": [
+        "independent_events:o2",
+        "independent_events:conditional"
+      ],
+      "phase": "delayed",
+      "type": "numeric",
+      "prompt": "已知P(A)=0.3、P(A∩B)=0.18。已知A发生时，B发生的条件概率是多少？请填小数或分数。",
+      "explanation": "P(A)>0，条件概率为0.18/0.3=0.6。这里从交集缩到A所在的条件样本，不需要自行假定A、B独立。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "分母应为条件事件A的概率，不是总样本概率1。"
+      },
+      "family_id": "probability.conditional-from-intersection",
+      "variant_id": "independent_events:delayed-3",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "answer": "0.6",
+      "verify": "0.18/0.3",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      }
+    },
+    {
+      "id": "independent_events:delayed-4",
+      "objective_ids": [
+        "independent_events:o1",
+        "independent_events:o2",
+        "independent_events:assumptions",
+        "independent_events:classify"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "只知道两台装置各自成功的概率都为0.8，没有给出它们是否独立。有人立即算“至少一台成功”的概率为1−0.2²=0.96。这个答案一定成立吗？用一种符合边际概率的关联机制说明。",
+      "explanation": "不一定。若两台由同一随机开关控制，总是同时成功或同时失败，成功概率0.8，则至少一台成功的概率也是0.8。独立模型才给出0.96；仅有边际概率不足以确定联合关系。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "尝试让两台结果完全同步，检查各自0.8的条件是否仍满足。"
+      },
+      "family_id": "probability.insufficient-joint-information",
+      "variant_id": "independent_events:delayed-4",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "指出缺少联合/独立信息",
+          "points": 1,
+          "example": "不能只根据两个边际概率直接相乘。"
+        },
+        {
+          "criterion": "构造符合条件但结果不同的机制",
+          "points": 3,
+          "example": "同步成功概率0.8、同步失败0.2，联合至少成功为0.8。"
+        }
+      ]
+    },
+    {
+      "id": "independent_events:delayed-5",
+      "objective_ids": [
+        "independent_events:o1",
+        "independent_events:classify"
+      ],
+      "phase": "delayed",
+      "type": "choice",
+      "prompt": "掷一次公平六面骰，A为偶数点，B为3的倍数点。A与B是否独立？",
+      "explanation": "A={2,4,6}，P(A)=1/2；B={3,6}，P(B)=1/3；交集{6}概率1/6，恰为乘积。即使事件来自同一次试验，也可能独立。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "列出两个集合及交集，按乘积定义检验，不能只看是否来自同一次试验。"
+      },
+      "family_id": "probability.enumerated-independence",
+      "variant_id": "independent_events:delayed-5",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "answer": "A",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "独立，因1/6=(1/2)(1/3)。"
+        },
+        {
+          "id": "B",
+          "text": "不独立，因两个事件来自同一次掷骰。"
+        },
+        {
+          "id": "C",
+          "text": "互斥，因“偶数”和“3的倍数”名称不同。"
+        }
+      ]
     }
   ],
   "teacher_review": {
@@ -235,5 +597,11 @@
     "mh2.10.1.2",
     "mh2.10.1.3",
     "mh2.10.1.4"
-  ]
+  ],
+  "prerequisite_unit_ids": [],
+  "prerequisite_objective_ids": [],
+  "diagram": {
+    "src": "/static/diagrams/probability-without-replacement.svg",
+    "alt": "4红2白的袋中不放回摸两球的概率树。第一步红4/6、白2/6；第一步红后第二步红3/5、白2/5；第一步白后第二步红4/5、白1/5。没有把第二步统一写成原来的4/6。"
+  }
 }

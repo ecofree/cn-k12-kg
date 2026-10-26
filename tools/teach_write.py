@@ -13,6 +13,15 @@
 """
 from __future__ import annotations
 
+# Historical CLI is fenced before imports or authoring side effects.
+if __name__ == "__main__":
+    import pathlib as _legacy_pathlib
+    import sys as _legacy_sys
+    _legacy_sys.path.insert(0, str(_legacy_pathlib.Path(__file__).resolve().parents[1]))
+    from tools.retired_writer import reject as _reject_retired_writer
+    raise SystemExit(_reject_retired_writer(__file__))
+
+
 import json
 import pathlib
 import sys
@@ -37,58 +46,4 @@ def _load() -> tuple[dict, dict, dict]:
 
 
 def write_cards(cards: list[dict], source: str, *, expect_tier: str = "core") -> int:
-    topics, bank, tiers = _load()
-    problems: list[str] = []
-    for card in cards:
-        tid = card.get("topicId")
-        label = tid or "<缺 topicId>"
-        if tid not in topics:
-            problems.append(f"{label}：知识点不存在")
-            continue
-        t = topics[tid]
-        info = (tiers.get("topics") or {}).get(tid) or {}
-        if info.get("tier") != expect_tier:
-            problems.append(f"{label}：分层是 {info.get('tier')}，不该写进这批卡")
-        if (card.get("name") or "") != t.get("name"):
-            problems.append(f"{label}：name 与知识点不一致"
-                            f"（卡={card.get('name')!r} 库={t.get('name')!r}）")
-        for ref in card.get("practice") or []:
-            q = bank.get(ref.get("id"))
-            if q is None:
-                problems.append(f"{label}：练习题不存在 {ref.get('id')}")
-                continue
-            if tid not in (q.get("topicIds") or [q.get("topicId")]):
-                problems.append(f"{label}：练习题 {ref['id']} 不属于本知识点")
-        ex = card.get("worked_example") or {}
-        if ex.get("verify"):
-            got = safe_eval(ex["verify"])
-            try:
-                want = float(str(ex.get("answer")).strip())
-            except (TypeError, ValueError):
-                want = None
-            if got is None:
-                problems.append(f"{label}：verify 无法求值 {ex['verify']!r}")
-            elif want is None:
-                problems.append(f"{label}：answer 不是数值，但给了 verify")
-            elif abs(got - want) > 1e-6 * max(abs(want), 1.0):
-                problems.append(f"{label}：verify={ex['verify']} 得 {got}，"
-                                f"与 answer={want} 不符")
-        for e in check_card(card, topics, bank):
-            problems.append(f"{label}：{e}")
-
-    if problems:
-        print(f"{source}：{len(problems)} 处问题，未写盘")
-        for p in problems:
-            print("  " + p)
-        return 1
-
-    TEACH.mkdir(parents=True, exist_ok=True)
-    for card in cards:
-        card.setdefault("schema", 1)
-        card.setdefault("review_status", "draft")
-        card.setdefault("author", "hand")
-        path = TEACH / f"{card['topicId']}.json"
-        path.write_text(json.dumps(card, ensure_ascii=False, indent=1) + "\n",
-                        encoding="utf-8")
-    print(f"{source}：写入 {len(cards)} 张 -> {TEACH}")
-    return 0
+    raise RuntimeError('历史讲解写入器已封存；编辑 data/teach JSON 后运行 tools/build_project.py --release')

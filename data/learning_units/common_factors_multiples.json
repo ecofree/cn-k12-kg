@@ -15,15 +15,52 @@
   "objectives": [
     {
       "id": "common_factors_multiples:o1",
-      "statement": "能列出两个正整数的公因数并确定最大公因数，解释“公有”与“最大”的含义。"
+      "statement": "能列出两个正整数的公因数并确定最大公因数，解释“公有”与“最大”的含义。",
+      "granularity": "composite"
     },
     {
       "id": "common_factors_multiples:o2",
-      "statement": "能用列举或倍数关系找到两个正整数的最小公倍数，排除0并核对“最小”。"
+      "statement": "能用列举或倍数关系找到两个正整数的最小公倍数，排除0并核对“最小”。",
+      "granularity": "composite"
     },
     {
       "id": "common_factors_multiples:o3",
-      "statement": "能根据整分、同期、约分或通分的要求选择公因数或公倍数模型，并解释结果和限制条件。"
+      "statement": "能根据整分、同期、约分或通分的要求选择公因数或公倍数模型，并解释结果和限制条件。",
+      "granularity": "composite"
+    },
+    {
+      "id": "common_factors_multiples:gcd",
+      "statement": "能列出两个正整数的全部公因数，找出最大者并检查整除。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "common_factors_multiples:o1"
+      ]
+    },
+    {
+      "id": "common_factors_multiples:lcm",
+      "statement": "能从正倍数中找到首个公共值，说明为什么排除0。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "common_factors_multiples:o2"
+      ]
+    },
+    {
+      "id": "common_factors_multiples:choose_model",
+      "statement": "能把整分单位与共同周期分别对应到公因数或公倍数，并检查情境条件。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "common_factors_multiples:o3"
+      ]
+    },
+    {
+      "id": "common_factors_multiples:justify_optimum",
+      "statement": "能说明一个公因数为何最大或一个正公倍数为何最小，反驳只找到一个就停止的做法。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "common_factors_multiples:o1",
+        "common_factors_multiples:o2",
+        "common_factors_multiples:o3"
+      ]
     }
   ],
   "prerequisites": [
@@ -43,13 +80,15 @@
   },
   "worked_examples": [
     {
-      "prompt": "求12与18的最大公因数，并把12/18约成最简分数。",
+      "prompt": "求12与18的最大公因数，并说明没有漏掉更大的公共因数。",
       "steps": [
         "12的因数为1、2、3、4、6、12；18的因数为1、2、3、6、9、18。",
-        "公因数为1、2、3、6，最大的是6。",
-        "分子分母同时除以6，得到2/3；2与3没有大于1的公因数。"
+        "取两列共有的1、2、3、6，其中最大的是6。",
+        "6能整除两数，而其它更大的因数不同时属于两列。"
       ],
-      "answer": "最大公因数6；最简分数2/3。"
+      "answer": "6",
+      "family_id": "number.gcd-enumerate",
+      "variant_id": "common_factors_multiples:example-1"
     },
     {
       "prompt": "两个提示灯从同一时刻开始，每隔4秒与6秒各闪一次。开始后第几秒首次再次同时闪？",
@@ -59,14 +98,53 @@
         "因此第12秒首次再次同时闪；12÷4=3、12÷6=2，两个周期都完整经过。"
       ],
       "answer": "12",
-      "verify": "4*3"
+      "verify": "4*3",
+      "family_id": "number.lcm-synchronized-cycles",
+      "variant_id": "common_factors_multiples:example-2"
+    },
+    {
+      "prompt": "4与6的乘积24是公倍数，为什么不一定最小？",
+      "steps": [
+        "24能被4和6整除，是一个正公倍数。",
+        "更小的12也同时被4和6整除。",
+        "检查较小倍数4、8与6都不满足共有条件后，可确定12才是最小正公倍数。"
+      ],
+      "answer": "24是公倍数但不是最小，最小为12。",
+      "family_id": "number.lcm-minimality-error",
+      "variant_id": "common_factors_multiples:example-3"
+    },
+    {
+      "prompt": "12厘米和18厘米的两根绳子，剪成同样长的整数厘米小段，不剩余，最长每段多少厘米？",
+      "steps": [
+        "共同段长要同时整除12与18。",
+        "最大公因数为6，可各剪成2段与3段。",
+        "更大的共同整数段长不存在；图中的段数不同，每段的单位长度相同。"
+      ],
+      "answer": "6",
+      "verify": "12/2",
+      "family_id": "number.gcd-equal-cuts",
+      "variant_id": "common_factors_multiples:example-4"
+    },
+    {
+      "prompt": "已知12与18的最大公因数为6，怎样把12/18约成最简分数？",
+      "steps": [
+        "分子分母同时除以6，得到2/3。",
+        "共同除以同一个非零数不改变分数值。",
+        "2与3没有大于1的公因数，已是最简。"
+      ],
+      "answer": "2/3",
+      "verify": "12/18",
+      "family_id": "fraction.reduce-direct",
+      "variant_id": "common_factors_multiples:example-5"
     }
   ],
   "tasks": [
     {
       "id": "common_factors_multiples:practice-1",
       "objective_ids": [
-        "common_factors_multiples:o1"
+        "common_factors_multiples:o1",
+        "common_factors_multiples:gcd",
+        "common_factors_multiples:justify_optimum"
       ],
       "phase": "practice",
       "type": "choice",
@@ -90,12 +168,17 @@
           "text": "公因数只有6，最大为6。"
         }
       ],
-      "answer": "A"
+      "answer": "A",
+      "family_id": "number.gcd-enumerate",
+      "variant_id": "common_factors_multiples:practice-1",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "common_factors_multiples:practice-2",
       "objective_ids": [
-        "common_factors_multiples:o2"
+        "common_factors_multiples:o2",
+        "common_factors_multiples:lcm"
       ],
       "phase": "practice",
       "type": "numeric",
@@ -106,13 +189,20 @@
         "incorrect": "从较大的数6开始列正倍数6、12，逐个检查能否被4整除。"
       },
       "answer": "12",
-      "verify": "4*3"
+      "verify": "4*3",
+      "family_id": "number.lcm-positive-direct",
+      "variant_id": "common_factors_multiples:practice-2",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "common_factors_multiples:practice-3",
       "objective_ids": [
         "common_factors_multiples:o1",
-        "common_factors_multiples:o3"
+        "common_factors_multiples:o3",
+        "common_factors_multiples:gcd",
+        "common_factors_multiples:choose_model",
+        "common_factors_multiples:justify_optimum"
       ],
       "phase": "practice",
       "type": "rubric",
@@ -138,13 +228,20 @@
           "points": 1,
           "example": "公倍数是共同的总量，不是两根绳子能剪出的共同段长。"
         }
-      ]
+      ],
+      "family_id": "number.gcd-equal-cuts",
+      "variant_id": "common_factors_multiples:practice-3",
+      "representation": "verbal",
+      "cognitive_demand": "model"
     },
     {
       "id": "common_factors_multiples:transfer-1",
       "objective_ids": [
         "common_factors_multiples:o1",
-        "common_factors_multiples:o3"
+        "common_factors_multiples:o3",
+        "common_factors_multiples:gcd",
+        "common_factors_multiples:choose_model",
+        "common_factors_multiples:justify_optimum"
       ],
       "phase": "transfer",
       "type": "rubric",
@@ -170,13 +267,19 @@
           "points": 1,
           "example": "共有因数为1、2、4、8，没有更大的共同整数边长。"
         }
-      ]
+      ],
+      "family_id": "number.gcd-square-tiling",
+      "variant_id": "common_factors_multiples:transfer-1",
+      "representation": "geometry",
+      "cognitive_demand": "model"
     },
     {
       "id": "common_factors_multiples:transfer-2",
       "objective_ids": [
         "common_factors_multiples:o2",
-        "common_factors_multiples:o3"
+        "common_factors_multiples:o3",
+        "common_factors_multiples:lcm",
+        "common_factors_multiples:choose_model"
       ],
       "phase": "transfer",
       "type": "rubric",
@@ -197,13 +300,19 @@
           "points": 2,
           "example": "9:24；0不是再次，48不是最小公倍数。"
         }
-      ]
+      ],
+      "family_id": "number.lcm-synchronized-cycles",
+      "variant_id": "common_factors_multiples:transfer-2",
+      "representation": "verbal",
+      "cognitive_demand": "model"
     },
     {
       "id": "common_factors_multiples:transfer-3",
       "objective_ids": [
         "common_factors_multiples:o2",
-        "common_factors_multiples:o3"
+        "common_factors_multiples:o3",
+        "common_factors_multiples:lcm",
+        "common_factors_multiples:choose_model"
       ],
       "phase": "transfer",
       "type": "numeric",
@@ -214,12 +323,17 @@
         "incorrect": "共同分母要能被原来的6和9整除，不能取它们的最大公因数3。"
       },
       "answer": "18",
-      "verify": "6*3"
+      "verify": "6*3",
+      "family_id": "number.lcm-positive-direct",
+      "variant_id": "common_factors_multiples:transfer-3",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "common_factors_multiples:delayed-1",
       "objective_ids": [
-        "common_factors_multiples:o1"
+        "common_factors_multiples:o1",
+        "common_factors_multiples:gcd"
       ],
       "phase": "delayed",
       "type": "numeric",
@@ -230,12 +344,18 @@
         "incorrect": "把每个数的因数成对列出，再查找共有部分。"
       },
       "answer": "9",
-      "verify": "27/3"
+      "verify": "27/3",
+      "family_id": "number.gcd-enumerate",
+      "variant_id": "common_factors_multiples:delayed-1",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "common_factors_multiples:delayed-2",
       "objective_ids": [
-        "common_factors_multiples:o2"
+        "common_factors_multiples:o2",
+        "common_factors_multiples:lcm",
+        "common_factors_multiples:justify_optimum"
       ],
       "phase": "delayed",
       "type": "choice",
@@ -259,13 +379,20 @@
           "text": "3，因为3是两数的最大公因数。"
         }
       ],
-      "answer": "B"
+      "answer": "B",
+      "family_id": "number.divisibility-shortcut",
+      "variant_id": "common_factors_multiples:delayed-2",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
     },
     {
       "id": "common_factors_multiples:delayed-3",
       "objective_ids": [
         "common_factors_multiples:o2",
-        "common_factors_multiples:o3"
+        "common_factors_multiples:o3",
+        "common_factors_multiples:lcm",
+        "common_factors_multiples:choose_model",
+        "common_factors_multiples:justify_optimum"
       ],
       "phase": "delayed",
       "type": "rubric",
@@ -286,6 +413,198 @@
           "points": 2,
           "example": "12是更小的共同分母，得到3/12和2/12；最小公分母为12。"
         }
+      ],
+      "family_id": "number.lcm-minimality-error",
+      "variant_id": "common_factors_multiples:delayed-3",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
+    },
+    {
+      "id": "common_factors_multiples:practice-4",
+      "objective_ids": [
+        "common_factors_multiples:o1",
+        "common_factors_multiples:o3",
+        "common_factors_multiples:gcd",
+        "common_factors_multiples:choose_model"
+      ],
+      "phase": "practice",
+      "type": "choice",
+      "prompt": "6能整除18和24。只依据这句话，以下哪项准确？",
+      "explanation": "18÷6、24÷6均为整数，所以6是两数的公因数。它不是公倍数，因为6不是18或24的正整数倍；这句话本身也未列出所有公因数来证明最大性。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "看清是谁整除谁；分段单位通常比原数小，共同总量通常是原数的倍数。"
+      },
+      "family_id": "number.divisor-multiple-direction",
+      "variant_id": "common_factors_multiples:practice-4",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "answer": "A",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "6是18和24的公因数。"
+        },
+        {
+          "id": "B",
+          "text": "6是18和24的最小公倍数。"
+        },
+        {
+          "id": "C",
+          "text": "凡能整除两数的数都是它们的最大公因数。"
+        }
+      ]
+    },
+    {
+      "id": "common_factors_multiples:practice-5",
+      "objective_ids": [
+        "common_factors_multiples:o1",
+        "common_factors_multiples:gcd",
+        "common_factors_multiples:justify_optimum"
+      ],
+      "phase": "practice",
+      "type": "rubric",
+      "prompt": "小安说：“12和16都是偶数，因此最大公因数是2。”指出推理缺口，求出真正的最大公因数，并说明如何知道已经最大。",
+      "explanation": "2确实是公因数，但4也是，而且更大。12的因数为1、2、3、4、6、12，16的因数为1、2、4、8、16，共有1、2、4，最大为4。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "能同时整除只保证“公因数”；还需要检查更大的公共候选。"
+      },
+      "family_id": "number.gcd-maximality-error",
+      "variant_id": "common_factors_multiples:practice-5",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "区分公共与最大",
+          "points": 1,
+          "example": "2是公因数不等于最大公因数。"
+        },
+        {
+          "criterion": "完整说明最大者",
+          "points": 2,
+          "example": "列出两数因数，公共部分1、2、4，最大为4。"
+        }
+      ]
+    },
+    {
+      "id": "common_factors_multiples:transfer-4",
+      "objective_ids": [
+        "common_factors_multiples:o2",
+        "common_factors_multiples:o3",
+        "common_factors_multiples:lcm",
+        "common_factors_multiples:choose_model",
+        "common_factors_multiples:justify_optimum"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "从计时0秒起，灯甲在0、4、8、12……秒闪；灯乙在2、8、14、20……秒闪。小林用4和6的最小公倍数12，说12秒首次同时闪。按给定记录检查，找到0秒之后首次同时闪的时刻，并说明原方法缺了什么条件。",
+      "explanation": "甲的起始记录0、4、8；乙为2、8，首次重合8秒。12秒乙不闪。直接用最小公倍数求从起点起的重合时间，需要两事件在该起点同时发生；这里起始相位不同。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "不要只取两个间隔，还要保留各自第一次出现的时刻。"
+      },
+      "family_id": "number.offset-cycle-condition",
+      "variant_id": "common_factors_multiples:transfer-4",
+      "representation": "table",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "列举并找出首次重合",
+          "points": 2,
+          "example": "0秒后甲4、8，乙2、8，所以8秒首次重合。"
+        },
+        {
+          "criterion": "说明套用最小公倍数的条件",
+          "points": 2,
+          "example": "两灯未从同一时刻同时开始，不能直接把12作为从0起的共同时间。"
+        }
+      ]
+    },
+    {
+      "id": "common_factors_multiples:delayed-4",
+      "objective_ids": [
+        "common_factors_multiples:o1",
+        "common_factors_multiples:o2",
+        "common_factors_multiples:gcd",
+        "common_factors_multiples:lcm",
+        "common_factors_multiples:justify_optimum"
+      ],
+      "phase": "delayed",
+      "type": "choice",
+      "prompt": "4与5的最大公因数、最小公倍数分别是多少？哪项同时给出正确结论与能核对的理由？",
+      "explanation": "4的因数1、2、4与5的因数1、5只共有1。4的正倍数4、8、12、16、20与5的正倍数5、10、15、20首次重合20。此处乘积恰是最小公倍数，不代表所有两数相乘都最小。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "先核对公共因数，再按正倍数的先后寻找第一次重合，避免把某一对的规律推广给所有数。"
+      },
+      "family_id": "number.coprime-gcd-lcm",
+      "variant_id": "common_factors_multiples:delayed-4",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "answer": "B",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "最大公因数4、最小公倍数5，因为总可直接选较小数和较大数。"
+        },
+        {
+          "id": "B",
+          "text": "最大公因数1、最小公倍数20；公共因数只有1，正倍数首次重合20。"
+        },
+        {
+          "id": "C",
+          "text": "最大公因数1、最小公倍数20，因为任何两数的乘积都是最小公倍数。"
+        }
+      ]
+    },
+    {
+      "id": "common_factors_multiples:delayed-5",
+      "objective_ids": [
+        "common_factors_multiples:o1",
+        "common_factors_multiples:o2",
+        "common_factors_multiples:gcd",
+        "common_factors_multiples:lcm",
+        "common_factors_multiples:justify_optimum"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "找出两组不同的正整数对，使每组的最大公因数都是1、最小公倍数都是6。两个数均不超过6，交换顺序算同一组。逐组核对。",
+      "explanation": "可取(1,6)和(2,3)。1与6的公因数只有1，首个正公倍数6；2与3的公因数也只有1，正倍数首次相遇6。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "先找6的正因数，按两项能否同时满足“公因数1”和“最小正公倍数6”筛选。"
+      },
+      "family_id": "number.construct-gcd-lcm-pairs",
+      "variant_id": "common_factors_multiples:delayed-5",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "构造两组且不只是交换顺序",
+          "points": 2,
+          "example": "(1,6)与(2,3)。"
+        },
+        {
+          "criterion": "逐组核对两个条件",
+          "points": 2,
+          "example": "解释两组均只共有因数1，且最小正公倍数为6。"
+        }
       ]
     }
   ],
@@ -295,5 +614,11 @@
   "prerequisite_topic_ids": [
     "m5b.1.1"
   ],
-  "coverage_note": "在已有“因数和倍数”导航下补细技能；本单元不代表整章或完整第三学段已完成教学。"
+  "coverage_note": "在已有“因数和倍数”导航下补细技能；本单元不代表整章或完整第三学段已完成教学。",
+  "prerequisite_unit_ids": [],
+  "prerequisite_objective_ids": [],
+  "diagram": {
+    "src": "/static/diagrams/common-factor-equal-cuts.svg",
+    "alt": "两根绳子分别长12厘米、18厘米，在相同比例下画成2段和3段，每段6厘米；较长绳子多一段，分段单位相同。"
+  }
 }

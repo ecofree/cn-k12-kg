@@ -266,7 +266,7 @@ class FullCatalogTests(unittest.TestCase):
         self.assertEqual(counts["bank"], 3568)
         self.assertEqual(counts["self_check"], 684)
         self.assertEqual(counts["project_step"], 72)
-        self.assertEqual(self.c.coverage["quarantined_tasks"], 477)
+        self.assertEqual(self.c.coverage["quarantined_tasks"], 489)
         self.assertTrue(all("answer_spec" in t for t in self.c.tasks.values()))
         self.assertEqual(validate_resource("catalog", self.c.data), [])
 
@@ -274,7 +274,7 @@ class FullCatalogTests(unittest.TestCase):
         self.assertEqual(self.c.coverage["policy_migration_changes"], [])
         policies = self.c.coverage["bank_policy_counts"]
         self.assertEqual(policies["original"], policies["compiled"])
-        self.assertEqual(policies["compiled"]["practice_eligible"], 3091)
+        self.assertEqual(policies["compiled"]["practice_eligible"], 3079)
 
     def test_real_approximation_tasks_have_explicit_rounding_precision(self):
         spec = self.c.task("m7b.8.3-q101")["answer_spec"]

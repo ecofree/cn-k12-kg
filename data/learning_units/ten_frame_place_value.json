@@ -1,0 +1,596 @@
+{
+  "schema": 1,
+  "id": "ten_frame_place_value",
+  "title": "十个一组：十框、十与一和凑十",
+  "stage": "primary",
+  "topic_ids": [
+    "m1a.2.9",
+    "m1a.2.10",
+    "m1a.4.1",
+    "m1a.4.2",
+    "m1a.5.1",
+    "m1a.5.2"
+  ],
+  "standard_ids": [
+    "cms-2022:1.NA.01",
+    "cms-2022:1.NA.02",
+    "cms-2022:1.NA.03"
+  ],
+  "review_status": "draft",
+  "author_type": "ai",
+  "teacher_review": {
+    "status": "pending"
+  },
+  "prerequisites": [
+    "能按顺序数到10，点一个物体说一个数。",
+    "能把少量物体合起来或拿走，并用自己的话描述。"
+  ],
+  "prerequisite_topic_ids": [
+    "m1a.1.1",
+    "m1a.1.4",
+    "m1a.2.1"
+  ],
+  "prerequisite_unit_ids": [],
+  "prerequisite_objective_ids": [],
+  "coverage_note": "面向小学低年级，集中在20以内的数量、十与一及凑十；不宣称覆盖第一学段全部数与运算。过程题可以先摆小棒、指图或口述，再由学生或陪同者记录解释。",
+  "objectives": [
+    {
+      "id": "ten_frame_place_value:count",
+      "statement": "能一一对应点数，并说明只改变摆放、没有添减时个数不变。",
+      "granularity": "observable"
+    },
+    {
+      "id": "ten_frame_place_value:compose_ten",
+      "statement": "能找出合成10的两个部分，并把需要补入的数量按十的结构拆开。",
+      "granularity": "observable"
+    },
+    {
+      "id": "ten_frame_place_value:place_value",
+      "statement": "能把1个十与若干个一对应到11至20的数，说明十位上的1表示10个一。",
+      "granularity": "observable"
+    },
+    {
+      "id": "ten_frame_place_value:make_ten",
+      "statement": "能把20以内进位加法先凑成10再加余数，说明移动的部分不能重复计算。",
+      "granularity": "observable"
+    },
+    {
+      "id": "ten_frame_place_value:operation",
+      "statement": "能区分合并、拿走与求缺少部分的数量关系，用加减算式或操作核对答案。",
+      "granularity": "observable"
+    }
+  ],
+  "explanation": {
+    "intuition": "一个十框有两排，每排5格，一共10格。每格放1颗，满框就是1个十。把10根小棒捆成1捆，小棒仍有10根，只是可以把整捆当作一个大单位来数。",
+    "reasoning": "先点数，再看十框里还空几格。把8和5合起来时，8还差2到10，从5里拿2补入十框，5剩3，所以8+5=10+3=13。取出来的2已经算进10，不能再加一次。14可以看作1个十和4个一；写成14时左边的1代表10，不是1根。",
+    "conditions": [
+      "点数时每个物体只点一次，不遗漏，不重复。",
+      "一个十框正好10格，每格至多放1颗；小棒一捆明确为10根。",
+      "本单元计算结果不超过20，图中不同颜色只帮助看分组，不改变物体个数。",
+      "可以先摆、指、说，再记录简短数字或解释；除了结果，还要用操作或语言说明方法。"
+    ],
+    "counterexample": "把7颗小石子拉得更开，没有添也没有拿走，仍是7颗；一排更长不代表个数更多。又如1捆10根加3根是13根，不能把“1捆”和“3根”直接当同样单位相加成4根。"
+  },
+  "worked_examples": [
+    {
+      "prompt": "十框里放了8颗，还空几格？",
+      "steps": [
+        "每排5格，两排共有10格。",
+        "已放8颗，空的两格还可各放1颗。",
+        "8和2合起来是10。"
+      ],
+      "answer": "2",
+      "verify": "10-8",
+      "family_id": "ten.complete-frame",
+      "variant_id": "ten_frame_place_value:example-1"
+    },
+    {
+      "prompt": "1捆10根的小棒，旁边另有4根，一共几根？",
+      "steps": [
+        "1捆按10根计算。",
+        "再加旁边的4根，是14根。",
+        "14中的1在十位，表示10；4在个位，表示4。"
+      ],
+      "answer": "14",
+      "verify": "10+4",
+      "family_id": "placevalue.ten-and-ones",
+      "variant_id": "ten_frame_place_value:example-2"
+    },
+    {
+      "prompt": "摆一摆，说明8+5为什么等于13。",
+      "steps": [
+        "8到10还差2，把5拆成2和3。",
+        "先将2颗移到8颗旁凑满十框，再剩3颗。",
+        "总量是10+3=13；移走的2不再留在原来的5里重复计算。"
+      ],
+      "answer": "13",
+      "verify": "8+5",
+      "family_id": "addition.make-ten",
+      "variant_id": "ten_frame_place_value:example-3"
+    }
+  ],
+  "diagram": {
+    "src": "/static/diagrams/ten-frame-place-value.svg",
+    "alt": "上方十框两排各5格，放有8颗蓝点，余2格空白。下方一个完整十框和另4颗点，分别标1个十和4个一。"
+  },
+  "tasks": [
+    {
+      "id": "ten_frame_place_value:practice-1",
+      "objective_ids": [
+        "ten_frame_place_value:count"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "数一数图中的点，一共有几颗？每个点只数一次。只填数字。",
+      "explanation": "第一排5颗，第二排2颗，共7颗。也可以逐个点数，最后一个数7表示总个数。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "从一排开始，点一颗数一次，再换到另一排，别重复。"
+      },
+      "family_id": "count.ten-frame-read",
+      "variant_id": "ten_frame_place_value:practice-1",
+      "representation": "manipulative",
+      "cognitive_demand": "execute",
+      "answer": "7",
+      "verify": "5+2",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "diagram": {
+        "src": "/static/diagrams/ten-frame-seven.svg",
+        "alt": "一个两排五列的十框，第一排5格各有1点，第二排前2格各有1点，其余为空；不标总数。"
+      }
+    },
+    {
+      "id": "ten_frame_place_value:practice-2",
+      "objective_ids": [
+        "ten_frame_place_value:compose_ten"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "一个十框有10格，已经放了6颗，每格1颗。还要放几颗才满？只填数字。",
+      "explanation": "10−6=4，或想6+4=10，所以还要4颗。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "画10个格子，先占6格，再数空格。"
+      },
+      "family_id": "ten.complete-frame",
+      "variant_id": "ten_frame_place_value:practice-2",
+      "representation": "manipulative",
+      "cognitive_demand": "execute",
+      "answer": "4",
+      "verify": "10-6",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      }
+    },
+    {
+      "id": "ten_frame_place_value:practice-3",
+      "objective_ids": [
+        "ten_frame_place_value:place_value"
+      ],
+      "phase": "practice",
+      "type": "choice",
+      "prompt": "1捆小棒有10根，旁边另放3根。一共几根？",
+      "explanation": "一捆是10根，10+3=13根；不能把一捆当成一根。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "把整捆先想成10根，再加散放的3根。"
+      },
+      "family_id": "placevalue.ten-and-ones",
+      "variant_id": "ten_frame_place_value:practice-3",
+      "representation": "manipulative",
+      "cognitive_demand": "execute",
+      "answer": "B",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "4根"
+        },
+        {
+          "id": "B",
+          "text": "13根"
+        },
+        {
+          "id": "C",
+          "text": "31根"
+        }
+      ]
+    },
+    {
+      "id": "ten_frame_place_value:practice-4",
+      "objective_ids": [
+        "ten_frame_place_value:compose_ten",
+        "ten_frame_place_value:make_ten"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "算9+4。先从4里拿1给9凑成10，剩下的再加。一共是多少？只填数字。",
+      "explanation": "4拆成1和3，9+1=10，再加3得到13。拿走的1已经进入10，原来的4只剩3。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "先说4拿走1还剩几，再算10加剩下的数。"
+      },
+      "family_id": "addition.make-ten",
+      "variant_id": "ten_frame_place_value:practice-4",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "answer": "13",
+      "verify": "9+4",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      }
+    },
+    {
+      "id": "ten_frame_place_value:practice-5",
+      "objective_ids": [
+        "ten_frame_place_value:operation"
+      ],
+      "phase": "practice",
+      "type": "choice",
+      "prompt": "盘里有9块积木，拿走3块。想求还剩几块，选哪个算式？",
+      "explanation": "从原来的9块里拿走3块，是9−3，剩6块。加法表示加入或合并，不能表示这次拿走。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "先摆9块，再拿走3块，看数量是增加还是减少。"
+      },
+      "family_id": "number.remove-operation-selection",
+      "variant_id": "ten_frame_place_value:practice-5",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy",
+      "answer": "A",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "9−3"
+        },
+        {
+          "id": "B",
+          "text": "9+3"
+        },
+        {
+          "id": "C",
+          "text": "3−9"
+        }
+      ]
+    },
+    {
+      "id": "ten_frame_place_value:practice-6",
+      "objective_ids": [
+        "ten_frame_place_value:count"
+      ],
+      "phase": "practice",
+      "type": "rubric",
+      "prompt": "把7颗纽扣先排成一行，再排成两小堆，没有添也没有拿走。个数会变吗？可以摆一摆、指一指，说明你怎么核对。",
+      "explanation": "不会变，仍是7颗。摆放只改变位置，没有改变物体；可以重新逐颗对应点数，或追踪每颗纽扣都还在。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "关注有没有添、拿走、漏数或重复，而不是哪种摆法看起来更长。"
+      },
+      "family_id": "count.arrangement-invariance",
+      "variant_id": "ten_frame_place_value:practice-6",
+      "representation": "manipulative",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "判断数量不变",
+          "points": 1,
+          "example": "仍是7颗。"
+        },
+        {
+          "criterion": "给出可操作的核对",
+          "points": 2,
+          "example": "一颗不漏地重新点数，或说明每颗只是移位，没有增减。"
+        }
+      ]
+    },
+    {
+      "id": "ten_frame_place_value:transfer-1",
+      "objective_ids": [
+        "ten_frame_place_value:place_value",
+        "ten_frame_place_value:operation"
+      ],
+      "phase": "transfer",
+      "type": "numeric",
+      "prompt": "打开1捆10根的小棒，分给同伴4根。自己还剩几根？只填数字。",
+      "explanation": "打开一捆后还是10根，拿出4根，剩10−4=6根。拆捆改变分组，不改变总数。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "先把一捆还原成10根，再执行拿走4根。"
+      },
+      "family_id": "placevalue.unbundle-and-remove",
+      "variant_id": "ten_frame_place_value:transfer-1",
+      "representation": "manipulative",
+      "cognitive_demand": "model",
+      "answer": "6",
+      "verify": "10-4",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      }
+    },
+    {
+      "id": "ten_frame_place_value:transfer-2",
+      "objective_ids": [
+        "ten_frame_place_value:compose_ten",
+        "ten_frame_place_value:make_ten",
+        "ten_frame_place_value:operation"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "7+□=12，方框里是多少？用10作中间数说明：先补几到10，还要再补几到12？可以用小棒或口述说明。",
+      "explanation": "7先补3到10，再补2到12，所以共补3+2=5。7+5=12，也可用12−7=5核对。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "分两段看：7到10需要多少，10到12还需要多少。"
+      },
+      "family_id": "number.missing-addend-through-ten",
+      "variant_id": "ten_frame_place_value:transfer-2",
+      "representation": "manipulative",
+      "cognitive_demand": "choose_strategy",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "找出两段需要补入的量",
+          "points": 2,
+          "example": "先补3，再补2。"
+        },
+        {
+          "criterion": "合并并核对",
+          "points": 2,
+          "example": "方框5；7+5=12，不能只报其中一段。"
+        }
+      ]
+    },
+    {
+      "id": "ten_frame_place_value:transfer-3",
+      "objective_ids": [
+        "ten_frame_place_value:place_value"
+      ],
+      "phase": "transfer",
+      "type": "choice",
+      "prompt": "每捆都是10根。看图：甲有2捆，乙有1捆和9根。哪边小棒更多？",
+      "explanation": "甲2个十为20根，乙10+9=19根，甲多1根。不能只按图中“几捆、几根”的外观件数比较。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "先把捆统一换算成根，再比较同一种单位的数量。"
+      },
+      "family_id": "placevalue.compare-bundles",
+      "variant_id": "ten_frame_place_value:transfer-3",
+      "representation": "manipulative",
+      "cognitive_demand": "model",
+      "answer": "A",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "甲更多，20根比19根多1根。"
+        },
+        {
+          "id": "B",
+          "text": "乙更多，因为画出来散放的小棒更多。"
+        },
+        {
+          "id": "C",
+          "text": "一样多，因为两边都有小棒。"
+        }
+      ],
+      "diagram": {
+        "src": "/static/diagrams/place-value-compare-bundles.svg",
+        "alt": "每个带绳圈的小捆表示10根。甲画2捆；乙画1捆与9根散棒。分别标甲、乙与每捆10根，不标双方总数。"
+      }
+    },
+    {
+      "id": "ten_frame_place_value:transfer-4",
+      "objective_ids": [
+        "ten_frame_place_value:operation"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "盒里原有15块积木，送出一些后还剩9块。送出几块？用一个算式或摆积木的过程说明，再核对原来15块。",
+      "explanation": "送出15−9=6块。剩的9块与送出的6块合起来是15块，所以核对成立。这里9表示剩余量，不是送出的量。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "先说清15是原来、9是剩下，再找原来中不在盒里的部分。"
+      },
+      "family_id": "number.missing-part-story",
+      "variant_id": "ten_frame_place_value:transfer-4",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "按各数量含义找缺少部分",
+          "points": 2,
+          "example": "15−9=6，或9+6=15。"
+        },
+        {
+          "criterion": "用原总量核对",
+          "points": 1,
+          "example": "送6、剩9，合起来仍是15。"
+        }
+      ]
+    },
+    {
+      "id": "ten_frame_place_value:transfer-5",
+      "objective_ids": [
+        "ten_frame_place_value:count",
+        "ten_frame_place_value:operation"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "有12颗棋子，给10个人每人1颗，够分吗？还剩几颗？把剩下的棋子摆得更开，颗数会改变吗？可以用画点和一一连线说明。",
+      "explanation": "12颗可一一分给10个人，还剩2颗；只把余下2颗拉开摆，数量不会改变。重点是每人对应1颗并且每颗只分一次。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "画10个人的位置，把棋子一颗对一个位置，剩下没有配对的就是余数。"
+      },
+      "family_id": "count.one-to-one-distribution",
+      "variant_id": "ten_frame_place_value:transfer-5",
+      "representation": "manipulative",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "用一一对应判断足够及余量",
+          "points": 2,
+          "example": "10人各1颗，够，余2颗。"
+        },
+        {
+          "criterion": "说明摆放不改个数",
+          "points": 1,
+          "example": "只是移位置，没有增减，仍余2颗。"
+        }
+      ]
+    },
+    {
+      "id": "ten_frame_place_value:delayed-1",
+      "objective_ids": [
+        "ten_frame_place_value:place_value"
+      ],
+      "phase": "delayed",
+      "type": "numeric",
+      "prompt": "17里面有1个十和几个一？只填几个一的数字。",
+      "explanation": "17=10+7，所以有1个十和7个一。十位的1表示10。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "先拿出10作为一捆，看看17中还剩多少个一。"
+      },
+      "family_id": "placevalue.ten-and-ones",
+      "variant_id": "ten_frame_place_value:delayed-1",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "answer": "7",
+      "verify": "17-10",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      }
+    },
+    {
+      "id": "ten_frame_place_value:delayed-2",
+      "objective_ids": [
+        "ten_frame_place_value:compose_ten",
+        "ten_frame_place_value:make_ten"
+      ],
+      "phase": "delayed",
+      "type": "choice",
+      "prompt": "算8+7时，从7里拿2给8凑成10。接下来应该怎样算？",
+      "explanation": "7拿走2后还剩5，取出的2已算进10，所以算10+5=15。若再加7，就把这2颗重复算了。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "让被移动的两颗只出现一次：它们现在在哪一组？原来的7还剩多少？"
+      },
+      "family_id": "addition.make-ten-error-critique",
+      "variant_id": "ten_frame_place_value:delayed-2",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "answer": "B",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "10+7=17，因为原来第二个数是7。"
+        },
+        {
+          "id": "B",
+          "text": "10+5=15，因为7里已经拿走2。"
+        },
+        {
+          "id": "C",
+          "text": "10+2=12，因为拿了2来凑十。"
+        }
+      ]
+    },
+    {
+      "id": "ten_frame_place_value:delayed-3",
+      "objective_ids": [
+        "ten_frame_place_value:count",
+        "ten_frame_place_value:operation"
+      ],
+      "phase": "delayed",
+      "type": "numeric",
+      "prompt": "小青蛙在数轴的7上，每跳一步向右到下一个整数。跳到12一共跳几步？数间隔，别把起点也算一步。只填数字。",
+      "explanation": "7到8、8到9、9到10、10到11、11到12，共5步。虽然写着6个数，两个相邻数之间才算一步。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "用手指从7开始，移动到下一个数时才记一步。"
+      },
+      "family_id": "count.number-line-steps",
+      "variant_id": "ten_frame_place_value:delayed-3",
+      "representation": "number_line",
+      "cognitive_demand": "model",
+      "answer": "5",
+      "verify": "12-7",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "diagram": {
+        "src": "/static/diagrams/number-line-seven-twelve.svg",
+        "alt": "数轴依次标7、8、9、10、11、12，间隔相等，7与12下分别标起点和终点，不标步数。"
+      }
+    },
+    {
+      "id": "ten_frame_place_value:delayed-4",
+      "objective_ids": [
+        "ten_frame_place_value:place_value"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "小明说：“16里的1是一根小棒，6是六根，所以16就是7根。”用一捆十根和散棒解释哪里错了，并写出正确总数。可以口述后记录。",
+      "explanation": "16里的1在十位，表示1个十即10根；6在个位，表示6根，合计16根。错在把不同位置的1都看成1个一。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "先给两个数字各配一种计数单位：十位按十数，个位按一数。"
+      },
+      "family_id": "placevalue.digit-unit-error",
+      "variant_id": "ten_frame_place_value:delayed-4",
+      "representation": "manipulative",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "指出十位上的1表示10",
+          "points": 2,
+          "example": "1捆是10根，不是1根。"
+        },
+        {
+          "criterion": "用单位合成正确数量",
+          "points": 1,
+          "example": "10根+6根=16根。"
+        }
+      ]
+    }
+  ]
+}

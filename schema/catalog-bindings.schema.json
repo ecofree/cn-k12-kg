@@ -65,16 +65,46 @@
           "source_anchor": {
             "type": "string",
             "minLength": 1
+          },
+          "answer_spec_source": {
+            "type": "string",
+            "enum": [
+              "binding",
+              "author"
+            ]
           }
         },
         "required": [
           "id",
-          "answer_spec",
           "family_id",
           "variant_id",
           "family_status",
           "representation",
-          "cognitive_demand"
+          "cognitive_demand",
+          "answer_spec_source"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "answer_spec_source": {
+                  "const": "binding"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "answer_spec"
+              ]
+            },
+            "else": {
+              "not": {
+                "required": [
+                  "answer_spec"
+                ]
+              }
+            }
+          }
         ]
       }
     },

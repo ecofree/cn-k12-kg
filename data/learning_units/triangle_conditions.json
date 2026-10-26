@@ -16,15 +16,60 @@
   "objectives": [
     {
       "id": "triangle_conditions:o1",
-      "statement": "能用严格的三角形三边关系判断正长度能否围成三角形，并处理等号和整数范围。"
+      "statement": "能用严格的三角形三边关系判断正长度能否围成三角形，并处理等号和整数范围。",
+      "granularity": "composite"
     },
     {
       "id": "triangle_conditions:o2",
-      "statement": "能区分内角、邻补外角与不相邻内角，依据角的关系计算并核对。"
+      "statement": "能区分内角、邻补外角与不相邻内角，依据角的关系计算并核对。",
+      "granularity": "composite"
     },
     {
       "id": "triangle_conditions:o3",
-      "statement": "能用已知条件和定理组织可检查的说理，区分测量例子、反例与一般证明。"
+      "statement": "能用已知条件和定理组织可检查的说理，区分测量例子、反例与一般证明。",
+      "granularity": "composite"
+    },
+    {
+      "id": "triangle_conditions:feasibility",
+      "statement": "能在正长度条件下检查严格三边关系，识别等号退化与漏检最大边的情况。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "triangle_conditions:o1"
+      ]
+    },
+    {
+      "id": "triangle_conditions:integer_range",
+      "statement": "能把第三边的严格上下界转换为整数候选，并在周长约束下再次检验。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "triangle_conditions:o1"
+      ]
+    },
+    {
+      "id": "triangle_conditions:angle_relations",
+      "statement": "能识别相邻与不相邻角，串联内角和、平角与外角关系求角。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "triangle_conditions:o2"
+      ]
+    },
+    {
+      "id": "triangle_conditions:proof_chain",
+      "statement": "能为角关系说明已知条件与所用定理，发现从图形外观或测量跳到一般结论的缺口。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "triangle_conditions:o3"
+      ]
+    },
+    {
+      "id": "triangle_conditions:counterexample",
+      "statement": "能构造满足已知条件而否定错误一般断言的具体三角形或线段组。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "triangle_conditions:o1",
+        "triangle_conditions:o2",
+        "triangle_conditions:o3"
+      ]
     }
   ],
   "prerequisites": [
@@ -50,7 +95,9 @@
         "所以4cm、5cm、7cm可以围成三角形。",
         "改成9cm后4+5=9，不满足严格大于；三段拉直，不能围成非退化三角形。"
       ],
-      "answer": "4、5、7可以；4、5、9不可以。"
+      "answer": "4、5、7可以；4、5、9不可以。",
+      "family_id": "triangle.side-feasibility",
+      "variant_id": "triangle_conditions:example-1"
     },
     {
       "prompt": "三角形ABC中，∠A=40°，∠B=75°。延长BC到D，求∠ACD。",
@@ -60,14 +107,39 @@
         "也可直接用外角定理：∠ACD=∠A+∠B=115°；相邻的∠ACB不在这个和里。"
       ],
       "answer": "115",
-      "verify": "40+75"
+      "verify": "40+75",
+      "family_id": "triangle.exterior-angle-sum",
+      "variant_id": "triangle_conditions:example-2"
+    },
+    {
+      "prompt": "三角形内角为20°、30°、130°。130°处的邻补外角是否比所有内角都大？",
+      "steps": [
+        "该外角为180°−130°=50°。",
+        "50°大于两个不相邻内角20°和30°，但小于相邻内角130°。",
+        "这反驳了删去“不相邻”限制的说法；正确关系保留两个不相邻内角。"
+      ],
+      "answer": "不是；50°小于相邻内角130°。",
+      "family_id": "triangle.exterior-universal-counterexample",
+      "variant_id": "triangle_conditions:example-3"
+    },
+    {
+      "prompt": "怎样利用过A且平行于BC的直线说明三角形内角和？",
+      "steps": [
+        "过A作直线DE∥BC。",
+        "由平行线的内错角关系，∠DAB=∠ABC，∠CAE=∠ACB。",
+        "∠DAB、∠BAC、∠CAE依次拼成平角，因此三个内角之和180°。"
+      ],
+      "answer": "平行线把两个底角移到A旁，与顶角拼成180°。",
+      "family_id": "triangle.angle-sum-proof",
+      "variant_id": "triangle_conditions:example-4"
     }
   ],
   "tasks": [
     {
       "id": "triangle_conditions:practice-1",
       "objective_ids": [
-        "triangle_conditions:o1"
+        "triangle_conditions:o1",
+        "triangle_conditions:feasibility"
       ],
       "phase": "practice",
       "type": "choice",
@@ -95,12 +167,17 @@
       "feedback": {
         "correct": "判断匹配；最长边必须小于另外两边之和，等于也不行。",
         "incorrect": "每组选出最长边，比较“另外两边之和”和它，特别检查等号。"
-      }
+      },
+      "family_id": "triangle.side-feasibility",
+      "variant_id": "triangle_conditions:practice-1",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "triangle_conditions:practice-2",
       "objective_ids": [
-        "triangle_conditions:o2"
+        "triangle_conditions:o2",
+        "triangle_conditions:angle_relations"
       ],
       "phase": "practice",
       "type": "numeric",
@@ -115,12 +192,17 @@
       "feedback": {
         "correct": "外角值匹配；请指出50°、60°为什么是两个不相邻内角。",
         "incorrect": "先辨认所求角在三角形外部；不要把它当作内角直接用180°减去另外两角。"
-      }
+      },
+      "family_id": "triangle.exterior-angle-sum",
+      "variant_id": "triangle_conditions:practice-2",
+      "representation": "geometry",
+      "cognitive_demand": "execute"
     },
     {
       "id": "triangle_conditions:practice-3",
       "objective_ids": [
-        "triangle_conditions:o3"
+        "triangle_conditions:o3",
+        "triangle_conditions:proof_chain"
       ],
       "phase": "practice",
       "type": "rubric",
@@ -141,12 +223,17 @@
       "feedback": {
         "correct": "按量规检查测量局限、平行线依据和拼成平角这三步。",
         "incorrect": "把“看起来相等”改成“依据平行线的哪条性质相等”，再说明三个角为何恰好形成平角。"
-      }
+      },
+      "family_id": "triangle.angle-sum-proof",
+      "variant_id": "triangle_conditions:practice-3",
+      "representation": "geometry",
+      "cognitive_demand": "prove"
     },
     {
       "id": "triangle_conditions:transfer-1",
       "objective_ids": [
-        "triangle_conditions:o1"
+        "triangle_conditions:o1",
+        "triangle_conditions:integer_range"
       ],
       "phase": "transfer",
       "type": "numeric",
@@ -157,13 +244,19 @@
       "feedback": {
         "correct": "个数匹配；请核对最小与最大允许整数，没有把两个等号边界算入。",
         "incorrect": "先写严格范围，再列最小、最大整数。直接计算17−3会把边界处理错。"
-      }
+      },
+      "family_id": "triangle.third-side-integer-range",
+      "variant_id": "triangle_conditions:transfer-1",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "triangle_conditions:transfer-2",
       "objective_ids": [
         "triangle_conditions:o2",
-        "triangle_conditions:o3"
+        "triangle_conditions:o3",
+        "triangle_conditions:angle_relations",
+        "triangle_conditions:proof_chain"
       ],
       "phase": "transfer",
       "type": "rubric",
@@ -184,12 +277,17 @@
       "feedback": {
         "correct": "按量规检查外角与哪两个内角相关、差的条件和最后核对。",
         "incorrect": "不要把130°作为三角形的内角。先用外角写出A+B，再结合差为20°。"
-      }
+      },
+      "family_id": "triangle.angle-equation-model",
+      "variant_id": "triangle_conditions:transfer-2",
+      "representation": "geometry",
+      "cognitive_demand": "explain"
     },
     {
       "id": "triangle_conditions:delayed-1",
       "objective_ids": [
-        "triangle_conditions:o1"
+        "triangle_conditions:o1",
+        "triangle_conditions:integer_range"
       ],
       "phase": "delayed",
       "type": "numeric",
@@ -200,13 +298,19 @@
       "feedback": {
         "correct": "最大值匹配；请同时检查15大于10−6，满足另一侧约束。",
         "incorrect": "最长边界是严格小于16，整数最大值应比16小1。"
-      }
+      },
+      "family_id": "triangle.third-side-integer-range",
+      "variant_id": "triangle_conditions:delayed-1",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "triangle_conditions:delayed-2",
       "objective_ids": [
         "triangle_conditions:o2",
-        "triangle_conditions:o3"
+        "triangle_conditions:o3",
+        "triangle_conditions:angle_relations",
+        "triangle_conditions:counterexample"
       ],
       "phase": "delayed",
       "type": "rubric",
@@ -227,6 +331,268 @@
       "feedback": {
         "correct": "按量规检查三角形角度自洽、外角位置和被反驳的不等关系，再核对“不相邻”条件。",
         "incorrect": "先用180°减去120°得到另外两角的和，再求与120°相邻的外角；反例可以有多种。"
+      },
+      "family_id": "triangle.exterior-universal-counterexample",
+      "variant_id": "triangle_conditions:delayed-2",
+      "representation": "geometry",
+      "cognitive_demand": "explain"
+    },
+    {
+      "id": "triangle_conditions:practice-4",
+      "objective_ids": [
+        "triangle_conditions:o1",
+        "triangle_conditions:integer_range"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "三角形两边是4厘米与7厘米，第三边x为整数厘米。第三边共有多少种可能？请只填个数。",
+      "explanation": "7−4<x<7+4，即3<x<11，整数为4、5、6、7、8、9、10，共7种。3和11都在退化边界上，不能取。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "写出严格上下界，再列出界限之间的整数；别把端点算进去。"
+      },
+      "family_id": "triangle.third-side-integer-range",
+      "variant_id": "triangle_conditions:practice-4",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "answer": "7",
+      "verify": "10-4+1",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      }
+    },
+    {
+      "id": "triangle_conditions:practice-5",
+      "objective_ids": [
+        "triangle_conditions:o1",
+        "triangle_conditions:o3",
+        "triangle_conditions:feasibility",
+        "triangle_conditions:counterexample"
+      ],
+      "phase": "practice",
+      "type": "rubric",
+      "prompt": "有人对任意三条正线段a、b、c，只检查a+b>c就说一定能围成三角形。构造一个满足这个不等式却不能围成三角形的例子，并说明怎样改正检查方法。",
+      "explanation": "例如a=1、b=5、c=2，虽1+5>2，但1+2<5，不能围成。应检查任意两边之和大于第三边，或先确定最长边再只检查它小于另外两边之和。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "让没被比较的b成为最长边，看看另外两条是否真的够长。"
+      },
+      "family_id": "triangle.incomplete-condition-counterexample",
+      "variant_id": "triangle_conditions:practice-5",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "构造满足前提而结论失败的例子",
+          "points": 2,
+          "example": "1、5、2：1+5>2，但1+2<5。"
+        },
+        {
+          "criterion": "补足检查条件",
+          "points": 2,
+          "example": "检查三组，或明确先找出最长边再比较。"
+        }
+      ]
+    },
+    {
+      "id": "triangle_conditions:transfer-3",
+      "objective_ids": [
+        "triangle_conditions:o3",
+        "triangle_conditions:proof_chain"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "证明三角形内角和时，小林说：“过A任意画一条直线l，图上两个小角看起来分别等于∠B、∠C，所以内角和180°。”指出缺失的关键条件，补成可检查的证明思路。",
+      "explanation": "不能任意画线。应过A作l∥BC，才能由内错角或同位角相等把B、C两角移到A处；这两个角与∠A组成平角，故和180°。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "角相等需要有定理支持；检查平行线性质的前提是否已满足。"
+      },
+      "family_id": "triangle.angle-sum-proof",
+      "variant_id": "triangle_conditions:transfer-3",
+      "representation": "geometry",
+      "cognitive_demand": "prove",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "补出必要的平行条件",
+          "points": 1,
+          "example": "l必须平行于BC。"
+        },
+        {
+          "criterion": "说明角相等与平角的推理链",
+          "points": 3,
+          "example": "由平行线性质对应两底角，再与∠A组成平角180°。"
+        }
+      ]
+    },
+    {
+      "id": "triangle_conditions:transfer-4",
+      "objective_ids": [
+        "triangle_conditions:o1",
+        "triangle_conditions:integer_range",
+        "triangle_conditions:feasibility"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "三角形周长20厘米，一条边长8厘米，另两边分别为x厘米和(12−x)厘米，且都是整数。求x的所有可能值，并解释仅保证两边为正为什么不够。",
+      "explanation": "三边关系给出8+x>12−x，即x>2；8+(12−x)>x，即x<10；另有x+(12−x)=12>8。故x=3、4、5、6、7、8、9。仅0<x<12允许x=1等无法围成的情况。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "在正长度之外，分别用8与两条可变边写出严格三边关系。"
+      },
+      "family_id": "triangle.perimeter-feasibility",
+      "variant_id": "triangle_conditions:transfer-4",
+      "representation": "symbolic",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "建立并整理边长约束",
+          "points": 2,
+          "example": "2<x<10，且另一个三边条件12>8成立。"
+        },
+        {
+          "criterion": "列整数并解释正数条件不足",
+          "points": 2,
+          "example": "x为3至9；x=1时另边11，1+8<11，虽正却不可行。"
+        }
+      ]
+    },
+    {
+      "id": "triangle_conditions:transfer-5",
+      "objective_ids": [
+        "triangle_conditions:o2",
+        "triangle_conditions:angle_relations"
+      ],
+      "phase": "transfer",
+      "type": "numeric",
+      "prompt": "一个三角形在A处的邻补外角是110°，在B处的邻补外角是130°。内角C是多少度？请只填数值。",
+      "explanation": "内角A=180−110=70°，B=180−130=50°，C=180−70−50=60°。不能把两个外角直接当作两个内角相加。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "先各自用平角求内角，再用三角形内角和。"
+      },
+      "family_id": "triangle.multiple-exterior-inference",
+      "variant_id": "triangle_conditions:transfer-5",
+      "representation": "geometry",
+      "cognitive_demand": "model",
+      "answer": "60",
+      "verify": "180-(180-110)-(180-130)",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      }
+    },
+    {
+      "id": "triangle_conditions:delayed-3",
+      "objective_ids": [
+        "triangle_conditions:o1",
+        "triangle_conditions:feasibility"
+      ],
+      "phase": "delayed",
+      "type": "choice",
+      "prompt": "三条线段长4厘米、5厘米、c厘米。下面关于c=9与c=8.99的判断哪项正确？",
+      "explanation": "c=9时4+5=9，三条线段只能拉直；c=8.99时最长边小于另外两边之和，且长度均为正，所以能围成很扁的非退化三角形。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "严格大于不能改成大于或等于；很接近退化与已经退化是两回事。"
+      },
+      "family_id": "triangle.side-feasibility",
+      "variant_id": "triangle_conditions:delayed-3",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "answer": "B",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "两种都可以，因为两边和至少等于第三边。"
+        },
+        {
+          "id": "B",
+          "text": "c=9不可以，c=8.99可以。"
+        },
+        {
+          "id": "C",
+          "text": "两种都不可以，因为必须至少相差1厘米。"
+        }
+      ]
+    },
+    {
+      "id": "triangle_conditions:delayed-4",
+      "objective_ids": [
+        "triangle_conditions:o3",
+        "triangle_conditions:proof_chain"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "用量角器测一个纸三角形，得到61°、58°、60°，总和179°。这次读数能推翻平面三角形内角和定理吗？说明测量与数学证明的区别，并说出检查这次测量的一个具体办法。",
+      "explanation": "不能仅凭有限精度读数推翻精确几何结论。量角器对齐、边线粗细和读数取整都会造成误差；可重新对齐顶点与零刻度线测量，或检查纸边是否为直线。一般定理由平行线角关系证明，而非把读数当精确值。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "分清测量值带误差与理想平面图形的精确角关系；给出可操作的复查步骤。"
+      },
+      "family_id": "geometry.measurement-vs-proof",
+      "variant_id": "triangle_conditions:delayed-4",
+      "representation": "geometry",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "说明读数的证据限度",
+          "points": 2,
+          "example": "有限精度测量并非精确反例，数学定理有相应条件与证明。"
+        },
+        {
+          "criterion": "提出具体复查与理论依据",
+          "points": 2,
+          "example": "重新对齐量角器顶点/零线；理论依据是过顶点作平行线后的角关系。"
+        }
+      ]
+    },
+    {
+      "id": "triangle_conditions:delayed-5",
+      "objective_ids": [
+        "triangle_conditions:o2",
+        "triangle_conditions:angle_relations"
+      ],
+      "phase": "delayed",
+      "type": "numeric",
+      "prompt": "图中D在三角形ABC的边AB上，∠A=60°、∠B=30°，∠ACD=40°。求∠DCB的度数。请只填数值。",
+      "explanation": "内角C=180−60−30=90°。CD位于角C内部，把它分成∠ACD与∠DCB，所以∠DCB=90−40=50°。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "先求整个角C，再扣除其中已知的40°，不要把CD当作三角形外的一条线。"
+      },
+      "family_id": "triangle.split-angle-inference",
+      "variant_id": "triangle_conditions:delayed-5",
+      "representation": "geometry",
+      "cognitive_demand": "model",
+      "answer": "50",
+      "verify": "180-60-30-40",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "diagram": {
+        "src": "/static/diagrams/triangle-split-angle.svg",
+        "alt": "三角形ABC中C在左上、A在左下、B在右上；A标60°、B标30°。D在AB上，CD分割角C，靠CA的一部分标40°，靠CB的部分未标数值。"
       }
     }
   ],
@@ -234,12 +600,14 @@
     "status": "pending"
   },
   "diagram": {
-    "src": "/static/diagrams/triangle-angles.svg",
-    "alt": "三角形ABC中，A角为50°，B角为60°；边BC从C向右延长到D，所求外角为AC与CD组成的∠ACD。"
+    "src": "/static/diagrams/triangle-parallel-proof.svg",
+    "alt": "三角形ABC中A在上、B在左下、C在右下，过A作水平直线DE与BC平行。用相同颜色分别标∠DAB和∠ABC、∠CAE和∠ACB，展示角的对应，不用测量角度作一般证明。"
   },
   "prerequisite_topic_ids": [
     "m7a.6.3.2",
     "m7a.6.3.3",
     "m7b.7.2.3"
-  ]
+  ],
+  "prerequisite_unit_ids": [],
+  "prerequisite_objective_ids": []
 }

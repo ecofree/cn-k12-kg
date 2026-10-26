@@ -23,9 +23,13 @@ import threading
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.verification_context import capture, changes, raw_digest
 SCRIPT = ROOT / "tests/browser/learning-flow.cjs"
 JOURNEYS = ("self_check_autosave", "rubric_revision", "unit_phases",
             "project_history", "mobile_stage", "pool_exhaustion")
+ARTIFACT_NAMES = ("result.json", "browser.log", "http.log", "final.png",
+                  "desktop-unit.png", "desktop-home.png", "desktop-project.png", "primary-entry.png")
 INPUTS = ("web/server.py", "web/static/index.html", "web/static/app.js", "web/static/work.js",
           "web/static/style.css", "cnkg/portfolio.py", "cnkg/planner.py", "cnkg/learning_store.py",
           "cnkg/session_content.py", "data/catalog.json", "package-lock.json",
@@ -44,13 +48,16 @@ def main(argv=None):
     args = parser.parse_args(argv)
     if not 10 <= args.timeout <= 600:
         parser.error("--timeout must be between 10 and 600 seconds")
+    output = args.output.resolve()
+    output.mkdir(parents=True, exist_ok=True)
+    for name in ("report.json", "report.md"):
+        (output / name).unlink(missing_ok=True)
     node = os.environ.get("CNKG_NODE") or shutil.which("node")
     if not node:
         print("Node.js 20+ is required. Install it, then run npm ci and npx playwright install chromium.", file=sys.stderr)
         return 2
-    output = args.output.resolve()
-    output.mkdir(parents=True, exist_ok=True)
-    report = {"schema": 1, "evidence_type": "synthetic_browser_test", "ok": False,
+    source_context = capture(ROOT)
+    report = {"schema": 2, "evidence_type": "synthetic_browser_test", "ok": False, **source_context,
               "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
               "scope": "Local synthetic browser journeys using author-provided answers; not real student outcomes.",
               "isolated_database_per_journey": True, "isolated_browser_context_per_journey": True,
@@ -65,8 +72,9 @@ def main(argv=None):
             destination = output / journey
             destination.mkdir(parents=True, exist_ok=True)
             result_path = destination / "result.json"
-            if result_path.exists():
-                result_path.unlink()  # A stale PASS must never survive a failed run.
+            for name in ARTIFACT_NAMES:
+                # A fresh report must never rebind an old screenshot or result.
+                (destination / name).unlink(missing_ok=True)
             started = time.monotonic()
             print(f"[browser] {journey}", flush=True)
             with tempfile.TemporaryDirectory(prefix="cnkg-browser-") as temporary, \
@@ -124,21 +132,30 @@ def main(argv=None):
             result.update(returncode=code, elapsed_seconds=round(time.monotonic() - started, 2),
                           ok=bool(result.get("ok")) and code == 0,
                           artifacts=str(destination.relative_to(output)))
+            result["artifact_sha256"] = {name: raw_digest(destination / name) for name in ARTIFACT_NAMES
+                                         if (destination / name).is_file()}
             report["checks"].append(result)
             print(f"  {'PASS' if result['ok'] else 'FAIL'} ({result['elapsed_seconds']}s)", flush=True)
             if not result["ok"]:
                 print((destination / "browser.log").read_text(encoding="utf-8")[-3500:], flush=True)
         after = fingerprints()
         report["changed_inputs"] = [name for name, digest in report["input_sha256"].items() if after[name] != digest]
-        report["ok"] = bool(report["checks"]) and not report["changed_inputs"] and all(row["ok"] for row in report["checks"])
+        final_context = capture(ROOT)
+        report["context_errors"] = changes(source_context, final_context)
+        report["manifest_valid"] = source_context["manifest_valid"] and final_context["manifest_valid"]
+        report["source_clean"] = source_context["source_clean"] and final_context["source_clean"]
+        report["ok"] = bool(report["checks"]) and not report["changed_inputs"] and not report["context_errors"] and all(row["ok"] for row in report["checks"])
         if report["changed_inputs"]:
             report["error"] = "Application inputs changed during the run; rerun against one fixed content/code version."
+        elif report["context_errors"]:
+            report["error"] = "; ".join(report["context_errors"])
     except Exception as exc:
         report["error"] = f"{type(exc).__name__}: {exc}"
         print(report["error"], file=sys.stderr)
     finally:
         (output / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         lines = ["# Synthetic browser journey report", "", "Evidence type: `synthetic_browser_test`.", "",
+                 f"Commit: `{report['head']}`; release manifest SHA-256: `{report['release_manifest_sha256']}`.", "",
                  "These checks exercise the application with author-provided answers. They do not measure real student learning.", "",
                  "| Journey | Result | Time | Artifacts |", "| --- | --- | --- | --- |"]
         lines += [f"| {row['journey']} | {'PASS' if row['ok'] else 'FAIL'} | {row['elapsed_seconds']}s | {row['artifacts']}/ |"

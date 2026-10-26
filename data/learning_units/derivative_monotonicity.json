@@ -15,15 +15,59 @@
   "objectives": [
     {
       "id": "derivative_monotonicity:o1",
-      "statement": "能先确定定义域，再由导数零点与未定义点划分区间，判断各区间导数的符号。"
+      "statement": "能先确定定义域，再由导数零点与未定义点划分区间，判断各区间导数的符号。",
+      "granularity": "composite"
     },
     {
       "id": "derivative_monotonicity:o2",
-      "statement": "能把导数符号转化为相应区间上的单调性，并说明不能跨定义域空缺直接合并结论。"
+      "statement": "能把导数符号转化为相应区间上的单调性，并说明不能跨定义域空缺直接合并结论。",
+      "granularity": "composite"
     },
     {
       "id": "derivative_monotonicity:o3",
-      "statement": "能根据驻点两侧的变化判断极值，说明导数为0只是候选条件而非极值的充分条件。"
+      "statement": "能根据驻点两侧的变化判断极值，说明导数为0只是候选条件而非极值的充分条件。",
+      "granularity": "composite"
+    },
+    {
+      "id": "derivative_monotonicity:domain_split",
+      "statement": "能先区分函数的定义域、导数定义域与区间端点，再确定需要分段检查的位置。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "derivative_monotonicity:o1"
+      ]
+    },
+    {
+      "id": "derivative_monotonicity:sign_chart",
+      "statement": "能根据因式符号或导函数图象判断各开区间的正负，并处理偶重零点。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "derivative_monotonicity:o1"
+      ]
+    },
+    {
+      "id": "derivative_monotonicity:monotonic_intervals",
+      "statement": "能在适当区间内把导数符号转成单调性，区分严格递增与允许平坦区间的非递减。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "derivative_monotonicity:o2"
+      ]
+    },
+    {
+      "id": "derivative_monotonicity:extrema",
+      "statement": "能结合连续性、导数两侧符号或定义判断内点极值，不把所有导数零点都当作极值。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "derivative_monotonicity:o3"
+      ]
+    },
+    {
+      "id": "derivative_monotonicity:boundary_maximum",
+      "statement": "能在给定闭区间或实际定义域内比较候选点与端点，区分局部极值和全局最值。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "derivative_monotonicity:o1",
+        "derivative_monotonicity:o3"
+      ]
     }
   ],
   "prerequisites": [
@@ -32,7 +76,7 @@
   ],
   "explanation": {
     "intuition": "导数描述局部变化方向。把各处的方向放到数轴上，才能得到一段区间的整体上升或下降趋势。单看某一点“变平”，还不知道曲线有没有掉头。",
-    "reasoning": "先看函数定义域，再求导并标出导数为0或无定义的位置，在被分出的每个开区间判断符号。区间上处处f′>0可推出严格递增，处处f′<0可推出严格递减。可导驻点附近若由正变负，可判断局部极大；由负变正可判断局部极小；若两侧符号不变，则不能仅因该点导数为0而判极值。",
+    "reasoning": "先看函数定义域，再求导并标出导数为0或无定义的位置，在被分出的每个开区间判断符号。区间上处处f′>0可推出严格递增，处处f′<0可推出严格递减。可导驻点附近若由正变负，可判断局部极大；由负变正可判断局部极小；若两侧符号不变，则不能仅因该点导数为0而判极值。 在闭区间求连续函数的最大最小值，应检查内部临界点以及两个端点，不能只列局部极值。导数由负变正在一点两侧的方向分析，若要跨过该点推出极小，还要核对函数在该点的连续性或直接用定义比较。非负导数可允许一整段恒定，因而不能直接等同于严格递增。",
     "conditions": [
       "导数符号的单调性结论用于函数可导的区间；先检查函数与导数各自的定义域。",
       "不能把由未定义点隔开的两段区间直接合并成整个定义域上的单调性。",
@@ -49,7 +93,9 @@
         "在(−∞,−1)、(−1,1)、(1,+∞)三个区间内，导数符号依次为正、负、正。",
         "因此分别在(−∞,−1)、(1,+∞)递增，在(−1,1)递减；这里用开区间表示符号分析得到的单调段。"
       ],
-      "answer": "递增区间(−∞,−1)、(1,+∞)；递减区间(−1,1)。"
+      "answer": "递增区间(−∞,−1)、(1,+∞)；递减区间(−1,1)。",
+      "family_id": "derivative.factored-sign-intervals",
+      "variant_id": "derivative_monotonicity:example-1"
     },
     {
       "prompt": "f(x)=1/x的导数在所有定义点都小于0，能否说它在整个定义域上递减？",
@@ -58,14 +104,29 @@
         "f′(x)=−1/x²<0，所以在这两个区间上分别递减。",
         "不能据此说整个定义域上递减：取−1<1，却有f(−1)=−1<f(1)=1，违背整体递减所要求的比较。"
       ],
-      "answer": "只能说在(−∞,0)和(0,+∞)上分别递减，不能合并为整个定义域递减。"
+      "answer": "只能说在(−∞,0)和(0,+∞)上分别递减，不能合并为整个定义域递减。",
+      "family_id": "derivative.disconnected-domain",
+      "variant_id": "derivative_monotonicity:example-2"
+    },
+    {
+      "prompt": "f(x)=x³在0处导数为0，为什么0不是极值点？",
+      "steps": [
+        "f′(x)=3x²，在0左右的非零点都为正。",
+        "穿过0时方向没有从增变减或从减变增。",
+        "直接比较也有负x时f(x)<0、正x时f(x)>0，因此0附近既有更小值也有更大值。"
+      ],
+      "answer": "0不是极值点；驻点条件不是充分条件。",
+      "family_id": "derivative.stationary-not-extremum",
+      "variant_id": "derivative_monotonicity:example-3"
     }
   ],
   "tasks": [
     {
       "id": "derivative_monotonicity:practice-1",
       "objective_ids": [
-        "derivative_monotonicity:o1"
+        "derivative_monotonicity:o1",
+        "derivative_monotonicity:sign_chart",
+        "derivative_monotonicity:monotonic_intervals"
       ],
       "phase": "practice",
       "type": "choice",
@@ -89,13 +150,19 @@
       "feedback": {
         "correct": "区间匹配；分区点应来自导数等于0，不能把原函数值当作分区依据。",
         "incorrect": "先解2x−6=0，再在3的左右各选一个点判断符号。"
-      }
+      },
+      "family_id": "derivative.linear-sign",
+      "variant_id": "derivative_monotonicity:practice-1",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "derivative_monotonicity:practice-2",
       "objective_ids": [
         "derivative_monotonicity:o1",
-        "derivative_monotonicity:o2"
+        "derivative_monotonicity:o2",
+        "derivative_monotonicity:domain_split",
+        "derivative_monotonicity:monotonic_intervals"
       ],
       "phase": "practice",
       "type": "choice",
@@ -119,12 +186,17 @@
       "feedback": {
         "correct": "表述匹配；定义域中的断点要先标出，再写各段区间。",
         "incorrect": "先找分母为0的位置，再考虑导数的符号结论能在哪段连续区间使用。"
-      }
+      },
+      "family_id": "derivative.disconnected-domain",
+      "variant_id": "derivative_monotonicity:practice-2",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
     },
     {
       "id": "derivative_monotonicity:practice-3",
       "objective_ids": [
-        "derivative_monotonicity:o3"
+        "derivative_monotonicity:o3",
+        "derivative_monotonicity:extrema"
       ],
       "phase": "practice",
       "type": "rubric",
@@ -145,13 +217,20 @@
       "feedback": {
         "correct": "按量规核对两侧符号和极值结论，不能只复述导数为0。",
         "incorrect": "在0左右各取一个非零数代入3x²；再判断方向是否反转。"
-      }
+      },
+      "family_id": "derivative.stationary-not-extremum",
+      "variant_id": "derivative_monotonicity:practice-3",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
     },
     {
       "id": "derivative_monotonicity:transfer-1",
       "objective_ids": [
         "derivative_monotonicity:o1",
-        "derivative_monotonicity:o2"
+        "derivative_monotonicity:o2",
+        "derivative_monotonicity:domain_split",
+        "derivative_monotonicity:sign_chart",
+        "derivative_monotonicity:monotonic_intervals"
       ],
       "phase": "transfer",
       "type": "rubric",
@@ -172,12 +251,18 @@
       "feedback": {
         "correct": "按量规检查定义范围、零点筛选和每段符号；解导数方程得到−1时也要排除。",
         "incorrect": "先把x>0写在数轴上。分式符号判断时分别标出分子因式和分母的符号。"
-      }
+      },
+      "family_id": "derivative.positive-domain-reciprocal",
+      "variant_id": "derivative_monotonicity:transfer-1",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
     },
     {
       "id": "derivative_monotonicity:transfer-2",
       "objective_ids": [
-        "derivative_monotonicity:o3"
+        "derivative_monotonicity:o3",
+        "derivative_monotonicity:sign_chart",
+        "derivative_monotonicity:extrema"
       ],
       "phase": "transfer",
       "type": "rubric",
@@ -198,13 +283,19 @@
       "feedback": {
         "correct": "按量规核对符号变化、极值类型与函数值；导数的值0并不是函数的极值。",
         "incorrect": "先列三个区间的导数符号，再将驻点代回原函数求极值，不要代入导数。"
-      }
+      },
+      "family_id": "derivative.polynomial-extrema",
+      "variant_id": "derivative_monotonicity:transfer-2",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
     },
     {
       "id": "derivative_monotonicity:delayed-1",
       "objective_ids": [
         "derivative_monotonicity:o1",
-        "derivative_monotonicity:o2"
+        "derivative_monotonicity:o2",
+        "derivative_monotonicity:sign_chart",
+        "derivative_monotonicity:monotonic_intervals"
       ],
       "phase": "delayed",
       "type": "choice",
@@ -232,12 +323,17 @@
       "feedback": {
         "correct": "符号区间匹配；请在数轴上写出正、负、正的变化。",
         "incorrect": "两因式同号时积为正；不要把“在两根之间”机械地理解为导数正。"
-      }
+      },
+      "family_id": "derivative.factored-sign-intervals",
+      "variant_id": "derivative_monotonicity:delayed-1",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "derivative_monotonicity:delayed-2",
       "objective_ids": [
-        "derivative_monotonicity:o3"
+        "derivative_monotonicity:o3",
+        "derivative_monotonicity:extrema"
       ],
       "phase": "delayed",
       "type": "rubric",
@@ -258,7 +354,296 @@
       "feedback": {
         "correct": "按量规分别检查两组符号，不能把两函数的结论一起套用。",
         "incorrect": "分别写出两个导数，比较0左右符号是否改变；不要只计算导数在0的值。"
+      },
+      "family_id": "derivative.stationary-not-extremum",
+      "variant_id": "derivative_monotonicity:delayed-2",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
+    },
+    {
+      "id": "derivative_monotonicity:practice-4",
+      "objective_ids": [
+        "derivative_monotonicity:o1",
+        "derivative_monotonicity:o3",
+        "derivative_monotonicity:domain_split",
+        "derivative_monotonicity:boundary_maximum"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "f(x)=x³−3x，在闭区间[−2,3]求最大值。已知内部驻点为−1、1。请比较两端点与驻点后填写最大值。",
+      "explanation": "候选值f(−2)=−2，f(−1)=2，f(1)=−2，f(3)=18，所以最大值为18，在右端点取得。局部极大值2不是本闭区间的最大值。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "把端点和内部候选点放在同一张数值表中比较，不能只看导数等于0的点。"
+      },
+      "family_id": "derivative.closed-interval-extrema",
+      "variant_id": "derivative_monotonicity:practice-4",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy",
+      "answer": "18",
+      "verify": "3**3-3*3",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
       }
+    },
+    {
+      "id": "derivative_monotonicity:practice-5",
+      "objective_ids": [
+        "derivative_monotonicity:o1",
+        "derivative_monotonicity:o3",
+        "derivative_monotonicity:sign_chart",
+        "derivative_monotonicity:extrema"
+      ],
+      "phase": "practice",
+      "type": "rubric",
+      "prompt": "f在实数上可导，f′(x)=(x−1)²(x+2)。有人把x=−2和x=1都认作极值点。请列出三个区间的导数符号，分别判断两个点。",
+      "explanation": "除x=1外，平方因子为正，符号取决于x+2。三个区间(−∞,−2)、(−2,1)、(1,+∞)的符号为负、正、正；−2处由负到正为极小，1处两侧均正，不是极值。可导保证这两点连续。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "偶次平方因子过零时不改变正负，不能按每遇到一个零点就交替变号。"
+      },
+      "family_id": "derivative.stationary-not-extremum",
+      "variant_id": "derivative_monotonicity:practice-5",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "正确给出区间符号",
+          "points": 2,
+          "example": "负、正、正；1处是偶重零点。"
+        },
+        {
+          "criterion": "由符号变化判断极值",
+          "points": 2,
+          "example": "−2极小，1不是极值；不能只看导数是否等于0。"
+        }
+      ]
+    },
+    {
+      "id": "derivative_monotonicity:transfer-3",
+      "objective_ids": [
+        "derivative_monotonicity:o1",
+        "derivative_monotonicity:o3",
+        "derivative_monotonicity:domain_split",
+        "derivative_monotonicity:extrema"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "f(x)=|x|在x<0时导数为−1，在x>0时导数为1，在0处不可导。0是不是极值点？这与“可导内点有极值时导数为0”矛盾吗？用函数值或定义说明。",
+      "explanation": "|x|≥0且仅x=0时等于0，所以0是极小值点。必要条件说的是“可导内点”，这里0不可导，因此不矛盾。两侧符号结合连续性也能支持先减后增，但不能虚构f′(0)=0。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "直接比较|x|与f(0)，再检查必要条件中的“可导”是否成立。"
+      },
+      "family_id": "derivative.nondifferentiable-extremum",
+      "variant_id": "derivative_monotonicity:transfer-3",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "由函数值判定极小",
+          "points": 2,
+          "example": "附近非零x有|x|>0=f(0)。"
+        },
+        {
+          "criterion": "解释可导条件与不矛盾",
+          "points": 2,
+          "example": "0不可导，必要条件不适用，不能据此否定极小。"
+        }
+      ]
+    },
+    {
+      "id": "derivative_monotonicity:transfer-4",
+      "objective_ids": [
+        "derivative_monotonicity:o2",
+        "derivative_monotonicity:monotonic_intervals"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "定义f(x)=0（x≤0），f(x)=x³（x>0）。该函数处处可导且f′(x)≥0。它在整个实数范围严格递增吗？给出两个不同自变量核对，并改写成正确的单调性描述。",
+      "explanation": "不严格递增。例如−2<−1，却f(−2)=f(−1)=0。函数整体非递减，在负半轴及0处形成平坦部分，在(0,+∞)上严格递增。导数非负允许平坦区间。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "严格递增要求任意x1<x2都有严格的函数值不等；检查左半轴的两个点。"
+      },
+      "family_id": "derivative.nonnegative-vs-strict",
+      "variant_id": "derivative_monotonicity:transfer-4",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "给出违反严格递增的有效点对",
+          "points": 2,
+          "example": "−2<−1但函数值相等为0。"
+        },
+        {
+          "criterion": "准确描述单调性",
+          "points": 2,
+          "example": "整体非递减；左侧恒定，右侧严格递增。"
+        }
+      ]
+    },
+    {
+      "id": "derivative_monotonicity:transfer-5",
+      "objective_ids": [
+        "derivative_monotonicity:o1",
+        "derivative_monotonicity:o2",
+        "derivative_monotonicity:domain_split",
+        "derivative_monotonicity:sign_chart",
+        "derivative_monotonicity:monotonic_intervals"
+      ],
+      "phase": "transfer",
+      "type": "numeric",
+      "prompt": "f(x)=x²+ax，只研究开区间x>1。要使每个x>1都满足f′(x)>0，实数参数a允许的最小值是多少？请只填数值。",
+      "explanation": "f′=2x+a。a=−2时，对所有x>1都有2x−2>0；若a<−2，可取足够接近1的x使2x+a<0。因此最小a为−2，不能把不在区间内的x=1也要求严格为正。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "区分“所有x>1”与端点x=1；先代入候选边界a=−2检查开区间。"
+      },
+      "family_id": "derivative.open-boundary-parameter",
+      "variant_id": "derivative_monotonicity:transfer-5",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy",
+      "answer": "-2",
+      "verify": "-2*1",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      }
+    },
+    {
+      "id": "derivative_monotonicity:delayed-3",
+      "objective_ids": [
+        "derivative_monotonicity:o1",
+        "derivative_monotonicity:o3",
+        "derivative_monotonicity:sign_chart",
+        "derivative_monotonicity:extrema"
+      ],
+      "phase": "delayed",
+      "type": "choice",
+      "prompt": "图画的是导函数f′，不是原函数f。f在实数上可导，图中f′在x=2处由负变正。哪项可以确定？",
+      "explanation": "f′负到正表示f先减后增，x=2为极小值点。导函数图与原函数图不同，f′(2)=0并不能推出f(2)=0；原函数可整体上下平移而导数不变。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "先确认纵轴表示f′的值，再把符号转回f的变化方向。"
+      },
+      "family_id": "derivative.graph-vs-function-value",
+      "variant_id": "derivative_monotonicity:delayed-3",
+      "representation": "graph",
+      "cognitive_demand": "explain",
+      "answer": "B",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "f在x=2取极小值，而且极小值必为0。"
+        },
+        {
+          "id": "B",
+          "text": "f在x=2取极小值，但极小值数值不能只由这张图确定。"
+        },
+        {
+          "id": "C",
+          "text": "f在x=2取极大值，因为导函数正在上升。"
+        }
+      ],
+      "diagram": {
+        "src": "/static/diagrams/derivative-graph-task.svg",
+        "alt": "横轴x、纵轴f′(x)，直线经过(0,−2)、(2,0)、(4,2)，在2左边位于横轴下，右边位于横轴上；不画原函数。"
+      }
+    },
+    {
+      "id": "derivative_monotonicity:delayed-4",
+      "objective_ids": [
+        "derivative_monotonicity:o1",
+        "derivative_monotonicity:o3",
+        "derivative_monotonicity:domain_split",
+        "derivative_monotonicity:extrema"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "定义f(x)=x²（x≠0），但f(0)=100。0两侧的导数仍是2x，由负变正。能否直接断言0是极小值点？判断0附近的实际函数值，指出套用符号规则时缺少的条件。",
+      "explanation": "不能。0附近的非零x若|x|<1，则f(x)=x²<1<100=f(0)，所以0反而是局部极大值点。该函数在0不连续，不能仅从两侧导数符号跨越跳跃点判断极小。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "别只看两侧导数；把该点人为指定的函数值也与邻近值比较。"
+      },
+      "family_id": "derivative.discontinuous-sign-counterexample",
+      "variant_id": "derivative_monotonicity:delayed-4",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "根据实际函数值判定局部极大",
+          "points": 2,
+          "example": "|x|<1且x≠0时x²<100，所以0局部极大。"
+        },
+        {
+          "criterion": "定位缺失条件",
+          "points": 2,
+          "example": "f在0不连续；两侧导数负到正不能忽略中间跳跃值。"
+        }
+      ]
+    },
+    {
+      "id": "derivative_monotonicity:delayed-5",
+      "objective_ids": [
+        "derivative_monotonicity:o1",
+        "derivative_monotonicity:o2",
+        "derivative_monotonicity:o3",
+        "derivative_monotonicity:domain_split",
+        "derivative_monotonicity:monotonic_intervals",
+        "derivative_monotonicity:boundary_maximum"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "用24米长的绳子围成一个长方形，不重叠、不剩余，边长为正实数。设一边x米，用导数求最大面积，写清实际定义域、变化方向及结果单位。",
+      "explanation": "另一边12−x，0<x<12。A=x(12−x)，A′=12−2x；(0,6)为正、(6,12)为负，所以x=6处取得整个允许范围的最大面积36平方米。两边均为6米，满足正长度与周长条件。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "先用周长表达另一条边，再从正长度条件限制x；不要把x=0或12当作有效长方形。"
+      },
+      "family_id": "derivative.optimization-domain",
+      "variant_id": "derivative_monotonicity:delayed-5",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "建立面积函数及实际范围",
+          "points": 2,
+          "example": "A=x(12−x)，0<x<12。"
+        },
+        {
+          "criterion": "求导并说明整体最大性",
+          "points": 2,
+          "example": "导数在6左正右负，先增后减，所以最大36平方米。"
+        },
+        {
+          "criterion": "检查情境和单位",
+          "points": 1,
+          "example": "两边6米，周长24米，面积单位平方米。"
+        }
+      ]
     }
   ],
   "teacher_review": {
@@ -268,5 +653,7 @@
     "mh4.5.2.1",
     "mh4.5.2.2",
     "mh1.2.3"
-  ]
+  ],
+  "prerequisite_unit_ids": [],
+  "prerequisite_objective_ids": []
 }

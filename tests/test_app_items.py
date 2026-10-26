@@ -1,7 +1,7 @@
-"""应用题批次的护栏：数据层面的约束，不依赖 data/questions.json 是否已写入。
+"""Declarative application-source guards through the historical read-only view.
 
-写库工具会拦作弊，但它是「跑一遍才知道」；这里的测试保证任何人改
-`tools/app_items/*.py` 时，坏数据在 CI 第一步就红，而不是等到写库。
+The canonical JSON owns every answer and question ID. These compatibility
+views retain existing field-level regression checks without a second author.
 """
 from __future__ import annotations
 

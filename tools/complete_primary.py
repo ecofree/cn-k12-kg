@@ -1,5 +1,14 @@
 """小学核心点补全：逐点编写的讲解、目标自检；不替代教师独立审核。"""
 from __future__ import annotations
+
+# Historical CLI is fenced before imports or authoring side effects.
+if __name__ == "__main__":
+    import pathlib as _legacy_pathlib
+    import sys as _legacy_sys
+    _legacy_sys.path.insert(0, str(_legacy_pathlib.Path(__file__).resolve().parents[1]))
+    from tools.retired_writer import reject as _reject_retired_writer
+    raise SystemExit(_reject_retired_writer(__file__))
+
 import copy
 import json
 from pathlib import Path

@@ -1,8 +1,6 @@
 """已确认的内容事故回归：检验数学含义和答案边界，不以算式通过替代学科审核。"""
 from __future__ import annotations
 
-import importlib
-import copy
 import json
 import math
 import re
@@ -14,11 +12,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "tools"))
 
-import app_items  # noqa: E402
-import write_application_items as writer  # noqa: E402
 from cnkg.verify import compare, compare_short, evaluate  # noqa: E402
 from cnkg.evidence import question_policy  # noqa: E402
-from tools.rebuild_data import apply_question_transforms, load_registry  # noqa: E402
+from tools.rebuild_data import build_data  # noqa: E402
+from tools.teach_cards import check_card  # noqa: E402
 
 
 REPAIRED_IDS = {
@@ -176,48 +173,38 @@ class ContentRegressionTest(unittest.TestCase):
         equal_example, unequal_example = [2, 4, 6], [2, 4]
         self.assertIn(sum(equal_example) / len(equal_example), equal_example)
         self.assertNotIn(sum(unequal_example) / len(unequal_example), unequal_example)
-        source = importlib.import_module("tools.teach_brief_2")
-        generated = next(c for c in source.CARDS
-                         if c["cluster"] == "p-stat" and c["volume"] == "四下")
-        self.assertEqual(card, generated)
+        self.assertTrue(card["reference_only"])
+        self.assertIn("辅助速查", card["coverage_scope"])
 
     def test_repaired_questions_rebuild_exactly_from_active_source(self):
-        base = [q for q in self.questions if q.get("source") != writer.SOURCE]
-        generated, errors = writer.build(
-            app_items.all_items(),
-            base,
-        )
-        self.assertEqual(errors, [])
-        # Display order is assigned across the whole merged population, not
-        # independently inside the application-generator subset.
-        rebuilt = {q["id"]: q for q in apply_question_transforms(base + generated, load_registry())}
+        built, _ = build_data()
+        rebuilt = {q["id"]: q for q in built["questions.json"]}
         for qid in REPAIRED_IDS:
             with self.subTest(question=qid):
                 self.assertEqual(self.bank[qid], rebuilt[qid])
 
-    def test_repaired_cards_rebuild_exactly_without_touching_other_cards(self):
-        from tools.complete_primary import enrich_card
-        sources = [importlib.import_module("tools.teach_primary_3"),
-                   importlib.import_module("tools.teach_primary_4")]
-        source_cards = {c["topicId"]: c for source in sources for c in source.CARDS}
+    def test_repaired_cards_are_valid_authoritative_json_without_writes(self):
         topics = {t["id"]: t for t in json.loads((ROOT / "data/topics.json").read_text())}
         for tid in REPAIRED_CARDS:
             with self.subTest(card=tid):
-                stored = json.loads((ROOT / "data/teach" / f"{tid}.json").read_text())
-                before = copy.deepcopy(source_cards[tid])
-                rebuilt = enrich_card(source_cards[tid], topics[tid], self.questions)
-                self.assertEqual(source_cards[tid], before, "completion must not mutate the historical source card")
-                self.assertEqual(stored, rebuilt)
+                path = ROOT / "data/teach" / f"{tid}.json"
+                before = path.read_bytes()
+                stored = json.loads(before)
+                self.assertEqual(check_card(stored, topics, self.bank), [])
+                self.assertEqual(path.read_bytes(), before)
 
-    def test_new_primary_cards_use_the_same_pure_completion_layer(self):
-        from tools.complete_primary import NEW, enrich_card
-        topics = {t['id']: t for t in json.loads((ROOT / 'data/topics.json').read_text())}
-        before = copy.deepcopy(NEW)
-        for tid, source in NEW.items():
+    def test_completed_primary_cards_keep_current_objective_bindings(self):
+        # These 33 authored resources replaced the historical completion writer.
+        # Their canonical JSON is checked directly, not regenerated from a
+        # second Python copy of the same teaching text.
+        identifiers = "m1a.2.5 m1a.2.6 m1a.2.8 m1a.3.2 m1a.3.3 m1a.4.4 m1a.5.4 m1a.5.5 m1b.1.2 m1b.1.3 m1b.2.4 m1b.4.3 m1b.6.1 m1b.6.2 m1b.6.3 m2a.2.6 m2a.2.7 m2a.3.7 m2a.4.4 m2a.5.6 m2b.1.3 m2b.2.2 m2b.4.3 m3a.1.2 m3a.1.3 m3a.6.4 m3b.6.2 m4a.5.2 m4b.3.1 m5a.1.1 m5a.4.4 m5b.4.1 m6a.5.4".split()
+        topics = {t["id"]: t for t in json.loads((ROOT / "data/topics.json").read_text())}
+        for tid in identifiers:
             with self.subTest(card=tid):
-                stored = json.loads((ROOT / 'data/teach' / f'{tid}.json').read_text())
-                self.assertEqual(stored, enrich_card(source, topics[tid], self.questions))
-        self.assertEqual(NEW, before)
+                stored = json.loads((ROOT / "data/teach" / f"{tid}.json").read_text())
+                self.assertEqual(check_card(stored, topics, self.bank), [])
+                goals = topics[tid]["mastery_criteria"]
+                self.assertEqual([row["title"] for row in stored["objective_coverage"]], goals)
 
 
 if __name__ == "__main__":

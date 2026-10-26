@@ -218,6 +218,24 @@ def load_graph(data_dir: pathlib.Path | None = None,
     """
     directory = pathlib.Path(data_dir or DATA_DIR)
     questions = load_json("questions.json", directory)
+    reserved_own_ids = {question["id"] for question in questions}
+    catalog = None
+    retired_questions = {}
+    if (directory / "catalog.json").is_file():
+        from .catalog import CatalogError, load_catalog
+        catalog = load_catalog(directory)
+        active = []
+        for question in questions:
+            task = catalog.tasks.get(question["id"])
+            if task is None or task["source_kind"] != "bank":
+                raise CatalogError([f"自有题未登记：{question['id']}；请运行 tools/build_project.py --release"])
+            if task["availability"] != "active":
+                retired_questions[question["id"]] = question
+                continue
+            # The published compiler resolved the single authored contract.
+            # CLI and Web now receive exactly that same contract.
+            active.append({**question, "answer_spec": task["answer_spec"]})
+        questions = active
     if include_external:
         from .evidence import DIAGNOSABLE
         allowed = DIAGNOSABLE if ext_evidence is None else set(ext_evidence)
@@ -226,6 +244,22 @@ def load_graph(data_dir: pathlib.Path | None = None,
         kept = [q for q in external
                 if q.get("usable_for_diagnosis")
                 and (not allowed or q.get("evidence_level") in allowed)]
-        questions = questions + kept
-    return Graph(load_json("topics.json", directory), load_json("dependencies.json", directory),
-                 questions, data_dir=directory)
+        # Use the same collision rule as the content store. An external record
+        # must not overwrite an own task (including a retired ID) and acquire
+        # that task's scoring metadata merely by sharing its old identifier.
+        seen = set(reserved_own_ids)
+        for question in kept:
+            identifier = question["id"]
+            if identifier in seen:
+                prefix = f"ext-{question.get('source', 'x')}-{question['id']}"
+                identifier, number = prefix, 2
+                while identifier in seen:
+                    identifier = f"{prefix}-{number}"
+                    number += 1
+            seen.add(identifier)
+            questions.append({**question, "id": identifier})
+    graph = Graph(load_json("topics.json", directory), load_json("dependencies.json", directory),
+                  questions, data_dir=directory)
+    graph.catalog = catalog
+    graph.retired_questions_by_id = retired_questions
+    return graph

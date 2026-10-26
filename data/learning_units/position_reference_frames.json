@@ -16,15 +16,58 @@
   "objectives": [
     {
       "id": "position_reference_frames:o1",
-      "statement": "能指明观察点和朝向，区分随朝向变化的左右与以北向为基准的东南西北。"
+      "statement": "能指明观察点和朝向，区分随朝向变化的左右与以北向为基准的东南西北。",
+      "granularity": "composite"
     },
     {
       "id": "position_reference_frames:o2",
-      "statement": "能同时用参照点、方向角和距离定位，并把往返方向或互余角表述正确转换。"
+      "statement": "能同时用参照点、方向角和距离定位，并把往返方向或互余角表述正确转换。",
+      "granularity": "composite"
     },
     {
       "id": "position_reference_frames:o3",
-      "statement": "能按给定的列行顺序读写数对，用方格路线描述移动并区分所走路程与两点直线距离。"
+      "statement": "能按给定的列行顺序读写数对，用方格路线描述移动并区分所走路程与两点直线距离。",
+      "granularity": "composite"
+    },
+    {
+      "id": "position_reference_frames:body_frame",
+      "statement": "能在观察者朝向或地图北向改变时，保持身体左右与地理方向的区别。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "position_reference_frames:o1"
+      ]
+    },
+    {
+      "id": "position_reference_frames:bearing",
+      "statement": "能从指定参照点、起始方向、偏角和距离完整定位，并转换互余角表达。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "position_reference_frames:o2"
+      ]
+    },
+    {
+      "id": "position_reference_frames:return_direction",
+      "statement": "能把往返方向反转180°，保持相同两点距离。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "position_reference_frames:o2"
+      ]
+    },
+    {
+      "id": "position_reference_frames:coordinate",
+      "statement": "能按明确的列行编号约定读取位置，解释编号方向或顺序变化的影响。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "position_reference_frames:o3"
+      ]
+    },
+    {
+      "id": "position_reference_frames:route_distance",
+      "statement": "能把横竖路线各段换成实际长度相加，并区分路线长与两点位置差。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "position_reference_frames:o3"
+      ]
     }
   ],
   "prerequisites": [
@@ -45,13 +88,15 @@
   },
   "worked_examples": [
     {
-      "prompt": "公园P在学校O的北偏东30°方向600米处。怎样用以东为起始方向的说法描述P？从P看O又是什么方向和距离？",
+      "prompt": "公园P在学校O的北偏东30°方向600米处。从P看O是什么方向和距离？",
       "steps": [
-        "从北到东共90°；从北向东转30°后，距正东还差60°。",
-        "因此P在O的东偏北60°方向600米处。",
-        "反向观察时北变南、东变西，O在P的南偏西30°方向600米处，也可说西偏南60°。"
+        "先把参照点从O换到P，观察同一条连线的反方向。",
+        "原来向北、向东的分量反向成为向南、向西。",
+        "因此O在P的南偏西30°方向，距离仍为600米。"
       ],
-      "answer": "P相对O为东偏北60°、600米；O相对P为南偏西30°、600米。"
+      "answer": "O在P的南偏西30°方向600米处。",
+      "family_id": "position.reverse-bearing",
+      "variant_id": "position_reference_frames:example-1"
     },
     {
       "prompt": "方格图按先列后行编号，每格边长表示100米。A在(2,1)，B在(5,3)。从A沿网格先向东再向北走到B，路线怎样描述？走了多少米？",
@@ -60,14 +105,39 @@
         "共走3+2=5格，每格100米，路程500米。",
         "500米描述这条折线路线，不是A到B的直线距离；换走法可能改变路程。"
       ],
-      "answer": "先向东300米，再向北200米；路程500米。"
+      "answer": "先向东300米，再向北200米；路程500米。",
+      "family_id": "position.route-length-versus-distance",
+      "variant_id": "position_reference_frames:example-2"
+    },
+    {
+      "prompt": "同一个观察者原地从面朝北转为面朝南，右手侧的地理方向怎样改变？",
+      "steps": [
+        "面朝北时右侧为东。",
+        "原地转向南后右侧为西。",
+        "左右跟随身体朝向；东、西等方向由地理基准确定。"
+      ],
+      "answer": "右侧从东变为西。",
+      "family_id": "position.body-turn",
+      "variant_id": "position_reference_frames:example-3"
+    },
+    {
+      "prompt": "北偏东30°怎样改用以东为起始方向的描述？",
+      "steps": [
+        "正北与正东相差90°。",
+        "从北向东转30°后，距正东还差60°。",
+        "因此同一射线也可说东偏北60°，不是东偏北30°。"
+      ],
+      "answer": "东偏北60°。",
+      "family_id": "position.complementary-bearing",
+      "variant_id": "position_reference_frames:example-4"
     }
   ],
   "tasks": [
     {
       "id": "position_reference_frames:practice-1",
       "objective_ids": [
-        "position_reference_frames:o1"
+        "position_reference_frames:o1",
+        "position_reference_frames:body_frame"
       ],
       "phase": "practice",
       "type": "choice",
@@ -91,12 +161,17 @@
           "text": "原来西，后来东。"
         }
       ],
-      "answer": "A"
+      "answer": "A",
+      "family_id": "position.body-turn",
+      "variant_id": "position_reference_frames:practice-1",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "id": "position_reference_frames:practice-2",
       "objective_ids": [
-        "position_reference_frames:o2"
+        "position_reference_frames:o2",
+        "position_reference_frames:bearing"
       ],
       "phase": "practice",
       "type": "choice",
@@ -124,12 +199,17 @@
           "text": "O的北偏东30°方向，距离任意。"
         }
       ],
-      "answer": "A"
+      "answer": "A",
+      "family_id": "position.bearing-read",
+      "variant_id": "position_reference_frames:practice-2",
+      "representation": "geometry",
+      "cognitive_demand": "execute"
     },
     {
       "id": "position_reference_frames:practice-3",
       "objective_ids": [
-        "position_reference_frames:o3"
+        "position_reference_frames:o3",
+        "position_reference_frames:coordinate"
       ],
       "phase": "practice",
       "type": "choice",
@@ -153,12 +233,17 @@
           "text": "(3,6)"
         }
       ],
-      "answer": "A"
+      "answer": "A",
+      "family_id": "position.grid-translation",
+      "variant_id": "position_reference_frames:practice-3",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "position_reference_frames:transfer-1",
       "objective_ids": [
-        "position_reference_frames:o1"
+        "position_reference_frames:o1",
+        "position_reference_frames:body_frame"
       ],
       "phase": "transfer",
       "type": "rubric",
@@ -179,12 +264,18 @@
           "points": 2,
           "example": "两人朝向不同；都表示图书馆在学校东侧。"
         }
-      ]
+      ],
+      "family_id": "position.body-turn",
+      "variant_id": "position_reference_frames:transfer-1",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "id": "position_reference_frames:transfer-2",
       "objective_ids": [
-        "position_reference_frames:o2"
+        "position_reference_frames:o2",
+        "position_reference_frames:bearing",
+        "position_reference_frames:return_direction"
       ],
       "phase": "transfer",
       "type": "rubric",
@@ -205,38 +296,58 @@
           "points": 2,
           "example": "东偏北50°；40°与50°互余，距离仍为2千米。"
         }
-      ]
+      ],
+      "family_id": "position.reverse-bearing",
+      "variant_id": "position_reference_frames:transfer-2",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "id": "position_reference_frames:transfer-3",
       "objective_ids": [
-        "position_reference_frames:o3"
+        "position_reference_frames:o3",
+        "position_reference_frames:coordinate",
+        "position_reference_frames:route_distance"
       ],
       "phase": "transfer",
       "type": "rubric",
-      "prompt": "方格地图采用先列后行，每格边长表示100米。从(1,1)沿网格先向东走到(4,1)，再向北走到(4,3)。计算这条路线的路程。能否把结果直接称为起点到终点的直线距离？说明两种量的区别，不要求计算直线距离。",
-      "explanation": "东行3格，北行2格，共5格，指定折线路程为5×100=500米。500米不是两点之间的直线距离：这条路线在(4,1)拐弯，直连起终点的线段比它短；这里不要求计算斜线段长度。",
+      "prompt": "方格图按先列后行，每格边长100米。A在(2,1)，B在(6,4)，没有障碍，只能沿横竖网格线行走。求最短路线的路程，说明为什么任何路线都不能更短；它能直接叫作A到B的直线距离吗？",
+      "explanation": "横向至少要走4格，纵向至少要走3格，因此任何路线至少7格，即700米。先向东4格再向北3格就能达到这个下界，所以是最短网格路程；连结A、B的直线不沿网格限制行走，不能把两种距离混称。",
       "feedback": {
-        "correct": "按量规核对两段长度、总路程与直线距离的区别；仅给500还没有展示全部目标。",
-        "incorrect": "在纸上画出先横后竖的路线，再用直尺直连起终点。题目要求走的路线与两点间最短的线段是否相同？"
+        "correct": "按量规检查：最短需要既有下界又有能走到的路线，而不只是举一条路线。",
+        "incorrect": "分别看列和行至少各要改变几格，再给出没有折返的路线。"
       },
       "rubric": [
         {
-          "criterion": "计算指定路线的路程",
-          "points": 1,
-          "example": "(3+2)×100=500米。"
+          "criterion": "给出必需行走格数的下界",
+          "points": 2,
+          "example": "列差4、行差3，任何路径至少4+3=7格。"
         },
         {
-          "criterion": "区分路程与直线距离",
+          "criterion": "给出达到下界的路径并换算",
           "points": 2,
-          "example": "500米是有拐弯的折线路程；起终点直连线段更短，不能把500直接当直线距离。"
+          "example": "东4格再北3格，700米，故最短。"
+        },
+        {
+          "criterion": "区分网格路程和直线距离",
+          "points": 1,
+          "example": "700米受横竖行走限制，不是直接连线的长度。"
         }
-      ]
+      ],
+      "family_id": "position.shortest-grid-path-bound",
+      "variant_id": "position_reference_frames:transfer-3",
+      "representation": "geometry",
+      "cognitive_demand": "prove",
+      "diagram": {
+        "src": "/static/diagrams/position-shortest-grid.svg",
+        "alt": "列从左至右编号1到6，行从下至上编号1到4，A标在(2,1)，B标在(6,4)。一个网格边标100米，不预画路线或标注总路程。"
+      }
     },
     {
       "id": "position_reference_frames:delayed-1",
       "objective_ids": [
-        "position_reference_frames:o1"
+        "position_reference_frames:o1",
+        "position_reference_frames:body_frame"
       ],
       "phase": "delayed",
       "type": "choice",
@@ -260,12 +371,17 @@
           "text": "转动地图以后无法再判断方向。"
         }
       ],
-      "answer": "A"
+      "answer": "A",
+      "family_id": "position.rotated-map-frame",
+      "variant_id": "position_reference_frames:delayed-1",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "id": "position_reference_frames:delayed-2",
       "objective_ids": [
-        "position_reference_frames:o2"
+        "position_reference_frames:o2",
+        "position_reference_frames:bearing"
       ],
       "phase": "delayed",
       "type": "numeric",
@@ -276,12 +392,17 @@
         "incorrect": "画出西北象限的直角，把25°放在北向一侧，剩余部分就是所求角。"
       },
       "answer": "65",
-      "verify": "90-25"
+      "verify": "90-25",
+      "family_id": "position.complementary-bearing",
+      "variant_id": "position_reference_frames:delayed-2",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "position_reference_frames:delayed-3",
       "objective_ids": [
-        "position_reference_frames:o3"
+        "position_reference_frames:o3",
+        "position_reference_frames:coordinate"
       ],
       "phase": "delayed",
       "type": "rubric",
@@ -301,6 +422,201 @@
           "criterion": "解释有序性和错误位置",
           "points": 2,
           "example": "(3,5)是第3列第5行，与目标不同；不能随意交换顺序。"
+        }
+      ],
+      "family_id": "position.coordinate-order-error",
+      "variant_id": "position_reference_frames:delayed-3",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
+    },
+    {
+      "id": "position_reference_frames:practice-4",
+      "objective_ids": [
+        "position_reference_frames:o2",
+        "position_reference_frames:return_direction"
+      ],
+      "phase": "practice",
+      "type": "choice",
+      "prompt": "A在B的北偏西20°方向3千米处。从A观察B，正确描述是哪项？",
+      "explanation": "反向观察把北变为南、西变为东，所以B在A的南偏东20°方向，距离仍为3千米。不能只换参照点而保留原方向。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "把从B指向A的箭头掉头，分别检查南北、东西和距离。"
+      },
+      "family_id": "position.reverse-bearing",
+      "variant_id": "position_reference_frames:practice-4",
+      "representation": "geometry",
+      "cognitive_demand": "execute",
+      "answer": "C",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "北偏西20°，3千米。"
+        },
+        {
+          "id": "B",
+          "text": "南偏西20°，3千米。"
+        },
+        {
+          "id": "C",
+          "text": "南偏东20°，3千米。"
+        },
+        {
+          "id": "D",
+          "text": "南偏东70°，6千米。"
+        }
+      ]
+    },
+    {
+      "id": "position_reference_frames:practice-5",
+      "objective_ids": [
+        "position_reference_frames:o3",
+        "position_reference_frames:coordinate",
+        "position_reference_frames:route_distance"
+      ],
+      "phase": "practice",
+      "type": "rubric",
+      "prompt": "方格每边100米，A在(1,1)、B在(4,3)，数对按先列后行。路线甲向东3格再向北2格；路线乙向北3格、向东3格、再向南1格。分别求路程，说明为何到同一个终点却路程不同。",
+      "explanation": "甲(3+2)×100=500米，乙(3+3+1)×100=700米。乙多走向北再向南的往返段，两条路线终点都为(4,3)，终点相同并不保证所走路程相同。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "把所有实际走过的段都计入，不能因方向相反就把已经走过的路程抵消。"
+      },
+      "family_id": "position.route-detour-comparison",
+      "variant_id": "position_reference_frames:practice-5",
+      "representation": "mixed",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "正确算出两条路程",
+          "points": 2,
+          "example": "甲500米，乙700米。"
+        },
+        {
+          "criterion": "解释路线与位置的区别",
+          "points": 2,
+          "example": "乙有多余往返，位移终点相同但走过的总长度不同。"
+        }
+      ]
+    },
+    {
+      "id": "position_reference_frames:transfer-4",
+      "objective_ids": [
+        "position_reference_frames:o1",
+        "position_reference_frames:body_frame"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "看这张地图：北向箭头指向页面右侧，图书馆画在学校的页面上方。有人仍说“图书馆在学校北方”。指出错误，写出实际地理方向，并说明怎样利用北向箭头确定其余方向。",
+      "explanation": "北在页面右侧时，东在页面下方、南在左侧、西在上方，因此图书馆在学校西方。应跟随地图标出的北向建立方向，不能固定把页面上方当北。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "先把北向箭头当作基准，再按北、东、南、西顺时针安排四个方向。"
+      },
+      "family_id": "position.rotated-map-frame",
+      "variant_id": "position_reference_frames:transfer-4",
+      "representation": "geometry",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "按标注北向重新定向",
+          "points": 2,
+          "example": "北右、东下、南左、西上。"
+        },
+        {
+          "criterion": "明确相对地点和方向",
+          "points": 1,
+          "example": "图书馆在学校西方，页面上方不恒等于北方。"
+        }
+      ],
+      "diagram": {
+        "src": "/static/diagrams/position-rotated-north.svg",
+        "alt": "北向箭头水平向右；学校S在下、图书馆L在其正上方，两地点在页面同一竖线上。"
+      }
+    },
+    {
+      "id": "position_reference_frames:delayed-4",
+      "objective_ids": [
+        "position_reference_frames:o3",
+        "position_reference_frames:coordinate"
+      ],
+      "phase": "delayed",
+      "type": "choice",
+      "prompt": "一排座位共有5列。原图列从左向右数，新图改为从右向左数；行仍从下向上。小明在原图(2,3)，新图应写成什么？",
+      "explanation": "从左第2列就是从右第4列，因为5−2+1=4；行的约定不变仍为3，所以新数对是(4,3)。座位没动，编号规则变了。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "先画5个位置，从左右各数一次，不要把改变列方向误作交换列行。"
+      },
+      "family_id": "position.renumber-grid",
+      "variant_id": "position_reference_frames:delayed-4",
+      "representation": "symbolic",
+      "cognitive_demand": "model",
+      "answer": "B",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "(2,3)"
+        },
+        {
+          "id": "B",
+          "text": "(4,3)"
+        },
+        {
+          "id": "C",
+          "text": "(3,2)"
+        },
+        {
+          "id": "D",
+          "text": "(3,4)"
+        }
+      ]
+    },
+    {
+      "id": "position_reference_frames:delayed-5",
+      "objective_ids": [
+        "position_reference_frames:o1",
+        "position_reference_frames:o2",
+        "position_reference_frames:body_frame",
+        "position_reference_frames:bearing"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "纸条只写“公园在北偏东30°方向600米处”，没有地图也没有其他上下文。这样的描述足够唯一找到公园吗？指出缺少什么，并改写为一条完整、可执行的定位说明。",
+      "explanation": "缺少参照点。可以改为“以学校大门O为参照点，按所标北向，公园位于北偏东30°方向600米处”。若从不同起点按同样方向和距离走，会到不同位置。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "方向和距离都是相对于起点的；看看纸条是否告诉了从哪里量。"
+      },
+      "family_id": "position.insufficient-reference",
+      "variant_id": "position_reference_frames:delayed-5",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "识别缺失的参照点",
+          "points": 1,
+          "example": "没有说明相对哪个地点。"
+        },
+        {
+          "criterion": "补成完整定位说明",
+          "points": 2,
+          "example": "明确起点、北向基准、偏角和600米距离，给出不同起点会有不同结果的理由。"
         }
       ]
     }
@@ -324,5 +640,7 @@
   "diagram": {
     "src": "/static/diagrams/bearing-reference.svg",
     "alt": "地图标出北向朝上。学校O为观察点，公园P在O的东北象限；OP与从O出发的正北射线夹角30°，线段OP标注600米。"
-  }
+  },
+  "prerequisite_unit_ids": [],
+  "prerequisite_objective_ids": []
 }

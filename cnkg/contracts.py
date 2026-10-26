@@ -22,6 +22,7 @@ RESOURCE_KINDS = frozenset({
     "topic", "dependency", "question", "teaching-card", "learning-task",
     "learning-unit", "project", "answer-spec",
     "skills-registry", "catalog-bindings", "catalog",
+    "content-manifest", "question-source",
 })
 
 
@@ -164,6 +165,25 @@ def validate_repository(data_dir=None, *, include_references=True):
             resources[kind].append(row)
             errors.extend(f"{path.relative_to(data)}: {e}"
                           for e in validate_resource(kind, row))
+    # Author manifests and declared question files are checked independently of
+    # the compiled trace view; they do not become a second reference graph.
+    manifest_path = data / "content_sources.json"
+    if manifest_path.is_file():
+        try:
+            manifest = _read(manifest_path)
+            problems = validate_resource("content-manifest", manifest)
+            errors.extend(problems)
+            if not problems:
+                for source in manifest.get("question_sources", []):
+                    path = data / source["path"]
+                    if not path.resolve().is_relative_to(data.resolve()):
+                        errors.append(f"作者题源越界：{source['path']}")
+                        continue
+                    payload = _read(path)
+                    errors.extend(f"{source['path']}: {error}"
+                                  for error in validate_resource("question-source", payload))
+        except (OSError, ValueError) as exc:
+            errors.append(f"content_sources.json: {exc}")
     # Avoid following malformed structures after the precise schema errors.
     if errors or not include_references:
         return errors

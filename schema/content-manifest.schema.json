@@ -1,0 +1,262 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cn-k12-kg.local/schema/v1/content-manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "enum": [
+        1,
+        2
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "content_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "^content/[A-Za-z0-9_.-]+\\.json$"
+          },
+          "volume": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "path",
+          "volume"
+        ]
+      }
+    },
+    "question_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^question_sources/[A-Za-z0-9_.-]+\\.json$"
+          },
+          "status": {
+            "enum": [
+              "active",
+              "retired"
+            ]
+          },
+          "sha256_lf": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "name",
+          "path",
+          "status"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "retired"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "sha256_lf"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "question_generators": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "entrypoint": {
+            "type": "string",
+            "minLength": 1
+          },
+          "inputs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "name",
+          "source",
+          "entrypoint",
+          "inputs"
+        ]
+      }
+    },
+    "retired_question_generators": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "entrypoint": {
+            "type": "string",
+            "minLength": 1
+          },
+          "inputs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "name",
+          "source",
+          "entrypoint",
+          "inputs"
+        ]
+      }
+    },
+    "question_transforms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "entrypoint": {
+            "type": "string",
+            "minLength": 1
+          },
+          "inputs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "algorithm": {
+            "type": "string",
+            "minLength": 1
+          },
+          "review_policy": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "entrypoint",
+          "inputs"
+        ]
+      }
+    },
+    "ordering": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hash_policy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "quality_scope": {
+      "type": "string",
+      "minLength": 1
+    },
+    "migration": {
+      "type": "object"
+    },
+    "retired_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256_lf": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "path",
+          "sha256_lf"
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "content_sources"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": 2
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "question_sources"
+        ],
+        "properties": {
+          "question_generators": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ]
+}

@@ -40,13 +40,19 @@ window.CNKGWork = (() => {
     reflection.id = `reflection-${identifier()}`; reflection.value = saved.reflection || "";
     const self = create("details", null, "self-assessment"); self.append(create("summary", "我的自评与反思"));
     self.append(create("p", "对照这些检查点记录自己的判断，之后还可以修改。自评不会改变原题的判分。", "muted"));
-    const selections = [];
+    const selections = [], comments = [];
     for (const [index, criterion] of snapshot.criteria.entries()) {
       const row = create("div", null, "self-assessment-row"), label = create("label", criterion), select = create("select");
       select.id = `criterion-${identifier()}`; label.htmlFor = select.id;
       for (const [value, text] of Object.entries(labels)) { const option = create("option", text); option.value = value; select.append(option); }
-      select.value = saved.self_assessment?.find(item => item.criterion_index === index)?.status || "not_checked";
-      row.append(label, select); self.append(row); selections.push(select);
+      const previous = saved.self_assessment?.find(item => item.criterion_index === index);
+      select.value = previous?.status || "not_checked";
+      const detail = create("details", null, "self-assessment-comment"); detail.append(create("summary", "补充自评说明（可选）"));
+      const comment = create("textarea"); comment.rows = 2; comment.maxLength = 2000;
+      comment.id = `comment-${identifier()}`; comment.value = previous?.comment || "";
+      const commentLabel = create("label", `关于“${criterion}”的说明`); commentLabel.htmlFor = comment.id;
+      detail.append(commentLabel, comment); detail.open = Boolean(comment.value);
+      row.append(label, select, detail); self.append(row); selections.push(select); comments.push(comment);
     }
     const reflectionLabel = create("label", "我改进了什么？还有什么问题？"); reflectionLabel.htmlFor = reflection.id;
     self.append(reflectionLabel, reflection); root.append(self);
@@ -54,12 +60,12 @@ window.CNKGWork = (() => {
     save.type = finish.type = "button";
     const status = create("p", data.work ? "已恢复保存的记录。" : "填写后会自动保存。", "muted work-status"); status.setAttribute("role", "status");
     const conflict = create("button", "保留两版并保存本页内容", "ghost"); conflict.type = "button"; conflict.hidden = true;
-    controls.append(save, finish, conflict); root.append(controls, status);
+    controls.append(save, finish, conflict); root.append(controls); root.prepend(status);
     let revision = data.work?.revision || 0, learnerStatus = saved.status || "draft";
     let pending = null, timer = null, running = null, lastSaved = null, failed = false, conflictSeen = false;
     const values = () => ({ draft: Object.fromEntries([...fields].map(([key, input]) => [key, input.value])),
       reflection: reflection.value,
-      self_assessment: selections.map((select, index) => ({ criterion_index: index, status: select.value })).filter(row => row.status !== "not_checked"),
+      self_assessment: selections.map((select, index) => ({ criterion_index: index, status: select.value, comment: comments[index].value })).filter(row => row.status !== "not_checked" || row.comment),
       status: learnerStatus });
     lastSaved = JSON.stringify(values());
     const editor = { root, descriptor, get failed() { return failed; }, unsaved: () => pending !== null || JSON.stringify(values()) !== lastSaved,
@@ -88,7 +94,7 @@ window.CNKGWork = (() => {
       if (!failed && editor.unsaved()) return persist();
     }
     function changed() { learnerStatus = "draft"; clearTimeout(timer); status.textContent = "有修改，等待保存…"; timer = setTimeout(persist, 500); }
-    for (const input of [...fields.values(), reflection]) input.addEventListener("input", changed);
+    for (const input of [...fields.values(), ...comments, reflection]) input.addEventListener("input", changed);
     for (const select of selections) select.addEventListener("change", changed);
     save.addEventListener("click", persist);
     finish.addEventListener("click", () => { learnerStatus = "submitted"; persist(); });
@@ -112,7 +118,10 @@ window.CNKGWork = (() => {
           const item = create("details", null, "answer-entry"); item.append(create("summary", `第 ${record.revision} 版 · ${formatTime(record.updated_at)}`));
           for (const field of snapshot.fields) item.append(create("strong", field.label), create("p", record.payload.draft?.[field.id] || "尚未填写", "preserve-lines"));
           if (record.payload.reflection) item.append(create("p", record.payload.reflection, "preserve-lines"));
-          for (const row of record.payload.self_assessment || []) item.append(create("p", `${snapshot.criteria[row.criterion_index]}：${labels[row.status]}`));
+          for (const row of record.payload.self_assessment || []) {
+            item.append(create("p", `${snapshot.criteria[row.criterion_index]}：${labels[row.status]}`));
+            if (row.comment) item.append(create("p", row.comment, "preserve-lines"));
+          }
           historyList.append(item);
         }
         if (result.revisions.length === 50) historyList.append(create("p", "这里显示最近50版，完整历史包含在学习记录导出中。", "muted"));

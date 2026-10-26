@@ -1,4 +1,4 @@
-name: Core data and learning checks
+name: Content and browser release checks
 
 on:
   push:
@@ -10,37 +10,40 @@ permissions:
 jobs:
   core:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
       - name: Install pinned validation dependencies
         run: python -m pip install -r requirements-dev.txt
-      - name: Authoring sources match every generated field
-        run: python tools/rebuild_data.py --check --report build/source-differences.json
-      - name: Structural validation
-        run: python tools/validate.py
-      - name: Stable skill registry and unified task catalog
+      - name: Install pinned browser runner and Chromium
         run: |
-          python tools/register_catalog.py --check
-          python tools/compile_catalog.py --check
-      - name: Teaching objectives and independent task structure
-        run: python tools/check_learning_units.py --json
-      - name: Practical activities and explicit coverage gaps
+          npm ci
+          npx playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Complete content, core and browser verification
+        run: python tools/release_check.py --with-browser
+      - name: Verify unchanged release source
         run: |
-          python tools/check_projects.py
-          python tools/coverage_report.py --check --require-complete
-          python tools/review_packet.py
-          python tools/review_packet.py --check build/review-packet.json
-          python tools/pilot_report.py
-      - name: Arithmetic checks (independent subject review is separate)
-        run: python tools/verify_questions.py
-      - name: Core regression suite (optional external bundles may be absent)
-        run: python -m unittest discover -s tests
-      - name: Missing external data and deterministic release manifest
-        run: |
-          python tools/status_report.py
-          python tools/status_report.py --json
-          python tools/build_db.py --own-only --quiet
+          python tools/release_manifest.py --check
+          git diff --exit-code
+      - name: Preserve synthetic verification evidence
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: learning-release-evidence
+          retention-days: 14
+          path: |
+            build/regression_report.json
+            build/regression_report.md
+            build/release-check/*.log
+            build/browser-check/report.*
+            build/browser-check/*/result.json
+            build/browser-check/*/*.png
+            build/browser-check/*/*.log

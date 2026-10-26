@@ -47,7 +47,7 @@ def write_manifest(counts: dict, *, include_external=True) -> pathlib.Path:
 
     registry = load_registry(store.DATA)
     sources = [{"name": f"data/{REGISTRY}", "sha256": sha256(store.DATA / REGISTRY)}]
-    for source in registry["content_sources"]:
+    for source in registry["content_sources"] + registry.get("question_sources", []):
         sources.append({"name": "data/" + source["path"],
                         "sha256": sha256(store.DATA / source["path"])})
     code_inputs = {"tools/rebuild_data.py", "cnkg/engine.py", "cnkg/graph.py",
@@ -55,6 +55,7 @@ def write_manifest(counts: dict, *, include_external=True) -> pathlib.Path:
                    "cnkg/answers.py", "cnkg/contracts.py", "cnkg/learning_store.py", "cnkg/store.py",
                    "cnkg/catalog.py", "cnkg/planner.py", "cnkg/portfolio.py", "cnkg/session_content.py",
                    "tools/compile_catalog.py", "tools/register_catalog.py",
+                   "tools/build_project.py", "tools/retired_writer.py",
                    "cnkg/projects.py", "cnkg/challenge.py", "web/server.py",
                    "tools/curriculum_compare.py", "tools/teach_cards.py", "tools/coverage_report.py",
                    "tools/release_check.py", "web/static/index.html", "web/static/app.js",
@@ -72,7 +73,8 @@ def write_manifest(counts: dict, *, include_external=True) -> pathlib.Path:
     for directory in ("learning_units", "projects", "teach", "curriculum_comparisons", "skills"):
         asset_paths.update((store.DATA / directory).rglob("*.json"))
     for name in ("catalog.json", "topic_tiers.json", "curriculum_versions.json", "coverage_backlog.json",
-                 "challenge/alignments.json", "challenge/links.json"):
+                 "challenge/alignments.json", "challenge/links.json", "authoring_migration.json",
+                 "question_retirements.json"):
         path = store.DATA / name
         if path.is_file():
             asset_paths.add(path)
@@ -115,6 +117,9 @@ def main(argv=None):
         if delta:
             print("来源不一致：先运行 python tools/rebuild_data.py --check 查看差异，再修正来源/产物。")
             return 1
+        if (store.DATA / "catalog.json").is_file():
+            from cnkg.catalog import load_catalog
+            load_catalog(store.DATA)
     except (SourceError, OSError, ValueError, KeyError) as exc:
         print(f"来源门禁失败：{exc}")
         return 1

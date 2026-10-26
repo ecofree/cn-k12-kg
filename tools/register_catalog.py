@@ -57,11 +57,13 @@ def register_new_sources(data_dir):
                 return
             spec = raw["answer_spec"]
         fid = raw.get("family_id", "unclassified:" + identifier)
-        bindings["tasks"][key] = {"id": identifier, "answer_spec": copy.deepcopy(spec),
+        bindings["tasks"][key] = {"id": identifier, "answer_spec_source": "binding" if rubric_adapter else "author",
                                   "family_id": fid, "variant_id": raw.get("variant_id", identifier),
                                   "family_status": "declared" if "family_id" in raw else "unclassified",
                                   "representation": raw.get("representation", "unknown"),
                                   "cognitive_demand": raw.get("cognitive_demand", "unknown")}
+        if rubric_adapter:
+            bindings["tasks"][key]["answer_spec"] = copy.deepcopy(spec)
         if key.startswith("project_step:"):
             bindings["tasks"][key]["source_anchor"] = raw["title"]
         changes["tasks"].append(identifier)

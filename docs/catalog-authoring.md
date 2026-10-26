@@ -19,11 +19,19 @@
 
 新增题目或单元任务时明确填写 `answer_spec`、`family_id`、`variant_id`。答案契约见 `schema/answer-spec.schema.json`。精确数值保留有理数相等；近似值必须明确舍入或误差，表达形式要求单独声明。复杂过程任务使用 `type: rubric`，不由关键词或答案相似度自动判分。
 
+每条绑定通过 `answer_spec_source` 指定唯一契约来源。`binding` 表示契约只在绑定中保存；`author` 表示只在任务作者 JSON 中保存，绑定不复制答案契约。双份契约或指定来源缺失都会阻止编译。新题和新学习任务采用 `author`，旧任务保留明确迁移后的 `binding`；Graph、CLI、Web 和数据库均使用编译契约。
+
 新增例题同样填写 `family_id` 与 `variant_id`。只有换数或换表面情境、数学结构不变的任务保留同一族，不能用新 ID 把练过的套路包装为独立迁移题。
 
 ## 登记、编译与检查
 
 在已安装 `requirements-dev.txt` 的项目虚拟环境中运行：
+
+```sh
+python tools/build_project.py --release
+```
+
+单独处理登记与目录时可以运行：
 
 ```sh
 python tools/register_catalog.py --check
@@ -55,6 +63,8 @@ python tools/compile_catalog.py --check
 ## 运行接口与版本
 
 `load_catalog()` 返回 `Catalog`，其 `skills`、`placements`、`tasks`、`materials`、`families`、`units`、`projects` 为按 ID 索引的字典。`task()`、`skill()`、`material()`、`placement()`、`unit()` 返回可安全用于会话快照的副本；`self_check(topic_id, criterion_index)` 与 `project_steps(project_id)` 隐藏新注册 ID 的具体格式。
+
+`tasks` 保留全部历史追溯记录，`active_tasks` 与 `retired_tasks` 分别索引可用和停用任务。默认 Graph 题库与 SQLite `questions` 表排除停用题；停用原记录另存于显式追溯索引和 `retired_questions` 表。作者来源、冻结档案和统一构建命令详见 [作者工作流](authoring-workflow.md)。
 
 `tasks_for_skill(skill_id, purpose)` 默认排除隔离题。`public_task()` 隐藏参考答案、作者验算、解析、答案契约与量规示例；服务端在合法作答或明确展开参考后再提供相应反馈。
 

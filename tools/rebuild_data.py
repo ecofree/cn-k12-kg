@@ -8,11 +8,9 @@ are retained for provenance and are never build inputs.
     python tools/rebuild_data.py --output-dir build/rebuilt
     python tools/rebuild_data.py --write
 
-For an intentional edit made by an older maintenance tool, first fix its
-generator (when applicable), then explicitly synchronize current records:
-
-    python tools/rebuild_data.py --sync-sources --reason "reviewed corrections"
-    python tools/rebuild_data.py --check
+Edit the registered JSON authoring sources. The v2 manifest does not execute
+question generators or copy edited build outputs back into authoring files.
+Use tools/build_project.py --release for the complete publish workflow.
 """
 from __future__ import annotations
 
@@ -55,7 +53,7 @@ def sha256_lf(path: pathlib.Path) -> str:
 
 def load_registry(data_dir: pathlib.Path = DATA) -> dict:
     registry = read_json(data_dir / REGISTRY)
-    if registry.get("schema_version") != 1:
+    if registry.get("schema_version") not in (1, 2):
         raise SourceError("unsupported content source registry version")
     seen, volumes = set(), set()
     for source in registry.get("content_sources", []):
@@ -90,7 +88,30 @@ def load_registry(data_dir: pathlib.Path = DATA) -> dict:
               for p in (data_dir / "content").glob("*.json")}
     if actual - seen - retired.keys():
         raise SourceError(f"unregistered active content files: {sorted(actual - seen - retired.keys())}")
+    question_sources = registry.get("question_sources", [])
+    question_paths, names = set(), set()
+    for source in question_sources:
+        rel = pathlib.PurePosixPath(source["path"])
+        if rel.parent != pathlib.PurePosixPath("question_sources") or rel.suffix != ".json":
+            raise SourceError(f"not a registered question source: {rel}")
+        if source["path"] in question_paths or source["name"] in names:
+            raise SourceError(f"duplicate declarative question source: {source}")
+        if source.get("status") not in ("active", "retired"):
+            raise SourceError(f"question source needs an explicit lifecycle: {rel}")
+        path = data_dir / rel
+        if not path.is_file() or not path.resolve().is_relative_to(data_dir.resolve()):
+            raise SourceError(f"missing or out-of-root question source: {rel}")
+        if source.get("status") == "retired" and source.get("sha256_lf") != sha256_lf(path):
+            raise SourceError(f"retired question archive changed: {rel}")
+        question_paths.add(source["path"])
+        names.add(source["name"])
+    actual_questions = {p.relative_to(data_dir).as_posix()
+                        for p in (data_dir / "question_sources").glob("*.json")}
+    if actual_questions - question_paths:
+        raise SourceError(f"unregistered question sources: {sorted(actual_questions - question_paths)}")
     generators = registry.get("question_generators", [])
+    if registry["schema_version"] == 2 and generators:
+        raise SourceError("v2 builds only registered JSON; Python question generators are retired")
     if len(generators) > 1 or any(g.get("name") != "application-items" for g in generators):
         raise SourceError("unsupported or repeated question generator")
     for generator in generators:
@@ -201,6 +222,13 @@ def build_data(data_dir: pathlib.Path = DATA, *, apply_transforms: bool = True) 
         for question in application_questions(rows["questions.json"]):
             add("questions.json", question, generator["entrypoint"])
 
+    for source in registry.get("question_sources", []):
+        payload = read_json(data_dir / source["path"])
+        if payload.get("schema_version") != 1 or not isinstance(payload.get("questions"), list):
+            raise SourceError(f"invalid declarative question source: {source['path']}")
+        for question in payload["questions"]:
+            add("questions.json", question, source["path"])
+
     if apply_transforms:
         rows["questions.json"] = apply_question_transforms(rows["questions.json"], registry)
 
@@ -253,6 +281,8 @@ def synchronize_sources(data_dir: pathlib.Path, reason: str) -> dict:
     if not reason.strip():
         raise SourceError("source synchronization requires a reason")
     registry = load_registry(data_dir)
+    if registry.get("schema_version") == 2:
+        raise SourceError("v2 作者源禁止从派生文件反向同步；请编辑登记的 JSON 后运行 tools/build_project.py --release")
     current = {name: read_json(data_dir / name) for name in OUTPUTS}
     indexed = {name: index_rows(name, rows) for name, rows in current.items()}
     topics = indexed["topics.json"]

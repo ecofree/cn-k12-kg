@@ -71,7 +71,7 @@ def _session_summary(record):
     result["scope_id"] = _scope(record)
     result["targets"] = record.get("engine", {}).get("targets", record.get("targets", []))
     result["answers"] = [{key: entry[key] for key in
-                          ("question_id", "objective_ids", "status", "answered_at", "skipped", "family_id")
+                          ("question_id", "objective_ids", "skill_ids", "status", "answered_at", "skipped", "family_id")
                           if key in entry} for entry in record.get("answers", [])]
     result["answered_count"] = len(result["answers"])
     result["context"] = {key: record.get("context", {})[key] for key in

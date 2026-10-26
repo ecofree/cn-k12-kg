@@ -176,6 +176,9 @@ const journeys = {
     const editor = entry.locator(".work-editor");
     await editor.locator(".self-assessment > summary").click();
     await editor.locator(".self-assessment select").first().selectOption("met");
+    const assessmentComment = "合成验收：我补充了事件独立的依据，还需要检查模型条件。";
+    await editor.locator(".self-assessment-comment > summary").first().click();
+    await editor.locator(".self-assessment-comment textarea").first().fill(assessmentComment);
     const saved = await actionResponse(() => editor.getByRole("button", { name: "提交我的自查", exact: true }).click(), "/api/work", "POST",
       response => response.request().postDataJSON().status === "submitted");
     await editor.locator(".work-status").filter({ hasText: "自查记录已保存" }).waitFor();
@@ -183,6 +186,7 @@ const journeys = {
     const session = exported.sessions.find(session => session.id === sid);
     assert.equal(session.answers.find(answer => answer.question_id === qid).status, "needs_review");
     assert.equal(saved.work.payload.self_assessment[0].status, "met");
+    assert.equal(saved.work.payload.self_assessment[0].comment, assessmentComment);
     result.observations.session_id = sid;
     result.observations.retained_grade = "needs_review";
     claim("A rubric draft survives reload and resumes through the visible Continue control.");
@@ -272,6 +276,13 @@ const journeys = {
     assert.ok((await page.locator("#learning-projects .eyebrow").allTextContents()).every(text => text === "小学"));
     assert.ok((await page.locator("#chapters .volume-title").allTextContents()).every(text => text.includes("小学")));
     await noHorizontalOverflow("primary_home_390");
+    await goto("?unit=ten_frame_place_value");
+    await visible("#view-unit");
+    await page.waitForFunction(() => { const image = document.querySelector("#unit-content .lesson-diagram img"); return image?.complete && image.naturalWidth > 0; });
+    assert.match(await page.locator("#unit-content").textContent(), /口述|学具|画点/);
+    await noHorizontalOverflow("primary_entry_390");
+    await page.screenshot({ path: path.join(output, "primary-entry.png"), fullPage: true });
+    await goto();
     await page.reload({ waitUntil: "domcontentloaded" });
     await valueEquals("#stage-select", "primary");
     await actionResponse(() => page.locator("#stage-select").selectOption("senior"), "/api/plan", "GET",
@@ -290,6 +301,7 @@ const journeys = {
     await noHorizontalOverflow("project_390");
     claim("Home cards and textbook navigation follow the selected school stage and preserve the selection.");
     claim("Home, teaching, unit and project views have no viewport-level horizontal overflow at 390px.");
+    claim("The optional primary entry unit displays a working ten-frame diagram and oral/manipulative alternatives on a narrow screen.");
   },
 
   async pool_exhaustion() {

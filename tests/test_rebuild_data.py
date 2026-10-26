@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import copy
-from contextlib import redirect_stdout
+from contextlib import redirect_stdout, redirect_stderr
 from io import StringIO
 import pathlib
 import tempfile
@@ -131,7 +131,11 @@ class RepositorySourceTest(unittest.TestCase):
 class TransformedSourceBuildTest(unittest.TestCase):
     def setUp(self):
         SourceBuildTest.setUp(self)
-        self.registry["question_generators"] = copy.deepcopy(RD.load_registry()["question_generators"])
+        # Exercise the historical v1 importer explicitly; production v2 builds
+        # use declarative question_sources and never execute this branch.
+        registered = RD.load_registry()
+        self.registry["question_generators"] = copy.deepcopy(registered.get("question_generators")
+                                                               or registered["retired_question_generators"])
         self.registry["question_transforms"] = [{
             "name": BO.TRANSFORM_NAME, "version": BO.TRANSFORM_VERSION,
             "entrypoint": BO.TRANSFORM_ENTRYPOINT, "inputs": [],
@@ -271,14 +275,13 @@ class TransformedSourceBuildTest(unittest.TestCase):
 
 
 class ApplicationWriterBuildTest(unittest.TestCase):
-    def test_write_cli_delegates_to_registered_build_without_existing_outputs(self):
+    def test_imported_legacy_main_cannot_write_or_trigger_a_build(self):
         from tools import write_application_items as writer
-        with tempfile.TemporaryDirectory() as directory:
-            data = pathlib.Path(directory) / "data"
-            with patch.object(writer, "DATA", data), patch("sys.argv", ["write_application_items.py"]), \
-                    patch.object(RD, "main", return_value=0) as rebuild:
-                self.assertEqual(writer.main(), 0)
-            rebuild.assert_called_once_with(["--data-dir", str(data), "--write"])
+        stream = StringIO()
+        with patch.object(RD, "main") as rebuild, redirect_stderr(stream):
+            self.assertEqual(writer.main(), 2)
+        rebuild.assert_not_called()
+        self.assertIn("build_project.py --release", stream.getvalue())
 
 
 if __name__ == "__main__":

@@ -126,12 +126,6 @@ class BriefCardTest(unittest.TestCase):
                 self.assertEqual(check_brief(card, self.topics, self.tiers,
                                              self.bank), [])
 
-    def test_brief_generators_reproduce_saved_reference_cards(self):
-        from tools import teach_brief_1, teach_brief_2, teach_brief_3
-        generated = teach_brief_1.CARDS + teach_brief_2.CARDS + teach_brief_3.CARDS
-        by_file = {f"{c['cluster']}@{c['volume']}.json": c for c in generated}
-        self.assertEqual(dict(self.cards), by_file)
-
     def test_all_tool_points_are_covered(self):
         """既有工具点有可查参考，不把关联等同于全部目标已讲清。"""
         seen: dict[str, str] = {}

@@ -13,15 +13,59 @@
   "objectives": [
     {
       "id": "time_duration_calendar:o1",
-      "statement": "能读取钟面和24时计时法中的时刻，区分一个时刻与一段经过时间。"
+      "statement": "能读取钟面和24时计时法中的时刻，区分一个时刻与一段经过时间。",
+      "granularity": "composite"
     },
     {
       "id": "time_duration_calendar:o2",
-      "statement": "能把时、分换成同一单位，计算同日或已明确跨日的经过时间，并检查60进制换算。"
+      "statement": "能把时、分换成同一单位，计算同日或已明确跨日的经过时间，并检查60进制换算。",
+      "granularity": "composite"
     },
     {
       "id": "time_duration_calendar:o3",
-      "statement": "能利用给定的公历月份天数和闰年规则计算简单跨月间隔，说明日期包含方式。"
+      "statement": "能利用给定的公历月份天数和闰年规则计算简单跨月间隔，说明日期包含方式。",
+      "granularity": "composite"
+    },
+    {
+      "id": "time_duration_calendar:read_time",
+      "statement": "能把钟面、上午下午与24时记法对应，并把时刻作为时间线上的点。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "time_duration_calendar:o1"
+      ]
+    },
+    {
+      "id": "time_duration_calendar:units60",
+      "statement": "能以1小时等于60分钟换算复合时长，区分时分记法与十进制小数。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "time_duration_calendar:o2"
+      ]
+    },
+    {
+      "id": "time_duration_calendar:elapsed",
+      "statement": "能根据完整日期时刻求经过时间或反求起止时刻，并检查跨日条件。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "time_duration_calendar:o2"
+      ]
+    },
+    {
+      "id": "time_duration_calendar:calendar",
+      "statement": "能按给定公历月份与闰年规则判断跨月经过的天数。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "time_duration_calendar:o3"
+      ]
+    },
+    {
+      "id": "time_duration_calendar:count_intervals",
+      "statement": "能区分日期或时刻的个数与它们之间的间隔数，并说明是否包含首尾。",
+      "granularity": "observable",
+      "refines_objective_ids": [
+        "time_duration_calendar:o1",
+        "time_duration_calendar:o3"
+      ]
     }
   ],
   "prerequisites": [
@@ -49,7 +93,9 @@
         "总共15+20=35分钟；也可算(9×60+20)−(8×60+45)。"
       ],
       "answer": "35",
-      "verify": "(9*60+20)-(8*60+45)"
+      "verify": "(9*60+20)-(8*60+45)",
+      "family_id": "time.elapsed-sameday",
+      "variant_id": "time_duration_calendar:example-1"
     },
     {
       "prompt": "一班车5月6日23:40出发，5月7日00:25到达，途中没有调时。经过多少分钟？",
@@ -59,23 +105,39 @@
         "总时长为45分钟；不能只用00:25减23:40而忽略日期。"
       ],
       "answer": "45",
-      "verify": "(24*60-(23*60+40))+25"
+      "verify": "(24*60-(23*60+40))+25",
+      "family_id": "time.elapsed-cross-midnight",
+      "variant_id": "time_duration_calendar:example-2"
     },
     {
-      "prompt": "从公历2028年2月28日中午12:00到3月1日中午12:00，经过几天？是否等于所经过的日期名称个数？",
+      "prompt": "从公历2028年2月28日中午12:00到3月1日中午12:00，经过几天？",
       "steps": [
         "2028可被4整除且不是整百年份，是闰年，2月有29天。",
-        "2月28日中午到2月29日中午是一整天，再到3月1日中午又是一整天。",
-        "共经过2天；出现2月28日、2月29日、3月1日三个日期名称，不代表经过3整天。"
+        "从2月28日中午到2月29日中午是1整天，再到3月1日中午又是1整天。",
+        "共经过2整天。"
       ],
-      "answer": "经过2天；不是3天。"
+      "answer": "2天",
+      "family_id": "time.calendar-ordinary-leap",
+      "variant_id": "time_duration_calendar:example-3"
+    },
+    {
+      "prompt": "时间线上依次标出2月28日中午、2月29日中午、3月1日中午，为什么3个日期标记只对应2个整天间隔？",
+      "steps": [
+        "相邻两个中午之间是1个整天间隔。",
+        "从第1个标记到第2个、第2个到第3个，共2段。",
+        "若数包含首尾的日期名称则是3个，计数对象和经过时间不同。"
+      ],
+      "answer": "3个时刻标记之间只有2段间隔。",
+      "family_id": "time.date-points-vs-intervals",
+      "variant_id": "time_duration_calendar:example-4"
     }
   ],
   "tasks": [
     {
       "id": "time_duration_calendar:practice-1",
       "objective_ids": [
-        "time_duration_calendar:o1"
+        "time_duration_calendar:o1",
+        "time_duration_calendar:read_time"
       ],
       "phase": "practice",
       "type": "choice",
@@ -103,12 +165,18 @@
           "text": "09:20，是一个时刻。"
         }
       ],
-      "answer": "A"
+      "answer": "A",
+      "family_id": "time.clock-read",
+      "variant_id": "time_duration_calendar:practice-1",
+      "representation": "graph",
+      "cognitive_demand": "execute"
     },
     {
       "id": "time_duration_calendar:practice-2",
       "objective_ids": [
-        "time_duration_calendar:o2"
+        "time_duration_calendar:o2",
+        "time_duration_calendar:units60",
+        "time_duration_calendar:elapsed"
       ],
       "phase": "practice",
       "type": "numeric",
@@ -119,12 +187,18 @@
         "incorrect": "不要把11:10与9:45当十进制小数相减；先把小时换成60分钟。"
       },
       "answer": "85",
-      "verify": "(11*60+10)-(9*60+45)"
+      "verify": "(11*60+10)-(9*60+45)",
+      "family_id": "time.elapsed-sameday",
+      "variant_id": "time_duration_calendar:practice-2",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "time_duration_calendar:practice-3",
       "objective_ids": [
-        "time_duration_calendar:o3"
+        "time_duration_calendar:o3",
+        "time_duration_calendar:calendar",
+        "time_duration_calendar:count_intervals"
       ],
       "phase": "practice",
       "type": "choice",
@@ -148,13 +222,20 @@
           "text": "3天，因为出现了三个日期名称。"
         }
       ],
-      "answer": "B"
+      "answer": "B",
+      "family_id": "time.calendar-ordinary-leap",
+      "variant_id": "time_duration_calendar:practice-3",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "time_duration_calendar:transfer-1",
       "objective_ids": [
         "time_duration_calendar:o1",
-        "time_duration_calendar:o2"
+        "time_duration_calendar:o2",
+        "time_duration_calendar:read_time",
+        "time_duration_calendar:units60",
+        "time_duration_calendar:elapsed"
       ],
       "phase": "transfer",
       "type": "rubric",
@@ -180,12 +261,17 @@
           "points": 2,
           "example": "1小时40分钟是100分钟；1.40小时是1小时24分钟。"
         }
-      ]
+      ],
+      "family_id": "time.duration-to-finish",
+      "variant_id": "time_duration_calendar:transfer-1",
+      "representation": "verbal",
+      "cognitive_demand": "model"
     },
     {
       "id": "time_duration_calendar:transfer-2",
       "objective_ids": [
-        "time_duration_calendar:o2"
+        "time_duration_calendar:o2",
+        "time_duration_calendar:elapsed"
       ],
       "phase": "transfer",
       "type": "rubric",
@@ -206,12 +292,18 @@
           "points": 1,
           "example": "次日00:25发生在当日21:50之后，必须连日期一起比较。"
         }
-      ]
+      ],
+      "family_id": "time.elapsed-cross-midnight",
+      "variant_id": "time_duration_calendar:transfer-2",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "id": "time_duration_calendar:transfer-3",
       "objective_ids": [
-        "time_duration_calendar:o3"
+        "time_duration_calendar:o3",
+        "time_duration_calendar:calendar",
+        "time_duration_calendar:count_intervals"
       ],
       "phase": "transfer",
       "type": "rubric",
@@ -237,12 +329,17 @@
           "points": 1,
           "example": "前者数间隔，后者数日期。"
         }
-      ]
+      ],
+      "family_id": "time.date-points-vs-intervals",
+      "variant_id": "time_duration_calendar:transfer-3",
+      "representation": "verbal",
+      "cognitive_demand": "model"
     },
     {
       "id": "time_duration_calendar:delayed-1",
       "objective_ids": [
-        "time_duration_calendar:o1"
+        "time_duration_calendar:o1",
+        "time_duration_calendar:read_time"
       ],
       "phase": "delayed",
       "type": "choice",
@@ -270,12 +367,18 @@
       "diagram": {
         "src": "/static/diagrams/clock-1035.svg",
         "alt": "上午的钟面：长分针指向7，短时针在10和11之间，已走过从10到11路程的十二分之七。"
-      }
+      },
+      "family_id": "time.clock-read",
+      "variant_id": "time_duration_calendar:delayed-1",
+      "representation": "graph",
+      "cognitive_demand": "execute"
     },
     {
       "id": "time_duration_calendar:delayed-2",
       "objective_ids": [
-        "time_duration_calendar:o2"
+        "time_duration_calendar:o2",
+        "time_duration_calendar:units60",
+        "time_duration_calendar:elapsed"
       ],
       "phase": "delayed",
       "type": "numeric",
@@ -286,12 +389,18 @@
         "incorrect": "先跨到整点再相加，或将两个时刻都化为从0:00起的累计分钟。"
       },
       "answer": "95",
-      "verify": "(16*60+10)-(14*60+35)"
+      "verify": "(16*60+10)-(14*60+35)",
+      "family_id": "time.elapsed-sameday",
+      "variant_id": "time_duration_calendar:delayed-2",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "time_duration_calendar:delayed-3",
       "objective_ids": [
-        "time_duration_calendar:o3"
+        "time_duration_calendar:o3",
+        "time_duration_calendar:calendar",
+        "time_duration_calendar:count_intervals"
       ],
       "phase": "delayed",
       "type": "rubric",
@@ -311,6 +420,196 @@
           "criterion": "列日期并求间隔",
           "points": 2,
           "example": "29日→30日→5月1日→2日，经过3天。"
+        }
+      ],
+      "family_id": "time.month-length-error",
+      "variant_id": "time_duration_calendar:delayed-3",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
+    },
+    {
+      "id": "time_duration_calendar:practice-4",
+      "objective_ids": [
+        "time_duration_calendar:o2",
+        "time_duration_calendar:units60"
+      ],
+      "phase": "practice",
+      "type": "choice",
+      "prompt": "1小时30分钟换成以小时为单位的小数，正确的是哪项？",
+      "explanation": "30分钟=30/60小时=0.5小时，所以总计1.5小时。1.30小时等于1小时18分钟，不能把分钟直接接在小数点后。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "先用分钟数除以60，再与整小时相加。"
+      },
+      "family_id": "time.sexagesimal-decimal-conversion",
+      "variant_id": "time_duration_calendar:practice-4",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "answer": "C",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "1.30小时，因为30分钟写在小数点后。"
+        },
+        {
+          "id": "B",
+          "text": "1.3小时，因为去掉末尾的0。"
+        },
+        {
+          "id": "C",
+          "text": "1.5小时，因为30分钟是半小时。"
+        }
+      ]
+    },
+    {
+      "id": "time_duration_calendar:practice-5",
+      "objective_ids": [
+        "time_duration_calendar:o1",
+        "time_duration_calendar:o3",
+        "time_duration_calendar:read_time",
+        "time_duration_calendar:count_intervals"
+      ],
+      "phase": "practice",
+      "type": "rubric",
+      "prompt": "从周一上午8:00到同一周周四上午8:00，没有校时。时间线上有周一、周二、周三、周四四个标记。经过几整天？若每天签到一次且包括首尾，共签到几次？请用点和间隔解释。",
+      "explanation": "相邻两天上午8:00间隔1天，4个标记之间有3段，所以经过3整天；包含首尾则有4次签到。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "数经过时间时数相邻标记之间的段，数签到次数时数标记本身。"
+      },
+      "family_id": "time.date-points-vs-intervals",
+      "variant_id": "time_duration_calendar:practice-5",
+      "representation": "number_line",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "分别给出间隔数和点数",
+          "points": 2,
+          "example": "经过3天，签到4次。"
+        },
+        {
+          "criterion": "解释不同的计数对象",
+          "points": 2,
+          "example": "4个时刻之间只有3段完整的24小时间隔。"
+        }
+      ]
+    },
+    {
+      "id": "time_duration_calendar:transfer-4",
+      "objective_ids": [
+        "time_duration_calendar:o2",
+        "time_duration_calendar:elapsed"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "通知只写“21:30出发，03:00到达”，没有日期，也没有说最长旅程不超过一天。能唯一确定经过多久吗？给出两个满足文字记录、时长却不同的日期安排。",
+      "explanation": "不能。若5月1日21:30到5月2日03:00，历时5小时30分；若到5月3日03:00，则29小时30分。两者都符合钟面记录，缺日期或时长限制无法区分。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "先举“次日到达”，再考虑“后日到达”，检查记录是否排除了后者。"
+      },
+      "family_id": "time.missing-date-information",
+      "variant_id": "time_duration_calendar:transfer-4",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "指出信息不足",
+          "points": 1,
+          "example": "只有钟面时刻，跨了几个日期未知。"
+        },
+        {
+          "criterion": "给出两个有效安排和时长",
+          "points": 3,
+          "example": "次日到达5小时30分，后日到达29小时30分；日期明确且钟面均匹配。"
+        }
+      ]
+    },
+    {
+      "id": "time_duration_calendar:delayed-4",
+      "objective_ids": [
+        "time_duration_calendar:o1",
+        "time_duration_calendar:o2",
+        "time_duration_calendar:read_time",
+        "time_duration_calendar:units60",
+        "time_duration_calendar:elapsed"
+      ],
+      "phase": "delayed",
+      "type": "choice",
+      "prompt": "同一天的一节活动15:10结束，持续95分钟。开始时刻是哪一个？",
+      "explanation": "95分钟=1小时35分钟。15:10先减1小时到14:10，再减35分钟到13:35；也可算910−95=815分钟，即13:35。",
+      "feedback": {
+        "correct": "结果匹配。请核对解释中使用的条件与单位。",
+        "incorrect": "从结束时刻向前推，减分钟时仍以60分钟为1小时。"
+      },
+      "family_id": "time.reverse-schedule",
+      "variant_id": "time_duration_calendar:delayed-4",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer": "A",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "A",
+          "text": "13:35"
+        },
+        {
+          "id": "B",
+          "text": "13:45"
+        },
+        {
+          "id": "C",
+          "text": "14:15"
+        },
+        {
+          "id": "D",
+          "text": "13:15"
+        }
+      ]
+    },
+    {
+      "id": "time_duration_calendar:delayed-5",
+      "objective_ids": [
+        "time_duration_calendar:o3",
+        "time_duration_calendar:calendar",
+        "time_duration_calendar:count_intervals"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "使用本单元给定公历规则：2000年能被400整除；2100年能被100整除但不能被400整除。分别求这两年2月28日中午到3月1日中午经过几天，并解释为什么不能只检查能否被4整除。",
+      "explanation": "2000是闰年，经过2月29日，共2天；2100是平年，2月只有28天，共1天。整百年份需进一步检查能否被400整除。",
+      "feedback": {
+        "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
+        "incorrect": "先判断每一年2月的天数，再数同一钟点之间的间隔。"
+      },
+      "family_id": "time.century-leap-boundary",
+      "variant_id": "time_duration_calendar:delayed-5",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "应用整百年份分支",
+          "points": 2,
+          "example": "2000闰年，2100平年。"
+        },
+        {
+          "criterion": "按日期间隔求时长",
+          "points": 2,
+          "example": "分别2天和1天，不把日期名称个数当时长。"
         }
       ]
     }
@@ -335,5 +634,7 @@
   "diagram": {
     "src": "/static/diagrams/clock-0820.svg",
     "alt": "钟面标有1至12。较长的分针指向4，较短的时针位于8和9之间，已走过从8到9路程的三分之一。"
-  }
+  },
+  "prerequisite_unit_ids": [],
+  "prerequisite_objective_ids": []
 }

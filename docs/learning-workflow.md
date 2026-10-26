@@ -52,4 +52,4 @@
 
 ## 维护与验收
 
-固定身份和答案契约的维护方法见 [catalog-authoring.md](catalog-authoring.md)。发布前运行 `python tools/release_check.py`。浏览器旅程使用临时学习库、合成作答和独立浏览器上下文；报告只证明软件路径可用，不是学生教学效果证据。
+固定身份和答案契约的维护方法见 [catalog-authoring.md](catalog-authoring.md)。构建、提交后运行 `python tools/release_check.py --with-browser`，完整顺序见 [release-workflow.md](release-workflow.md)。浏览器旅程使用临时学习库、合成作答和独立浏览器上下文；报告只证明软件路径可用，不是学生教学效果证据。

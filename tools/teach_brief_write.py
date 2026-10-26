@@ -6,6 +6,15 @@
 """
 from __future__ import annotations
 
+# Historical CLI is fenced before imports or authoring side effects.
+if __name__ == "__main__":
+    import pathlib as _legacy_pathlib
+    import sys as _legacy_sys
+    _legacy_sys.path.insert(0, str(_legacy_pathlib.Path(__file__).resolve().parents[1]))
+    from tools.retired_writer import reject as _reject_retired_writer
+    raise SystemExit(_reject_retired_writer(__file__))
+
+
 import json
 import pathlib
 import sys
@@ -92,28 +101,4 @@ def B(key: str, name: str, one_liner: str, kp: list[str],
 
 
 def write_briefs(cards: list[dict], source: str) -> int:
-    problems = []
-    for card in cards:
-        key = f"{card['cluster']}@{card['volume']}"
-        if not group_members(key):
-            problems.append(f"{key}：组不存在")
-            continue
-        for e in check_brief(card, _TOPICS, _TIERS, {q["id"]: q for t in _BANK.values()
-                                                     for q in t}):
-            problems.append(f"{key}：{e}")
-    keys = [f"{c['cluster']}@{c['volume']}" for c in cards]
-    dup = {k for k in keys if keys.count(k) > 1}
-    if dup:
-        problems.append(f"重复的组：{'、'.join(sorted(dup))}")
-    if problems:
-        print(f"{source}：{len(problems)} 处问题，未写盘")
-        for p in problems:
-            print("  " + p)
-        return 1
-    TEACH.mkdir(parents=True, exist_ok=True)
-    for card in cards:
-        path = TEACH / f"{card['cluster']}@{card['volume']}.json"
-        path.write_text(json.dumps(card, ensure_ascii=False, indent=1) + "\n",
-                        encoding="utf-8")
-    print(f"{source}：写入 {len(cards)} 张 -> {TEACH}")
-    return 0
+    raise RuntimeError('历史速查写入器已封存；编辑 data/teach/clusters JSON 后运行 tools/build_project.py --release')
