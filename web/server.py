@@ -36,7 +36,7 @@ STATIC = pathlib.Path(__file__).resolve().parent / "static"
 DATA = ROOT / "data"
 sys.path.insert(0, str(ROOT))
 
-from cnkg import engine, learning, evidence, learning_store, projects, session_content, portfolio, planner, instruction, profile_recovery  # noqa: E402
+from cnkg import engine, learning, evidence, learning_store, learning_needs, projects, session_content, portfolio, planner, instruction, profile_recovery  # noqa: E402
 from cnkg import catalog as catalog_module  # noqa: E402
 from cnkg.graph import VOLUME_ORDER, load_graph  # noqa: E402
 from cnkg.verify import compare, compare_short, to_number, to_fraction, normalize_text  # noqa: E402
@@ -568,6 +568,61 @@ def export_record(record):
     return out
 
 
+def public_learning_inputs(owner, *, source_records=None, check_resume=False):
+    """Use complete history while withholding results not yet released to its owner.
+
+    Compact summaries remain private server facts. Visibility is taken from
+    the original session, and this projection never writes either record.
+    """
+    scopes = get_store().planning_records(owner)
+    sources = {record["id"]: record for record in source_records or ()}
+    for scope in scopes:
+        if scope["id"] not in sources:
+            sources[scope["id"]] = (scope if scope.get("completed_at")
+                                    else get_store().load(scope["id"], owner) or {})
+        if check_resume and not scope.get("completed_at"):
+            saved = sources[scope["id"]]
+            scope["resume_blocked"] = not saved or bool(_version_problem(saved))
+    visible = learning_needs.public_learning_records(scopes, sources)
+    works = []
+    for work in get_store().works(owner, limit=None):
+        if work.get("kind") == "session_task":
+            reference = work.get("source_ref")
+            if (not isinstance(reference, dict) or not learning_needs.feedback_is_public(
+                    sources.get(reference.get("session_id")), reference.get("question_id"))):
+                continue
+        works.append(work)
+    return visible, works, get_store().need_states(owner)
+
+
+def public_learning_needs(owner, *, source_records=None):
+    scopes, works, states = public_learning_inputs(owner, source_records=source_records)
+    return learning_needs.derive_needs(get_catalog(), scopes, works, states)
+
+
+def set_public_need_state(owner, need_id, action, reason):
+    """Authorize against public evidence, including when a hidden later grade exists."""
+    if not isinstance(need_id, str) or not need_id.strip() or len(need_id) > 512:
+        raise ValueError("学习事项须为有效的非空标识")
+    need = next((row for row in public_learning_needs(owner) if row["need_id"] == need_id), None)
+    if need is None:
+        raise KeyError("找不到已放出反馈的学习事项")
+    if action not in {"defer", "reopen"}:
+        raise ValueError("学习事项只允许暂缓或重新打开，不能手工改成已掌握")
+    if not isinstance(reason, str) or not reason.strip() or len(reason) > 1000:
+        raise ValueError("请填写不超过1000字的暂缓或重新打开理由")
+    if need["status"] == "resolved":
+        raise ValueError("该事项已有具体后续证据；如有新困难，请保留新的学习记录")
+    # Re-deriving this decision from private summaries would reveal whether an
+    # unfinished delayed-feedback answer already resolves the visible need.
+    payload = {"need_id": need_id, "reason": reason.strip(), "source_ref": need["source_ref"],
+               "resource_version": need.get("resource_version")}
+    get_store().add_event(owner, {"event_type": "learning_need_deferred" if action == "defer" else "learning_need_reopened",
+                                 "occurred_at": _now(), "resource_id": need_id, "payload": payload},
+                          session_id=need["source_ref"].get("session_id"))
+    return next(row for row in get_store().need_states(owner) if row["need_id"] == need_id)
+
+
 def stage_of(volume: str) -> str:
     if volume[0] in "一二三四五六":
         return "小学"
@@ -935,13 +990,9 @@ class Handler(BaseHTTPRequestHandler):
             if stage not in (None, "primary", "junior", "senior"):
                 return self._error(400, "学段不正确")
             owner = self._owner()
-            scopes = get_store().planning_records(owner)
-            for scope in scopes:
-                if not scope.get("completed_at"):
-                    saved = get_store().load(scope["id"], owner)
-                    scope["resume_blocked"] = bool(_version_problem(saved))
-            return self._json(200, planner.plan(get_catalog(), scopes, get_store().works(owner, limit=None),
-                need_states=get_store().need_states(owner), exposures=get_store().exposures(owner), stage=stage))
+            scopes, works, states = public_learning_inputs(owner, check_resume=True)
+            return self._json(200, planner.plan(get_catalog(), scopes, works,
+                need_states=states, exposures=get_store().exposures(owner), stage=stage))
         if path in ("/api/work", "/api/works", "/api/work/revisions"):
             owner = self._owner()
             try:
@@ -973,12 +1024,15 @@ class Handler(BaseHTTPRequestHandler):
                 for work in exported_works:
                     if work["revisions"]:
                         self._work_exposure(portfolio.from_work(work["revisions"][0]))
+                visible_need_ids = {need["need_id"] for need in public_learning_needs(owner, source_records=records)}
+                public_events = learning_needs.public_learning_events(get_store().events(owner),
+                    {record["id"]: record for record in records}, visible_need_ids)
                 return self._json(200, {"schema": 3, "exported_at": _now(),
                     "export_kind": "readable_learning_record_not_database_backup",
                     "evidence_notice": "匿名浏览器记录；请求材料和服务端放出反馈不证明实际阅读，时间间隔不证明独立作答。",
                     "sessions": exported_sessions,
                     "works": exported_works,
-                    "events": get_store().events(owner)})
+                    "events": public_events})
         if path == "/api/topics":
             excluded, _, _ = exposure_exclusions(self._owner())
             return self._json(200, build_topics(excluded))
@@ -1041,7 +1095,7 @@ class Handler(BaseHTTPRequestHandler):
                 if path == "/api/profile/restore":
                     return self._profile_response(get_profile().restore(payload.get("envelope"), payload.get("recovery_code")))
                 if path == "/api/learning-needs/state":
-                    return self._json(200, get_store().set_need_state(self._owner(), payload.get("need_id"),
+                    return self._json(200, set_public_need_state(self._owner(), payload.get("need_id"),
                         payload.get("action"), payload.get("reason")))
                 if path == "/api/manipulative":
                     uid = payload.get("unit_id")
@@ -1072,9 +1126,7 @@ class Handler(BaseHTTPRequestHandler):
                     need_ids = payload.get("need_ids", [])
                     if not isinstance(need_ids, list) or not all(isinstance(n, str) for n in need_ids) or len(need_ids) != len(set(need_ids)):
                         return self._error(400, "学习事项须为无重复的标识列表")
-                    from cnkg.learning_needs import derive_needs
-                    known = {n["need_id"]: n for n in derive_needs(get_catalog(), get_store().planning_records(owner),
-                        get_store().works(owner, limit=None), get_store().need_states(owner))}
+                    known = {n["need_id"]: n for n in public_learning_needs(owner)}
                     if any(n not in known for n in need_ids):
                         return self._error(404, "学习事项不存在或不属于当前档案")
                     record, events = instruction.create(unit, payload.get("support_id"), owner, get_catalog(),

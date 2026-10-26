@@ -1,0 +1,198 @@
+{
+  "schema": 1,
+  "review_kind": "ai_deferred_feedback_boundary_review",
+  "reviewer": {
+    "type": "ai",
+    "agent": "/root/v4_profile_recovery",
+    "independent_from_fix_author": false,
+    "note": "修复作者进行定向验证；另由 /root/v4_teaching_content 独立阅读业务和测试差异，其交叉审查记录单独保存。不是教师审核或真实学生效果验证。"
+  },
+  "reviewed_at": "2026-10-26T15:10:48.469472+00:00",
+  "status": "targeted_http_regressions_passed_pending_final_fixed_version_acceptance",
+  "base_commit": "0c3af48fe4fbb4e1feae160c05b2ed384037460b",
+  "scope": {
+    "synthetic_records_only": true,
+    "real_learner_records_accessed": false,
+    "feedback_modes": [
+      "transfer",
+      "delayed",
+      "practice",
+      "support"
+    ],
+    "public_routes": [
+      "GET /api/plan",
+      "POST /api/learning-needs/state",
+      "POST /api/support/start",
+      "GET /api/export"
+    ],
+    "recovery_routes_checked": [
+      "POST /api/profile/backup",
+      "POST /api/profile/restore",
+      "GET /api/session/:id"
+    ],
+    "not_changed": [
+      "original record_json",
+      "internal compact summary grades",
+      "private derivation of actual needs",
+      "encrypted full backup contents",
+      "grading answers or rule versions"
+    ]
+  },
+  "findings": [
+    {
+      "id": "DEFERRED-01",
+      "status": "fixed",
+      "severity": "high",
+      "finding": "未完成延迟反馈会话的compact summary包含真实status，但公开plan新增learning_needs和skill_evidence直接消费它，提前透露wrong/correct；新correct还会提前关闭旧need。",
+      "fix": "公开入口读取未完成会话的原feedback_exposed，投影时仅保留待发布答案的中性题目/题族/表征信息；needs、skill_evidence、resolution跳过pending观测，task_options继续记录其已见曝光。",
+      "paths": [
+        "cnkg/learning_needs.py",
+        "web/server.py",
+        "tests/test_portfolio_web.py",
+        "tests/test_quality_v4_web.py"
+      ]
+    },
+    {
+      "id": "DEFERRED-02",
+      "status": "fixed",
+      "severity": "high",
+      "finding": "只隐藏plan输出不足以阻断稳定need_id的存在性探测；state/support入口仍可使用私有派生结果。state内部二次派生还会因隐藏correct而拒绝原来可见事项。",
+      "fix": "plan、state、support统一使用可见历史投影；隐藏或未知ID均404且不写事件。公开暂缓/重开只按可见need验证并写同种审计事件，不用隐藏correct改变接口返回。",
+      "paths": [
+        "web/server.py",
+        "tests/test_portfolio_web.py"
+      ]
+    },
+    {
+      "id": "DEFERRED-03",
+      "status": "fixed",
+      "severity": "moderate",
+      "finding": "普通可读导出直接返回所有events，会让旧版本写入的隐藏need状态或带评分的answer_submitted载荷绕过会话答案过滤。",
+      "fix": "普通事件导出过滤尚不可公开的need状态；未放出反馈的answer_submitted只保留白名单提交数据，原始事件及加密备份保留全部内容。",
+      "paths": [
+        "cnkg/learning_needs.py",
+        "web/server.py",
+        "tests/test_portfolio_web.py"
+      ]
+    },
+    {
+      "id": "WORK-CLASSIFICATION",
+      "status": "fixed_in_coordination_with_planner_agent",
+      "severity": "moderate",
+      "finding": "作品只有not_checked时仍被描述为明确报告partial/revisit，且草稿source_completed原为true。",
+      "fix": "保留所有待办和原need_identity；以revision_basis区分学习者报告困难、尚未核对与自报达到；source_completed反映status是否submitted。排序与deferred草稿回退由 /root/v4_learning_decisions 负责。",
+      "paths": [
+        "cnkg/learning_needs.py"
+      ]
+    }
+  ],
+  "executed_verification": {
+    "method": "真实HTTP请求，临时SQLite和本地回环服务；使用合成账户与作者提供答案。未运行全套或浏览器。",
+    "command": [
+      "python",
+      "-u",
+      "-m",
+      "unittest",
+      "test_portfolio_web.PortfolioWebTests.test_deferred_work_plan_and_export_do_not_reveal_answer_or_correctness",
+      "test_portfolio_web.PortfolioWebTests.test_hidden_correct_answer_does_not_resolve_or_block_public_state_of_old_need",
+      "test_portfolio_web.PortfolioWebTests.test_delayed_session_keeps_wrong_feedback_private_until_completion",
+      "test_portfolio_web.PortfolioWebTests.test_immediate_practice_feedback_stays_visible_before_session_finishes",
+      "test_quality_v4_web",
+      "-v"
+    ],
+    "environment": {
+      "PYTHONPATH": "tests"
+    },
+    "working_directory": "repository root",
+    "python_at_execution": "/workspace/scratch/cdd6c485d2b6/cnkg-venv/bin/python",
+    "exit_code": 0,
+    "tests_run": 8,
+    "elapsed_seconds": 21.747,
+    "result": "OK",
+    "execution_log_path": "/tmp/cnkg-v4-final-deferred-tests.log",
+    "execution_log_sha256": "39762b51624291b5b688129215de66eb2e74ceb86fd4014fae65fc9c7b7313d8",
+    "assertions": [
+      "原deferred公开边界断言保留；未完成transfer的新wrong不出现在needs、counts、skill_evidence或修订推荐中，但继续原会话仍可用。",
+      "已保存的内部summary及原session仍含真实wrong；公开读取和导出不修改原record。",
+      "猜测真实隐藏need_id和不存在ID，state与support都返回404且不写状态事件。",
+      "未发布的题目仍被task_options标记为已见，表征不会被错误标为新表征。",
+      "旧版本私有need-state事件与answer_submitted评分字段在普通导出中隐藏，原数据库事件保留。",
+      "transfer完成后同一need_id、真实wrong和原暂缓状态重新公开，原始评分未重写。",
+      "新会话hidden correct在内部可resolve旧need，但公开仍为open且无resolution；暂缓/重开和支持入口仍正常；完成后才发布原resolution。",
+      "未完成delayed新wrong保持隐藏，完成后可见；practice实际已放出反馈的wrong在未完成时仍可见。",
+      "support即时反馈、所有权隔离、恢复撤销旧cookie、目标筛选和表征版本门禁继续通过。",
+      "跨安装恢复保持整个未完成transfer原记录相等，隐藏wrong仍在内部；公开plan/export仍不透露评分，继续完成后正常发布。",
+      "原完整备份测试中的support快照、暂缓状态、fraction操作独立表征版本/配置快照、重复导入冲突断言继续保留并通过。"
+    ],
+    "static_checks": [
+      "Python AST parse passed for all four changed files",
+      "git diff --check passed"
+    ]
+  },
+  "visibility_policy": {
+    "unfinished": "逐题依据原session.feedback_exposed；不根据compact summary中的mode猜测结果是否已放出。",
+    "completed": "遵循既有完成会话发布结果的契约；旧完成compact summary可作已发布依据。",
+    "missing_source_or_release_marker": "保持pending；缺原记录同时阻止继续该记录，不回退私有summary的评分。",
+    "neutral_exposure": "待发布尝试仍参与题目、题族和表征已见判断，不能变成新的独立证据。",
+    "private_history": "内部实际困难与后来正确的派生事实完整保留，公开投影不写库、不删历史。"
+  },
+  "independent_ai_cross_review": {
+    "agent": "/root/v4_teaching_content",
+    "status": "source_diff_and_actual_test_log_inspected_no_new_substantive_issue_reported",
+    "separate_record": "docs/reviews/v4-final-integration-ai-review.json"
+  },
+  "pending_validation": [
+    "根任务在新的固定干净提交上重新执行完整发布验收和浏览器流程。"
+  ],
+  "deferred_by_user": [
+    "independent_teacher_review",
+    "real_student_effect_validation"
+  ],
+  "files": [
+    {
+      "path": "cnkg/learning_needs.py",
+      "sha256": "b3e7c08ddf29c3cc968167142e2908af6269d5f6d6e228964c18fc7941709a2c",
+      "semantic_checks": [
+        "逐行核对 feedback_is_public：完成记录遵循既有发布契约；未完成记录逐题读取原 feedback_exposed；缺原记录或发布标记时保持未发布，不从 kind、mode 或 compact status 推断公开评分。",
+        "逐行核对 public_learning_records 对记录深复制；待发布答案只保留题目、题族、表征、时间、帮助和内容版本等中性白名单字段，并以 _feedback_pending 标记，原始答案与内部摘要均不被改写。",
+        "核对 _observations 默认排除 pending，derive_needs 的新困难与旧困难 resolution、skill_evidence 及独立 support 汇总均遵守边界；task_options 显式保留 pending 的中性曝光信息，未用隐藏的正确性判断独立证据。",
+        "核对 public_learning_events：普通导出排除不可公开 need 的暂缓/重开事件；未发布 answer_submitted 载荷使用提交字段白名单；原事件及加密备份不变。",
+        "核对作品 revision_basis 区分明确 partial/revisit、未核对和自报达到，source_completed 与真实 submitted 状态一致；新增分类字段不进入 need_identity，原暂缓状态和未解决事项保留。",
+        "真实 HTTP 回归验证未完成 wrong 不公开、hidden correct 不提前关闭旧 need、即时反馈正常、完成后同一 need_id 与原评分重新可见，并验证公开读取不修改原记录。"
+      ]
+    },
+    {
+      "path": "web/server.py",
+      "sha256": "888daa9b25202295db772e5fb9214937d75f3e277d5a36cd140ca0d7b19217f5",
+      "semantic_checks": [
+        "逐行核对 public_learning_inputs 对未完成 compact 记录加载原 session；读取失败时保守隐藏评分并禁止无原快照继续；已完成 compact 仅按已有结果发布契约处理。",
+        "核对 /api/plan、/api/learning-needs/state、/api/support/start 共同使用公开历史派生；与隐藏任务相关的 session_task 作品也按实际反馈发布状态过滤。",
+        "核对 set_public_need_state 的 ID、action、reason、公开 resolved 状态与所有权校验；隐藏 ID 和未知 ID 均返回相同 404 且不写事件，不调用会受 private hidden-correct 影响的内部二次派生。",
+        "核对 /api/export 使用可见 need ID 和原 session 发布记录过滤事件，既有会话答案过滤保持；profile backup/restore 仍保存全部原始事实，没有使用公开投影生成备份。",
+        "真实 HTTP 负面断言验证隐藏 need 的 state/support 猜测入口无侧漏；旧可见 need 在新 correct 尚未公布时仍可暂缓、重开与获得帮助；完成后才发布 resolution。"
+      ]
+    },
+    {
+      "path": "tests/test_portfolio_web.py",
+      "sha256": "2a9f4c80567d35530a7bec8bae04ee1bcba7ffd88a76556ee785ddc5b53c72db",
+      "semantic_checks": [
+        "保留原失败测试的既有答案与正确性保密断言，增加 plan 的 needs、counts、skill_evidence、修订推荐和任务曝光检查，避免只修改预期值绕过回归。",
+        "通过真实 HTTP 生成未完成 transfer 错误尝试，比较原始记录和内部 summary 仍含 wrong；真实隐藏 need_id 与随机 ID 的 state/support 均为 404，且不存在新增状态事件。",
+        "构造旧版本带评分的 answer_submitted 与私有 need-state 事件，验证普通导出隐藏未发布诊断但保留原输入，数据库仍有原事件；完成后同一 need_id、wrong 和既有暂缓状态可见。",
+        "新增真实 HTTP old-wrong/new-hidden-correct 场景：私有派生可记录已解决，公开仍为原 open need，暂缓/重开及支持入口可用；完成新会话后才发布真实 resolution。",
+        "分别验证 delayed 在未完成时隐藏 wrong、完成后发布，以及 practice 已实际公布的 wrong 在会话完成前仍正常可见。",
+        "本文件四项定向测试已在所记录的八项真实 HTTP 执行中通过；使用临时 SQLite 和合成账户，没有读取真实学生记录。"
+      ]
+    },
+    {
+      "path": "tests/test_quality_v4_web.py",
+      "sha256": "ee56599b14bf0090f5f631d12a03ee685fc68cb491d85a78836ef181f8c76d8e",
+      "semantic_checks": [
+        "扩展既有跨安装完整备份测试，在备份前通过真实 HTTP 保存未完成 transfer 错误尝试；恢复后完整原 session 与备份前相等，内部 wrong 没有被公开投影丢弃。",
+        "恢复后检查公开 plan 的 needs 与 skill_evidence 不含未发布会话，普通导出保留 raw_answer 但不公开 status/评分摘要；继续原快照会话并完成后原 wrong 正常公开。",
+        "保留并执行原有 support 快照、学习事项暂缓状态、fraction 操作的独立 representation_version、配置 snapshot、解释与事件恢复断言，以及重复导入冲突断言。",
+        "本模块四项真实 HTTP 测试连同 portfolio 四项全部通过，覆盖 support 即时帮助、所有权隔离、恢复后的旧 cookie 撤销、目标筛选和表征版本门禁；本轮未声称已完成新固定版本的全套或浏览器验收。"
+      ]
+    }
+  ]
+}

@@ -34,7 +34,7 @@ python tools/build_project.py --write  # 重建、登记、编译、内容检查
 python tools/build_project.py --check  # 检查现有来源/产物，不重写作者源或内容库
 ```
 
-`--write` 适合在提交前检查作者改动；完整交付使用 `--release`。内容库及兼容内容清单生成后，最后生成全部发布文件的原始字节清单，再进入验收。已经安装 Playwright 与 Chromium 时，用 `python tools/build_project.py --release --with-browser` 同时验收六条浏览器学习流程。检查命令仍会生成检查报告，这些报告属于可重建的构建输出。
+`--write` 适合在提交前检查作者改动；完整交付使用 `--release`。内容库及兼容内容清单生成后，最后生成全部发布文件的原始字节清单，再进入验收。已经安装 Playwright 与 Chromium 时，用 `python tools/build_project.py --release --with-browser` 同时验收十二条浏览器学习与内容预览流程。检查命令仍会生成检查报告，这些报告属于可重建的构建输出。
 
 构建只处理发布内容。匿名学习记录位于 `var/learning.sqlite` 或 `CNKG_LEARNING_DB` 指定位置；它们既不是构建输入，也不是可删除重建的输出。内容库构建会拒绝覆盖含学习会话或事件表的数据库，并在新库构建失败时保留原内容库。
 
@@ -78,3 +78,11 @@ python tools/build_project.py --check  # 检查现有来源/产物，不重写�
 第一批已删除 `data/content/` 根目录中的 15 份重复历史补丁，保留 `data/content/archive/pre_manifest_2026-10-26/` 中的原归档。对应记录是 `data/migrations/quality-v2-cleanup.json`；本批继续保持这一状态。23 册当前作者文件与退役题源完整保留。
 
 编译、数学验算和工程测试的通过说明发布内容可重建、契约有效、已检查的规则成立。教师独立审核与真实学生教学效果验证仍按用户要求暂缓，状态不会因构建成功自动提升。
+
+## V4 语义审查与显式准入
+
+每次改变目标、条件、答案、量规、图示或题族，按 [语义审查流程](semantic-change-review.md) 生成真实差异和影响清单，填写绑定内容的审查记录，再实际预览受影响页面。`build_project.py` 不会自动写一份语义通过记录。范围变化先审查角色及目标分母，再显式执行 `quality_scope.py --write-manifest`；不能为绕过缺材料门禁而删目标。
+
+题库用途登记位于 `data/task_admissions.json`。首次迁移只固定历史暂定用途，禁止覆盖重跑。题目语义变化后，使用 `tools/task_admissions.py --record-id ... --purpose ... --evidence-level ... --reviewer ... --reason ...` 逐项核对并登记；需说明题义、答案、条件与观察边界。工具检查答案契约与必要数值复算，不凭解析长度晋级；AI作者登记仍保留教师待审核。
+
+课程服务加载启动时的一致内容快照；作者修改、注册及编译后须重启服务。正在进行的旧学习记录仍按自身冻结内容处理。

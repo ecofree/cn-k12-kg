@@ -27,7 +27,9 @@ def commands(mode, *, with_browser=False):
         return steps + [["tools/build_db.py", "--own-only", "--quiet"],
                         ["tools/release_manifest.py", "--write"],
                         ["tools/release_check.py", *(["--with-browser"] if with_browser else [])]]
-    steps += [["tools/validate.py"], ["tools/verify_questions.py"],
+    steps += [["tools/task_admissions.py", "--check"],
+              ["tools/quality_scope.py", "--check", "--require-complete", "--json", "build/quality-scope.json"],
+              ["tools/validate.py"], ["tools/verify_questions.py"],
               ["tools/check_learning_units.py"], ["tools/check_projects.py"],
               ["tools/teach_cards.py", "--check"]]
     if mode == "write":

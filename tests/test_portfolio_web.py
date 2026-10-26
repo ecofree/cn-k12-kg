@@ -16,6 +16,7 @@ import urllib.parse
 import urllib.request
 
 from cnkg.learning_store import LearningStore
+from cnkg import learning_needs
 from web import server
 
 
@@ -98,6 +99,18 @@ class PortfolioWebTests(unittest.TestCase):
     def answer(self, response, raw):
         return self.request("/api/answer", {"session_id": response["session"]["id"],
             "question_id": response["item"]["question"]["id"], "answer": raw})
+
+    def finish(self, response, unit_id="independent_events"):
+        tasks = {task["id"]: task for task in server.learning_units()[unit_id]["tasks"]}
+        while not response["done"]:
+            task = tasks[response["item"]["question"]["id"]]
+            code, response = self.answer(response, str(task.get("answer", "我按题目条件说明过程。")))
+            self.assertEqual(code, 200, response)
+        return response
+
+    def owner(self):
+        token = next(cookie.value for cookie in self.cookies if cookie.name == server._OWNER_COOKIE)
+        return server.get_profile().resolve_owner(token)
 
     def test_real_self_check_project_and_unit_descriptors_bind_server_snapshots(self):
         selectors = [
@@ -206,6 +219,37 @@ class PortfolioWebTests(unittest.TestCase):
         own_actions = [step for step in planned["next_steps"] if step.get("unit_id") == "independent_events"]
         self.assertEqual([step["action"] for step in own_actions], ["continue"])
         self.assertNotIn("答错", json.dumps(own_actions, ensure_ascii=False))
+        self.assertEqual(planned["need_counts"], {"open": 0, "deferred": 0, "resolved": 0})
+        self.assertEqual(planned["skill_evidence"], [])
+        owner = self.owner()
+        stored = server.get_store().load(sid, owner)
+        internal_records = server.get_store().planning_records(owner)
+        self.assertEqual(internal_records[0]["answers"][0]["status"], "wrong")
+        internal_need = next(need for need in learning_needs.derive_needs(server.get_catalog(), internal_records)
+                             if need["source_ref"] == {"session_id": sid, "question_id": qid})
+        need_id = internal_need["need_id"]
+        support = next(support for support in server.learning_units()["independent_events"]["instructional_support"]["supports"]
+                       if support["objective_id"] in authored["objective_ids"])
+        for guessed in (need_id, "need_" + "0" * 32):
+            self.assertEqual(self.request("/api/learning-needs/state", {
+                "need_id": guessed, "action": "defer", "reason": "现在暂缓"})[0], 404)
+            self.assertEqual(self.request("/api/support/start", {"unit_id": "independent_events",
+                "support_id": support["id"], "need_ids": [guessed]})[0], 404)
+        self.assertFalse(any(event["event_type"].startswith("learning_need_")
+                             for event in server.get_store().events(owner)))
+        projected, _, _ = server.public_learning_inputs(owner)
+        self.assertNotIn("status", projected[0]["answers"][0])
+        option = learning_needs.task_options(server.get_catalog(), internal_need["skill_ids"], projected,
+                                            allowed_task_ids={qid})[0]
+        self.assertTrue(option["repeated_question"], "Withheld grading must not make a seen question look new")
+        self.assertFalse(option["new_representation"])
+        # A legacy private state remains stored, but must not leak through the
+        # readable event export before this source releases its feedback.
+        server.get_store().set_need_state(owner, need_id, "defer", "旧版本保留的暂缓记录")
+        server.get_store().add_event(owner, {"event_type": "answer_submitted", "question_id": qid,
+            "occurred_at": stored["answers"][0]["answered_at"],
+            "payload": {"raw_answer": wrong, "status": "wrong", "answer": authored["answer"],
+                        "explanation": authored["explanation"]}}, sid)
         exported = self.request("/api/export")[1]
         attempt = next(row for row in exported["sessions"] if row["id"] == sid)["answers"][0]
         self.assertEqual(attempt["raw_answer"], wrong)
@@ -217,6 +261,102 @@ class PortfolioWebTests(unittest.TestCase):
             self.assertNotIn('"answer":', serialized)
             self.assertNotIn('"status": "wrong"', serialized)
         self.assertNotIn("summary", next(row for row in exported["sessions"] if row["id"] == sid))
+        self.assertFalse(any(event.get("payload", {}).get("need_id") == need_id for event in exported["events"]))
+        for event in exported["events"]:
+            if event["session_id"] == sid and event["question_id"] == qid and event["event_type"] == "answer_submitted":
+                self.assertEqual(event["payload"]["raw_answer"], wrong)
+                for private in ("status", "answer", "explanation"):
+                    self.assertNotIn(private, event["payload"])
+        self.assertEqual(server.get_store().load(sid, owner), stored)
+        self.assertTrue(any(event.get("payload", {}).get("need_id") == need_id
+                            for event in server.get_store().events(owner)))
+        self.finish(pending)
+        released = self.request("/api/plan")[1]
+        visible_need = next(need for need in released["learning_needs"] if need["need_id"] == need_id)
+        self.assertEqual(visible_need["observed_status"], "wrong")
+        self.assertEqual(visible_need["status"], "deferred")
+        released_export = self.request("/api/export")[1]
+        self.assertTrue(any(event.get("payload", {}).get("need_id") == need_id for event in released_export["events"]))
+
+    def test_hidden_correct_answer_does_not_resolve_or_block_public_state_of_old_need(self):
+        first = self.start_transfer()
+        old_id, qid = first["session"]["id"], first["item"]["question"]["id"]
+        authored = next(task for task in server.learning_units()["independent_events"]["tasks"] if task["id"] == qid)
+        code, first = self.answer(first, str(Fraction(authored["answer"]) + 1))
+        self.assertEqual(code, 200)
+        self.finish(first)
+        old_need = next(need for need in self.request("/api/plan")[1]["learning_needs"]
+                        if need["source_ref"] == {"session_id": old_id, "question_id": qid})
+        newer = self.start_transfer()
+        newer_id = newer["session"]["id"]
+        self.assertEqual(newer["item"]["question"]["id"], qid)
+        code, newer = self.answer(newer, str(authored["answer"]))
+        self.assertEqual(code, 200)
+        self.assertFalse(newer["done"])
+        owner = self.owner()
+        private = learning_needs.derive_needs(server.get_catalog(), server.get_store().planning_records(owner))
+        self.assertEqual(next(need for need in private if need["need_id"] == old_need["need_id"])["status"], "resolved")
+        planned = self.request("/api/plan")[1]
+        visible = next(need for need in planned["learning_needs"] if need["need_id"] == old_need["need_id"])
+        self.assertEqual(visible["status"], "open")
+        self.assertIsNone(visible["resolution"])
+        self.assertFalse(any(observation["source_ref"]["session_id"] == newer_id
+                             for skill in planned["skill_evidence"] for observation in skill["observations"]))
+        for action in ("defer", "reopen"):
+            code, result = self.request("/api/learning-needs/state", {
+                "need_id": old_need["need_id"], "action": action, "reason": "继续原先可见的事项"})
+            self.assertEqual(code, 200, result)
+        support = next(support for support in server.learning_units()["independent_events"]["instructional_support"]["supports"]
+                       if support["objective_id"] in authored["objective_ids"])
+        code, result = self.request("/api/support/start", {"unit_id": "independent_events",
+            "support_id": support["id"], "need_ids": [old_need["need_id"]]})
+        self.assertEqual(code, 200, result)
+        self.finish(newer)
+        visible = next(need for need in self.request("/api/plan")[1]["learning_needs"]
+                       if need["need_id"] == old_need["need_id"])
+        self.assertEqual(visible["status"], "resolved")
+        self.assertEqual(visible["resolution"]["source_ref"]["session_id"], newer_id)
+        self.assertEqual(server.get_store().load(old_id, owner)["answers"][0]["status"], "wrong")
+
+    def test_delayed_session_keeps_wrong_feedback_private_until_completion(self):
+        code, started = self.request("/api/session", {"unit_id": "independent_events", "mode": "delayed"})
+        self.assertEqual(code, 200, started)
+        sid, qid = started["session"]["id"], started["item"]["question"]["id"]
+        task = next(task for task in server.learning_units()["independent_events"]["tasks"] if task["id"] == qid)
+        wrong = (next(choice["id"] for choice in task["choices"] if choice["id"] != task["answer"])
+                 if task["type"] == "choice" else str(Fraction(task["answer"]) + 1))
+        code, pending = self.answer(started, wrong)
+        self.assertEqual(code, 200, pending)
+        self.assertFalse(pending["done"])
+        planned = self.request("/api/plan")[1]
+        self.assertEqual(planned["learning_needs"], [])
+        self.assertEqual(planned["skill_evidence"], [])
+        self.assertTrue(any(step.get("session_id") == sid and step["action"] == "continue"
+                            for step in planned["next_steps"]))
+        self.finish(pending)
+        needs = self.request("/api/plan")[1]["learning_needs"]
+        self.assertEqual(next(need for need in needs if need["source_ref"] == {
+            "session_id": sid, "question_id": qid})["observed_status"], "wrong")
+
+    def test_immediate_practice_feedback_stays_visible_before_session_finishes(self):
+        code, started = self.request("/api/session", {"unit_id": "independent_events", "mode": "practice"})
+        self.assertEqual(code, 200, started)
+        sid, qid = started["session"]["id"], started["item"]["question"]["id"]
+        task = next(task for task in server.learning_units()["independent_events"]["tasks"] if task["id"] == qid)
+        wrong = (next(choice["id"] for choice in task["choices"] if choice["id"] != task["answer"])
+                 if task["type"] == "choice" else str(Fraction(task["answer"]) + 1))
+        code, pending = self.answer(started, wrong)
+        self.assertEqual(code, 200, pending)
+        self.assertFalse(pending["done"])
+        self.assertEqual(pending["feedback"]["status"], "wrong")
+        planned = self.request("/api/plan")[1]
+        need = next(need for need in planned["learning_needs"] if need["source_ref"] == {
+            "session_id": sid, "question_id": qid})
+        self.assertEqual(need["observed_status"], "wrong")
+        self.assertTrue(any(observation["source_ref"] == need["source_ref"] and observation["status"] == "wrong"
+                            for skill in planned["skill_evidence"] for observation in skill["observations"]))
+        self.assertEqual(self.request("/api/learning-needs/state", {"need_id": need["need_id"],
+            "action": "defer", "reason": "已收到即时反馈，先暂缓"})[0], 200)
 
     def test_self_assessment_never_rewrites_saved_grades(self):
         current = self.start_transfer()

@@ -5,6 +5,7 @@ import copy
 import unittest
 
 from cnkg.planner import plan
+from cnkg.learning_store import _work_summary
 
 
 NOW = "2026-10-26T00:00:00+00:00"
@@ -20,6 +21,17 @@ def record(mode="practice", status="correct", completed="2026-10-24T00:00:00+00:
     return {"id": "s1", "kind": "unit", "unit_id": "u1", "mode": mode,
             "content_sha256": "v1", "created_at": "2026-10-23T23:00:00+00:00", "completed_at": completed,
             "answers": [{"question_id": "p1", "status": status}]}
+
+
+def saved_work(identity, *, status="draft", assessment=None, criteria=True, response="已保存的过程",
+               updated=NOW, created=NOW):
+    """Use the store's actual summary, including its implicit not_checked rows."""
+    return _work_summary({"resource_id": identity, "resource_version": "original-work-version", "revision": 1,
+        "created_at": created, "updated_at": updated, "evidence_type": "learner_reported_work",
+        "payload": {"kind": "project", "source_ref": "project:fixture", "status": status,
+            "resource_snapshot": {"title": "保存的作品", "stage": "primary", "criteria": ["说明依据"] if criteria else []},
+            "draft": {"response": response}, "self_assessment": [] if assessment is None else
+                [{"criterion_index": 0, "status": assessment}]}})
 
 
 class PlannerTests(unittest.TestCase):
@@ -171,6 +183,86 @@ class PlannerTests(unittest.TestCase):
         steps = plan(catalog(), [], works, now=NOW)["next_steps"]
         self.assertEqual([step["work_resource_id"] for step in steps if step.get("work_resource_id")], ["draft-project"])
         self.assertTrue(any(step["action"] == "practice" for step in steps))
+
+    def test_unfinished_work_survives_many_unassessed_submissions_with_normal_limit(self):
+        submitted = [saved_work(f"aa-submitted-{index:04}", status="submitted") for index in range(1000)]
+        for criteria in (True, False):
+            with self.subTest(criteria=criteria):
+                draft = saved_work("zz-older-draft", criteria=criteria,
+                                   created="2026-10-20T00:00:00+00:00", updated="2026-10-20T00:00:00+00:00")
+                works = submitted + [draft]
+                before = copy.deepcopy(works)
+                result = plan({"units": {}}, [], works, now=NOW)
+                steps = result["next_steps"]
+                self.assertEqual(len(steps), 12)
+                self.assertEqual(steps[0]["work_resource_id"], "zz-older-draft")
+                self.assertEqual(steps[0]["continuation_basis"], "unfinished_draft")
+                self.assertTrue(all(step["continuation_basis"] == "unassessed_criteria" for step in steps[1:]))
+                self.assertEqual(result["total_candidates"], 1001)
+                self.assertEqual(result["need_counts"]["open"], 1000 + int(criteria))
+                self.assertTrue(all(need["revision_basis"] == "unassessed_criteria"
+                                    for need in result["learning_needs"]))
+                self.assertEqual(works, before)
+
+    def test_reported_partial_or_revisit_stays_actionable_ahead_of_unassessed_submissions(self):
+        unassessed = [saved_work(f"aa-unassessed-{index:03}", status="submitted") for index in range(20)]
+        for assessment in ("partial", "revisit"):
+            with self.subTest(assessment=assessment):
+                reported = saved_work("zz-reported-difficulty", status="submitted", assessment=assessment)
+                result = plan({"units": {}}, [], unassessed + [reported], now=NOW)
+                first = result["next_steps"][0]
+                self.assertEqual(first["work_resource_id"], "zz-reported-difficulty")
+                self.assertEqual(first["continuation_basis"], "learner_reported_difficulty")
+                self.assertEqual(first["criterion_outcomes"][0]["status"], assessment)
+                self.assertTrue(first["need_ids"])
+                need = next(need for need in result["learning_needs"] if need["need_id"] == first["need_ids"][0])
+                self.assertEqual(need["revision_basis"], "learner_reported_difficulty")
+                self.assertEqual(result["need_counts"]["open"], 21)
+
+    def test_work_order_uses_zoned_saved_times_not_resource_ids_or_input_order(self):
+        older = saved_work("zz-older", status="submitted", assessment="partial",
+                           updated="2026-10-20T20:00:00+08:00")
+        newer = saved_work("aa-newer", status="submitted", assessment="revisit",
+                           updated="2026-10-20T06:00:00-07:00")
+        unknown = saved_work("00-unknown", status="submitted", assessment="partial",
+                             updated="2026-10-19T00:00:00", created=None)
+        for works in ([unknown, newer, older], [older, unknown, newer]):
+            result = plan({"units": {}}, [], works, now=NOW, limit=2)
+            self.assertEqual([step["work_resource_id"] for step in result["next_steps"]], ["zz-older", "aa-newer"])
+            self.assertEqual(result["need_counts"]["open"], 3)
+
+    def test_empty_draft_shell_does_not_outrank_explicit_reported_difficulty(self):
+        empty = saved_work("00-empty", response="", updated="2026-10-20T00:00:00+00:00")
+        reported = saved_work("zz-reported", status="submitted", assessment="partial")
+        result = plan({"units": {}}, [], [empty, reported], now=NOW)
+        self.assertEqual([step["work_resource_id"] for step in result["next_steps"]], ["zz-reported", "00-empty"])
+        self.assertEqual(result["next_steps"][1]["continuation_basis"], "unassessed_criteria")
+
+    def test_active_session_keeps_precedence_over_saved_draft(self):
+        active = record(completed=None)
+        draft = saved_work("draft", updated="2026-10-20T00:00:00+00:00")
+        result = plan(catalog(), [active], [draft], now=NOW)
+        self.assertEqual(result["next_steps"][0]["session_id"], active["id"])
+        self.assertEqual(result["next_steps"][1]["work_resource_id"], "draft")
+
+    def test_deferred_work_stays_in_ledger_without_draft_fallback_until_reopened(self):
+        for assessment in (None, "partial"):
+            with self.subTest(assessment=assessment):
+                works = [saved_work("saved-draft", assessment=assessment)]
+                before = copy.deepcopy(works)
+                initial = plan({"units": {}}, [], works, now=NOW)
+                need_id = initial["learning_needs"][0]["need_id"]
+                state = {"need_id": need_id, "status": "deferred", "updated_at": NOW, "reason": "稍后继续"}
+                deferred = plan({"units": {}}, [], works, now=NOW, need_states=[state])
+                self.assertEqual(deferred["next_steps"], [])
+                self.assertEqual(deferred["need_counts"], {"open": 0, "deferred": 1, "resolved": 0})
+                self.assertEqual(deferred["learning_needs"][0]["need_id"], need_id)
+                self.assertEqual(deferred["learning_needs"][0]["criterion_outcomes"], works[0]["criterion_outcomes"])
+                reopened = plan({"units": {}}, [], works, now=NOW, need_states=[{**state, "status": "open"}])
+                self.assertEqual(reopened["next_steps"][0]["work_resource_id"], "saved-draft")
+                self.assertEqual(reopened["next_steps"][0]["need_ids"], [need_id])
+                self.assertEqual(reopened["learning_needs"][0]["status"], "open")
+                self.assertEqual(works, before)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "reviewer_kind": "ai",
+  "reviewer": "/root",
+  "reviewed_at": "2026-10-26T14:15:56.400149+00:00",
+  "baseline_commit": "9f0471009f13590beee850ca5dd4999ff64d14fd",
+  "scope": "V4界面整合、操作数学边界、估算修订及浏览器验收逻辑的定向审查；作者自查，非独立教师审核。",
+  "files": [
+    {
+      "path": "data/teach/m3a.4.7.json",
+      "sha256": "63d3da2e648ec0a7f057ae73516414cb24af0ee49fe3d37d4f885b5c0f1fb811",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "review_relation": "implementation_and_targeted_self_review",
+      "findings": [
+        "全文重读乘法估算卡，核算48×4=192、49×6=294、198×21=4158；50×4和50×6是正因数向上取整得到的上界，预算内可判足够，超过预算不能直接判不足。",
+        "198×21的200×20=4000一大一小，不能仅凭方向判断界；4100元预算的反例保留。自检把近似值与足以支持预算结论的界分开，明确正数量与任务容差前提。",
+        "两个目标各有观察边界、辨别提示与修订要求；原题ID未变，不把讲解修改当作旧答案重评分。"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "web/static/app.js",
+      "sha256": "79e9657c5bf4bd2749498b5d7416701a649494315db2504a020f38ec58d2b841",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "review_relation": "implementation_and_targeted_self_review",
+      "findings": [
+        "定向读全部V4新增/修改入口：profile/scope/support/needs、followPlan、教学卡条件/表征/目标支持、单元操作与支持索引、启动路由。scope三种角色分别展示，稳定目标可回到真实学习材料；分页不会改变全量分母。",
+        "事项页调用所有学段的plan数据，暂缓和重开要求原因；保留原作答、版本、题族未知声明及自评缺项；没有直接标记掌握或任意删除旧事项按钮。",
+        "目标帮助和参考展开均记录reference_opened；支持活动单独呈现与恢复，针对目标再练习传focus_skill_ids；后续入口不通过相似标题推断身份。",
+        "正在提交支持/恢复/操作时state.pending阻止切页；恢复身份后替换整页并清会话指针，防止旧身份页面继续工作。卡片既有自检沿用自动保存/修订组件。"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "web/static/index.html",
+      "sha256": "9d00c1f24ce8a5ff38746bf988fb3ab54625ffc8e5744390fe1cdc7b7dbb40b3",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "review_relation": "implementation_and_targeted_self_review",
+      "findings": [
+        "读全部差异，恢复、所有事项、课程范围均有实际section、可见标题和对应控件标签；三个新模块在app之前加载。历史说明现指向恢复码和完整备份，不再误称清理浏览器即永久丢失。",
+        "页脚仍明确材料初稿、教师独审与真实效果未完成，不把本轮功能完成变成已验证效果的声明。"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "web/static/style.css",
+      "sha256": "430c0c6a83c107412c6a36e894978f3fd3f9fac5d5b2f145ec25eaa2c29c6c42",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "review_relation": "implementation_and_targeted_self_review",
+      "findings": [
+        "读新增恢复/支持/操作样式：表单控件有标签、可折行，操作SVG自适应宽度，390像素屏幕控件换行。没有移除既有焦点、跳转主内容或reduced-motion规则。",
+        "开发浏览器scope_and_manipulatives实际检查四种操作在390px无横向溢出；最终版本还需全套键盘与手机旅程，不声称完整无障碍认证。"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "web/static/support.js",
+      "sha256": "9131d7eb936da0edb4bd88a3bc3b749475a730c3602100deb49e098a258bae92",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "review_relation": "implementation_and_targeted_self_review",
+      "findings": [
+        "全文核对辨别—指导—后续确认三步；未提交辨别前不显示提示，之后可按需展开三级提示和选项分支，前台不自行判断正确答案或关闭旧事项。",
+        "提交中禁用操作并阻止切页，服务器响应后显示具体反馈、保留历史过程；完成消息区分有帮助的确认与仍需处理。输入草稿仅保留当前页面内，已提交答案和提示由服务器恢复，没有宣传未提交文字已经保存。",
+        "开发浏览器learning_needs_support实测：错误辨别、提示、指导正确后旧need仍open，后续确认后仅关联need resolved且independent_evidence=false；原wrong及另一过程needs_review保持。"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "web/static/profile.js",
+      "sha256": "7c799101cb3f8d04b4e131822634c8f825b8876b0e715527acf6e77ce31cbfe6",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "review_relation": "implementation_and_targeted_self_review",
+      "findings": [
+        "全文核对启用、换码、下载加密备份、同服务找回和异库导入。UI不把可读导出称为可恢复备份，旧备份需旧码的规则与后端一致。",
+        "修正多次换码后多个“当前恢复码”卡片并存：新码出现前移除旧卡，备份输入同步新码；所有码仅在本次创建/换码响应中显示。",
+        "开发浏览器实测两次换码仍仅一个当前码，清cookie/localStorage/sessionStorage后凭码找回，随后新浏览器和另一空SQLite通过备份恢复两次作品修订；没有读取真实学习者资料。"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "web/static/manipulatives.js",
+      "sha256": "acca9eff45a85eb8c4565efa946907576f08ce7a7085183bb473186b351096cc",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "review_relation": "implementation_and_targeted_self_review",
+      "findings": [
+        "全文核对四种绘图和边界：十格允许10+10并输出2个十0个一；分数上下条保持同整体和同时细分，重设原分子分母不宣称数值不变；统计图截断纵轴仍显示实际数和平均数；直线用实际坐标单位、k=0常函数及窗口外点说明。",
+        "加载已存操作前禁用控件、解释和保存；读失败保持禁用并给重试。保存使用state深复制和两个版本，等待中禁用控件且阻止切页，避免编辑值与已保存值混淆。",
+        "操作保存明确需点击，不自动计分；旧表征版本事件保留，不能把旧state无条件应用于新绘图。开发浏览器实际延迟GET/POST验证锁定、键盘修改四种表征、保存解释、刷新恢复并核对完整state。"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tests/browser/learning-flow.cjs",
+      "sha256": "b7bdfdd276f5e2c34ca32e18cf529dfe5695165bb22b3247831b8add20cedfc4",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "review_relation": "implementation_and_targeted_self_review",
+      "findings": [
+        "定向审查四条V4旅程及等待辅助函数。恢复会主动换页，测试不依赖已被Chromium清除的POST响应体，而在新身份下GET实际作品与历次修订。",
+        "等待响应和点击通过Promise.all立即挂接错误处理；支持测试等待真实新提示标题；人为延迟GET的路由必须完成continue后再unroute，避免测试自身重复处理请求。",
+        "变更预览逐页打开真实地址、展开参考并核对标题/文字、KaTeX、图示加载、命名控件和宽度，保存实际path及content_fingerprint；这些检查不替代逐文件语义判断。"
+      ],
+      "decision": "accept_with_limits"
+    }
+  ],
+  "executed_development_evidence": [
+    {
+      "journey": "profile_backup_recovery",
+      "result": "pass",
+      "path": "build/quality-v4-development/browser-rerun/profile_backup_recovery/result.json"
+    },
+    {
+      "journey": "learning_needs_support",
+      "result": "pass",
+      "path": "build/quality-v4-development/browser-debug/learning_needs_support/result.json"
+    },
+    {
+      "journey": "scope_and_manipulatives",
+      "result": "pass",
+      "path": "build/quality-v4-development/browser-debug/scope_and_manipulatives/result.json"
+    }
+  ],
+  "executed_targeted_tests": {
+    "command": "python -m unittest tests.test_instruction_v4 tests.test_quality_v4_content tests.test_runtime_version_v4 -v",
+    "tests": 21,
+    "result": "pass"
+  },
+  "preview_inspection": "已实际查看恢复旅程的最终中文讲解页截图，以及390px一次函数单元的操作保存页面；中文、公式、图、已恢复作品与导航可见，没有观察到重叠或横向溢出。开发截图不替代固定提交全量预览。",
+  "limits": [
+    "开发旅程的单项通过不是固定版本发布通过；当时源码清单未重建，汇总报告明确未通过，不能用于正式交付。",
+    "固定版本全套、全部受影响页和最终截图由release_check及package_release重新绑定。",
+    "文字自评、操作记录和得到帮助后的确认不等于独立掌握或真实教学效果。"
+  ],
+  "teacher_review": "deferred_by_user",
+  "real_student_effect_validation": "deferred_by_user"
+}

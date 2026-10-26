@@ -30,10 +30,16 @@ from tools.rebuild_data import (  # noqa: E402
 
 
 def dump(path: pathlib.Path, rows: list):
+    path = pathlib.Path(path)
+    if path.resolve().is_relative_to((ROOT / "data").resolve()):
+        raise ValueError("历史兼容工具不能写入正式data目录；仅允许隔离的测试fixture")
     write_json(path, rows)
 
 
 def main(argv=None):
+    if DATA.resolve() == (ROOT / "data").resolve():
+        from tools.retired_writer import reject
+        return reject(__file__)
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--file", required=True)
     parser.add_argument("--dry-run", action="store_true")
@@ -57,7 +63,7 @@ def main(argv=None):
         if args.dry_run:
             return 0
         for name in OUTPUTS:
-            write_json(DATA / name, rebuilt[name])
+            dump(DATA / name, rebuilt[name])
         print("已从全部登记来源写入 topics.json / dependencies.json / questions.json")
         return 0
     except (SourceError, OSError, ValueError, KeyError) as exc:

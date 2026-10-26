@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "reviewer_kind": "ai",
+  "reviewer": "/root",
+  "scope": "构建后内容兼容清单的来源、指纹、实际表行数及新增V4输入核对；不据此判断数学或教学有效性。",
+  "files": [
+    {
+      "path": "data/manifest.json",
+      "sha256": "beb2d0c7dd541808a852fa395618475740038cfead449ed7eb6c55518778ce88",
+      "review_status": "reviewed",
+      "findings": [
+        "实际运行build_db --own-only --quiet成功，数据库477主题、589依赖、3079可用题、489退役题、78课标条目；自有题总数仍3568，未把退役题重新作为可用题。",
+        "逐条读取files/sources/learning_assets对应文件，以原有CRLF/CR转LF口径重算SHA256，全部匹配。",
+        "逐一确认本轮9个运行模块、3个前端模块、runtime requirements及范围/准入登记进入清单；这一兼容清单与根目录原始字节发行清单用途分开。",
+        "最终回归修复后重新构建，实际重算全部719条LF指纹并独立查询SQLite五张表；公开反馈投影和activity-plan-v4排序的当前源码均已进入构建清单，零失配。"
+      ],
+      "decision": "accept_with_limits"
+    }
+  ],
+  "verification": {
+    "counts": {
+      "topics": 477,
+      "dependencies": 589,
+      "questions": 3079,
+      "retired_questions": 489,
+      "standards": 78
+    },
+    "checked_entries": 719,
+    "mismatches": [],
+    "missing_required_v4_inputs": []
+  },
+  "limits": [
+    "这里只验证来源一致性。原始字节、日志与截图须由固定提交release-manifest及package_release再次检查。",
+    "AI自查不代替独立教师审核或真实学生效果验证。"
+  ]
+}

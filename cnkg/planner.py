@@ -11,7 +11,7 @@ from datetime import datetime, timedelta, timezone
 from .review_timing import qualified_review
 from .learning_needs import derive_needs, skill_evidence, support_routes, task_options
 
-RULE_VERSION = "activity-plan-v3"
+RULE_VERSION = "activity-plan-v4"
 REVIEW_INTERVAL_DAYS = (1, 3, 7)
 _PHASES = {"practice", "transfer", "delayed"}
 
@@ -86,6 +86,22 @@ def _observed_completion(record):
             and record.get("mode") in _PHASES)
 
 
+def _work_continuation(work, need=None):
+    """Rank saved activity separately from reported difficulty and missing checks."""
+    need = need or {}
+    has_content = work.get("has_draft") or work.get("has_reflection") or work.get("self_assessment_reported")
+    if work.get("status") != "submitted" and has_content:
+        return (80, "unfinished_draft",
+                "这份作品已有未完成的保存内容，可以继续补充、对照量规自评或修改反思；历次修订都会保留。")
+    if (need.get("revision_basis") == "learner_reported_difficulty" or work.get("revision_needed")
+            or any(row.get("status") in {"partial", "revisit"}
+                   for row in need.get("criterion_outcomes", work.get("criterion_outcomes", [])))):
+        return (76, "learner_reported_difficulty",
+                "这份作品已自报部分达到或需要重做，可以按具体量规项目继续修订；这些自评不等于独立掌握的证据。")
+    return (35, "unassessed_criteria",
+            "这份作品仍有尚未核对的量规项目，可以逐项自查；未核对不表示答错或已发现学习困难。")
+
+
 def plan(catalog, records, works=(), *, now=None, limit=12, stage=None, need_states=(), exposures=None):
     """Return ranked, version-aware actions from observable activity.
 
@@ -100,6 +116,7 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None, need_sta
         raise ValueError("now 必须包含明确时区")
     records = list(records)
     works = list(works)
+    work_index = {work["resource_id"]: work for work in works if work.get("resource_id")}
     units = {unit["id"]: unit for unit in _units(catalog)}
     needs = derive_needs(catalog, records, works, need_states)
     evidence = skill_evidence(catalog, records, needs)
@@ -151,13 +168,14 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None, need_sta
                 "reason": "这次指导练习仍有待确认的项目，可以继续原活动并保留帮助与修订记录。",
                 "evidence_basis": "supported_activity", "rule_version": RULE_VERSION}))
         elif need["kind"] == "work_revision":
-            candidates.append((76, {"action": "continue", "kind": need.get("source_kind"),
+            priority, basis, reason = _work_continuation(work_index.get(need["work_resource_id"], {}), need)
+            candidates.append((priority, {"action": "continue", "kind": need.get("source_kind"),
                 "work_resource_id": need["work_resource_id"], "title": need["title"],
                 "resource_version": need.get("resource_version"), "need_ids": [need["need_id"]],
                 "criterion_outcomes": need.get("criterion_outcomes", []),
                 "unresolved_criterion_indices": need.get("unresolved_criterion_indices", []),
-                "reason": "这份作品仍有待核对或需要修改的量规项目，可按具体项目继续修订。",
-                "ready": True, "continuation": "edit_work", "evidence_basis": "learner_reported_revision",
+                "reason": reason, "continuation_basis": basis, "ready": True,
+                "continuation": "edit_work", "evidence_basis": "learner_reported_revision",
                 "rule_version": RULE_VERSION}))
     for session_id, pending in revisions.items():
         first = pending[0]
@@ -321,9 +339,11 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None, need_sta
             prerequisite_evidence="completed_activity_only_not_mastery")
 
     recommended_work_keys = {item.get("work_resource_id") for _, item in candidates}
+    deferred_work_keys = {need["work_resource_id"] for need in needs
+                          if need["kind"] == "work_revision" and need["status"] == "deferred"}
     for work in works:
         resource_id = work.get("resource_id")
-        if not resource_id or resource_id in recommended_work_keys:
+        if not resource_id or resource_id in recommended_work_keys or resource_id in deferred_work_keys:
             continue
         if work.get("kind") == "session_task" or work.get("status") == "submitted":
             continue
@@ -331,14 +351,27 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None, need_sta
             continue
         if not (work.get("has_draft") or work.get("has_reflection") or work.get("self_assessment_reported")):
             continue
-        candidates.append((40, {"action": "continue", "kind": work.get("kind"), "work_resource_id": resource_id,
+        priority, basis, reason = _work_continuation(work)
+        candidates.append((priority, {"action": "continue", "kind": work.get("kind"), "work_resource_id": resource_id,
             "source_ref": work.get("source_ref"), "title": work.get("title", work.get("source_ref", "已保存作品")),
             "resource_version": work.get("resource_version"), "revision": work.get("revision", work.get("_revision")),
-            "reason": "这份作品已保存，可以继续补充、对照量规自评或修改反思；历次修订都会保留。",
+            "reason": reason, "continuation_basis": basis,
             "ready": True, "continuation": "edit_work", "evidence_basis": "learner_reported_revision",
             "rule_version": RULE_VERSION}))
-    candidates.sort(key=lambda pair: (-pair[0], pair[1].get("due_at") or "", pair[1].get("unit_id") or "",
-                                      pair[1].get("work_resource_id") or "", pair[1].get("question_id") or ""))
+
+    def candidate_order(pair):
+        item = pair[1]
+        resource_id = item.get("work_resource_id")
+        work = work_index.get(resource_id, {})
+        # Within one work priority, resume the oldest known saved activity.
+        # Unzoned/unknown times cannot establish age and sort after known ones;
+        # IDs only make otherwise equal ordering deterministic.
+        saved_at = (_time(work.get("updated_at")) or _time(work.get("created_at"))
+                    or datetime.max.replace(tzinfo=timezone.utc))
+        return (-pair[0], item.get("due_at") or "", item.get("unit_id") or "",
+                bool(resource_id), saved_at, resource_id or "", item.get("question_id") or "")
+
+    candidates.sort(key=candidate_order)
     return {"schema": 1, "generated_at": _iso(current), "rule_version": RULE_VERSION,
             "learning_needs": needs, "skill_evidence": evidence,
             "need_counts": {status: sum(need["status"] == status for need in needs)

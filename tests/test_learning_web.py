@@ -497,7 +497,14 @@ class LearningWebTest(unittest.TestCase):
             server.get_store().save_work('other-owner', 'foreign-draft', value, 0, 'foreign')
         plan = self.request('/api/plan')[1]
         resources = [row.get('work_resource_id') for row in plan['next_steps']]
+        self.assertEqual(len(resources), 12)
         self.assertIn('old-unfinished', resources)
+        self.assertEqual(resources[0], 'old-unfinished')
+        self.assertEqual(plan['next_steps'][0]['continuation_basis'], 'unfinished_draft')
+        self.assertTrue(all(step['continuation_basis'] == 'unassessed_criteria' for step in plan['next_steps'][1:]))
+        self.assertEqual(plan['need_counts']['open'], 1001)
+        self.assertEqual({need['work_resource_id'] for need in plan['learning_needs']},
+                         {'old-unfinished'} | {f'new-submitted-{index:04}' for index in range(1000)})
         self.assertNotIn('foreign-draft', resources)
 
 if __name__ == '__main__':

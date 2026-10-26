@@ -28,17 +28,35 @@ from tools.verification_context import capture, changes, raw_digest
 SCRIPT = ROOT / "tests/browser/learning-flow.cjs"
 JOURNEYS = ("self_check_autosave", "rubric_revision", "unit_phases",
             "project_history", "mobile_stage", "pool_exhaustion",
-            "navigation_recovery", "keyboard_accessibility")
+            "navigation_recovery", "keyboard_accessibility", "learning_needs_support",
+            "profile_backup_recovery", "scope_and_manipulatives", "changed_content_preview")
 ARTIFACT_NAMES = ("result.json", "browser.log", "http.log", "final.png",
                   "desktop-unit.png", "desktop-home.png", "desktop-project.png", "primary-entry.png")
 INPUTS = ("web/server.py", "web/static/index.html", "web/static/app.js", "web/static/work.js",
+          "web/static/profile.js", "web/static/support.js", "web/static/manipulatives.js",
           "web/static/style.css", "cnkg/portfolio.py", "cnkg/planner.py", "cnkg/learning_store.py",
-          "cnkg/session_content.py", "data/catalog.json", "package-lock.json",
+          "cnkg/session_content.py", "cnkg/instruction.py", "cnkg/profile_recovery.py", "cnkg/learning_needs.py",
+          "cnkg/content_repository.py", "cnkg/quality_scope.py", "cnkg/manipulatives.py", "cnkg/runtime_version.py",
+          "data/curriculum_scope.json", "data/catalog.json", "package-lock.json",
           "tools/browser_check.py", "tests/browser/learning-flow.cjs")
 
 
 def fingerprints():
     return {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in INPUTS}
+
+
+def require_current_preview(root=ROOT):
+    """A hand-edited or stale preview checklist cannot shrink the current impact."""
+    from cnkg.change_review import review_changes
+    saved = json.loads((root / "build/content-review.json").read_text(encoding="utf-8"))
+    current = review_changes(root, saved["base_commit"])
+    expected = [row["path"] for row in current["preview_tasks"]]
+    actual = [row["path"] for row in saved.get("preview_tasks", [])]
+    if current.get("source_changed_during_review") or saved.get("content_fingerprint") != current["content_fingerprint"]:
+        raise ValueError("内容预览清单已过期：请在当前固定版本重新生成并审查变更清单")
+    if not expected or len(actual) != len(set(actual)) or set(actual) != set(expected):
+        raise ValueError("内容预览清单缺页、重复或包含当前影响范围以外的页面")
+    return current["content_fingerprint"]
 
 
 def main(argv=None):
@@ -64,6 +82,8 @@ def main(argv=None):
               "isolated_database_per_journey": True, "isolated_browser_context_per_journey": True,
               "checks": [], "input_sha256": fingerprints()}
     try:
+        if "changed_content_preview" in (args.journey or JOURNEYS):
+            report["preview_content_fingerprint"] = require_current_preview()
         # Import only after CLI parsing, so help never loads the full content graph.
         sys.path.insert(0, str(ROOT))
         from web import server
@@ -96,16 +116,24 @@ def main(argv=None):
                     daemon_threads = False
 
                 httpd = IsolatedHTTPServer(("127.0.0.1", 0), Handler)
+                httpd.learning_store = server._STORE
                 thread = threading.Thread(target=httpd.serve_forever, daemon=True)
                 thread.start()
                 command = [str(node), str(SCRIPT), "--journey", journey,
                            "--base-url", f"http://127.0.0.1:{httpd.server_port}",
                            "--output", str(destination)]
+                recovery_server = recovery_thread = None
+                if journey == "profile_backup_recovery":
+                    recovery_server = IsolatedHTTPServer(("127.0.0.1", 0), Handler)
+                    recovery_server.learning_store = LearningStore(Path(temporary) / "fresh-installation.sqlite")
+                    recovery_thread = threading.Thread(target=recovery_server.serve_forever, daemon=True)
+                    recovery_thread.start()
+                    command += ["--restore-base-url", f"http://127.0.0.1:{recovery_server.server_port}"]
                 code = 1
                 try:
                     process = subprocess.Popen(command, cwd=ROOT, env=os.environ.copy(),
                         stdout=browser_log, stderr=subprocess.STDOUT, start_new_session=os.name == "posix")
-                    code = process.wait(timeout=args.timeout)
+                    code = process.wait(timeout=max(args.timeout, 900) if journey == "changed_content_preview" else args.timeout)
                 except subprocess.TimeoutExpired:
                     browser_log.write(f"\nJourney exceeded {args.timeout} seconds; not accepted as PASS.\n")
                     if os.name == "posix":
@@ -122,6 +150,10 @@ def main(argv=None):
                         process.wait()
                     code = 124
                 finally:
+                    if recovery_server:
+                        recovery_server.shutdown()
+                        recovery_server.server_close()
+                        recovery_thread.join(timeout=5)
                     httpd.shutdown()
                     httpd.server_close()
                     thread.join(timeout=5)

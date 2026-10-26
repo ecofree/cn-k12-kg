@@ -25,6 +25,9 @@ if __package__:
 else:
     from release_manifest import (ROOT, MANIFEST, HEX, ManifestError, check_manifest,
         exclusion, git, is_repository_root, manifest_digest, publication_rules, relative_name, safe_file)
+    sys.path.insert(0, str(ROOT))
+
+from cnkg.change_review import review_changes, validate_review_binding
 
 BROWSER_REQUIRED = frozenset({"result.json", "browser.log", "http.log", "final.png"})
 BROWSER_ALLOWED = BROWSER_REQUIRED | frozenset({"desktop-unit.png", "desktop-home.png",
@@ -146,6 +149,49 @@ def _verified_evidence(root: Path, name: str, expected: str) -> bytes:
     return raw
 
 
+def _current_content_preview(root: Path) -> dict:
+    """Recompute the real impact once, independently of the editable build report."""
+    config_name = "docs/reviews/current.json"
+    try:
+        config = json.loads(safe_file(root, config_name).read_bytes())
+        if not isinstance(config, dict) or not isinstance(config.get("base_commit"), str) \
+                or not config["base_commit"]:
+            raise ValueError("current.json must select a real review base_commit")
+        record_name = config.get("review_record")
+        if not isinstance(record_name, str) or not record_name.startswith("docs/reviews/") \
+                or not record_name.endswith(".json"):
+            raise ValueError("current.json must select a review_record under docs/reviews/")
+        review = json.loads(safe_file(root, record_name).read_bytes())
+        if not isinstance(review, dict) or not isinstance(review.get("items"), list) \
+                or any(not isinstance(item, dict) for item in review["items"]):
+            raise ValueError("the selected semantic review has no valid item list")
+        report = review_changes(root, config["base_commit"])
+        errors = validate_review_binding(report, review, root=root)
+    except (OSError, ValueError, TypeError) as exc:
+        raise PackageError(f"Current semantic review cannot be verified: {exc}") from exc
+    if errors:
+        raise PackageError("Current semantic review is invalid: " + "; ".join(errors))
+    if not report["preview_tasks"]:
+        raise PackageError("Current semantic review nominates no changed-content preview pages")
+    return report
+
+
+def _verify_content_preview(result: dict, report: dict) -> None:
+    observations = result.get("observations")
+    if not isinstance(observations, dict) \
+            or observations.get("content_fingerprint") != report["content_fingerprint"]:
+        raise PackageError("Changed-content preview has a missing or stale content fingerprint")
+    previews = observations.get("previews")
+    if not isinstance(previews, list) or any(not isinstance(row, dict)
+            or not isinstance(row.get("path"), str) for row in previews):
+        raise PackageError("Changed-content preview has no valid preview paths")
+    actual = [row["path"] for row in previews]
+    expected = {row["path"] for row in report["preview_tasks"]}
+    if len(actual) != len(set(actual)) or set(actual) != expected:
+        raise PackageError("Changed-content preview paths are missing, duplicated or outside the current impact: "
+                           f"missing={sorted(expected - set(actual))}; unexpected={sorted(set(actual) - expected)}")
+
+
 def collect_evidence(root: Path, source: dict, core_path: str | Path,
                      browser_path: str | Path) -> tuple[dict[str, bytes], dict]:
     core_name, browser_name = (_report_path(root, path) for path in (core_path, browser_path))
@@ -156,6 +202,7 @@ def collect_evidence(root: Path, source: dict, core_path: str | Path,
     required_core, required_browser = _required_checks(root)
     core_rows = _passed_rows(core, "id", required_core, "core")
     browser_rows = _passed_rows(browser, "journey", required_browser, "browser")
+    content_review = _current_content_preview(root) if "changed_content_preview" in required_browser else None
     selected = {"core/report.json": core_raw, "browser/report.json": browser_raw}
     for row in core_rows:
         name = f"build/release-check/{row['id']}.log"
@@ -183,6 +230,8 @@ def collect_evidence(root: Path, source: dict, core_path: str | Path,
                 if not isinstance(result, dict) or result.get("journey") != journey or result.get("ok") is not True \
                         or result.get("evidence_type") != "synthetic_browser_test":
                     raise PackageError(f"Journey result is not the matching synthetic PASS: {journey}")
+                if journey == "changed_content_preview" and content_review is not None:
+                    _verify_content_preview(result, content_review)
             if filename.endswith(".png") and not raw.startswith(b"\x89PNG\r\n\x1a\n"):
                 raise PackageError(f"Screenshot does not contain PNG bytes: {name}")
             selected[f"browser/{journey}/{filename}"] = raw
@@ -193,6 +242,12 @@ def collect_evidence(root: Path, source: dict, core_path: str | Path,
                     "generated_at": browser["generated_at"], "evidence_type": "synthetic_browser_test"},
         "deferred_by_user": core.get("deferred_by_user", []),
     }
+    if content_review is not None:
+        validation["browser"]["changed_content_preview"] = {
+            "base_commit": content_review["base_commit"],
+            "content_fingerprint": content_review["content_fingerprint"],
+            "preview_count": len(content_review["preview_tasks"]),
+        }
     summary = ["# Verified delivery evidence", "", f"Commit: `{source['head']}`", "",
                f"Raw release manifest SHA256: `{source['release_manifest_sha256']}`", "",
                f"Core checks passed: {len(core_rows)}. Browser journeys passed: {len(browser_rows)}.", "",

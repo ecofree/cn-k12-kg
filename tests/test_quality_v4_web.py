@@ -1,5 +1,6 @@
 """Real HTTP boundaries for profile recovery and goal-specific learning help."""
 import json
+from fractions import Fraction
 from http.cookiejar import CookieJar
 from pathlib import Path
 import tempfile
@@ -91,6 +92,22 @@ class QualityV4HTTPTest(unittest.TestCase):
         self.assertEqual(64, len(representation["renderer_sha256"]))
         self.assertEqual(64, len(representation["validation_sha256"]))
 
+        # A private delayed-feedback grade is part of the recoverable learning
+        # asset, but must stay absent from every readable projection after import.
+        code, pending = self.request("/api/session", {"unit_id": "independent_events", "mode": "transfer"})
+        self.assertEqual(200, code, pending)
+        pending_id, pending_qid = pending["session"]["id"], pending["item"]["question"]["id"]
+        tasks = {task["id"]: task for task in server.learning_units()["independent_events"]["tasks"]}
+        wrong = str(Fraction(tasks[pending_qid]["answer"]) + 1)
+        code, pending = self.request("/api/answer", {"session_id": pending_id,
+            "question_id": pending_qid, "answer": wrong})
+        self.assertEqual(200, code, pending)
+        self.assertFalse(pending["done"])
+        cookies = next(handler.cookiejar for handler in self.client.handlers
+                       if isinstance(handler, urllib.request.HTTPCookieProcessor))
+        owner = next(cookie.value for cookie in cookies if cookie.name == server._OWNER_COOKIE)
+        original_pending = self.servers[0][0].learning_store.load(pending_id, owner)
+        self.assertEqual("wrong", original_pending["answers"][0]["status"])
         _, enabled = self.request("/api/profile/enable", {"label": "合成恢复档案"})
         self.assertNotIn("cookie_token", enabled)
         self.assertNotIn("owner_id", enabled["profile"])
@@ -113,6 +130,26 @@ class QualityV4HTTPTest(unittest.TestCase):
                          "Restoring does not relabel the saved operation with another content or representation version")
         _, restored_plan = self.request("/api/plan", client=new_client, installation=1)
         self.assertEqual("deferred", next(n for n in restored_plan["learning_needs"] if n["need_id"] == need["need_id"])["status"])
+        self.assertEqual(original_pending, self.servers[1][0].learning_store.load(pending_id, owner))
+        self.assertFalse(any(n["source_ref"].get("session_id") == pending_id for n in restored_plan["learning_needs"]))
+        self.assertFalse(any(observation["source_ref"]["session_id"] == pending_id
+                             for skill in restored_plan["skill_evidence"] for observation in skill["observations"]))
+        _, readable = self.request("/api/export", client=new_client, installation=1)
+        exported_pending = next(record for record in readable["sessions"] if record["id"] == pending_id)
+        self.assertEqual(wrong, exported_pending["answers"][0]["raw_answer"])
+        self.assertNotIn("status", exported_pending["answers"][0])
+        self.assertNotIn("summary", exported_pending)
+        _, pending = self.request("/api/session/" + pending_id, client=new_client, installation=1)
+        while not pending["done"]:
+            task = tasks[pending["item"]["question"]["id"]]
+            code, pending = self.request("/api/answer", {"session_id": pending_id,
+                "question_id": task["id"], "answer": str(task.get("answer", "按条件解释我的过程。"))},
+                client=new_client, installation=1)
+            self.assertEqual(200, code, pending)
+        _, released_plan = self.request("/api/plan", client=new_client, installation=1)
+        released_need = next(n for n in released_plan["learning_needs"]
+                             if n["source_ref"] == {"session_id": pending_id, "question_id": pending_qid})
+        self.assertEqual("wrong", released_need["observed_status"])
         self.assertEqual(409, self.request("/api/profile/restore", {"envelope": backup, "recovery_code": enabled["recovery_code"]}, client=new_client, installation=1)[0])
 
     def test_foreign_support_is_private_and_recovery_revokes_old_browser_alias(self):

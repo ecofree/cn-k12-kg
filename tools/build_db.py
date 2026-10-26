@@ -54,12 +54,19 @@ def write_manifest(counts: dict, *, include_external=True) -> pathlib.Path:
                    "cnkg/evidence.py", "cnkg/verify.py", "cnkg/learning.py",
                    "cnkg/answers.py", "cnkg/contracts.py", "cnkg/learning_store.py", "cnkg/store.py",
                    "cnkg/catalog.py", "cnkg/planner.py", "cnkg/portfolio.py", "cnkg/session_content.py",
+                   "cnkg/admissions.py", "cnkg/change_review.py", "cnkg/content_repository.py",
+                   "cnkg/instruction.py", "cnkg/learning_needs.py", "cnkg/manipulatives.py",
+                   "cnkg/profile_recovery.py", "cnkg/quality_scope.py", "cnkg/runtime_version.py",
                    "tools/compile_catalog.py", "tools/register_catalog.py",
                    "tools/build_project.py", "tools/retired_writer.py",
+                   "tools/task_admissions.py", "tools/quality_scope.py",
+                   "tools/review_changes.py", "tools/check_change_review.py",
                    "cnkg/projects.py", "cnkg/challenge.py", "web/server.py",
                    "tools/curriculum_compare.py", "tools/teach_cards.py", "tools/coverage_report.py",
                    "tools/release_check.py", "web/static/index.html", "web/static/app.js",
-                   "web/static/style.css", "web/static/math.js", "web/static/work.js", "requirements-dev.txt"}
+                   "web/static/style.css", "web/static/math.js", "web/static/work.js",
+                   "web/static/profile.js", "web/static/support.js", "web/static/manipulatives.js",
+                   "requirements.txt", "requirements-dev.txt"}
     code_inputs.update(str(path.relative_to(ROOT)) for path in (ROOT / "schema").glob("*.schema.json"))
     for build_step in registry.get("question_generators", []) + registry.get("question_transforms", []):
         code_inputs.add(build_step["entrypoint"])
@@ -74,7 +81,7 @@ def write_manifest(counts: dict, *, include_external=True) -> pathlib.Path:
         asset_paths.update((store.DATA / directory).rglob("*.json"))
     for name in ("catalog.json", "topic_tiers.json", "curriculum_versions.json", "coverage_backlog.json",
                  "challenge/alignments.json", "challenge/links.json", "authoring_migration.json",
-                 "question_retirements.json"):
+                 "question_retirements.json", "curriculum_scope.json", "task_admissions.json"):
         path = store.DATA / name
         if path.is_file():
             asset_paths.add(path)

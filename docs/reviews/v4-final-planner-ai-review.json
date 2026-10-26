@@ -1,0 +1,217 @@
+{
+  "schema": 1,
+  "review_kind": "ai_targeted_final_planner_fix_review",
+  "reviewer": {
+    "type": "ai",
+    "agent": "/root/v4_learning_decisions",
+    "relationship": "implementation_author_self_review",
+    "independent_from_implementation": false,
+    "notice": "本报告为实现者的实际修复与回归记录，不冒称独立教师、真实学生教学效果验证或第三方安全认证。另一个AI代理已只读核查本轮三个文件的diff；其核查范围和执行者与本报告的测试执行分别列出。"
+  },
+  "reviewed_at": "2026-10-26T15:08:15.034366+00:00",
+  "baseline_commit": "0c3af48fe4fbb4e1feae160c05b2ed384037460b",
+  "original_v4_baseline_commit": "9f0471009f13590beee850ca5dd4999ff64d14fd",
+  "review_status": "reviewed",
+  "decision": "accept_reviewed_scope_with_stated_limits",
+  "teacher_review": "deferred_by_user",
+  "real_student_effect_validation": "deferred_by_user",
+  "scope": {
+    "bound_files": 3,
+    "full_repository_audit": false,
+    "focus": [
+      "默认推荐窗口保留真实未完成作品",
+      "自报困难和未核对的区别",
+      "同优先级作品按可靠时间排序",
+      "显式暂缓与重新开启",
+      "完整待办账本和所有者隔离"
+    ],
+    "previous_final_suite": "根任务在0c3af48的705项验收中发现2项失败，本报告只处理其中planner饥饿及同路径暂缓绕过问题；不把旧验收或其他代理尚在修改的代码声称为最终通过。",
+    "parallel_work": "cnkg/learning_needs.py中的revision_basis、work_status和准确notice由/root/v4_profile_recovery实现，本报告只检查并测试其planner契约，不将该并行文件绑定为本代理最终审核版本。公开deferred反馈隔离由该代理单独修复。"
+  },
+  "methods": [
+    "读取当前planner完整模块，结合LearningStore._work_summary、derive_needs的work_revision块和原HTTP失败用例追踪数据来源及候选截取。",
+    "修改生产排序前先运行四个新增测试方法，观察六个子例失败；新增显式暂缓回归后，先观察两种自评状态均被草稿fallback重新推荐，再修复。",
+    "使用真实_work_summary生成not_checked、partial、revisit状态，避免用省略量规的假作品数据绕过原故障。",
+    "执行19项planner与14项learning_needs测试，共33项通过；另实际启动loopback HTTP服务器并写入1000个提交作品、一个旧草稿及另一所有者作品，验证原失败接口。",
+    "复核本轮git diff与git diff --check；逐文件绑定真实SHA256，未修改原始会话、作品JSON、存储迁移、返回limit或既有失败断言。"
+  ],
+  "findings": [
+    {
+      "id": "FINAL-PLAN-01",
+      "severity": "high",
+      "status": "fixed_and_verified_by_targeted_regressions",
+      "paths": [
+        "cnkg/planner.py",
+        "tests/test_planner.py",
+        "tests/test_learning_web.py"
+      ],
+      "problem": "带量规的已提交作品即使self_assessment为空，也会由真实作品摘要产生not_checked项目，并形成work_revision。原planner把它们与明确partial/revisit都设为76；有量规旧草稿也是76，无量规旧草稿更低为40。最终按resource_id字典序排序再截12项，使新提交记录占满窗口。此前所有者历史已完整读取，问题不是1000条数据库截断。",
+      "fix": "真实未完成保存内容设为80；明确报告partial/revisit或revision_needed设为76；仅有未核对项目设为35。空草稿壳不获80。普通草稿与work_revision共享分类，动作增加continuation_basis与准确reason，规则版本更新为activity-plan-v4。既有活跃会话90和到期复测100保持。相同工作优先级用已解析的updated_at、再用created_at比较；未知或无时区时间排在可靠时间之后，resource_id只作平局判断。",
+      "red_reproduction": {
+        "test_methods": 4,
+        "failing_subcases": 6,
+        "log_key": "ranking_red"
+      },
+      "verified_results": [
+        "1000个已提交但未自评作品并未被删除，真实旧草稿在默认12项推荐中优先；有量规和无量规旧草稿均覆盖。",
+        "明确partial和revisit保留原criterion_outcomes及need_ids，排序高于仅未核对的提交；全部21个待办仍在。",
+        "真实时区偏移比较与输入顺序无关，未知时间不会因为编号靠前而越过已知较早记录。",
+        "空载入草稿壳不抢占明确困难优先级；活跃会话仍高于草稿。",
+        "真实HTTP请求默认返回12项，old-unfinished排第一；完整learning_needs包含全部1001个本用户作品事项，另一owner的foreign-draft不在候选或账本中。"
+      ]
+    },
+    {
+      "id": "FINAL-PLAN-02",
+      "severity": "medium",
+      "status": "fixed_and_verified_by_targeted_regressions",
+      "paths": [
+        "cnkg/planner.py",
+        "tests/test_planner.py"
+      ],
+      "problem": "显式deferred的work_revision虽然未进入open_needs候选，后面的普通草稿fallback却只排除已有推荐，因此会重新推荐用户已暂缓的作品。",
+      "fix": "从完整needs收集status为deferred的work_revision资源ID，只在普通草稿候选入口排除这些资源。待办、状态和原量规仍完整返回；用户reopen后同一need_id再次进入推荐。",
+      "red_reproduction": {
+        "test_methods": 1,
+        "failing_subcases": 2,
+        "log_key": "deferred_red"
+      },
+      "verified_results": [
+        "对未自评与明确partial两种草稿，defer后next_steps为空，但need_counts仍报告一个deferred，need_id和criterion_outcomes保留。",
+        "同一事项reopen后恢复原work_resource_id和need_id的继续入口，输入作品摘要未被修改。"
+      ]
+    }
+  ],
+  "rank_contract": {
+    "due_review": 100,
+    "active_session": 90,
+    "unfinished_saved_work_with_actual_content": 80,
+    "learner_reported_partial_or_revisit": 76,
+    "unassessed_criteria_only": 35,
+    "default_limit": 12,
+    "work_content_condition": "has_draft or has_reflection or self_assessment_reported",
+    "time_order": "same work priority: updated_at parsed as UTC; created_at fallback; unknown last; ID tie-break",
+    "evidence_notice": "这些优先级属于透明产品规则；作品自评、未核对和完成记录均不证明独立掌握。"
+  },
+  "test_runs": [
+    {
+      "command": "/workspace/scratch/cdd6c485d2b6/cnkg-venv/bin/python -m unittest tests.test_planner tests.test_learning_needs_v4",
+      "executed_by": "/root/v4_learning_decisions",
+      "result": "passed",
+      "tests": 33,
+      "duration_seconds": 38.763,
+      "log_key": "planner_and_needs"
+    },
+    {
+      "command": "/workspace/scratch/cdd6c485d2b6/cnkg-venv/bin/python -m unittest tests.test_learning_web.LearningWebTest.test_plan_does_not_drop_old_drafts_behind_1000_newer_submitted_works",
+      "executed_by": "/root/v4_learning_decisions",
+      "result": "passed",
+      "tests": 1,
+      "duration_seconds": 33.793,
+      "log_key": "http",
+      "execution_note": "初次默认sandbox在socket创建时被阻止、0测试运行，不计通过；经工具自动审批后实际loopback HTTP重跑通过，GET /api/history及/api/plan均为200。"
+    },
+    {
+      "command": "git diff --check",
+      "executed_by": "/root/v4_learning_decisions",
+      "result": "passed",
+      "exit_code": 0
+    }
+  ],
+  "logs": {
+    "ranking_red": {
+      "path": "/tmp/cnkg-v4-final-planner-red.log",
+      "sha256": "4184edf4823a8b49fa8c4d35cf2ce63f216bfd475214244751555805b7e7a12d",
+      "storage_notice": "本次实际执行日志；不替代最终固定版本验收产物。"
+    },
+    "deferred_red": {
+      "path": "/tmp/cnkg-v4-final-planner-defer-red.log",
+      "sha256": "fe4e2a3832fe3c7bbeb825138be4ef2fa5b20d49dabcba1483742c6c402c9663",
+      "storage_notice": "本次实际执行日志；不替代最终固定版本验收产物。"
+    },
+    "planner_and_needs": {
+      "path": "/tmp/cnkg-v4-final-planner-needs-tests.log",
+      "sha256": "217e97145eb4c1aeea48a94d81bd4027bba3e02f1b6d29f734d16f69db7134fd",
+      "storage_notice": "本次实际执行日志；不替代最终固定版本验收产物。"
+    },
+    "http": {
+      "path": "/tmp/cnkg-v4-final-planner-http-test.log",
+      "sha256": "ee4c6caddc9e10bac067d9e89e47f1700bafafd8f0357c5acefb6f51910b5f36",
+      "storage_notice": "本次实际执行日志；不替代最终固定版本验收产物。"
+    }
+  },
+  "cross_review": {
+    "reviewer_type": "ai",
+    "agent": "/root/v4_teaching_content",
+    "scope": "只读逐行检查本轮三个文件的diff，包括排序、暂缓、测试未放宽旧断言和现有浏览器旅程对排序的依赖。",
+    "reported_result": "本轮diff未发现新实质问题；未自行重跑上述测试。",
+    "independent_teacher_review": false,
+    "separate_record_notice": "该代理收到最终源码SHA及实际测试日志后单独记录交叉核查；本报告仍明确为作者自查。"
+  },
+  "files": [
+    {
+      "path": "cnkg/planner.py",
+      "review_relation": "author_self_review",
+      "read_extent": "完整当前planner模块已读；实际修改局限于规则版本、工作分类、work_index、暂缓草稿排除和候选排序。",
+      "reviewed_symbols": [
+        "RULE_VERSION",
+        "_time",
+        "_work_continuation",
+        "plan:work_revision",
+        "plan:generic_work_fallback",
+        "plan:candidate_order"
+      ],
+      "semantic_checks": [
+        "工作内容和状态决定继续入口优先级，未核对不被称为错误；partial/revisit的量规、需要修改索引和稳定need_id均保留。",
+        "改动不提高完成或掌握结论，不改变正式阶段判定、复测间隔、支持确认匹配或任何原始记录。",
+        "默认limit仍为12，全部needs不随候选窗口截断，输入records/works只读。",
+        "显式暂缓只阻止推荐，重新开启后恢复；时区规范化避免ISO字面排序和编号排序把旧作品压后。"
+      ],
+      "related_findings": [
+        "FINAL-PLAN-01",
+        "FINAL-PLAN-02"
+      ],
+      "sha256": "3a92cb356b738832fd85457af9627465ed4c545ad747a57cb27447f5058e33f0",
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "tests/test_planner.py",
+      "review_relation": "author_self_review",
+      "read_extent": "本轮新增helper、六个新增测试及现有相关排序、过程题和作品断言已读；本文件19个测试全部实际执行。",
+      "semantic_checks": [
+        "使用真实_work_summary观察隐式not_checked，测试1000项压力且保持正常limit，分别覆盖有量规和无量规旧草稿。",
+        "额外反例覆盖明确partial/revisit保留、未知时区、字典序与输入顺序相反、空壳草稿、活跃会话优先。",
+        "暂缓测试先产生真实稳定need_id，再观察defer与reopen；账本、量规和输入不变均有断言。"
+      ],
+      "related_findings": [
+        "FINAL-PLAN-01",
+        "FINAL-PLAN-02"
+      ],
+      "sha256": "0ba094887373f7e565deecc292ae0420ea8d21173ae046ff6033f9de98481a89",
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "tests/test_learning_web.py",
+      "review_relation": "author_self_review_of_scoped_test_change",
+      "read_extent": "本轮只修改并重读test_plan_does_not_drop_old_drafts_behind_1000_newer_submitted_works及其HTTP/SQLite fixture；不声称本轮重新逐行审核整个HTTP测试文件。",
+      "semantic_checks": [
+        "保留原1000次save_work与old-unfinished/foreign-draft断言，未通过删数据、改期望或扩大limit掩盖失败。",
+        "新增断言默认12条、旧草稿第一、其余unassessed分类、全1001个owner内need及完整资源集合。",
+        "测试确实通过临时本地HTTP服务器、浏览器cookie owner和SQLite持久化路径发起/api/plan请求。"
+      ],
+      "related_findings": [
+        "FINAL-PLAN-01"
+      ],
+      "sha256": "9d8ad260555afc24c879868a0be95713c1caaf23cf8644f77546656197b838b0",
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    }
+  ],
+  "limits": [
+    "本报告只绑定三个列出文件，不代替全部运行模块、其他代理的反馈隔离修复或最终浏览器验收。",
+    "34项针对性成功不能被写成全套最终发布通过；根任务将在所有源码冻结后重新生成清单、绑定审查并执行固定版本全套验收。",
+    "排序保持12项显示窗口，不宣称任意数量的更高优先级任务能够同时显示；未进入窗口的真实事项仍保留在完整learning_needs。",
+    "优先级和旧作品优先规则尚未经过真实学生效果验证；独立教师审核与真实学生验证仍按用户要求暂缓。"
+  ]
+}

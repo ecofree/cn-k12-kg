@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "review_kind": "ai_recovery_integration_review",
+  "reviewer": {
+    "type": "ai",
+    "agent": "/root/v4_profile_recovery",
+    "independent_from_recovery_module_author": false,
+    "note": "恢复模块作者进行集成复核；不是独立安全审计或教师审核。"
+  },
+  "reviewed_at": "2026-10-26T13:57:48.467305+00:00",
+  "status": "executed_synthetic_combination_passed_http_extension_pending_parent_run",
+  "scope": {
+    "synthetic_records_only": true,
+    "real_learner_records_accessed": false,
+    "production_data_modified": false,
+    "application_code_modified_in_this_followup": false,
+    "changed_test": "tests/test_quality_v4_web.py::QualityV4HTTPTest.test_http_backup_restores_support_snapshot_and_need_events_to_new_installation"
+  },
+  "executed_verification": {
+    "method": "一次性临时目录内组合核查；使用实际LearningStore和ProfileRecovery，加密后分别导入空SQLite安装及已有其他owner事件的SQLite安装。没有启动HTTP服务或执行浏览器。",
+    "execution_status": "passed",
+    "script_sha256": "b6a79f705c495eebf36364f95ecefec7ee96e6f7564b844bb195c6bd2a50a25c",
+    "setup": [
+      "以已有合成夹具创建旧版本会话、冻结SVG、未展示答案、作品两次修订和原保存请求；另设其他owner的独立资料。",
+      "将原会话的一项结果设为wrong，建立真实派生need_id，以set_need_state依次暂缓、重开、再次暂缓，保留理由。",
+      "加入一个带support_snapshot/question_snapshots/task_metadata/source_origin的合成指导会话；来源指向该未解决事项。",
+      "保存实际fraction_equivalence表征配置和representation_version，以及1/3细分2倍的操作状态与合成解释；原payload_json特意保留非规范空白，检验字节保真。",
+      "生成AES-GCM完整备份，分别恢复到两个独立临时数据库；非空目标已有其他owner的一条事件。"
+    ],
+    "scenarios": [
+      {
+        "destination": "empty_installation",
+        "result": "pass",
+        "event_sequence_offset": 0
+      },
+      {
+        "destination": "installation_with_other_owner_event",
+        "result": "pass",
+        "event_sequence_offset": 1
+      }
+    ],
+    "assertions": [
+      {
+        "check": "six_owner_tables",
+        "result": "pass",
+        "detail": "sessions/events/works/work_revisions/work_requests/exposures原始列逐行相等；非空目标只允许文档约定的seq和last_event_seq偏移。"
+      },
+      {
+        "check": "operation_event",
+        "result": "pass",
+        "detail": "latest_resource_event返回的原内容哈希、发生时间、state、reflection、representation_version、完整representation_snapshot及independent_evidence全部相等。"
+      },
+      {
+        "check": "support_snapshot",
+        "result": "pass",
+        "detail": "恢复前后load得到的整个指导会话一致，包含原题、参考、快照、元数据及原事项来源。"
+      },
+      {
+        "check": "derived_learning_needs",
+        "result": "pass",
+        "detail": "derive_needs返回的事项ID、旧版本、原结果、指导后续、暂缓理由/状态及作品缺项一致；非空数据库explicit_state.event_seq按同一偏移更新。"
+      },
+      {
+        "check": "owner_scoped_rows",
+        "result": "pass",
+        "detail": "逐行比较只针对当前owner；源夹具包含另一个owner，而恢复的当前owner六表没有混入其资料。目标已有其他owner事件时正确避开已有事件序号。"
+      },
+      {
+        "check": "historical_assets_and_revisions",
+        "result": "pass",
+        "detail": "冻结SVG、原始会话/事件JSON、作品两次修订及幂等请求包含在逐行比较中。"
+      }
+    ],
+    "boundaries": [
+      "这是持久化与恢复组合验证；不等于执行了新补充的HTTP测试。",
+      "非空目标事件序号是本地数据库索引，允许保序映射；不能把该映射误报为学习事项丢失或原始内容改写。"
+    ]
+  },
+  "http_test_extension": {
+    "path": "tests/test_quality_v4_web.py",
+    "test": "QualityV4HTTPTest.test_http_backup_restores_support_snapshot_and_need_events_to_new_installation",
+    "implementation_status": "saved_and_source_reviewed",
+    "execution_status": "not_run_by_this_agent_pending_parent_combined_run",
+    "added_assertions": [
+      "备份前真实HTTP读取fraction单元，提交操作state与reflection，分别携带resource_version和representation_version。",
+      "通过GET确认原事件含正确内容版本、状态、解释、非独立证据标记和完整representation_snapshot；配置与单元公开表征一致，快照另含renderer/validation哈希。",
+      "目标安装导入前GET无操作事件；导入后GET的原事件及完整响应与源安装一致，不将旧事件重标为其他内容或表征版本。"
+    ],
+    "preserved_assertions": [
+      "支持活动题目和已答记录在恢复前后一致。",
+      "暂缓事项在新安装中仍为deferred。",
+      "不同安装导入前无法读取源指导会话，重复导入返回409。"
+    ],
+    "static_checks": [
+      {
+        "check": "Python AST parse",
+        "result": "pass"
+      },
+      {
+        "check": "git diff --check -- tests/test_quality_v4_web.py",
+        "result": "pass"
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "v4-profile-current-code-card-01",
+      "severity": "moderate",
+      "path": "web/static/profile.js",
+      "locator": "secretCard",
+      "finding": "原实现连续轮换时保留多张仍标为当前的恢复码卡片，并重复new-recovery-code元素ID，可能导致用户保存旧码。",
+      "status": "source_fix_inspected_browser_execution_pending",
+      "resolution": "父任务已在显示新码前删除旧.recovery-code卡片；本代理实际读取了修订源码。",
+      "regression_coverage": "父任务已在profile_backup_recovery浏览器旅程加入连续两次轮换、码确实更新且.recovery-code数量保持1的断言；本代理只读过测试源码，未执行该浏览器旅程。"
+    }
+  ],
+  "unresolved_recovery_data_findings": [],
+  "pending_validation": [
+    "父任务统一执行更新后的4个HTTP测试。",
+    "父任务执行含连续轮换断言的真实浏览器备份/找回/跨安装导入旅程。"
+  ],
+  "files": [
+    {
+      "path": "cnkg/profile_recovery.py",
+      "sha256": "54fdac2668e4bf6353d4f8b9bf994a72deae73d2c61f7cefffa4e4ac651101ae",
+      "reviewed_scope": "owner限定的六表备份、事件原始JSON传输、support快照一致性验证、原子导入与事件序号映射"
+    },
+    {
+      "path": "cnkg/learning_store.py",
+      "sha256": "03bce1c9c689fec6dd0a222ad5cc8c007622da3a914ed9b9a44a438fd854fa52",
+      "reviewed_scope": "事件保存/读取、操作事件最新记录、need_states及planning_records派生视图"
+    },
+    {
+      "path": "cnkg/learning_needs.py",
+      "sha256": "7139e3e949262ad0dc155bafec10b8f7531c66ba500da09713485197640a7527",
+      "reviewed_scope": "原始失败、指导来源、暂缓/重开和作品修订构成的派生事项"
+    },
+    {
+      "path": "cnkg/manipulatives.py",
+      "sha256": "d7780644cad6c7350f10d30542349b816f6cd5d300b4e334e9911fa748f8025e",
+      "reviewed_scope": "representation_version、冻结configuration与renderer/validation哈希的snapshot结构"
+    },
+    {
+      "path": "web/server.py",
+      "sha256": "1bb728cebf401fc5928456ecad624969ad745a81723d7b9aa3afac013c7bee31",
+      "reviewed_scope": "profile、manipulative、support、learning-needs的本轮HTTP路由与cookie响应边界"
+    },
+    {
+      "path": "web/static/profile.js",
+      "sha256": "7c799101cb3f8d04b4e131822634c8f825b8876b0e715527acf6e77ce31cbfe6",
+      "reviewed_scope": "创建/轮换恢复码、加密备份、文件导入与重复恢复码卡片修订"
+    },
+    {
+      "path": "tests/test_quality_v4_web.py",
+      "sha256": "b67e26a71b157ecc1020f0f16a6de860d2a88ed5ac2529488149ceab7f056aa5",
+      "reviewed_scope": "既有4个HTTP测试的覆盖审查及第一个跨安装测试的本次补充"
+    },
+    {
+      "path": "tests/browser/learning-flow.cjs",
+      "sha256": "6fc1a973393b8d73032a0e21778a622158b316879d81f33b87d5df13a6663399",
+      "reviewed_scope": "profile_backup_recovery旅程与连续两次轮换只保留当前码的新增断言"
+    }
+  ],
+  "hash_note": "files绑定的是本记录生成时实际读取的源文件与测试文件；一次性组合核查的具体步骤、断言和脚本哈希单独列明。后续父任务若继续修改某文件，需更新相应复核证据，不能沿用旧哈希认定新版已验收。",
+  "limitations": [
+    "仅使用临时合成资料，无真实学生资料或教师审核参与。",
+    "本次未新增第二个重复HTTP测试，也未运行父任务安排统一执行的测试。",
+    "这份记录只支持所列恢复与边界结论，不证明数学内容质量、课堂效果或完整安全认证。"
+  ]
+}

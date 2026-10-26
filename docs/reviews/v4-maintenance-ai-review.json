@@ -1,0 +1,749 @@
+{
+  "schema_version": 1,
+  "reviewer_kind": "ai",
+  "reviewer": "v4_teaching_content-maintenance-review",
+  "reviewed_on": "2026-10-26",
+  "status": "reviewed",
+  "scope": "30个历史写入入口、构建/二级LF内容清单/语义证据/原始字节清单/预览验收/正式打包流程，以及操作组件此前修复；仅绑定已冻结并实际读过的文件。",
+  "source_of_findings": "逐个阅读源码和调用路径，核对数学边界及异步加载保存顺序；发现缺口后按主任务明确授权实施限定修复，用隔离回归验证，再记录当前字节哈希。",
+  "authorship_note": "30个历史入口和父任务操作/验收代码由本审查者交叉复核；M01/M02/M03/M07的限定修复由本审查者在父任务授权后实现，其中M07由父任务发现并限定范围。标记为reviewer_authored_narrow_fix的文件不宣称独立于修复作者的审核，仍由父任务汇总复核。",
+  "legacy_entrypoints": {
+    "total": 30,
+    "reject_only_shims": 25,
+    "compatibility_entries": 5
+  },
+  "findings": [
+    {
+      "id": "M01",
+      "issue": "正式语义门原先只要求非空evidence_refs，字符串占位、缺失或陈旧文件也可通过。",
+      "resolution": "正式CLI传root，验证仓库相对路径、普通文件、无链接/越界和原始字节sha256。",
+      "status": "resolved_and_regression_checked"
+    },
+    {
+      "id": "M02",
+      "issue": "JSON嵌套true与1、1与1.0被Python==当相等，可能跳过语义项。",
+      "resolution": "使用已有递归差异保留各层类型；临时Git案例确认都属于实质变化。",
+      "status": "resolved_and_regression_checked"
+    },
+    {
+      "id": "M03",
+      "issue": "虽然CLI拒绝，apply_content/apply_fixes的公开dump仍可直写正式data。",
+      "resolution": "所有保留fixture写出检查resolved目标，拒绝正式data及指回它的符号链接，临时fixture继续可写。",
+      "status": "resolved_and_regression_checked"
+    },
+    {
+      "id": "M04",
+      "issue": "预览清单可以被删页，且省略浏览器的核心检查容易被解读成完整交付。",
+      "resolution": "browser_check重新计算真实差异指纹和精确路径集合，release_check明确core-only与delivery_ready；正式打包器另从current.json真实基线重算并验证语义证据，绑定实际预览result指纹与完整路径集合，不信任可改写build清单。已全文复读最终打包器及18项发布回归源码。",
+      "status": "resolved_and_final_packager_reread"
+    },
+    {
+      "id": "M05",
+      "issue": "GET旧操作可覆盖加载期间新输入，POST期间继续编辑后仍显示全部已保存。",
+      "resolution": "父任务已禁用加载/保存期间编辑、保存固定副本、失败保留重试并调用busy切页屏障；逐行复读确认。",
+      "status": "resolved_by_parent_and_reread"
+    },
+    {
+      "id": "M06",
+      "issue": "分数条把细分时的不变量说成任意改分子/分母的必然变化或不变，0分子与夹紧满条反例不符。",
+      "resolution": "明确本次上下条等值；改变原分子/分母是在重新设置原分数，不保证数值不变，并解释分子上限。",
+      "status": "resolved_by_parent_and_reread"
+    },
+    {
+      "id": "M07",
+      "issue": "父任务发现二级LF内容manifest尚未列出本轮新运行模块、JS、依赖与范围/准入资源，虽原始发行清单已覆盖，但二级清单不完整。",
+      "resolution": "仅补tools/build_db.py的17项静态代码/依赖输入及2项固定资源名称，核对实际路径、LF策略和质量边界，未引入审查记录循环且没有运行写manifest。",
+      "status": "resolved_and_read_only_inventory_checked"
+    }
+  ],
+  "additional_verifications": [
+    {
+      "id": "M08",
+      "kind": "confirmed_boundary_not_a_defect",
+      "question": "默认原始发行清单是否与包含语义内容指纹的完成审查记录形成循环。",
+      "evidence": [
+        "tools/release_manifest.py的MANIFEST为根目录release-manifest.json。",
+        "cnkg/change_review.py的PREFIXES仅data、schema、cnkg、web、tools，根目录原始清单不参与语义指纹。",
+        "当前data下实际内容清单是data/manifest.json，不存在data/release_manifest.json；docs/reviews也不进入语义扫描。"
+      ],
+      "conclusion": "默认路径已经隔离，未复现所疑循环；父任务撤回备用路径修改授权，本轮没有修改差异代码、回归测试或semantic docs。此项是路径核实，不计为修复缺陷。",
+      "decision": "no_code_change"
+    }
+  ],
+  "test_runs": [
+    {
+      "command": "python -m unittest tests.test_change_review_v4 tests.test_legacy_writer_guards_v4 tests.test_apply_fixes tests.test_rebuild_data -v",
+      "tests": 42,
+      "result": "pass",
+      "scope": "证据文件与类型比较修复、fixture保护和既有迁移/重建兼容回归。"
+    },
+    {
+      "command": "python -m unittest tests.test_change_review_v4 -v",
+      "tests": 16,
+      "result": "pass",
+      "scope": "追加3个当前预览清单的真实临时Git案例后重新执行该模块；与前一轮有重复，不累计为58个独立测试。"
+    },
+    {
+      "command": "python -m unittest tests.test_release_delivery -v",
+      "tests": 18,
+      "result": "pass",
+      "executed_by": "/root/v4_learning_decisions",
+      "scope": "打包器作者报告最终冻结文件18项通过；本审查者已阅读全文及测试代码并核对所提供的最终SHA256，未重复运行。"
+    },
+    {
+      "kind": "read_only_static_inventory",
+      "result": "pass",
+      "scope": "AST核对tools/build_db.py新增17项代码/依赖输入与2项资源；所有静态代码路径存在，LF哈希策略及来源/结构边界保持。未调用写清单函数。",
+      "manifest_sha256_before_and_after": "9a04eaf5035d4688a990c956e6577cf6c272d49c656b1fd9ec23f33615af83a4"
+    }
+  ],
+  "pending_files": [],
+  "limits": [
+    "AI代码与内容审查，不是教师独立审核、外部安全审计或真实学生效果验证。",
+    "哈希与路径门禁证明记录绑定和防漏报，不自动证明审核者的数学/教学结论为真；拥有源码写权限者也可显式改动门禁，不能将它宣称为独立安全隔离。",
+    "保留的fixture工具只服务隔离回归；普通CLI和正式data路径拒绝不代表允许用它恢复旧作者流程。",
+    "没有执行会写正式作者数据的负向测试；正式路径测试拦截底层写调用，仅临时目录实际写入。",
+    "本记录绑定当前文件字节；后续修改必须重新读取对应变化并更新哈希。",
+    "完整浏览器执行、干净固定提交和最终发行包本次运行另由父任务发布证据验收；此记录复核相应门禁源码，不冒充本轮真实浏览器报告。"
+  ],
+  "items": [
+    {
+      "path": "tools/apply_answer_key_fix.py",
+      "sha256": "06ef90a25053dd4d183dc7f99fe6a379c1d16e9226f6ecfe53c8593e2382066c",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/apply_graph_fix.py",
+      "sha256": "8429cc90ac736d9cb74423c67fd727d29a2cc1a77b50bd7752f31869f94592c6",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/build_memory_drills.py",
+      "sha256": "04ed0482c7514c002936ef6c98030d233f991caf5ac9bdc503bf28d88b92dd32",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/complete_junior.py",
+      "sha256": "ca16cb798d28f5ee63699d58f2b85a56b73d44b2b0e8ada0956649b9eb0609c6",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/complete_primary.py",
+      "sha256": "610a1c35fb148df56adbc9bdebd286fe753cebb89614f33812195ad223e99836",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/complete_primary_projects.py",
+      "sha256": "523dd3703270d863874de5850ed2a3bdc65f8394df93ec84fe103ca4abcead6d",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/complete_senior_elective.py",
+      "sha256": "646715c4286643c96563063ca399d6028cc821db0a7af2cd3fa0b1ba5bb894b8",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/complete_senior_required.py",
+      "sha256": "3491e84c2c8bcb436bbcacaa96cb77ff4a2d4fd665ac0d702120c250d023b6d9",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/junior_projects.py",
+      "sha256": "72ce9fd016563243930666c041e622baeeebb3afa9a8bcd116d93b3e18736a37",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/migrate_multi_topic.py",
+      "sha256": "d76c55f76dac6edf3713a19fa20a72ba4bdc6fa968e53ddb1b5b9e8c2a0379fe",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/migrate_option_ids.py",
+      "sha256": "62814ae8d8b818c3ba069afb2a344bb51fde264e3bfb0d04cda01ec224f79cb1",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/scaffold.py",
+      "sha256": "b555bb32f91dd76f287bc3aab200d5db3a4c9fe6a362e420dc0511da98b4a821",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/teach_backfill.py",
+      "sha256": "2fca4801a29cc466ef433ff5338e01de049b56f9d6099affe4a83f55b5c80bc1",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/teach_brief_write.py",
+      "sha256": "781bd316263e0a64f777f6a5a9c8f1859f1a2a50947a1699d7e7960228e9ca45",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/teach_write.py",
+      "sha256": "f4f6f79f1599a0a9da452dc3e3ca65c0e39e7d53857134018c80504862d0c19e",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/write_teach_batch1.py",
+      "sha256": "20bcb2b33c0d5ea8bf335624ea15b53f3c40720b66a73c5d0122cd2fb797ccf5",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/teach_primary_1.py",
+      "sha256": "e16a0d04732b9c4d8b492f7da914c065cfa62085e6697fff98ac66dc4999818a",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/teach_primary_2.py",
+      "sha256": "6c6fe6768da8c9be5dd216f3752a74a2d20b72b8e983848dbb0e753064683782",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/teach_primary_3.py",
+      "sha256": "08743871a76252df4c8b00b871dc133593f99642da603347a92db9181cc1cca6",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/teach_primary_4.py",
+      "sha256": "bbd6efa349c8f496e6344f218f070e9ad4d4f98f69f27f0f8915276cc97d25ff",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/teach_junior_1.py",
+      "sha256": "62576c4653b57a927b84ef3fa057eb8a2583b6d46656a75e39401ba411eaeadf",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/teach_junior_2.py",
+      "sha256": "33984bec2adb45e0ad4f70ba6424beea754681728d82b19175baee7fdd804080",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/teach_brief_1.py",
+      "sha256": "5ca1fb27408cf733b728c74d893ac0b726a0f5ea8e0416f2ad8d3b92fdebc2f9",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/teach_brief_2.py",
+      "sha256": "c01464b0a6d286939988a08a4af49cf4a30c1352331b61f082b8ae6a1ce6a95c",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/teach_brief_3.py",
+      "sha256": "4d31fde8271a6d3c242bab2be9f526fc7ff80838a4758f2e95dc8117b8201497",
+      "reviewed_scope": "全文；逐个读取，未只依据清单或文件名推断。",
+      "checks": [
+        "仅保留历史来源说明、仓库导入路径和公共拒绝函数；旧数据生成/补丁/写入实现已移除。",
+        "main接受参数也只返回拒绝码2；直接CLI调用在同一拒绝分支退出，不存在--apply等旁路。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/add_cross_stage_links.py",
+      "sha256": "55a02675e8d12544169965b8fda911e655baf939e7e7097f56c7d80f144d0c0a",
+      "reviewed_scope": "全文；CLI前置拒绝、LINKS历史常量与main。",
+      "checks": [
+        "CLI在加载历史实现前退出；导入后的main也只拒绝，不再遍历或写先修数据。",
+        "保留的LINKS是历史回归材料，本检查不将其注释升级为新的课程事实或当前作者源。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/apply_content.py",
+      "sha256": "8a3eb346168326809724093abbc309e1e4c42af433c401b77a48da20f3df7cf2",
+      "reviewed_scope": "全文；特别检查默认main和保留fixture写出路径。",
+      "checks": [
+        "普通CLI前置退出，默认DATA的导入main同样拒绝。",
+        "发现公开dump可直接写正式目录后加resolved目标保护；指向正式data的文件或目录符号链接也被拒绝。",
+        "隔离fixture的main全部OUTPUTS现经受保护dump写出，未留下直接write_json输出旁路。"
+      ],
+      "finding_ids": [
+        "M03"
+      ],
+      "reviewer_authored_narrow_fix": true,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/apply_fixes.py",
+      "sha256": "4dc1bbc88584de2dd332ec29e02136f10f4f12b658ed7e4d53d6700798c666b7",
+      "reviewed_scope": "全文；dump、dump_content、active_content_paths和main。",
+      "checks": [
+        "CLI与默认main拒绝，fixture写出仅保留迁移回归用途。",
+        "dump和dump_content共用resolved目标检查，禁止正式data及指回该目录的链接。",
+        "原有临时目录改题、来源同步、dry-run与退役补丁隔离回归仍通过；测试不会真实写正式数据。"
+      ],
+      "finding_ids": [
+        "M03"
+      ],
+      "reviewer_authored_narrow_fix": true,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/calibrate_difficulty.py",
+      "sha256": "2117e3cc8f8fccc91226aaaad2f51a41cbed1c586af6bcb93c30d3ad02fa669f",
+      "reviewed_scope": "全文；前置拒绝、历史计算函数及末尾main。",
+      "checks": [
+        "保留计算/分类函数与只读主题读取，已无写出正式数据的main实现。",
+        "这些历史启发式只用于兼容回归；本记录不认可旧注释中的难度推断为实证教育结论。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/write_application_items.py",
+      "sha256": "92b198fc1ba565ac05f713160892205372d23f15a1f1e3f949a9bd91e8c64618",
+      "reviewed_scope": "全文；前置拒绝、build纯转换和main。",
+      "checks": [
+        "CLI读取内容前即拒绝，导入main也拒绝；build只返回深复制后的记录及错误列表。",
+        "题号必须来自声明式JSON明确ID，重复或缺ID会报错；顺序改变不分配新ID，不写作者源。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/legacy_writers.json",
+      "sha256": "6ca6f43aa3f0b300e82660ed1c1f12f6fa75bf157908aa256a2c711aa13fd7a0",
+      "reviewed_scope": "全文；与30个实际入口逐一对照。",
+      "checks": [
+        "实际登记30个入口，其中25个拒绝薄入口、5个兼容入口；每个路径均已读源码。",
+        "保留真实历史提交引用，替代入口为build_project --release；清单没有把保留代码重新设为作者源。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/retired_writer.py",
+      "sha256": "8311272e8ef29386019bc69088425095606993983ffcc0f670db8a5d51a8bf4f",
+      "reviewed_scope": "全文。",
+      "checks": [
+        "公共拒绝函数仅向stderr说明封存与新编辑/构建入口并返回2；没有环境变量或参数解除写入限制。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/app_items/__init__.py",
+      "sha256": "d93be1d357eb730fb380952c6a148e22b1531fb40161b26c6a81859b866250b5",
+      "reviewed_scope": "全文；只读历史批次适配。",
+      "checks": [
+        "从登记的历史批次读取模块，all_items返回深复制，未出现写入或重新编号。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/app_items/_declarative.py",
+      "sha256": "b465c7a7365946a2055b1e4e4edf1196b4b96ec14ca32ba96584b09bb7389e57",
+      "reviewed_scope": "全文；source_payload、batch_names、items_for。",
+      "checks": [
+        "实际题文与ID均从data/question_sources/application.json读取；topic/why仅为兼容视图别名。",
+        "未登记批次拒绝，返回记录深复制；不存在另一个作者答案或题号生成流程。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/build_project.py",
+      "sha256": "8108a3ed24ffca561fde144fd842014550f5833dcba76cd37ecc5f413d3a85d0",
+      "reviewed_scope": "全文；三个模式的命令序列、失败停止与报告。",
+      "checks": [
+        "正式release串联声明式重建、身份登记、目录编译、内容库、字节清单和release_check；子命令失败即停止外层后续步骤。",
+        "--write/--check是内容准备与局部门禁，不应冒称包含实际浏览器验收；--with-browser仅能与--release合用。",
+        "构建写出的是声明的作者登记/派生产物，不把学习数据库作为输入或输出；本审查未运行真实发布写命令。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/build_db.py",
+      "sha256": "55309cc59b61c6b35ff8ea83bda0d40d29df2e6dcc6112a3ab7dac6f740e2f84",
+      "reviewed_scope": "全文；本次只修改code_inputs与固定资产名称两个静态清单。",
+      "checks": [
+        "二级LF内容manifest原漏本轮9个运行模块、3个JS、requirements.txt和4个scope/admissions/review工具，已补齐17个代码/依赖输入。",
+        "固定资产名称补入data/curriculum_scope.json与data/task_admissions.json；逐个核实新旧静态代码路径和新增资源真实存在。",
+        "保持sha256-lf-v1策略、来源/结构一致性的质量边界和原有资源分类，不将docs/reviews加入输入，避免审查记录循环。",
+        "只以AST读取静态清单验证；没有调用store.build或write_manifest，data/manifest.json的原始字节哈希保持不变，待父任务在代码冻结后生成。"
+      ],
+      "finding_ids": [
+        "M07"
+      ],
+      "reviewer_authored_narrow_fix": true,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "cnkg/change_review.py",
+      "sha256": "2fa6e27bb984925542b208f65f5da899ee89721fb2152cba89286a60f69e396f",
+      "reviewed_scope": "全文；真实Git差异、类型比较、影响传播与证据绑定。",
+      "checks": [
+        "基线来自真实Git对象，新未跟踪作者文件也进入指纹；旧/新明确身份、先修与细化关系传播影响，不按标题猜对应。",
+        "JSON比较原先由Python相等关系把嵌套true与1、1与1.0误判为格式；现递归保留类型差异，并有临时Git回归。",
+        "提供root时，每个证据必须为path/sha256对象、规范仓库相对路径、现存普通文件，拒绝符号链接及越界并核原始字节哈希。",
+        "root=None仅兼容纯内存结构测试，文档明确它不是发布门禁；程序不自动判定语义结论为真。",
+        "另核实当前原始发行清单为根目录release-manifest.json，已在data/schema/cnkg/web/tools扫描前缀之外；没有复现审查记录与默认发行清单的循环，不为不存在的备用路径新增排除规则。"
+      ],
+      "finding_ids": [
+        "M01",
+        "M02"
+      ],
+      "reviewer_authored_narrow_fix": true,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/check_change_review.py",
+      "sha256": "855e072283271bf5cb2f96f326ec1297ae329bbd8f5ba1def770717487cf5910",
+      "reviewed_scope": "全文；正式发布调用。",
+      "checks": [
+        "审查记录必须在docs/reviews实际存在，重新从当前Git/作者文件生成清单；正式校验传入ROOT，不能只检查非空证据字符串。",
+        "内容在读取期间改变、指纹过期或条目缺失返回失败；输出为可重建的build/content-review.json。"
+      ],
+      "finding_ids": [
+        "M01"
+      ],
+      "reviewer_authored_narrow_fix": true,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/review_changes.py",
+      "sha256": "5dc71a7fc32b8820a07e1f4cf4f1410e49b8d681b2349423c3b44163ca450a76",
+      "reviewed_scope": "全文；模板生成及--check-review。",
+      "checks": [
+        "模板始终是pending；--check-review使用args.root进行真实证据路径和哈希检查。",
+        "两个正式CLI都由临时Git案例确认拒绝占位证据，不把root=None兼容模式当正式通过。"
+      ],
+      "finding_ids": [
+        "M01"
+      ],
+      "reviewer_authored_narrow_fix": true,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/release_manifest.py",
+      "sha256": "032a00a5fcc905e5ce399d6fd4677803754ca5eb445e8dfa3d6aad5eead6c2c7",
+      "reviewed_scope": "全文；发布文件选择、排除与原始字节检查。",
+      "checks": [
+        "Git工作树包括已跟踪及未忽略新文件；便携源码另行枚举，清单对每个文件记录大小与原始字节SHA256。",
+        "先排除var/build和数据库等私有/运行目录，再读取；符号链接含祖先路径都拒绝。",
+        "缺文件、额外文件、字节或策略变化均失败，不能通过沿用旧文件列表掩盖新源码。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/verification_context.py",
+      "sha256": "a21944cf8dc7ab3d9ca89a404380ffb48a7da8efef7651bfd994edd9db655dab",
+      "reviewed_scope": "全文；验收前后上下文。",
+      "checks": [
+        "记录真实仓库根、HEAD、干净状态与发布清单；验收前后清单/提交/有效性改变会形成错误。",
+        "允许局部开发态检查但保留source_clean=false；正式打包器还必须独立要求干净提交，不能把开发态成功直接当发布。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/browser_check.py",
+      "sha256": "6fda450586d84f0ddb14bff2d06faccbcfccfee0f3be6cd7b567c104c5120074",
+      "reviewed_scope": "全文；特别检查require_current_preview及报告生成。",
+      "checks": [
+        "从当前真实差异重新计算内容指纹和预览路径；拒绝过期、缺页、重复、额外页及空影响集合。",
+        "临时Git回归验证当前完整清单通过，内容变更后旧指纹拒绝，同指纹但删除一页仍拒绝。",
+        "十二条旅程各使用隔离SQLite和浏览器上下文，报告绑定输入哈希、上下文与结果/截图日志哈希；合成流程不被称为学生效果验证。",
+        "changed_content_preview在实际学习页逐一检查渲染；最终打包器对实际结果路径集合/指纹另行重算核对，已完成全文复读。"
+      ],
+      "finding_ids": [
+        "M04"
+      ],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/release_check.py",
+      "sha256": "f968532cb9e50c34055c4df11ae537323797e6af9c5a8d79d4b641fe5a720250",
+      "reviewed_scope": "全文；CHECKS、子进程结果、前后上下文与delivery_ready。",
+      "checks": [
+        "正式语义证据门、用途登记、完整范围、内容/数学/回归门均列入CHECKS；失败保留日志并使总结果失败。",
+        "只有--with-browser且所有检查通过才置delivery_ready；省略浏览器明确报告仅核心部分检查，不是完整交付验收。",
+        "前后版本上下文和每项日志哈希保留，用户暂缓的教师/学生验证没有被自动签为已完成。",
+        "最后的预算调整已逐行核对：tests为1200秒、browser为2400秒、其他门禁300秒；仅扩大有界执行预算，TimeoutExpired仍记录日志、返回码124并使该项及总验收失败，测试和覆盖要求未减。"
+      ],
+      "finding_ids": [
+        "M04"
+      ],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tests/test_change_review_v4.py",
+      "sha256": "40012720473fe23a698574fcaaadb5e0bc19c42df8e305716c5efd3e0b52c32f",
+      "reviewed_scope": "全文；包括本次添加的真实临时Git回归。",
+      "checks": [
+        "已执行16项：证据真实文件/哈希、占位缺失和越界、文件与目录链接、两个正式CLI、JSON类型差异以及预览清单过期/漏页。",
+        "临时Git与临时文件隔离正式作者数据；root=None的兼容测试明确不能证明文件证据有效。"
+      ],
+      "finding_ids": [
+        "M01",
+        "M02",
+        "M04"
+      ],
+      "reviewer_authored_narrow_fix": true,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tests/test_legacy_writer_guards_v4.py",
+      "sha256": "b6a98350759d0e34ba0208cd78fa0d1136ab2bb34e60bd7c756dcfb670615d1f",
+      "reviewed_scope": "全文；本次新增4项。",
+      "checks": [
+        "直接正式路径及嵌套路径、指回正式data的目录/文件链接、隔离fixture实际写入、导入main拒写均通过。",
+        "正式路径测试另行拦截底层write_text，即使保护逻辑退化也不会真实修改正式数据。"
+      ],
+      "finding_ids": [
+        "M03"
+      ],
+      "reviewer_authored_narrow_fix": true,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "web/static/manipulatives.js",
+      "sha256": "acca9eff45a85eb8c4565efa946907576f08ce7a7085183bb473186b351096cc",
+      "reviewed_scope": "全文；四种数学表征及加载、保存、重试分支。",
+      "checks": [
+        "0与20边界的计数/凑十正确；分数条分母与分子上限、同屏细分等值关系准确；已将任意改分子/分母必改变数值的绝对说法修为不保证不变。",
+        "截轴5不把长度倍数当实际数量倍数；k=0明确为常函数，出窗点不伪画在边界且保留表值。",
+        "读取旧状态期间禁用所有控件和解释，失败后显式重试；保存固定副本、禁用编辑并调用busy屏障，原异步覆盖和虚假已保存竞态已消除。",
+        "这是源码复读与数学核对；实际浏览器交互证据由发布流程另行保留。"
+      ],
+      "finding_ids": [
+        "M05",
+        "M06"
+      ],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "cnkg/manipulatives.py",
+      "sha256": "d7780644cad6c7350f10d30542349b816f6cd5d300b4e334e9911fa748f8025e",
+      "reviewed_scope": "全文；四个配置、状态校验和配置/代码快照。",
+      "checks": [
+        "整数类型检查拒绝布尔值冒充整数；计数0至10、合计可20，分母集合、非负且不超分母、细分2/3、图表5至15和截轴0/5均与UI一致。",
+        "函数系数/截距/输入范围允许常函数与出窗数据；数学上不按画窗剪掉表中的数值。",
+        "每个操作版本绑定配置、校验器和已加载渲染器字节哈希；快照和公开配置深复制，旧配置不会因新对象修改而被覆盖。"
+      ],
+      "finding_ids": [],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tools/package_release.py",
+      "sha256": "526beb09c43652d2bfd683de29b1782517a0483ac8d9cba86f1a75863bd90773",
+      "reviewed_scope": "全文；包括本次新增的当前语义审查与预览结果门禁。",
+      "checks": [
+        "正式包要求实际仓库根、非浅克隆、当前分支、干净提交及有效的已跟踪字节清单；不靠开发态ok或delivery_ready字段单独签发。",
+        "从源码常量读取必须的核心检查及当前12条浏览器流程，检查结果、日志、截图和result文件的原始字节绑定；遗漏、重复、失败或陈旧提交均拒绝。",
+        "当前changed_content_preview流程触发安全读取docs/reviews/current.json，按真实基线重算Git差异，每次collect_evidence仅计算一次，并以root校验实际语义证据文件。",
+        "实际预览result的内容指纹与精确无重复路径集合必须匹配真实影响清单；修改或缩小build/content-review.json不能缩减正式包要求。",
+        "打包前后重新检查源码与证据，核Git archive字节及精确文件集合；只打当前分支，实际clone/fsck检查bundle可恢复完整历史。",
+        "学习数据库及未登记外部资产先按路径排除，历史风险只读文件名；产物先在临时stage组装，已有输出不覆盖，最后才原子改名。"
+      ],
+      "finding_ids": [
+        "M04"
+      ],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "tests/test_release_delivery.py",
+      "sha256": "ae7160b6b9c160912efa58033867ca9d73f7f4c1f33d20043b141b671f56ea70",
+      "reviewed_scope": "全文；18项临时仓库发布回归，含本轮5个具体门禁案例。",
+      "checks": [
+        "新增案例保留名义PASS及重新计算的artifact哈希，再检查过期预览指纹、删页并篡改build清单、重复/额外/非字符串路径仍被拒绝。",
+        "错误语义证据SHA256会阻断正式包；正确case确认真实差异每次证据收集仅重算一次，build清单不是权威。",
+        "原有字节损坏、旧PASS、未完整旅程、隐私路径、缺历史对象、export-ignore漏文件、浅历史及便携源码边界均保留。",
+        "作者分工报告该最终文件18项全部通过；本审查者逐项读测试源码并核其冻结哈希，不重复运行相同发布套件。"
+      ],
+      "finding_ids": [
+        "M04"
+      ],
+      "reviewer_authored_narrow_fix": false,
+      "decision": "accept_with_limits"
+    }
+  ]
+}

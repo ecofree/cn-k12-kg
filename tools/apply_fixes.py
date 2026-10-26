@@ -29,12 +29,21 @@ DATA = ROOT / "data"
 sys.path.insert(0, str(ROOT))
 
 
+def _fixture_target(path: pathlib.Path) -> pathlib.Path:
+    path = pathlib.Path(path)
+    if path.resolve().is_relative_to((ROOT / "data").resolve()):
+        raise ValueError("历史兼容工具不能写入正式data目录；仅允许隔离的测试fixture")
+    return path
+
+
 def dump(path: pathlib.Path, rows) -> None:
+    path = _fixture_target(path)
     lines = ",\n".join(json.dumps(r, ensure_ascii=False, separators=(",", ":")) for r in rows)
     path.write_text("[\n" + lines + "\n]\n", encoding="utf-8")
 
 
 def dump_content(path: pathlib.Path, payload: dict) -> None:
+    path = _fixture_target(path)
     body = ",\n".join(json.dumps(q, ensure_ascii=False, separators=(",", ":"))
                       for q in payload.get("questions", []))
     path.write_text(
@@ -53,6 +62,9 @@ def active_content_paths() -> list[pathlib.Path]:
 
 
 def main(argv=None) -> None:
+    if DATA.resolve() == (ROOT / "data").resolve():
+        from tools.retired_writer import reject
+        return reject(__file__)
     ap = argparse.ArgumentParser()
     ap.add_argument("--fixes", required=True)
     ap.add_argument("--dry-run", action="store_true")

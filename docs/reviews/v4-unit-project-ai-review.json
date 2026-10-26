@@ -1,0 +1,2951 @@
+{
+  "schema": 1,
+  "review_kind": "ai_semantic_cross_review",
+  "reviewer": {
+    "type": "ai",
+    "agent": "/root/v4_profile_recovery",
+    "independent_from_content_author": true
+  },
+  "reviewed_at": "2026-10-26T13:50:50.665221+00:00",
+  "baseline_commit": "9f0471009f13590beee850ca5dd4999ff64d14fd",
+  "status": "semantic_review_complete",
+  "teacher_review": "deferred_by_user",
+  "real_student_effect_validation": "deferred_by_user",
+  "scope": {
+    "learning_units": 14,
+    "instructional_supports": 104,
+    "diagnostic_and_guided_tasks": 208,
+    "hint_levels": 312,
+    "new_stage_tasks": 9,
+    "new_projects": 3,
+    "new_project_objectives": 12,
+    "svg_diagrams": 1,
+    "bound_files": 18,
+    "scope_note": "逐条审读全部新增支持、九个指定阶段任务、三个完整高中补充项目及新增图。现有单元其余任务仅阅读支持所引用的题干/目标映射并做结构和给定verify校验；本记录不冒称重新独立数学审遍全部旧题。"
+  },
+  "methods": [
+    "逐支持阅读原目标、题干、全部诊断选项与各选项反馈、三级提示、指导任务及答案契约、观察边界、真实后续任务题干和目标关联。",
+    "对所有208项诊断/指导任务判断题意及答案，检查已给条件是否足以得出唯一结果；逐级提示须针对具体错误而非空泛鼓励。",
+    "逐条核对复合目标未因短答案或提示后完成而被宣称完整掌握；物理摆分、口头过程、证明构造和策略选择等未观察部分保留限制。",
+    "完整阅读九项新增阶段任务的答案、解析、量规、题族、表征和认知要求；把答数、选择与展示过程的观察能力分开记录。",
+    "完整阅读三个项目，包括模拟来源、变量/单位、几何/概率条件、目标到步骤与量规的对应、教师参考及修订流程。",
+    "以原始表/轮次重算OLS系数和误差、枚举概率、复现公开种子、按单调性独立复算测高上下界及向外舍入；结果逐项留存。",
+    "运行check_unit/check_supports/check_project和本地JSON Schema，核对44个支持verify、3个新任务verify；这些检查只判断各自声明的一致性，不代替语义审读。",
+    "读SVG源码并从像素映射反算P/Q坐标；使用Inkscape及已配置中文字体渲染PNG，实际看过刻度、图点、文字和布局，并核对可访问替代文字。",
+    "将发现发给原内容作者修订，重新读取每处最终字段后复核，18个文件按实际最终字节计算SHA256，后续变动须重审。"
+  ],
+  "verification": {
+    "structural_errors": [],
+    "numeric_verify_results": [
+      {
+        "id": "ten_frame_place_value:support:count:guided_task",
+        "status": "pass",
+        "detail": "4+3 = 7",
+        "scope": "support"
+      },
+      {
+        "id": "ten_frame_place_value:support:compose_ten:guided_task",
+        "status": "pass",
+        "detail": "10-8 = 2",
+        "scope": "support"
+      },
+      {
+        "id": "ten_frame_place_value:support:place_value:guided_task",
+        "status": "pass",
+        "detail": "10+7 = 17",
+        "scope": "support"
+      },
+      {
+        "id": "ten_frame_place_value:support:make_ten:guided_task",
+        "status": "pass",
+        "detail": "8+5 = 13",
+        "scope": "support"
+      },
+      {
+        "id": "ten_frame_place_value:support:operation:guided_task",
+        "status": "pass",
+        "detail": "12-7 = 5",
+        "scope": "support"
+      },
+      {
+        "id": "data_reading_and_mean:support:read_scale:guided_task",
+        "status": "pass",
+        "detail": "5*4-2*4 = 12",
+        "scope": "support"
+      },
+      {
+        "id": "data_reading_and_mean:support:mean:guided_task",
+        "status": "pass",
+        "detail": "4*6-3-5-7 = 9",
+        "scope": "support"
+      },
+      {
+        "id": "data_reading_and_mean:support:combine:guided_task",
+        "status": "pass",
+        "detail": "(3*4+1*8)/(3+1) = 5",
+        "scope": "support"
+      },
+      {
+        "id": "common_factors_multiples:support:o2:guided_task",
+        "status": "pass",
+        "detail": "15 = 15",
+        "scope": "support"
+      },
+      {
+        "id": "common_factors_multiples:support:gcd:guided_task",
+        "status": "pass",
+        "detail": "4 = 4",
+        "scope": "support"
+      },
+      {
+        "id": "common_factors_multiples:support:lcm:guided_task",
+        "status": "pass",
+        "detail": "18 = 18",
+        "scope": "support"
+      },
+      {
+        "id": "fraction_equivalence:support:o2:guided_task",
+        "status": "pass",
+        "detail": "15/25 = 3/5",
+        "scope": "support"
+      },
+      {
+        "id": "fraction_equivalence:support:o3:guided_task",
+        "status": "pass",
+        "detail": "1-1/4-1/8 = 5/8",
+        "scope": "support"
+      },
+      {
+        "id": "fraction_equivalence:support:whole:guided_task",
+        "status": "pass",
+        "detail": "18/(2/3) = 27",
+        "scope": "support"
+      },
+      {
+        "id": "fraction_equivalence:support:scale:guided_task",
+        "status": "pass",
+        "detail": "4*3 = 12",
+        "scope": "support"
+      },
+      {
+        "id": "fraction_equivalence:support:simplify:guided_task",
+        "status": "pass",
+        "detail": "27/45 = 3/5",
+        "scope": "support"
+      },
+      {
+        "id": "fraction_equivalence:support:operate:guided_task",
+        "status": "pass",
+        "detail": "5/6-1/3 = 1/2",
+        "scope": "support"
+      },
+      {
+        "id": "ratio_models:support:o3:guided_task",
+        "status": "pass",
+        "detail": "40/(3+2)*3 = 24",
+        "scope": "support"
+      },
+      {
+        "id": "ratio_models:support:part_whole:guided_task",
+        "status": "pass",
+        "detail": "7/(2+7) = 7/9",
+        "scope": "support"
+      },
+      {
+        "id": "ratio_models:support:unit_rate:guided_task",
+        "status": "pass",
+        "detail": "24/6*2.5 = 10",
+        "scope": "support"
+      },
+      {
+        "id": "ratio_models:support:allocation:guided_task",
+        "status": "pass",
+        "detail": "9/(4-3)*3 = 27",
+        "scope": "support"
+      },
+      {
+        "id": "ratio_models:support:scale:guided_task",
+        "status": "pass",
+        "detail": "4*20000/100 = 800",
+        "scope": "support"
+      },
+      {
+        "id": "time_duration_calendar:support:o2:guided_task",
+        "status": "pass",
+        "detail": "12*60+15-(10*60+50) = 85",
+        "scope": "support"
+      },
+      {
+        "id": "time_duration_calendar:support:units60:guided_task",
+        "status": "pass",
+        "detail": "1+45/60 = 7/4",
+        "scope": "support"
+      },
+      {
+        "id": "time_duration_calendar:support:elapsed:guided_task",
+        "status": "pass",
+        "detail": "(24*60-(23*60+35))+20 = 45",
+        "scope": "support"
+      },
+      {
+        "id": "position_reference_frames:support:bearing:guided_task",
+        "status": "pass",
+        "detail": "90-40 = 50",
+        "scope": "support"
+      },
+      {
+        "id": "position_reference_frames:support:route_distance:guided_task",
+        "status": "pass",
+        "detail": "(2+4+1)*30 = 210",
+        "scope": "support"
+      },
+      {
+        "id": "position_reference_frames:delayed-7",
+        "status": "pass",
+        "detail": "(3+2+1)*50 = 300",
+        "scope": "new_stage_task"
+      },
+      {
+        "id": "equation_equivalence:support:o2:guided_task",
+        "status": "pass",
+        "detail": "(4+6)/(3-1) = 5",
+        "scope": "support"
+      },
+      {
+        "id": "linear_function_representations:support:rate:guided_task",
+        "status": "pass",
+        "detail": "(0-6)/(2-(-1)) = -2",
+        "scope": "support"
+      },
+      {
+        "id": "linear_function_representations:support:intercept:guided_task",
+        "status": "pass",
+        "detail": "3-(-1)*4 = 7",
+        "scope": "support"
+      },
+      {
+        "id": "linear_function_representations:support:read_graph:guided_task",
+        "status": "pass",
+        "detail": "(5*2)/(2*5) = 1",
+        "scope": "support"
+      },
+      {
+        "id": "linear_function_representations:support:compare_models:guided_task",
+        "status": "pass",
+        "detail": "15/(5-2)+1 = 6",
+        "scope": "support"
+      },
+      {
+        "id": "linear_function_representations:transfer-8",
+        "status": "pass",
+        "detail": "(20-10)/(6-2) = 5/2",
+        "scope": "new_stage_task"
+      },
+      {
+        "id": "triangle_conditions:support:o2:guided_task",
+        "status": "pass",
+        "detail": "35+80 = 115",
+        "scope": "support"
+      },
+      {
+        "id": "triangle_conditions:support:integer_range:guided_task",
+        "status": "pass",
+        "detail": "8-4+1 = 5",
+        "scope": "support"
+      },
+      {
+        "id": "triangle_conditions:support:angle_relations:guided_task",
+        "status": "pass",
+        "detail": "180-(180-120)-(180-150) = 90",
+        "scope": "support"
+      },
+      {
+        "id": "sampling_and_variation:support:centre:guided_task",
+        "status": "pass",
+        "detail": "(3+5)/2 = 4",
+        "scope": "support"
+      },
+      {
+        "id": "sampling_and_variation:support:spread:guided_task",
+        "status": "pass",
+        "detail": "((1-2)**2+(3-2)**2)/2 = 1",
+        "scope": "support"
+      },
+      {
+        "id": "correlation_and_regression:support:ols:guided_task",
+        "status": "pass",
+        "detail": "2-(-8/4)*3 = 8",
+        "scope": "support"
+      },
+      {
+        "id": "correlation_and_regression:support:residual:guided_task",
+        "status": "pass",
+        "detail": "7-(1+2*4) = -2",
+        "scope": "support"
+      },
+      {
+        "id": "correlation_and_regression:support:r_squared:guided_task",
+        "status": "pass",
+        "detail": "1-18/50 = 16/25",
+        "scope": "support"
+      },
+      {
+        "id": "independent_events:support:o3:guided_task",
+        "status": "pass",
+        "detail": "1-(1-0.8)*(1-0.5) = 9/10",
+        "scope": "support"
+      },
+      {
+        "id": "independent_events:support:conditional:guided_task",
+        "status": "pass",
+        "detail": "0.24/0.6 = 2/5",
+        "scope": "support"
+      },
+      {
+        "id": "independent_events:support:multiply:guided_task",
+        "status": "pass",
+        "detail": "2/6*1/5 = 1/15",
+        "scope": "support"
+      },
+      {
+        "id": "independent_events:support:complement:guided_task",
+        "status": "pass",
+        "detail": "0.5*(1-0.5)+(1-0.5)*0.5 = 1/2",
+        "scope": "support"
+      },
+      {
+        "id": "independent_events:delayed-6",
+        "status": "pass",
+        "detail": "1-(1-1/4)**3 = 37/64",
+        "scope": "new_stage_task"
+      }
+    ],
+    "independent_calculation_count": 36,
+    "independent_calculations": [
+      {
+        "check": "model.source_point_counts",
+        "method": "Extract the seven source coordinate pairs; preserve the prescribed 5/2 split.",
+        "computed": [
+          5,
+          2
+        ],
+        "expected": [
+          5,
+          2
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "model.means_and_centered_sums",
+        "method": "Exact rational sums from five training points.",
+        "computed": [
+          "2",
+          "9",
+          "10",
+          "50"
+        ],
+        "expected": [
+          "2",
+          "9",
+          "10",
+          "50"
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "model.linear_coefficients",
+        "method": "b=Sxy/Sxx, a=mean_y-b*mean_x, with an intercept and Sxx>0.",
+        "computed": [
+          "-1",
+          "5"
+        ],
+        "expected": [
+          "-1",
+          "5"
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "model.training_predictions",
+        "method": "Apply the independently fitted coefficients to each training input.",
+        "computed": [
+          "-1",
+          "4",
+          "9",
+          "14",
+          "19"
+        ],
+        "expected": [
+          "-1",
+          "4",
+          "9",
+          "14",
+          "19"
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "model.training_residuals",
+        "method": "Observed minus predicted, retaining signs.",
+        "computed": [
+          "2",
+          "-1",
+          "-2",
+          "-1",
+          "2"
+        ],
+        "expected": [
+          "2",
+          "-1",
+          "-2",
+          "-1",
+          "2"
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "model.training_sse",
+        "method": "Sum all five squared residuals.",
+        "computed": "14",
+        "expected": "14",
+        "result": "pass"
+      },
+      {
+        "check": "model.first_differences",
+        "method": "Consecutive y differences at equally spaced t.",
+        "computed": [
+          "2",
+          "4",
+          "6",
+          "8"
+        ],
+        "expected": [
+          "2",
+          "4",
+          "6",
+          "8"
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "model.second_differences",
+        "method": "Consecutive first-difference differences.",
+        "computed": [
+          "2",
+          "2",
+          "2"
+        ],
+        "expected": [
+          "2",
+          "2",
+          "2"
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "model.test_predictions",
+        "method": "Apply the frozen linear coefficients to the two reserved points.",
+        "computed": [
+          "24",
+          "29"
+        ],
+        "expected": [
+          "24",
+          "29"
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "model.test_residuals",
+        "method": "Observed minus linear prediction.",
+        "computed": [
+          "7",
+          "14"
+        ],
+        "expected": [
+          "7",
+          "14"
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "model.test_linear_sse",
+        "method": "7 squared plus 14 squared.",
+        "computed": "245",
+        "expected": "245",
+        "result": "pass"
+      },
+      {
+        "check": "model.quadratic_predictions",
+        "method": "Evaluate the given quadratic separately at all seven source inputs; no claim about unobserved inputs.",
+        "computed": [
+          "1",
+          "3",
+          "7",
+          "13",
+          "21",
+          "31",
+          "43"
+        ],
+        "expected": [
+          "1",
+          "3",
+          "7",
+          "13",
+          "21",
+          "31",
+          "43"
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "measurement.central_estimates",
+        "method": "Use degree-mode tangent and exact rational similar-triangle ratio.",
+        "computed": [
+          11.5,
+          "23/2"
+        ],
+        "expected": [
+          11.5,
+          "23/2"
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "measurement.angle_unrounded_bounds",
+        "method": "For positive d,e and acute theta, all three partial monotonicities increase height; use the lower and upper endpoints.",
+        "computed": [
+          10.91374999,
+          12.1124092
+        ],
+        "expected": [
+          10.91374999,
+          12.1124092
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "measurement.angle_outward_rounding",
+        "method": "Round the lower endpoint downward and upper endpoint upward to 0.01 m.",
+        "computed": [
+          10.91,
+          12.12
+        ],
+        "expected": [
+          10.91,
+          12.12
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "measurement.shadow_unrounded_bounds",
+        "method": "Use h_min*S_min/s_max and h_max*S_max/s_min; s is strictly positive.",
+        "computed": [
+          11.11393443,
+          11.90084746
+        ],
+        "expected": [
+          11.11393443,
+          11.90084746
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "measurement.shadow_outward_rounding",
+        "method": "Rational endpoints followed by outward centesimal rounding.",
+        "computed": [
+          11.11,
+          11.91
+        ],
+        "expected": [
+          11.11,
+          11.91
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "measurement.interval_overlap",
+        "method": "Compare exact/model endpoints; overlap does not establish truth of assumptions or coverage probability.",
+        "computed": true,
+        "expected": true,
+        "result": "pass"
+      },
+      {
+        "check": "measurement.angle_range_sensitivity",
+        "method": "Change only theta to [44.5,45.5] degrees; preserve distance and eye-height ranges.",
+        "computed": true,
+        "expected": true,
+        "result": "pass"
+      },
+      {
+        "check": "simulation.source_trial_counts",
+        "method": "Parse the two published material lists, preserving repeated trials.",
+        "computed": [
+          20,
+          20
+        ],
+        "expected": [
+          20,
+          20
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "simulation.mechanism_i_observed_counts",
+        "method": "Count each event from all 20 actual published pairs.",
+        "computed": {
+          "A": 10,
+          "B": 11,
+          "intersection": 5,
+          "union": 16,
+          "exactly_one": 11
+        },
+        "expected": {
+          "A": 10,
+          "B": 11,
+          "intersection": 5,
+          "union": 16,
+          "exactly_one": 11
+        },
+        "result": "pass"
+      },
+      {
+        "check": "simulation.mechanism_ii_observed_counts",
+        "method": "Count U<=3 in the 20 published values, with V=U each trial.",
+        "computed": {
+          "A": 12,
+          "B": 12,
+          "intersection": 12,
+          "union": 12,
+          "exactly_one": 0
+        },
+        "expected": {
+          "A": 12,
+          "B": 12,
+          "intersection": 12,
+          "union": 12,
+          "exactly_one": 0
+        },
+        "result": "pass"
+      },
+      {
+        "check": "simulation.mechanism_i_seed_reproduction",
+        "method": "Execute the stated Python Random seed and two draws per trial in the review environment.",
+        "computed": [
+          [
+            1,
+            2
+          ],
+          [
+            6,
+            2
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            6,
+            6
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            2
+          ],
+          [
+            6,
+            2
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            6,
+            6
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "simulation.mechanism_ii_seed_reproduction",
+        "method": "Execute the stated Python Random seed and one draw per trial; copying is deterministic.",
+        "computed": [
+          2,
+          1,
+          2,
+          2,
+          5,
+          2,
+          4,
+          1,
+          2,
+          1,
+          1,
+          4,
+          4,
+          4,
+          5,
+          1,
+          1,
+          6,
+          4,
+          2
+        ],
+        "expected": [
+          2,
+          1,
+          2,
+          2,
+          5,
+          2,
+          4,
+          1,
+          2,
+          1,
+          1,
+          4,
+          4,
+          4,
+          5,
+          1,
+          1,
+          6,
+          4,
+          2
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "simulation.mechanism_i_theory",
+        "method": "Enumerate all 36 equally likely ordered pairs, independent of the observed frequencies.",
+        "computed": {
+          "A": "1/2",
+          "B": "1/2",
+          "intersection": "1/4",
+          "union": "3/4",
+          "exactly_one": "1/2"
+        },
+        "expected": {
+          "A": "1/2",
+          "B": "1/2",
+          "intersection": "1/4",
+          "union": "3/4",
+          "exactly_one": "1/2"
+        },
+        "result": "pass"
+      },
+      {
+        "check": "simulation.mechanism_ii_theory",
+        "method": "Enumerate the six equally likely diagonal pairs; compare intersection with marginal product 1/4.",
+        "computed": {
+          "A": "1/2",
+          "B": "1/2",
+          "intersection": "1/2",
+          "union": "1/2",
+          "exactly_one": "0"
+        },
+        "expected": {
+          "A": "1/2",
+          "B": "1/2",
+          "intersection": "1/2",
+          "union": "1/2",
+          "exactly_one": "0"
+        },
+        "result": "pass"
+      },
+      {
+        "check": "stage.fraction_equivalence_delayed7",
+        "method": "Reduce the two proposed equivalent fractions independently; both share denominator 24.",
+        "computed": [
+          "3/8",
+          "1/6"
+        ],
+        "expected": [
+          "3/8",
+          "1/6"
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "stage.independent_events_delayed6",
+        "method": "Complement of three jointly independent failures.",
+        "computed": "37/64",
+        "expected": "37/64",
+        "result": "pass"
+      },
+      {
+        "check": "stage.linear_function_delayed7",
+        "method": "Compute slope, intercept and third-point substitution separately.",
+        "computed": [
+          "-2",
+          "3",
+          "-5"
+        ],
+        "expected": [
+          "-2",
+          "3",
+          "-5"
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "stage.linear_function_transfer8",
+        "method": "Read P=(2,10), Q=(6,20); use coordinate differences, not pixel/grid slope.",
+        "computed": "5/2",
+        "expected": "5/2",
+        "result": "pass"
+      },
+      {
+        "check": "stage.derivative_monotonicity_transfer6",
+        "method": "A prime is positive on the whole allowed interval; compare both endpoints and exclude the stationary point outside it.",
+        "computed": {
+          "stationary_outside": true,
+          "derivative_min": 2,
+          "endpoint_areas": [
+            7,
+            15
+          ]
+        },
+        "expected": {
+          "stationary_outside": true,
+          "derivative_min": 2,
+          "endpoint_areas": [
+            7,
+            15
+          ]
+        },
+        "result": "pass"
+      },
+      {
+        "check": "stage.position_reference_delayed6",
+        "method": "Use clockwise bearing from north: N30E is 30 degrees, reverse is 210=S30W=W60S; preserve 400m.",
+        "computed": [
+          210,
+          60
+        ],
+        "expected": [
+          210,
+          60
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "stage.position_reference_delayed7",
+        "method": "Sum all three route segments; net displacement is a different quantity.",
+        "computed": 300,
+        "expected": 300,
+        "result": "pass"
+      },
+      {
+        "check": "stage.ratio_models_transfer7",
+        "method": "Compare each new mass ratio; only multiplication retains the original quotient.",
+        "computed": [
+          "3/5",
+          "3/4"
+        ],
+        "expected": [
+          "3/5",
+          "3/4"
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "stage.triangle_conditions_transfer6",
+        "method": "Check positive-length examples, common perimeter and strict triangle inequality; the sorted side multisets differ.",
+        "computed": [
+          [
+            12,
+            true
+          ],
+          [
+            12,
+            true
+          ]
+        ],
+        "expected": [
+          [
+            12,
+            true
+          ],
+          [
+            12,
+            true
+          ]
+        ],
+        "result": "pass"
+      },
+      {
+        "check": "diagram.scaled_axes_point_coordinates",
+        "method": "Decode the SVG coordinates with origin (90,310), 40 px/min and 10 px/litre, matching printed ticks.",
+        "computed": [
+          [
+            "2",
+            "10"
+          ],
+          [
+            "6",
+            "20"
+          ]
+        ],
+        "expected": [
+          [
+            "2",
+            "10"
+          ],
+          [
+            "6",
+            "20"
+          ]
+        ],
+        "result": "pass"
+      }
+    ],
+    "environment": {
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "calculation_types": "fractions.Fraction except explicitly rounded trigonometry",
+      "svg_render": "Inkscape with FONTCONFIG_FILE=/tmp/cnkg-fonts.conf; PNG visually inspected"
+    },
+    "diagram_visual_review": {
+      "path": "web/static/diagrams/v4-linear-scaled-axes.svg",
+      "method": "Inkscape render followed by actual image inspection",
+      "result": "pass",
+      "observed": "完整中文可读；横轴0/2/4/6/8、纵轴0至25每5升；P在(2,10)、Q在(6,20)，虚线与点对齐；无裁字或遮挡。",
+      "web_page_preview": "由父任务另行执行，不能以本次独立SVG渲染替代实际页面预览。"
+    }
+  },
+  "findings": [
+    {
+      "id": "v4-ai-support-precision-01",
+      "path": "data/learning_units/fraction_equivalence.json",
+      "locator": "instructional_support.supports[id=fraction_equivalence:support:o1].guided_task",
+      "severity": "minor",
+      "finding": "题干已知蛋糕面积不同，各取一半必不同；原“未必相同”结论偏弱。",
+      "resolution": "选项B改为“实际面积不同”，解释同乘正数1/2保持大小关系；已重读实际字段。",
+      "status": "resolved_and_rechecked",
+      "resolution_owner": "/root/v4_teaching_content"
+    },
+    {
+      "id": "v4-ai-support-condition-02",
+      "path": "data/learning_units/position_reference_frames.json",
+      "locator": "instructional_support.supports[id=position_reference_frames:support:coordinate].guided_task.prompt",
+      "severity": "moderate",
+      "finding": "同一支持讨论反向编号，但指导题只写(列,行)未指定增加方向，不能据此前提唯一给(3,5)。",
+      "resolution": "明确列向右增大、行向上增大且从1开始；重新计算5−2=3、2+3=5，答案ID未改。",
+      "status": "resolved_and_rechecked",
+      "resolution_owner": "/root/v4_teaching_content"
+    },
+    {
+      "id": "v4-ai-support-feedback-03",
+      "path": "data/learning_units/equation_equivalence.json",
+      "locator": "instructional_support.supports[id=equation_equivalence:support:domain_constraint].diagnostic.choices[A,C].feedback",
+      "severity": "minor",
+      "finding": "题干只有整数书数与3x=10，原反馈却称9/12为费用，增加未给情境。",
+      "resolution": "改为代入x=3得到9不等10、x=4得到12不等10；已逐字核对，无需价格假设。",
+      "status": "resolved_and_rechecked",
+      "resolution_owner": "/root/v4_teaching_content"
+    },
+    {
+      "id": "v4-ai-support-feedback-04",
+      "path": "data/learning_units/linear_function_representations.json",
+      "locator": "instructional_support.supports[id=linear_function_representations:support:formula].diagnostic.choices[B].feedback",
+      "severity": "minor",
+      "finding": "题干仅给系数与一个检验点，原反馈称“第三条记录”与实际呈现不符。",
+      "resolution": "改成“给定系数和检验点一致”；已核对系数、代入结果及反馈。",
+      "status": "resolved_and_rechecked",
+      "resolution_owner": "/root/v4_teaching_content"
+    },
+    {
+      "id": "v4-ai-support-condition-05",
+      "path": "data/learning_units/independent_events.json",
+      "locator": "instructional_support.supports[id=independent_events:support:o2].diagnostic.prompt / hints[level=3]; supports[id=independent_events:support:multiply].guided_task.prompt",
+      "severity": "moderate",
+      "finding": "不放回抽球题给唯一概率，却在这三个局部情境漏写均匀随机机制。",
+      "resolution": "补球除颜色外相同、每次等可能随机抽取；已重读三处，1/3、2/3、1/15数值及原答案ID不变。",
+      "status": "resolved_and_rechecked",
+      "resolution_owner": "/root/v4_teaching_content"
+    },
+    {
+      "id": "v4-ai-task-representation-06",
+      "path": "data/learning_units/linear_function_representations.json",
+      "locator": "tasks[id=linear_function_representations:delayed-7].representation",
+      "severity": "moderate",
+      "finding": "题目以坐标对呈现，原标签table可能把它误计为表格表征经验。",
+      "resolution": "改为symbolic；题族、变式、答案和ID保持。已读取最终字段，后续安排应按实际表征区分。",
+      "status": "resolved_and_rechecked",
+      "resolution_owner": "/root/v4_teaching_content"
+    }
+  ],
+  "unresolved_content_findings": [],
+  "unit_reviews": [
+    {
+      "path": "data/learning_units/ten_frame_place_value.json",
+      "sha256": "d806990b1fbf8349534194ed073ce4d2a9e4e0b5ac29fbe50a084757f081d936",
+      "stage": "primary",
+      "support_count": 5,
+      "support_reviews": [
+        {
+          "id": "ten_frame_place_value:support:count",
+          "objective_id": "ten_frame_place_value:count",
+          "diagnostic_answer": "B",
+          "guided_answer": "7",
+          "semantic_review": "仅移动8颗棋子不改变基数；指导题4点加3点为7。文字回答不能证明逐一指点动作，观察边界已保留。",
+          "observation_boundary_checked": "短题观察重新摆放后数量是否不变；一一对应的动作还需摆物或画连线确认。",
+          "followup_task_ids_checked": [
+            "ten_frame_place_value:practice-1",
+            "ten_frame_place_value:transfer-5",
+            "ten_frame_place_value:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "ten_frame_place_value:support:compose_ten",
+          "objective_id": "ten_frame_place_value:compose_ten",
+          "diagnostic_answer": "B",
+          "guided_answer": "2",
+          "semantic_review": "6补4和8补2均对应十格框总数10；提示从空格转向补数，未把短答案当作完整摆放过程。",
+          "observation_boundary_checked": "观察能否找到10的缺少部分；能口答还需用十格或小物件说明拆分。",
+          "followup_task_ids_checked": [
+            "ten_frame_place_value:practice-2",
+            "ten_frame_place_value:transfer-2",
+            "ten_frame_place_value:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "ten_frame_place_value:support:place_value",
+          "objective_id": "ten_frame_place_value:place_value",
+          "diagnostic_answer": "B",
+          "guided_answer": "17",
+          "semantic_review": "14中的1表示1个十，1捆10根加7根为17；区分数字本身与位值，材料条件明确。",
+          "observation_boundary_checked": "观察十位单位；从11到20的拆捆与数写对应仍要继续练习。",
+          "followup_task_ids_checked": [
+            "ten_frame_place_value:practice-3",
+            "ten_frame_place_value:transfer-1",
+            "ten_frame_place_value:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "ten_frame_place_value:support:make_ten",
+          "objective_id": "ten_frame_place_value:make_ten",
+          "diagnostic_answer": "B",
+          "guided_answer": "13",
+          "semantic_review": "9+5拆5为1和4，凑10后应加4；8+5的指导结果13正确。指导题已给拆分，不单凭答数推断独立选择策略。",
+          "observation_boundary_checked": "观察凑十后剩余部分；需要用移动小棒的动作确认总量保持。",
+          "followup_task_ids_checked": [
+            "ten_frame_place_value:practice-4",
+            "ten_frame_place_value:transfer-2",
+            "ten_frame_place_value:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "ten_frame_place_value:support:operation",
+          "objective_id": "ten_frame_place_value:operation",
+          "diagnostic_answer": "B",
+          "guided_answer": "5",
+          "semantic_review": "吃了2、剩4求原来用2+4=6；原12剩7求送出用12−7=5。依据数量关系，不以“剩”字机械选减法。",
+          "observation_boundary_checked": "观察“还剩”情境中的未知量；不能仅凭某个词固定选择加法或减法。",
+          "followup_task_ids_checked": [
+            "ten_frame_place_value:practice-5",
+            "ten_frame_place_value:transfer-1",
+            "ten_frame_place_value:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        }
+      ]
+    },
+    {
+      "path": "data/learning_units/data_reading_and_mean.json",
+      "sha256": "7439716802920db9d1b6527f1b25f0605a511f7260b770ebb7192d573aa61ad9",
+      "stage": "primary",
+      "support_count": 5,
+      "support_reviews": [
+        {
+          "id": "data_reading_and_mean:support:read_scale",
+          "objective_id": "data_reading_and_mean:read_scale",
+          "diagnostic_answer": "C",
+          "guided_answer": "12",
+          "semantic_review": "截断纵轴从10开始、每格2，三格对应16；指导题每格4，五格与两格差12。起点与刻度均参与读数。",
+          "observation_boundary_checked": "短题分辨“格数”和“实际数量”；能正确读数还不足以证明能识别截断轴造成的倍数错觉，须继续做截断图任务。",
+          "followup_task_ids_checked": [
+            "data_reading_and_mean:practice-1",
+            "data_reading_and_mean:transfer-1",
+            "data_reading_and_mean:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "data_reading_and_mean:support:mean",
+          "objective_id": "data_reading_and_mean:mean",
+          "diagnostic_answer": "B",
+          "guided_answer": "9",
+          "semantic_review": "完整记录0须计入三天，不能当缺失；四次平均6先还原总量24，再减3+5+7得到9。",
+          "observation_boundary_checked": "观察能否把记录的0计入份数，并用总量÷份数；反求未知量和区分缺失记录仍需后续确认。",
+          "followup_task_ids_checked": [
+            "data_reading_and_mean:practice-2",
+            "data_reading_and_mean:transfer-2",
+            "data_reading_and_mean:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "data_reading_and_mean:support:combine",
+          "objective_id": "data_reading_and_mean:combine",
+          "diagnostic_answer": "B",
+          "guided_answer": "5",
+          "semantic_review": "人数不等时先加总量再除总人数；1×8+3×4=20，四人平均5，不能直接平均组均值。",
+          "observation_boundary_checked": "观察合并平均的分母和各组权重；选对式子不等于能解释人数改变的影响，后续需保留计算与说理。",
+          "followup_task_ids_checked": [
+            "data_reading_and_mean:practice-3",
+            "data_reading_and_mean:transfer-3",
+            "data_reading_and_mean:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "data_reading_and_mean:support:choose_chart",
+          "objective_id": "data_reading_and_mean:choose_chart",
+          "diagnostic_answer": "A",
+          "guided_answer": "A",
+          "semantic_review": "同日类别比较用条形，连续时间变化可用折线；提示保留份额图须有同一整体及不重复部分的条件。",
+          "observation_boundary_checked": "观察类别、时间顺序和整体份额的区别；选择题不能代替自己画出有轴名、单位和清楚刻度的图。",
+          "followup_task_ids_checked": [
+            "data_reading_and_mean:practice-4",
+            "data_reading_and_mean:transfer-4",
+            "data_reading_and_mean:delayed-4"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "data_reading_and_mean:support:limited_claim",
+          "objective_id": "data_reading_and_mean:limited_claim",
+          "diagnostic_answer": "B",
+          "guided_answer": "C",
+          "semantic_review": "四名小组成员本周记录只支持相应人群和时间；周四漏记不能补成0，也不能凭前三天保证未来。",
+          "observation_boundary_checked": "短题只检查结论的对象范围；能否自写有边界的结论、举平均数反例和处理缺失数据，仍由后续开放任务检查。",
+          "followup_task_ids_checked": [
+            "data_reading_and_mean:practice-5",
+            "data_reading_and_mean:transfer-5",
+            "data_reading_and_mean:delayed-5"
+          ],
+          "result": "pass_after_listed_corrections"
+        }
+      ]
+    },
+    {
+      "path": "data/learning_units/common_factors_multiples.json",
+      "sha256": "712eace7fc4bcf52227086fd731dd4d25995664353930d4466d507232c0bee9b",
+      "stage": "primary",
+      "support_count": 7,
+      "support_reviews": [
+        {
+          "id": "common_factors_multiples:support:o1",
+          "objective_id": "common_factors_multiples:o1",
+          "diagnostic_answer": "B",
+          "guided_answer": "A",
+          "semantic_review": "2是12与18的公因数但非最大，最大为6；10与15完整公因数为1、5。可行与最大分开。",
+          "observation_boundary_checked": "复合目标短题检查公因数与最大公因数的区别；列举完整性仍需后续说明。",
+          "followup_task_ids_checked": [
+            "common_factors_multiples:practice-1",
+            "common_factors_multiples:transfer-1",
+            "common_factors_multiples:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "common_factors_multiples:support:o2",
+          "objective_id": "common_factors_multiples:o2",
+          "diagnostic_answer": "C",
+          "guided_answer": "15",
+          "semantic_review": "6与8最小正公倍数24；5与15为15。0虽可写为倍数，却不属于这里的最小正公倍数候选。",
+          "observation_boundary_checked": "复合目标先检查排除0和最小性；倍数捷径与应用条件仍需后续任务。",
+          "followup_task_ids_checked": [
+            "common_factors_multiples:practice-2",
+            "common_factors_multiples:transfer-2",
+            "common_factors_multiples:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "common_factors_multiples:support:o3",
+          "objective_id": "common_factors_multiples:o3",
+          "diagnostic_answer": "A",
+          "guided_answer": "B",
+          "semantic_review": "12和20等长整段无余求最大用GCD=4；从0同时起闪的4秒、6秒周期首次再同闪为12秒。",
+          "observation_boundary_checked": "复合目标短题区分模型；约分、通分和周期起点条件仍需后续确认。",
+          "followup_task_ids_checked": [
+            "common_factors_multiples:practice-3",
+            "common_factors_multiples:transfer-1",
+            "common_factors_multiples:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "common_factors_multiples:support:gcd",
+          "objective_id": "common_factors_multiples:gcd",
+          "diagnostic_answer": "A",
+          "guided_answer": "4",
+          "semantic_review": "16与24因数集合交集为1、2、4、8；20与28最大公因数4。因数须整除原数，方向未颠倒。",
+          "observation_boundary_checked": "观察完整列公因数；最大性的解释由列表完整性支持。",
+          "followup_task_ids_checked": [
+            "common_factors_multiples:practice-1",
+            "common_factors_multiples:transfer-1",
+            "common_factors_multiples:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "common_factors_multiples:support:lcm",
+          "objective_id": "common_factors_multiples:lcm",
+          "diagnostic_answer": "B",
+          "guided_answer": "18",
+          "semantic_review": "8整除24时最小正公倍数24；6与9为18。给出所有候选/质因数理由，不把任意公倍数当最小。",
+          "observation_boundary_checked": "观察一个数为另一个倍数时的捷径；不能把这条规则用于任意数对。",
+          "followup_task_ids_checked": [
+            "common_factors_multiples:practice-2",
+            "common_factors_multiples:transfer-2",
+            "common_factors_multiples:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "common_factors_multiples:support:choose_model",
+          "objective_id": "common_factors_multiples:choose_model",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "起点错开的闪灯必须按实际时刻核对，0/4/8与2/8/14首交为8；18、30分段候选6须分别验证整除。",
+          "observation_boundary_checked": "观察错峰周期不能直接套最小公倍数；整分单位模型仍需另题确认。",
+          "followup_task_ids_checked": [
+            "common_factors_multiples:practice-3",
+            "common_factors_multiples:transfer-1",
+            "common_factors_multiples:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "common_factors_multiples:support:justify_optimum",
+          "objective_id": "common_factors_multiples:justify_optimum",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "公分母24可用但12更小；完整列出1、2、5、10后10才有最大依据。没有把可行和最优混为一谈。",
+          "observation_boundary_checked": "观察最小公分母与一般公分母的区别；最大公因数同样需要完整候选依据。",
+          "followup_task_ids_checked": [
+            "common_factors_multiples:practice-1",
+            "common_factors_multiples:transfer-1",
+            "common_factors_multiples:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        }
+      ]
+    },
+    {
+      "path": "data/learning_units/fraction_equivalence.json",
+      "sha256": "aa4e22ab1ee2c0cc98955c32a8f3fa879c141642e7a22fbab6dbc13925447e73",
+      "stage": "primary",
+      "support_count": 9,
+      "support_reviews": [
+        {
+          "id": "fraction_equivalence:support:o1",
+          "objective_id": "fraction_equivalence:o1",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "不等大的六块取三块不能推出面积一半；面积不同的两个蛋糕各取半，面积必不同。已核实修订后的确定性表述。",
+          "observation_boundary_checked": "复合目标先检查等分条件；数轴、集合和整体改变仍需后续任务确认。",
+          "followup_task_ids_checked": [
+            "fraction_equivalence:practice-1",
+            "fraction_equivalence:transfer-1",
+            "fraction_equivalence:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "fraction_equivalence:support:o2",
+          "objective_id": "fraction_equivalence:o2",
+          "diagnostic_answer": "C",
+          "guided_answer": "3/5",
+          "semantic_review": "2/5扩大为6/15需分子分母同乘3；15/25约为3/5，指导题明确要求最简分数且契约匹配。",
+          "observation_boundary_checked": "复合目标短题检查等值变形的依据；最简判断与通分应用分别通过后续任务确认。",
+          "followup_task_ids_checked": [
+            "fraction_equivalence:practice-2",
+            "fraction_equivalence:transfer-2",
+            "fraction_equivalence:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "fraction_equivalence:support:o3",
+          "objective_id": "fraction_equivalence:o3",
+          "diagnostic_answer": "B",
+          "guided_answer": "5/8",
+          "semantic_review": "1/3与1/6须同一单位并转成共同小份；彩带两次都按原全长剪1/4、1/8，剩5/8，参照量清楚。",
+          "observation_boundary_checked": "短题观察异分母相加为何先通分；整体条件、比较和估计另需确认。",
+          "followup_task_ids_checked": [
+            "fraction_equivalence:practice-3",
+            "fraction_equivalence:transfer-1",
+            "fraction_equivalence:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "fraction_equivalence:support:whole",
+          "objective_id": "fraction_equivalence:whole",
+          "diagnostic_answer": "A",
+          "guided_answer": "27",
+          "semantic_review": "实长6厘米不变时参照整体由12变18，分数由1/2变1/3；整体2/3为18颗时整体为27，未混淆份量与整体。",
+          "observation_boundary_checked": "观察同一个量换整体时分数如何变化；不能凭一次选择认定已能处理所有整体问题。",
+          "followup_task_ids_checked": [
+            "fraction_equivalence:practice-4",
+            "fraction_equivalence:transfer-1",
+            "fraction_equivalence:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "fraction_equivalence:support:represent",
+          "objective_id": "fraction_equivalence:represent",
+          "diagnostic_answer": "A",
+          "guided_answer": "A",
+          "semantic_review": "0到1五等分走七段为7/5；九蓝珠占十二颗为9/12=3/4。数轴单位长度、等分和集合整体均明确。",
+          "observation_boundary_checked": "观察数轴上超出1的分数表示；集合与面积模型的互译仍需后续任务。",
+          "followup_task_ids_checked": [
+            "fraction_equivalence:practice-1",
+            "fraction_equivalence:transfer-3",
+            "fraction_equivalence:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "fraction_equivalence:support:scale",
+          "objective_id": "fraction_equivalence:scale",
+          "diagnostic_answer": "B",
+          "guided_answer": "12",
+          "semantic_review": "分子分母同加2把1/2变3/4，构成有效反例；4/9变分母27需分子12，非零同倍关系正确。",
+          "observation_boundary_checked": "观察能否用数值检验错误等值规则；选对反例不等于能解释全部变形。",
+          "followup_task_ids_checked": [
+            "fraction_equivalence:practice-1",
+            "fraction_equivalence:transfer-2",
+            "fraction_equivalence:delayed-4"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "fraction_equivalence:support:simplify",
+          "objective_id": "fraction_equivalence:simplify",
+          "diagnostic_answer": "B",
+          "guided_answer": "3/5",
+          "semantic_review": "21和35同为奇数不代表互质，公因数7；27/45约成3/5。最简要求未只靠小数数值等价代替。",
+          "observation_boundary_checked": "观察最简分数的停止条件；计算错误还可能来自漏除或写错，需看过程再判断。",
+          "followup_task_ids_checked": [
+            "fraction_equivalence:practice-2",
+            "fraction_equivalence:transfer-4",
+            "fraction_equivalence:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "fraction_equivalence:support:common_unit",
+          "objective_id": "fraction_equivalence:common_unit",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "1/4与1/6通分可取24，不强求最小；5/6和1/4可写10/12、3/12。共同单位与最小化分开。",
+          "observation_boundary_checked": "观察是否保持两个原值并统一份单位；不要求公分母一定最小，除非题目明确要求。",
+          "followup_task_ids_checked": [
+            "fraction_equivalence:practice-7",
+            "fraction_equivalence:transfer-2",
+            "fraction_equivalence:delayed-7"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "fraction_equivalence:support:operate",
+          "objective_id": "fraction_equivalence:operate",
+          "diagnostic_answer": "B",
+          "guided_answer": "1/2",
+          "semantic_review": "7/10−3/10按十分之一计数；5/6−1/3=1/2，指导题最简契约与答案一致，未作分母相减。",
+          "observation_boundary_checked": "观察同分母减法保留份单位；比较、求余和估计仍需各自任务确认。",
+          "followup_task_ids_checked": [
+            "fraction_equivalence:practice-3",
+            "fraction_equivalence:transfer-1",
+            "fraction_equivalence:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        }
+      ]
+    },
+    {
+      "path": "data/learning_units/ratio_models.json",
+      "sha256": "4861a2be68194315a3bcd7f81177f75bc1ccd6b9227945fcff3234b27267397b",
+      "stage": "primary",
+      "support_count": 10,
+      "support_reviews": [
+        {
+          "id": "ratio_models:support:o1",
+          "objective_id": "ratio_models:o1",
+          "diagnostic_answer": "B",
+          "guided_answer": "A",
+          "semantic_review": "红蓝2:5中5对应蓝而非总数，总份数7；糖水1:4对应糖占总量1/5，参照量一致。",
+          "observation_boundary_checked": "复合目标先检查比的参照对象；单位率、等比变化和部分占整体还需分别确认。",
+          "followup_task_ids_checked": [
+            "ratio_models:practice-1",
+            "ratio_models:transfer-1",
+            "ratio_models:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "ratio_models:support:o2",
+          "objective_id": "ratio_models:o2",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "周长固定示例中2×8与4×6不等，不能只据反向变化称反比例；5+3x有固定项，y/x不恒定。",
+          "observation_boundary_checked": "复合目标短题区分乘积固定与同向反向变化；一般规律的依据另需检查。",
+          "followup_task_ids_checked": [
+            "ratio_models:practice-2",
+            "ratio_models:transfer-5",
+            "ratio_models:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "ratio_models:support:o3",
+          "objective_id": "ratio_models:o3",
+          "diagnostic_answer": "C",
+          "guided_answer": "24",
+          "semantic_review": "45按2:3先除总份数5；40按3:2分配时甲24。所有数量合计与单位正确。",
+          "observation_boundary_checked": "复合目标先检查按总量分配；比例尺和单位率应用仍需独立任务确认。",
+          "followup_task_ids_checked": [
+            "ratio_models:practice-3",
+            "ratio_models:transfer-1",
+            "ratio_models:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "ratio_models:support:referent",
+          "objective_id": "ratio_models:referent",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "图上3厘米与实际6米先统一为3:600=1:200；蓝12与红8的蓝红顺序为3:2，未倒置参照。",
+          "observation_boundary_checked": "观察能否按给定顺序写比；数量比较与单位统一还要在后续任务中检查。",
+          "followup_task_ids_checked": [
+            "ratio_models:practice-1",
+            "ratio_models:transfer-1",
+            "ratio_models:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "ratio_models:support:part_whole",
+          "objective_id": "ratio_models:part_whole",
+          "diagnostic_answer": "B",
+          "guided_answer": "7/9",
+          "semantic_review": "黑白3:2时黑占全部3/5；红蓝2:7时蓝占7/9。部分与另一部分的比不能直接当部分与整体分数。",
+          "observation_boundary_checked": "观察部分占整体的分母；没有实际总量时不能推出每份的绝对数量。",
+          "followup_task_ids_checked": [
+            "ratio_models:practice-1",
+            "ratio_models:transfer-1",
+            "ratio_models:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "ratio_models:support:equivalent_ratio",
+          "objective_id": "ratio_models:equivalent_ratio",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "2:3同乘4得到8:12商不变；4:7配方中蓝21克对应放大3倍、红12克，数量单位适当。",
+          "observation_boundary_checked": "观察同乘与同加的差别；绘图缩放时还需确认实际量是否保持不变。",
+          "followup_task_ids_checked": [
+            "ratio_models:practice-7",
+            "ratio_models:transfer-7",
+            "ratio_models:delayed-5"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "ratio_models:support:unit_rate",
+          "objective_id": "ratio_models:unit_rate",
+          "diagnostic_answer": "A",
+          "guided_answer": "10",
+          "semantic_review": "400米/5分钟为80米每分钟；米价24元/6千克=4元每千克，2.5千克需10元，除法方向和条件正确。",
+          "observation_boundary_checked": "观察单位率的除法方向；选择更优方案还需要同单位及规则一致。",
+          "followup_task_ids_checked": [
+            "ratio_models:practice-4",
+            "ratio_models:transfer-3",
+            "ratio_models:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "ratio_models:support:invariant",
+          "objective_id": "ratio_models:invariant",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "y=4x+2已有反例说明不正比例；仅有(1,3)、(2,6)不足以证明全域正比例，有限数据与给定规则分开。",
+          "observation_boundary_checked": "观察正比例的商条件；有限几个相合数据本身不足以保证规则。",
+          "followup_task_ids_checked": [
+            "ratio_models:practice-2",
+            "ratio_models:transfer-5",
+            "ratio_models:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "ratio_models:support:allocation",
+          "objective_id": "ratio_models:allocation",
+          "diagnostic_answer": "C",
+          "guided_answer": "27",
+          "semantic_review": "5:2数量差18对应3份；4:3差9时乙3份为27。差份数与总份数区分，整件分配不能任意舍入。",
+          "observation_boundary_checked": "观察按差分配的份数；最后仍需核对分配总量、比和整数限制。",
+          "followup_task_ids_checked": [
+            "ratio_models:practice-3",
+            "ratio_models:transfer-4",
+            "ratio_models:delayed-6"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "ratio_models:support:scale",
+          "objective_id": "ratio_models:scale",
+          "diagnostic_answer": "A",
+          "guided_answer": "800",
+          "semantic_review": "1:100000图上2厘米对应2千米；1:20000图上4厘米为800米。图上缩放导致比例尺改变的提示符合量纲。",
+          "observation_boundary_checked": "观察图上与实际的乘除方向和单位换算；放大打印后的比例尺另需核对。",
+          "followup_task_ids_checked": [
+            "ratio_models:practice-5",
+            "ratio_models:transfer-2",
+            "ratio_models:delayed-5"
+          ],
+          "result": "pass_after_listed_corrections"
+        }
+      ]
+    },
+    {
+      "path": "data/learning_units/time_duration_calendar.json",
+      "sha256": "4892112a9ada5feecc2b5b1b542a2ee6bec80b7fc22fd9c11798e5975e0a9cbd",
+      "stage": "primary",
+      "support_count": 8,
+      "support_reviews": [
+        {
+          "id": "time_duration_calendar:support:o1",
+          "objective_id": "time_duration_calendar:o1",
+          "diagnostic_answer": "A",
+          "guided_answer": "C",
+          "semantic_review": "15:20是时刻、40分钟是时长；9:15到10:00的45分钟不当作钟面读数。",
+          "observation_boundary_checked": "复合目标先分清时刻与时长；钟面指针和24时转换还需另题确认。",
+          "followup_task_ids_checked": [
+            "time_duration_calendar:practice-1",
+            "time_duration_calendar:transfer-1",
+            "time_duration_calendar:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "time_duration_calendar:support:o2",
+          "objective_id": "time_duration_calendar:o2",
+          "diagnostic_answer": "B",
+          "guided_answer": "85",
+          "semantic_review": "1小时40分为100分；10:50到12:15为85分。先转同单位或分段，按60进制处理。",
+          "observation_boundary_checked": "复合目标短题检查60进制；日期完整性、反求起止还需后续任务。",
+          "followup_task_ids_checked": [
+            "time_duration_calendar:practice-2",
+            "time_duration_calendar:transfer-1",
+            "time_duration_calendar:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "time_duration_calendar:support:o3",
+          "objective_id": "time_duration_calendar:o3",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "2028闰年2月28日8时到3月1日8时跨2天；4月30日中午到5月2日中午也为2天，不按列出的日期个数作时长。",
+          "observation_boundary_checked": "复合目标先检查2月是否有29日；首尾日期个数与经过天数另需区分。",
+          "followup_task_ids_checked": [
+            "time_duration_calendar:practice-3",
+            "time_duration_calendar:transfer-3",
+            "time_duration_calendar:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "time_duration_calendar:support:read_time",
+          "objective_id": "time_duration_calendar:read_time",
+          "diagnostic_answer": "A",
+          "guided_answer": "B",
+          "semantic_review": "分针6、时针4和5之间且下午对应16:30；下午3:05为15:05。保留上午/下午信息，不只看短针整数。",
+          "observation_boundary_checked": "观察钟面半点与24时对应；任意分针位置仍需实际钟面练习。",
+          "followup_task_ids_checked": [
+            "time_duration_calendar:practice-1",
+            "time_duration_calendar:transfer-1",
+            "time_duration_calendar:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "time_duration_calendar:support:units60",
+          "objective_id": "time_duration_calendar:units60",
+          "diagnostic_answer": "B",
+          "guided_answer": "1.75",
+          "semantic_review": "2小时30分=2.5小时，1小时45分=1.75小时；分钟除60，不能按百进制拼接成1.45。",
+          "observation_boundary_checked": "观察时分与小数小时的换算；数值相同的小数位不等于相同分钟数。",
+          "followup_task_ids_checked": [
+            "time_duration_calendar:practice-2",
+            "time_duration_calendar:transfer-1",
+            "time_duration_calendar:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "time_duration_calendar:support:elapsed",
+          "objective_id": "time_duration_calendar:elapsed",
+          "diagnostic_answer": "B",
+          "guided_answer": "45",
+          "semantic_review": "只给22时到02时而无日期不能唯一确定，可4小时也可28小时；明确相邻日期且无调时的23:35到00:20为45分。",
+          "observation_boundary_checked": "观察缺日期造成的不唯一；有完整起止时刻时再按单位计算。",
+          "followup_task_ids_checked": [
+            "time_duration_calendar:practice-2",
+            "time_duration_calendar:transfer-1",
+            "time_duration_calendar:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "time_duration_calendar:support:calendar",
+          "objective_id": "time_duration_calendar:calendar",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "给定公历4/100/400规则下2100不闰、2032闰，2月末为29日；规则与题中年月明确。",
+          "observation_boundary_checked": "观察闰年规则的例外；跨月计算仍需当月日历顺序。",
+          "followup_task_ids_checked": [
+            "time_duration_calendar:practice-3",
+            "time_duration_calendar:transfer-3",
+            "time_duration_calendar:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "time_duration_calendar:support:count_intervals",
+          "objective_id": "time_duration_calendar:count_intervals",
+          "diagnostic_answer": "B",
+          "guided_answer": "A",
+          "semantic_review": "周二8时到周五8时是3间隔；6月10日至12日含首尾签到3次、经过2天，事件点数与时长不混。",
+          "observation_boundary_checked": "观察首尾都计数与经过时长的区别；边界是否包含必须由任务约定。",
+          "followup_task_ids_checked": [
+            "time_duration_calendar:practice-3",
+            "time_duration_calendar:transfer-3",
+            "time_duration_calendar:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        }
+      ]
+    },
+    {
+      "path": "data/learning_units/position_reference_frames.json",
+      "sha256": "a54e6d8141bb3f7a53ad95b4c28ca6f4129a7d4a906b00fdaebab2ab7c052e09",
+      "stage": "primary",
+      "support_count": 8,
+      "support_reviews": [
+        {
+          "id": "position_reference_frames:support:o1",
+          "objective_id": "position_reference_frames:o1",
+          "diagnostic_answer": "B",
+          "guided_answer": "C",
+          "semantic_review": "人面向西时右方为北，面向南时东在左；左右随面朝方向，地理方位不随人转动。",
+          "observation_boundary_checked": "复合目标先检查身体朝向；地图旋转和参照点还需另行确认。",
+          "followup_task_ids_checked": [
+            "position_reference_frames:practice-1",
+            "position_reference_frames:transfer-1",
+            "position_reference_frames:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "position_reference_frames:support:o2",
+          "objective_id": "position_reference_frames:o2",
+          "diagnostic_answer": "A",
+          "guided_answer": "B",
+          "semantic_review": "只给北偏东40°、500米仍缺观察点；同一射线北偏东20°等价东偏北70°，换基准用余角且距离保持。",
+          "observation_boundary_checked": "复合目标短题检查参照点遗漏；反向和互余角转换仍需后续任务。",
+          "followup_task_ids_checked": [
+            "position_reference_frames:practice-2",
+            "position_reference_frames:transfer-2",
+            "position_reference_frames:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "position_reference_frames:support:o3",
+          "objective_id": "position_reference_frames:o3",
+          "diagnostic_answer": "A",
+          "guided_answer": "B",
+          "semantic_review": "明确列行和增长方向后，(2,4)右3到(5,4)；指导题每格10米右3左1路程40米，净右2格不是实际路程。",
+          "observation_boundary_checked": "复合目标先检查数对顺序；路程与直线距离的区别另需路线任务。",
+          "followup_task_ids_checked": [
+            "position_reference_frames:practice-3",
+            "position_reference_frames:transfer-3",
+            "position_reference_frames:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "position_reference_frames:support:body_frame",
+          "objective_id": "position_reference_frames:body_frame",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "北箭头朝纸面右时纸面上为西；旋转图纸180°不能改变公园实际在学校西侧的地理关系。",
+          "observation_boundary_checked": "观察旋转地图后按北向定位；身体左右还需知道观察者的朝向。",
+          "followup_task_ids_checked": [
+            "position_reference_frames:practice-1",
+            "position_reference_frames:transfer-1",
+            "position_reference_frames:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "position_reference_frames:support:bearing",
+          "objective_id": "position_reference_frames:bearing",
+          "diagnostic_answer": "B",
+          "guided_answer": "50",
+          "semantic_review": "北偏西35°等价西偏北55°；南偏东40°等价东偏南50°，用90°减且须同一参照点与距离才定位同一点。",
+          "observation_boundary_checked": "观察互余角表述；还需同参照点和相同距离才表示同一个位置。",
+          "followup_task_ids_checked": [
+            "position_reference_frames:practice-2",
+            "position_reference_frames:transfer-2",
+            "position_reference_frames:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "position_reference_frames:support:return_direction",
+          "objective_id": "position_reference_frames:return_direction",
+          "diagnostic_answer": "B",
+          "guided_answer": "A",
+          "semantic_review": "正反行程方向差180°而距离相同；北偏西20°反向南偏东20°，未把反向角错误改为互余角。",
+          "observation_boundary_checked": "观察两点互看时方向反转180°；换基准方向时再处理余角。",
+          "followup_task_ids_checked": [
+            "position_reference_frames:practice-4",
+            "position_reference_frames:transfer-2",
+            "position_reference_frames:delayed-6"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "position_reference_frames:support:coordinate",
+          "objective_id": "position_reference_frames:coordinate",
+          "diagnostic_answer": "B",
+          "guided_answer": "A",
+          "semantic_review": "六列反向编号时旧第2列变第5列；指导题已补列向右、行向上增大后，(5,2)左2上3为(3,5)。",
+          "observation_boundary_checked": "观察列编号反向的影响；位置本身不随名称更换而移动。",
+          "followup_task_ids_checked": [
+            "position_reference_frames:practice-3",
+            "position_reference_frames:transfer-3",
+            "position_reference_frames:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "position_reference_frames:support:route_distance",
+          "objective_id": "position_reference_frames:route_distance",
+          "diagnostic_answer": "B",
+          "guided_answer": "210",
+          "semantic_review": "实际路程累加各段：东4西1每格20米为100米；北2东4南1每格30米为210米，未用净位移替代；最短网格路线也不能直接叫直线距离。",
+          "observation_boundary_checked": "观察折返路段不能抵消；最短网格路线和直线距离仍须另证。",
+          "followup_task_ids_checked": [
+            "position_reference_frames:practice-5",
+            "position_reference_frames:transfer-3",
+            "position_reference_frames:delayed-7"
+          ],
+          "result": "pass_after_listed_corrections"
+        }
+      ]
+    },
+    {
+      "path": "data/learning_units/equation_equivalence.json",
+      "sha256": "9ad71b51b07711f48e503b5c5af960b7a2ba6eccc96c901bd39b731abb637c56",
+      "stage": "junior",
+      "support_count": 8,
+      "support_reviews": [
+        {
+          "id": "equation_equivalence:support:o1",
+          "objective_id": "equation_equivalence:o1",
+          "diagnostic_answer": "B",
+          "guided_answer": "A",
+          "semantic_review": "2x=0除以x会丢掉x=0；等价变形的除数必须非零，不能从待求未知数自行补非零前提。",
+          "observation_boundary_checked": "复合目标先检查两边操作与除数；完整解方程时的每一步仍需核对。",
+          "followup_task_ids_checked": [
+            "equation_equivalence:practice-1",
+            "equation_equivalence:transfer-1",
+            "equation_equivalence:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "equation_equivalence:support:o2",
+          "objective_id": "equation_equivalence:o2",
+          "diagnostic_answer": "B",
+          "guided_answer": "5",
+          "semantic_review": "−2(x−3)=−2x+6；指导题3(x−2)=x+4给x=5，代回两边均9。答数未展示全部去分母和检查过程，复合边界保留。",
+          "observation_boundary_checked": "复合目标检查去括号的分配；分母处理和最终原式检验仍由后续任务确认。",
+          "followup_task_ids_checked": [
+            "equation_equivalence:practice-2",
+            "equation_equivalence:transfer-1",
+            "equation_equivalence:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "equation_equivalence:support:o3",
+          "objective_id": "equation_equivalence:o3",
+          "diagnostic_answer": "B",
+          "guided_answer": "C",
+          "semantic_review": "整袋约束4x+2=17给x=3.75，取整4产生18，不能当精确解；人数为−2亦须报告不可行，不能改符号。",
+          "observation_boundary_checked": "复合目标先观察整数限制；建模关系和单位说明仍需完整过程任务。",
+          "followup_task_ids_checked": [
+            "equation_equivalence:practice-3",
+            "equation_equivalence:transfer-2",
+            "equation_equivalence:delayed-5"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "equation_equivalence:support:reversible",
+          "objective_id": "equation_equivalence:reversible",
+          "diagnostic_answer": "B",
+          "guided_answer": "C",
+          "semantic_review": "x=3同乘0扩大成所有实数解；x=2同乘x−1可增加x=1。两边同减2x可逆，操作一致之外还须同解。",
+          "observation_boundary_checked": "观察乘0产生额外解；含未知数除法造成漏解另需继续检查。",
+          "followup_task_ids_checked": [
+            "equation_equivalence:practice-1",
+            "equation_equivalence:transfer-1",
+            "equation_equivalence:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "equation_equivalence:support:distribute",
+          "objective_id": "equation_equivalence:distribute",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "x/3+2=5整体乘3应为x+6=15；2−3(x+1)=−3x−1，清分母与负号均作用每一项。",
+          "observation_boundary_checked": "观察去分母漏乘整数项；负号和多括号仍须逐项核对。",
+          "followup_task_ids_checked": [
+            "equation_equivalence:practice-2",
+            "equation_equivalence:transfer-1",
+            "equation_equivalence:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "equation_equivalence:support:solve_check",
+          "objective_id": "equation_equivalence:solve_check",
+          "diagnostic_answer": "B",
+          "guided_answer": "C",
+          "semantic_review": "2(x+1)=2x+5化成2=5表示无解；4(x−1)=4x−4则对所有实数成立，不能把矛盾或恒等式错认成x=0。",
+          "observation_boundary_checked": "观察无解与恒等的区别；普通唯一解还需完成等价变形与代回。",
+          "followup_task_ids_checked": [
+            "equation_equivalence:practice-2",
+            "equation_equivalence:transfer-1",
+            "equation_equivalence:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "equation_equivalence:support:model_quantity",
+          "objective_id": "equation_equivalence:model_quantity",
+          "diagnostic_answer": "A",
+          "guided_answer": "B",
+          "semantic_review": "书数模型x+(x+4)=18正确；单价5元、一次包装2元、总22应5x+2=22，不能把固定费按本数重复收。",
+          "observation_boundary_checked": "观察未知量的定义与等量关系；完整建模仍需画图、单位和解释。",
+          "followup_task_ids_checked": [
+            "equation_equivalence:practice-3",
+            "equation_equivalence:transfer-2",
+            "equation_equivalence:delayed-5"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "equation_equivalence:support:domain_constraint",
+          "objective_id": "equation_equivalence:domain_constraint",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "整数书数3x=10无整数解，x=3或x=4都不满足；反馈已改为乘积9或12而未虚构费用。温度可为负与人数不可为负须分别判断。",
+          "observation_boundary_checked": "观察整数解限制；也需分别检查单位、正数与容量条件，不能凭一个条件替代其余。",
+          "followup_task_ids_checked": [
+            "equation_equivalence:practice-5",
+            "equation_equivalence:transfer-2",
+            "equation_equivalence:delayed-5"
+          ],
+          "result": "pass_after_listed_corrections"
+        }
+      ]
+    },
+    {
+      "path": "data/learning_units/linear_function_representations.json",
+      "sha256": "2b4b772544b0812c563d952f7f559d56d54e4e4741304f64451c28bb2df381c0",
+      "stage": "junior",
+      "support_count": 10,
+      "support_reviews": [
+        {
+          "id": "linear_function_representations:support:o1",
+          "objective_id": "linear_function_representations:o1",
+          "diagnostic_answer": "B",
+          "guided_answer": "A",
+          "semantic_review": "(2,9)、(5,15)给斜率2、截距5；指导点(1,5)、(3,9)得2x+3并能通过(4,11)，不以有限点证明现实永远线性。",
+          "observation_boundary_checked": "复合目标先观察求变化率和截距的顺序；完整建式与独立点检查由后续过程题确认。",
+          "followup_task_ids_checked": [
+            "linear_function_representations:practice-1",
+            "linear_function_representations:transfer-2",
+            "linear_function_representations:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "linear_function_representations:support:o2",
+          "objective_id": "linear_function_representations:o2",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "坐标(3分钟,8升)是点上的值而非变化率；y=3x−1在x=2给5，单位与输入输出对应正确。",
+          "observation_boundary_checked": "复合目标短题检查坐标顺序；画图的刻度、离散输入和函数单值性还需后续任务。",
+          "followup_task_ids_checked": [
+            "linear_function_representations:practice-2",
+            "linear_function_representations:transfer-2",
+            "linear_function_representations:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "linear_function_representations:support:o3",
+          "objective_id": "linear_function_representations:o3",
+          "diagnostic_answer": "B",
+          "guided_answer": "A",
+          "semantic_review": "容量6+2t≤10且t≥0得到0≤t≤2；订单整数范围和连续时间区间须分开。",
+          "observation_boundary_checked": "复合目标短题检查容量限制；模型比较与系数意义仍需进一步展示。",
+          "followup_task_ids_checked": [
+            "linear_function_representations:practice-3",
+            "linear_function_representations:transfer-1",
+            "linear_function_representations:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "linear_function_representations:support:rate",
+          "objective_id": "linear_function_representations:rate",
+          "diagnostic_answer": "C",
+          "guided_answer": "-2",
+          "semantic_review": "(1,9)到(4,3)斜率−2；(−1,6)到(2,0)同为−2，分子分母取差顺序一致。",
+          "observation_boundary_checked": "观察非单位步长下的斜率；一次算错可能是符号或算术问题，需要这道追问区分。",
+          "followup_task_ids_checked": [
+            "linear_function_representations:practice-1",
+            "linear_function_representations:transfer-2",
+            "linear_function_representations:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "linear_function_representations:support:intercept",
+          "objective_id": "linear_function_representations:intercept",
+          "diagnostic_answer": "B",
+          "guided_answer": "7",
+          "semantic_review": "k=3且点(2,10)给纵截距4，非横截距−4/3；k=−1且(4,3)给b=7。",
+          "observation_boundary_checked": "观察第一行不是x=0时求b的方法；正确数值不自动说明已理解其实际意义。",
+          "followup_task_ids_checked": [
+            "linear_function_representations:practice-1",
+            "linear_function_representations:transfer-2",
+            "linear_function_representations:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "linear_function_representations:support:formula",
+          "objective_id": "linear_function_representations:formula",
+          "diagnostic_answer": "B",
+          "guided_answer": "A",
+          "semantic_review": "k=−2、b=5对应y=−2x+5，(3,−1)检验正确；反馈已删除不存在的“第三条记录”。",
+          "observation_boundary_checked": "观察候选式与点的一致性；从有限数据推到全域线性还需要题设或机制依据。",
+          "followup_task_ids_checked": [
+            "linear_function_representations:practice-6",
+            "linear_function_representations:transfer-6",
+            "linear_function_representations:delayed-7"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "linear_function_representations:support:read_graph",
+          "objective_id": "linear_function_representations:read_graph",
+          "diagnostic_answer": "B",
+          "guided_answer": "1",
+          "semantic_review": "横2分钟/格纵3升/格的上4格右2格为3升/分；另一指导横5纵2、右2上5为1升/分，不能直接用格数比。",
+          "observation_boundary_checked": "观察格数与实际单位的转换；短题使用文字描述，真实图读取仍由配图任务确认。",
+          "followup_task_ids_checked": [
+            "linear_function_representations:practice-2",
+            "linear_function_representations:transfer-8",
+            "linear_function_representations:delayed-4"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "linear_function_representations:support:representations",
+          "objective_id": "linear_function_representations:representations",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "同一输入有两条不同的准确输出违反函数单值条件；不能擅自求平均改写记录以掩盖矛盾。",
+          "observation_boundary_checked": "观察表格是否已违反函数定义；图象绘制和公式转换还需后续确认。",
+          "followup_task_ids_checked": [
+            "linear_function_representations:practice-2",
+            "linear_function_representations:transfer-2",
+            "linear_function_representations:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "linear_function_representations:support:units_domain",
+          "objective_id": "linear_function_representations:units_domain",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "y=20−4t到5分钟后归零，不能继续预测负水量；整箱数不能取1.5，即便代出输出为整数。",
+          "observation_boundary_checked": "观察整数量限制；容量、时长和单位还需按情境逐项确认。",
+          "followup_task_ids_checked": [
+            "linear_function_representations:practice-3",
+            "linear_function_representations:transfer-1",
+            "linear_function_representations:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "linear_function_representations:support:compare_models",
+          "objective_id": "linear_function_representations:compare_models",
+          "diagnostic_answer": "B",
+          "guided_answer": "6",
+          "semantic_review": "10+2n<3n最小整数n=11；15+2n<5n最小n=6。临界相等和严格更便宜、整数与连续范围区分。",
+          "observation_boundary_checked": "观察严格不等式和整数阈值；图象相交、平行以及费用范围仍要结合具体条件。",
+          "followup_task_ids_checked": [
+            "linear_function_representations:practice-7",
+            "linear_function_representations:transfer-1",
+            "linear_function_representations:delayed-6"
+          ],
+          "result": "pass_after_listed_corrections"
+        }
+      ]
+    },
+    {
+      "path": "data/learning_units/triangle_conditions.json",
+      "sha256": "7100c3f91df7f437a4c7b178e71f2e90c0f5f3e2fd21f8ec7b17908e528276c7",
+      "stage": "junior",
+      "support_count": 8,
+      "support_reviews": [
+        {
+          "id": "triangle_conditions:support:o1",
+          "objective_id": "triangle_conditions:o1",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "2+3=5只能退化为线；2、4、5可以成三角形，等号和负/零边长均不遗漏。复合整数范围目标仍待后续过程。",
+          "observation_boundary_checked": "复合目标先检查等号退化；第三边整数范围和周长约束仍需后续任务。",
+          "followup_task_ids_checked": [
+            "triangle_conditions:practice-1",
+            "triangle_conditions:transfer-1",
+            "triangle_conditions:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "triangle_conditions:support:o2",
+          "objective_id": "triangle_conditions:o2",
+          "diagnostic_answer": "B",
+          "guided_answer": "115",
+          "semantic_review": "70°邻补外角110°；另外两内角35°、80°对应第三点外角115°，不把相邻内角再加进外角和。",
+          "observation_boundary_checked": "复合目标短题检查邻补角；串联多个角与不相邻内角还需过程确认。",
+          "followup_task_ids_checked": [
+            "triangle_conditions:practice-2",
+            "triangle_conditions:transfer-2",
+            "triangle_conditions:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "triangle_conditions:support:o3",
+          "objective_id": "triangle_conditions:o3",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "十次测量约180°仅支持猜想，不能替代一般证明；平行线构造需明确条件和角关系。",
+          "observation_boundary_checked": "复合目标先识别有限测量的边界；完整证明链与反例构造仍需后续书面过程。",
+          "followup_task_ids_checked": [
+            "triangle_conditions:practice-3",
+            "triangle_conditions:transfer-2",
+            "triangle_conditions:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "triangle_conditions:support:feasibility",
+          "objective_id": "triangle_conditions:feasibility",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "5、1、1中只查5+1>1漏检1+1>5；给定x最长时4、6、x须x<10，正长度与排序前提已写。",
+          "observation_boundary_checked": "观察未排序情况下漏检的不等式；正长度前提不能省。",
+          "followup_task_ids_checked": [
+            "triangle_conditions:practice-1",
+            "triangle_conditions:transfer-4",
+            "triangle_conditions:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "triangle_conditions:support:integer_range",
+          "objective_id": "triangle_conditions:integer_range",
+          "diagnostic_answer": "B",
+          "guided_answer": "5",
+          "semantic_review": "4、7、x须3<x<11，整数4至10；3、6的第三边整数4至8共5种，严格端点排除。",
+          "observation_boundary_checked": "观察严格上下界转为整数候选；周长关系可能进一步限制候选。",
+          "followup_task_ids_checked": [
+            "triangle_conditions:practice-4",
+            "triangle_conditions:transfer-1",
+            "triangle_conditions:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "triangle_conditions:support:angle_relations",
+          "objective_id": "triangle_conditions:angle_relations",
+          "diagnostic_answer": "B",
+          "guided_answer": "90",
+          "semantic_review": "120°处外角60°不大于相邻120°，却大于两个30°；A/B外角120/150给内角60/30、C=90。",
+          "observation_boundary_checked": "观察外角比较的范围；多角串联仍需保留中间关系。",
+          "followup_task_ids_checked": [
+            "triangle_conditions:practice-2",
+            "triangle_conditions:transfer-2",
+            "triangle_conditions:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "triangle_conditions:support:proof_chain",
+          "objective_id": "triangle_conditions:proof_chain",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "过A辅助线必须平行BC才能用内错角；实测59+60+60=179应保留读数并检查误差，不能偷改成180。",
+          "observation_boundary_checked": "观察平行条件缺失；选择正确条件仍不能代替自己串起完整证明。",
+          "followup_task_ids_checked": [
+            "triangle_conditions:practice-3",
+            "triangle_conditions:transfer-2",
+            "triangle_conditions:delayed-4"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "triangle_conditions:support:counterexample",
+          "objective_id": "triangle_conditions:counterexample",
+          "diagnostic_answer": "B",
+          "guided_answer": "A",
+          "semantic_review": "120/30/30为合法钝角反例，120/50/30不合法；3/4/5与4/4/4同周长12且边组不同，符合反例全部前提。",
+          "observation_boundary_checked": "观察反例的逻辑结构；完整构造仍需验证边长、角度或周长条件。",
+          "followup_task_ids_checked": [
+            "triangle_conditions:practice-5",
+            "triangle_conditions:transfer-6",
+            "triangle_conditions:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        }
+      ]
+    },
+    {
+      "path": "data/learning_units/sampling_and_variation.json",
+      "sha256": "4e24f149421dae0ee1bd5765e5828c618be3563e52e2a21ab7b35ebdcd7d69d8",
+      "stage": "junior",
+      "support_count": 5,
+      "support_reviews": [
+        {
+          "id": "sampling_and_variation:support:population",
+          "objective_id": "sampling_and_variation:population",
+          "diagnostic_answer": "A",
+          "guided_answer": "B",
+          "semantic_review": "从校车名单推全校会遗漏未乘车者；从当天出勤者推全班须交代缺勤覆盖。样本数大不能补未覆盖对象。",
+          "observation_boundary_checked": "观察抽样框遗漏；调查目的、拒访和样本代表性仍需进一步核对。",
+          "followup_task_ids_checked": [
+            "sampling_and_variation:practice-1",
+            "sampling_and_variation:transfer-1",
+            "sampling_and_variation:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "sampling_and_variation:support:sampling",
+          "objective_id": "sampling_and_variation:sampling",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "完整编号名册均匀不放回抽取有明确机制，非随便或自愿；未回应者必须记录，不能用好友替补后仍沿用原声明。",
+          "observation_boundary_checked": "观察随机抽样与方便样本的区别；随机化执行和不回应仍需要实际记录。",
+          "followup_task_ids_checked": [
+            "sampling_and_variation:practice-2",
+            "sampling_and_variation:transfer-2",
+            "sampling_and_variation:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "sampling_and_variation:support:centre",
+          "objective_id": "sampling_and_variation:centre",
+          "diagnostic_answer": "A",
+          "guided_answer": "4",
+          "semantic_review": "2、3、3、4、18平均6、中位3；1、9、3、5排序后中位4。中心指标取决于总量/典型位置用途，不能删极端值改结果。",
+          "observation_boundary_checked": "观察极端值对平均数与中位数的影响；哪个指标更适合还取决于报告目的。",
+          "followup_task_ids_checked": [
+            "sampling_and_variation:practice-3",
+            "sampling_and_variation:transfer-3",
+            "sampling_and_variation:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "sampling_and_variation:support:spread",
+          "objective_id": "sampling_and_variation:spread",
+          "diagnostic_answer": "B",
+          "guided_answer": "1",
+          "semantic_review": "按明确的描述性方差除n，2/4/6方差8/3、1/3方差1；偏差要平方，厘米换毫米的方差倍率为100。",
+          "observation_boundary_checked": "观察本单元描述性方差的分母与平方偏差；不把这一定义混同于其他用途的无偏估计量。",
+          "followup_task_ids_checked": [
+            "sampling_and_variation:practice-4",
+            "sampling_and_variation:transfer-4",
+            "sampling_and_variation:delayed-4"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "sampling_and_variation:support:inference",
+          "objective_id": "sampling_and_variation:inference",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "篮球社大样本仍可能有选择偏差；样本60%不等于总体恰60%，描述与推断、不确定性和抽样机制分别交代。",
+          "observation_boundary_checked": "短题检查“大样本消除偏差”的说法；设计完整推断仍需说明抽取机制、缺失与不确定性。",
+          "followup_task_ids_checked": [
+            "sampling_and_variation:practice-5",
+            "sampling_and_variation:transfer-5",
+            "sampling_and_variation:delayed-5"
+          ],
+          "result": "pass_after_listed_corrections"
+        }
+      ]
+    },
+    {
+      "path": "data/learning_units/derivative_monotonicity.json",
+      "sha256": "5281bb143e97706aeb3ddc75ff2d2b65c8f89f39e197d1128d4b771c60761bf6",
+      "stage": "senior",
+      "support_count": 8,
+      "support_reviews": [
+        {
+          "id": "derivative_monotonicity:support:o1",
+          "objective_id": "derivative_monotonicity:o1",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "1/(x−1)须在1处断开而非因无驻点就合并；限定x>0的x+1/x只保留内部驻点1，不纳入−1。",
+          "observation_boundary_checked": "复合目标先检查定义域空缺；导数零点、符号表和区间结论另需完整过程。",
+          "followup_task_ids_checked": [
+            "derivative_monotonicity:practice-1",
+            "derivative_monotonicity:transfer-1",
+            "derivative_monotonicity:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "derivative_monotonicity:support:o2",
+          "objective_id": "derivative_monotonicity:o2",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "1/x两段分别递减不能称整个非零域递减，−1到1构成跨缺口反例；导数负也不表示函数值负。",
+          "observation_boundary_checked": "复合目标检查不跨空缺合并；符号判定与严格性还需进一步确认。",
+          "followup_task_ids_checked": [
+            "derivative_monotonicity:practice-2",
+            "derivative_monotonicity:transfer-1",
+            "derivative_monotonicity:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "derivative_monotonicity:support:o3",
+          "objective_id": "derivative_monotonicity:o3",
+          "diagnostic_answer": "C",
+          "guided_answer": "A",
+          "semantic_review": "x³在0驻点但两侧仍增，无极值；x⁴在0左减右增有极小，必须比较邻域而非只看导数为0。",
+          "observation_boundary_checked": "复合目标先区分驻点与极值；实际全局最值和边界需另检查。",
+          "followup_task_ids_checked": [
+            "derivative_monotonicity:practice-3",
+            "derivative_monotonicity:transfer-2",
+            "derivative_monotonicity:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "derivative_monotonicity:support:domain_split",
+          "objective_id": "derivative_monotonicity:domain_split",
+          "diagnostic_answer": "B",
+          "guided_answer": "A",
+          "semantic_review": "|x|的0有函数值但不可导，应与闭区间端点比较；√x在[0,4]的0端点亦需检查，函数域与导数域不同。",
+          "observation_boundary_checked": "观察不可导内点是否保留为候选；闭区间端点仍需另行比较。",
+          "followup_task_ids_checked": [
+            "derivative_monotonicity:practice-2",
+            "derivative_monotonicity:transfer-1",
+            "derivative_monotonicity:delayed-4"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "derivative_monotonicity:support:sign_chart",
+          "objective_id": "derivative_monotonicity:sign_chart",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "(x−2)²(x+1)过偶重零点2不变号；(x+2)(x−4)在−2<x<4为负，不能每过零点机械翻号。",
+          "observation_boundary_checked": "观察偶重零点不必变号；一次选对仍需能填写整张区间符号表。",
+          "followup_task_ids_checked": [
+            "derivative_monotonicity:practice-1",
+            "derivative_monotonicity:transfer-1",
+            "derivative_monotonicity:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "derivative_monotonicity:support:monotonic_intervals",
+          "objective_id": "derivative_monotonicity:monotonic_intervals",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "负半轴恒0、正半轴x³的函数非递减但不严格递增；x³仅孤立零导数仍严格递增，已给具体判别。",
+          "observation_boundary_checked": "观察严格递增与非递减的区别；孤立零点不必破坏严格递增，需看具体函数。",
+          "followup_task_ids_checked": [
+            "derivative_monotonicity:practice-1",
+            "derivative_monotonicity:transfer-1",
+            "derivative_monotonicity:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "derivative_monotonicity:support:extrema",
+          "objective_id": "derivative_monotonicity:extrema",
+          "diagnostic_answer": "B",
+          "guided_answer": "A",
+          "semantic_review": "x²在0改值为10后0附近反为局部极大，不能忽略连续性套负到正规则；连续内点左正右负判局部极大正确。",
+          "observation_boundary_checked": "观察不连续点套用符号规则的风险；判定必须回到附近实际函数值。",
+          "followup_task_ids_checked": [
+            "derivative_monotonicity:practice-3",
+            "derivative_monotonicity:transfer-2",
+            "derivative_monotonicity:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "derivative_monotonicity:support:boundary_maximum",
+          "objective_id": "derivative_monotonicity:boundary_maximum",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "−(x−4)²限[1,3]最大−1在3；x(6−x)限[1,2]最大8在2。区间外驻点、允许端点及开区间无最大值的边界完整。",
+          "observation_boundary_checked": "观察区间外驻点与允许端点；开放边界可能只有上界而无最大值。",
+          "followup_task_ids_checked": [
+            "derivative_monotonicity:practice-4",
+            "derivative_monotonicity:transfer-6",
+            "derivative_monotonicity:delayed-5"
+          ],
+          "result": "pass_after_listed_corrections"
+        }
+      ]
+    },
+    {
+      "path": "data/learning_units/correlation_and_regression.json",
+      "sha256": "820f8ec0430b0550acf1ba6b303c3ed851cc118eceee6d79c6791c531883184e",
+      "stage": "senior",
+      "support_count": 5,
+      "support_reviews": [
+        {
+          "id": "correlation_and_regression:support:correlation",
+          "objective_id": "correlation_and_regression:correlation",
+          "diagnostic_answer": "B",
+          "guided_answer": "A",
+          "semantic_review": "常量x使Sxx=0，r未定义而非0；对称抛物线三点可r=0却有非线性关系，−0.9仅说明较强负线性关联。",
+          "observation_boundary_checked": "观察r的分母退化；判断非线性关系还需结合散点形状。",
+          "followup_task_ids_checked": [
+            "correlation_and_regression:practice-1",
+            "correlation_and_regression:transfer-1",
+            "correlation_and_regression:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "correlation_and_regression:support:ols",
+          "objective_id": "correlation_and_regression:ols",
+          "diagnostic_answer": "B",
+          "guided_answer": "8",
+          "semantic_review": "含截距且Sxx>0才用b=Sxy/Sxx、a=均值y−b均值x；b=3、中心(2,8)给a=2，指导Sxx4/Sxy−8/中心(3,2)给a=8。",
+          "observation_boundary_checked": "观察截距由样本中心反求；独立计算斜率和检验退化情况仍需后续任务。",
+          "followup_task_ids_checked": [
+            "correlation_and_regression:practice-2",
+            "correlation_and_regression:transfer-2",
+            "correlation_and_regression:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "correlation_and_regression:support:residual",
+          "objective_id": "correlation_and_regression:residual",
+          "diagnostic_answer": "B",
+          "guided_answer": "-2",
+          "semantic_review": "残差按观测减预测：7−10=−3；模型1+2x在(4,7)残差−2，符号与图上相对位置相符。",
+          "observation_boundary_checked": "观察减法顺序和图上上下位置；绝对误差与平方残差是另外的量。",
+          "followup_task_ids_checked": [
+            "correlation_and_regression:practice-3",
+            "correlation_and_regression:transfer-3",
+            "correlation_and_regression:delayed-3"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "correlation_and_regression:support:r_squared",
+          "objective_id": "correlation_and_regression:r_squared",
+          "diagnostic_answer": "B",
+          "guided_answer": "0.64",
+          "semantic_review": "同样本含截距一元OLS的R²=r²条件明确；SST50、SSE18给0.64，解释样本平方变异，不冒称因果或预测正确率。",
+          "observation_boundary_checked": "观察R²解释边界；R²=r²的适用条件和无截距反例仍需进一步计算。",
+          "followup_task_ids_checked": [
+            "correlation_and_regression:practice-4",
+            "correlation_and_regression:transfer-4",
+            "correlation_and_regression:delayed-4"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "correlation_and_regression:support:prediction_limits",
+          "objective_id": "correlation_and_regression:prediction_limits",
+          "diagnostic_answer": "A",
+          "guided_answer": "B",
+          "semantic_review": "训练x范围1至5不能保证x=50预测；自愿学习记录的关联不能推出每人固定干预效果，覆盖/混杂/外推均保留。",
+          "observation_boundary_checked": "短题观察外推和因果边界；完整报告需要检查样本来源、残差和新情境。",
+          "followup_task_ids_checked": [
+            "correlation_and_regression:practice-5",
+            "correlation_and_regression:transfer-5",
+            "correlation_and_regression:delayed-5"
+          ],
+          "result": "pass_after_listed_corrections"
+        }
+      ]
+    },
+    {
+      "path": "data/learning_units/independent_events.json",
+      "sha256": "f42ea8e6621d929d3580f48f7c335436decf46eb3f24d6694993ae54c1f1e478",
+      "stage": "senior",
+      "support_count": 8,
+      "support_reviews": [
+        {
+          "id": "independent_events:support:o1",
+          "objective_id": "independent_events:o1",
+          "diagnostic_answer": "B",
+          "guided_answer": "A",
+          "semantic_review": "一次公平硬币正反互斥但不独立，交集0不等1/4；0.3×0.4=0.12符合独立定义，事件名称不构成依据。",
+          "observation_boundary_checked": "复合目标先区分互斥和独立；零概率边界与完整样本空间仍需后续任务。",
+          "followup_task_ids_checked": [
+            "independent_events:practice-1",
+            "independent_events:transfer-2",
+            "independent_events:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "independent_events:support:o2",
+          "objective_id": "independent_events:o2",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "均匀不放回2红2白、已知首红后第二红1/3；提示3红1白条件后2/3。已补全部均匀随机前提，复制同一硬币不独立。",
+          "observation_boundary_checked": "复合目标检查不放回后的变化；放回、混匀与随机机制还需分别说明。",
+          "followup_task_ids_checked": [
+            "independent_events:practice-3",
+            "independent_events:transfer-2",
+            "independent_events:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "independent_events:support:o3",
+          "objective_id": "independent_events:o3",
+          "diagnostic_answer": "C",
+          "guided_answer": "0.9",
+          "semantic_review": "至少一次的补事件是全部失败，独立成功率0.8/0.5给0.9；同时、恰好与至少事件区分。",
+          "observation_boundary_checked": "复合目标短题观察至少一次的事件范围；独立依据与条件乘法还需继续确认。",
+          "followup_task_ids_checked": [
+            "independent_events:practice-2",
+            "independent_events:transfer-1",
+            "independent_events:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "independent_events:support:classify",
+          "objective_id": "independent_events:classify",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "不可能事件可与B既互斥又独立，交集和乘积均0，不能除以P(A)=0；正概率互斥0.2/0.5则不独立。",
+          "observation_boundary_checked": "观察零概率事件对“互斥不独立”的例外；一般判断仍需分别核对交集与乘积。",
+          "followup_task_ids_checked": [
+            "independent_events:practice-1",
+            "independent_events:transfer-2",
+            "independent_events:delayed-1"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "independent_events:support:conditional",
+          "objective_id": "independent_events:conditional",
+          "diagnostic_answer": "A",
+          "guided_answer": "0.4",
+          "semantic_review": "P(B|A)=0.1/0.4=0.25；0.24/0.6=0.4，分母对应条件事件且须正。交集概率与条件概率的样本范围不同。",
+          "observation_boundary_checked": "观察联合概率除以条件概率；数值结果还需解释新样本范围。",
+          "followup_task_ids_checked": [
+            "independent_events:practice-3",
+            "independent_events:transfer-3",
+            "independent_events:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "independent_events:support:multiply",
+          "objective_id": "independent_events:multiply",
+          "diagnostic_answer": "B",
+          "guided_answer": "1/15",
+          "semantic_review": "3红2白两白不放回为(2/5)(1/4)；均匀4红2白两白(2/6)(1/5)=1/15。一般乘法使用逐步条件，不限于独立情形。",
+          "observation_boundary_checked": "观察不放回时第二步概率；不能看到“两次”就默认独立。",
+          "followup_task_ids_checked": [
+            "independent_events:practice-2",
+            "independent_events:transfer-1",
+            "independent_events:delayed-2"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "independent_events:support:complement",
+          "objective_id": "independent_events:complement",
+          "diagnostic_answer": "C",
+          "guided_answer": "0.5",
+          "semantic_review": "恰好一次包含成败和败成；0.8/0.6的恰好0.44与至少0.92不同，0.5/0.5恰好0.5正确。",
+          "observation_boundary_checked": "观察恰好一次的两条互斥路径；补事件法需准确界定全不发生。",
+          "followup_task_ids_checked": [
+            "independent_events:practice-4",
+            "independent_events:transfer-4",
+            "independent_events:delayed-6"
+          ],
+          "result": "pass_after_listed_corrections"
+        },
+        {
+          "id": "independent_events:support:assumptions",
+          "objective_id": "independent_events:assumptions",
+          "diagnostic_answer": "B",
+          "guided_answer": "B",
+          "semantic_review": "只知各成功0.7不足以确定交集0.49，同成同败可交集0.7；独立须来自给定机制或联合概率，不能凭相同边际补出。",
+          "observation_boundary_checked": "观察独立依据是否充分；需要机制或联合分布，不能靠相同概率补假设。",
+          "followup_task_ids_checked": [
+            "independent_events:practice-3",
+            "independent_events:transfer-2",
+            "independent_events:delayed-4"
+          ],
+          "result": "pass_after_listed_corrections"
+        }
+      ]
+    }
+  ],
+  "new_stage_task_reviews": [
+    {
+      "id": "fraction_equivalence:delayed-7",
+      "semantic_review": "9/24和4/24分别等价3/8和1/6；单位整体相同，24可作公分母，答案B唯一。",
+      "observation_limit": "选择正确改写只能观察识别，不能单凭这一项认定能自行通分或解释全部分数等价目标。",
+      "result": "pass_after_listed_corrections"
+    },
+    {
+      "id": "independent_events:delayed-6",
+      "semantic_review": "共同独立条件写明；全失败(3/4)³=27/64，至少一次37/64，数值契约允许等值分数或小数。",
+      "observation_limit": "题干已经提示补事件方法，只观察按给定方向执行，不能据此证明独立选策略或理解所有复合概率任务。",
+      "result": "pass_after_listed_corrections"
+    },
+    {
+      "id": "linear_function_representations:delayed-7",
+      "semantic_review": "两点斜率−2、截距3；第三点4代入得−5。两个量规分别观察求式与另点核对，已将表征修正为symbolic。",
+      "observation_limit": "第三点一致是已有一次函数假设下的核对，不把有限记录提升为现实全域规律证明；量规自评仍非教师审核。",
+      "result": "pass_after_listed_corrections"
+    },
+    {
+      "id": "linear_function_representations:transfer-8",
+      "semantic_review": "图P=(2,10)、Q=(6,20)，两轴分别每格2分钟/5升，变化率10/4=2.5升每分钟。SVG和文字替代相符。",
+      "observation_limit": "单个数值答案不能区分读错图后碰巧答对，继续需要坐标读取和差商过程；图与符号任务保留不同表征。",
+      "result": "pass_after_listed_corrections"
+    },
+    {
+      "id": "derivative_monotonicity:transfer-6",
+      "semantic_review": "x=4超出[1,3]；A′=8−2x在允许区间为正，A(1)=7、A(3)=15，最大15平方米在x=3。",
+      "observation_limit": "量规分别记录真实范围筛选与导数/端点依据；答对15不能自动补齐未展示的候选论证。",
+      "result": "pass_after_listed_corrections"
+    },
+    {
+      "id": "position_reference_frames:delayed-6",
+      "semantic_review": "北偏东30°的反向为南偏西30°，等价西偏南60°，距离仍400米，答案C；其余方位不等价。",
+      "observation_limit": "选择正确方向只反映此角度实例，不能替代自己画方位图或解释一般逆向规则。",
+      "result": "pass_after_listed_corrections"
+    },
+    {
+      "id": "position_reference_frames:delayed-7",
+      "semantic_review": "东3北2西1每格50米，三段合计300米；净位置东2北2不能替代路程。",
+      "observation_limit": "题干已提示逐段累加，不将该数值结果当作无提示地区分路程与位移的充分证据。",
+      "result": "pass_after_listed_corrections"
+    },
+    {
+      "id": "ratio_models:transfer-7",
+      "semantic_review": "甲6:10=3:5，乙6:8=3:4；同乘正倍数保持比，同加3不保持，量规分开计算与不变量解释。",
+      "observation_limit": "颜料质量均正；一般非零同比变形是代数规则，现实配方另受正量约束。不能用计算分抵消解释缺口。",
+      "result": "pass_after_listed_corrections"
+    },
+    {
+      "id": "triangle_conditions:transfer-6",
+      "semantic_review": "3、4、5与4、4、4均为正且两短边和大于最长边；周长12而边长多重集不同，构成有效反例。",
+      "observation_limit": "量规分别要求合法对象和反驳逻辑；同一例子已在支持提示出现时，后续完成不能作为未获帮助的独立证明表现。",
+      "result": "pass_after_listed_corrections"
+    }
+  ],
+  "project_reviews": [
+    {
+      "id": "senior_model_comparison",
+      "path": "data/projects/senior_model_comparison.json",
+      "objectives_reviewed": 4,
+      "semantic_findings": [
+        "同一建模表的均值2/9、Sxx=10、Sxy=50，含截距OLS为−1+5t；残差与训练SSE14正确。",
+        "预留表线性残差7、14，SSE245；二次在七个给定点吻合，不能外推为任何时刻的真实规律。",
+        "预留表已公开、若参与选模须改变证据角色的说明明确，未声称盲测。",
+        "负初始产出预测、容量/停机等失效边界得到讨论；步骤、作品与四项量规一一关联。"
+      ],
+      "result": "pass_with_declared_limits"
+    },
+    {
+      "id": "senior_measurement_bounds",
+      "path": "data/projects/senior_measurement_bounds.json",
+      "objectives_reviewed": 4,
+      "semantic_findings": [
+        "直角测高明确水平距离、水平仰角和眼高；影长要求同刻、竖直、同水平面及近似平行光线。",
+        "中心值两法均11.5米；甲未舍入界10.91374999/12.11240920，向外舍入[10.91,12.12]；乙11.11393443/11.90084746向外舍入[11.11,11.91]。",
+        "在正量、第一象限角范围按单调性取端点成立；各输入可能相关只会使矩形包围偏宽，不据此宣称所有界内值等可能。",
+        "明确给定测量界不是统计置信区间，交叠不能验证真实高度或假设；缩小角范围确实缩窄模型区间。"
+      ],
+      "result": "pass_with_declared_limits"
+    },
+    {
+      "id": "senior_probability_simulation",
+      "path": "data/projects/senior_probability_simulation.json",
+      "objectives_reviewed": 4,
+      "semantic_findings": [
+        "机制I为36等可能对、II为6个等可能对角点；边际均1/2而交集分别1/4和1/2，至少一次3/4和1/2，恰好一次1/2和0。",
+        "逐轮重算I的20轮A10/B11/交集5/并集16/恰好11；II成功12轮、恰好0，与量规及教师参考一致。",
+        "在本次Python环境用两个公开种子及对应抽取次数复现了全部演示记录；保留重复轮次，不按理论值改频数。",
+        "100/1000轮仅是后续计划，未声称已实际执行；允许明确未运行的算法。扩样频率不要求单调趋近，模拟不作为现实独立证明。"
+      ],
+      "result": "pass_with_declared_limits"
+    }
+  ],
+  "files": [
+    {
+      "path": "data/learning_units/ten_frame_place_value.json",
+      "sha256": "d806990b1fbf8349534194ed073ce4d2a9e4e0b5ac29fbe50a084757f081d936",
+      "review_scope": [
+        "all objectives referenced by instructional_support",
+        "entire instructional_support package",
+        "followup prompts and target links",
+        "the nine explicitly listed new stage tasks where present"
+      ]
+    },
+    {
+      "path": "data/learning_units/data_reading_and_mean.json",
+      "sha256": "7439716802920db9d1b6527f1b25f0605a511f7260b770ebb7192d573aa61ad9",
+      "review_scope": [
+        "all objectives referenced by instructional_support",
+        "entire instructional_support package",
+        "followup prompts and target links",
+        "the nine explicitly listed new stage tasks where present"
+      ]
+    },
+    {
+      "path": "data/learning_units/common_factors_multiples.json",
+      "sha256": "712eace7fc4bcf52227086fd731dd4d25995664353930d4466d507232c0bee9b",
+      "review_scope": [
+        "all objectives referenced by instructional_support",
+        "entire instructional_support package",
+        "followup prompts and target links",
+        "the nine explicitly listed new stage tasks where present"
+      ]
+    },
+    {
+      "path": "data/learning_units/fraction_equivalence.json",
+      "sha256": "aa4e22ab1ee2c0cc98955c32a8f3fa879c141642e7a22fbab6dbc13925447e73",
+      "review_scope": [
+        "all objectives referenced by instructional_support",
+        "entire instructional_support package",
+        "followup prompts and target links",
+        "the nine explicitly listed new stage tasks where present"
+      ]
+    },
+    {
+      "path": "data/learning_units/ratio_models.json",
+      "sha256": "4861a2be68194315a3bcd7f81177f75bc1ccd6b9227945fcff3234b27267397b",
+      "review_scope": [
+        "all objectives referenced by instructional_support",
+        "entire instructional_support package",
+        "followup prompts and target links",
+        "the nine explicitly listed new stage tasks where present"
+      ]
+    },
+    {
+      "path": "data/learning_units/time_duration_calendar.json",
+      "sha256": "4892112a9ada5feecc2b5b1b542a2ee6bec80b7fc22fd9c11798e5975e0a9cbd",
+      "review_scope": [
+        "all objectives referenced by instructional_support",
+        "entire instructional_support package",
+        "followup prompts and target links",
+        "the nine explicitly listed new stage tasks where present"
+      ]
+    },
+    {
+      "path": "data/learning_units/position_reference_frames.json",
+      "sha256": "a54e6d8141bb3f7a53ad95b4c28ca6f4129a7d4a906b00fdaebab2ab7c052e09",
+      "review_scope": [
+        "all objectives referenced by instructional_support",
+        "entire instructional_support package",
+        "followup prompts and target links",
+        "the nine explicitly listed new stage tasks where present"
+      ]
+    },
+    {
+      "path": "data/learning_units/equation_equivalence.json",
+      "sha256": "9ad71b51b07711f48e503b5c5af960b7a2ba6eccc96c901bd39b731abb637c56",
+      "review_scope": [
+        "all objectives referenced by instructional_support",
+        "entire instructional_support package",
+        "followup prompts and target links",
+        "the nine explicitly listed new stage tasks where present"
+      ]
+    },
+    {
+      "path": "data/learning_units/linear_function_representations.json",
+      "sha256": "2b4b772544b0812c563d952f7f559d56d54e4e4741304f64451c28bb2df381c0",
+      "review_scope": [
+        "all objectives referenced by instructional_support",
+        "entire instructional_support package",
+        "followup prompts and target links",
+        "the nine explicitly listed new stage tasks where present"
+      ]
+    },
+    {
+      "path": "data/learning_units/triangle_conditions.json",
+      "sha256": "7100c3f91df7f437a4c7b178e71f2e90c0f5f3e2fd21f8ec7b17908e528276c7",
+      "review_scope": [
+        "all objectives referenced by instructional_support",
+        "entire instructional_support package",
+        "followup prompts and target links",
+        "the nine explicitly listed new stage tasks where present"
+      ]
+    },
+    {
+      "path": "data/learning_units/sampling_and_variation.json",
+      "sha256": "4e24f149421dae0ee1bd5765e5828c618be3563e52e2a21ab7b35ebdcd7d69d8",
+      "review_scope": [
+        "all objectives referenced by instructional_support",
+        "entire instructional_support package",
+        "followup prompts and target links",
+        "the nine explicitly listed new stage tasks where present"
+      ]
+    },
+    {
+      "path": "data/learning_units/derivative_monotonicity.json",
+      "sha256": "5281bb143e97706aeb3ddc75ff2d2b65c8f89f39e197d1128d4b771c60761bf6",
+      "review_scope": [
+        "all objectives referenced by instructional_support",
+        "entire instructional_support package",
+        "followup prompts and target links",
+        "the nine explicitly listed new stage tasks where present"
+      ]
+    },
+    {
+      "path": "data/learning_units/correlation_and_regression.json",
+      "sha256": "820f8ec0430b0550acf1ba6b303c3ed851cc118eceee6d79c6791c531883184e",
+      "review_scope": [
+        "all objectives referenced by instructional_support",
+        "entire instructional_support package",
+        "followup prompts and target links",
+        "the nine explicitly listed new stage tasks where present"
+      ]
+    },
+    {
+      "path": "data/learning_units/independent_events.json",
+      "sha256": "f42ea8e6621d929d3580f48f7c335436decf46eb3f24d6694993ae54c1f1e478",
+      "review_scope": [
+        "all objectives referenced by instructional_support",
+        "entire instructional_support package",
+        "followup prompts and target links",
+        "the nine explicitly listed new stage tasks where present"
+      ]
+    },
+    {
+      "path": "data/projects/senior_model_comparison.json",
+      "sha256": "146f03f0dc384f4a30b5ed14b2ad47f299454ef8b67e58c28e84828aa493ebea",
+      "review_scope": [
+        "entire project including all objectives, steps, deliverables, rubrics, reference solution, notes, provenance and review declarations"
+      ]
+    },
+    {
+      "path": "data/projects/senior_measurement_bounds.json",
+      "sha256": "5676f65cfc8ea4d30303bea93e8ac568eb240b1aa8a834cd27ddacf1777776af",
+      "review_scope": [
+        "entire project including all objectives, steps, deliverables, rubrics, reference solution, notes, provenance and review declarations"
+      ]
+    },
+    {
+      "path": "data/projects/senior_probability_simulation.json",
+      "sha256": "6bf8aa35ec54fda5c931f09a4af98dab2949bb1a334429fd7752b475085ca23d",
+      "review_scope": [
+        "entire project including all objectives, steps, deliverables, rubrics, reference solution, notes, provenance and review declarations"
+      ]
+    },
+    {
+      "path": "web/static/diagrams/v4-linear-scaled-axes.svg",
+      "sha256": "9a311f1408d1f8f07a96e4fbc9ec54fd07cd2ab22f0432d1e7e4a15302d7e9c3",
+      "review_scope": [
+        "entire SVG source, mathematical coordinates, tick labels, associated task alt text and rendered image"
+      ]
+    }
+  ],
+  "limitations": [
+    "审核人为另一个AI代理，与这些材料作者分开，但并非独立教师或学科专家；不改任何资源的教师pending或draft状态。",
+    "本次核对未使用真实学生记录，也未验证年龄阅读难度、迁移保持率、教师使用成本或实际教学效果；这些实证工作按用户要求暂缓。",
+    "选择、数值短答和获得指导后的表现只支持其实际观察部分；本记录不授予独立掌握或为复合能力作整体认证。",
+    "项目是明确的原创课程补充、以现有教材主题作导航；课标/主题引用核对的是现有项目声明的相关性，不声称覆盖全部课标或原教材已有同名活动。",
+    "版本绑定只覆盖files中所列最终字节；后续修改题干、条件、答案、量规、帮助、表征或SVG都会使此记录需重新评估。"
+  ]
+}

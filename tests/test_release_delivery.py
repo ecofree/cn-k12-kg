@@ -1,6 +1,7 @@
 """Release failures that matter: byte corruption, missing files, stale PASS and privacy."""
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 from pathlib import Path
@@ -10,10 +11,11 @@ import unittest
 from unittest.mock import patch
 import zipfile
 
+from cnkg.change_review import review_changes
 from tools.release_manifest import (ManifestError, check_manifest, compute_manifest,
                                     manifest_digest, write_manifest)
-from tools.package_release import (PackageError, history_risks, package_release,
-                                   verify_bundle_restore)
+from tools.package_release import (PackageError, collect_evidence, history_risks,
+                                   identity, package_release, verify_bundle_restore)
 
 
 JOURNEYS = ("self_check_autosave", "rubric_revision", "unit_phases", "project_history",
@@ -72,7 +74,7 @@ class ReleaseDeliveryTests(unittest.TestCase):
         self.git("add", ".")
         self.git("commit", "--quiet", "-m", message)
 
-    def verified_fixture(self):
+    def verified_fixture(self, *, journeys=JOURNEYS, observations=None):
         write_manifest(self.root)
         self.commit()
         common = {"schema": 2, "ok": True, "head": self.git("rev-parse", "HEAD"),
@@ -88,9 +90,11 @@ class ReleaseDeliveryTests(unittest.TestCase):
         self.write_json("build/regression_report.json", {**common, "checks": checks,
                         "deferred_by_user": ["independent_teacher_review", "real_student_effect_validation"]})
         browser_checks = []
-        for journey in JOURNEYS:
+        for journey in journeys:
             result = {"schema": 1, "journey": journey, "ok": True,
                       "evidence_type": "synthetic_browser_test"}
+            if observations and journey in observations:
+                result["observations"] = observations[journey]
             files = {"result.json": json.dumps(result).encode(), "browser.log": b"PASS\n",
                      "http.log": b"GET / 200\n", "final.png": b"\x89PNG\r\n\x1a\nfixture"}
             for name, raw in files.items():
@@ -99,6 +103,51 @@ class ReleaseDeliveryTests(unittest.TestCase):
                                    "artifact_sha256": {name: sha(raw) for name, raw in files.items()}})
         self.write_json("build/browser-check/report.json", {**common, "checks": browser_checks,
                         "evidence_type": "synthetic_browser_test", "changed_inputs": []})
+
+    def reviewed_preview_fixture(self, *, review_evidence_sha256=None):
+        journeys = JOURNEYS + ("changed_content_preview",)
+        self.write("tools/browser_check.py", f"JOURNEYS = {journeys!r}\n")
+        cards = {topic: {"topicId": topic, "definition": "Count whole objects.",
+                        "worked_example": {"prompt": "1 + 1", "answer": "2"}}
+                 for topic in ("first", "second")}
+        for topic, card in cards.items():
+            self.write_json(f"data/teach/{topic}.json", card)
+        self.commit("content review baseline")
+        base = self.git("rev-parse", "HEAD")
+        for topic, card in cards.items():
+            card["conditions"] = ["The counted objects use the same unit."]
+            self.write_json(f"data/teach/{topic}.json", card)
+        report = review_changes(self.root, base)
+        evidence_name = "docs/reviews/fixture-evidence.json"
+        self.write_json(evidence_name, {"scope": "Synthetic packaging regression fixture only",
+                                        "checks": ["Condition additions retain the stated addition answer."]})
+        reference = {"path": evidence_name,
+                     "sha256": review_evidence_sha256 or sha((self.root / evidence_name).read_bytes())}
+        review = copy.deepcopy(report["review_template"])
+        review["status"] = "reviewed"
+        for item in review["items"]:
+            item.update(review_status="reviewed", reviewer_kind="ai", reviewer="Synthetic fixture reviewer",
+                        findings=["Checked the added whole-object condition against the example."],
+                        decision="accept_with_limits", evidence_refs=[reference])
+        self.write_json("docs/reviews/fixture-review.json", review)
+        self.write_json("docs/reviews/current.json", {
+            "base_commit": base, "review_record": "docs/reviews/fixture-review.json"})
+        self.verified_fixture(journeys=journeys, observations={"changed_content_preview": {
+            "content_fingerprint": report["content_fingerprint"],
+            "previews": [{"path": row["path"]} for row in report["preview_tasks"]],
+        }})
+        return report
+
+    def rewrite_preview_result(self, result):
+        """Keep nominal PASS and raw-byte binding valid while changing its claims."""
+        name = "build/browser-check/changed_content_preview/result.json"
+        self.write_json(name, result)
+        report_name = "build/browser-check/report.json"
+        browser = json.loads((self.root / report_name).read_bytes())
+        row = next(row for row in browser["checks"] if row["journey"] == "changed_content_preview")
+        row["artifact_sha256"]["result.json"] = sha((self.root / name).read_bytes())
+        row["observations"] = result["observations"]
+        self.write_json(report_name, browser)
 
     def test_raw_bytes_cover_font_license_schema_lock_and_new_source(self):
         manifest = write_manifest(self.root)
@@ -204,6 +253,62 @@ class ReleaseDeliveryTests(unittest.TestCase):
         self.write(log, original)
         self.write("build/browser-check/unit_phases/final.png", b"\x89PNG\r\n\x1a\nsubstituted")
         with self.assertRaisesRegex(PackageError, "Evidence bytes changed"):
+            package_release(self.root)
+
+    def test_changed_preview_uses_actual_scope_once_per_evidence_collection(self):
+        report = self.reviewed_preview_fixture()
+        self.assertEqual({row["path"] for row in report["preview_tasks"]},
+                         {"/?teach=first", "/?teach=second"})
+        # This generated file is not an authority for release coverage.
+        self.write_json("build/content-review.json", {
+            "base_commit": report["base_commit"], "content_fingerprint": "0" * 64,
+            "preview_tasks": [{"path": "/?teach=invented"}],
+        })
+        with patch("tools.package_release.review_changes", wraps=review_changes) as recompute:
+            selected, validation = collect_evidence(self.root, identity(self.root),
+                "build/regression_report.json", "build/browser-check/report.json")
+        recompute.assert_called_once_with(self.root, report["base_commit"])
+        self.assertIn("browser/changed_content_preview/result.json", selected)
+        self.assertEqual(validation["browser"]["changed_content_preview"], {
+            "base_commit": report["base_commit"], "content_fingerprint": report["content_fingerprint"],
+            "preview_count": 2,
+        })
+
+    def test_rehashed_changed_preview_cannot_claim_a_stale_content_fingerprint(self):
+        self.reviewed_preview_fixture()
+        name = "build/browser-check/changed_content_preview/result.json"
+        result = json.loads((self.root / name).read_bytes())
+        result["observations"]["content_fingerprint"] = "0" * 64
+        self.rewrite_preview_result(result)
+        with self.assertRaisesRegex(PackageError, "stale content fingerprint"):
+            package_release(self.root)
+
+    def test_rehashed_changed_preview_cannot_omit_a_page_by_shrinking_build_inventory(self):
+        report = self.reviewed_preview_fixture()
+        name = "build/browser-check/changed_content_preview/result.json"
+        result = json.loads((self.root / name).read_bytes())
+        result["observations"]["previews"].pop()
+        self.rewrite_preview_result(result)
+        report["preview_tasks"].pop()
+        self.write_json("build/content-review.json", report)
+        with self.assertRaisesRegex(PackageError, "preview paths are missing"):
+            package_release(self.root)
+
+    def test_changed_preview_requires_exact_unique_page_paths(self):
+        self.reviewed_preview_fixture()
+        name = "build/browser-check/changed_content_preview/result.json"
+        result = json.loads((self.root / name).read_bytes())
+        valid = copy.deepcopy(result["observations"]["previews"])
+        for extra in (valid[0], {"path": "/?teach=outside-current-impact"}, {"path": None}):
+            with self.subTest(extra=extra):
+                result["observations"]["previews"] = valid + [extra]
+                self.rewrite_preview_result(result)
+                with self.assertRaisesRegex(PackageError, "preview paths"):
+                    package_release(self.root)
+
+    def test_changed_preview_requires_real_semantic_review_evidence_bytes(self):
+        self.reviewed_preview_fixture(review_evidence_sha256="0" * 64)
+        with self.assertRaisesRegex(PackageError, "Current semantic review is invalid:.*SHA256"):
             package_release(self.root)
 
     def test_git_archive_export_ignore_cannot_silently_omit_published_source(self):

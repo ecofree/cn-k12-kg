@@ -6,6 +6,7 @@ later observation (or learner-reported revision) that closes that bounded task.
 """
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 
@@ -32,6 +33,59 @@ def observation_metadata(record, answer):
     return {**snapshot, **metadata, **answer}
 
 
+def feedback_is_public(record, question_id):
+    """Use actual release markers, not a compact summary's private grade."""
+    return bool(record and (record.get("completed_at")
+                            or question_id in record.get("feedback_exposed", [])))
+
+
+def public_learning_records(records, feedback_sources):
+    """Project compact records without changing stored grades or losing exposure.
+
+    Pending attempts retain their task/family/representation metadata for
+    novelty decisions. Their result cannot create, resolve or count a public
+    learning need until the source session has released that feedback.
+    """
+    pending_fields = ("question_id", "objective_ids", "skill_ids", "answered_at",
+                      "family_id", "family_status", "representation", "purpose", "alignment",
+                      "content_sha256", "resource_version", "topic_ids", "help_used")
+    output = []
+    for record in records:
+        shown = copy.deepcopy(record)
+        source = feedback_sources.get(record["id"], {})
+        shown["answers"] = []
+        for answer in record.get("answers", []):
+            if feedback_is_public(source, answer.get("question_id")):
+                shown["answers"].append(copy.deepcopy(answer))
+            else:
+                shown["answers"].append({**{key: copy.deepcopy(answer[key]) for key in pending_fields if key in answer},
+                                          "_feedback_pending": True})
+        output.append(shown)
+    return output
+
+
+def public_learning_events(events, feedback_sources, visible_need_ids):
+    """Readable exports respect the same boundary; encrypted backups stay raw."""
+    submission_fields = ("raw_answer", "normalized_answer", "skipped", "duration_ms", "client_elapsed_ms",
+                         "duration_evidence", "skill_ids", "family_id", "family_status", "help_used",
+                         "unit_id", "task_ids", "family_ids", "independent_evidence")
+    output = []
+    for event in events:
+        payload = event.get("payload", {})
+        if event.get("event_type") in {"learning_need_deferred", "learning_need_reopened"}:
+            if payload.get("need_id") not in visible_need_ids:
+                continue
+        shown = copy.deepcopy(event)
+        source = feedback_sources.get(event.get("session_id"), {})
+        if event.get("question_id") and not feedback_is_public(source, event["question_id"]):
+            if event.get("event_type") == "feedback_released":
+                continue
+            if event.get("event_type") == "answer_submitted":
+                shown["payload"] = {key: copy.deepcopy(payload[key]) for key in submission_fields if key in payload}
+        output.append(shown)
+    return output
+
+
 def need_identity(kind, source_ref, version):
     raw = json.dumps([kind, source_ref, version], ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     return "need_" + hashlib.sha256(raw.encode()).hexdigest()[:32]
@@ -48,12 +102,14 @@ def work_is_reviewed(work):
     return bool(work.get("self_assessment_completed")) and not work.get("revision_needed")
 
 
-def _observations(records):
+def _observations(records, *, include_pending=False):
     for record in records:
         for answer in record.get("answers", []):
             if not answer.get("question_id"):
                 continue
             metadata = observation_metadata(record, answer)
+            if metadata.get("_feedback_pending") and not include_pending:
+                continue
             yield record, metadata
 
 
@@ -172,7 +228,8 @@ def derive_needs(catalog, records, works=(), states=()):
     for record in records:
         if record.get("kind") != "support" or set(record.get("source_origin", {}).get("need_ids", [])) & primary_ids:
             continue
-        answers = [observation_metadata(record, answer) for answer in record.get("answers", [])]
+        answers = [metadata for answer in record.get("answers", [])
+                   for metadata in [observation_metadata(record, answer)] if not metadata.get("_feedback_pending")]
         failures = [answer for answer in answers if answer.get("status") in {"wrong", "not_attempted", "needs_review"}
                     or answer.get("skipped")]
         if not failures:
@@ -204,6 +261,13 @@ def derive_needs(catalog, records, works=(), states=()):
         resource_id = work.get("resource_id")
         if not resource_id:
             continue
+        reported_difficulty = bool(work.get("revision_needed") or any(
+            row.get("status") in {"partial", "revisit"} for row in outcomes))
+        revision_basis = ("learner_reported_difficulty" if reported_difficulty else
+                          "learner_reported_met" if work_is_reviewed(work) else "unassessed_criteria")
+        notice = {"learner_reported_difficulty": "学习者明确记录了部分达到或需要重做，提交状态不会清除修订事项。",
+                  "unassessed_criteria": "还有量规项目尚未核对；这不表示已发现错误，草稿与待核对事项继续保留。",
+                  "learner_reported_met": "量规逐项自报达到只关闭自查待办，不改变任务评分或证明掌握。"}[revision_basis]
         source = {"work_resource_id": resource_id}
         resolution = ({"kind": "learner_reported_revision", "work_resource_id": resource_id,
                        "revision": work.get("revision", work.get("_revision")),
@@ -215,12 +279,13 @@ def derive_needs(catalog, records, works=(), states=()):
                       "resource_version": work.get("resource_version"), "work_resource_id": resource_id,
                       "title": work.get("title", "已保存作品"), "stages": [work["stage"]] if work.get("stage") else [],
                       "skill_ids": [], "objective_ids": [], "targets": [], "source_kind": work.get("kind"),
-                      "source_completed": True, "observed_at": work.get("updated_at"),
+                      "source_completed": work.get("status") == "submitted", "work_status": work.get("status", "draft"),
+                      "revision_basis": revision_basis, "observed_at": work.get("updated_at"),
                       "criterion_outcomes": work.get("criterion_outcomes", []),
                       "unresolved_criterion_indices": work.get("unresolved_criterion_indices", []),
                       "revision_needed": bool(work.get("revision_needed")), "resolution": resolution,
                       "evidence_basis": "learner_reported_revision",
-                      "notice": "学习者明确记录了部分达到或需要重做，提交状态不会清除修订事项。"})
+                      "notice": notice})
     for need in needs:
         if need["resolution"]:
             need["status"] = "resolved"
@@ -292,7 +357,7 @@ def task_options(catalog, skill_ids, records, exposures=None, *, allowed_task_id
     """Rank concrete next observations with family, representation and help limits."""
     if not skill_ids:
         return []
-    observations = list(_observations(records))
+    observations = list(_observations(records, include_pending=True))
     seen_questions = {answer["question_id"] for _, answer in observations}
     seen_families = {answer["family_id"] for _, answer in observations
                      if answer.get("family_status") == "declared" and answer.get("family_id")}

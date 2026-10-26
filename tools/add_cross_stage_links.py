@@ -104,65 +104,9 @@ LINKS = [
 ]
 
 
-def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--apply", action="store_true", help="实际写入（默认只报告）")
-    args = ap.parse_args()
-
-    topics = {t["id"]: t for t in json.loads((DATA / "topics.json").read_text(encoding="utf-8"))}
-    deps = json.loads((DATA / "dependencies.json").read_text(encoding="utf-8"))
-
-    def stage(tid: str) -> str:
-        g = topics[tid].get("grade")
-        return "primary" if g <= 6 else ("junior" if g <= 9 else "senior")
-
-    existing = {(e["prerequisiteId"], e["topicId"]) for e in deps}
-    added, skipped, invalid = [], [], []
-
-    for link in LINKS:
-        pre, tgt = link["prerequisiteId"], link["topicId"]
-        if pre not in topics or tgt not in topics:
-            invalid.append((pre, tgt, "知识点不存在"))
-            continue
-        if (pre, tgt) in existing:
-            skipped.append((pre, tgt))
-            continue
-        # 同段内不建跨学段边（这不是本工具的职责）
-        if stage(pre) == stage(tgt):
-            invalid.append((pre, tgt, "不是跨学段"))
-            continue
-        added.append(link)
-
-    print(f"待新增 {len(added)} 条跨学段边，已存在 {len(skipped)} 条，无效 {len(invalid)} 条")
-    for link in added:
-        p = topics[link["prerequisiteId"]]
-        t = topics[link["topicId"]]
-        print(f"  + {p['volume']}「{p['name']}」 --{link['strength']}--> "
-              f"{t['volume']}「{t['name']}」")
-    for pre, tgt, why in invalid:
-        print(f"  ! {pre} → {tgt}：{why}")
-
-    if not added:
-        print("无需改动。")
-        return
-
-    if not args.apply:
-        print("\n（试运行，未写入。加 --apply 生效）")
-        return
-
-    out = deps + [{k: v for k, v in link.items()} for link in added]
-    (DATA / "dependencies.json").write_text(
-        json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
-
-    # 复核：跨学段边数与阶段分布
-    cross = Counter()
-    for e in out:
-        a, b = e["prerequisiteId"], e["topicId"]
-        if a in topics and b in topics and stage(a) != stage(b):
-            cross[(stage(a), stage(b))] += 1
-    print(f"\n已写入：边总数 {len(out)}")
-    for (a, b), n in sorted(cross.items()):
-        print(f"  {a} → {b}: {n} 条")
+def main(*args, **kwargs):
+    from tools.retired_writer import reject
+    return reject(__file__)
 
 
 if __name__ == "__main__":
