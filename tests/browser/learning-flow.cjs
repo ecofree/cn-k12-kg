@@ -313,19 +313,32 @@ async function openContentPreview(task, first) {
       manipulation = await responseBody("/api/manipulative", { unit_id: id });
       assert.equal(manipulation.resource_version, body.resource_version);
       assert.equal(manipulation.representation_version, body.manipulative.representation_version);
+      await page.waitForFunction(id => document.getElementById("manip-prediction-" + id)?.disabled === false, id);
+      const config = body.manipulative, state = config.state;
+      const prediction = config.kind === "fraction_strip" ? "same" : String(config.kind === "ten_frame" ? state.a + state.b : config.kind === "data_chart" ? state.values.reduce((a, b) => a + b, 0) / 4 : state.slope * state.x + state.intercept);
+      const field = page.locator("#manip-prediction-" + id);
+      if (config.kind === "fraction_strip") await field.selectOption(prediction); else await field.fill(prediction);
+      const recorded = await actionResponse(() => page.locator(".prediction-box").getByRole("button").click(), "/api/manipulative/predict");
+      assert.equal(recorded.prediction.result.matches_model, true);
+      if (config.kind === "ten_frame") {
+        await page.locator(".counting-token").first().click();
+        assert.equal(await page.locator('.counting-token[aria-pressed="true"]').count(), 1);
+      }
+      await actionResponse(() => page.locator(".manipulative").getByRole("button", { name: "保存操作和解释", exact: true }).click(), "/api/manipulative");
     }
     if (kind === "history") histories = await responseBody("/api/works", { limit: "20", offset: "0" });
-    const readiness = { kind, id, count: works.length, indices: checks.map(row => row.criterion_index), hasManipulative: Boolean(manipulation) };
+    const readiness = { kind, id, count: works.length, indices: checks.map(row => row.criterion_index), hasManipulative: Boolean(manipulation), hasSteps: kind === "unit" && id === "equation_equivalence" };
     try {
       // Poll asynchronous DOM mounting independently of drawing frames. The
       // original 15-second default and every readiness condition remain intact.
-      await page.waitForFunction(({ kind, id, count, indices, hasManipulative }) => {
+      await page.waitForFunction(({ kind, id, count, indices, hasManipulative, hasSteps }) => {
         const view = document.getElementById("view-" + kind), editors = [...(view?.querySelectorAll(".work-editor") || [])];
         return view && !view.hidden && editors.length === count && editors.every(editor =>
           editor.querySelector(".work-revisions") && [...editor.querySelectorAll("textarea, select")].every(input => !input.disabled)) &&
           indices.every(index => { const input = view.querySelector("#self-check-" + index); return input && !input.disabled; }) &&
+          (!hasSteps || (view.querySelectorAll(".step-practice [data-step-case]").length === 3 && [...view.querySelectorAll(".step-practice [data-step-case]")].every(button => !button.disabled))) &&
           (!hasManipulative || (view.querySelector("#manip-explanation-" + id)?.disabled === false &&
-            view.querySelector(".manipulative svg") && view.querySelectorAll(".manip-controls input, .manip-controls select").length > 0 &&
+            (view.querySelector(".manipulative svg") || view.querySelector(".manipulative .count-frames button")) && view.querySelectorAll(".manip-controls input, .manip-controls select").length > 0 &&
             [...view.querySelectorAll(".manip-controls input, .manip-controls select")].every(input => !input.disabled)));
       }, readiness, { polling: 100 });
     } catch (error) {
@@ -341,7 +354,7 @@ async function openContentPreview(task, first) {
           self_checks: indices.map(index => { const input = view?.querySelector("#self-check-" + index);
             return { index, exists: Boolean(input), disabled: input?.disabled }; }),
           manipulation: { exists: Boolean(manipulation), explanation_exists: Boolean(explanation), explanation_disabled: explanation?.disabled,
-            svg_exists: Boolean(manipulation?.querySelector("svg")), controls: controls(manipulation?.querySelector(".manip-controls")) },
+            svg_exists: Boolean(manipulation?.querySelector("svg")), counting_buttons: manipulation?.querySelectorAll(".counting-token").length || 0, controls: controls(manipulation?.querySelector(".manip-controls")) },
           alerts: [...(view?.querySelectorAll('[role="alert"]') || [])].map(element => element.textContent), performance_now: performance.now() };
       }, readiness).catch(snapshotError => ({ snapshot_error: snapshotError.message }));
       result.observations.preview_readiness_failure = { path: task.path, expected: readiness, observed, api_responses: evidence };
@@ -420,6 +433,12 @@ async function openContentPreview(task, first) {
 }
 
 const journeys = {
+  async support_branches() {
+    await require("./support-branches.cjs")({ page, goto, actionResponse, apiRead, claim, result, noHorizontalOverflow });
+  },
+  async equation_steps() {
+    await require("./step-practice.cjs")({ page, goto, actionResponse, apiRead, claim, result, noHorizontalOverflow });
+  },
   async goal_alignment() {
     const registry = read("data/skills/registry.json");
     const whole = registry.objective_skill_ids["fraction_equivalence:whole"];
@@ -615,6 +634,28 @@ const journeys = {
     await downloaded.saveAs(filename);
     const encrypted = fs.readFileSync(filename, "utf8");
     assert.ok(!encrypted.includes(draft1) && !encrypted.includes(draft2));
+    let health = (await apiRead("/api/profile")).backup_health;
+    assert.equal(health.generated.freshness, "matches_current_assets");
+    assert.equal(health.verified_file, null, "Generating a response is not proof of a saved file.");
+    await page.locator("#verify-backup-file").setInputFiles(filename);
+    await page.locator("#verify-backup-code").fill(code);
+    const verified = await actionResponse(() => page.getByRole("button", { name: "核验文件，不导入", exact: true }).click(), "/api/profile/verify-backup");
+    assert.equal(verified.matches_current_assets, true);
+    assert.equal(verified.identity_changed, false); assert.equal(verified.assets_imported, false);
+    health = (await apiRead("/api/profile")).backup_health;
+    assert.equal(health.verified_file.freshness, "matches_current_assets");
+    // Reading material after backup is itself an asset/exposure change, even
+    // when no work is edited and the visit occurs within the same clock second.
+    await goto("?teach=m1a.1.1"); await valueEquals("#self-check-0", draft2);
+    await page.locator("#open-profile").click(); await visible("#view-profile");
+    health = (await apiRead("/api/profile")).backup_health;
+    assert.equal(health.generated.freshness, "changed");
+    assert.equal(health.verified_file.freshness, "changed");
+    assert.ok((await page.locator("#backup-health").textContent()).includes("已有差异"));
+    await page.setViewportSize({ width: 390, height: 844 });
+    await noHorizontalOverflow("profile_backup_health_390");
+    await page.screenshot({ path: path.join(output, "profile-health.png"), fullPage: true });
+    await page.setViewportSize({ width: 1280, height: 900 });
     await context.clearCookies();
     await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); });
     await goto("?profile=1");
@@ -635,14 +676,20 @@ const journeys = {
     await page.locator("#recover-code").fill(code);
     await page.locator("#restore-backup").setInputFiles(filename);
     await navigationAction(() => page.getByRole("button", { name: "导入备份并恢复", exact: true }).click(), "/api/profile/restore");
+    health = (await apiRead("/api/profile")).backup_health;
+    assert.equal(health.restored_snapshot.freshness, "matches_current_assets");
+    assert.equal(health.verified_file, null, "A restore receipt must not be renamed as a later selected-file check.");
     const imported = await apiRead("/api/work?resource_id=" + encodeURIComponent(first.resource_id));
     assert.deepEqual(imported.work.payload, recovered.work.payload);
     const importedRevisions = (await apiRead("/api/work/revisions?resource_id=" + encodeURIComponent(first.resource_id))).revisions;
     assert.equal(importedRevisions.length, 2);
+    health = (await apiRead("/api/profile")).backup_health;
+    assert.equal(health.restored_snapshot.freshness, "changed", "Reopening frozen work records fresh exposure after the imported snapshot.");
     await goto("?teach=m1a.1.1"); await valueEquals("#self-check-0", draft2);
     claim("Creating a recovery code preserves the current anonymous learning records and returns no cookie credential in JSON.");
     claim("Clearing cookies and site data is recoverable using the code; an encrypted backup imports through the UI into a separate fresh SQLite installation.");
     claim("Work identity, original snapshot and both revisions survive; the downloaded envelope does not expose the learner's text.");
+    claim("The actual downloaded file can be selected and checked without importing or switching identity; later material exposure makes both backup and verification freshness stale.");
     result.observations.restored_revisions = importedRevisions.length;
   },
 
@@ -655,7 +702,9 @@ const journeys = {
     await page.locator("#scope-stage").selectOption("primary");
     await page.locator("#scope-search").fill("算盘");
     assert.ok(await page.locator("#scope-goals article").count());
-    await page.locator("#scope-goals article").first().getByRole("button", { name: "打开学习材料与任务" }).click();
+    await page.locator("#scope-goals article").first().getByRole("button", { name: "查看目标、材料与后续任务" }).click();
+    await visible("#view-goal");
+    await page.locator(".goal-route").first().getByRole("button", { name: "打开对应材料与自检" }).click();
     await visible("#view-teach"); assert.equal(await page.locator(".self-check-prompt").count(), 2);
     await page.setViewportSize({ width: 390, height: 844 });
     for (const [uid, control, action] of [
@@ -683,6 +732,22 @@ const journeys = {
       if (uid === "ten_frame_place_value") {
         const second = page.locator("#manip-ten_frame_place_value-b");
         await second.focus(); await second.press("End");
+      }
+      assert.equal(await page.locator(".manipulative svg, .counting-token").count(), 0, "Do not show the result before the learner records a prediction");
+      const predictionField = page.locator(`#manip-prediction-${uid}`);
+      if (uid === "fraction_equivalence") await predictionField.selectOption("longer"); else await predictionField.fill("0");
+      const predicted = await actionResponse(() => page.locator(".prediction-box").getByRole("button").click(), "/api/manipulative/predict");
+      assert.equal(predicted.prediction.result.matches_model, false, "Keep a deliberately incorrect prediction for comparison");
+      if (uid === "ten_frame_place_value") {
+        assert.equal(await page.locator(".counting-token").count(), 20);
+        await page.locator(".counting-token").first().click();
+        await page.locator(".counting-token").first().click();
+        assert.equal(await page.locator('.counting-token[aria-pressed="true"]').count(), 1, "A repeated tap must not count a second object");
+        const repeatedPrediction = await actionResponse(() => page.locator(".prediction-box").getByRole("button").click(), "/api/manipulative/predict");
+        assert.equal(repeatedPrediction.duplicate, true);
+        assert.equal(repeatedPrediction.prediction.prediction_id, predicted.prediction.prediction_id);
+        assert.equal(await page.locator('.counting-token[aria-pressed="true"]').count(), 1, "Retrying the same prediction must preserve existing taps");
+        for (let i = 1; i < 20; i++) await page.locator(`.counting-token[data-token-index="${i}"]`).click();
         assert.ok((await page.locator(".manipulative").textContent()).includes("合成2个十和0个一"));
       }
       const reflection = `合成操作验证：${uid}，先预测，再记录表征中的实际变化。`;
@@ -699,17 +764,26 @@ const journeys = {
         assert.ok(await page.locator(`#manip-explanation-${uid}`).isDisabled());
         releaseSave(); await saving; await page.unroute("**/api/manipulative");
       } else await actionResponse(() => page.getByRole("button", { name: "保存操作和解释", exact: true }).click(), "/api/manipulative");
-      const state = (await apiRead("/api/manipulative?unit_id=" + uid)).saved.payload.state;
+      const saved = (await apiRead("/api/manipulative?unit_id=" + uid)).saved.payload;
+      const state = saved.state;
+      assert.equal(saved.prediction.prediction_id, predicted.prediction.prediction_id);
+      assert.equal(saved.sequence_basis, "server_prediction_before_saved_operation");
+      if (uid === "ten_frame_place_value") { assert.equal(saved.interaction.unique_count, 20); assert.equal(saved.interaction.repeated_taps, 1); }
       await page.reload({ waitUntil: "domcontentloaded" });
       await valueEquals(`#manip-explanation-${uid}`, reflection);
       assert.deepEqual((await apiRead("/api/manipulative?unit_id=" + uid)).saved.payload.state, state);
+      if (uid === "ten_frame_place_value") assert.equal(await page.locator('.counting-token[aria-pressed="true"]').count(), 20);
       await noHorizontalOverflow(uid + "_manipulative_390");
+      if (uid === "ten_frame_place_value") await page.locator(".manipulative").screenshot({ path: path.join(output, "counting-prediction.png") });
     }
     await page.screenshot({ path: path.join(output, "primary-entry.png"), fullPage: true });
     const exported = await apiRead("/api/export");
-    assert.equal(exported.events.filter(e => e.event_type === "manipulation_saved").length, 4);
+    const operations = exported.events.filter(e => e.event_type === "manipulation_saved" && e.payload.prediction);
+    assert.equal(new Set(operations.map(event => event.resource_id)).size, 4);
+    assert.ok(operations.every(event => event.payload.independent_evidence === false));
     claim("The complete course inventory retains 342 core and 135 foundation topics with explicit materials for every registered goal.");
-    claim("Four mathematical representations support keyboard controls, mobile layout and saved action/reflection recovery without assigning mastery.");
+    claim("Four mathematical representations save an actual prediction before showing results; original wrong predictions and operation order survive reload without assigning mastery.");
+    claim("Ten-frame tokens support 44-pixel keyboard/touch targets; repeated tapping cannot add another object to the count.");
   },
 
   async navigation_recovery() {

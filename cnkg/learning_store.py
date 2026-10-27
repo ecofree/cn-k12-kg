@@ -80,7 +80,8 @@ def _session_summary(record):
     answer_fields = ("question_id", "objective_ids", "skill_ids", "status", "answered_at", "skipped",
                      "family_id", "family_status", "representation", "purpose", "alignment",
                      "content_sha256", "resource_version", "topic_ids", "help_used",
-                     "resolution_for_need_ids", "support_kind", "followup_basis", "help_evidence")
+                     "resolution_for_need_ids", "support_kind", "followup_basis", "help_evidence",
+                     "confirmation_eligible", "route_id")
     result["answers"] = []
     for entry in record.get("answers", []):
         metadata = observation_metadata(record, entry)
@@ -532,13 +533,21 @@ class LearningStore:
         return ({"resource_id": row["resource_id"], "occurred_at": row["occurred_at"],
                  "content_sha256": row["content_sha256"]} if row else None)
 
-    def latest_resource_event(self, owner_id, resource_id, event_type):
+    def latest_resource_event(self, owner_id, resource_id, event_type, *, question_id=None, include_sequence=False):
         """Recover one saved manipulation without scanning all learner events."""
         with self._connect() as db:
-            row = db.execute("""SELECT * FROM events WHERE owner_id=? AND resource_id=? AND event_type=?
-                ORDER BY seq DESC LIMIT 1""", (owner_id, resource_id, event_type)).fetchone()
-        return ({"occurred_at": row["occurred_at"], "content_sha256": row["content_sha256"],
-                 "payload": json.loads(row["payload_json"])} if row else None)
+            clause, values = "", [owner_id, resource_id, event_type]
+            if question_id is not None:
+                clause, values = " AND question_id=?", [*values, question_id]
+            row = db.execute("SELECT * FROM events WHERE owner_id=? AND resource_id=? AND event_type=?" + clause +
+                " ORDER BY seq DESC LIMIT 1", values).fetchone()
+        if row is None:
+            return None
+        result = {"occurred_at": row["occurred_at"], "content_sha256": row["content_sha256"],
+                  "payload": json.loads(row["payload_json"])}
+        if include_sequence:
+            result["seq"] = row["seq"]
+        return result
 
     def latest_scope_activity(self, owner_id, resource_ids, *, question_ids=(), family_ids=()):
         """Latest related material/reference, task presentation, answer or feedback.

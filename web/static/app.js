@@ -245,7 +245,7 @@ async function openScope(routeMode = "push") {
 }
 function renderSupport(data, routeMode) {
   show("support"); rememberRoute({ session: data.session.id }, routeMode);
-  window.CNKGSupport.mount($("support-content"), data, { api, node, rich, button, diagram, list, notice, openNeeds, openUnit, busy: value => { state.pending = value; } });
+  window.CNKGSupport.mount($("support-content"), data, { api, node, rich, button, diagram, list, notice, openNeeds, openUnit, openSupport, busy: value => { state.pending = value; } });
   try { sessionStorage.setItem("cnkg-session-id", data.session.id); } catch (_) {}
 }
 async function openSupport(unitId, supportId, needIds = [], routeMode = "push") {
@@ -468,6 +468,10 @@ async function openUnit(id, routeMode = "push", skillId = null) {
     root.append(section("使用条件", list(ex.conditions)), section("用反例检查边界", rich("div", ex.counterexample)));
     root.append(...unit.worked_examples.map((example, index) => workedExample(example, index, "unit:" + id)));
     if (window.CNKGManipulatives) window.CNKGManipulatives.mount(root, unit, { node, rich, button, api, busy: value => { state.pending = value; } });
+    if (unit.id === "equation_equivalence" && window.CNKGSteps) {
+      const stepsRoot = node("section", null, "card step-practice"); root.append(stepsRoot);
+      window.CNKGSteps.mount(stepsRoot, { unitId: unit.id }).catch(error => { stepsRoot.append(node("p", error.message, "muted")); });
+    }
     if (unit.instructional_support?.length) {
       const help = node("div");
       for (const support of unit.instructional_support) {
@@ -636,7 +640,7 @@ function renderItem() {
   $("quiz-used-help").checked = false; $("quiz-used-help").disabled = blocked;
   $("feedback").hidden = true; $("submit").disabled = false; $("submit").hidden = false; $("skip").disabled = false; $("skip").hidden = false;
   $("quiz-topic").textContent = item.topicName; $("quiz-progress").textContent = `第 ${state.session.answered_count + 1} 题`;
-  $("quiz-meta").textContent = `${PHASE[state.session.mode]}${item.question.difficulty ? ` · 设计难度 ${item.question.difficulty}（待实测校准）` : ""}`;
+  $("quiz-meta").textContent = `${PHASE[state.session.mode]}${item.question.difficulty ? ` · ${{ basic: "基础任务", standard: "综合任务", advanced: "拓展任务" }[item.question.difficulty] || "练习任务"}` : ""}`;
   $("quiz-hint").textContent = state.session.feedback_policy === "deferred" ? "先完成这组题，再一起看答案与解析。" : "练习反馈用于学习，不作为初始掌握的证明。";
   if (state.session.mode === "delayed" && state.session.context?.interval_notice) $("quiz-hint").textContent += " " + state.session.context.interval_notice;
   window.setRichText($("quiz-prompt"), item.question.prompt); $("quiz-diagram").replaceChildren(...(item.question.diagram ? [diagram(item.question.diagram)] : []));

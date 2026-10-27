@@ -20,6 +20,14 @@ window.CNKGSupport = (() => {
         box.append(node("h3", labels[feedback.status] || "这一步的提示"), rich("p", feedback.feedback || feedback.explanation || feedback.reason));
         root.append(box);
       }
+      if (support.route) {
+        const route = node("section", null, "card support-route");
+        route.dataset.routeId = support.route.route_id;
+        route.append(node("h3", `这次的指导：${support.route.title}`),
+          rich("p", support.route.selection_reason), rich("p", support.route.observation_note),
+          node("p", "这是根据本次选择安排的下一步，仍需观察后面的表现；没有据此认定固定的错误原因。", "muted"));
+        root.append(route);
+      }
       if (support.step > 0) {
         const hints = node("section", null, "card"); hints.append(node("h3", "按需要打开提示"));
         const opened = node("div");
@@ -46,13 +54,20 @@ window.CNKGSupport = (() => {
       }
       if (data.done) {
         const last = data.answers.at(-1), card = node("section", null, "card");
-        card.append(node("h3", last?.status === "correct" ? "已留下本次帮助后的确认记录" : "这一处还需要继续处理"),
-          node("p", last?.status === "correct" ? "可以回到未解决事项查看具体变化。其他目标、过程修订和后续复测会分别保留。" : "原来的困难仍在学习事项中。可以回看记录与提示，随后继续练习或修订。"),
+        const confirmed = last?.status === "correct" && last?.confirmation_eligible !== false;
+        card.append(node("h3", confirmed ? "已留下本次帮助后的确认记录" : "这一处还需要继续处理"),
+          node("p", last?.confirmation_notice || (confirmed ? "可以回到未解决事项查看具体变化。其他目标、过程修订和后续复测会分别保留。" : "原来的困难仍在学习事项中。可以回看记录与提示，随后继续练习或修订。")),
           button("查看未解决事项", ui.openNeeds), button("回看本单元", () => ui.openUnit(data.session.unit_id)));
+        if (!confirmed) card.append(button("关联原事项，重新辨别并练习", async () => {
+          if (busy) return;
+          await ui.openSupport(data.session.unit_id, data.support.id, data.session.retry_need_ids || []);
+        }));
         root.append(card); return;
       }
       const task = data.item, card = node("section", null, "card support-task");
-      card.append(node("h3", ["先辨别一下", "跟着做一步", "换个任务再确认"][support.step]), rich("p", task.prompt));
+      card.dataset.taskId = task.id;
+      card.append(node("h3", support.step_kind === "guided" && support.route ? `针对这一步再练：${support.route.title}` :
+        ["先辨别一下", "跟着做一步", "换个任务再确认"][support.step]), rich("p", task.prompt));
       if (task.diagram) card.append(diagram(task.diagram));
       let selected = drafts.get(task.id) || "", control;
       if (task.type === "choice") {

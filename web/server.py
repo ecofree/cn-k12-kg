@@ -42,7 +42,7 @@ from cnkg.graph import VOLUME_ORDER, load_graph  # noqa: E402
 from cnkg.verify import compare, compare_short, to_number, to_fraction, normalize_text  # noqa: E402
 from cnkg.answers import grade_answer  # noqa: E402
 from cnkg.review_timing import interval_context, unit_activity_scope  # noqa: E402
-from cnkg import manipulatives  # noqa: E402
+from cnkg import manipulatives, step_practice  # noqa: E402
 from cnkg.content_repository import ContentRepository  # noqa: E402
 from cnkg.runtime_version import freeze_grader  # noqa: E402
 
@@ -70,10 +70,11 @@ _UNIT_CACHE = None
 _PROJECT_CACHE = None
 _CATALOG_CACHE = None
 ALLOWED_STATIC = {"index.html", "app.js", "style.css", "review.html", "math.js",
-                  "ext.html", "ext-data.json", "work.js", "support.js", "profile.js", "manipulatives.js"}
+                  "ext.html", "ext-data.json", "work.js", "support.js", "profile.js", "manipulatives.js", "steps.js"}
 _STATIC_SNAPSHOTS = {name: (STATIC / name).read_bytes() for name in ALLOWED_STATIC
                      if (STATIC / name).is_file()}
 _STATIC_SNAPSHOTS["manipulatives.js"] = manipulatives.renderer_bytes()
+_STATIC_SNAPSHOTS["steps.js"] = step_practice.renderer_bytes()
 # 第三方静态资源只允许这个子目录，避免把整个磁盘暴露出去
 ALLOWED_PREFIX = "vendor/"
 ALLOWED_DIAGRAM_PREFIX = "diagrams/"
@@ -232,6 +233,13 @@ def unit_assets(unit):
         return _CONTENT.assets_for([unit, *unit["tasks"]])
     # Explicit in-process test fixtures can supply their own local assets.
     return session_content.unit_assets(unit)
+
+
+def support_assets(unit):
+    resources = instruction.asset_resources(unit)
+    if unit == _CONTENT.units.get(unit.get("id")):
+        return _CONTENT.assets_for(resources)
+    return session_content.capture_assets(resources)
 
 
 def task_metadata(question):
@@ -842,6 +850,15 @@ class Handler(BaseHTTPRequestHandler):
             self._owner_id = get_profile().resolve_owner(token)
         return self._json(200, result)
 
+    def _manipulation_feedback(self, uid, content_sha256, prediction, evidence):
+        """Returned feedback exposes only the families frozen with that prediction."""
+        if not prediction:
+            return
+        get_store().add_event(self._owner(), {"event_type": "reference_opened", "occurred_at": _now(),
+            "resource_id": "unit:" + uid, "content_sha256": content_sha256,
+            "payload": {"family_ids": prediction.get("reference_family_ids", []), "task_ids": [],
+                "prediction_id": prediction.get("prediction_id"), "evidence": evidence}})
+
     def _material(self, resource_id, content_sha256):
         get_store().add_event(self._owner(), {"event_type": "material_requested",
             "occurred_at": _now(), "resource_id": resource_id, "content_sha256": content_sha256,
@@ -929,15 +946,40 @@ class Handler(BaseHTTPRequestHandler):
             except ValueError as exc:
                 return self._error(400, str(exc))
             return self._json(200, result)
+        if path == "/api/steps":
+            owner = self._owner()
+            version = get_catalog().units[step_practice.UNIT_ID]["resource_version"]
+            try:
+                if params.get("activity_id"):
+                    return self._json(200, step_practice.load(get_store(), owner, params["activity_id"], version, expose=True))
+                return self._json(200, step_practice.listing(get_store(), owner, params.get("unit_id"), version,
+                    offset=int(params.get("offset", "0")), limit=int(params.get("limit", "50"))))
+            except KeyError:
+                return self._error(404, "分步活动不存在或不属于当前档案")
+            except ValueError as exc:
+                return self._error(400, str(exc))
+
         if path == "/api/manipulative":
             uid = params.get("unit_id")
             if uid not in manipulatives.CONFIG:
                 return self._error(404, "操作表征不存在")
             version = get_catalog().units[uid]["resource_version"]
             representation_version = manipulatives.representation_version(uid)
-            saved = get_store().latest_resource_event(self._owner(), "unit:" + uid, "manipulation_saved")
+            saved = get_store().latest_resource_event(self._owner(), "unit:" + uid, "manipulation_saved", include_sequence=True)
+            predicted = get_store().latest_resource_event(self._owner(), "unit:" + uid, "manipulation_prediction_saved", include_sequence=True)
+            pending = predicted if predicted and (not saved or predicted["seq"] > saved["seq"]) else None
+            for event in (saved, predicted):
+                if event:
+                    event.pop("seq", None)
+            if saved:
+                self._manipulation_feedback(uid, saved["content_sha256"], saved["payload"].get("prediction"),
+                    "saved_feedback_returned_not_proof_of_reading")
+            if pending:
+                self._manipulation_feedback(uid, pending["content_sha256"], pending["payload"],
+                    "pending_feedback_returned_not_proof_of_reading")
             return self._json(200, {"saved": saved, "resource_version": version,
                 "representation_version": representation_version,
+                "pending_prediction": pending,
                 "same_version": bool(saved and saved["content_sha256"] == version
                     and saved["payload"].get("representation_version") == representation_version)})
         if path == "/api/learning/units":
@@ -1100,7 +1142,8 @@ class Handler(BaseHTTPRequestHandler):
             length = int(self.headers.get("Content-Length") or 0)
         except ValueError:
             return self._error(400, "请求长度不合法")
-        maximum = profile_recovery.MAX_ENVELOPE_BYTES + 4096 if path == "/api/profile/restore" else 1_000_000
+        maximum = (profile_recovery.MAX_ENVELOPE_BYTES + 4096
+                   if path in {"/api/profile/restore", "/api/profile/verify-backup"} else 1_000_000)
         if length < 0 or length > maximum:
             return self._error(413, "请求过大")
         try:
@@ -1120,33 +1163,85 @@ class Handler(BaseHTTPRequestHandler):
                         current_owner=self._owner(), current_recovery_code=payload.get("current_recovery_code")))
                 if path == "/api/profile/backup":
                     return self._json(200, get_profile().backup(self._owner(), payload.get("recovery_code")))
+                if path == "/api/profile/verify-backup":
+                    return self._json(200, get_profile().verify_backup(payload.get("envelope"), payload.get("recovery_code"),
+                        current_owner=self._owner()))
                 if path == "/api/profile/restore":
                     return self._profile_response(get_profile().restore(payload.get("envelope"), payload.get("recovery_code"),
                         current_owner=self._owner(), current_recovery_code=payload.get("current_recovery_code")))
                 if path == "/api/learning-needs/state":
                     return self._json(200, set_public_need_state(self._owner(), payload.get("need_id"),
                         payload.get("action"), payload.get("reason")))
-                if path == "/api/manipulative":
+                if path in {"/api/manipulative", "/api/manipulative/predict"}:
                     uid = payload.get("unit_id")
                     manip_state = manipulatives.validate_state(uid, payload.get("state"))
                     version = get_catalog().units[uid]["resource_version"]
                     if (payload.get("resource_version") != version or payload.get("representation_version")
                             != manipulatives.representation_version(uid)):
                         return self._error(409, "材料或操作表征版本已改变，请保留当前解释后重新打开单元")
+                    owner, prediction, prediction_id = self._owner(), None, payload.get("prediction_id")
+                    if path == "/api/manipulative/predict" or prediction_id is not None:
+                        if not isinstance(prediction_id, str) or not re.fullmatch(r"[a-f0-9]{32}", prediction_id):
+                            return self._error(400, "预测记录标识不正确")
+                        prior = get_store().latest_resource_event(owner, "unit:" + uid, "manipulation_prediction_saved", question_id=prediction_id)
+                        if path == "/api/manipulative/predict":
+                            result = manipulatives.evaluate_prediction(uid, manip_state, payload.get("prediction"))
+                            request_sha = _hash({"unit_id": uid, "version": version, "state": manip_state,
+                                                 "prediction": result["value"], "renderer": manipulatives.representation_version(uid)})
+                            if prior:
+                                if prior["payload"].get("request_sha256") != request_sha:
+                                    return self._error(409, "同一预测记录不能改成另一份预测；请开启新一轮")
+                                self._manipulation_feedback(uid, prior["content_sha256"], prior["payload"],
+                                    "retried_prediction_feedback_returned_not_independence")
+                                return self._json(200, {"prediction": prior["payload"], "duplicate": True})
+                            now = _now()
+                            prediction = {"prediction_id": prediction_id, "request_sha256": request_sha,
+                                "unit_id": uid, "state": copy.deepcopy(manip_state), "recorded_at": now,
+                                "result": result, "representation_version": manipulatives.representation_version(uid),
+                                "reference_family_ids": [fid for fid in manipulatives.CONFIG[uid]["reference_family_ids"]
+                                    if fid in get_catalog().families and get_catalog().families[fid]["status"] == "declared"],
+                                "representation_snapshot": manipulatives.snapshot(uid), "independent_evidence": False}
+                            get_store().add_event(owner, {"event_type": "manipulation_prediction_saved", "occurred_at": now,
+                                "resource_id": "unit:" + uid, "question_id": prediction_id, "content_sha256": version,
+                                "payload": prediction})
+                            self._manipulation_feedback(uid, version, prediction,
+                                "prediction_feedback_available_not_independence")
+                            return self._json(200, {"prediction": prediction, "duplicate": False})
+                        if (not prior or prior["content_sha256"] != version
+                                or prior["payload"].get("representation_version") != manipulatives.representation_version(uid)
+                                or prior["payload"].get("state") != manip_state):
+                            return self._error(409, "预测不属于本档案的这组条件和版本；原记录已保留，请先记录新预测")
+                        prediction = prior["payload"]
+                    interaction = manipulatives.validate_interaction(uid, manip_state, payload.get("interaction"))
+                    prediction_draft = payload.get("prediction_draft", "")
+                    if not isinstance(prediction_draft, str) or len(prediction_draft) > 32:
+                        return self._error(400, "预测草稿最多32个字符")
                     reflection = payload.get("reflection", "")
                     if not isinstance(reflection, str) or len(reflection) > 2000:
                         return self._error(400, "解释须为不超过2000字的文字")
                     event = {"event_type": "manipulation_saved", "occurred_at": _now(), "resource_id": "unit:" + uid,
                         "content_sha256": version, "payload": {"state": manip_state, "reflection": reflection,
+                            "prediction": prediction, "prediction_draft": prediction_draft, "interaction": interaction,
+                            "sequence_basis": "server_prediction_before_saved_operation" if prediction else "no_prior_prediction_recorded",
                             "objective_ids": manipulatives.CONFIG[uid]["objective_ids"], "independent_evidence": False,
                             "representation_version": manipulatives.representation_version(uid),
                             "representation_snapshot": manipulatives.snapshot(uid),
-                            "evidence": "learner_saved_operation_not_correctness"}}
+                            "evidence": "learner_saved_operation_not_correctness" if prediction else "learner_saved_draft_not_assessment"}}
                     get_store().add_event(self._owner(), event)
-                    get_store().add_event(self._owner(), {**event, "event_type": "reference_opened",
-                        "payload": {"family_ids": get_catalog().materials["unit:" + uid]["family_ids"],
-                            "task_ids": [], "evidence": "interactive_representation_used_not_mastery"}})
+                    self._manipulation_feedback(uid, version, prediction,
+                        "browser_reported_interactive_representation_not_mastery")
                     return self._json(200, {"saved": True})
+                if path in ("/api/steps/start", "/api/steps/answer", "/api/steps/hint", "/api/steps/draft"):
+                    version = get_catalog().units[step_practice.UNIT_ID]["resource_version"]
+                    if path.endswith("/start"):
+                        result = step_practice.start(get_store(), self._owner(), payload, version)
+                    elif path.endswith("/draft"):
+                        result = step_practice.save_draft(get_store(), self._owner(), payload, version)
+                    else:
+                        result = step_practice.submit(get_store(), self._owner(), payload, version,
+                            hint=path.endswith("/hint"))
+                    return self._json(200, result)
+
                 if path == "/api/support/start":
                     owner = self._owner()
                     unit = learning_units().get(payload.get("unit_id"))
@@ -1160,7 +1255,7 @@ class Handler(BaseHTTPRequestHandler):
                         return self._error(404, "学习事项不存在或不属于当前档案")
                     record, events = instruction.create(unit, payload.get("support_id"), owner, get_catalog(),
                         get_store().exposures(owner), [known[n] for n in need_ids], _now(),
-                        assets=unit_assets(unit))
+                        assets=support_assets(unit))
                     get_store().save(record, events)
                     return self._json(200, instruction.public_session(record))
                 if path in ("/api/support/answer", "/api/support/hint"):

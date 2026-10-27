@@ -44,97 +44,7 @@
             "minItems": 1
           },
           "diagnostic": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "prompt": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "\\S"
-              },
-              "type": {
-                "enum": [
-                  "choice",
-                  "numeric",
-                  "short",
-                  "rubric"
-                ]
-              },
-              "answer_spec": {
-                "$ref": "https://cn-k12-kg.local/schema/v1/answer-spec.schema.json"
-              },
-              "answer": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "\\S"
-              },
-              "choices": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "additionalProperties": false,
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "minLength": 1,
-                      "pattern": "\\S"
-                    },
-                    "text": {
-                      "type": "string",
-                      "minLength": 1,
-                      "pattern": "\\S"
-                    },
-                    "feedback": {
-                      "type": "string",
-                      "minLength": 1,
-                      "pattern": "\\S"
-                    },
-                    "next_hint_level": {
-                      "type": "integer",
-                      "minimum": 1,
-                      "maximum": 3
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "text"
-                  ]
-                },
-                "minItems": 2
-              },
-              "explanation": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "\\S"
-              },
-              "verify": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "\\S"
-              },
-              "accept": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "minLength": 1,
-                  "pattern": "\\S"
-                },
-                "minItems": 1
-              },
-              "rubric": {
-                "type": "array",
-                "items": {
-                  "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/rubricRow"
-                },
-                "minItems": 1
-              }
-            },
-            "required": [
-              "prompt",
-              "type",
-              "answer_spec",
-              "explanation"
-            ]
+            "$ref": "#/$defs/supportTask"
           },
           "hints": {
             "type": "array",
@@ -197,97 +107,7 @@
             }
           },
           "guided_task": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "prompt": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "\\S"
-              },
-              "type": {
-                "enum": [
-                  "choice",
-                  "numeric",
-                  "short",
-                  "rubric"
-                ]
-              },
-              "answer_spec": {
-                "$ref": "https://cn-k12-kg.local/schema/v1/answer-spec.schema.json"
-              },
-              "answer": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "\\S"
-              },
-              "choices": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "additionalProperties": false,
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "minLength": 1,
-                      "pattern": "\\S"
-                    },
-                    "text": {
-                      "type": "string",
-                      "minLength": 1,
-                      "pattern": "\\S"
-                    },
-                    "feedback": {
-                      "type": "string",
-                      "minLength": 1,
-                      "pattern": "\\S"
-                    },
-                    "next_hint_level": {
-                      "type": "integer",
-                      "minimum": 1,
-                      "maximum": 3
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "text"
-                  ]
-                },
-                "minItems": 2
-              },
-              "explanation": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "\\S"
-              },
-              "verify": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "\\S"
-              },
-              "accept": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "minLength": 1,
-                  "pattern": "\\S"
-                },
-                "minItems": 1
-              },
-              "rubric": {
-                "type": "array",
-                "items": {
-                  "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/rubricRow"
-                },
-                "minItems": 1
-              }
-            },
-            "required": [
-              "prompt",
-              "type",
-              "answer_spec",
-              "explanation"
-            ]
+            "$ref": "#/$defs/supportTask"
           },
           "followup_task_ids": {
             "type": "array",
@@ -298,6 +118,113 @@
             },
             "minItems": 1,
             "uniqueItems": true
+          },
+          "default_route": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "rationale": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "observation_note": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            },
+            "required": [
+              "title",
+              "rationale",
+              "observation_note"
+            ]
+          },
+          "skip_route": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "rationale": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "observation_note": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "guided_task": {
+                "$ref": "#/$defs/supportTask"
+              }
+            },
+            "required": [
+              "title",
+              "rationale",
+              "observation_note",
+              "guided_task"
+            ]
+          },
+          "guided_branches": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 4,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "rationale": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "observation_note": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+                },
+                "choice_ids": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  }
+                },
+                "guided_task": {
+                  "$ref": "#/$defs/supportTask"
+                }
+              },
+              "required": [
+                "title",
+                "rationale",
+                "observation_note",
+                "id",
+                "choice_ids",
+                "guided_task"
+              ]
+            }
           }
         },
         "required": [
@@ -310,7 +237,13 @@
           "hints",
           "guided_task",
           "followup_task_ids"
-        ]
+        ],
+        "dependentRequired": {
+          "guided_branches": [
+            "default_route",
+            "skip_route"
+          ]
+        }
       },
       "minItems": 1
     }
@@ -318,5 +251,146 @@
   "required": [
     "schema",
     "supports"
-  ]
+  ],
+  "$defs": {
+    "supportTask": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "type": {
+          "enum": [
+            "choice",
+            "numeric",
+            "short",
+            "rubric"
+          ]
+        },
+        "answer_spec": {
+          "$ref": "https://cn-k12-kg.local/schema/v1/answer-spec.schema.json"
+        },
+        "answer": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "feedback": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "next_hint_level": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 3
+              }
+            },
+            "required": [
+              "id",
+              "text"
+            ]
+          },
+          "minItems": 2
+        },
+        "explanation": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "verify": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "accept": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 1
+        },
+        "rubric": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/rubricRow"
+          },
+          "minItems": 1
+        },
+        "family_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "variant_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "representation": {
+          "type": "string",
+          "enum": [
+            "verbal",
+            "symbolic",
+            "number_line",
+            "area_model",
+            "table",
+            "graph",
+            "geometry",
+            "manipulative",
+            "mixed",
+            "unknown"
+          ]
+        },
+        "cognitive_demand": {
+          "type": "string",
+          "enum": [
+            "recall",
+            "execute",
+            "explain",
+            "choose_strategy",
+            "prove",
+            "model",
+            "unknown"
+          ]
+        },
+        "reference_family_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "uniqueItems": true
+        },
+        "diagram": {
+          "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/diagram"
+        }
+      },
+      "required": [
+        "prompt",
+        "type",
+        "answer_spec",
+        "explanation"
+      ]
+    }
+  }
 }

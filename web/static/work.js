@@ -159,5 +159,9 @@ window.CNKGWork = (() => {
   }
   addEventListener("online", flushAll);
   addEventListener("beforeunload", event => { if ([...editors].some(editor => editor.unsaved())) { event.preventDefault(); event.returnValue = ""; } });
-  return { mount, flushAll, hasUnsaved: () => [...editors].some(editor => editor.unsaved()) };
+  function registerActivity(editor) {
+    if (!editor?.root || typeof editor.unsaved !== "function" || typeof editor.save !== "function") throw new Error("活动保存接口不完整");
+    editors.add(editor); statusBanner(); return statusBanner;
+  }
+  return { mount, flushAll, registerActivity, hasUnsaved: () => [...editors].some(editor => editor.unsaved()) };
 })();

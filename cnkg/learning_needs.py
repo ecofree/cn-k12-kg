@@ -237,8 +237,11 @@ def derive_needs(catalog, records, works=(), states=()):
                                       "help_used": later.get("help_used"), "independent_evidence": False,
                                       "notice": "保留后来作答的具体结果与帮助记录；重复题或帮助后的正确不证明独立掌握。"}
         needs.append(need)
+    support_need_ids = {need_identity("support_revision", {"session_id": record["id"]}, _version(record))
+                        for record in records if record.get("kind") == "support"}
     for record in records:
-        if record.get("kind") != "support" or set(record.get("source_origin", {}).get("need_ids", [])) & primary_ids:
+        if (record.get("kind") != "support"
+                or set(record.get("source_origin", {}).get("need_ids", [])) & (primary_ids | support_need_ids)):
             continue
         answers = [metadata for answer in record.get("answers", [])
                    for metadata in [observation_metadata(record, answer)] if not metadata.get("_feedback_pending")]
@@ -249,15 +252,29 @@ def derive_needs(catalog, records, works=(), states=()):
         last = failures[-1]
         source, version = {"session_id": record["id"]}, _version(record)
         confirmations = [answer for answer in answers if answer.get("status") == "correct" and not answer.get("skipped")
+                         and answer.get("confirmation_eligible", True)
                          and answer.get("support_kind") == "confirmation" and record.get("completed_at")
                          and _when(record, answer) and _when(record, last) and _when(record, answer) > _when(record, last)]
         resolution = ({"kind": "supported_confirmation", "source_ref": _source(record, confirmations[-1]),
                        "help_used": confirmations[-1].get("help_used"), "independent_evidence": False,
                        "observed_at": confirmations[-1].get("answered_at") or record.get("completed_at"),
                        "notice": "本次指导后的终结确认已记录；这不证明独立掌握。"} if confirmations else None)
+        identity = need_identity("support_revision", source, version)
+        if resolution is None:
+            for later_time, other, later in sorted(support_by_need.get(identity, []), key=lambda row: (row[0], row[1]["id"])):
+                origin = other.get("source_origin", {})
+                if (other.get("completed_at") and _when(record, last) and later_time > _when(record, last)
+                        and origin.get("resource_version") == version
+                        and identity in origin.get("need_ids", [])
+                        and set(last.get("skill_ids", [])).issubset(later.get("skill_ids", []))
+                        and later.get("confirmation_eligible", True)):
+                    resolution = {"kind": "supported_confirmation", "source_ref": _source(other, later),
+                        "help_used": True, "independent_evidence": False, "observed_at": later.get("answered_at"),
+                        "notice": "与原事项、原版本和具体目标明确关联的重新指导已有有限确认；原失败记录保留，后续独立观察仍单独安排。"}
+                    break
         unit_id = record.get("source_origin", {}).get("unit_id") or record.get("unit_id")
         stage = record.get("stage") or units.get(unit_id, {}).get("stage")
-        needs.append({"need_id": need_identity("support_revision", source, version), "kind": "support_revision",
+        needs.append({"need_id": identity, "kind": "support_revision",
                       "status": "open", "source_ref": source, "source_refs": [_source(record, last)],
                       "resource_version": version, "unit_id": unit_id, "targets": [],
                       "title": record.get("title", "继续指导练习"), "stages": [stage] if stage else [],

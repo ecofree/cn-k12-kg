@@ -31,7 +31,8 @@ from cnkg.change_review import review_changes, validate_review_binding
 
 BROWSER_REQUIRED = frozenset({"result.json", "browser.log", "http.log", "final.png"})
 BROWSER_ALLOWED = BROWSER_REQUIRED | frozenset({"desktop-unit.png", "desktop-home.png",
-    "desktop-project.png", "primary-entry.png"})
+    "desktop-project.png", "primary-entry.png", "profile-health.png", "counting-prediction.png",
+    "steps-desktop.png", "steps-mobile.png"})
 
 
 class PackageError(ValueError):

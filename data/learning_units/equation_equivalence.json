@@ -935,7 +935,10 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "等价须双向推出、解集相同；保留旧解但新增解仍不等价。"
+          "explanation": "等价须双向推出、解集相同；保留旧解但新增解仍不等价。",
+          "family_id": "equation.multiply-zero-error",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy"
         },
         "hints": [
           {
@@ -972,13 +975,124 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "同减2x可由同加2x还原，不引入零除问题。"
+          "explanation": "同减2x可由同加2x还原，不引入零除问题。",
+          "family_id": "equation.property-operation-justification",
+          "representation": "symbolic",
+          "cognitive_demand": "execute"
         },
         "followup_task_ids": [
           "equation_equivalence:practice-1",
-          "equation_equivalence:transfer-1",
+          "equation_equivalence:delayed-3",
           "equation_equivalence:delayed-2"
-        ]
+        ],
+        "default_route": {
+          "title": "继续核对这个目标",
+          "rationale": "本次辨别已选到有依据的回答，继续原有指导任务检查是否能落实到操作；一次选择不等于目标已经完成。",
+          "observation_note": "观察乘0产生额外解；含未知数除法造成漏解另需继续检查。"
+        },
+        "guided_branches": [
+          {
+            "id": "test_added_solution",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "用一个新增解检验是否同解",
+            "rationale": "你的选择只检查两边操作相同；下一步找出新式允许、原式却不允许的一个数。",
+            "observation_note": "一个反例足以否定同解，但仍需在之后检查除以含未知数的式子会否漏解。",
+            "guided_task": {
+              "prompt": "原方程x=4，两边同乘0后得到0=0。要说明新旧方程不同解，下面哪个x满足新式却不满足原式？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "1",
+                  "text": "x=0"
+                },
+                {
+                  "id": "2",
+                  "text": "x=4"
+                },
+                {
+                  "id": "3",
+                  "text": "不存在这样的x"
+                }
+              ],
+              "answer": "1",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "x=0满足恒等式0=0，却不满足原方程x=4，因而新式增加了解。仅保留原解还不够，等价要求两边的解集完全相同。",
+              "family_id": "equation.multiply-zero-error",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy"
+            }
+          },
+          {
+            "id": "identity_or_contradiction",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "区分恒等式与矛盾式",
+            "rationale": "你的选择把0=0判作无解；下一步把任意取值代入两个式子，比较恒成立与不可能成立。",
+            "observation_note": "这里只确认全体实数解与无解的区别，不能据此确认所有方程变形都可逆。",
+            "guided_task": {
+              "prompt": "比较①0×x=0与②0×x=5，x在实数中取值。哪项正确？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "1",
+                  "text": "①任意实数都是解，②无解"
+                },
+                {
+                  "id": "2",
+                  "text": "①无解，②任意实数都是解"
+                },
+                {
+                  "id": "3",
+                  "text": "两式都只有x=0一个解"
+                }
+              ],
+              "answer": "1",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "任意实数乘0都得到0，所以①对所有实数成立；同样的左边不可能等于5，所以②无解。不能继续除以0求一个特定的x。",
+              "family_id": "equation.solution-set-degeneracy",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先检查一个非零数的逆运算",
+          "rationale": "暂时不会没有提供具体错误依据，先从除以确定非零数的合法变形开始。",
+          "observation_note": "这项基础操作不会清除跳过留下的原事项；乘0与含变量除法仍需后续观察。",
+          "guided_task": {
+            "prompt": "从2x=6得到x=3，下面哪项准确说明这一步？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "1",
+                "text": "两边都除以非零数2，且可同乘2逆回"
+              },
+              {
+                "id": "2",
+                "text": "两边都除以0"
+              },
+              {
+                "id": "3",
+                "text": "只把左边除以2，右边不变"
+              }
+            ],
+            "answer": "1",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "2确定不为0，两边同除以2可得到x=3；再同乘2可回到2x=6，所以解集不变。",
+            "family_id": "equation.property-operation-justification",
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        }
       },
       {
         "id": "equation_equivalence:support:distribute",

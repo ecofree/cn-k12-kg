@@ -38,6 +38,8 @@ BACKUP_VERSION = 1
 MAX_BACKUP_BYTES = 50 * 1024 * 1024
 MAX_ENVELOPE_BYTES = 70 * 1024 * 1024
 MAX_TABLE_ROWS = 100_000
+CAPACITY_NOTICE_RATIO = 0.8
+ASSET_DIGEST_VERSION = 1
 _MAX_INTEGER = 2**63 - 1
 _OWNER = re.compile(r"[0-9a-f]{64}\Z")
 _SHA256 = re.compile(r"[0-9a-f]{64}\Z")
@@ -226,7 +228,7 @@ def _decrypt(envelope, secret):
         "format", "version", "cipher", "salt", "nonce", "ciphertext"}, "这不是可恢复的加密备份；可读学习记录不能用于恢复")
     _require(envelope["format"] == BACKUP_FORMAT, "这不是可恢复的加密备份")
     _require(type(envelope["version"]) is int and envelope["version"] == BACKUP_VERSION,
-             "不支持此备份版本；请使用匹配版本的程序")
+             "不支持此备份版本；请保留原文件和对应恢复码，使用生成备份时或明确支持该版本的程序。不要手改版本号；当前记录未改变")
     _require(envelope["cipher"] == "AES-256-GCM", "不支持此备份的加密格式")
     salt = _base64(envelope["salt"], 24, 16)
     nonce = _base64(envelope["nonce"], 16, 12)
@@ -294,9 +296,9 @@ def _record(row, column="record_json"):
 def _validate_payload(data):
     _require(isinstance(data, dict) and set(data) == {"format", "schema", "learning_schema", "created_at", "profile", "tables"})
     _require(data["format"] == "cnkg-owner-records" and type(data["schema"]) is int and data["schema"] == 1,
-             "不支持此备份内容版本")
+             "不支持此备份内容版本；请保留原文件和恢复码，使用匹配版本的程序，不要手改版本号")
     _require(type(data["learning_schema"]) is int and data["learning_schema"] == SCHEMA_VERSION,
-             "备份的学习记录版本与当前程序不兼容；请使用匹配版本的程序")
+             "备份的学习记录版本与当前程序不兼容；请保留原文件和对应恢复码，使用生成备份时或明确支持该版本的程序。当前记录未改变")
     _text(data["created_at"], maximum=128)
     profile = data["profile"]
     _require(isinstance(profile, dict) and set(profile) == {"owner_id", "label", "created_at"})
@@ -328,7 +330,9 @@ def _validate_payload(data):
             _require(key not in record or isinstance(record[key], dict))
         if record.get("kind") == "support":
             snapshot = record.get("support_snapshot")
-            _require(isinstance(snapshot, dict) and set(snapshot) == {"support", "questions", "metadata", "unit_version"},
+            has_routing = isinstance(snapshot, dict) and "routing" in snapshot
+            keys = {"support", "questions", "metadata", "unit_version"} | ({"routing"} if has_routing else set())
+            _require(isinstance(snapshot, dict) and set(snapshot) == keys,
                      "指导会话缺少完整的冻结快照")
             _require(isinstance(snapshot["support"], dict) and isinstance(snapshot["questions"], dict)
                      and isinstance(snapshot["metadata"], dict))
@@ -338,7 +342,17 @@ def _validate_payload(data):
                      and record.get("resource_version") == snapshot["unit_version"], "指导会话快照与内容版本不一致")
             ids = record.get("task_ids")
             _require(isinstance(ids, list) and all(isinstance(item, str) for item in ids))
-            _require(len(set(ids)) == len(ids) and set(ids) == set(snapshot["questions"]) == set(snapshot["metadata"]))
+            _require(len(set(ids)) == len(ids) and set(snapshot["questions"]) == set(snapshot["metadata"]))
+            if has_routing:
+                from .instruction import route_problem
+                routing = snapshot["routing"]
+                _require(isinstance(routing, dict) and type(routing.get("schema")) is int and routing["schema"] == 1,
+                         "指导分支版本不兼容；请保留原备份并使用匹配版本程序")
+                _require(set(ids) <= set(snapshot["questions"]), "指导分支引用了没有冻结的候选任务")
+                problem = route_problem(record)
+                _require(problem is None, problem or "指导分支记录无效")
+            else:
+                _require(set(ids) == set(snapshot["questions"]))
             _integer(record.get("index"))
             _require(record["index"] <= len(ids))
         _validate_assets(record)
@@ -462,6 +476,94 @@ def _validate_work_record(row, sessions):
     return record
 
 
+def _compatibility():
+    return {"format": BACKUP_FORMAT, "backup_versions": [BACKUP_VERSION],
+            "content_schemas": [1], "learning_schemas": [SCHEMA_VERSION],
+            "cipher": "AES-256-GCM",
+            "unsupported_action": "保留原文件和对应恢复码，使用生成备份时或明确支持该版本的程序；不要手改版本号。"}
+
+
+def _envelope_size(payload_bytes):
+    """Exact size of our compact JSON envelope; pretty-print whitespace is extra."""
+    header = {"format": BACKUP_FORMAT, "version": BACKUP_VERSION, "cipher": "AES-256-GCM",
+              "salt": "A" * 24, "nonce": "A" * 16, "ciphertext": ""}
+    return len(_json(header).encode("utf-8")) + 4 * ((payload_bytes + 16 + 2) // 3)
+
+
+def _asset_inventory(rows_for_table, profile, created_at):
+    """Hash every asset row, preserving raw historical JSON and semantic order.
+
+    Database-local event sequence numbers change on import into an occupied
+    installation. Only those indexes and their exposure references are mapped
+    to an owner-local ordinal. No event content, timestamp or historical record
+    is reinterpreted. The row stream is not truncated at the backup limits.
+    """
+    empty = {"format": "cnkg-owner-records", "schema": 1, "learning_schema": SCHEMA_VERSION,
+             "created_at": created_at, "profile": profile,
+             "tables": {table: [] for table in _TABLE_COLUMNS}}
+    payload_bytes = len(_json(empty).encode("utf-8"))
+    digest = hashlib.sha256(b"cnkg-owner-assets-v1\n")
+    counts, table_digests, sequences = {}, {}, {}
+    for table in _TABLE_COLUMNS:
+        count, table_digest = 0, hashlib.sha256()
+        for original in rows_for_table(table):
+            row = dict(original)
+            raw = _json(row).encode("utf-8")
+            payload_bytes += len(raw) + int(count > 0)
+            count += 1
+            if table == "events":
+                sequences[row["seq"]] = count
+                row["seq"] = count
+            elif table == "exposures" and row["last_event_seq"]:
+                # Invalid existing references stay distinguishable; the actual
+                # backup validator will refuse to call such a snapshot valid.
+                row["last_event_seq"] = sequences.get(row["last_event_seq"],
+                                                      {"missing_event": row["last_event_seq"]})
+            canonical = _json(row).encode("utf-8")
+            table_digest.update(str(len(canonical)).encode("ascii") + b":" + canonical)
+        counts[table], table_digests[table] = count, table_digest.hexdigest()
+        digest.update(table.encode("ascii") + b":" + table_digest.digest())
+    return {"digest_version": ASSET_DIGEST_VERSION, "asset_digest": digest.hexdigest(),
+            "counts": counts, "table_digests": table_digests, "payload_bytes": payload_bytes,
+            "estimated_envelope_bytes": _envelope_size(payload_bytes)}
+
+
+def _payload_inventory(data):
+    def rows(table):
+        columns = [key.strip() for key in _TABLE_ORDER[table].split(",")]
+        return sorted(data["tables"][table], key=lambda row: tuple(row[key] for key in columns))
+    return _asset_inventory(rows, data["profile"], data["created_at"])
+
+
+def _database_inventory(db, owner, profile, created_at):
+    identity = ({key: profile[key] for key in ("owner_id", "label", "created_at")} if profile is not None
+                else {"owner_id": owner, "label": "我的学习档案", "created_at": created_at})
+    def rows(table):
+        return db.execute(f"SELECT {','.join(_TABLE_COLUMNS[table])} FROM {table} "
+                          f"WHERE owner_id=? ORDER BY {_TABLE_ORDER[table]}", (owner,))
+    return _asset_inventory(rows, identity, created_at)
+
+
+def _capacity(inventory):
+    ratios = [inventory["payload_bytes"] / MAX_BACKUP_BYTES,
+              inventory["estimated_envelope_bytes"] / MAX_ENVELOPE_BYTES]
+    ratios.extend(count / MAX_TABLE_ROWS for count in inventory["counts"].values())
+    ratio = max(ratios)
+    return {"status": "exceeded" if ratio > 1 else "near_limit" if ratio >= CAPACITY_NOTICE_RATIO else "within_limit",
+            "payload_bytes": inventory["payload_bytes"],
+            "estimated_envelope_bytes": inventory["estimated_envelope_bytes"],
+            "payload_limit_bytes": MAX_BACKUP_BYTES, "envelope_limit_bytes": MAX_ENVELOPE_BYTES,
+            "row_limit_per_table": MAX_TABLE_ROWS, "counts": inventory["counts"],
+            "notice_ratio": CAPACITY_NOTICE_RATIO,
+            "scope": "当前档案六类资产的完整快照；不会截取最近记录来伪装完整备份。"}
+
+
+def _envelope_details(envelope):
+    value = _strict_json(envelope, MAX_ENVELOPE_BYTES) if isinstance(envelope, (str, bytes)) else envelope
+    compact = _bounded_json(value, MAX_ENVELOPE_BYTES)
+    return len(compact), hashlib.sha256(compact).hexdigest()
+
+
 class ProfileRecovery:
     """Internal owner-scoped service. The HTTP layer authenticates ``owner``."""
 
@@ -477,6 +579,15 @@ class ProfileRecovery:
                 token_hash TEXT PRIMARY KEY, owner_id TEXT NOT NULL,
                 created_at TEXT NOT NULL, revoked_at TEXT)""")
             db.execute("CREATE INDEX IF NOT EXISTS profile_cookies_owner ON profile_cookies(owner_id)")
+            # Separate operational receipts: never alter the six learning-asset
+            # tables or silently upgrade old generated backups to verified files.
+            db.execute("""CREATE TABLE IF NOT EXISTS profile_backup_receipts (
+                owner_id TEXT NOT NULL, kind TEXT NOT NULL, recorded_at TEXT NOT NULL,
+                backup_created_at TEXT NOT NULL, digest_version INTEGER NOT NULL,
+                asset_digest TEXT NOT NULL, counts_json TEXT NOT NULL, table_digests_json TEXT NOT NULL,
+                payload_bytes INTEGER NOT NULL, envelope_bytes INTEGER NOT NULL,
+                envelope_sha256 TEXT NOT NULL, recovery_hash TEXT NOT NULL,
+                PRIMARY KEY (owner_id, kind))""")
 
     @staticmethod
     def _public(row):
@@ -487,12 +598,52 @@ class ProfileRecovery:
     def status(self, owner):
         _owner(owner)
         with self.store._connect() as db:
+            db.execute("BEGIN")
             row = db.execute("SELECT * FROM learning_profiles WHERE owner_id=?", (owner,)).fetchone()
-            has_records = self._has_records(db, owner)
+            inventory = _database_inventory(db, owner, row, _now())
+            has_records = any(inventory["counts"].values())
+            receipts = {}
+            for receipt in db.execute("SELECT * FROM profile_backup_receipts WHERE owner_id=?", (owner,)):
+                comparable = receipt["digest_version"] == ASSET_DIGEST_VERSION
+                same = comparable and hmac.compare_digest(receipt["asset_digest"], inventory["asset_digest"])
+                counts = json.loads(receipt["counts_json"])
+                table_digests = json.loads(receipt["table_digests_json"])
+                receipts[receipt["kind"]] = {
+                    "recorded_at": receipt["recorded_at"], "backup_created_at": receipt["backup_created_at"],
+                    "freshness": "matches_current_assets" if same else "changed" if comparable else "unknown",
+                    "matches_current_code": bool(row and hmac.compare_digest(row["recovery_hash"], receipt["recovery_hash"])),
+                    "counts": counts,
+                    "row_count_changes": {table: inventory["counts"][table] - counts.get(table, 0) for table in _TABLE_COLUMNS},
+                    "changed_tables": [table for table in _TABLE_COLUMNS
+                                       if not comparable or table_digests.get(table) != inventory["table_digests"][table]],
+                    "payload_bytes": receipt["payload_bytes"], "envelope_bytes": receipt["envelope_bytes"],
+                    "envelope_sha256": receipt["envelope_sha256"],
+                }
             return {**self._public(row), "switch_protection": {
                 "has_records": has_records,
                 "requirement": ("verify_current_code" if row else "enable_recovery") if has_records else "none",
+            }, "backup_health": {
+                "generated": receipts.get("generated"), "verified_file": receipts.get("verified"),
+                "restored_snapshot": receipts.get("restored"),
+                "legacy_generation_at": row["last_backup_at"] if row and not receipts else None,
+                "capacity": _capacity(inventory), "compatibility": _compatibility(),
+                "notice": "生成成功不证明文件已保存。选取实际文件核验只能确认该文件此刻可解密、结构有效及所含记录；不证明将来异机恢复成功或学习效果。",
             }}
+
+    @staticmethod
+    def _save_receipt(db, owner, kind, data, envelope, secret, inventory=None):
+        inventory = inventory or _payload_inventory(data)
+        size, sha256 = _envelope_details(envelope)
+        db.execute("""INSERT INTO profile_backup_receipts VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(owner_id, kind) DO UPDATE SET
+              recorded_at=excluded.recorded_at, backup_created_at=excluded.backup_created_at,
+              digest_version=excluded.digest_version, asset_digest=excluded.asset_digest,
+              counts_json=excluded.counts_json, table_digests_json=excluded.table_digests_json,
+              payload_bytes=excluded.payload_bytes, envelope_bytes=excluded.envelope_bytes,
+              envelope_sha256=excluded.envelope_sha256, recovery_hash=excluded.recovery_hash""",
+            (owner, kind, _now(), data["created_at"], inventory["digest_version"], inventory["asset_digest"],
+             _json(inventory["counts"]), _json(inventory["table_digests"]), inventory["payload_bytes"],
+             size, sha256, _recovery_hash(secret)))
 
     @staticmethod
     def _has_records(db, owner):
@@ -615,7 +766,40 @@ class ProfileRecovery:
             _validate_payload(data)
             envelope = _encrypt(data, secret)
             db.execute("UPDATE learning_profiles SET last_backup_at=? WHERE owner_id=?", (data["created_at"], owner))
+            self._save_receipt(db, owner, "generated", data, envelope, secret)
         return envelope
+
+    def verify_backup(self, envelope, code, *, current_owner):
+        """Inspect an actual file without importing assets or switching identity.
+
+        Only a successful check of the current profile updates its separate
+        operational receipt. An older recovery code may decrypt an older file;
+        that fact does not grant access to the current profile or rotate cookies.
+        """
+        _owner(current_owner)
+        secret = _recovery_secret(code)
+        data = _decrypt(envelope, secret)
+        owner, _, _ = _validate_payload(data)
+        inventory = _payload_inventory(data)
+        size, sha256 = _envelope_details(envelope)
+        same_owner, same_assets, same_code = owner == current_owner, None, None
+        with self.store._connect() as db:
+            db.execute("BEGIN IMMEDIATE")
+            if same_owner:
+                profile = db.execute("SELECT * FROM learning_profiles WHERE owner_id=?", (current_owner,)).fetchone()
+                current = _database_inventory(db, current_owner, profile, _now())
+                same_assets = hmac.compare_digest(inventory["asset_digest"], current["asset_digest"])
+                same_code = bool(profile and hmac.compare_digest(profile["recovery_hash"], _recovery_hash(secret)))
+                self._save_receipt(db, current_owner, "verified", data, envelope, secret, inventory)
+        return {"verified": True, "backup_created_at": data["created_at"],
+                "profile_label": data["profile"]["label"],
+                "backup_version": BACKUP_VERSION, "content_schema": data["schema"],
+                "learning_schema": data["learning_schema"], "counts": inventory["counts"],
+                "payload_bytes": inventory["payload_bytes"], "envelope_bytes": size,
+                "envelope_sha256": sha256, "matches_current_profile": same_owner,
+                "matches_current_assets": same_assets, "matches_current_code": same_code,
+                "assets_imported": False, "identity_changed": False,
+                "notice": "文件已通过解密、完整性和记录关联检查；尚未向另一安装实际导入，也不表示学习目标已掌握。请保留文件及制作它时的恢复码。"}
 
     def restore(self, envelope, code, *, current_owner=None, current_recovery_code=None):
         secret = _recovery_secret(code)
@@ -643,6 +827,7 @@ class ProfileRecovery:
                        (owner, data["profile"]["label"], _recovery_hash(secret), data["profile"]["created_at"], now, data["created_at"]))
             token = self._issue_cookie(db, owner, now)
             profile = self._public(db.execute("SELECT * FROM learning_profiles WHERE owner_id=?", (owner,)).fetchone())
+            self._save_receipt(db, owner, "restored", data, envelope, secret)
         counts = {table: len(rows) for table, rows in tables.items()}
         counts["events_reindexed"] = len(tables["events"]) if offset else 0
         return {"profile": profile, "cookie_token": token, "counts": counts}

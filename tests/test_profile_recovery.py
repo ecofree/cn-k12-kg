@@ -104,8 +104,10 @@ class ProfileRecoveryTests(unittest.TestCase):
         self.store.save(session())
         original = self.original_rows(self.store)
         self.assertEqual(self.profiles.resolve_owner(OWNER), OWNER)
-        self.assertEqual(self.profiles.status(OWNER), {"enabled": False,
-            "switch_protection": {"has_records": True, "requirement": "enable_recovery"}})
+        status = self.profiles.status(OWNER)
+        self.assertFalse(status["enabled"])
+        self.assertEqual(status["switch_protection"], {"has_records": True, "requirement": "enable_recovery"})
+        self.assertIsNone(status["backup_health"]["verified_file"])
         enabled = self.profiles.enable(OWNER)
         self.assertIsNone(self.profiles.resolve_owner(OWNER))
         self.assertEqual(self.profiles.resolve_owner(enabled["cookie_token"]), OWNER)

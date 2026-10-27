@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "base_commit": "c905d0f",
+  "reviewer_kind": "ai",
+  "review_status": "development_reviewed_fixed_release_pending",
+  "reviewed_at": "2026-10-27T02:01:17+00:00",
+  "teacher_independent_review": "deferred",
+  "student_effect_validation": "deferred",
+  "scope": {
+    "assets": [
+      "sessions",
+      "events",
+      "works",
+      "work_revisions",
+      "work_requests",
+      "exposures"
+    ],
+    "new_endpoint": "POST /api/profile/verify-backup",
+    "operational_metadata_table": "profile_backup_receipts",
+    "supported_backup_versions": [
+      1
+    ],
+    "supported_content_schemas": [
+      1
+    ],
+    "supported_learning_schemas": [
+      4
+    ],
+    "limits": {
+      "payload_bytes": 52428800,
+      "envelope_bytes": 73400320,
+      "rows_per_table": 100000,
+      "notice_ratio": 0.8
+    },
+    "notice": "精确比较当前已保存资产；无自动云同步，文件核验不导入资产或改变身份，不证明未来设备恢复或学习效果。"
+  },
+  "findings_and_changes": [
+    {
+      "issue": "服务端生成时间不能证明文件已保存或仍包含最新资产。",
+      "change": "生成、选择实际文件核验、实际导入分别记录，UI中文提示对应下一步；旧时间戳不升级为已核验或新鲜。"
+    },
+    {
+      "issue": "同秒修订、仅接触变化、仅请求去重记录变化会逃过时间戳或行数比较。",
+      "change": "在一致读事务中遍历六表的全部作者保存字段和原始JSON，计算每表与总摘要；不受列表分页限制。"
+    },
+    {
+      "issue": "完整恢复到已有其他档案的安装会重排本地事件序号。",
+      "change": "仅将事件序号及接触索引引用映射为本档案事件顺序后比较；原时间、事件负载和历史JSON不变。"
+    },
+    {
+      "issue": "旧恢复码仍能解密旧文件，但不能当作当前服务凭据。",
+      "change": "核验返回资产是否一致及恢复码是否仍为当前码，既不旋转cookie也不授权访问另一个档案。"
+    },
+    {
+      "issue": "新支持会话冻结所有候选路线，实际三步只是候选集合子集。",
+      "change": "新五字段快照调用冻结route_problem验证选择、顺序、来源和确认；旧四字段快照仍要求任务集合全等。"
+    },
+    {
+      "issue": "超出单份便携备份容量时，不能把截断数据包装成完整备份。",
+      "change": "实际完整容量提前提示、超限原子拒绝；维护文档提供私有完整SQLite快照与独立恢复工作副本的流程。"
+    }
+  ],
+  "validation": [
+    {
+      "command": "python -B -m unittest tests.test_profile_health_v5.ProfileHealthTests tests.test_profile_recovery -v",
+      "result": "passed",
+      "tests": 28,
+      "covers": [
+        "同时间戳作品修订",
+        "仅接触变化",
+        "仅保存请求变化",
+        "生成与实际文件核验分离",
+        "旧恢复码",
+        "错误码与损坏密文原子拒绝",
+        "未知版本保留原数据",
+        "已有其他档案安装的事件序号重排",
+        "原始SVG与修订字节保留",
+        "新分支初始/选路/完成三阶段与所有候选恢复",
+        "路由/顺序/确认/schema布尔值/旧格式子集篡改拒绝",
+        "容量预警及超限不截断",
+        "私有全安装SQLite快照与继续修订"
+      ]
+    },
+    {
+      "command": "python -B -m unittest tests.test_profile_health_v5.ProfileHealthHTTPTests tests.test_profile_v5 -v",
+      "result": "passed",
+      "tests": 8,
+      "covers": [
+        "实际JSON文件文本核验",
+        "重复JSON键拒绝",
+        "当前身份由服务端确定",
+        "其他档案核验无身份或资产副作用",
+        "切换保护与失败原子性"
+      ]
+    },
+    {
+      "command": "python -B -m unittest tests.test_quality_v4_web.QualityV4HTTPTest.test_http_backup_restores_support_snapshot_and_need_events_to_new_installation -v",
+      "result": "passed",
+      "tests": 1,
+      "covers": [
+        "新指导路线诊断后快照",
+        "暂缓事项",
+        "延迟评分尚未公开",
+        "原操作快照",
+        "新安装完整导入",
+        "重复导入409"
+      ]
+    },
+    {
+      "command": "python -B tools/browser_check.py --journey profile_backup_recovery --output build/v5-batch3-profile-browser",
+      "journey_result": "passed",
+      "release_context_result": "failed_manifest_not_rebuilt",
+      "journeys": 1,
+      "elapsed_seconds": 7.3,
+      "report": "build/v5-batch3-profile-browser/report.json",
+      "screenshot": "build/v5-batch3-profile-browser/profile_backup_recovery/profile-health.png",
+      "screenshot_reviewed": true,
+      "viewport_px": 390,
+      "horizontal_overflow": false,
+      "script_errors": [],
+      "server_errors": [],
+      "changed_inputs": [],
+      "notice": "功能旅程通过；第三批代码尚未进入新的发行清单，整份报告仍为false。这不是固定提交验收。"
+    },
+    {
+      "command": "node --check web/static/profile.js",
+      "result": "passed"
+    }
+  ],
+  "retained_attempts": [
+    {
+      "path": "build/acceptance-attempts/v5-profile-health-read-exposure",
+      "result": "failed",
+      "finding": "恢复后先读取作品会登记新材料接触，原浏览器断言却仍要求恢复快照保持一致。",
+      "correction": "在首次读取作品前断言完整导入一致；随后实际读取后明确断言已变化。保留首次失败报告。"
+    },
+    {
+      "path": "build/v5-batch3-manipulative-http.log",
+      "result": "earlier_integration_failure",
+      "finding": "新五字段支持快照尚未接入旧恢复验证时返回400。",
+      "correction": "接入冻结路由校验且保留旧格式严格规则，补backup200断言后指定完整跨安装HTTP测试通过。"
+    }
+  ],
+  "limitations": [
+    "状态摘要需要读取全部六表，当前是本地安装实现；没有据此承诺大规模学校云服务性能。",
+    "实际选文件核验只证明此刻可解密与结构/记录匹配；用户仍需保留文件及对应恢复码。",
+    "全安装SQLite快照是维护者路径，包含全部档案且没有应用层加密，必须保存在私有受控位置，不能进入git。",
+    "支持版本明确列出；未知版本不自动转换或手工改号，须使用匹配程序恢复。",
+    "最终统一构建、发行清单和固定提交的全量验收由集成流程另行完成。"
+  ],
+  "source_sha256_at_review": {
+    "cnkg/profile_recovery.py": "719c2b2e34ebef8ad694b2bb93201fe6db63c04444dd30bc95ca2d81dd8274aa",
+    "web/static/profile.js": "dc52287a89f4692fbf5f533276f3501f92e9b8d9d27e6c689fcb8abf50147606",
+    "tests/test_profile_health_v5.py": "5c84cde46485f89809f7682894e19f001fe1945200e496d97335fce74b920f62",
+    "tests/test_profile_recovery.py": "522e5d1d3e1fc2ce0649fba5429eb785366cb9503459170c9b8115e69f63a852",
+    "docs/profile-recovery.md": "e6b4f2656655745f610fe5cbb37d5537b3863c794dce4e64d24b328937bbaf2f"
+  }
+}

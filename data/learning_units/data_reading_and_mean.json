@@ -637,7 +637,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "起点10本，加上3格共6本，得到16本。截断轴不改变标注的实际值。"
+          "explanation": "起点10本，加上3格共6本，得到16本。截断轴不改变标注的实际值。",
+          "family_id": "statistics.bar-axis-reading",
+          "representation": "graph",
+          "cognitive_demand": "choose_strategy",
+          "diagram": {
+            "src": "/static/diagrams/support-scale-probe-v5.svg",
+            "alt": "纵轴从10到18本，每格2本；条顶在起点上方3格。"
+          }
         },
         "hints": [
           {
@@ -663,13 +670,107 @@
           },
           "answer": "12",
           "verify": "5*4-2*4",
-          "explanation": "甲8件、乙20件，数量差20−8=12件。"
+          "explanation": "甲8件、乙20件，数量差20−8=12件。",
+          "family_id": "statistics.bar-axis-reading",
+          "representation": "graph",
+          "cognitive_demand": "execute",
+          "diagram": {
+            "src": "/static/diagrams/support-bars-basic-v5.svg",
+            "alt": "纵轴从0到20件，每格4件，甲条高2格，乙条高5格。"
+          }
         },
         "followup_task_ids": [
           "data_reading_and_mean:practice-1",
           "data_reading_and_mean:transfer-1",
           "data_reading_and_mean:delayed-1"
-        ]
+        ],
+        "default_route": {
+          "title": "继续核对这个目标",
+          "rationale": "本次辨别已选到有依据的回答，继续原有指导任务检查是否能落实到操作；一次选择不等于目标已经完成。",
+          "observation_note": "短题分辨“格数”和“实际数量”；能正确读数还不足以证明能识别截断轴造成的倍数错觉，须继续做截断图任务。"
+        },
+        "guided_branches": [
+          {
+            "id": "scale_per_grid",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "先把格数换成数量",
+            "rationale": "你选择了图上格数，可能尚未把每格表示的数量带入；下一步先使用从0开始的刻度图。",
+            "observation_note": "这条路线隔离每格量的换算；还没有检查截断起点或条长倍数的问题。",
+            "guided_task": {
+              "prompt": "观察配图。纵轴的单位是本，图中这一根条表示多少本？请按刻度读数。",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "15",
+              "verify": "3*5",
+              "explanation": "纵轴从0开始，每格5本。条顶在第3格，所以表示3×5=15本；3是格数，不能直接当成本数。",
+              "family_id": "statistics.bar-axis-reading",
+              "representation": "graph",
+              "cognitive_demand": "execute",
+              "diagram": {
+                "src": "/static/diagrams/support-scale-per-grid-v5.svg",
+                "alt": "纵轴从0到20本，每格5本，条顶从0起向上3格。"
+              }
+            }
+          },
+          {
+            "id": "restore_axis_origin",
+            "choice_ids": [
+              "B"
+            ],
+            "title": "把被截去的起点加回来",
+            "rationale": "你把超过起点的6本当成全部数量；下一步专门比较起点值与起点以上的增加量。",
+            "observation_note": "这条路线只观察读出完整数值，尚未确认能解释截断轴造成的倍数错觉。",
+            "guided_task": {
+              "prompt": "观察配图。纵轴从20本开始，每格5本，条顶所在刻度表示多少本？",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "30",
+              "verify": "20+2*5",
+              "explanation": "条顶在起点20本上方2格，实际数量为20+2×5=30本。图上画出的10本是超过起点的部分。",
+              "family_id": "statistics.bar-axis-reading",
+              "representation": "graph",
+              "cognitive_demand": "execute",
+              "diagram": {
+                "src": "/static/diagrams/support-axis-origin-v5.svg",
+                "alt": "截断纵轴的起点为20本，每格5本，条顶高出起点2格。"
+              }
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先读相邻刻度的差",
+          "rationale": "暂时不会时先不推测错误原因，先从纵轴标注中确认每一格代表的量。",
+          "observation_note": "只认识每格量不代表完成读图比较，后续还要检查起点和图中条顶。",
+          "guided_task": {
+            "prompt": "图中纵轴相邻刻度依次标0、4、8、12、16、20（件）。一小格代表多少件？",
+            "type": "numeric",
+            "answer_spec": {
+              "kind": "number",
+              "comparison": "exact",
+              "representation": "any"
+            },
+            "answer": "4",
+            "verify": "8-4",
+            "explanation": "相邻两个刻度的差为4，所以每格4件。单位“件”也要与读数一起保留。",
+            "family_id": "statistics.bar-axis-reading",
+            "representation": "graph",
+            "cognitive_demand": "execute",
+            "diagram": {
+              "src": "/static/diagrams/support-bars-basic-v5.svg",
+              "alt": "纵轴从0到20件，每格4件，甲条高2格，乙条高5格。"
+            }
+          }
+        }
       },
       {
         "id": "data_reading_and_mean:support:mean",
