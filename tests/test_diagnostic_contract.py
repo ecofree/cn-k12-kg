@@ -87,8 +87,12 @@ class DiagnosticContractTest(unittest.TestCase):
         self.assertEqual(r["support_tasks"][0]["action"], "consolidate")
 
     def test_limit_preserves_candidate_and_does_not_prescribe_all_ancestors(self):
-        g = load_graph()
-        s = engine.create_session(g, ["m7a.5.2"], limit=2)
+        # Synthetic complete evidence isolates the limit contract from current
+        # production tasks' deliberately narrower observation permissions.
+        g = make_graph([{"topicId": "A", "prerequisiteId": "B", "strength": "hard"},
+                        {"topicId": "B", "prerequisiteId": "C", "strength": "hard"}])
+        self.assertTrue(all(policy["may_judge_weak"] for policy in g.question_policies.values()))
+        s = engine.create_session(g, ["A"], limit=2)
         answer(g, s, "wrong")
         answer(g, s, "wrong")
         self.assertIsNone(engine.next_item(g, s))
@@ -96,9 +100,10 @@ class DiagnosticContractTest(unittest.TestCase):
         self.assertTrue(r["incomplete"])
         self.assertEqual(r["stop_reason"], "limit")
         self.assertEqual(r["roots"], [])
-        self.assertIn("m7a.5.2", r["root_candidates"])
-        self.assertTrue(r["root_evidence"]["m7a.5.2"]["missing_prerequisites"])
-        self.assertLessEqual(len(r["path"]), 3)
+        self.assertEqual(r["root_candidates"], ["A"])
+        self.assertEqual(r["root_evidence"]["A"]["missing_prerequisites"], ["B"])
+        self.assertEqual(r["path"], ["B", "A"])
+        self.assertNotIn("C", r["path"], "未观察的深层祖先不能整串列为必须补学")
         self.assertNotIn("已判定", engine.verdict_label(r))
 
     def test_mastered_bridge_keeps_independent_gap(self):

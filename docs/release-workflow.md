@@ -10,7 +10,7 @@ python tools/build_project.py --write
 python tools/build_project.py --check
 ```
 
-`--write`依次重建题源、登记新增稳定ID、编译catalog、检查内容、构建内容数据库，最后生成 `release-manifest.json`。`--check`检查已有来源与产物，不改作者数据。两者产生的报告写入被Git忽略的 `build/`。
+`--write`依次重建题源、登记新增稳定ID、同步派生的主题分层资料、编译catalog、检查内容、构建内容数据库，最后生成 `release-manifest.json`。`--check`检查已有来源与产物，包括分层中的目标依据，不改作者数据。两者产生的报告写入被Git忽略的 `build/`。
 
 完整开发验收可使用 `python tools/build_project.py --release --with-browser`。此命令可以发现功能问题，但未提交的工作树会记录 `source_clean=false`，不能用其报告制作正式发行包。
 

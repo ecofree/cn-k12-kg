@@ -1,18 +1,12 @@
-"""第五批「两步补题」的守门测试。
+"""历史两步题与正式作者改写的回归。
 
-**为什么要有这个测试**：2026-10-25 审计发现小学有 74 个知识点只有单一难度
-（全是 basic）。根因是自产计算题都是一步题——verify 只有一个运算符，
-校准器按「几步运算」给难度，自然全落 basic。
+保留57个旧生成器的算式、数值和身份检查；正式发布由作者JSON决定。
+稳定的-q95后缀不承诺题目永远保持复合运算。V5逐题审查将三条低年级
+任务改为十与一或凑十的适龄基础练习，须绑定实际改写内容和观察范围。
+其余题仍须满足原来的复合算式与非basic设计要求，不能泛化放行。
 
-第五批给其中 57 个可计算的点各补了一道两步题。这个测试固化四条纪律：
-
-1. **两步题必须真的是两步**——verify 去掉括号内⑸容后至少 2 个运算符，
-   否则 calibrate_difficulty 仍会给 basic，等于白补。
-2. **答案必须机器可验**——answer 与 verify 的求值要一致。
-3. **答案不能写成分数**——compare() 对非数值走字符串比对，
-   "3/4" 与 0.75 永远判 mismatch（历史踩过）。
-4. **知识点 id 必须真实**——STEP2_GENERATORS 里写错的 id 会被 build()
-   静默跳过，题目就悄悄少了一批。
+运算符数量只是历史算式结构检查，不是实测学生难度。旧生成器继续保持
+整数/小数输出约定；这不表示现行精确判分不支持分数。
 """
 from __future__ import annotations
 
@@ -29,9 +23,15 @@ sys.path.insert(0, str(ROOT))
 from cnkg.verify import check_question  # noqa: E402
 from tools import gen_calc_questions as G  # noqa: E402
 
+REVIEWED_SINGLE_OPERATION = {
+    "m1a.4.1-q95": {"verify": "10+8", "answer": "18", "family_id": "placevalue.ten-and-ones", "criterion_indices": [1]},
+    "m1a.5.1-q95": {"verify": "9+3", "answer": "12", "family_id": "addition.make-ten", "criterion_indices": [0]},
+    "m1a.5.2-q95": {"verify": "8+8", "answer": "16", "family_id": "addition.make-ten", "criterion_indices": [0]},
+}
+
 
 def _load_count_steps():
-    """从 calibrate_difficulty 取出 count_steps——难度定档的唯一真源。"""
+    """复用旧校准器的算式计数，不把它当作现行难度的唯一依据。"""
     spec = importlib.util.spec_from_file_location(
         "calibrate_difficulty", ROOT / "tools" / "calibrate_difficulty.py")
     mod = importlib.util.module_from_spec(spec)
@@ -61,7 +61,7 @@ class TestStep2Questions(unittest.TestCase):
         self.assertFalse(wrong, f"第五批混入了非小学点：{wrong}")
 
     def test_questions_are_really_two_step(self):
-        """两步题的 verify 必须数出 ≥2 步，否则难度仍会被判 basic。"""
+        """历史生成器继续输出至少两个运算，不静默退化其原约定。"""
         too_shallow = []
         for tid, gen in self.step2.items():
             rnd = random.Random(f"test-steps:{tid}")
@@ -87,7 +87,7 @@ class TestStep2Questions(unittest.TestCase):
         self.assertFalse(bad, f"有题验算不过：{bad[:5]}")
 
     def test_answers_are_not_fractions(self):
-        """答案不得写成分数形式——compare() 会按字符串比，必然 mismatch。"""
+        """保留旧生成器的整数/小数输出约定，非现行判分能力限制。"""
         frac = []
         for tid, gen in self.step2.items():
             rnd = random.Random(f"test-frac:{tid}")
@@ -98,18 +98,36 @@ class TestStep2Questions(unittest.TestCase):
                     break
         self.assertFalse(frac, f"答案写成了分数：{frac[:5]}")
 
-    def test_applied_questions_are_not_basic(self):
-        """入库后的两步题（id 以 -q95 结尾）难度必须高于 basic。
-
-        这条测的是「承诺有没有真的兑现」：如果自动生成→入库→校准这条链
-        任何一环掉了（比如 build() 没接 STEP2_GENERATORS、或者 apply
-        因为去重把题丢了），难度就会退回 basic 而没有任何报错。
-        """
+    def test_published_structure_and_design_level_follow_explicit_content_review(self):
+        """只放行三条有具体改写证据的基础任务，其余仍保留复合要求。"""
         applied = [q for q in self.questions if q["id"].endswith("-q95")]
-        self.assertEqual(len(applied), len(self.step2),
-                         f"入库的两步题 {len(applied)} 道，应为 {len(self.step2)} 道")
-        still_basic = [q["id"] for q in applied if q.get("difficulty") == "basic"]
-        self.assertFalse(still_basic, f"两步题仍被判 basic：{still_basic[:5]}")
+        expected_ids = {tid + "-q95" for tid in self.step2}
+        self.assertEqual(expected_ids, {q["id"] for q in applied})
+        self.assertEqual(len(expected_ids), len(applied), "稳定身份不可缺失或重复")
+        review = json.loads((ROOT / "docs/reviews/v5-batch2-primary-ai-review.json").read_text(encoding="utf-8"))
+        reviewed = {row["id"]: row for row in review["tasks"]}
+        for question in applied:
+            qid = question["id"]
+            with self.subTest(question=qid):
+                if qid not in REVIEWED_SINGLE_OPERATION:
+                    self.assertGreaterEqual(self.count_steps(question["verify"]), 2)
+                    self.assertIn(question["difficulty"], ("standard", "advanced"))
+                    continue
+                expected, decision = REVIEWED_SINGLE_OPERATION[qid], reviewed[qid]
+                self.assertTrue(decision["semantic_change"])
+                self.assertEqual("data/content/yishang.json", decision["source"])
+                self.assertEqual(question["prompt"], decision["new_prompt"])
+                self.assertEqual(question["answer"], decision["new_answer"])
+                self.assertEqual(question["alignment_note"], decision["observation_boundary"])
+                self.assertEqual(expected["verify"], question["verify"])
+                self.assertEqual(expected["answer"], question["answer"])
+                self.assertEqual(expected["family_id"], question["family_id"])
+                self.assertEqual(expected["criterion_indices"], question["tested_criterion_indices"])
+                self.assertEqual(expected["criterion_indices"], decision["new_tested_criterion_indices"])
+                self.assertEqual(1, self.count_steps(question["verify"]))
+                self.assertEqual("basic", question["difficulty"])
+                self.assertEqual("component_practice_only", question["target_alignment"])
+                self.assertFalse(question["diagnosis_eligible"])
 
     def test_prompts_are_unique(self):
         """同一批内题干不得重复——重复题会让「不同问法」的要求失效。"""

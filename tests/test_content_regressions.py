@@ -29,12 +29,37 @@ REPAIRED_IDS = {
 }
 REPAIRED_CARDS = {"m5a.7.1", "m6a.6.2", "m6a.6.3", "m5a.2.1"}
 
+# V5 removed these specific false criterion mappings while retaining useful
+# support practice. This is not a blanket exception for unmapped completion
+# items: each entry states the actual observation and the rejected target.
+ELECTIVE_SUPPORT_ONLY = {
+    "mh5.8.1.1-q202": {
+        "family_id": "statistics.scatter-nonlinearity",
+        "prompt_terms": ("U形", "初步描述"),
+        "correct_choice": "可能有非线性关系",
+        "reason_terms": ("U形", "非线性", "撤销原方向目标映射"),
+    },
+    "mh5.8.1.1-q203": {
+        "family_id": "statistics.observational-causality",
+        "prompt_terms": ("冰淇淋", "溺水", "单靠这些数据"),
+        "correct_choice": "样本有相关趋势，可能有气温等共同因素",
+        "reason_terms": ("因果结论边界", "共同因素", "函数与相关关系区分", "错误映射"),
+    },
+    "mh5.8.1.2-q203": {
+        "family_id": "statistics.correlation-sign-and-domain",
+        "prompt_terms": ("x值都相同", "相关系数公式"),
+        "correct_choice": "分母为0，r未定义",
+        "reason_terms": ("分母为0", "未定义", "撤销强弱方向目标映射", "条件支持"),
+    },
+}
+
 
 class ContentRegressionTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.questions = json.loads((ROOT / "data/questions.json").read_text())
         cls.bank = {q["id"]: q for q in cls.questions}
+        cls.catalog_tasks = json.loads((ROOT / "data/catalog.json").read_text())["tasks"]
 
     def test_component_calculation_does_not_certify_proof_inquiry_or_simulation(self):
         for topic in ("mh4.4.4", "mh2.9.3", "mh2.10.3.2"):
@@ -48,14 +73,44 @@ class ContentRegressionTest(unittest.TestCase):
     def test_elective_completion_items_remain_practice_until_objective_aware_diagnosis(self):
         rows = [q for q in self.questions if q.get("completion_batch") == "senior-elective-2026-10"]
         self.assertEqual(len(rows), 189)
+        support_seen = set()
         for question in rows:
             with self.subTest(question=question['id']):
                 self.assertFalse(question['diagnosis_eligible'])
                 self.assertFalse(question['for_diagnosis'])
                 self.assertEqual(question['target_alignment'], 'component_practice_only')
-                self.assertTrue(question['tested_criterion_indices'])
-                self.assertFalse(question_policy(question)['diagnosis_eligible'])
-                self.assertTrue(question_policy(question)['practice_eligible'])
+                policy = question_policy(question)
+                self.assertFalse(policy['diagnosis_eligible'])
+                self.assertTrue(policy['practice_eligible'])
+                self.assertFalse(policy['may_confirm_mastery'])
+                self.assertFalse(policy['may_judge_weak'])
+                support = ELECTIVE_SUPPORT_ONLY.get(question['id'])
+                if support is None:
+                    # The other 186 items retain the original mapping gate.
+                    self.assertTrue(question['tested_criterion_indices'])
+                    continue
+                support_seen.add(question['id'])
+                self.assertNotIn('tested_criterion_indices', question)
+                self.assertEqual(question['family_id'], support['family_id'])
+                for term in support['prompt_terms']:
+                    self.assertIn(term, question['prompt'])
+                correct = next(choice['text'] for choice in question['choices']
+                               if choice['id'] == question['answer'])
+                self.assertEqual(correct, support['correct_choice'])
+                for term in support['reason_terms']:
+                    self.assertIn(term, question['alignment_note'])
+                self.assertIn('不代表整个复合目标已掌握', question['alignment_note'])
+                task = self.catalog_tasks[question['id']]
+                self.assertEqual(task['alignment'], 'topic_only')
+                self.assertEqual(task['skill_ids'], [])
+                self.assertEqual(task['topic_ids'], [question['topicId']])
+                self.assertEqual(task['purpose'], ['practice'])
+                self.assertEqual(task['availability'], 'active')
+                self.assertTrue(task['policy']['practice_eligible'])
+                for field in ('diagnosis_eligible', 'may_confirm_mastery',
+                              'may_judge_weak', 'independent_evidence'):
+                    self.assertFalse(task['policy'][field])
+        self.assertEqual(support_seen, set(ELECTIVE_SUPPORT_ONLY))
 
     def test_advanced_clock_problem_requires_relative_motion_and_exact_fraction(self):
         question = self.bank["m7a.6.3.1-q102"]

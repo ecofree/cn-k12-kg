@@ -7,6 +7,8 @@ from __future__ import annotations
 
 import json
 import sys
+import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -85,6 +87,24 @@ class TierTest(unittest.TestCase):
 
     def test_saved_tiers_match_current_rules_and_objectives(self):
         self.assertEqual(self.data, tiers.build(self.topics))
+
+    def test_check_rejects_stale_derived_goals_without_silently_rewriting_them(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            destination = Path(temporary) / "tiers.json"
+            report = Path(temporary) / "report.json"
+            csv = Path(temporary) / "report.csv"
+            destination.write_text('{"stale": true}\n', encoding="utf-8")
+            old = destination.read_bytes()
+            command = [sys.executable, str(ROOT / "tools/classify_tiers.py"),
+                       "--out", str(destination), "--json", str(report), "--csv", str(csv)]
+            checked = subprocess.run([*command, "--check"], capture_output=True, text=True)
+            self.assertEqual(checked.returncode, 1)
+            self.assertEqual(destination.read_bytes(), old)
+            self.assertFalse(report.exists() or csv.exists())
+            written = subprocess.run([*command, "--write"], capture_output=True, text=True)
+            self.assertEqual(written.returncode, 0, written.stderr)
+            self.assertEqual(json.loads(destination.read_text()), tiers.build(self.topics))
+            self.assertEqual(subprocess.run([*command, "--check"], capture_output=True).returncode, 0)
 
     def test_promoted_topics_retain_reference_without_claiming_full_card(self):
         for tid in ("m4b.3.1", "m5b.4.1", "m1a.2.5"):

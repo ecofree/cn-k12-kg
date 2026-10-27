@@ -4,13 +4,37 @@ from __future__ import annotations
 import pathlib
 import sys
 import unittest
+import copy
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 sys.path.insert(0, str(ROOT))
 
 from cnkg import engine  # noqa: E402
-from cnkg.graph import load_graph  # noqa: E402
+from cnkg.graph import Graph, load_graph  # noqa: E402
+from cnkg.admissions import fingerprint  # noqa: E402
+
+
+def synthetic_diagnostic_graph():
+    """Explicit complete evidence for state-machine contracts, never production admission."""
+    topics = [{"id": tid, "name": tid, "grade": 7, "volume": "七上", "chapter": "合成状态机夹具"}
+              for tid in ("base", "near", "related", "target")]
+    edges = [{"topicId": "target", "prerequisiteId": parent, "strength": strength}
+             for parent, strength in (("base", "hard"), ("near", "hard"), ("related", "soft"))]
+    policy = {"diagnosis_eligible": True, "practice_eligible": True, "may_confirm_mastery": True,
+              "may_judge_weak": True, "evidence_level": "verified", "reviewer_pending": True,
+              "confidence": "provisional", "reason": "synthetic_complete_state_machine_fixture"}
+    questions = []
+    for topic in topics:
+        for i, expression, value, family in ((1, "1+1", "2", "addition"), (2, "5-2", "3", "subtraction")):
+            question = {"id": f"{topic['id']}-q{i}", "topicId": topic["id"], "type": "numeric",
+                        "difficulty": "basic", "prompt": f"计算 {expression}。", "answer": value, "verify": expression,
+                        "family_id": "synthetic." + family, "representation": "symbolic",
+                        "source": "synthetic-state-machine-fixture"}
+            question["_admission"] = {"fingerprint_version": 2, "content_sha256": fingerprint(question),
+                                      "policy": copy.deepcopy(policy)}
+            questions.append(question)
+    return Graph(topics, edges, questions)
 
 
 class GraphTest(unittest.TestCase):
@@ -88,10 +112,11 @@ class EngineTest(unittest.TestCase):
     def setUpClass(cls):
         cls.graph = load_graph()
 
-    def _answer(self, session, verdict):
-        item = engine.next_item(self.graph, session)
+    def _answer(self, session, verdict, graph=None):
+        graph = graph or self.graph
+        item = engine.next_item(graph, session)
         self.assertIsNotNone(item, "应该还有题")
-        engine.apply_answer(self.graph, session, verdict)
+        engine.apply_answer(graph, session, verdict)
         return item
 
     def test_first_correct_needs_confirmation(self):
@@ -110,10 +135,11 @@ class EngineTest(unittest.TestCase):
 
     def test_first_correct_then_wrong_is_shaky(self):
         """两题一对错说明不牢，判不稳而不是掌握。"""
-        session = engine.create_session(self.graph, ["m7a.5.2"])
-        self._answer(session, "correct")
-        self._answer(session, "wrong")
-        self.assertEqual(session["state"]["m7a.5.2"], "shaky")
+        graph = synthetic_diagnostic_graph()
+        session = engine.create_session(graph, ["target"])
+        self._answer(session, "correct", graph)
+        self._answer(session, "wrong", graph)
+        self.assertEqual(session["state"]["target"], "shaky")
 
     def test_screen_mode_still_one_shot(self):
         """整册筛查每点只问 1 题，不走确认题，保证覆盖广度。"""
@@ -123,47 +149,76 @@ class EngineTest(unittest.TestCase):
 
     def test_wrong_then_correct_is_shaky_and_descends(self):
         """判为不稳时仍要往上确认，否则一次猜对就把真正的根因截断在中途。"""
-        session = engine.create_session(self.graph, ["m7a.5.2"])
-        self._answer(session, "wrong")
-        self._answer(session, "correct")
-        self.assertEqual(session["state"]["m7a.5.2"], "shaky")
-        self.assertEqual(session["asked"]["m7a.5.2"], 2)
-        self.assertIn("m7a.5.1.2", session["queue"], "判为不稳时应继续回溯")
+        graph = synthetic_diagnostic_graph()
+        session = engine.create_session(graph, ["target"])
+        self._answer(session, "wrong", graph)
+        self._answer(session, "correct", graph)
+        self.assertEqual(session["state"]["target"], "shaky")
+        self.assertEqual(session["asked"]["target"], 2)
+        self.assertIn("near", session["queue"], "完整证据的合成不稳状态应继续回溯")
 
     def test_descend_only_follows_hard_edges(self):
         """回溯只走 hard 边：soft 只表示相关，不是"不会它的原因"。"""
-        session = engine.create_session(self.graph, ["m7a.5.2"])
-        hard = {e["prerequisiteId"] for e in self.graph.prereqs["m7a.5.2"]
+        graph = synthetic_diagnostic_graph()
+        session = engine.create_session(graph, ["target"])
+        hard = {e["prerequisiteId"] for e in graph.prereqs["target"]
                 if e["strength"] == "hard"}
-        soft = {e["prerequisiteId"] for e in self.graph.prereqs["m7a.5.2"]
+        soft = {e["prerequisiteId"] for e in graph.prereqs["target"]
                 if e["strength"] == "soft"}
-        self._answer(session, "wrong")
-        self._answer(session, "wrong")
+        self.assertTrue(hard)
+        self.assertTrue(soft)
+        self._answer(session, "wrong", graph)
+        self._answer(session, "wrong", graph)
         queued = set(session["queue"])
-        self.assertTrue(hard & queued, "hard 先修应入队")
+        self.assertEqual(hard, queued, "直接 hard 先修应入队")
         self.assertFalse((soft - hard) & queued, "soft 先修不应入队")
 
     def test_shaky_point_is_candidate_and_kept_in_learning_path(self):
         """混合表现只能作为待确认起点，但仍然必须安排巩固任务。"""
-        session = engine.create_session(self.graph, ["m7a.5.2"])
-        self._answer(session, "correct")
-        self._answer(session, "wrong")
-        while engine.next_item(self.graph, session):
-            engine.apply_answer(self.graph, session, "correct")
-        summary = engine.summarize(self.graph, session)
-        self.assertIn("m7a.5.2", summary["shaky"])
-        self.assertIn("m7a.5.2", summary["root_candidates"])
-        self.assertNotIn("m7a.5.2", summary["roots"])
-        self.assertIn("m7a.5.2", summary["path"])
+        graph = synthetic_diagnostic_graph()
+        session = engine.create_session(graph, ["target"])
+        self._answer(session, "correct", graph)
+        self._answer(session, "wrong", graph)
+        while engine.next_item(graph, session):
+            engine.apply_answer(graph, session, "correct")
+        summary = engine.summarize(graph, session)
+        self.assertIn("target", summary["shaky"])
+        self.assertIn("target", summary["root_candidates"])
+        self.assertNotIn("target", summary["roots"])
+        self.assertIn("target", summary["path"])
 
     def test_wrong_twice_descends_hard_first(self):
-        session = engine.create_session(self.graph, ["m7a.5.2"])
-        self._answer(session, "wrong")
-        self._answer(session, "wrong")
-        self.assertEqual(session["state"]["m7a.5.2"], "weak")
-        self.assertEqual(session["queue"][:1], ["m7a.5.1.2"], "先回溯 hard 先修")
-        self.assertIn("m7a.4.2", session["queue"][:2])
-        self.assertNotIn("m7a.3.1", session["queue"][:2], "soft 先修应排在 hard 之后")
+        graph = synthetic_diagnostic_graph()
+        session = engine.create_session(graph, ["target"])
+        self._answer(session, "wrong", graph)
+        self._answer(session, "wrong", graph)
+        self.assertEqual(session["state"]["target"], "weak")
+        self.assertEqual(session["queue"], ["near", "base"], "先回溯最近的 hard 先修")
+        self.assertNotIn("related", session["queue"], "soft 相关项不应当作诊断回溯")
+
+    def test_real_equation_components_never_infer_whole_topic_or_ancestor_weakness(self):
+        """生产方程题的分项观察限制不能被状态机测试或答对次数抬升。"""
+        tid = "m7a.5.2"
+        policies = copy.deepcopy(self.graph.question_policies)
+        self.assertGreaterEqual(len(self.graph.bank[tid]), 2)
+        for question in self.graph.bank[tid]:
+            policy = policies[question["id"]]
+            self.assertTrue(policy["diagnosis_eligible"])
+            self.assertFalse(policy["may_confirm_mastery"])
+            self.assertFalse(policy["may_judge_weak"])
+            self.assertEqual(policy["reason"], "reviewed_component_not_complete_topic")
+        for verdicts in (("correct", "correct"), ("correct", "wrong"), ("wrong", "correct"), ("wrong", "wrong")):
+            with self.subTest(verdicts=verdicts):
+                session = engine.create_session(self.graph, [tid])
+                for verdict in verdicts:
+                    self._answer(session, verdict)
+                self.assertIsNone(engine.next_item(self.graph, session))
+                self.assertEqual(session["state"][tid], "insufficient_evidence")
+                self.assertEqual(set(session["asked"]), {tid})
+                summary = engine.summarize(self.graph, session)
+                for group in ("mastered", "weak", "shaky", "assumed", "roots"):
+                    self.assertEqual(summary[group], [])
+        self.assertEqual(self.graph.question_policies, policies)
 
     def test_second_question_not_harder_or_flagged(self):
         """第二题应当同级或更易；题库不够时允许升难度，但必须打标记。"""

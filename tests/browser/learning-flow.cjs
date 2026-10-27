@@ -573,7 +573,12 @@ const journeys = {
     await page.getByRole("heading", { name: "按需要打开提示", exact: true }).waitFor();
     await actionResponse(() => page.getByRole("button", { name: "提示2 · 分步引导", exact: true }).click(), "/api/support/hint");
     assert.equal((await apiRead("/api/plan")).learning_needs.find(n => n.need_id === originalNeed.need_id).status, "open");
-    guided = await answerSupport(guided, authored.guided_task.answer);
+    const routeId = guided.support.route.route_id;
+    const shownGuide = routeId === "default" ? authored.guided_task
+      : (authored.guided_branches || []).find(branch => branch.id === routeId)?.guided_task;
+    assert.ok(shownGuide, "Answer the selected frozen guide, never the default guide from a different route");
+    assert.equal(guided.item.prompt, shownGuide.prompt);
+    guided = await answerSupport(guided, shownGuide.answer);
     assert.equal((await apiRead("/api/plan")).learning_needs.find(n => n.need_id === originalNeed.need_id).status, "open");
     assert.notEqual(guided.item.type, "rubric", "This bounded numeric need has an objective follow-up candidate");
     const finished = await answerSupport(guided, answerBank.get(guided.item.id).answer);
@@ -594,6 +599,7 @@ const journeys = {
     await page.locator("#stage-select").selectOption("senior");
     await page.waitForFunction(count => document.querySelector("#need-counts").textContent.includes(`${count} 项待处理`), plan.need_counts.open);
     await page.locator("#open-needs").click(); await visible("#view-needs");
+    await page.locator("#needs-status").filter({ hasText: /^当前显示/ }).waitFor();
     assert.ok((await page.locator("#needs-list").textContent()).includes("过程待自查或修订"));
     assert.ok((await page.locator("#needs-list").textContent()).includes("修订后待独立确认"));
     const pendingFollowup = page.locator("#needs-list > article").filter({ hasText: "修订后待独立确认" }).first();
@@ -900,14 +906,20 @@ const journeys = {
       assert.ok(steps < current.item.question.choices.length); await page.keyboard.press("ArrowRight");
     }
     await page.keyboard.press("Tab");
+    const help = page.getByRole("checkbox", { name: "这道题使用了提示、参考答案或他人的帮助", exact: true });
+    assert.equal(await help.evaluate(element => element === document.activeElement), true);
+    await page.keyboard.press("Space"); assert.equal(await help.isChecked(), true);
+    await page.keyboard.press("Tab");
     assert.equal(await page.locator("#submit").evaluate(element => element === document.activeElement), true);
     const answered = await actionResponse(() => page.keyboard.press("Enter"), "/api/answer");
     assert.equal(answered.feedback.status, "correct");
     assert.equal(await page.locator("#next").evaluate(element => element === document.activeElement), true);
     assert.equal(await group.locator("input:enabled").count(), 0, "Submitted choices are frozen on the feedback view");
+    assert.equal(await help.isDisabled(), true, "Submitted help declaration is frozen with the answer");
     await page.keyboard.press("Enter");
     await page.waitForFunction(() => document.activeElement?.id === "quiz-prompt");
     assert.equal(answered.item.question.type, "numeric");
+    assert.equal(await help.isChecked(), false, "The next task asks for its own help declaration");
     await page.keyboard.press("Tab");
     assert.equal(await page.getByLabel("你的答案", { exact: true }).evaluate(element => element === document.activeElement), true);
     await page.keyboard.type(String(answerBank.get(answered.item.question.id).answer));

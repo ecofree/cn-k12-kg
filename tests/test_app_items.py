@@ -22,6 +22,15 @@ import write_application_items as writer  # noqa: E402
 
 ITEMS = app_items.all_items()
 TIERS = json.loads((ROOT / "data" / "topic_tiers.json").read_text(encoding="utf-8"))["topics"]
+# These two preserved IDs were reviewed as a given difference / direct function
+# substitution. They do not supply an advanced application merely by having
+# carried that historical label. The exact authored tasks are checked below.
+REVIEWED_BASIC_APPLICATIONS = {
+    "m8b.22.2-q102": {"topic": "m8b.22.2", "verify": "22-19",
+                      "family_id": "arithmetic.fixed-discount-difference"},
+    "mh4.5.3.1-q102": {"topic": "mh4.5.3.1", "verify": "-1+3",
+                       "family_id": "function.value-at-given-point"},
+}
 
 
 class BatchShapeTest(unittest.TestCase):
@@ -37,7 +46,8 @@ class BatchShapeTest(unittest.TestCase):
                 self.assertGreaterEqual(len(it.get("prompt") or ""), 15, "题干太短，多半不是应用题")
                 self.assertTrue(str(it.get("answer") or "").strip())
                 self.assertGreaterEqual(len(it.get("explanation") or ""), 20)
-                self.assertIn(it.get("difficulty", "standard"), ("standard", "advanced"))
+                allowed = ("basic",) if it["id"] in REVIEWED_BASIC_APPLICATIONS else ("standard", "advanced")
+                self.assertIn(it.get("difficulty", "standard"), allowed)
 
     def test_advanced_items_say_why(self):
         """advanced 不是随手标的：必须在 why 里写清难在哪。"""
@@ -109,15 +119,35 @@ class CoverageTest(unittest.TestCase):
             self.assertTrue(row["target_objectives"])
             self.assertTrue(row["resource_needed"])
 
-    def test_points_above_primary_have_standard_and_advanced(self):
-        """初中与高中每点都要两种难度：standard 会用、advanced 会换一步想。"""
+    def test_secondary_design_levels_keep_the_reviewed_advanced_gaps_explicit(self):
+        """保留既有两档覆盖；两项明确复核的基础任务不能冒充 advanced。"""
         by_topic: dict[str, set[str]] = collections.defaultdict(set)
         for it in ITEMS:
             by_topic[it["topic"]].add(it.get("difficulty", "standard"))
         target = [t for t in by_topic
                   if t[:2] in {"m7", "m8", "m9"} or t.startswith("mh")]
-        thin = [t for t in target if by_topic[t] != {"standard", "advanced"}]
-        self.assertEqual(sorted(thin), [], "初中与高中每点应各有一道 standard 与 advanced")
+        reviewed_topics = {row["topic"] for row in REVIEWED_BASIC_APPLICATIONS.values()}
+        thin = [t for t in target if by_topic[t] != ({"standard", "basic"} if t in reviewed_topics else {"standard", "advanced"})]
+        self.assertEqual(sorted(thin), [], "保持既有或具体审查后的设计档位，不能为凑配额伪造advanced")
+
+    def test_reviewed_basic_applications_match_the_actual_observation_boundary(self):
+        review = json.loads((ROOT / "docs/reviews/v5-batch2-secondary-ai-review.json").read_text(encoding="utf-8"))
+        reviewed = {row["id"]: row for row in review["question_review"]}
+        by_id = {item["id"]: item for item in ITEMS}
+        for qid, expected in REVIEWED_BASIC_APPLICATIONS.items():
+            with self.subTest(question=qid):
+                actual, prior_review = by_id[qid], reviewed[qid]["after"]
+                for key in ("prompt", "answer", "alignment_note"):
+                    self.assertEqual(actual[key], prior_review[key], "范围变化须重新核对，不能复用按ID放行")
+                self.assertEqual(expected["topic"], actual["topic"])
+                self.assertEqual(expected["family_id"], actual["family_id"])
+                self.assertEqual(expected["verify"], actual["verify"])
+                self.assertEqual("basic", actual["difficulty"])
+                self.assertEqual("topic_only_practice", actual["target_alignment"])
+                self.assertFalse(actual["diagnosis_eligible"])
+                self.assertFalse(actual["for_diagnosis"])
+                self.assertEqual("design_label_pending_student_data", actual["difficulty_calibration"])
+                self.assertGreaterEqual(len(actual["why"]), 8)
 
     def test_primary_points_are_not_over_drilled(self):
         """小学基础点按用户要求「不堆题」：每点至少 2 道，但**不强制 advanced**。

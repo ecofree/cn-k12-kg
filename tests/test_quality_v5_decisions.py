@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import copy
+from contextlib import contextmanager
 import json
 from http.cookiejar import CookieJar
 from pathlib import Path
@@ -322,7 +323,40 @@ class DecisionHTTPTests(unittest.TestCase):
         self.assertIn("learner_report", saved["answers"][0]["help_evidence"])
         self.assertEqual(self.request("/api/session", {"unit_id": uid, "mode": "practice", "task_ids": ["another-unit-task"]})[0], 400)
 
-    def test_helped_goal_has_a_real_later_observation_and_cannot_skip_the_interval(self):
+    @contextmanager
+    def synthetic_mean_followup(self):
+        """A genuinely different mathematical task, added only to an isolated test copy.
+
+        The production mean pool intentionally has no fresh delayed family after
+        this help route. Do not relabel its same-form task to make time tests pass.
+        """
+        uid = "data_reading_and_mean"
+        units = copy.deepcopy(self.server.learning_units())
+        unit = units[uid]
+        catalog = copy.deepcopy(self.server.get_catalog())
+        goal = next(goal for goal in catalog.units[uid]["objectives"] if goal["id"].endswith(":mean"))
+        task = {"id": uid + ":synthetic-combined-group-mean", "phase": "delayed", "type": "numeric",
+                "objective_ids": [goal["id"]],
+                "prompt": "合成测试任务：第一组2人，平均每人读5本；第二组3人，平均每人读10本。合在一起5人平均每人读几本？",
+                "answer": "8", "verify": "(2*5+3*10)/(2+3)",
+                "answer_spec": {"kind": "number", "comparison": "exact", "representation": "any"},
+                "explanation": "先以人数乘组平均求两组总数10本和30本，再用40本除以总人数5人；不能直接平均5和10。",
+                "feedback": {"correct": "已按人数合并总量。", "incorrect": "两个组人数不同，先恢复各组总量。"},
+                "family_id": "statistics.combine-group-means", "representation": "verbal",
+                "cognitive_demand": "apply", "source": "synthetic-test-fixture"}
+        self.assertIn(task["family_id"], catalog.families, "合成题仍须使用实际数学结构的既有题族")
+        unit["tasks"].append(task)
+        metadata = {**copy.deepcopy(task), "availability": "active", "source_kind": "unit",
+                    "material_id": "unit:" + uid, "skill_ids": [goal["skill_id"]], "family_status": "declared",
+                    "resource_version": self.server._hash(task)}
+        catalog.tasks[task["id"]] = metadata
+        catalog.active_tasks[task["id"]] = metadata
+        catalog.units[uid]["task_ids"].append(task["id"])
+        catalog.units[uid]["resource_version"] = self.server.session_content.unit_hash(unit, self.server.unit_assets(unit))
+        with patch.object(self.server, "_UNIT_CACHE", units), patch.object(self.server, "_CATALOG_CACHE", catalog):
+            yield task["id"]
+
+    def complete_mean_help(self):
         uid = "data_reading_and_mean"
         unit = self.server.learning_units()[uid]
         goal = next(goal for goal in self.server.get_catalog().units[uid]["objectives"] if goal["id"].endswith(":mean"))
@@ -349,28 +383,73 @@ class DecisionHTTPTests(unittest.TestCase):
         _, after = self.request("/api/plan")
         need = next(need for need in after["learning_needs"] if need["kind"] == "independent_followup")
         self.assertEqual(need["status"], "open")
+        return uid, goal, need
+
+    def test_real_mean_same_family_pool_exhaustion_preserves_followup_need(self):
+        uid, goal, need = self.complete_mean_help()
         request = {"unit_id": uid, "mode": "delayed", "focus_skill_ids": [goal["skill_id"]],
                    "followup_need_ids": [need["need_id"]]}
-        with patch.object(self.server, "_now", return_value="2026-10-21T01:00:00+00:00"):
-            code, blocked = self.request("/api/session", request)
+        owner = next(cookie.value for cookie in self.cookies if cookie.name == self.server._OWNER_COOKIE)
+        store = self.httpd.learning_store
+        before_count = store.count(owner)
+        delayed = {task["id"] for task in self.server.learning_units()[uid]["tasks"]
+                   if task["phase"] == "delayed" and goal["id"] in task["objective_ids"]}
+        options = task_options(self.server.get_catalog(), [goal["skill_id"]], store.planning_records(owner),
+                               store.exposures(owner), allowed_task_ids=delayed, limit=None)
+        self.assertTrue(options)
+        self.assertTrue(all(option["repeated_family"] and not option["eligible_for_followup"] for option in options))
+        for when in ("2026-10-21T01:00:00+00:00", NOW):
+            with self.subTest(when=when), patch.object(self.server, "_now", return_value=when):
+                code, blocked = self.request("/api/session", request)
             self.assertEqual(code, 409, blocked)
-            self.assertEqual(blocked["code"], "followup_interval_not_ready")
-        with patch.object(self.server, "_now", return_value=NOW):
-            code, activity = self.request("/api/session", request)
-            self.assertEqual(code, 200, activity)
-            sid = activity["session"]["id"]
-            while not activity["done"]:
-                saved = self.httpd.learning_store.load(sid, owner)
-                qid = activity["item"]["question"]["id"]
-                task = next(task for task in saved["unit_snapshot"]["tasks"] if task["id"] == qid)
-                code, activity = self.request("/api/answer", {"session_id": sid, "question_id": qid,
-                    "answer": task.get("answer", "写出推理"), "used_help": False})
-                self.assertEqual(code, 200, activity)
+            self.assertEqual(blocked["code"], "followup_tasks_unavailable")
+            self.assertEqual(blocked["next_action"], {**request, "mode": "practice"})
+        self.assertEqual(store.count(owner), before_count, "被阻断的检查不能保存成一场新会话")
         _, final = self.request("/api/plan")
-        completed = next(row for row in final["learning_needs"] if row["need_id"] == need["need_id"])
-        self.assertEqual(completed["status"], "resolved")
-        self.assertEqual(completed["resolution"]["kind"], "qualifying_followup_observation")
-        self.assertFalse(completed["resolution"]["independent_evidence"])
+        preserved = next(row for row in final["learning_needs"] if row["need_id"] == need["need_id"])
+        self.assertEqual(preserved["status"], "open")
+        self.assertIsNone(preserved["resolution"])
+
+    def test_helped_goal_has_a_real_later_observation_and_cannot_skip_the_interval(self):
+        # Positive interval contract gets a test-only combined-group problem,
+        # while the separate production counterexample keeps its real gap.
+        with self.synthetic_mean_followup() as synthetic_id:
+            uid, goal, need = self.complete_mean_help()
+            request = {"unit_id": uid, "mode": "delayed", "focus_skill_ids": [goal["skill_id"]],
+                       "followup_need_ids": [need["need_id"]]}
+            owner = next(cookie.value for cookie in self.cookies if cookie.name == self.server._OWNER_COOKIE)
+            store = self.httpd.learning_store
+            self.assertNotIn("statistics.combine-group-means", store.exposures(owner)["families"],
+                             "本正向夹具未打开例题或练习第三目标，不能通过另起族名避开真实帮助曝光")
+            option = task_options(self.server.get_catalog(), [goal["skill_id"]], store.planning_records(owner),
+                                  store.exposures(owner), allowed_task_ids={synthetic_id}, limit=None)[0]
+            self.assertTrue(option["eligible_for_followup"])
+            self.assertFalse(option["repeated_question"])
+            self.assertFalse(option["repeated_family"])
+            self.assertFalse(option["help_exposed"])
+            with patch.object(self.server, "_now", return_value="2026-10-21T01:00:00+00:00"):
+                code, blocked = self.request("/api/session", request)
+                self.assertEqual(code, 409, blocked)
+                self.assertEqual(blocked["code"], "followup_interval_not_ready")
+                self.assertFalse(blocked["context"]["review_interval_qualified"])
+            with patch.object(self.server, "_now", return_value="2026-10-22T00:00:00+00:00"):
+                code, activity = self.request("/api/session", request)
+                self.assertEqual(code, 200, activity)
+                self.assertEqual(activity["item"]["question"]["id"], synthetic_id)
+                sid = activity["session"]["id"]
+                saved = store.load(sid, owner)
+                self.assertTrue(saved["context"]["review_interval_qualified"])
+                self.assertEqual(saved["context"]["actual_quiet_seconds"], 86400)
+                self.assertEqual(saved["source_origin"]["need_ids"], [need["need_id"]])
+                code, activity = self.request("/api/answer", {"session_id": sid, "question_id": synthetic_id,
+                    "answer": "8", "used_help": False})
+                self.assertEqual(code, 200, activity)
+                self.assertTrue(activity["done"])
+            _, final = self.request("/api/plan")
+            completed = next(row for row in final["learning_needs"] if row["need_id"] == need["need_id"])
+            self.assertEqual(completed["status"], "resolved")
+            self.assertEqual(completed["resolution"]["kind"], "qualifying_followup_observation")
+            self.assertFalse(completed["resolution"]["independent_evidence"])
 
 
 if __name__ == "__main__":

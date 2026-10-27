@@ -124,18 +124,33 @@ class LearningWebTest(unittest.TestCase):
         _, saved = self.request('/api/session/' + sid)
         self.assertEqual(saved['session']['answered_count'], 0)
 
-    def test_topic_retest_excludes_previously_exposed_questions(self):
-        _, response = self.request('/api/session', {'targets': ['m7a.5.2'], 'mode': 'diagnose', 'limit': 2})
+    def test_topic_retest_blocks_remaining_questions_in_the_already_exposed_family(self):
+        """换数字留下的题号不能被当作新的独立检查机会。"""
+        code, response = self.request('/api/session', {'targets': ['m7a.5.2'], 'mode': 'diagnose', 'limit': 2})
+        self.assertEqual(code, 200, response)
+        self.assertEqual(response['session']['feedback_policy'], 'deferred')
         old_id = response['session']['id']
         seen = []
         while not response['done']:
             qid = response['item']['question']['id']; seen.append(qid)
-            _, response = self.answer(response, str(server.GRAPH.questions_by_id[qid]['answer']))
+            code, response = self.answer(response, str(server.GRAPH.questions_by_id[qid]['answer']))
+            self.assertEqual(code, 200, response)
         self.assertTrue(all(answer['raw_answer'] is not None for answer in response['summary']['answers']))
-        _, retest = self.request('/api/session', {'targets': ['m7a.5.2'], 'mode': 'diagnose', 'previous_session_id': old_id})
-        if retest['item']:
-            self.assertNotIn(retest['item']['question']['id'], seen)
-        self.assertEqual(retest['session']['feedback_policy'], 'deferred')
+        pool = server.GRAPH.bank['m7a.5.2']
+        self.assertTrue({q['id'] for q in pool} - set(seen), '本反例必须还有未作答的同族题号')
+        self.assertEqual({q['family_id'] for q in pool}, {'equation.solve-linear'})
+        self.assertEqual({q['family_status'] for q in pool}, {'declared'})
+        before_count = self.request('/api/history')[1]['total']
+        code, retest = self.request('/api/session', {'targets': ['m7a.5.2'], 'mode': 'diagnose', 'previous_session_id': old_id})
+        self.assertEqual(code, 409, retest)
+        self.assertEqual(retest['code'], 'no_fresh_tasks')
+        self.assertEqual(retest['availability']['unseen_count'], 0)
+        self.assertEqual(retest['availability']['diagnostic_count'], len(pool))
+        self.assertEqual(retest['next_action'], {'targets': ['m7a.5.2'], 'mode': 'practice'})
+        self.assertEqual(self.request('/api/history')[1]['total'], before_count)
+        code, original = self.request('/api/session/' + old_id)
+        self.assertEqual(code, 200, original)
+        self.assertEqual(original['summary']['answers'], response['summary']['answers'])
 
     def test_skip_remains_unobserved_not_an_automatic_failure(self):
         _, response = self.request('/api/session', {'targets': ['m7a.5.2'], 'mode': 'diagnose', 'limit': 2})

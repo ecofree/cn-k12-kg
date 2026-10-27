@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def commands(mode, *, with_browser=False):
     action = "--check" if mode == "check" else "--write"
     steps = [["tools/rebuild_data.py", action], ["tools/register_catalog.py", action],
+             ["tools/classify_tiers.py", action],
              ["tools/compile_catalog.py", action]]
     if mode == "release":
         return steps + [["tools/build_db.py", "--own-only", "--quiet"],

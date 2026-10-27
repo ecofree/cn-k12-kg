@@ -1,0 +1,397 @@
+{
+  "schema": 1,
+  "reviewer_kind": "ai",
+  "reviewer": "root with independent content and regression reviewers",
+  "reviewed_at": "2026-10-27T02:32:19+00:00",
+  "review_status": "semantic_corrections_reviewed_development_rechecks_passed_fixed_release_pending",
+  "initial_candidate": "123e188",
+  "accepted_initial_candidate": false,
+  "initial_core_result": {
+    "tests_run": 865,
+    "failures": 12,
+    "errors": 4,
+    "skipped": 16
+  },
+  "initial_evidence": "build/acceptance-attempts/v5-123e188-initial",
+  "teacher_review": "deferred_by_user",
+  "real_student_effect_validation": "deferred_by_user",
+  "authored_corrections": {
+    "schema": 1,
+    "reviewer_kind": "ai",
+    "reviewer": "/root/v5_secondary_pathways",
+    "review_status": "development_reviewed_22_tests_passed_pending_root_rebuild_admissions_and_fixed_acceptance",
+    "reviewed_at": "2026-10-27T02:26:42+00:00",
+    "teacher_review": "deferred_by_user",
+    "student_effect_validation": "deferred_by_user",
+    "reason": "旧why视图从difficulty_basis的全角冒号后取说明。核对真实题目后不能保留没有设计依据的advanced；不修改题干、答案、目标或用途上限。",
+    "source_before_sha256": "6e3ee3e335f79b5283611102a4350eab2aeb703e41a7027548dc4d9f6ba380ce",
+    "source_after_sha256": "7cea2d01869178c8538756f8c45358301854af6621db2541cf86f888a422ef22",
+    "canonical_author_payload_hash": "SHA256 of UTF-8 JSON ensure_ascii=False, sort_keys=True, separators=(comma,colon)",
+    "questions": [
+      {
+        "id": "m8b.22.2-q102",
+        "source": "data/question_sources/application.json",
+        "before": {
+          "difficulty": "advanced",
+          "difficulty_basis": "给定固定优惠后的差额识别；本题不观察表格读取或函数表示的选择。",
+          "author_payload_sha256": "41e097e43a8af0c2d18225546800b0215b87fea16dfa7f97bfd2bfcbc955c20f",
+          "question_content_sha256": "4c9c0eb8f9724cc34622e8623a65dc0d838d9a822fa0d5f4e8b72df2e5732d9f",
+          "admission_fingerprint_v2": "c3c333ecae93eb9ffc45c427d54ef00001f2f619abfbd9edacee23e96a1213d9"
+        },
+        "after": {
+          "difficulty": "basic",
+          "difficulty_basis": "设计难度复核（basic）：会员在相同行程计费结果上统一减3元，所问差额已由该条件直接给出；只观察固定差额识别，不要求函数表示或分段计费求值。难度是作者设计标签，尚未经学生数据校准。",
+          "why": "会员在相同行程计费结果上统一减3元，所问差额已由该条件直接给出；只观察固定差额识别，不要求函数表示或分段计费求值。难度是作者设计标签，尚未经学生数据校准。",
+          "author_payload_sha256": "48b43d6d899b140c8d97ac739a439870d8beb5f13a64e09a136e8e096f0afb7a",
+          "question_content_sha256": "dc413b3dff53062ed4e8bbb1e9cc83c96da6e3489a4acfd988d8c53962c34e9b",
+          "admission_fingerprint_v2": "669da0f83cf09b1989306c5897964d1eb7772172bab38d4279ceffd1ea31f0d7"
+        },
+        "prompt": "某网约车3公里内收费10元，超过3公里的部分按每公里2.4元收费。会员在同一计费结果上统一减3元。会员与非会员各行驶8公里，会员少付多少元？",
+        "answer": "3",
+        "verify": "22-19",
+        "family_id": "arithmetic.fixed-discount-difference",
+        "alignment_note": "会员统一少付3元已在题干给出；仅练习识别所问差额，未观察任何函数表示行为。",
+        "source_flag_diagnosis_eligible": false,
+        "source_flag_for_diagnosis": false,
+        "changed_fields": [
+          "difficulty",
+          "difficulty_basis"
+        ],
+        "admission_fingerprint_changed": true,
+        "admission_action": "root_to_rebind_only_if_changed_without_policy_upgrade"
+      },
+      {
+        "id": "mh2.8.2-q102",
+        "source": "data/question_sources/application.json",
+        "before": {
+          "difficulty": "advanced",
+          "difficulty_basis": "将y向缩半和轴夹角45°共同计入平行四边形面积，避免把缩半直接当面积减半。",
+          "author_payload_sha256": "5d706a8cad23fb7d6467d58bf37eb569767e5fcc1b8faa8297bcfc61bf807df3",
+          "question_content_sha256": "1bdb4161371fdb56d634ee5de77e0eaaa20ec33e4a65e08de02bd616a8cb1bb2",
+          "admission_fingerprint_v2": "8232edb3e12a1777c4e83be52437c576b06ace781b6248ed6cd130a3e7222ec0"
+        },
+        "after": {
+          "difficulty": "advanced",
+          "difficulty_basis": "设计难点（advanced）：先把原y方向边长4缩为2，再将图上两邻边夹角45°计入面积4×2×sin45°；不能把y向缩半直接当作面积减半。这里只讨论水平平面按本题规则得到的图形，难度尚未经学生数据校准。",
+          "why": "先把原y方向边长4缩为2，再将图上两邻边夹角45°计入面积4×2×sin45°；不能把y向缩半直接当作面积减半。这里只讨论水平平面按本题规则得到的图形，难度尚未经学生数据校准。",
+          "author_payload_sha256": "4541eabe935413fecfbe9e302f1cef990101cf830e256dda2630da0353e4d68a",
+          "question_content_sha256": "1bdb4161371fdb56d634ee5de77e0eaaa20ec33e4a65e08de02bd616a8cb1bb2",
+          "admission_fingerprint_v2": "8232edb3e12a1777c4e83be52437c576b06ace781b6248ed6cd130a3e7222ec0"
+        },
+        "prompt": "一个水平放置、边长4的正方形，两条邻边分别平行于x轴、y轴。按x′与y′夹45°、x向不变且y向减半的斜二测规则作直观图。按sin45°≈0.707计算，图中平行四边形面积是多少平方单位？",
+        "answer": "5.656",
+        "verify": "4*2*0.707",
+        "family_id": "projection.oblique.area-scale",
+        "alignment_note": "任务要求投影面积比，超出当前两条目标的直接行为描述；保留topic_only，不硬绑作图完成。",
+        "source_flag_diagnosis_eligible": false,
+        "source_flag_for_diagnosis": false,
+        "changed_fields": [
+          "difficulty_basis"
+        ],
+        "admission_fingerprint_changed": false,
+        "admission_action": "root_to_rebind_only_if_changed_without_policy_upgrade"
+      },
+      {
+        "id": "mh4.5.3.1-q102",
+        "source": "data/question_sources/application.json",
+        "before": {
+          "difficulty": "advanced",
+          "difficulty_basis": "题干已给极大值位置，本题只练习函数值代入，不能据此认定会用导数求单调区间。",
+          "author_payload_sha256": "4b7c5b3ad8e50e6da9b7c5aff96002f07f55688d67e93b97339f3c6d559c14b9",
+          "question_content_sha256": "be7c3d5b9ab969ada487d47cff892646a110472b34f48cda2345b34d2b7f062e",
+          "admission_fingerprint_v2": "6df78c4fdfd27320d5caf24be339a7e534f60f8f99576c5cfcba869498b60733"
+        },
+        "after": {
+          "difficulty": "basic",
+          "difficulty_basis": "设计难度复核（basic）：题干已给出极大值位置x=-1，只需代入(-1)^3-3×(-1)=2，并区分横坐标与函数值；不要求寻找驻点或检验导数变号。难度是作者设计标签，尚未经学生数据校准。",
+          "why": "题干已给出极大值位置x=-1，只需代入(-1)^3-3×(-1)=2，并区分横坐标与函数值；不要求寻找驻点或检验导数变号。难度是作者设计标签，尚未经学生数据校准。",
+          "author_payload_sha256": "9ccdb8ae17177daeeb7c7f3056e1c7fe6546927d90b50f1b59a966be99ccf620",
+          "question_content_sha256": "b5e4d656e94d13b59a38d94d803535e498872300b8497cf9ea538cb11d0683f4",
+          "admission_fingerprint_v2": "d919742d56cdf6aae850be94546f733537e9f0b2e1c0834c7b32adfc6e7beb70"
+        },
+        "prompt": "函数 f(x)=x^3-3x 在 x=-1 处取极大值。这个极大值是多少？",
+        "answer": "2",
+        "verify": "-1+3",
+        "family_id": "function.value-at-given-point",
+        "alignment_note": "极大值位置已由题干告知，只需代入求函数值；不能作为导数判断单调性或求区间的证据。",
+        "source_flag_diagnosis_eligible": false,
+        "source_flag_for_diagnosis": false,
+        "changed_fields": [
+          "difficulty",
+          "difficulty_basis"
+        ],
+        "admission_fingerprint_changed": true,
+        "admission_action": "root_to_rebind_only_if_changed_without_policy_upgrade"
+      }
+    ],
+    "new_advanced_application_gaps": [
+      "m8b.22.2",
+      "mh4.5.3.1"
+    ],
+    "scope_note": "这两主题的现有应用题没有真正advanced层任务；保留缺口，不能以抄读或代入标成高阶任务。",
+    "tests": {
+      "command": "python -B -m unittest tests.test_app_items tests.test_step2_questions -v",
+      "result": "passed",
+      "count": 22,
+      "elapsed_seconds": 0.751,
+      "log": "build/v5-final-app-step-tests.log",
+      "log_sha256": "63d1a3fa60c164677c90b6ddc503208ed4bcf7433af5a9b2b2675fea4eb5864c"
+    },
+    "reviewed_step2_exceptions": [
+      {
+        "id": "m1a.4.1-q95",
+        "current_author_payload_sha256": "8cbddd395d4bad3682aa51ed8c33868be75156d85dbf4254ec035312c3889f5b",
+        "current_prompt": "一整盒装10块糖，盒外另有8块。盒内外一共有多少块糖？只填数字。",
+        "current_verify": "10+8",
+        "current_answer": "18",
+        "current_difficulty": "basic",
+        "current_family_id": "placevalue.ten-and-ones",
+        "current_criterion_indices": [
+          1
+        ],
+        "observation_boundary": "整盒10块对应一个十，另8块为8个一，观察单位转换到情境的结果；还需说出一盒为什么代表十。",
+        "prior_semantic_review": {
+          "id": "m1a.4.1-q95",
+          "source": "data/content/yishang.json",
+          "before_sha256": "00c41a69bb66de1ed7474c051fff94beca097b95e240a12c726fec09690069c5",
+          "after_sha256": "8cbddd395d4bad3682aa51ed8c33868be75156d85dbf4254ec035312c3889f5b",
+          "old_prompt": "妈妈买了 1 盒装 10 块糖果，又零买了 8 块糖果，吃去 6 块糖果，还剩多少块糖果？（只填数字）",
+          "new_prompt": "一整盒装10块糖，盒外另有8块。盒内外一共有多少块糖？只填数字。",
+          "old_answer": "12",
+          "new_answer": "18",
+          "old_tested_criterion_indices": [],
+          "new_tested_criterion_indices": [
+            1
+          ],
+          "family_id": "placevalue.ten-and-ones",
+          "representation": "verbal",
+          "observation_boundary": "整盒10块对应一个十，另8块为8个一，观察单位转换到情境的结果；还需说出一盒为什么代表十。",
+          "diagnosis_policy": "practice_only_no_mastery_confirmation",
+          "semantic_change": true
+        },
+        "source_unchanged_in_this_correction": true
+      },
+      {
+        "id": "m1a.5.1-q95",
+        "current_author_payload_sha256": "6384998e6a2044f6b185171063f6b329e2f50a434c2979832436a291f1c14b26",
+        "current_prompt": "桌上原有9个五角星，又拿来3个，一共有多少个五角星？只填数字。",
+        "current_verify": "9+3",
+        "current_answer": "12",
+        "current_difficulty": "basic",
+        "current_family_id": "addition.make-ten",
+        "current_criterion_indices": [
+          0
+        ],
+        "observation_boundary": "观察9与新增3合并的情境结果；需另看3=1+2与凑十过程，不让复合加减任务遮蔽本目标。",
+        "prior_semantic_review": {
+          "id": "m1a.5.1-q95",
+          "source": "data/content/yishang.json",
+          "before_sha256": "00da5d9391827d2c3523b3e86b87ff2b28a1795282c110402989418b11911445",
+          "after_sha256": "6384998e6a2044f6b185171063f6b329e2f50a434c2979832436a291f1c14b26",
+          "old_prompt": "原来有 9 个五角星，又拿来 3 个五角星，用去 5 个五角星，现在有多少个五角星？（只填数字）",
+          "new_prompt": "桌上原有9个五角星，又拿来3个，一共有多少个五角星？只填数字。",
+          "old_answer": "7",
+          "new_answer": "12",
+          "old_tested_criterion_indices": [],
+          "new_tested_criterion_indices": [
+            0
+          ],
+          "family_id": "addition.make-ten",
+          "representation": "verbal",
+          "observation_boundary": "观察9与新增3合并的情境结果；需另看3=1+2与凑十过程，不让复合加减任务遮蔽本目标。",
+          "diagnosis_policy": "practice_only_no_mastery_confirmation",
+          "semantic_change": true
+        },
+        "source_unchanged_in_this_correction": true
+      },
+      {
+        "id": "m1a.5.2-q95",
+        "current_author_payload_sha256": "0235b2fc144c57223af915ab48f60b3208ab2ee3b13e6562c0142ca0f0020763",
+        "current_prompt": "盘里有8个桃子，又放入8个，现在一共有多少个桃子？只填数字。",
+        "current_verify": "8+8",
+        "current_answer": "16",
+        "current_difficulty": "basic",
+        "current_family_id": "addition.make-ten",
+        "current_criterion_indices": [
+          0
+        ],
+        "observation_boundary": "观察8与新增8合并的情境结果；凑十所取2与留下6要另留过程，不能仅据16判断解释目标完成。",
+        "prior_semantic_review": {
+          "id": "m1a.5.2-q95",
+          "source": "data/content/yishang.json",
+          "before_sha256": "0cbe97fac370ed66bec6ef4a7a4ce0feab840d498c91eed0bfc962134b8bf6e0",
+          "after_sha256": "0235b2fc144c57223af915ab48f60b3208ab2ee3b13e6562c0142ca0f0020763",
+          "old_prompt": "原来有 8 个桃子，又拿来 8 个桃子，用去 3 个桃子，现在有多少个桃子？（只填数字）",
+          "new_prompt": "盘里有8个桃子，又放入8个，现在一共有多少个桃子？只填数字。",
+          "old_answer": "13",
+          "new_answer": "16",
+          "old_tested_criterion_indices": [],
+          "new_tested_criterion_indices": [
+            0
+          ],
+          "family_id": "addition.make-ten",
+          "representation": "verbal",
+          "observation_boundary": "观察8与新增8合并的情境结果；凑十所取2与留下6要另留过程，不能仅据16判断解释目标完成。",
+          "diagnosis_policy": "practice_only_no_mastery_confirmation",
+          "semantic_change": true
+        },
+        "source_unchanged_in_this_correction": true
+      }
+    ],
+    "test_changes": {
+      "tests/test_app_items.py": "只允许两个与原语义报告题面、答案、边界及固定verify/题族相符的basic应用题；两个主题明确保留advanced缺口，其他初高中主题仍保留既有两档要求。",
+      "tests/test_step2_questions.py": "仍检查57个稳定-q95身份；只有三条与真实yishang改写和已存在审查逐字段吻合的例外可以basic且一运算，其余54题仍须至少两个运算与非basic。历史生成器数学检查保留，注释不再宣称题号或算式计数等于学生难度，也不错误宣称现行判分不支持分数。"
+    },
+    "test_file_sha256": {
+      "tests/test_app_items.py": "eb782eff72a9e29c1605f79822585aa9a4f086c43ac22c2196b56e01a280d7fd",
+      "tests/test_step2_questions.py": "430e3f8280c23bb070cd3fd091ee7581a09d000b99f682fd23db168a47cddf63"
+    },
+    "author_source_frozen": true
+  },
+  "statistics_support_exceptions": {
+    "schema": 1,
+    "reviewer_kind": "ai",
+    "reviewed_at": "2026-10-27T02:25:42+00:00",
+    "scope": "tests/test_content_regressions.py only; source content, admission rules, production, manifest and commits unchanged by this task",
+    "reason": "旧统一断言要求189道补充题全部带目标下标，与V5逐题语义审查后保留3道topic_only支持题的正确用途冲突。不能为通过测试恢复错误目标映射。",
+    "reviewed_exceptions": [
+      {
+        "task_id": "mh5.8.1.1-q202",
+        "observation": "U形散点支持非线性关系的初步辨别",
+        "rejected_mapping": "单一正负方向目标"
+      },
+      {
+        "task_id": "mh5.8.1.1-q203",
+        "observation": "相关不推出因果，考虑共同因素",
+        "rejected_mapping": "函数与相关关系区分目标"
+      },
+      {
+        "task_id": "mh5.8.1.2-q203",
+        "observation": "x恒定使相关系数分母为0，r未定义",
+        "rejected_mapping": "已有定义的r强弱方向判断目标"
+      }
+    ],
+    "test_contract": {
+      "completion_items": 189,
+      "explicit_support_only_exceptions": 3,
+      "other_items_still_require_criterion_indices": 186,
+      "support_checks": [
+        "题干及正确选项表达实际观察",
+        "题族与逐题撤映理由明确",
+        "没有tested_criterion_indices",
+        "目录alignment=topic_only且skill_ids=[]",
+        "仍为active、purpose仅practice",
+        "原始及编译策略不得诊断/确认掌握/判弱"
+      ],
+      "all_189_items": [
+        "诊断关闭",
+        "保留practice",
+        "不得确认mastery或判weak"
+      ]
+    },
+    "validation": {
+      "command": "../cnkg-venv/bin/python -B -m unittest tests.test_content_regressions -v",
+      "result": "passed",
+      "tests": 17,
+      "elapsed_seconds": 0.503
+    },
+    "in_memory_negative_controls": [
+      {
+        "counterexample": "false_direction_mapping_restored",
+        "result": "rejected_as_required"
+      },
+      {
+        "counterexample": "wrong_linear_answer_accepted",
+        "result": "rejected_as_required"
+      },
+      {
+        "counterexample": "unmapped_reason_missing",
+        "result": "rejected_as_required"
+      },
+      {
+        "counterexample": "compiled_mastery_promoted",
+        "result": "rejected_as_required"
+      },
+      {
+        "counterexample": "another_completion_item_loses_mapping",
+        "result": "rejected_as_required"
+      }
+    ],
+    "negative_control_notice": "所有反例仅修改进程内临时副本，未改题库、准入或其他仓库文件。",
+    "evidence_type": "semantic_regression_update_not_teacher_or_student_validation",
+    "review_reference": "docs/reviews/v5-batch2-statistics-ai-review.json",
+    "sha256": {
+      "tests/test_content_regressions.py": "d02a49d56fc209e3532ec1bdcb1b055ab5d15cfdd148edb1809fa82928ceff95",
+      "data/content/xby3.json": "26b5e182e97abfb708ad05f71fdc6b77d2e9e9e76d02b8bbc35818ff2d64dedb",
+      "data/catalog.json": "1202959ce387baaee63091e70173725d3b8821971782a0ad9ddaae2b9f17248d",
+      "docs/reviews/v5-batch2-statistics-ai-review.json": "6f4e1268b37bb6c360142e3a18ca3b4725c4836904ed710854b572372c8a9a26"
+    }
+  },
+  "root_findings": [
+    "实际抄读固定差额和已给极值位置的代入均不是advanced。两题改basic且仅重绑当前内容指纹；保留原两份用途策略及previous_decisions。原整主题/诊断限制没有放宽。",
+    "几何q102的difficulty_basis改为真实复合面积缩放理由，补兼容视图所需冒号；题面、答案、verify和准入指纹保持。",
+    "topic_tiers曾遗漏三个主题追加的细目标依据；重建只更新需求轴依据，不改变477主题核心/基础角色。build_project的write/check均新增分层同步/校验步骤；check拒绝陈旧文件且不静默改写。",
+    "通用引擎状态机用显式synthetic完整证据小图验证。生产m7a.5.2的组件证据在四种正误组合下均不足以确认整主题或沿先修推断；没有通过去除生产_admission恢复旧行为。",
+    "实际方程重测可用题都属equation.solve-linear；不同题号不能免除同族帮助曝光，409 no_fresh_tasks保持可解释练习入口。",
+    "实际平均数帮助后的delayed机会不足应保持事项open。计时正向合同在测试内加入合并组平均任务，使用真实canonical statistics.combine-group-means并先断言此族未曝光；短于86400秒阻断，恰好86400秒允许绑定原need的有限后续。该题不加入生产课程，不把测试机会当内容补齐。",
+    "键盘旅程确实经过帮助声明复选框、用Space勾选、再Tab提交；提交后声明冻结，下一题重新询问。",
+    "支持旅程按公开的所选route_id匹配真实作者指导题并核对prompt，再作答；不再用另一条默认路线答案。新指导失败保护无需更改。跨学段查看待办先等待真实请求完成，所有原事项与间隔断言保留。"
+  ],
+  "development_validation": {
+    "source_build": {
+      "command": "python -B tools/build_project.py --write",
+      "passed": true,
+      "log": "build/v5-final-corrected-build.log"
+    },
+    "engine_http_contracts": {
+      "command": "python -B -m unittest tests.test_engine tests.test_diagnostic_contract tests.test_learning_web tests.test_quality_v5_decisions -v",
+      "run": 86,
+      "passed": 85,
+      "skipped": 1,
+      "log": "build/v5-test-fixtures-canonical.log"
+    },
+    "application_step2": {
+      "run": 22,
+      "passed": 22,
+      "log": "build/v5-final-app-step-tests.log"
+    },
+    "statistics_support": {
+      "run": 17,
+      "passed": 17,
+      "log": "build/v5-final-regression-review/content-regressions.json"
+    },
+    "tiers_workflow": {
+      "run": 14,
+      "passed": 14,
+      "log": "build/v5-final-tiers-tests-corrected.log"
+    },
+    "keyboard_browser": {
+      "passed": true,
+      "seconds": 6.37,
+      "report": "build/v5-corrected-browser/keyboard_accessibility/result.json"
+    },
+    "needs_browser": {
+      "passed": true,
+      "seconds": 6.47,
+      "report": "build/v5-corrected-support-ready/learning_needs_support/result.json"
+    },
+    "limits": "Development rechecks do not certify the final commit. All 18 core gates and 15 browser journeys, including all 495 impact pages, must run again after manifest and commit."
+  },
+  "current_source_sha256": {
+    "data/question_sources/application.json": "7cea2d01869178c8538756f8c45358301854af6621db2541cf86f888a422ef22",
+    "data/questions.json": "918a8755c73ca1d2f6f15c2af715007f11f5044e5f458c7cab258ce162b1a1d6",
+    "data/task_admissions.json": "7b77c8b5d18276fd918b7ebcb66ddd95b07c99a94dddfc30c8b7029ec7883db3",
+    "data/topic_tiers.json": "8133c764c2b2da4feabf5fc8326ead6481163d55b110c1f1a32eb74fd47c892e",
+    "tools/build_project.py": "8361ea67c1a351bde8ee9edf567a7618c57c076b4b0375d56c321f14f017c26f",
+    "tools/classify_tiers.py": "8a6257465af0e0ab153299787fc2037eb900c6d4be184dcdf6511545a236c3e4",
+    "tests/browser/learning-flow.cjs": "dd028f4bde48ba6c3a4389d836e49307fec5b7c278655080cd3587b3d8e14ecb",
+    "tests/test_app_items.py": "eb782eff72a9e29c1605f79822585aa9a4f086c43ac22c2196b56e01a280d7fd",
+    "tests/test_content_regressions.py": "d02a49d56fc209e3532ec1bdcb1b055ab5d15cfdd148edb1809fa82928ceff95",
+    "tests/test_diagnostic_contract.py": "7870416331f59bbb6fe41b7d896994ebf40753eaf3bfe00010217c508b4484de",
+    "tests/test_engine.py": "a4806475a16ce759357c58a64ed4a9aeebc5161cfdc4c79c44dd05c352c39b01",
+    "tests/test_learning_web.py": "4e70be78cdef5927c27a9b74a11771f52de9f9f9e483e4497b0849295b70c8d0",
+    "tests/test_quality_v5_decisions.py": "7043f5061c8942e31b21dab64ec55918eed4bbff7cfbd1750e8be77c46176940",
+    "tests/test_step2_questions.py": "430e3f8280c23bb070cd3fd091ee7581a09d000b99f682fd23db168a47cddf63",
+    "tests/test_tiers.py": "d1770dbff0f172430d553158e71d14e801678db5650fc0080315aacdb46bc6e1"
+  }
+}
