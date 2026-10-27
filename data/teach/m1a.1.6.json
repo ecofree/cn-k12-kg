@@ -52,7 +52,7 @@
       "note": "选择题：辨析合与去"
     }
   ],
-  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "check": "分别完成下面三项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
   "objective_coverage": [
     {
       "explanation": "减法先要知道整体与被去掉的部分。4辆车开走1辆时，4是原来总数，1是开走数量，3才是仍停着的数量。",
@@ -91,11 +91,34 @@
       },
       "criterion_index": 1,
       "title": "能口算 5 以内的减法"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能在已知去掉数与剩余数时，用加法求原来的总数",
+      "explanation": "减法情境不总是求剩余。若知道拿走了几件、还剩几件，原来的总数由“拿走的部分+留下的部分”组成，应把两部分相加。",
+      "observation_note": "本项只观察在已知去掉数和剩余数时反求原总数；不能因为会算剩余就推断会识别逆向问题。提示后答对需另行独立换题确认。",
+      "self_check": {
+        "prompt": "盒里原有一些积木，拿走2块后还剩3块。原来有几块？写算式，并说明为什么这里用加法。",
+        "reference_answer": "2+3=5（块）。原来的积木分成拿走的2块和留下的3块，求原来总数要把两部分合起来。",
+        "criteria": [
+          "用2+3求原数",
+          "解释原数由拿走部分和剩余部分组成"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "题目问的是还剩多少，还是原来一共有多少？已知的两部分分别是什么？",
+        "hint": "用两种颜色分别摆出拿走的2块和留下的3块，再把两堆合并。",
+        "revision_prompt": "画出“原来→拿走/留下”的部分关系图，写2+3=5，并标注三个数量各自表示什么。"
+      },
+      "family_id": "primary.additive-structure.find-original-after-removal",
+      "representation": "manipulative",
+      "cognitive_demand": "explain"
     }
   ],
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
-    "teacher_review": "pending"
+    "date": "2026-10-27",
+    "teacher_review": "pending",
+    "reason": "补齐已知去掉数与剩余数、用加法求原数的逆向问题目标；不更改旧目标身份。"
   }
 }
