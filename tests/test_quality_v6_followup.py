@@ -42,6 +42,9 @@ class ReverseAdditionLessonTests(unittest.TestCase):
         self.assertEqual(new_skill["granularity"], "observable")
         self.assertIn("加法求原来的总数", new_skill["statement"])
         self.assertIn(skill_ids[0], new_skill["refines_skill_ids"])
+        source = json.loads((ROOT / "data" / "content" / "yishang.json").read_text(encoding="utf-8"))
+        criteria = source["topics"]["m1a.1.6"]["mastery_criteria"]
+        self.assertEqual(criteria[2], new_skill["statement"])
 
 
 if __name__ == "__main__":
