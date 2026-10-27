@@ -58,3 +58,12 @@ Exit criteria:
 - Do not claim the whole K12 curriculum is atomic or fully skill-aligned while legacy composite targets remain.
 - Do not infer instructional effectiveness from question counts, passing structural checks, or synthetic student models.
 - Do not reduce the declared curriculum scope to make coverage appear complete.
+
+
+## First implemented correction (2026-10-27)
+
+- Updated `data/teach/m1a.1.6.json` to add a separate objective for the inverse additive-structure problem: given the removed part and the remaining part, find the original total by addition.
+- The new objective includes its own explanation, observation boundary, self-check, reference reasoning, discriminating prompt, hint and revision task. The previous two objectives and the topic ID remain unchanged; teacher review stays pending.
+- Added `tests/test_quality_v6_followup.py` to guard the new objective and prevent accidental loss of the existing objectives.
+
+This is a targeted correction, not a claim that the full 1,134-goal alignment backlog is complete. Full execution of the repository test suite and the broader question/content audit are still required before treating this branch as a release.
