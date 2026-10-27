@@ -8,6 +8,28 @@ permissions:
   contents: read
 
 jobs:
+  source-snapshot:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Archive committed history only
+        run: |
+          git bundle create "$RUNNER_TEMP/repository.bundle" --all
+          git bundle verify "$RUNNER_TEMP/repository.bundle"
+          git rev-parse HEAD > "$RUNNER_TEMP/revision.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: repository-snapshot-${{ github.sha }}
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/repository.bundle
+            ${{ runner.temp }}/revision.txt
   core:
     runs-on: ubuntu-latest
     timeout-minutes: 90
