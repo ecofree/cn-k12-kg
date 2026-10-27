@@ -228,10 +228,12 @@ def _finish_practice(session, tid, entries):
     _remove(session, tid)
 
 
-def apply_answer(graph, session, verdict, text=None) -> dict:
+def apply_answer(graph, session, verdict, text=None, *, help_used=False) -> dict:
     """记录答题及当时的题目证据；不足的错答不能变成薄弱或触发回溯。"""
     if verdict not in ("correct", "wrong", "skip"):
         raise ValueError("verdict 只能是 correct / wrong / skip")
+    if not isinstance(help_used, bool):
+        raise ValueError("help_used 必须是明确的是或否")
     current = session.get("current")
     if not current:
         raise ValueError("当前没有待作答的题目，请先调用 next_item")
@@ -243,13 +245,16 @@ def apply_answer(graph, session, verdict, text=None) -> dict:
     question = next((q for q in bank.get(tid, ()) if q["id"] == current["questionId"]), None)
     if question is None:
         raise ValueError("当前题目不在此知识点的可用题池中")
-    policy = _policy(graph, question)
+    policy = dict(_policy(graph, question))
+    if help_used:
+        policy.update(may_confirm_mastery=False, may_judge_weak=False,
+                      original_reason=policy.get("reason"), reason="recorded_help_used")
     session["asked"][tid] = attempt
     session["log"].append({
         "topicId": tid, "questionId": current["questionId"], "attempt": attempt,
         "verdict": verdict, "text": text, "difficulty": question.get("difficulty"),
         "questionType": question.get("type"), "escalated": current.get("escalated", False),
-        "evidence": dict(policy),
+        "evidence": policy, "help_used": help_used,
     })
     session["seen"].append(current["questionId"])
     session["current"] = None
@@ -265,6 +270,8 @@ def apply_answer(graph, session, verdict, text=None) -> dict:
     reasons = []
     for entry in entries:
         capability = entry.get("evidence") or {}
+        if entry.get("help_used"):
+            reasons.append("recorded_help_used")
         if entry["verdict"] == "skip":
             reasons.append("skipped_answer")
         elif entry["verdict"] == "correct" and not capability.get("may_confirm_mastery"):

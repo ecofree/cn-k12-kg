@@ -84,7 +84,14 @@ def register_new_sources(data_dir):
         ids = placement["criterion_skill_ids"]
         for index, statement in enumerate(topic["mastery_criteria"]):
             if index < len(ids):
-                check_existing_skill(ids[index], statement, "legacy_composite", f"{tid}/{index}")
+                # A later semantic review may explicitly register an observable
+                # topic goal. Registration must preserve that reviewed identity
+                # and granularity instead of forcing every topic goal back to
+                # the initial legacy migration category. Unknown/new goals
+                # still default to legacy_composite below; this does not infer
+                # observability from wording.
+                existing = registry["skills"].get(ids[index], {})
+                check_existing_skill(ids[index], statement, existing.get("granularity"), f"{tid}/{index}")
             else:
                 ids.append(new_skill(statement, "legacy_composite", _stage(topic), topic.get("domain", "数学")))
         if len(ids) != len(topic["mastery_criteria"]):

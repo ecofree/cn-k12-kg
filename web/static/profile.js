@@ -9,7 +9,7 @@ window.CNKGProfile = (() => {
   async function mount(root, ui) {
     const { api, node, button } = ui;
     root.replaceChildren();
-    const status = await api("/api/profile");
+    let status = await api("/api/profile");
     const notice = node("p", "", "muted"); notice.setAttribute("role", "status");
     const intro = node("section", null, "card");
     intro.append(node("h3", status.enabled ? status.label : "为当前学习记录设置恢复方式"),
@@ -20,7 +20,12 @@ window.CNKGProfile = (() => {
     async function run(control, action) {
       if (busy || !await ui.prepare()) return;
       busy = true; ui.busy(true); control.disabled = true; notice.textContent = "正在处理…";
-      try { await action(); } catch (error) { notice.textContent = error.message; }
+      try { await action(); } catch (error) {
+        notice.textContent = error.message;
+        // Another tab or the draft flush may have added assets since mounting.
+        // Refresh the recovery route without losing either entered credential.
+        try { updateSwitchProtection(await api("/api/profile")); } catch (_) { /* Keep the original error. */ }
+      }
       finally { busy = false; ui.busy(false); control.disabled = false; }
     }
     function secretCard(code) {
@@ -45,6 +50,7 @@ window.CNKGProfile = (() => {
       const enable = button("创建恢复码", () => run(enable, async () => {
         const data = await api("/api/profile/enable", { label: input.value });
         secretCard(data.recovery_code); enable.remove(); input.disabled = true; backupButton.disabled = false;
+        updateSwitchProtection(await api("/api/profile"));
         notice.textContent = "恢复方式已创建，原记录保持完整。现在保存恢复码并下载备份。";
       }), "primary");
       intro.append(label, input, enable);
@@ -53,6 +59,7 @@ window.CNKGProfile = (() => {
       details.append(summary, node("p", "旧恢复码将不能找回此服务上的档案，之前登录的浏览器也需重新恢复。已经下载的旧备份仍使用原来的码。"));
       const rotate = button("生成新恢复码", () => run(rotate, async () => {
         const data = await api("/api/profile/rotate", {}); secretCard(data.recovery_code);
+        currentCode.value = ""; updateSwitchProtection(await api("/api/profile"));
         notice.textContent = "恢复码已更换。请保存新码并下载新的备份。";
       })); details.append(rotate); intro.append(details);
     }
@@ -66,9 +73,25 @@ window.CNKGProfile = (() => {
     }), "primary"); backupButton.disabled = !status.enabled; backup.append(backupButton); root.append(backup);
     const recover = node("section", null, "card"), recoveryCode = node("input"), recoverLabel = node("label", "已有档案的恢复码");
     recoveryCode.id = "recover-code"; recoveryCode.type = "password"; recoveryCode.autocomplete = "off"; recoverLabel.htmlFor = recoveryCode.id;
-    recover.append(node("h3", "找回或迁移已有档案"), node("p", "换浏览器或清理站点数据：输入恢复码找回同一学习服务上的档案。换电脑或重装学习服务：选择备份文件后导入。当前档案不会被合并或覆盖。"), recoverLabel, recoveryCode);
+    recover.append(node("h3", "找回或迁移已有档案"), node("p", "换浏览器或清理站点数据：输入恢复码找回同一学习服务上的档案。换电脑或重装学习服务：选择备份文件后导入。切换前，已有学习记录的当前档案需要保留可用的恢复方式。"));
+    const switchNotice = node("p", "", "muted"), currentCode = node("input"), currentLabel = node("label", "切换保护：当前档案的恢复码");
+    currentCode.id = "current-profile-code"; currentCode.type = "password"; currentCode.autocomplete = "off";
+    currentLabel.htmlFor = currentCode.id;
+    recover.append(switchNotice, currentLabel, currentCode, recoverLabel, recoveryCode);
+    function updateSwitchProtection(next) {
+      status = next;
+      const requirement = status.switch_protection?.requirement || "none";
+      currentLabel.hidden = currentCode.hidden = requirement !== "verify_current_code";
+      switchNotice.textContent = requirement === "enable_recovery"
+        ? "当前档案已有学习记录。请先在上方创建恢复码，把它另行保存，再回来切换。"
+        : requirement === "verify_current_code"
+          ? "请先保存当前档案的恢复码，再从保存的位置粘贴到切换保护栏。下方另填要找回的档案恢复码；需要返回时，用保存的当前码即可找回这些记录。"
+          : "此浏览器当前没有学习记录，可直接找回或导入已有档案。";
+    }
+    updateSwitchProtection(status);
     const recoverButton = button("凭恢复码找回", () => run(recoverButton, async () => {
-      await api("/api/profile/recover", { recovery_code: recoveryCode.value }); ui.identityChanged();
+      await api("/api/profile/recover", { recovery_code: recoveryCode.value,
+        current_recovery_code: currentCode.value }); ui.identityChanged();
     })); recover.append(recoverButton);
     const file = node("input"), fileLabel = node("label", "完整备份文件");
     file.type = "file"; file.accept = ".json,application/json"; file.id = "restore-backup"; fileLabel.htmlFor = file.id;
@@ -77,7 +100,8 @@ window.CNKGProfile = (() => {
       if (!selected) throw new Error("请先选择完整备份文件。");
       if (selected.size > 70 * 1024 * 1024) throw new Error("备份超过当前版本支持的 70 MiB 文件上限。");
       let envelope; try { envelope = JSON.parse(await selected.text()); } catch (_) { throw new Error("文件不是有效的 JSON 备份。"); }
-      await api("/api/profile/restore", { envelope, recovery_code: recoveryCode.value }); ui.identityChanged();
+      await api("/api/profile/restore", { envelope, recovery_code: recoveryCode.value,
+        current_recovery_code: currentCode.value }); ui.identityChanged();
     })); recover.append(fileLabel, file, restore); root.append(recover);
   }
   return { mount };

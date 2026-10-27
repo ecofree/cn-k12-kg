@@ -486,7 +486,42 @@ class ProfileRecovery:
     def status(self, owner):
         _owner(owner)
         with self.store._connect() as db:
-            return self._public(db.execute("SELECT * FROM learning_profiles WHERE owner_id=?", (owner,)).fetchone())
+            row = db.execute("SELECT * FROM learning_profiles WHERE owner_id=?", (owner,)).fetchone()
+            has_records = self._has_records(db, owner)
+            return {**self._public(row), "switch_protection": {
+                "has_records": has_records,
+                "requirement": ("verify_current_code" if row else "enable_recovery") if has_records else "none",
+            }}
+
+    @staticmethod
+    def _has_records(db, owner):
+        # A draft, a pending answer or a saved exposure is also a learning asset.
+        # Looking only at completed sessions would strand those records.
+        return any(db.execute(f"SELECT 1 FROM {table} WHERE owner_id=? LIMIT 1", (owner,)).fetchone()
+                   is not None for table in _TABLE_COLUMNS)
+
+    def _protect_switch(self, db, current_owner, target_owner, current_code):
+        """Check inside the identity-changing transaction, never from a client flag.
+
+        The HTTP layer always supplies its authenticated current owner. Direct
+        service imports without a browser identity may omit it. Possession of a
+        matching current code keeps a return path; merely having generated a code
+        or checking a client-side box is insufficient.
+        """
+        if current_owner is None:
+            return
+        _owner(current_owner)
+        if current_owner == target_owner or not self._has_records(db, current_owner):
+            return
+        row = db.execute("SELECT recovery_hash FROM learning_profiles WHERE owner_id=?", (current_owner,)).fetchone()
+        if row is None:
+            raise ProfileConflictError("当前档案已有学习记录。请先为当前档案创建并保存恢复码，再找回或导入另一档案。")
+        try:
+            secret = _recovery_secret(current_code)
+        except ProfileRecoveryError:
+            raise ProfileConflictError("请先保存当前档案的恢复码，再在切换保护栏重新输入当前恢复码；另一档案的恢复码不能代替它。") from None
+        if not hmac.compare_digest(row["recovery_hash"], _recovery_hash(secret)):
+            raise ProfileConflictError("切换保护栏的恢复码与当前档案不匹配。请保留当前档案访问方式后重试。")
 
     def resolve_owner(self, cookie_token):
         """Resolve hashed aliases; preserve pre-profile anonymous cookies."""
@@ -544,13 +579,14 @@ class ProfileRecovery:
             profile = self._public(db.execute("SELECT * FROM learning_profiles WHERE owner_id=?", (owner,)).fetchone())
         return {"profile": profile, "recovery_code": code, "cookie_token": token}
 
-    def recover(self, code):
+    def recover(self, code, *, current_owner=None, current_recovery_code=None):
         secret = _recovery_secret(code)
         with self.store._connect() as db:
             db.execute("BEGIN IMMEDIATE")
             row = db.execute("SELECT * FROM learning_profiles WHERE recovery_hash=?", (_recovery_hash(secret),)).fetchone()
             if row is None:
                 raise ProfileRecoveryError("恢复码不匹配此安装中的档案；重装环境请导入加密备份")
+            self._protect_switch(db, current_owner, row["owner_id"], current_recovery_code)
             token = self._issue_cookie(db, row["owner_id"], _now())
             profile = self._public(row)
         return {"profile": profile, "cookie_token": token}
@@ -580,13 +616,14 @@ class ProfileRecovery:
             db.execute("UPDATE learning_profiles SET last_backup_at=? WHERE owner_id=?", (data["created_at"], owner))
         return envelope
 
-    def restore(self, envelope, code):
+    def restore(self, envelope, code, *, current_owner=None, current_recovery_code=None):
         secret = _recovery_secret(code)
         data = _decrypt(envelope, secret)
         owner, session_metadata, work_metadata = _validate_payload(data)
         tables = data["tables"]
         with self.store._connect() as db:
             db.execute("BEGIN IMMEDIATE")
+            self._protect_switch(db, current_owner, owner, current_recovery_code)
             if db.execute("SELECT 1 FROM learning_profiles WHERE owner_id=? OR recovery_hash=?",
                           (owner, _recovery_hash(secret))).fetchone():
                 raise ProfileConflictError("此档案已存在；请使用恢复码打开原档案，导入不会覆盖或合并已有记录")

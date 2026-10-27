@@ -80,7 +80,7 @@ def _session_summary(record):
     answer_fields = ("question_id", "objective_ids", "skill_ids", "status", "answered_at", "skipped",
                      "family_id", "family_status", "representation", "purpose", "alignment",
                      "content_sha256", "resource_version", "topic_ids", "help_used",
-                     "resolution_for_need_ids", "support_kind")
+                     "resolution_for_need_ids", "support_kind", "followup_basis", "help_evidence")
     result["answers"] = []
     for entry in record.get("answers", []):
         metadata = observation_metadata(record, entry)

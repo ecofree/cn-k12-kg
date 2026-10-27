@@ -15,7 +15,10 @@
    "description": "1～5 各数表示物体的个数，数数时按顺序一个一个地数，最后一个数就是物体的总数；每个数都有对应的数字写法。",
    "mastery_criteria": [
     "能一个一个地数出 5 以内物体的个数",
-    "能认、读、写 1～5"
+    "能认、读、写 1～5",
+    "能把1至5个可逐一计数的物体与相应数字配对",
+    "能逐个口头读出打乱顺序的数字1至5",
+    "能在纸上写出可辨认的数字1至5并与数量对应"
    ],
    "standards": [
     {
@@ -1746,12 +1749,19 @@
    "prompt": "盘子里有 3 个苹果，用数字表示是几？（只填数字）",
    "answer": "3",
    "verify": "3",
-   "explanation": "数一数：1、2、3，一共 3 个。",
+   "explanation": "题干已经写明3，填3只说明能从文字中取出或抄出数字；没有呈现需要逐个计数的苹果，不能由这次答对确认点数。",
    "topicIds": [
     "m1a.1.1"
    ],
    "primaryTopicId": "m1a.1.1",
-   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+   "difficulty_basis": "题干直接给出数字3，仅作符号抄写与阅读练习；不观察自主点数。",
+   "diagnosis_eligible": false,
+   "for_diagnosis": false,
+   "family_id": "primary.symbol.copy-given-number",
+   "variant_id": "m1a.1.1-q1",
+   "representation": "symbolic",
+   "cognitive_demand": "recall",
+   "alignment_note": "仅抄写已给数字；不绑定点数、口读、手写目标，保留练习用途。"
   },
   {
    "id": "m1a.1.1-q2",
@@ -1761,12 +1771,19 @@
    "prompt": "4 后面的一个数是几？（只填数字）",
    "answer": "5",
    "verify": "5",
-   "explanation": "数序是 1、2、3、4、5，4 后面是 5。",
+   "explanation": "数序1、2、3、4、5中，4后面紧接5。键入5只提供这一步数序证据，不能确认口头读音、手写或实物计数。",
    "topicIds": [
     "m1a.1.1"
    ],
    "primaryTopicId": "m1a.1.1",
-   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+   "difficulty_basis": "只观察1至5数序中的后继数，未观察认、读、写整个目标。",
+   "diagnosis_eligible": false,
+   "for_diagnosis": false,
+   "family_id": "primary.order.successor-within-five",
+   "variant_id": "m1a.1.1-q2",
+   "representation": "symbolic",
+   "cognitive_demand": "recall",
+   "alignment_note": "数序练习；未把单一后继数任务映射为认、读、写综合目标。"
   },
   {
    "id": "m1a.1.2-q1",
@@ -4446,6 +4463,139 @@
    "generated": true,
    "review_status": "ai-generated",
    "source": "self-generated-calc"
+  },
+  {
+   "topicId": "m1a.1.1",
+   "topicIds": [
+    "m1a.1.1"
+   ],
+   "primaryTopicId": "m1a.1.1",
+   "difficulty": "basic",
+   "source": "self-generated-quality-v5",
+   "author": "ai",
+   "generated": true,
+   "review_status": "draft",
+   "diagnosis_eligible": false,
+   "for_diagnosis": false,
+   "target_alignment": "component_practice_only",
+   "cognitive_demand": "execute",
+   "id": "m1a.1.1-q301",
+   "type": "numeric",
+   "prompt": "请逐个点数图中的圆点，一共有几个？只填数字。",
+   "answer": "5",
+   "verify": "1+1+1+1+1",
+   "explanation": "图中互不重叠的每个圆点只数一次，点数1、2、3、4、5，总数为5。若数成4或6，请检查是否漏点或重复；键入5本身不证明点数路线。",
+   "difficulty_basis": "从未标出总数的不规则图形中计数，连接物体数量与数字。",
+   "tested_criterion_indices": [
+    0,
+    2
+   ],
+   "alignment_note": "只观察圆点图总数与数字匹配；实际一一对应过程、口头读数与手写仍需另外观察。",
+   "family_id": "primary.count.distinct-objects",
+   "variant_id": "m1a.1.1-q301",
+   "representation": "geometry",
+   "diagram": {
+    "src": "/static/diagrams/count-scattered-v5.svg",
+    "alt": "待计数圆点图。上行：● ●；中行：●；下行：● ●。圆点互不重叠。"
+   },
+   "answer_spec": {
+    "version": 1,
+    "kind": "number",
+    "comparison": "exact",
+    "representation": "any"
+   }
+  },
+  {
+   "topicId": "m1a.1.1",
+   "topicIds": [
+    "m1a.1.1"
+   ],
+   "primaryTopicId": "m1a.1.1",
+   "difficulty": "basic",
+   "source": "self-generated-quality-v5",
+   "author": "ai",
+   "generated": true,
+   "review_status": "draft",
+   "diagnosis_eligible": false,
+   "for_diagnosis": false,
+   "target_alignment": "component_practice_only",
+   "cognitive_demand": "execute",
+   "id": "m1a.1.1-q302",
+   "type": "choice",
+   "prompt": "数字4应与图中的哪一组圆点配对？选对应组名。",
+   "choices": [
+    {
+     "id": "group_a",
+     "text": "甲组"
+    },
+    {
+     "id": "group_b",
+     "text": "乙组"
+    },
+    {
+     "id": "group_c",
+     "text": "丙组"
+    }
+   ],
+   "answer": "group_b",
+   "explanation": "甲组3个、乙组4个、丙组5个，所以数字4与乙组对应。不要根据占的地方大小判断，要逐个点数。",
+   "difficulty_basis": "将给定数字与不同排列的数量组匹配，排除空间长短干扰。",
+   "tested_criterion_indices": [
+    2
+   ],
+   "alignment_note": "观察数字4与数量配对；未覆盖所有数字，更不确认口头读音或手写。",
+   "family_id": "primary.match.symbol-to-collection",
+   "variant_id": "m1a.1.1-q302",
+   "representation": "mixed",
+   "diagram": {
+    "src": "/static/diagrams/count-groups-v5.svg",
+    "alt": "甲组：● ● ●；乙组：● ● ● ●；丙组：● ● ● ● ●。请选与数字4配对的一组。"
+   },
+   "answer_spec": {
+    "version": 1,
+    "kind": "choice"
+   }
+  },
+  {
+   "topicId": "m1a.1.1",
+   "topicIds": [
+    "m1a.1.1"
+   ],
+   "primaryTopicId": "m1a.1.1",
+   "difficulty": "basic",
+   "source": "self-generated-quality-v5",
+   "author": "ai",
+   "generated": true,
+   "review_status": "draft",
+   "diagnosis_eligible": false,
+   "for_diagnosis": false,
+   "target_alignment": "component_practice_only",
+   "cognitive_demand": "execute",
+   "id": "m1a.1.1-q303",
+   "type": "numeric",
+   "prompt": "请点数这一排圆点，一共有几个？只填数字。",
+   "answer": "5",
+   "verify": "1+1+1+1+1",
+   "explanation": "从一端开始每个圆点只数一次，最后数到5，总数是5。与散点排列相比，排列不同而总数相同；这里仍是点数同族练习。",
+   "difficulty_basis": "按一排排列点数，检查不漏不重；不是独立迁移族。",
+   "tested_criterion_indices": [
+    0,
+    2
+   ],
+   "alignment_note": "观察顺序计数结果与符号匹配；与q301同族，不因新题号声称独立证据。",
+   "family_id": "primary.count.distinct-objects",
+   "variant_id": "m1a.1.1-q303",
+   "representation": "geometry",
+   "diagram": {
+    "src": "/static/diagrams/count-row-v5.svg",
+    "alt": "待计数的一排圆点：● ● ● ● ●。"
+   },
+   "answer_spec": {
+    "version": 1,
+    "kind": "number",
+    "comparison": "exact",
+    "representation": "any"
+   }
   }
  ]
 }

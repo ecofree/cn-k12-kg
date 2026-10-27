@@ -7,12 +7,19 @@
   "prompt": "盘子里有 3 个苹果，用数字表示是几？（只填数字）",
   "answer": "3",
   "verify": "3",
-  "explanation": "数一数：1、2、3，一共 3 个。",
+  "explanation": "题干已经写明3，填3只说明能从文字中取出或抄出数字；没有呈现需要逐个计数的苹果，不能由这次答对确认点数。",
   "topicIds": [
    "m1a.1.1"
   ],
   "primaryTopicId": "m1a.1.1",
-  "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+  "difficulty_basis": "题干直接给出数字3，仅作符号抄写与阅读练习；不观察自主点数。",
+  "diagnosis_eligible": false,
+  "for_diagnosis": false,
+  "family_id": "primary.symbol.copy-given-number",
+  "variant_id": "m1a.1.1-q1",
+  "representation": "symbolic",
+  "cognitive_demand": "recall",
+  "alignment_note": "仅抄写已给数字；不绑定点数、口读、手写目标，保留练习用途。"
  },
  {
   "id": "m1a.1.1-q2",
@@ -22,12 +29,19 @@
   "prompt": "4 后面的一个数是几？（只填数字）",
   "answer": "5",
   "verify": "5",
-  "explanation": "数序是 1、2、3、4、5，4 后面是 5。",
+  "explanation": "数序1、2、3、4、5中，4后面紧接5。键入5只提供这一步数序证据，不能确认口头读音、手写或实物计数。",
   "topicIds": [
    "m1a.1.1"
   ],
   "primaryTopicId": "m1a.1.1",
-  "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+  "difficulty_basis": "只观察1至5数序中的后继数，未观察认、读、写整个目标。",
+  "diagnosis_eligible": false,
+  "for_diagnosis": false,
+  "family_id": "primary.order.successor-within-five",
+  "variant_id": "m1a.1.1-q2",
+  "representation": "symbolic",
+  "cognitive_demand": "recall",
+  "alignment_note": "数序练习；未把单一后继数任务映射为认、读、写综合目标。"
  },
  {
   "id": "m1a.1.1-q9",
@@ -61,6 +75,139 @@
   "generated": true,
   "review_status": "ai-generated",
   "source": "self-generated-memory-drill"
+ },
+ {
+  "topicId": "m1a.1.1",
+  "topicIds": [
+   "m1a.1.1"
+  ],
+  "primaryTopicId": "m1a.1.1",
+  "difficulty": "basic",
+  "source": "self-generated-quality-v5",
+  "author": "ai",
+  "generated": true,
+  "review_status": "draft",
+  "diagnosis_eligible": false,
+  "for_diagnosis": false,
+  "target_alignment": "component_practice_only",
+  "cognitive_demand": "execute",
+  "id": "m1a.1.1-q301",
+  "type": "numeric",
+  "prompt": "请逐个点数图中的圆点，一共有几个？只填数字。",
+  "answer": "5",
+  "verify": "1+1+1+1+1",
+  "explanation": "图中互不重叠的每个圆点只数一次，点数1、2、3、4、5，总数为5。若数成4或6，请检查是否漏点或重复；键入5本身不证明点数路线。",
+  "difficulty_basis": "从未标出总数的不规则图形中计数，连接物体数量与数字。",
+  "tested_criterion_indices": [
+   0,
+   2
+  ],
+  "alignment_note": "只观察圆点图总数与数字匹配；实际一一对应过程、口头读数与手写仍需另外观察。",
+  "family_id": "primary.count.distinct-objects",
+  "variant_id": "m1a.1.1-q301",
+  "representation": "geometry",
+  "diagram": {
+   "src": "/static/diagrams/count-scattered-v5.svg",
+   "alt": "待计数圆点图。上行：● ●；中行：●；下行：● ●。圆点互不重叠。"
+  },
+  "answer_spec": {
+   "version": 1,
+   "kind": "number",
+   "comparison": "exact",
+   "representation": "any"
+  }
+ },
+ {
+  "topicId": "m1a.1.1",
+  "topicIds": [
+   "m1a.1.1"
+  ],
+  "primaryTopicId": "m1a.1.1",
+  "difficulty": "basic",
+  "source": "self-generated-quality-v5",
+  "author": "ai",
+  "generated": true,
+  "review_status": "draft",
+  "diagnosis_eligible": false,
+  "for_diagnosis": false,
+  "target_alignment": "component_practice_only",
+  "cognitive_demand": "execute",
+  "id": "m1a.1.1-q302",
+  "type": "choice",
+  "prompt": "数字4应与图中的哪一组圆点配对？选对应组名。",
+  "choices": [
+   {
+    "id": "group_b",
+    "text": "乙组"
+   },
+   {
+    "id": "group_c",
+    "text": "丙组"
+   },
+   {
+    "id": "group_a",
+    "text": "甲组"
+   }
+  ],
+  "answer": "group_b",
+  "explanation": "甲组3个、乙组4个、丙组5个，所以数字4与乙组对应。不要根据占的地方大小判断，要逐个点数。",
+  "difficulty_basis": "将给定数字与不同排列的数量组匹配，排除空间长短干扰。",
+  "tested_criterion_indices": [
+   2
+  ],
+  "alignment_note": "观察数字4与数量配对；未覆盖所有数字，更不确认口头读音或手写。",
+  "family_id": "primary.match.symbol-to-collection",
+  "variant_id": "m1a.1.1-q302",
+  "representation": "mixed",
+  "diagram": {
+   "src": "/static/diagrams/count-groups-v5.svg",
+   "alt": "甲组：● ● ●；乙组：● ● ● ●；丙组：● ● ● ● ●。请选与数字4配对的一组。"
+  },
+  "answer_spec": {
+   "version": 1,
+   "kind": "choice"
+  }
+ },
+ {
+  "topicId": "m1a.1.1",
+  "topicIds": [
+   "m1a.1.1"
+  ],
+  "primaryTopicId": "m1a.1.1",
+  "difficulty": "basic",
+  "source": "self-generated-quality-v5",
+  "author": "ai",
+  "generated": true,
+  "review_status": "draft",
+  "diagnosis_eligible": false,
+  "for_diagnosis": false,
+  "target_alignment": "component_practice_only",
+  "cognitive_demand": "execute",
+  "id": "m1a.1.1-q303",
+  "type": "numeric",
+  "prompt": "请点数这一排圆点，一共有几个？只填数字。",
+  "answer": "5",
+  "verify": "1+1+1+1+1",
+  "explanation": "从一端开始每个圆点只数一次，最后数到5，总数是5。与散点排列相比，排列不同而总数相同；这里仍是点数同族练习。",
+  "difficulty_basis": "按一排排列点数，检查不漏不重；不是独立迁移族。",
+  "tested_criterion_indices": [
+   0,
+   2
+  ],
+  "alignment_note": "观察顺序计数结果与符号匹配；与q301同族，不因新题号声称独立证据。",
+  "family_id": "primary.count.distinct-objects",
+  "variant_id": "m1a.1.1-q303",
+  "representation": "geometry",
+  "diagram": {
+   "src": "/static/diagrams/count-row-v5.svg",
+   "alt": "待计数的一排圆点：● ● ● ● ●。"
+  },
+  "answer_spec": {
+   "version": 1,
+   "kind": "number",
+   "comparison": "exact",
+   "representation": "any"
+  }
  },
  {
   "id": "m1a.1.2-q1",
@@ -1255,16 +1402,16 @@
   "explanation": "把两部分合起来就是加法。",
   "choices": [
    {
+    "id": "o2",
+    "text": "乘法"
+   },
+   {
     "id": "o3",
     "text": "加法"
    },
    {
     "id": "o1",
     "text": "减法"
-   },
-   {
-    "id": "o2",
-    "text": "乘法"
    }
   ],
   "topicIds": [
@@ -6403,16 +6550,16 @@
   "explanation": "98 比 20 大很多，用“大得多”。",
   "choices": [
    {
+    "id": "o1",
+    "text": "小一些"
+   },
+   {
     "id": "o2",
     "text": "大得多"
    },
    {
     "id": "o3",
     "text": "大一些"
-   },
-   {
-    "id": "o1",
-    "text": "小一些"
    }
   ],
   "topicIds": [
@@ -9264,16 +9411,16 @@
   "explanation": "5 个 3 相加，用乘法 5×3=15。",
   "choices": [
    {
+    "id": "o2",
+    "text": "5×3"
+   },
+   {
     "id": "o3",
     "text": "5-3"
    },
    {
     "id": "o1",
     "text": "5+3"
-   },
-   {
-    "id": "o2",
-    "text": "5×3"
    }
   ],
   "topicIds": [
@@ -19328,16 +19475,16 @@
   "explanation": "电梯沿直线上下移动，方向不变，是平移。",
   "choices": [
    {
+    "id": "o1",
+    "text": "平移"
+   },
+   {
     "id": "o2",
     "text": "旋转"
    },
    {
     "id": "o3",
     "text": "轴对称"
-   },
-   {
-    "id": "o1",
-    "text": "平移"
    }
   ],
   "topicIds": [
@@ -21480,16 +21627,16 @@
   "explanation": "角的大小只由两边张开的程度决定，与边画多长无关。",
   "choices": [
    {
+    "id": "o2",
+    "text": "两边画的长短"
+   },
+   {
     "id": "o3",
     "text": "两边张开的程度"
    },
    {
     "id": "o1",
     "text": "顶点的位置"
-   },
-   {
-    "id": "o2",
-    "text": "两边画的长短"
    }
   ],
   "topicIds": [
@@ -21586,16 +21733,16 @@
   "explanation": "中心对准顶点、0 刻度线对齐一条边，才能读出正确度数。",
   "choices": [
    {
+    "id": "o2",
+    "text": "角的内部任意点"
+   },
+   {
     "id": "o3",
     "text": "一条边"
    },
    {
     "id": "o1",
     "text": "顶点"
-   },
-   {
-    "id": "o2",
-    "text": "角的内部任意点"
    }
   ],
   "topicIds": [
@@ -23374,16 +23521,16 @@
   "explanation": "只有一组对边平行的四边形是梯形。",
   "choices": [
    {
+    "id": "o3",
+    "text": "长方形"
+   },
+   {
     "id": "o1",
     "text": "平行四边形"
    },
    {
     "id": "o2",
     "text": "梯形"
-   },
-   {
-    "id": "o3",
-    "text": "长方形"
    }
   ],
   "topicIds": [
@@ -26446,16 +26593,16 @@
   "explanation": "平移只改变位置，形状和大小都不变。",
   "choices": [
    {
+    "id": "o1",
+    "text": "形状"
+   },
+   {
     "id": "o2",
     "text": "大小"
    },
    {
     "id": "o3",
     "text": "位置"
-   },
-   {
-    "id": "o1",
-    "text": "形状"
    }
   ],
   "topicIds": [
@@ -26812,16 +26959,16 @@
   "explanation": "总价=单价×数量，即 a×x，也可写成 ax。",
   "choices": [
    {
+    "id": "o3",
+    "text": "a×x"
+   },
+   {
     "id": "o1",
     "text": "a÷x"
    },
    {
     "id": "o2",
     "text": "a+x"
-   },
-   {
-    "id": "o3",
-    "text": "a×x"
    }
   ],
   "topicIds": [
@@ -27863,16 +28010,16 @@
   "explanation": "只有红球，摸出的一定是红球，属于确定事件。",
   "choices": [
    {
+    "id": "o2",
+    "text": "无法确定"
+   },
+   {
     "id": "o3",
     "text": "一定是红球"
    },
    {
     "id": "o1",
     "text": "可能是白球"
-   },
-   {
-    "id": "o2",
-    "text": "无法确定"
    }
   ],
   "topicIds": [
@@ -49155,16 +49302,16 @@
   "prompt": "要准确列出某地周一到周日每天已测得的最高气温，且不推测其他时刻，哪种表示最直接？",
   "choices": [
    {
+    "id": "o3",
+    "text": "随意画一条平滑曲线"
+   },
+   {
     "id": "o1",
     "text": "列出日期与气温的表格"
    },
    {
     "id": "o2",
     "text": "只写“越来越热”"
-   },
-   {
-    "id": "o3",
-    "text": "随意画一条平滑曲线"
    }
   ],
   "answer": "o1",
@@ -53175,16 +53322,16 @@
   "prompt": "点A位于O的正东方向，绕O逆时针旋转90°到A′，A′位于O的哪个方向？",
   "choices": [
    {
+    "id": "o2",
+    "text": "正南"
+   },
+   {
     "id": "o3",
     "text": "正西"
    },
    {
     "id": "o1",
     "text": "正北"
-   },
-   {
-    "id": "o2",
-    "text": "正南"
    }
   ],
   "answer": "o1",
@@ -54840,16 +54987,16 @@
   "explanation": "三条平行线截两条直线，所得的对应线段成比例，这是平行线分线段成比例的基本事实。",
   "choices": [
    {
+    "id": "o1",
+    "text": "成比例"
+   },
+   {
     "id": "o2",
     "text": "没有关系"
    },
    {
     "id": "o3",
     "text": "相等"
-   },
-   {
-    "id": "o1",
-    "text": "成比例"
    }
   ],
   "topicIds": [
@@ -75598,10 +75745,14 @@
   "diagnosis_eligible": false,
   "for_diagnosis": false,
   "tested_criterion_indices": [
-   0
+   4
   ],
-  "alignment_note": "本题仅检查以下目标中的题设子任务：能计算棱柱、棱锥的体积。完整推导、证明或方案设计由讲解卡的独立自检与量规检查。",
-  "verify": "30*6/3"
+  "alignment_note": "已逐题核对：题面给出棱锥底面积30、垂直高6，只观察棱锥V=Sh/3，答案60；不绑定棱柱或棱台，也不自动完成旧综合目标。",
+  "verify": "30*6/3",
+  "family_id": "solid.pyramid.base-height-volume",
+  "variant_id": "mh2.8.3.1-q201",
+  "representation": "verbal",
+  "cognitive_demand": "execute"
  },
  {
   "id": "mh2.8.3.1-q202",
@@ -75626,8 +75777,12 @@
   "tested_criterion_indices": [
    1
   ],
-  "alignment_note": "本题仅检查以下目标中的题设子任务：能把表面积拆成各个面的面积。完整推导、证明或方案设计由讲解卡的独立自检与量规检查。",
-  "verify": "2*(5*3+5*2+3*2)"
+  "alignment_note": "已逐题核对：题面是长方体5×3×2的表面积，分别加三组相对面得62；不提供任何棱锥体积证据。",
+  "verify": "2*(5*3+5*2+3*2)",
+  "family_id": "solid.cuboid.surface-area",
+  "variant_id": "mh2.8.3.1-q202",
+  "representation": "verbal",
+  "cognitive_demand": "execute"
  },
  {
   "id": "mh2.8.3.1-q203",
@@ -75652,8 +75807,12 @@
   "tested_criterion_indices": [
    1
   ],
-  "alignment_note": "本题仅检查以下目标中的题设子任务：能把表面积拆成各个面的面积。完整推导、证明或方案设计由讲解卡的独立自检与量规检查。",
-  "verify": "6*6+4*(6*5/2)"
+  "alignment_note": "只观察侧面高已知的正四棱锥外表面分解；未观察从垂直高求侧面高的过程。",
+  "verify": "6*6+4*(6*5/2)",
+  "family_id": "solid.regular-pyramid.surface-area",
+  "variant_id": "mh2.8.3.1-q203",
+  "representation": "verbal",
+  "cognitive_demand": "execute"
  },
  {
   "id": "mh2.8.3.1-q204",
@@ -75663,9 +75822,9 @@
   ],
   "primaryTopicId": "mh2.8.3.1",
   "type": "numeric",
-  "prompt": "棱台两底面积为4与16平方厘米，垂直高3厘米，体积多少立方厘米？",
+  "prompt": "用平行于棱锥底面的平面截去顶端小棱锥，得到两底面积为4与16平方厘米、垂直高3厘米的棱台。体积多少立方厘米？",
   "answer": "28",
-  "explanation": "棱台公式中几何平均项为√64=8，故V=28。",
+  "explanation": "平行截得保证上下底相似。根号项√(4×16)=8，所以V=3×(4+16+8)÷3=28立方厘米。补回锥顶时相似长度比1:2，大小棱锥高为6与3，体积差16×6÷3−4×3÷3也为28。",
   "source": "self-generated-completion",
   "review_status": "draft",
   "author": "ai",
@@ -75676,10 +75835,51 @@
   "diagnosis_eligible": false,
   "for_diagnosis": false,
   "tested_criterion_indices": [
-   0
+   5
   ],
-  "alignment_note": "本题仅检查以下目标中的题设子任务：能计算棱柱、棱锥的体积。完整推导、证明或方案设计由讲解卡的独立自检与量规检查。",
-  "verify": "3*(4+16+(4*16)**0.5)/3"
+  "alignment_note": "只观察平行截得棱台的两底面积、垂直高与体积公式；不再绑定到旧“棱柱、棱锥体积”目标。",
+  "verify": "3*(4+16+(4*16)**0.5)/3",
+  "family_id": "solid.frustum.parallel-cut-volume",
+  "variant_id": "mh2.8.3.1-q204",
+  "representation": "verbal",
+  "cognitive_demand": "execute"
+ },
+ {
+  "id": "mh2.8.3.1-q305",
+  "topicId": "mh2.8.3.1",
+  "topicIds": [
+   "mh2.8.3.1"
+  ],
+  "primaryTopicId": "mh2.8.3.1",
+  "difficulty": "standard",
+  "type": "numeric",
+  "prompt": "一个斜棱柱的底面积为18平方厘米，侧棱长8厘米，两底面的垂直距离为7厘米。这个棱柱体积是多少立方厘米？",
+  "answer": "126",
+  "verify": "18*7",
+  "explanation": "棱柱体积V=Sh，高h必须为两底面的垂直距离7厘米，所以18×7=126立方厘米。侧棱8厘米不是垂直高，不能使用18×8。",
+  "source": "self-generated-quality-v5",
+  "review_status": "draft",
+  "author": "ai",
+  "generated": true,
+  "difficulty_basis": "从干扰长度中选择垂直高，按棱柱体积公式计算。",
+  "target_alignment": "component_practice_only",
+  "diagnosis_eligible": false,
+  "for_diagnosis": false,
+  "tested_criterion_indices": [
+   2,
+   3
+  ],
+  "alignment_note": "只观察在斜棱长度干扰下选取垂直高并计算棱柱体积；不据此确认所有多面体体积。",
+  "family_id": "solid.prism.base-height-volume",
+  "variant_id": "mh2.8.3.1-q305",
+  "representation": "verbal",
+  "cognitive_demand": "execute",
+  "answer_spec": {
+   "version": 1,
+   "kind": "number",
+   "comparison": "exact",
+   "representation": "any"
+  }
  },
  {
   "id": "mh2.8.3.2-q1",

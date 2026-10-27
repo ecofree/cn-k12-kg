@@ -41,7 +41,7 @@ from cnkg import catalog as catalog_module  # noqa: E402
 from cnkg.graph import VOLUME_ORDER, load_graph  # noqa: E402
 from cnkg.verify import compare, compare_short, to_number, to_fraction, normalize_text  # noqa: E402
 from cnkg.answers import grade_answer  # noqa: E402
-from cnkg.review_timing import interval_context  # noqa: E402
+from cnkg.review_timing import interval_context, unit_activity_scope  # noqa: E402
 from cnkg import manipulatives  # noqa: E402
 from cnkg.content_repository import ContentRepository  # noqa: E402
 from cnkg.runtime_version import freeze_grader  # noqa: E402
@@ -991,8 +991,12 @@ class Handler(BaseHTTPRequestHandler):
                 return self._error(400, "学段不正确")
             owner = self._owner()
             scopes, works, states = public_learning_inputs(owner, check_resume=True)
+            catalog = get_catalog()
+            scope_activities = {uid: get_store().latest_scope_activity(owner, **unit_activity_scope(unit, catalog))
+                                for uid, unit in catalog.units.items()}
             return self._json(200, planner.plan(get_catalog(), scopes, works,
-                need_states=states, exposures=get_store().exposures(owner), stage=stage))
+                need_states=states, exposures=get_store().exposures(owner), stage=stage,
+                scope_activities=scope_activities))
         if path in ("/api/work", "/api/works", "/api/work/revisions"):
             owner = self._owner()
             try:
@@ -1089,11 +1093,13 @@ class Handler(BaseHTTPRequestHandler):
                 if path == "/api/profile/rotate":
                     return self._profile_response(get_profile().rotate(self._owner()))
                 if path == "/api/profile/recover":
-                    return self._profile_response(get_profile().recover(payload.get("recovery_code")))
+                    return self._profile_response(get_profile().recover(payload.get("recovery_code"),
+                        current_owner=self._owner(), current_recovery_code=payload.get("current_recovery_code")))
                 if path == "/api/profile/backup":
                     return self._json(200, get_profile().backup(self._owner(), payload.get("recovery_code")))
                 if path == "/api/profile/restore":
-                    return self._profile_response(get_profile().restore(payload.get("envelope"), payload.get("recovery_code")))
+                    return self._profile_response(get_profile().restore(payload.get("envelope"), payload.get("recovery_code"),
+                        current_owner=self._owner(), current_recovery_code=payload.get("current_recovery_code")))
                 if path == "/api/learning-needs/state":
                     return self._json(200, set_public_need_state(self._owner(), payload.get("need_id"),
                         payload.get("action"), payload.get("reason")))
@@ -1229,24 +1235,72 @@ class Handler(BaseHTTPRequestHandler):
             return self._error(404, "前次会话不存在或不属于本浏览器")
         prior_count = get_store().count(owner)
         excluded, prior_questions, prior_families = exposure_exclusions(owner)
+        followup_ids = payload.get("followup_need_ids", [])
+        if (not isinstance(followup_ids, list) or not all(isinstance(value, str) for value in followup_ids)
+                or len(followup_ids) != len(set(followup_ids)) or len(followup_ids) > 50):
+            return self._error(400, "后续观察事项须为无重复的标识列表")
+        followup_needs = []
+        if followup_ids:
+            if not payload.get("unit_id"):
+                return self._error(400, "后续观察需要明确的单元和目标；主题练习可以继续，但不能自动关闭待观察事项")
+            known = {need["need_id"]: need for need in public_learning_needs(owner)}
+            if any(identity not in known for identity in followup_ids):
+                return self._error(404, "找不到已放出反馈的后续观察事项")
+            followup_needs = [known[identity] for identity in followup_ids]
+            if any(need["kind"] != "independent_followup" or need["status"] == "resolved"
+                   or need.get("unit_id") != payload["unit_id"] for need in followup_needs):
+                return self._error(400, "后续观察与当前单元不一致或已有具体结果")
+            versions = {need.get("resource_version") for need in followup_needs}
+            if len(versions) != 1:
+                return self._error(400, "不同原内容版本的后续事项须分别跟进")
+            record["source_origin"] = {"unit_id": payload["unit_id"], "need_ids": list(followup_ids),
+                "resource_version": next(iter(versions)), "source_ref": [need["source_ref"] for need in followup_needs]}
         if payload.get("unit_id"):
             unit = learning_units().get(payload["unit_id"])
             if unit is None or mode not in ("practice", "transfer", "delayed"):
                 return self._error(400, "学习单元或练习阶段不合法")
             task_ids = [t["id"] for t in unit["tasks"] if t["phase"] == mode]
+            requested_tasks = payload.get("task_ids")
+            if requested_tasks is not None:
+                if (not isinstance(requested_tasks, list) or not requested_tasks or len(requested_tasks) > 50
+                        or not all(isinstance(tid, str) for tid in requested_tasks)
+                        or len(set(requested_tasks)) != len(requested_tasks)
+                        or not set(requested_tasks).issubset(task_ids)):
+                    return self._error(400, "具体任务须为当前单元和阶段内的无重复标识列表")
+                task_ids = [tid for tid in task_ids if tid in requested_tasks]
             focus = payload.get("focus_skill_ids", [])
             if not isinstance(focus, list) or not all(isinstance(sid, str) for sid in focus) or len(focus) != len(set(focus)):
                 return self._error(400, "目标技能须为无重复的标识列表")
+            if followup_needs:
+                required = sorted({sid for need in followup_needs
+                                   for sid in need.get("remaining_skill_ids", need["skill_ids"])})
+                if not required or focus and set(focus) != set(required):
+                    return self._error(400, "后续观察须对应原事项仍待观察的全部具体目标")
+                focus = required
             if focus:
                 if not set(focus).issubset(get_catalog().units.get(unit["id"], {}).get("skill_ids", [])):
                     return self._error(400, "所选技能不属于这个单元")
                 from cnkg.learning_needs import task_options
                 selected = task_options(get_catalog(), focus, get_store().planning_records(owner),
                     get_store().exposures(owner), allowed_task_ids=set(task_ids), limit=None)
+                if followup_needs and mode == "delayed":
+                    selected = [option for option in selected if option["eligible_for_followup"]]
+                    covered = {sid for option in selected for sid in option["skill_ids"]}
+                    if not set(focus) <= covered:
+                        return self._json(409, {"error": "还没有覆盖这些目标的未呈现、已知题族与表征的后续任务；可以继续练习，待观察事项会保留。",
+                            "code": "followup_tasks_unavailable", "next_action": {"unit_id": unit["id"], "mode": "practice",
+                                "focus_skill_ids": focus, "followup_need_ids": followup_ids}})
                 task_ids = [option["task_id"] for option in selected]
                 record["selection_basis"] = {"focus_skill_ids": focus, "task_options": selected,
                     "notice": "仅按显式目标筛选，再按题族、表征及参考帮助曝光排序；间隔由实际记录另行计算。"}
                 record["context"]["focus_skill_ids"] = list(focus)
+                if followup_needs:
+                    record["followup_task_basis"] = {option["task_id"]: {
+                        "eligible": option["eligible_for_followup"], "family_id": option["family_id"],
+                        "family_status": option["family_status"], "representation": option["representation"],
+                        "task_resource_version": option["resource_version"],
+                        "basis": "server_recorded_exposure_before_session_not_proof_of_independence"}
+                        for option in selected}
             if not task_ids:
                 return self._error(409, "这个阶段还没有可用任务")
             record.update(kind="unit", unit_id=unit["id"], title=unit["title"],
@@ -1316,11 +1370,23 @@ class Handler(BaseHTTPRequestHandler):
                     if item.get("family_status") == "declared" and item.get("family_id")}
         for resource in resources:
             families.update(get_catalog().materials.get(resource, {}).get("family_ids", []))
-        activity = get_store().latest_scope_activity(owner,
-            [*resources, *([record["unit_id"]] if record["kind"] == "unit" else [])],
-            question_ids=record["task_metadata"], family_ids=families)
+        activity = (get_store().latest_scope_activity(owner, **unit_activity_scope(
+            get_catalog().units.get(record["unit_id"], unit), get_catalog())) if record["kind"] == "unit" else
+            get_store().latest_scope_activity(owner, resources, question_ids=record["task_metadata"], family_ids=families))
+        if followup_needs:
+            from cnkg.review_timing import timestamp
+            confirmations = [need.get("prior_confirmation", {}).get("observed_at") for need in followup_needs]
+            confirmations = [value for value in confirmations if timestamp(value)]
+            latest_confirmation = max(confirmations, key=timestamp) if confirmations else None
+            if latest_confirmation and (not activity or timestamp(activity.get("occurred_at"))
+                    and timestamp(latest_confirmation) > timestamp(activity["occurred_at"])):
+                activity = {"occurred_at": latest_confirmation, "event_type": "supported_confirmation"}
         record["context"].update(interval_context(record, candidates,
             requested_previous=previous, requested_same_scope=_same_scope(record, previous), latest_activity=activity))
+        if followup_needs and mode == "delayed" and not record["context"]["review_interval_qualified"]:
+            return self._json(409, {"error": record["context"]["interval_notice"], "code": "followup_interval_not_ready",
+                "context": record["context"], "next_action": {"unit_id": record["unit_id"], "mode": "practice",
+                    "focus_skill_ids": focus, "followup_need_ids": followup_ids}})
         record["feedback_policy"] = "immediate" if mode == "practice" else "deferred"
         events = [_event("session_started", record["created_at"], record, mode=mode, context=record["context"])]
         _present_question(record, events)
@@ -1337,6 +1403,8 @@ class Handler(BaseHTTPRequestHandler):
             return self._error(404, "会话不存在或不属于本浏览器，请重新开始")
         if record["kind"] == "support":
             return self._error(400, "指导活动请使用专用的支持任务入口")
+        if "used_help" in payload and not isinstance(payload["used_help"], bool):
+            return self._error(400, "帮助记录必须为是或否")
         skipped = payload.get("skip") is True
         raw = payload.get("answer")
         if not skipped and (not isinstance(raw, str) or not raw.strip() or len(raw) > 8000):
@@ -1398,6 +1466,15 @@ class Handler(BaseHTTPRequestHandler):
                  "skill_ids": presented_metadata(record, qid).get("skill_ids", []),
                  "family_id": presented_metadata(record, qid).get("family_id"),
                  "family_status": presented_metadata(record, qid).get("family_status", "unclassified")}
+        family = entry.get("family_id") if entry["family_status"] == "declared" else None
+        observed = get_store().exposures(record["owner_id"], question_ids=[qid], family_ids=[family] if family else [])
+        rows = [observed["questions"].get(qid, {}), observed["families"].get(family, {})]
+        entry["help_used"] = bool(payload.get("used_help") is True or any(
+            row.get("material_count", 0) or row.get("reference_count", 0) or row.get("feedback_count", 0)
+            for row in rows))
+        entry["help_evidence"] = "server_recorded_exposure_and_learner_report_not_proof_of_independence"
+        if qid in record.get("followup_task_basis", {}):
+            entry["followup_basis"] = copy.deepcopy(record["followup_task_basis"][qid])
         record["answers"].append(entry)
         events = [_event("answer_submitted", now, record, question,
                           raw_answer=entry["raw_answer"], normalized_answer=normalized, skipped=skipped,
@@ -1408,7 +1485,7 @@ class Handler(BaseHTTPRequestHandler):
         else:
             verdict = "skip" if skipped else result["status"]
             local_graph = session_graph(record)
-            engine.apply_answer(local_graph, record["engine"], verdict, text=raw)
+            engine.apply_answer(local_graph, record["engine"], verdict, text=raw, help_used=entry["help_used"])
             engine.next_item(local_graph, record["engine"])
         _present_question(record, events)
         if record["feedback_policy"] == "immediate":

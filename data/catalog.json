@@ -10401,6 +10401,92 @@
       "domain": "综合实践",
       "prerequisite_skill_ids": [],
       "refines_skill_ids": []
+    },
+    "sk_85e48dd4c6f24854bfaa": {
+      "id": "sk_85e48dd4c6f24854bfaa",
+      "statement": "能区分多面体体积公式中的垂直高与侧面三角形的高",
+      "granularity": "observable",
+      "stage": "senior",
+      "domain": "图形与几何",
+      "prerequisite_skill_ids": [],
+      "refines_skill_ids": [
+        "sk_a3aabdb388654a1583e2",
+        "sk_49150a41898341928859"
+      ]
+    },
+    "sk_bb502c4a903c40a99965": {
+      "id": "sk_bb502c4a903c40a99965",
+      "statement": "能用底面积和垂直高计算棱柱体积并核对单位",
+      "granularity": "observable",
+      "stage": "senior",
+      "domain": "图形与几何",
+      "prerequisite_skill_ids": [
+        "sk_85e48dd4c6f24854bfaa"
+      ],
+      "refines_skill_ids": [
+        "sk_a3aabdb388654a1583e2"
+      ]
+    },
+    "sk_5a61b20f07cd48afa8f3": {
+      "id": "sk_5a61b20f07cd48afa8f3",
+      "statement": "能用同底同高棱柱的三分之一计算棱锥体积",
+      "granularity": "observable",
+      "stage": "senior",
+      "domain": "图形与几何",
+      "prerequisite_skill_ids": [
+        "sk_85e48dd4c6f24854bfaa"
+      ],
+      "refines_skill_ids": [
+        "sk_a3aabdb388654a1583e2"
+      ]
+    },
+    "sk_d4fdd2c3073f4cf1a9f7": {
+      "id": "sk_d4fdd2c3073f4cf1a9f7",
+      "statement": "能在平行截得的棱台中用上下底面积与垂直高计算体积",
+      "granularity": "observable",
+      "stage": "senior",
+      "domain": "图形与几何",
+      "prerequisite_skill_ids": [
+        "sk_85e48dd4c6f24854bfaa",
+        "sk_5a61b20f07cd48afa8f3"
+      ],
+      "refines_skill_ids": []
+    },
+    "sk_ed86c6b88c3b494bb404": {
+      "id": "sk_ed86c6b88c3b494bb404",
+      "statement": "能把1至5个可逐一计数的物体与相应数字配对",
+      "granularity": "observable",
+      "stage": "primary",
+      "domain": "数与代数",
+      "prerequisite_skill_ids": [],
+      "refines_skill_ids": [
+        "sk_8d5fd54e49d34c4b8e33",
+        "sk_5f4308dc9f044e51b71e"
+      ]
+    },
+    "sk_e291d13ed34944ffb214": {
+      "id": "sk_e291d13ed34944ffb214",
+      "statement": "能逐个口头读出打乱顺序的数字1至5",
+      "granularity": "observable",
+      "stage": "primary",
+      "domain": "数与代数",
+      "prerequisite_skill_ids": [],
+      "refines_skill_ids": [
+        "sk_5f4308dc9f044e51b71e"
+      ]
+    },
+    "sk_8a60fe1b81e543bdb4ef": {
+      "id": "sk_8a60fe1b81e543bdb4ef",
+      "statement": "能在纸上写出可辨认的数字1至5并与数量对应",
+      "granularity": "observable",
+      "stage": "primary",
+      "domain": "数与代数",
+      "prerequisite_skill_ids": [
+        "sk_ed86c6b88c3b494bb404"
+      ],
+      "refines_skill_ids": [
+        "sk_5f4308dc9f044e51b71e"
+      ]
     }
   },
   "placements": {
@@ -10408,11 +10494,17 @@
       "topic_id": "m1a.1.1",
       "criterion_skill_ids": [
         "sk_8d5fd54e49d34c4b8e33",
-        "sk_5f4308dc9f044e51b71e"
+        "sk_5f4308dc9f044e51b71e",
+        "sk_ed86c6b88c3b494bb404",
+        "sk_e291d13ed34944ffb214",
+        "sk_8a60fe1b81e543bdb4ef"
       ],
       "skill_ids": [
         "sk_8d5fd54e49d34c4b8e33",
-        "sk_5f4308dc9f044e51b71e"
+        "sk_5f4308dc9f044e51b71e",
+        "sk_ed86c6b88c3b494bb404",
+        "sk_e291d13ed34944ffb214",
+        "sk_8a60fe1b81e543bdb4ef"
       ],
       "title": "1～5的认识",
       "stage": "primary",
@@ -17856,11 +17948,19 @@
       "topic_id": "mh2.8.3.1",
       "criterion_skill_ids": [
         "sk_a3aabdb388654a1583e2",
-        "sk_49150a41898341928859"
+        "sk_49150a41898341928859",
+        "sk_85e48dd4c6f24854bfaa",
+        "sk_bb502c4a903c40a99965",
+        "sk_5a61b20f07cd48afa8f3",
+        "sk_d4fdd2c3073f4cf1a9f7"
       ],
       "skill_ids": [
         "sk_a3aabdb388654a1583e2",
-        "sk_49150a41898341928859"
+        "sk_49150a41898341928859",
+        "sk_85e48dd4c6f24854bfaa",
+        "sk_bb502c4a903c40a99965",
+        "sk_5a61b20f07cd48afa8f3",
+        "sk_d4fdd2c3073f4cf1a9f7"
       ],
       "title": "棱柱、棱锥、棱台的表面积和体积",
       "stage": "senior",
@@ -19477,23 +19577,26 @@
       "prompt": "盘子里有 3 个苹果，用数字表示是几？（只填数字）",
       "answer": "3",
       "verify": "3",
-      "explanation": "数一数：1、2、3，一共 3 个。",
+      "explanation": "题干已经写明3，填3只说明能从文字中取出或抄出数字；没有呈现需要逐个计数的苹果，不能由这次答对确认点数。",
       "topicIds": [
         "m1a.1.1"
       ],
       "primaryTopicId": "m1a.1.1",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "difficulty_basis": "题干直接给出数字3，仅作符号抄写与阅读练习；不观察自主点数。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "family_id": "primary.symbol.copy-given-number",
+      "variant_id": "m1a.1.1-q1",
+      "representation": "symbolic",
+      "cognitive_demand": "recall",
+      "alignment_note": "仅抄写已给数字；不绑定点数、口读、手写目标，保留练习用途。",
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:m1a.1.1-q1",
-      "variant_id": "m1a.1.1-q1",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:m1a.1.1-q1",
       "source_kind": "bank",
       "source_ref": {
@@ -19508,22 +19611,21 @@
       "skill_ids": [],
       "alignment": "topic_only",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "explicit_component_practice_only",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "b0473449ef901ef15c36f481fb2575a8ac547981e6512bfba666f719075ef68c"
+      "resource_version": "0db524f773d757e9842485dd1a20eeccb5d9d989062969ec34d8a65c2c359a56"
     },
     "m1a.1.1-q2": {
       "id": "m1a.1.1-q2",
@@ -19533,23 +19635,26 @@
       "prompt": "4 后面的一个数是几？（只填数字）",
       "answer": "5",
       "verify": "5",
-      "explanation": "数序是 1、2、3、4、5，4 后面是 5。",
+      "explanation": "数序1、2、3、4、5中，4后面紧接5。键入5只提供这一步数序证据，不能确认口头读音、手写或实物计数。",
       "topicIds": [
         "m1a.1.1"
       ],
       "primaryTopicId": "m1a.1.1",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "difficulty_basis": "只观察1至5数序中的后继数，未观察认、读、写整个目标。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "family_id": "primary.order.successor-within-five",
+      "variant_id": "m1a.1.1-q2",
+      "representation": "symbolic",
+      "cognitive_demand": "recall",
+      "alignment_note": "数序练习；未把单一后继数任务映射为认、读、写综合目标。",
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:m1a.1.1-q2",
-      "variant_id": "m1a.1.1-q2",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:m1a.1.1-q2",
       "source_kind": "bank",
       "source_ref": {
@@ -19564,22 +19669,21 @@
       "skill_ids": [],
       "alignment": "topic_only",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "explicit_component_practice_only",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "5c3dfeebe8541c7d7fe225eecdc4f324f8a131d93fd23d21fb8ad0c48d85ac28"
+      "resource_version": "1df7814072fa8e2514b1cd87596f1bf0f1430d70137cd72155366008819039c7"
     },
     "m1a.1.1-q9": {
       "id": "m1a.1.1-q9",
@@ -19649,6 +19753,237 @@
       },
       "availability": "quarantined",
       "resource_version": "3d5984fcd830ed449001d0ee2d78c55576c1b6f209e4125e59dc61c4e3bd93b1"
+    },
+    "m1a.1.1-q301": {
+      "topicId": "m1a.1.1",
+      "topicIds": [
+        "m1a.1.1"
+      ],
+      "primaryTopicId": "m1a.1.1",
+      "difficulty": "basic",
+      "source": "self-generated-quality-v5",
+      "author": "ai",
+      "generated": true,
+      "review_status": "draft",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only",
+      "cognitive_demand": "execute",
+      "id": "m1a.1.1-q301",
+      "type": "numeric",
+      "prompt": "请逐个点数图中的圆点，一共有几个？只填数字。",
+      "answer": "5",
+      "verify": "1+1+1+1+1",
+      "explanation": "图中互不重叠的每个圆点只数一次，点数1、2、3、4、5，总数为5。若数成4或6，请检查是否漏点或重复；键入5本身不证明点数路线。",
+      "difficulty_basis": "从未标出总数的不规则图形中计数，连接物体数量与数字。",
+      "tested_criterion_indices": [
+        0,
+        2
+      ],
+      "alignment_note": "只观察圆点图总数与数字匹配；实际一一对应过程、口头读数与手写仍需另外观察。",
+      "family_id": "primary.count.distinct-objects",
+      "variant_id": "m1a.1.1-q301",
+      "representation": "geometry",
+      "diagram": {
+        "src": "/static/diagrams/count-scattered-v5.svg",
+        "alt": "待计数圆点图。上行：● ●；中行：●；下行：● ●。圆点互不重叠。"
+      },
+      "answer_spec": {
+        "version": 1,
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "family_status": "declared",
+      "resource_id": "task:m1a.1.1-q301",
+      "source_kind": "bank",
+      "source_ref": {
+        "path": "data/questions.json",
+        "legacy_id": "m1a.1.1-q301",
+        "locator": "m1a.1.1-q301"
+      },
+      "material_id": "topic:m1a.1.1",
+      "topic_ids": [
+        "m1a.1.1"
+      ],
+      "skill_ids": [
+        "sk_8d5fd54e49d34c4b8e33",
+        "sk_ed86c6b88c3b494bb404"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "practice"
+      ],
+      "policy": {
+        "diagnosis_eligible": false,
+        "practice_eligible": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "evidence_level": "verified",
+        "reviewer_pending": true,
+        "confidence": "screening",
+        "reason": "explicit_component_practice_only",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "3448e6430cb3ad8a097e223f2e1fab7705d85dd67e5fafc2b7546443f87b6c51"
+    },
+    "m1a.1.1-q302": {
+      "topicId": "m1a.1.1",
+      "topicIds": [
+        "m1a.1.1"
+      ],
+      "primaryTopicId": "m1a.1.1",
+      "difficulty": "basic",
+      "source": "self-generated-quality-v5",
+      "author": "ai",
+      "generated": true,
+      "review_status": "draft",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only",
+      "cognitive_demand": "execute",
+      "id": "m1a.1.1-q302",
+      "type": "choice",
+      "prompt": "数字4应与图中的哪一组圆点配对？选对应组名。",
+      "choices": [
+        {
+          "id": "group_b",
+          "text": "乙组"
+        },
+        {
+          "id": "group_c",
+          "text": "丙组"
+        },
+        {
+          "id": "group_a",
+          "text": "甲组"
+        }
+      ],
+      "answer": "group_b",
+      "explanation": "甲组3个、乙组4个、丙组5个，所以数字4与乙组对应。不要根据占的地方大小判断，要逐个点数。",
+      "difficulty_basis": "将给定数字与不同排列的数量组匹配，排除空间长短干扰。",
+      "tested_criterion_indices": [
+        2
+      ],
+      "alignment_note": "观察数字4与数量配对；未覆盖所有数字，更不确认口头读音或手写。",
+      "family_id": "primary.match.symbol-to-collection",
+      "variant_id": "m1a.1.1-q302",
+      "representation": "mixed",
+      "diagram": {
+        "src": "/static/diagrams/count-groups-v5.svg",
+        "alt": "甲组：● ● ●；乙组：● ● ● ●；丙组：● ● ● ● ●。请选与数字4配对的一组。"
+      },
+      "answer_spec": {
+        "version": 1,
+        "kind": "choice"
+      },
+      "family_status": "declared",
+      "resource_id": "task:m1a.1.1-q302",
+      "source_kind": "bank",
+      "source_ref": {
+        "path": "data/questions.json",
+        "legacy_id": "m1a.1.1-q302",
+        "locator": "m1a.1.1-q302"
+      },
+      "material_id": "topic:m1a.1.1",
+      "topic_ids": [
+        "m1a.1.1"
+      ],
+      "skill_ids": [
+        "sk_ed86c6b88c3b494bb404"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "practice"
+      ],
+      "policy": {
+        "diagnosis_eligible": false,
+        "practice_eligible": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "evidence_level": "explained",
+        "reviewer_pending": true,
+        "confidence": "screening",
+        "reason": "explicit_component_practice_only",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "ee9e76495939cb8ce805f229702de03afea67f15cece4ba69ff21da69da76ec1"
+    },
+    "m1a.1.1-q303": {
+      "topicId": "m1a.1.1",
+      "topicIds": [
+        "m1a.1.1"
+      ],
+      "primaryTopicId": "m1a.1.1",
+      "difficulty": "basic",
+      "source": "self-generated-quality-v5",
+      "author": "ai",
+      "generated": true,
+      "review_status": "draft",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only",
+      "cognitive_demand": "execute",
+      "id": "m1a.1.1-q303",
+      "type": "numeric",
+      "prompt": "请点数这一排圆点，一共有几个？只填数字。",
+      "answer": "5",
+      "verify": "1+1+1+1+1",
+      "explanation": "从一端开始每个圆点只数一次，最后数到5，总数是5。与散点排列相比，排列不同而总数相同；这里仍是点数同族练习。",
+      "difficulty_basis": "按一排排列点数，检查不漏不重；不是独立迁移族。",
+      "tested_criterion_indices": [
+        0,
+        2
+      ],
+      "alignment_note": "观察顺序计数结果与符号匹配；与q301同族，不因新题号声称独立证据。",
+      "family_id": "primary.count.distinct-objects",
+      "variant_id": "m1a.1.1-q303",
+      "representation": "geometry",
+      "diagram": {
+        "src": "/static/diagrams/count-row-v5.svg",
+        "alt": "待计数的一排圆点：● ● ● ● ●。"
+      },
+      "answer_spec": {
+        "version": 1,
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "family_status": "declared",
+      "resource_id": "task:m1a.1.1-q303",
+      "source_kind": "bank",
+      "source_ref": {
+        "path": "data/questions.json",
+        "legacy_id": "m1a.1.1-q303",
+        "locator": "m1a.1.1-q303"
+      },
+      "material_id": "topic:m1a.1.1",
+      "topic_ids": [
+        "m1a.1.1"
+      ],
+      "skill_ids": [
+        "sk_8d5fd54e49d34c4b8e33",
+        "sk_ed86c6b88c3b494bb404"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "practice"
+      ],
+      "policy": {
+        "diagnosis_eligible": false,
+        "practice_eligible": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "evidence_level": "verified",
+        "reviewer_pending": true,
+        "confidence": "screening",
+        "reason": "explicit_component_practice_only",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "902a5280c0cc47e0f77425c64ad81196225dd3f9f5376afb1edcd9640e76513f"
     },
     "m1a.1.2-q1": {
       "id": "m1a.1.2-q1",
@@ -22957,16 +23292,16 @@
       "explanation": "把两部分合起来就是加法。",
       "choices": [
         {
+          "id": "o2",
+          "text": "乘法"
+        },
+        {
           "id": "o3",
           "text": "加法"
         },
         {
           "id": "o1",
           "text": "减法"
-        },
-        {
-          "id": "o2",
-          "text": "乘法"
         }
       ],
       "topicIds": [
@@ -23011,7 +23346,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "426e64b42d976cfb5bf89747982901a6db586027443c21a956992457127f2409"
+      "resource_version": "671b2cd5b17f15ff6af1595769430866d000a35fc49e1fc49b68d2fd5a592e7d"
     },
     "m1a.2.5-q9": {
       "id": "m1a.2.5-q9",
@@ -36993,16 +37328,16 @@
       "explanation": "98 比 20 大很多，用“大得多”。",
       "choices": [
         {
+          "id": "o1",
+          "text": "小一些"
+        },
+        {
           "id": "o2",
           "text": "大得多"
         },
         {
           "id": "o3",
           "text": "大一些"
-        },
-        {
-          "id": "o1",
-          "text": "小一些"
         }
       ],
       "topicIds": [
@@ -37048,7 +37383,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "3ef95c5cbc42103548c980c1984d0c62024fd92f562b58e09224bcc9e271292e"
+      "resource_version": "0aee83e9a72da6371192408cd517c8478f114d4608eeb1900a10f3d502e93c3f"
     },
     "m1b.3.6-q2": {
       "id": "m1b.3.6-q2",
@@ -45036,16 +45371,16 @@
       "explanation": "5 个 3 相加，用乘法 5×3=15。",
       "choices": [
         {
+          "id": "o2",
+          "text": "5×3"
+        },
+        {
           "id": "o3",
           "text": "5-3"
         },
         {
           "id": "o1",
           "text": "5+3"
-        },
-        {
-          "id": "o2",
-          "text": "5×3"
         }
       ],
       "topicIds": [
@@ -45091,7 +45426,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "3928da0cfea13388848f1984f20da7b609eca70b402929843ba80ea6da682166"
+      "resource_version": "71ac7eebe0b5e0492a0af1cd6c1cd7b59a2daa365c381e2cd0efdeb2c87d0624"
     },
     "m2a.2.6-q3": {
       "id": "m2a.2.6-q3",
@@ -72501,16 +72836,16 @@
       "explanation": "电梯沿直线上下移动，方向不变，是平移。",
       "choices": [
         {
+          "id": "o1",
+          "text": "平移"
+        },
+        {
           "id": "o2",
           "text": "旋转"
         },
         {
           "id": "o3",
           "text": "轴对称"
-        },
-        {
-          "id": "o1",
-          "text": "平移"
         }
       ],
       "topicIds": [
@@ -72555,7 +72890,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "7f35656ffd2eaa333b88ed00b69b6fc52ae526e6eee191f72da7aa5799d67ec1"
+      "resource_version": "bec1eb8735afa253052411119483f1c0d0af6c9a0cf72573905ec092dd5804e2"
     },
     "m3b.1.1-q2": {
       "id": "m3b.1.1-q2",
@@ -78533,16 +78868,16 @@
       "explanation": "角的大小只由两边张开的程度决定，与边画多长无关。",
       "choices": [
         {
+          "id": "o2",
+          "text": "两边画的长短"
+        },
+        {
           "id": "o3",
           "text": "两边张开的程度"
         },
         {
           "id": "o1",
           "text": "顶点的位置"
-        },
-        {
-          "id": "o2",
-          "text": "两边画的长短"
         }
       ],
       "topicIds": [
@@ -78588,7 +78923,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "a9dfb286cdc65ad8db46fdaabdd05f4c257f7099ab597fb0ab28483a58ec3af2"
+      "resource_version": "8a5362c7a67731e05aed8e98808f8bce30014b363e331861f7c5c8ea3e23c0a4"
     },
     "m4a.2.1-q2": {
       "id": "m4a.2.1-q2",
@@ -78837,16 +79172,16 @@
       "explanation": "中心对准顶点、0 刻度线对齐一条边，才能读出正确度数。",
       "choices": [
         {
+          "id": "o2",
+          "text": "角的内部任意点"
+        },
+        {
           "id": "o3",
           "text": "一条边"
         },
         {
           "id": "o1",
           "text": "顶点"
-        },
-        {
-          "id": "o2",
-          "text": "角的内部任意点"
         }
       ],
       "topicIds": [
@@ -78891,7 +79226,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "0122da546f47d68c3d41e22a586fa5eacbb505407696e524345d92391ba2c2c3"
+      "resource_version": "a19ec6a16c13b8d982fcfb0b2834273bef803b9ecf1c74ca307ab99918d467f6"
     },
     "m4a.2.2-q9": {
       "id": "m4a.2.2-q9",
@@ -83508,16 +83843,16 @@
       "explanation": "只有一组对边平行的四边形是梯形。",
       "choices": [
         {
+          "id": "o3",
+          "text": "长方形"
+        },
+        {
           "id": "o1",
           "text": "平行四边形"
         },
         {
           "id": "o2",
           "text": "梯形"
-        },
-        {
-          "id": "o3",
-          "text": "长方形"
         }
       ],
       "topicIds": [
@@ -83562,7 +83897,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "c72fa359e9236369e6c344c1678bf7a743a7c8c8df368decf6bc11ca2b0df7f7"
+      "resource_version": "3b22a6982db19f0d6243607004034d09c15e5048fc42246e7250da422d6d7865"
     },
     "m4a.5.2-q2": {
       "id": "m4a.5.2-q2",
@@ -91425,16 +91760,16 @@
       "explanation": "平移只改变位置，形状和大小都不变。",
       "choices": [
         {
+          "id": "o1",
+          "text": "形状"
+        },
+        {
           "id": "o2",
           "text": "大小"
         },
         {
           "id": "o3",
           "text": "位置"
-        },
-        {
-          "id": "o1",
-          "text": "形状"
         }
       ],
       "topicIds": [
@@ -91479,7 +91814,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "b0089dbad6bbb4e30ae078ca38626138de29e985030af34adb0266cf46fd65ea"
+      "resource_version": "4e86d87dab7e2a2ec32d16ab2e5a083f7dd9f593f8fc95f3b423a93c0c42fd1d"
     },
     "m5a.4.2-q2": {
       "id": "m5a.4.2-q2",
@@ -92256,16 +92591,16 @@
       "explanation": "总价=单价×数量，即 a×x，也可写成 ax。",
       "choices": [
         {
+          "id": "o3",
+          "text": "a×x"
+        },
+        {
           "id": "o1",
           "text": "a÷x"
         },
         {
           "id": "o2",
           "text": "a+x"
-        },
-        {
-          "id": "o3",
-          "text": "a×x"
         }
       ],
       "topicIds": [
@@ -92311,7 +92646,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "b509e9df940a3b88f3a2eb3c9a0091d94e2f03e1cd80db12cdfe388186bc49ef"
+      "resource_version": "5188199c390db96cba3a772bd74e27f2fb00a3f7a43172e18b200fe412f5b32e"
     },
     "m5a.5.1-q2": {
       "id": "m5a.5.1-q2",
@@ -94990,16 +95325,16 @@
       "explanation": "只有红球，摸出的一定是红球，属于确定事件。",
       "choices": [
         {
+          "id": "o2",
+          "text": "无法确定"
+        },
+        {
           "id": "o3",
           "text": "一定是红球"
         },
         {
           "id": "o1",
           "text": "可能是白球"
-        },
-        {
-          "id": "o2",
-          "text": "无法确定"
         }
       ],
       "topicIds": [
@@ -95044,7 +95379,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "efe27bd2840b4cb2db6d2bb554c5598aa6952a5dde925e083b0b437617123a52"
+      "resource_version": "70b33fd0f3ad228f059de6cd30140295df579d3ce0b544e92c7e0529d7d0cf4b"
     },
     "m5a.7.1-q2": {
       "id": "m5a.7.1-q2",
@@ -146745,16 +147080,16 @@
       "prompt": "要准确列出某地周一到周日每天已测得的最高气温，且不推测其他时刻，哪种表示最直接？",
       "choices": [
         {
+          "id": "o3",
+          "text": "随意画一条平滑曲线"
+        },
+        {
           "id": "o1",
           "text": "列出日期与气温的表格"
         },
         {
           "id": "o2",
           "text": "只写“越来越热”"
-        },
-        {
-          "id": "o3",
-          "text": "随意画一条平滑曲线"
         }
       ],
       "answer": "o1",
@@ -146816,7 +147151,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "eca3df06f9a705ca8c21bd7b4d41d700744fd8ad4d1a023713d44f5ebb834829"
+      "resource_version": "c38457369244279d3c406fec9cc041c3108f6ae19d8d3f34ee52b279b6d8790d"
     },
     "m8b.22.2-q202": {
       "type": "numeric",
@@ -156300,16 +156635,16 @@
       "prompt": "点A位于O的正东方向，绕O逆时针旋转90°到A′，A′位于O的哪个方向？",
       "choices": [
         {
+          "id": "o2",
+          "text": "正南"
+        },
+        {
           "id": "o3",
           "text": "正西"
         },
         {
           "id": "o1",
           "text": "正北"
-        },
-        {
-          "id": "o2",
-          "text": "正南"
         }
       ],
       "answer": "o1",
@@ -156371,7 +156706,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "f53246ee843afb143573e00655b4f77d9736a81532972950d4b2e5517a72c93c"
+      "resource_version": "763c6afd043f502d0ce70b3adc1a513c4cfa4484dbe7c5787347ab7d70d14565"
     },
     "m9a.28.2-q1": {
       "id": "m9a.28.2-q1",
@@ -160248,16 +160583,16 @@
       "explanation": "三条平行线截两条直线，所得的对应线段成比例，这是平行线分线段成比例的基本事实。",
       "choices": [
         {
+          "id": "o1",
+          "text": "成比例"
+        },
+        {
           "id": "o2",
           "text": "没有关系"
         },
         {
           "id": "o3",
           "text": "相等"
-        },
-        {
-          "id": "o1",
-          "text": "成比例"
         }
       ],
       "topicIds": [
@@ -160303,7 +160638,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "8b00a5889abaef91ec574f95eb8c01f4eb6d5f1e65aef000d355dd0e4806fa93"
+      "resource_version": "14fa353cc323721dc627bc4250c81bd7973809261cb30b2c628a3220560cd267"
     },
     "m9b.31.2.1-q2": {
       "id": "m9b.31.2.1-q2",
@@ -207890,21 +208225,21 @@
       "diagnosis_eligible": false,
       "for_diagnosis": false,
       "tested_criterion_indices": [
-        0
+        4
       ],
-      "alignment_note": "本题仅检查以下目标中的题设子任务：能计算棱柱、棱锥的体积。完整推导、证明或方案设计由讲解卡的独立自检与量规检查。",
+      "alignment_note": "已逐题核对：题面给出棱锥底面积30、垂直高6，只观察棱锥V=Sh/3，答案60；不绑定棱柱或棱台，也不自动完成旧综合目标。",
       "verify": "30*6/3",
+      "family_id": "solid.pyramid.base-height-volume",
+      "variant_id": "mh2.8.3.1-q201",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:mh2.8.3.1-q201",
-      "variant_id": "mh2.8.3.1-q201",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:mh2.8.3.1-q201",
       "source_kind": "bank",
       "source_ref": {
@@ -207917,7 +208252,7 @@
         "mh2.8.3.1"
       ],
       "skill_ids": [
-        "sk_a3aabdb388654a1583e2"
+        "sk_5a61b20f07cd48afa8f3"
       ],
       "alignment": "explicit_component",
       "purpose": [
@@ -207931,11 +208266,11 @@
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "practice_only",
+        "reason": "explicit_component_practice_only",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "5dee06104629ea0d96ccc8850bf9d98a2c7fd5912e20594bbd0963fdabcf6deb"
+      "resource_version": "08617dcc57c45a0bebaf309b5ffb74184e69b4d3040613736a89593532d7e159"
     },
     "mh2.8.3.1-q202": {
       "id": "mh2.8.3.1-q202",
@@ -207960,19 +208295,19 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题仅检查以下目标中的题设子任务：能把表面积拆成各个面的面积。完整推导、证明或方案设计由讲解卡的独立自检与量规检查。",
+      "alignment_note": "已逐题核对：题面是长方体5×3×2的表面积，分别加三组相对面得62；不提供任何棱锥体积证据。",
       "verify": "2*(5*3+5*2+3*2)",
+      "family_id": "solid.cuboid.surface-area",
+      "variant_id": "mh2.8.3.1-q202",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:mh2.8.3.1-q202",
-      "variant_id": "mh2.8.3.1-q202",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:mh2.8.3.1-q202",
       "source_kind": "bank",
       "source_ref": {
@@ -207999,11 +208334,11 @@
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "practice_only",
+        "reason": "explicit_component_practice_only",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "43f01c23a3b33db655a856f16f3a3e8053ec3671f20f66d509594ec835602633"
+      "resource_version": "05a1f91e412a2a9b4aff9f2043af95cabc5103d49d6b36076937ea7bc57a31a3"
     },
     "mh2.8.3.1-q203": {
       "id": "mh2.8.3.1-q203",
@@ -208028,19 +208363,19 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题仅检查以下目标中的题设子任务：能把表面积拆成各个面的面积。完整推导、证明或方案设计由讲解卡的独立自检与量规检查。",
+      "alignment_note": "只观察侧面高已知的正四棱锥外表面分解；未观察从垂直高求侧面高的过程。",
       "verify": "6*6+4*(6*5/2)",
+      "family_id": "solid.regular-pyramid.surface-area",
+      "variant_id": "mh2.8.3.1-q203",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:mh2.8.3.1-q203",
-      "variant_id": "mh2.8.3.1-q203",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:mh2.8.3.1-q203",
       "source_kind": "bank",
       "source_ref": {
@@ -208067,11 +208402,11 @@
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "practice_only",
+        "reason": "explicit_component_practice_only",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "a71c224627675cfb3070b0c2e1b915c70a95091d69072b293596a6ae8f99ec9d"
+      "resource_version": "ef7d77e171ecd008f9fe15a63ae929bd4bf5bea4165971218b2235cb5bdaf981"
     },
     "mh2.8.3.1-q204": {
       "id": "mh2.8.3.1-q204",
@@ -208081,9 +208416,9 @@
       ],
       "primaryTopicId": "mh2.8.3.1",
       "type": "numeric",
-      "prompt": "棱台两底面积为4与16平方厘米，垂直高3厘米，体积多少立方厘米？",
+      "prompt": "用平行于棱锥底面的平面截去顶端小棱锥，得到两底面积为4与16平方厘米、垂直高3厘米的棱台。体积多少立方厘米？",
       "answer": "28",
-      "explanation": "棱台公式中几何平均项为√64=8，故V=28。",
+      "explanation": "平行截得保证上下底相似。根号项√(4×16)=8，所以V=3×(4+16+8)÷3=28立方厘米。补回锥顶时相似长度比1:2，大小棱锥高为6与3，体积差16×6÷3−4×3÷3也为28。",
       "source": "self-generated-completion",
       "review_status": "draft",
       "author": "ai",
@@ -208094,21 +208429,21 @@
       "diagnosis_eligible": false,
       "for_diagnosis": false,
       "tested_criterion_indices": [
-        0
+        5
       ],
-      "alignment_note": "本题仅检查以下目标中的题设子任务：能计算棱柱、棱锥的体积。完整推导、证明或方案设计由讲解卡的独立自检与量规检查。",
+      "alignment_note": "只观察平行截得棱台的两底面积、垂直高与体积公式；不再绑定到旧“棱柱、棱锥体积”目标。",
       "verify": "3*(4+16+(4*16)**0.5)/3",
+      "family_id": "solid.frustum.parallel-cut-volume",
+      "variant_id": "mh2.8.3.1-q204",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:mh2.8.3.1-q204",
-      "variant_id": "mh2.8.3.1-q204",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:mh2.8.3.1-q204",
       "source_kind": "bank",
       "source_ref": {
@@ -208121,7 +208456,7 @@
         "mh2.8.3.1"
       ],
       "skill_ids": [
-        "sk_a3aabdb388654a1583e2"
+        "sk_d4fdd2c3073f4cf1a9f7"
       ],
       "alignment": "explicit_component",
       "purpose": [
@@ -208135,11 +208470,81 @@
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "practice_only",
+        "reason": "explicit_component_practice_only",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "be3be57484f74971062184a6537685e901c96ed5221ae6efa5c3b7428e52688f"
+      "resource_version": "65a2ef41cb77b75f637e7bd932d3238809dfc00db0c720221159411327d1c202"
+    },
+    "mh2.8.3.1-q305": {
+      "id": "mh2.8.3.1-q305",
+      "topicId": "mh2.8.3.1",
+      "topicIds": [
+        "mh2.8.3.1"
+      ],
+      "primaryTopicId": "mh2.8.3.1",
+      "difficulty": "standard",
+      "type": "numeric",
+      "prompt": "一个斜棱柱的底面积为18平方厘米，侧棱长8厘米，两底面的垂直距离为7厘米。这个棱柱体积是多少立方厘米？",
+      "answer": "126",
+      "verify": "18*7",
+      "explanation": "棱柱体积V=Sh，高h必须为两底面的垂直距离7厘米，所以18×7=126立方厘米。侧棱8厘米不是垂直高，不能使用18×8。",
+      "source": "self-generated-quality-v5",
+      "review_status": "draft",
+      "author": "ai",
+      "generated": true,
+      "difficulty_basis": "从干扰长度中选择垂直高，按棱柱体积公式计算。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "tested_criterion_indices": [
+        2,
+        3
+      ],
+      "alignment_note": "只观察在斜棱长度干扰下选取垂直高并计算棱柱体积；不据此确认所有多面体体积。",
+      "family_id": "solid.prism.base-height-volume",
+      "variant_id": "mh2.8.3.1-q305",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "answer_spec": {
+        "version": 1,
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "family_status": "declared",
+      "resource_id": "task:mh2.8.3.1-q305",
+      "source_kind": "bank",
+      "source_ref": {
+        "path": "data/questions.json",
+        "legacy_id": "mh2.8.3.1-q305",
+        "locator": "mh2.8.3.1-q305"
+      },
+      "material_id": "topic:mh2.8.3.1",
+      "topic_ids": [
+        "mh2.8.3.1"
+      ],
+      "skill_ids": [
+        "sk_85e48dd4c6f24854bfaa",
+        "sk_bb502c4a903c40a99965"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "practice"
+      ],
+      "policy": {
+        "diagnosis_eligible": false,
+        "practice_eligible": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "evidence_level": "verified",
+        "reviewer_pending": true,
+        "confidence": "screening",
+        "reason": "explicit_component_practice_only",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "4b9eb644c9d8e7347978fd2da07c9ddb54a17a4be73bf996458e1ab50984d4c1"
     },
     "mh2.8.3.2-q1": {
       "id": "mh2.8.3.2-q1",
@@ -260769,11 +261174,11 @@
       "explanation": "点数要让每个物体只和一个数词对应。数完后不必重数，就用最后一个数说出总量。",
       "criterion_index": 0,
       "id": "sc_b2bd32d1d07c4693bcc6",
-      "family_id": "unclassified:sc_b2bd32d1d07c4693bcc6",
+      "family_id": "primary.count.rearrangement-invariance",
       "variant_id": "sc_b2bd32d1d07c4693bcc6",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
+      "representation": "manipulative",
+      "cognitive_demand": "explain",
       "answer_spec": {
         "version": 1,
         "kind": "rubric"
@@ -260806,7 +261211,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "78dd4e39c9f70ba1330ea11a6caeffefafa256d124f85d73e05946444c340bfe"
+      "resource_version": "37331f3b2d479cbabf089782b6d0c33885e82712a3c541fc749a9c05d494f662"
     },
     "sc_3d81372f609b48af8773": {
       "type": "rubric",
@@ -260827,11 +261232,11 @@
       "explanation": "“五”是数的读法，5是数字写法，五个物体是数量。三种表示可以互相配对。",
       "criterion_index": 1,
       "id": "sc_3d81372f609b48af8773",
-      "family_id": "unclassified:sc_3d81372f609b48af8773",
+      "family_id": "primary.read-write-match-one-five",
       "variant_id": "sc_3d81372f609b48af8773",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
+      "representation": "mixed",
+      "cognitive_demand": "explain",
       "answer_spec": {
         "version": 1,
         "kind": "rubric"
@@ -260864,7 +261269,201 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "1f4de287e522bfd0622f9169f157ec59bc22c6d4a58711f93964eaba2baaec99"
+      "resource_version": "40bb3495a7fdb1673b42976aa11da8b9b11024c31995e4e8458c28c8d777af47"
+    },
+    "sc_d627061d1a474180a181": {
+      "type": "rubric",
+      "prompt": "请家人任意摆1至5个小物体，先不要告诉你个数。你点数后挑一张数字卡。换一个数量再做；每次记录点到的物体、最后数词和选的卡。",
+      "reference_answer": "每次每个物体只点一次，最后数到几就选对应数字；例如点完说“四”应选4。不依赖成人先说数量。",
+      "rubric": [
+        {
+          "criterion": "逐一计数不漏不重",
+          "points": 1,
+          "example": "每次每个物体只点一次，最后数到几就选对应数字；例如点完说“四”应选4。不依赖成人先说数量。"
+        },
+        {
+          "criterion": "最后数词与所选数字相同",
+          "points": 1,
+          "example": "每次每个物体只点一次，最后数到几就选对应数字；例如点完说“四”应选4。不依赖成人先说数量。"
+        },
+        {
+          "criterion": "换数量与重排后仍按实际个数配对",
+          "points": 1,
+          "example": "每次每个物体只点一次，最后数到几就选对应数字；例如点完说“四”应选4。不依赖成人先说数量。"
+        }
+      ],
+      "explanation": "先不看数字，逐个点物体，记住最后数出的总量，再在打乱的1至5数字卡中找出对应一张。换一下物体的位置再配一次；不能把一排摆得长当作个数多。",
+      "criterion_index": 2,
+      "id": "sc_d627061d1a474180a181",
+      "answer_spec": {
+        "version": 1,
+        "kind": "rubric"
+      },
+      "family_id": "primary.match.symbol-to-collection",
+      "variant_id": "sc_d627061d1a474180a181",
+      "family_status": "declared",
+      "representation": "manipulative",
+      "cognitive_demand": "explain",
+      "resource_id": "task:sc_d627061d1a474180a181",
+      "source_kind": "self_check",
+      "source_ref": {
+        "path": "data/teach/m1a.1.1.json",
+        "legacy_id": "m1a.1.1",
+        "locator": "2"
+      },
+      "material_id": "topic:m1a.1.1",
+      "topic_ids": [
+        "m1a.1.1"
+      ],
+      "skill_ids": [
+        "sk_ed86c6b88c3b494bb404"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "self_check"
+      ],
+      "policy": {
+        "practice_eligible": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "reviewer_pending": true,
+        "reason": "authored_learning_task",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "da2d1bccfcd5fb96ab4440285825d64a5a61714796c1c852dccf83db0913189f"
+    },
+    "sc_8c29b1908cac4410bcd1": {
+      "type": "rubric",
+      "prompt": "把1、2、3、4、5卡片打乱，每次翻一张并读出来；读完五张再换顺序读一轮。逐张记“独立读出、提示后读出或还需确认”。",
+      "reference_answer": "1读一，2读二，3读三，4读四，5读五。应核对每一张，而不是只把1到5顺背一遍。",
+      "rubric": [
+        {
+          "criterion": "五个数字逐张呈现并实际口头读出",
+          "points": 1,
+          "example": "1读一，2读二，3读三，4读四，5读五。应核对每一张，而不是只把1到5顺背一遍。"
+        },
+        {
+          "criterion": "记录提示而不把跟读当作独立读出",
+          "points": 1,
+          "example": "1读一，2读二，3读三，4读四，5读五。应核对每一张，而不是只把1到5顺背一遍。"
+        },
+        {
+          "criterion": "第二轮改变呈现顺序",
+          "points": 1,
+          "example": "1读一，2读二，3读三，4读四，5读五。应核对每一张，而不是只把1到5顺背一遍。"
+        }
+      ],
+      "explanation": "会背“一二三四五”和看到打乱的数字就能读出来不同。一次看一张卡，先自己说读音，再核对；把暂时读不出的那张留下，稍后再读。",
+      "criterion_index": 3,
+      "id": "sc_8c29b1908cac4410bcd1",
+      "answer_spec": {
+        "version": 1,
+        "kind": "rubric"
+      },
+      "family_id": "primary.read.shuffled-digit-cards",
+      "variant_id": "sc_8c29b1908cac4410bcd1",
+      "family_status": "declared",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "resource_id": "task:sc_8c29b1908cac4410bcd1",
+      "source_kind": "self_check",
+      "source_ref": {
+        "path": "data/teach/m1a.1.1.json",
+        "legacy_id": "m1a.1.1",
+        "locator": "3"
+      },
+      "material_id": "topic:m1a.1.1",
+      "topic_ids": [
+        "m1a.1.1"
+      ],
+      "skill_ids": [
+        "sk_e291d13ed34944ffb214"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "self_check"
+      ],
+      "policy": {
+        "practice_eligible": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "reviewer_pending": true,
+        "reason": "authored_learning_task",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "a27eb816970b7390c97d70f58cdda80de879626f04b98726f375c4551f0e3a7f"
+    },
+    "sc_300e5f7d4e794b8b91b6": {
+      "type": "rubric",
+      "prompt": "在纸上依次写1至5，每写一个就在旁边画相应数量的小点。再按3、1、5、2、4的顺序各写一次，核对是否能辨认及点数是否对应。",
+      "reference_answer": "十个纸上数字应分别可认作所要求的数字；1、2、3、4、5旁边分别有相应个数的点。数字大小、笔迹风格不要求完全一致。",
+      "rubric": [
+        {
+          "criterion": "实际留下纸上书写成果",
+          "points": 1,
+          "example": "十个纸上数字应分别可认作所要求的数字；1、2、3、4、5旁边分别有相应个数的点。数字大小、笔迹风格不要求完全一致。"
+        },
+        {
+          "criterion": "各数字能辨认且没有镜写造成混淆",
+          "points": 1,
+          "example": "十个纸上数字应分别可认作所要求的数字；1、2、3、4、5旁边分别有相应个数的点。数字大小、笔迹风格不要求完全一致。"
+        },
+        {
+          "criterion": "旁边物体或点的个数与数字相同",
+          "points": 1,
+          "example": "十个纸上数字应分别可认作所要求的数字；1、2、3、4、5旁边分别有相应个数的点。数字大小、笔迹风格不要求完全一致。"
+        },
+        {
+          "criterion": "区分描写、照写与独立写",
+          "points": 1,
+          "example": "十个纸上数字应分别可认作所要求的数字；1、2、3、4、5旁边分别有相应个数的点。数字大小、笔迹风格不要求完全一致。"
+        }
+      ],
+      "explanation": "写数要让别人能认出你写的是哪个数字。先看数字卡在纸上描写，再遮住卡自己写，最后摆对应数量；描写与独立写分别记录，不要求用键盘输入代替写字。",
+      "criterion_index": 4,
+      "id": "sc_300e5f7d4e794b8b91b6",
+      "answer_spec": {
+        "version": 1,
+        "kind": "rubric"
+      },
+      "family_id": "primary.write.digit-and-collection",
+      "variant_id": "sc_300e5f7d4e794b8b91b6",
+      "family_status": "declared",
+      "representation": "mixed",
+      "cognitive_demand": "explain",
+      "resource_id": "task:sc_300e5f7d4e794b8b91b6",
+      "source_kind": "self_check",
+      "source_ref": {
+        "path": "data/teach/m1a.1.1.json",
+        "legacy_id": "m1a.1.1",
+        "locator": "4"
+      },
+      "material_id": "topic:m1a.1.1",
+      "topic_ids": [
+        "m1a.1.1"
+      ],
+      "skill_ids": [
+        "sk_8a60fe1b81e543bdb4ef"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "self_check"
+      ],
+      "policy": {
+        "practice_eligible": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "reviewer_pending": true,
+        "reason": "authored_learning_task",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "234e589dfea2e8f445c56bbce6ce29bc9271d5fb2a04590718eb8e89c57b7a7b"
     },
     "sc_d64b9c74ed854811b623": {
       "type": "rubric",
@@ -306410,11 +307009,11 @@
         "version": 1,
         "kind": "rubric"
       },
-      "family_id": "unclassified:sc_5e17a7b8d9f54df0a41d",
+      "family_id": "solid.prism-pyramid.same-base-height",
       "variant_id": "sc_5e17a7b8d9f54df0a41d",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
+      "representation": "mixed",
+      "cognitive_demand": "explain",
       "resource_id": "task:sc_5e17a7b8d9f54df0a41d",
       "source_kind": "self_check",
       "source_ref": {
@@ -306443,7 +307042,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "4bd64d4c44c0982a2418c966fa4730d4b20bc6d6c4e45526d33c26b2ce31281b"
+      "resource_version": "4c2f2eab6dfed59bd71e1612499bdb93954e7c59d5c17af2d4d816b0021f38e2"
     },
     "sc_de7f32abc5594d46a5f6": {
       "type": "rubric",
@@ -306461,18 +307060,18 @@
           "example": "斜高√(3²+4²)=5；底面积64，侧面积4·8·5/2=80，总144。"
         }
       ],
-      "explanation": "表面积需把所有外表面拆开，求三角形侧面时使用其面内高。",
+      "explanation": "把正四棱锥展开为一个正方形底面和四个三角形侧面。底边6、垂直高4时，侧面高为√(4²+3²)=5；侧面积4×6×5÷2=60，表面积60+36=96平方厘米。底边的一半3与垂直高4在同一个直角三角形中，不能拿侧棱代替侧面高。",
       "criterion_index": 1,
       "id": "sc_de7f32abc5594d46a5f6",
       "answer_spec": {
         "version": 1,
         "kind": "rubric"
       },
-      "family_id": "unclassified:sc_de7f32abc5594d46a5f6",
+      "family_id": "solid.regular-pyramid.surface-area",
       "variant_id": "sc_de7f32abc5594d46a5f6",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
+      "representation": "mixed",
+      "cognitive_demand": "explain",
       "resource_id": "task:sc_de7f32abc5594d46a5f6",
       "source_kind": "self_check",
       "source_ref": {
@@ -306501,7 +307100,264 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "5fa7902a796fe41ce47cace71825d533a5b2ac43f34311284fe4cc4d8f0af043"
+      "resource_version": "3139310720d22ed89f076c0e83dcbdb53e7d5d4146812f3acca605dba06ab486"
+    },
+    "sc_643fcfba720c4fb2af6f": {
+      "type": "rubric",
+      "prompt": "正四棱锥底边10厘米，垂直高12厘米。画出底面中心O和一条底边的中点M，求侧面高，并写出哪条线用于体积。",
+      "reference_answer": "底面中心到边中点为5厘米，侧面高√(12²+5²)=13厘米。体积使用顶点到底面中心的12厘米，侧面三角形面积使用13厘米。",
+      "rubric": [
+        {
+          "criterion": "图上垂直高落在底面中心并标直角",
+          "points": 1,
+          "example": "底面中心到边中点为5厘米，侧面高√(12²+5²)=13厘米。体积使用顶点到底面中心的12厘米，侧面三角形面积使用13厘米。"
+        },
+        {
+          "criterion": "用半底边5与垂直高12组成直角三角形",
+          "points": 1,
+          "example": "底面中心到边中点为5厘米，侧面高√(12²+5²)=13厘米。体积使用顶点到底面中心的12厘米，侧面三角形面积使用13厘米。"
+        },
+        {
+          "criterion": "把12与13分别用于正确的公式",
+          "points": 1,
+          "example": "底面中心到边中点为5厘米，侧面高√(12²+5²)=13厘米。体积使用顶点到底面中心的12厘米，侧面三角形面积使用13厘米。"
+        }
+      ],
+      "explanation": "正四棱锥底边6、垂直高4时，顶点到底面中心的线段长4；顶点到底边中点的侧面高长5。两条线段各自垂直的对象不同，体积要用前者，三角形侧面积要用后者。",
+      "criterion_index": 2,
+      "id": "sc_643fcfba720c4fb2af6f",
+      "answer_spec": {
+        "version": 1,
+        "kind": "rubric"
+      },
+      "family_id": "solid.pyramid.height-discrimination",
+      "variant_id": "sc_643fcfba720c4fb2af6f",
+      "family_status": "declared",
+      "representation": "mixed",
+      "cognitive_demand": "explain",
+      "resource_id": "task:sc_643fcfba720c4fb2af6f",
+      "source_kind": "self_check",
+      "source_ref": {
+        "path": "data/teach/mh2.8.3.1.json",
+        "legacy_id": "mh2.8.3.1",
+        "locator": "2"
+      },
+      "material_id": "topic:mh2.8.3.1",
+      "topic_ids": [
+        "mh2.8.3.1"
+      ],
+      "skill_ids": [
+        "sk_85e48dd4c6f24854bfaa"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "self_check"
+      ],
+      "policy": {
+        "practice_eligible": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "reviewer_pending": true,
+        "reason": "authored_learning_task",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "02d42c04e6d2db2ef3ef1bc22c36a1e0668c4887d90d638a607e33d51a1bcd42"
+    },
+    "sc_9c9db976cd434eaf9af5": {
+      "type": "rubric",
+      "prompt": "一个斜棱柱底面积15平方厘米，侧棱长10厘米，两底面的垂直距离8厘米，求体积并说明哪项信息没有用于相乘。",
+      "reference_answer": "V=15×8=120立方厘米；侧棱10厘米没有用于相乘，它不是两底面间的垂直距离。",
+      "rubric": [
+        {
+          "criterion": "选择底面积15与垂直高8",
+          "points": 1,
+          "example": "V=15×8=120立方厘米；侧棱10厘米没有用于相乘，它不是两底面间的垂直距离。"
+        },
+        {
+          "criterion": "体积120且单位为立方厘米",
+          "points": 1,
+          "example": "V=15×8=120立方厘米；侧棱10厘米没有用于相乘，它不是两底面间的垂直距离。"
+        },
+        {
+          "criterion": "明确排除侧棱10作为高",
+          "points": 1,
+          "example": "V=15×8=120立方厘米；侧棱10厘米没有用于相乘，它不是两底面间的垂直距离。"
+        }
+      ],
+      "explanation": "棱柱的平行截面保持相同面积，V=Sh中的h是两底面之间的垂直距离。底面积18平方厘米、垂直高7厘米时，V=18×7=126立方厘米；斜棱长度若是8厘米也不能代入。",
+      "criterion_index": 3,
+      "id": "sc_9c9db976cd434eaf9af5",
+      "answer_spec": {
+        "version": 1,
+        "kind": "rubric"
+      },
+      "family_id": "solid.prism.base-height-volume",
+      "variant_id": "sc_9c9db976cd434eaf9af5",
+      "family_status": "declared",
+      "representation": "mixed",
+      "cognitive_demand": "explain",
+      "resource_id": "task:sc_9c9db976cd434eaf9af5",
+      "source_kind": "self_check",
+      "source_ref": {
+        "path": "data/teach/mh2.8.3.1.json",
+        "legacy_id": "mh2.8.3.1",
+        "locator": "3"
+      },
+      "material_id": "topic:mh2.8.3.1",
+      "topic_ids": [
+        "mh2.8.3.1"
+      ],
+      "skill_ids": [
+        "sk_bb502c4a903c40a99965"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "self_check"
+      ],
+      "policy": {
+        "practice_eligible": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "reviewer_pending": true,
+        "reason": "authored_learning_task",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "18d1a23a455860446e8bea3c04dd1840019b6511b3600610e1604388ace673e7"
+    },
+    "sc_7035c69208f54969ac7e": {
+      "type": "rubric",
+      "prompt": "三棱锥的底面是直角三角形，两直角边6厘米、8厘米，棱锥垂直高9厘米。求体积，分别说明两个除法的作用。",
+      "reference_answer": "底面积6×8÷2=24平方厘米，体积24×9÷3=72立方厘米；除2来自三角形面积，除3来自棱锥体积。",
+      "rubric": [
+        {
+          "criterion": "先求三角形底面积24",
+          "points": 1,
+          "example": "底面积6×8÷2=24平方厘米，体积24×9÷3=72立方厘米；除2来自三角形面积，除3来自棱锥体积。"
+        },
+        {
+          "criterion": "再乘垂直高9并除3得72",
+          "points": 1,
+          "example": "底面积6×8÷2=24平方厘米，体积24×9÷3=72立方厘米；除2来自三角形面积，除3来自棱锥体积。"
+        },
+        {
+          "criterion": "区分三角形底面的二分之一与棱锥的三分之一",
+          "points": 1,
+          "example": "底面积6×8÷2=24平方厘米，体积24×9÷3=72立方厘米；除2来自三角形面积，除3来自棱锥体积。"
+        }
+      ],
+      "explanation": "同底同高时棱锥体积是棱柱的三分之一，所以V=Sh/3。例如底面积30平方厘米、垂直高6厘米，V=30×6÷3=60立方厘米。底面无论是三角形还是四边形，都需先算底面积S。",
+      "criterion_index": 4,
+      "id": "sc_7035c69208f54969ac7e",
+      "answer_spec": {
+        "version": 1,
+        "kind": "rubric"
+      },
+      "family_id": "solid.pyramid.base-height-volume",
+      "variant_id": "sc_7035c69208f54969ac7e",
+      "family_status": "declared",
+      "representation": "mixed",
+      "cognitive_demand": "explain",
+      "resource_id": "task:sc_7035c69208f54969ac7e",
+      "source_kind": "self_check",
+      "source_ref": {
+        "path": "data/teach/mh2.8.3.1.json",
+        "legacy_id": "mh2.8.3.1",
+        "locator": "4"
+      },
+      "material_id": "topic:mh2.8.3.1",
+      "topic_ids": [
+        "mh2.8.3.1"
+      ],
+      "skill_ids": [
+        "sk_5a61b20f07cd48afa8f3"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "self_check"
+      ],
+      "policy": {
+        "practice_eligible": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "reviewer_pending": true,
+        "reason": "authored_learning_task",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "433851fa066ad2644766d784c1ef5bb89d17f3a9f346bc502b83b1bb18b7583f"
+    },
+    "sc_d781c88b9ab94de386d8": {
+      "type": "rubric",
+      "prompt": "由平行于底面的平面截一个棱锥，得到上下底面积分别4、25平方厘米、高6厘米的棱台。用公式求体积，再用补成大棱锥的方法复核。",
+      "reference_answer": "√(4×25)=10，V=6×(4+25+10)÷3=78立方厘米。相似长度比2:5，设小锥高2k、大锥高5k，差3k=6得k=2；大锥25×10÷3，小锥4×4÷3，差(250−16)÷3=78。",
+      "rubric": [
+        {
+          "criterion": "说明平行截得的条件",
+          "points": 1,
+          "example": "√(4×25)=10，V=6×(4+25+10)÷3=78立方厘米。相似长度比2:5，设小锥高2k、大锥高5k，差3k=6得k=2；大锥25×10÷3，小锥4×4÷3，差(250−16)÷3=78。"
+        },
+        {
+          "criterion": "把几何平均项算为10而不是14.5",
+          "points": 1,
+          "example": "√(4×25)=10，V=6×(4+25+10)÷3=78立方厘米。相似长度比2:5，设小锥高2k、大锥高5k，差3k=6得k=2；大锥25×10÷3，小锥4×4÷3，差(250−16)÷3=78。"
+        },
+        {
+          "criterion": "公式与大锥减小锥都得到78",
+          "points": 1,
+          "example": "√(4×25)=10，V=6×(4+25+10)÷3=78立方厘米。相似长度比2:5，设小锥高2k、大锥高5k，差3k=6得k=2；大锥25×10÷3，小锥4×4÷3，差(250−16)÷3=78。"
+        },
+        {
+          "criterion": "用面积比平方根建立长度比",
+          "points": 1,
+          "example": "√(4×25)=10，V=6×(4+25+10)÷3=78立方厘米。相似长度比2:5，设小锥高2k、大锥高5k，差3k=6得k=2；大锥25×10÷3，小锥4×4÷3，差(250−16)÷3=78。"
+        }
+      ],
+      "explanation": "棱台的两个底面来自同一棱锥的平行截面。上下底面积S₁、S₂与垂直高h给出V=h(S₁+S₂+√(S₁S₂))/3。比如9、36与高4时，根号项是18，体积84；不能仅取两底面积的算术平均后乘高。",
+      "criterion_index": 5,
+      "id": "sc_d781c88b9ab94de386d8",
+      "answer_spec": {
+        "version": 1,
+        "kind": "rubric"
+      },
+      "family_id": "solid.frustum.parallel-cut-volume",
+      "variant_id": "sc_d781c88b9ab94de386d8",
+      "family_status": "declared",
+      "representation": "mixed",
+      "cognitive_demand": "explain",
+      "resource_id": "task:sc_d781c88b9ab94de386d8",
+      "source_kind": "self_check",
+      "source_ref": {
+        "path": "data/teach/mh2.8.3.1.json",
+        "legacy_id": "mh2.8.3.1",
+        "locator": "5"
+      },
+      "material_id": "topic:mh2.8.3.1",
+      "topic_ids": [
+        "mh2.8.3.1"
+      ],
+      "skill_ids": [
+        "sk_d4fdd2c3073f4cf1a9f7"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "self_check"
+      ],
+      "policy": {
+        "practice_eligible": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "reviewer_pending": true,
+        "reason": "authored_learning_task",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "536bdda589497f6be3deef84f0258d6363d2f6cb4799f0cddc4c4eefe508b410"
     },
     "sc_8ec2e59ec1e847ce8412": {
       "type": "rubric",
@@ -337196,23 +338052,36 @@
         "m1a.1.1-q1",
         "m1a.1.1-q2",
         "m1a.1.1-q9",
+        "m1a.1.1-q301",
+        "m1a.1.1-q302",
+        "m1a.1.1-q303",
         "sc_b2bd32d1d07c4693bcc6",
-        "sc_3d81372f609b48af8773"
+        "sc_3d81372f609b48af8773",
+        "sc_d627061d1a474180a181",
+        "sc_8c29b1908cac4410bcd1",
+        "sc_300e5f7d4e794b8b91b6"
       ],
       "family_ids": [
         "primary.add.combine-parts",
-        "unclassified:sc_3d81372f609b48af8773",
-        "unclassified:sc_b2bd32d1d07c4693bcc6"
+        "primary.count.rearrangement-invariance",
+        "primary.match.symbol-to-collection",
+        "primary.read-write-match-one-five",
+        "primary.read.shuffled-digit-cards",
+        "primary.write.digit-and-collection"
       ],
       "assessment_family_ids": [
-        "unclassified:m1a.1.1-q1",
-        "unclassified:m1a.1.1-q2",
-        "unclassified:m1a.1.1-q9",
-        "unclassified:sc_3d81372f609b48af8773",
-        "unclassified:sc_b2bd32d1d07c4693bcc6"
+        "primary.count.distinct-objects",
+        "primary.count.rearrangement-invariance",
+        "primary.match.symbol-to-collection",
+        "primary.order.successor-within-five",
+        "primary.read-write-match-one-five",
+        "primary.read.shuffled-digit-cards",
+        "primary.symbol.copy-given-number",
+        "primary.write.digit-and-collection",
+        "unclassified:m1a.1.1-q9"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
-      "resource_version": "0f49cbff723ec324c47214f7ccb190d83aaa0401e65377c4d1b9a88eff8ee5af"
+      "resource_version": "478ab14961f2044f9afa532dfd7bf718385b7d419d8cb41dab2bf59dcd36eaf7"
     },
     "topic:m1a.1.2": {
       "id": "topic:m1a.1.2",
@@ -337591,7 +338460,7 @@
         "unclassified:sc_a6d4bd58c081449cb03c"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
-      "resource_version": "a502354a2139aed7f7f41ebc63cfceccc86ba8de26b3568fa189a21d05140160"
+      "resource_version": "055a291cc345600d02ffc719bb34acc0f6dce7791ea0dfa49ad0399ba586617c"
     },
     "topic:m1a.2.6": {
       "id": "topic:m1a.2.6",
@@ -338736,7 +339605,7 @@
         "unclassified:sc_9f4864d402b648c697b2"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
-      "resource_version": "2ead130a687ee1e0ae4ab69ccce39c208c217476916563b8e8fcc67347d5e838"
+      "resource_version": "3d202f620fd6df5f5ff0905d12875fcb286d00c47d562f3903db941976fb1c8c"
     },
     "topic:m1b.3.7": {
       "id": "topic:m1b.3.7",
@@ -339443,7 +340312,7 @@
         "unclassified:sc_fbc654c1233e49ceb50a"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
-      "resource_version": "e2886523d2d8933f0460f16feee6f5da5bc1f2088e190663e57288e46d11f6e1"
+      "resource_version": "6e8a7c9d9d827cd1e1301b5d6008384c7edbeb3ba06f2f0f27f35f217d2cebe3"
     },
     "topic:m2a.2.7": {
       "id": "topic:m2a.2.7",
@@ -341796,7 +342665,7 @@
         "unclassified:sc_ba3a36237aba4b8e9503"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
-      "resource_version": "b61cf961a9fd10785c7070032a8c3c720897e890973b43aa38b5d97f2b89c8e4"
+      "resource_version": "80ab1c641744ef4bf40ff4d918d9b903cc1a291a030ef7cca8f127ebed606615"
     },
     "topic:m3b.2.1": {
       "id": "topic:m3b.2.1",
@@ -342335,7 +343204,7 @@
         "unclassified:sc_eec5c44132c6424f8354"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
-      "resource_version": "1d2e48ce17afdbdb6cd6ab97713b65ea0aea7cfc8efa4e378d15c98d7edf652c"
+      "resource_version": "a9409ec7455b1f269be5ce5e67f5483a0e06a7c2554ceacd83b813efce874cf3"
     },
     "topic:m4a.2.2": {
       "id": "topic:m4a.2.2",
@@ -342364,7 +343233,7 @@
         "unclassified:sc_75b53415ac4240bfa2f6"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
-      "resource_version": "ac17a2cd1dda83fb69e5c94f534faea34c74da3fb813eafc759773d9e6d6ae94"
+      "resource_version": "56c62b2bad4d9f35d5f95f98dd1f9e4383ebe0417867e935aff003d1ad34a5e4"
     },
     "topic:m4a.3.1": {
       "id": "topic:m4a.3.1",
@@ -342744,7 +343613,7 @@
         "unclassified:sc_b9eec44e4cb149c7a3aa"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
-      "resource_version": "9afcaae1742616070409171759ff5f169374c5be1c79018d78ab5b491fd78290"
+      "resource_version": "52cda08e75b1933f80c881ab93b1de15a59143317b3ec53c366271fcbfe3884c"
     },
     "topic:m4a.6.1": {
       "id": "topic:m4a.6.1",
@@ -343350,7 +344219,7 @@
         "unclassified:sc_e055653ddab8457cbf40"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
-      "resource_version": "69af8f450d0dee3802211f148f5b60bb404fc6928776ca6a1025180d13374a72"
+      "resource_version": "71dcd2526a756f537e807cef01c939663ce6a01e879cf70aab8d6579d6ddc6f2"
     },
     "topic:m5a.4.3": {
       "id": "topic:m5a.4.3",
@@ -343445,7 +344314,7 @@
         "unclassified:sc_675c061aaefc4f56bdbe"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
-      "resource_version": "43db231e5c3d6ea2bf0f9f5e1697ef7c511feada20401fc315fbdb3ed17c47dd"
+      "resource_version": "aae90e9fbf204fe640dfd6f5e8274acb78241d026d3588577cc9f610af91e965"
     },
     "topic:m5a.6.1": {
       "id": "topic:m5a.6.1",
@@ -343648,7 +344517,7 @@
         "unclassified:sc_c3ef3a6b24f94bdb8b4a"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
-      "resource_version": "7fe2b15f1a0160cc4c06a14e7d8153d4f24b0c76e5ca1456c006bcfafcbbab9c"
+      "resource_version": "5aacfb5a2f1bca3bfedd3916c4e97f6d2ba6932d033de4b803eb001831775fef"
     },
     "topic:m5b.1.1": {
       "id": "topic:m5b.1.1",
@@ -347711,7 +348580,7 @@
         "unclassified:sc_55b20bb2903a4d52aa26"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
-      "resource_version": "a99e021d7b2d03edf2b5e4c1780d167a762c4ef05bec7475d16f1fedc09ef4f1"
+      "resource_version": "b8ec30333384f3fe825b94020b451adb07312f368de095eae8ff507065f0deb5"
     },
     "topic:m8b.23.1": {
       "id": "topic:m8b.23.1",
@@ -348422,7 +349291,7 @@
         "unclassified:sc_c9eb312eaee749db87e2"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
-      "resource_version": "73cf5404e42e73340199727c2308adea587ad44ae4682a7f76ad0b2553c8bd8c"
+      "resource_version": "532946a3e99ad6583a007bf16537657ef2ecc6559dd4eff43323a1a3142b7203"
     },
     "topic:m9a.28.2": {
       "id": "topic:m9a.28.2",
@@ -348755,7 +349624,7 @@
         "unclassified:sc_55b8f33d5d984a7e86c2"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
-      "resource_version": "90c67ed4fe3923e8866ede1a880fc195a9d045b9cdc0c676a9c7b596f934a4bd"
+      "resource_version": "6e79009d4115ddf95234d36b4c7ce0b5448999b8232eed5a47953f1457d0c672"
     },
     "topic:m9b.31.2.2": {
       "id": "topic:m9b.31.2.2",
@@ -351841,29 +352710,38 @@
         "mh2.8.3.1-q202",
         "mh2.8.3.1-q203",
         "mh2.8.3.1-q204",
+        "mh2.8.3.1-q305",
         "sc_5e17a7b8d9f54df0a41d",
-        "sc_de7f32abc5594d46a5f6"
+        "sc_de7f32abc5594d46a5f6",
+        "sc_643fcfba720c4fb2af6f",
+        "sc_9c9db976cd434eaf9af5",
+        "sc_7035c69208f54969ac7e",
+        "sc_d781c88b9ab94de386d8"
       ],
       "family_ids": [
-        "unclassified:ex_f28ea4512aeb4fefa34b",
-        "unclassified:sc_5e17a7b8d9f54df0a41d",
-        "unclassified:sc_de7f32abc5594d46a5f6"
+        "solid.frustum.parallel-cut-volume",
+        "solid.prism-pyramid.same-base-height",
+        "solid.prism.base-height-volume",
+        "solid.pyramid.base-height-volume",
+        "solid.pyramid.height-discrimination",
+        "solid.regular-pyramid.surface-area"
       ],
       "assessment_family_ids": [
+        "solid.cuboid.surface-area",
+        "solid.frustum.parallel-cut-volume",
+        "solid.prism-pyramid.same-base-height",
+        "solid.prism.base-height-volume",
+        "solid.pyramid.base-height-volume",
+        "solid.pyramid.height-discrimination",
+        "solid.regular-pyramid.surface-area",
         "unclassified:mh2.8.3.1-q1",
         "unclassified:mh2.8.3.1-q101",
         "unclassified:mh2.8.3.1-q102",
         "unclassified:mh2.8.3.1-q2",
-        "unclassified:mh2.8.3.1-q201",
-        "unclassified:mh2.8.3.1-q202",
-        "unclassified:mh2.8.3.1-q203",
-        "unclassified:mh2.8.3.1-q204",
-        "unclassified:mh2.8.3.1-q9",
-        "unclassified:sc_5e17a7b8d9f54df0a41d",
-        "unclassified:sc_de7f32abc5594d46a5f6"
+        "unclassified:mh2.8.3.1-q9"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
-      "resource_version": "1e607c9abf9c498ce174b3f80dd8777d16c243ba19b65cbd6276289859f24fe6"
+      "resource_version": "2c53cd819d7e9884180f6c37d3e463fbc0e60b123f0785912500f62c1235c1cb"
     },
     "topic:mh2.8.3.2": {
       "id": "topic:mh2.8.3.2",
@@ -356453,22 +357331,22 @@
     }
   },
   "families": {
-    "unclassified:m1a.1.1-q1": {
-      "id": "unclassified:m1a.1.1-q1",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "primary.symbol.copy-given-number": {
+      "id": "primary.symbol.copy-given-number",
+      "status": "declared",
+      "basis": "author_audit",
+      "description": "从题干抄写已提供的数字，不视为自主计数。",
       "task_ids": [
         "m1a.1.1-q1"
       ],
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:m1a.1.1-q2": {
-      "id": "unclassified:m1a.1.1-q2",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "primary.order.successor-within-five": {
+      "id": "primary.order.successor-within-five",
+      "status": "declared",
+      "basis": "author_audit",
+      "description": "判断1至5范围数序的紧接后继数，不覆盖认读写。",
       "task_ids": [
         "m1a.1.1-q2"
       ],
@@ -356484,6 +357362,32 @@
         "m1a.1.1-q9"
       ],
       "material_ids": [],
+      "independence_established": false
+    },
+    "primary.count.distinct-objects": {
+      "id": "primary.count.distinct-objects",
+      "status": "declared",
+      "basis": "author_audit",
+      "description": "对互不重叠物体逐个计数得到基数；散排与直排同族。",
+      "task_ids": [
+        "m1a.1.1-q301",
+        "m1a.1.1-q303"
+      ],
+      "material_ids": [],
+      "independence_established": false
+    },
+    "primary.match.symbol-to-collection": {
+      "id": "primary.match.symbol-to-collection",
+      "status": "declared",
+      "basis": "author_audit",
+      "description": "把数字符号与具体物体组匹配，排除仅看长度或面积的策略。",
+      "task_ids": [
+        "m1a.1.1-q302",
+        "sc_d627061d1a474180a181"
+      ],
+      "material_ids": [
+        "topic:m1a.1.1"
+      ],
       "independence_established": false
     },
     "unclassified:m1a.1.2-q1": {
@@ -387417,48 +388321,71 @@
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:mh2.8.3.1-q201": {
-      "id": "unclassified:mh2.8.3.1-q201",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "solid.pyramid.base-height-volume": {
+      "id": "solid.pyramid.base-height-volume",
+      "status": "declared",
+      "basis": "author_audit",
+      "description": "棱锥体积V=Sh/3；底面积直接给出或先由底面尺寸计算均保守归入同族，不因多一步底面积计算就声称独立迁移。",
       "task_ids": [
-        "mh2.8.3.1-q201"
+        "mh2.8.3.1-q201",
+        "sc_7035c69208f54969ac7e"
       ],
-      "material_ids": [],
+      "material_ids": [
+        "topic:mh2.8.3.1"
+      ],
       "independence_established": false
     },
-    "unclassified:mh2.8.3.1-q202": {
-      "id": "unclassified:mh2.8.3.1-q202",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "solid.cuboid.surface-area": {
+      "id": "solid.cuboid.surface-area",
+      "status": "declared",
+      "basis": "author_audit",
+      "description": "长方体表面积：三组相对矩形面积各计两次；与体积运算分开。",
       "task_ids": [
         "mh2.8.3.1-q202"
       ],
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:mh2.8.3.1-q203": {
-      "id": "unclassified:mh2.8.3.1-q203",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "solid.regular-pyramid.surface-area": {
+      "id": "solid.regular-pyramid.surface-area",
+      "status": "declared",
+      "basis": "author_audit",
+      "description": "正四棱锥表面积：底面与四个三角形侧面相加；侧面高已知或先由垂直高求得均保守归为同族。",
       "task_ids": [
-        "mh2.8.3.1-q203"
+        "mh2.8.3.1-q203",
+        "sc_de7f32abc5594d46a5f6"
       ],
-      "material_ids": [],
+      "material_ids": [
+        "topic:mh2.8.3.1"
+      ],
       "independence_established": false
     },
-    "unclassified:mh2.8.3.1-q204": {
-      "id": "unclassified:mh2.8.3.1-q204",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "solid.frustum.parallel-cut-volume": {
+      "id": "solid.frustum.parallel-cut-volume",
+      "status": "declared",
+      "basis": "author_audit",
+      "description": "同一棱锥的平行截体：由上下底面积及垂直高求棱台体积；代公式及大锥减小锥属于同一数学结构族。",
       "task_ids": [
-        "mh2.8.3.1-q204"
+        "mh2.8.3.1-q204",
+        "sc_d781c88b9ab94de386d8"
       ],
-      "material_ids": [],
+      "material_ids": [
+        "topic:mh2.8.3.1"
+      ],
+      "independence_established": false
+    },
+    "solid.prism.base-height-volume": {
+      "id": "solid.prism.base-height-volume",
+      "status": "declared",
+      "basis": "author_audit",
+      "description": "已知底面积与垂直高，应用V=Sh；仅换数或斜棱干扰仍为同族。",
+      "task_ids": [
+        "mh2.8.3.1-q305",
+        "sc_9c9db976cd434eaf9af5"
+      ],
+      "material_ids": [
+        "topic:mh2.8.3.1"
+      ],
       "independence_established": false
     },
     "unclassified:mh2.8.3.2-q1": {
@@ -395647,11 +396574,11 @@
       ],
       "independence_established": false
     },
-    "unclassified:sc_b2bd32d1d07c4693bcc6": {
-      "id": "unclassified:sc_b2bd32d1d07c4693bcc6",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "primary.count.rearrangement-invariance": {
+      "id": "primary.count.rearrangement-invariance",
+      "status": "declared",
+      "basis": "author_audit",
+      "description": "点数后重排物体，不添不减时总量不变。",
       "task_ids": [
         "sc_b2bd32d1d07c4693bcc6"
       ],
@@ -395660,13 +396587,39 @@
       ],
       "independence_established": false
     },
-    "unclassified:sc_3d81372f609b48af8773": {
-      "id": "unclassified:sc_3d81372f609b48af8773",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "primary.read-write-match-one-five": {
+      "id": "primary.read-write-match-one-five",
+      "status": "declared",
+      "basis": "author_audit",
+      "description": "1至5综合活动：读、写、摆均须逐项记录，不以单项自动代替。",
       "task_ids": [
         "sc_3d81372f609b48af8773"
+      ],
+      "material_ids": [
+        "topic:m1a.1.1"
+      ],
+      "independence_established": false
+    },
+    "primary.read.shuffled-digit-cards": {
+      "id": "primary.read.shuffled-digit-cards",
+      "status": "declared",
+      "basis": "author_audit",
+      "description": "打乱呈现1至5数字卡，实际口头读出；文字输入不验证发音。",
+      "task_ids": [
+        "sc_8c29b1908cac4410bcd1"
+      ],
+      "material_ids": [
+        "topic:m1a.1.1"
+      ],
+      "independence_established": false
+    },
+    "primary.write.digit-and-collection": {
+      "id": "primary.write.digit-and-collection",
+      "status": "declared",
+      "basis": "author_audit",
+      "description": "纸上独立写数字并配相应数量，区分描写、照写和独立书写。",
+      "task_ids": [
+        "sc_300e5f7d4e794b8b91b6"
       ],
       "material_ids": [
         "topic:m1a.1.1"
@@ -409798,22 +410751,11 @@
       ],
       "independence_established": false
     },
-    "unclassified:ex_f28ea4512aeb4fefa34b": {
-      "id": "unclassified:ex_f28ea4512aeb4fefa34b",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
-      "task_ids": [],
-      "material_ids": [
-        "topic:mh2.8.3.1"
-      ],
-      "independence_established": false
-    },
-    "unclassified:sc_5e17a7b8d9f54df0a41d": {
-      "id": "unclassified:sc_5e17a7b8d9f54df0a41d",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "solid.prism-pyramid.same-base-height": {
+      "id": "solid.prism-pyramid.same-base-height",
+      "status": "declared",
+      "basis": "author_audit",
+      "description": "比较同底同高棱柱与棱锥体积及三分之一关系。",
       "task_ids": [
         "sc_5e17a7b8d9f54df0a41d"
       ],
@@ -409822,13 +410764,13 @@
       ],
       "independence_established": false
     },
-    "unclassified:sc_de7f32abc5594d46a5f6": {
-      "id": "unclassified:sc_de7f32abc5594d46a5f6",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "solid.pyramid.height-discrimination": {
+      "id": "solid.pyramid.height-discrimination",
+      "status": "declared",
+      "basis": "author_audit",
+      "description": "在正四棱锥中区分垂直高、侧面高及其直角关系。",
       "task_ids": [
-        "sc_de7f32abc5594d46a5f6"
+        "sc_643fcfba720c4fb2af6f"
       ],
       "material_ids": [
         "topic:mh2.8.3.1"
@@ -428022,6 +428964,9 @@
     "bank:m1a.1.1-q1": "m1a.1.1-q1",
     "bank:m1a.1.1-q2": "m1a.1.1-q2",
     "bank:m1a.1.1-q9": "m1a.1.1-q9",
+    "bank:m1a.1.1-q301": "m1a.1.1-q301",
+    "bank:m1a.1.1-q302": "m1a.1.1-q302",
+    "bank:m1a.1.1-q303": "m1a.1.1-q303",
     "bank:m1a.1.2-q1": "m1a.1.2-q1",
     "bank:m1a.1.2-q2": "m1a.1.2-q2",
     "bank:m1a.1.2-q3": "m1a.1.2-q3",
@@ -430844,6 +431789,7 @@
     "bank:mh2.8.3.1-q202": "mh2.8.3.1-q202",
     "bank:mh2.8.3.1-q203": "mh2.8.3.1-q203",
     "bank:mh2.8.3.1-q204": "mh2.8.3.1-q204",
+    "bank:mh2.8.3.1-q305": "mh2.8.3.1-q305",
     "bank:mh2.8.3.2-q1": "mh2.8.3.2-q1",
     "bank:mh2.8.3.2-q2": "mh2.8.3.2-q2",
     "bank:mh2.8.3.2-q9": "mh2.8.3.2-q9",
@@ -431589,6 +432535,9 @@
     "bank:mh5.8.3.2-q203": "mh5.8.3.2-q203",
     "self_check:m1a.1.1:0": "sc_b2bd32d1d07c4693bcc6",
     "self_check:m1a.1.1:1": "sc_3d81372f609b48af8773",
+    "self_check:m1a.1.1:2": "sc_d627061d1a474180a181",
+    "self_check:m1a.1.1:3": "sc_8c29b1908cac4410bcd1",
+    "self_check:m1a.1.1:4": "sc_300e5f7d4e794b8b91b6",
     "self_check:m1a.1.2:0": "sc_d64b9c74ed854811b623",
     "self_check:m1a.1.2:1": "sc_d103f323fd1047d88095",
     "self_check:m1a.1.3:0": "sc_d756133b87a54848a0dc",
@@ -432373,6 +433322,10 @@
     "self_check:mh2.8.2:1": "sc_4a51cbc64d164ae68327",
     "self_check:mh2.8.3.1:0": "sc_5e17a7b8d9f54df0a41d",
     "self_check:mh2.8.3.1:1": "sc_de7f32abc5594d46a5f6",
+    "self_check:mh2.8.3.1:2": "sc_643fcfba720c4fb2af6f",
+    "self_check:mh2.8.3.1:3": "sc_9c9db976cd434eaf9af5",
+    "self_check:mh2.8.3.1:4": "sc_7035c69208f54969ac7e",
+    "self_check:mh2.8.3.1:5": "sc_d781c88b9ab94de386d8",
     "self_check:mh2.8.3.2:0": "sc_8ec2e59ec1e847ce8412",
     "self_check:mh2.8.3.2:1": "sc_d36e957c51444c0b80da",
     "self_check:mh2.8.4.1:0": "sc_d29a4b71f4e440bca687",
@@ -432861,7 +433814,7 @@
     "data/content/bashang.json": "3b06362f87989fa27a2e3cf51aa111857554961d22adcf6a424aa351058ca4ae",
     "data/content/baxia.json": "2a95fade36e2a0b74b8abb1ca205a7e972a0bec7a2f05847d78598d9e0044564",
     "data/content/bx1.json": "d2e99c9b69c3cbd2d88076ea3891d212386c86cd8db39a4d0b1e73f9473d1939",
-    "data/content/bx2.json": "536d207d5e40b7a299771d966e4c0e654fe2a98fa15aae15ae46062f106c51fa",
+    "data/content/bx2.json": "f27b3e392ea76015138598b1c79719b0fca3f04e065b838b287617d7b8dcf0af",
     "data/content/ershang.json": "c521e84dab6a793712ed1dad82ae0b2a2a91d1d8c70b43dea23eb8d1a27f5dbd",
     "data/content/erxia.json": "b2bed859abc1750d9a55d04e62d6e8ff4a3c4bf74e57502a8cb44403c58c4b75",
     "data/content/jiushang.json": "6a29c36a750a4becde42959eee1ee4b0ef9a6df246e6e69e6aca09e2978e0b1c",
@@ -432879,7 +433832,7 @@
     "data/content/xby1.json": "0679cbc138cfd71940ced680fbb1ac7b30a986f2d5a2b57ae269352e7120a8d3",
     "data/content/xby2.json": "d5133f104a5581fbb4bdc5a8478e2df6e4c46d9a2f3dc1155f44efe60234a4f5",
     "data/content/xby3.json": "e556761cb6832fbd2446e89c2c76791e5b4c0cef805976fdf2cbce0de328eb17",
-    "data/content/yishang.json": "ddb8c97a05b43283c137aa0c551e7a7bfdec40b27dd0728a4868189fbd2a08b8",
+    "data/content/yishang.json": "eeb18f6288534253baf31697d2e3034ea35fa8f59f77c0ca8ff366c3bad6f9e7",
     "data/content/yixia.json": "fb9e7a18182641b76e8e33708b8f42176ce26f86f153c33870c60f763fd7dd07",
     "data/content_sources.json": "6412fdbb29341ddcc5a5e0c44f34b9e410f932aed104e006c2c5567c211ac65a",
     "data/learning_units/common_factors_multiples.json": "712eace7fc4bcf52227086fd731dd4d25995664353930d4466d507232c0bee9b",
@@ -432920,11 +433873,11 @@
     "data/question_sources/application.json": "6f725a11287eebd5103e3cb4bc009a1699f9b4c636edb721fb38217fd23a0d63",
     "data/question_sources/retired-alignment.json": "ecb91df67389abc235fc1dc3f218fdf18574d18782032b001f7d6db3c33deb08",
     "data/question_sources/retired-memory.json": "6b47b394be4a7130d1b37637506d04da6a8b6f8a81f941264d2f866ba59056f0",
-    "data/questions.json": "98754872009cfd3c6bb71cdbbbb79e47a6519738e7e6c0e0d07384d9c046ad0c",
-    "data/skills/catalog-bindings.json": "98759306ee2fef298cd89828929857a45a7a79c4cf86a06efa17bb8a280f0f5b",
-    "data/skills/registry.json": "0974c948f68c275a5be33bd911ffa455ed9800d8ccf19cf19d9de113eb326f2a",
-    "data/task_admissions.json": "4e82f5f9154645bd3312b35e11e5f3e68b3923119fc3c76e6ffc7167be28207a",
-    "data/teach/m1a.1.1.json": "a0bab57a650d36b643c663b0a993a1dbd0c9e82ced5205836f166c0038fee469",
+    "data/questions.json": "f6288a82b2bdff27a6a38148ad16e86cb5ffc60a8d36c7e2d95a12d9cc6e3645",
+    "data/skills/catalog-bindings.json": "c769b6d5fe25117a96230ea6cf74159b762e3f8ba8f7d4a223d486facea3dca7",
+    "data/skills/registry.json": "0db7635a07eefc55da3b9030034d6181e3dfc6fb45eb5f5bff403fa15d91c9ca",
+    "data/task_admissions.json": "e802f6dcc475e26143aed3cd2b78faffffba0f8d34154bc8a713302d7f9619b3",
+    "data/teach/m1a.1.1.json": "7c77a4b03f779e4123a216c317732d2bdde409a5d7007452f32fc1129f658ddb",
     "data/teach/m1a.1.2.json": "642d9142b9e827be79f989f60a795136b7479609b5787955256cf722f8e492a7",
     "data/teach/m1a.1.3.json": "decdb4a563c1c9bf0f53f8d511e642ab1002221b4a5871c32ab58f66ecb6c6ad",
     "data/teach/m1a.1.4.json": "cb1c918281fb9ed02bbe78bc49b7683b20e4a659f52be07f79e7325a00017f4b",
@@ -433323,7 +434276,7 @@
     "data/teach/mh2.7.3.2.json": "0636e59a0935cf409d1f6e85c2fc3387589bf78dc010c59f518de0d9ff51096a",
     "data/teach/mh2.8.1.json": "6c7ed9e0df113bc3eda0d6b26299ac4bec5c95e6daf5b456060185b5cdd5c690",
     "data/teach/mh2.8.2.json": "9823706224764b1aec0ede22c95816c97c13d8ba28569d462bbdeccdd728691f",
-    "data/teach/mh2.8.3.1.json": "1552f2e1eed3d13ae5505f59731e6ab29693081ffb278fca54a8f79011bbe518",
+    "data/teach/mh2.8.3.1.json": "9ef8a1bbcb29ba8bb48d5417f48b7b4ece60ecac62a057b9eea0779149d54614",
     "data/teach/mh2.8.3.2.json": "3f2026abd914a9176a0c692c42759f1a6c47ad6cd4d8bade33a5668f34d4efb1",
     "data/teach/mh2.8.4.1.json": "e2223f4f614d2a4cc94e3b9b783f7cdd399da2b2b15a4c71424b0dc121520409",
     "data/teach/mh2.8.4.2.json": "cf741c1cc96cc1320f340b8c058bb9b7eb5a371b9de002c859fe725829d422f9",
@@ -433401,11 +434354,14 @@
     "data/teach/mh5.8.2.2.json": "70a77c5b0307337bd8c041d3705c3149c3dcbd7acc885c779d3924f1844e68c0",
     "data/teach/mh5.8.3.1.json": "ee6fbcb9ba769cdc17c6bbb380882e577789f49894753721e950c0d2141634f6",
     "data/teach/mh5.8.3.2.json": "485be2e75452ce4098c6aec4be47e726fce84a869691740be91ace262a56c529",
-    "data/topics.json": "b6a1bd793b03370c79c9039cefbb99f61973c68ed0c6373e462766f6e8b022a6",
+    "data/topics.json": "38619dc1a463ea62c869467a28d46b28cdfce94fa8e8b7dc2f846b873ea9585a",
     "web/static/diagrams/bearing-reference.svg": "afa32082746c09527758321d48f1251e6cc69eaa9885c98db503d58be740a880",
     "web/static/diagrams/clock-0820.svg": "44b66b834b663b1e0c9e03aa64b5f5e26f37f1311997c6c68dd6866d0eae267e",
     "web/static/diagrams/clock-1035.svg": "66e89be5a82721f4c3763f52f362ad96ee9371c72e4315b3faf1390b30d93276",
     "web/static/diagrams/common-factor-equal-cuts.svg": "7e98db5961857f03f0605f4ddf6eecb1b6359b96d2a725948bc106a71ea1fe84",
+    "web/static/diagrams/count-groups-v5.svg": "dca41f9f32b8ef08d40b398c0ba0fb07c4a375b9955df8e34284bfa3ce10740b",
+    "web/static/diagrams/count-row-v5.svg": "f9930c07f82a8ba29cdb20a4fa148bc683dadef31ca7c64396508c4235d8bf0a",
+    "web/static/diagrams/count-scattered-v5.svg": "8c01fc38442e1f97b2ec7f901cb44f071cc30c5797918eeb4fa2087046faa93b",
     "web/static/diagrams/derivative-graph-task.svg": "a494a8b7f7e71fc808e8a8c3d78a2852206f7b86e4741b2351b6c599d59ee034",
     "web/static/diagrams/equation-balanced-boxes.svg": "5ffef8f7df70418764cc9632996358bcfecc14e8a15a5517c4caa9246c972672",
     "web/static/diagrams/fraction-numberline-quarters.svg": "9f106d172cdeeadff4a60f788ecc08a6d78702ffa89c13618b795b2dd85c8011",
@@ -433422,6 +434378,7 @@
     "web/static/diagrams/linear-unequal-scales.svg": "1c8a39f662eb9d85c24fa77cf4295eb082d16a1bf4657b0409cb29a76ac8849d",
     "web/static/diagrams/number-line-seven-twelve.svg": "a689a02168fc2de5bd4bb5d2d5df4121f8328127285afab2f0238c1ca3d6b693",
     "web/static/diagrams/place-value-compare-bundles.svg": "6b18b33d355a6e037e79346688715fcfc7b84299611aa9a17040495ab9225b4b",
+    "web/static/diagrams/polyhedra-heights-v5.svg": "3455460203de95e4d33b10d016e087e0013f7c87eea3c5e6e46e305d19e35ddf",
     "web/static/diagrams/position-rotated-north.svg": "7ffee22f2085e17da58270950d0113bcffc06a5790bab063dc439d949ffa6b10",
     "web/static/diagrams/position-shortest-grid.svg": "9b786087e19490406df4fa988a84e37777264aeb4d951d32d652bf0e576a4ed8",
     "web/static/diagrams/primary-circle-area-rearrangement.svg": "e6da500219c825534a2497584cedab549d527e5ac2b1ee1920771d0b2558d772",
@@ -433461,36 +434418,36 @@
         "without_explicit_tasks": 0
       },
       "observable": {
-        "registered": 74,
-        "with_explicit_tasks": 74,
+        "registered": 81,
+        "with_explicit_tasks": 81,
         "without_explicit_tasks": 0
       }
     },
     "task_source_counts": {
-      "bank": 3568,
+      "bank": 3572,
       "project_step": 84,
-      "self_check": 954,
+      "self_check": 961,
       "unit": 231
     },
     "task_alignment_counts": {
       "explicit": 315,
-      "explicit_component": 1649,
+      "explicit_component": 1660,
       "topic_only": 2384
     },
     "answer_kind_counts": {
-      "choice": 1206,
+      "choice": 1207,
       "coordinate": 8,
       "interval": 8,
-      "number": 2355,
+      "number": 2358,
       "number_list": 2,
       "polynomial": 12,
-      "rubric": 1140,
+      "rubric": 1147,
       "text": 106
     },
-    "active_tasks": 4348,
+    "active_tasks": 4359,
     "quarantined_tasks": 489,
-    "declared_families": 297,
-    "unclassified_families": 4926,
+    "declared_families": 312,
+    "unclassified_families": 4915,
     "topic_placements": 477,
     "independent_mastery_evidence": false,
     "limitations": [
@@ -433501,15 +434458,15 @@
     ],
     "bank_policy_counts": {
       "original": {
-        "practice_eligible": 3079,
-        "diagnosis_eligible": 1967
+        "practice_eligible": 3083,
+        "diagnosis_eligible": 1965
       },
       "compiled": {
-        "practice_eligible": 3079,
-        "diagnosis_eligible": 1967
+        "practice_eligible": 3083,
+        "diagnosis_eligible": 1965
       }
     },
     "policy_migration_changes": []
   },
-  "content_sha256": "1268f0fbde21d34b30ab0371fe6237dac01d78ead8cdb9db4fb05d8f3f1adf05"
+  "content_sha256": "66eabefaac92c7f67a28761b19a99bdd9152da2b9dcab498174a58699c074fbc"
 }

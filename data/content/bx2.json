@@ -1433,7 +1433,11 @@
    "description": "棱柱体积 V=Sh，棱锥体积 V=Sh/3，棱台体积由上下底面积与高决定；表面积是各面面积之和。",
    "mastery_criteria": [
     "能计算棱柱、棱锥的体积",
-    "能把表面积拆成各个面的面积"
+    "能把表面积拆成各个面的面积",
+    "能区分多面体体积公式中的垂直高与侧面三角形的高",
+    "能用底面积和垂直高计算棱柱体积并核对单位",
+    "能用同底同高棱柱的三分之一计算棱锥体积",
+    "能在平行截得的棱台中用上下底面积与垂直高计算体积"
    ],
    "standards": [
     {
@@ -7969,10 +7973,14 @@
    "diagnosis_eligible": false,
    "for_diagnosis": false,
    "tested_criterion_indices": [
-    0
+    4
    ],
-   "alignment_note": "本题仅检查以下目标中的题设子任务：能计算棱柱、棱锥的体积。完整推导、证明或方案设计由讲解卡的独立自检与量规检查。",
-   "verify": "30*6/3"
+   "alignment_note": "已逐题核对：题面给出棱锥底面积30、垂直高6，只观察棱锥V=Sh/3，答案60；不绑定棱柱或棱台，也不自动完成旧综合目标。",
+   "verify": "30*6/3",
+   "family_id": "solid.pyramid.base-height-volume",
+   "variant_id": "mh2.8.3.1-q201",
+   "representation": "verbal",
+   "cognitive_demand": "execute"
   },
   {
    "id": "mh2.8.3.1-q202",
@@ -7997,8 +8005,12 @@
    "tested_criterion_indices": [
     1
    ],
-   "alignment_note": "本题仅检查以下目标中的题设子任务：能把表面积拆成各个面的面积。完整推导、证明或方案设计由讲解卡的独立自检与量规检查。",
-   "verify": "2*(5*3+5*2+3*2)"
+   "alignment_note": "已逐题核对：题面是长方体5×3×2的表面积，分别加三组相对面得62；不提供任何棱锥体积证据。",
+   "verify": "2*(5*3+5*2+3*2)",
+   "family_id": "solid.cuboid.surface-area",
+   "variant_id": "mh2.8.3.1-q202",
+   "representation": "verbal",
+   "cognitive_demand": "execute"
   },
   {
    "id": "mh2.8.3.1-q203",
@@ -8023,8 +8035,12 @@
    "tested_criterion_indices": [
     1
    ],
-   "alignment_note": "本题仅检查以下目标中的题设子任务：能把表面积拆成各个面的面积。完整推导、证明或方案设计由讲解卡的独立自检与量规检查。",
-   "verify": "6*6+4*(6*5/2)"
+   "alignment_note": "只观察侧面高已知的正四棱锥外表面分解；未观察从垂直高求侧面高的过程。",
+   "verify": "6*6+4*(6*5/2)",
+   "family_id": "solid.regular-pyramid.surface-area",
+   "variant_id": "mh2.8.3.1-q203",
+   "representation": "verbal",
+   "cognitive_demand": "execute"
   },
   {
    "id": "mh2.8.3.1-q204",
@@ -8034,9 +8050,9 @@
    ],
    "primaryTopicId": "mh2.8.3.1",
    "type": "numeric",
-   "prompt": "棱台两底面积为4与16平方厘米，垂直高3厘米，体积多少立方厘米？",
+   "prompt": "用平行于棱锥底面的平面截去顶端小棱锥，得到两底面积为4与16平方厘米、垂直高3厘米的棱台。体积多少立方厘米？",
    "answer": "28",
-   "explanation": "棱台公式中几何平均项为√64=8，故V=28。",
+   "explanation": "平行截得保证上下底相似。根号项√(4×16)=8，所以V=3×(4+16+8)÷3=28立方厘米。补回锥顶时相似长度比1:2，大小棱锥高为6与3，体积差16×6÷3−4×3÷3也为28。",
    "source": "self-generated-completion",
    "review_status": "draft",
    "author": "ai",
@@ -8047,10 +8063,14 @@
    "diagnosis_eligible": false,
    "for_diagnosis": false,
    "tested_criterion_indices": [
-    0
+    5
    ],
-   "alignment_note": "本题仅检查以下目标中的题设子任务：能计算棱柱、棱锥的体积。完整推导、证明或方案设计由讲解卡的独立自检与量规检查。",
-   "verify": "3*(4+16+(4*16)**0.5)/3"
+   "alignment_note": "只观察平行截得棱台的两底面积、垂直高与体积公式；不再绑定到旧“棱柱、棱锥体积”目标。",
+   "verify": "3*(4+16+(4*16)**0.5)/3",
+   "family_id": "solid.frustum.parallel-cut-volume",
+   "variant_id": "mh2.8.3.1-q204",
+   "representation": "verbal",
+   "cognitive_demand": "execute"
   },
   {
    "id": "mh2.8.3.2-q201",
@@ -10406,6 +10426,43 @@
      "text": "只记录第一抽"
     }
    ]
+  },
+  {
+   "id": "mh2.8.3.1-q305",
+   "topicId": "mh2.8.3.1",
+   "topicIds": [
+    "mh2.8.3.1"
+   ],
+   "primaryTopicId": "mh2.8.3.1",
+   "difficulty": "standard",
+   "type": "numeric",
+   "prompt": "一个斜棱柱的底面积为18平方厘米，侧棱长8厘米，两底面的垂直距离为7厘米。这个棱柱体积是多少立方厘米？",
+   "answer": "126",
+   "verify": "18*7",
+   "explanation": "棱柱体积V=Sh，高h必须为两底面的垂直距离7厘米，所以18×7=126立方厘米。侧棱8厘米不是垂直高，不能使用18×8。",
+   "source": "self-generated-quality-v5",
+   "review_status": "draft",
+   "author": "ai",
+   "generated": true,
+   "difficulty_basis": "从干扰长度中选择垂直高，按棱柱体积公式计算。",
+   "target_alignment": "component_practice_only",
+   "diagnosis_eligible": false,
+   "for_diagnosis": false,
+   "tested_criterion_indices": [
+    2,
+    3
+   ],
+   "alignment_note": "只观察在斜棱长度干扰下选取垂直高并计算棱柱体积；不据此确认所有多面体体积。",
+   "family_id": "solid.prism.base-height-volume",
+   "variant_id": "mh2.8.3.1-q305",
+   "representation": "verbal",
+   "cognitive_demand": "execute",
+   "answer_spec": {
+    "version": 1,
+    "kind": "number",
+    "comparison": "exact",
+    "representation": "any"
+   }
   }
  ]
 }

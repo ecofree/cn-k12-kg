@@ -186,7 +186,7 @@ class RuntimeAndArchiveTests(unittest.TestCase):
         cls.graph = load_graph()
 
     def test_active_runtime_uses_explicit_contracts_without_legacy_inference(self):
-        self.assertEqual(len(self.graph.questions), 3079)
+        self.assertEqual(len(self.graph.questions), 3083)
         self.assertEqual(len(self.graph.retired_questions_by_id), 489)
         self.assertFalse(set(self.graph.questions_by_id) & set(self.graph.retired_questions_by_id))
         self.assertEqual(set(self.graph.retired_questions_by_id), set(self.catalog.retired_tasks))
@@ -197,7 +197,7 @@ class RuntimeAndArchiveTests(unittest.TestCase):
                 self.assertEqual(answers.grade_answer(question, question["answer"])["status"], "correct", question["id"])
                 for field in ("practice_eligible", "diagnosis_eligible"):
                     self.assertEqual(self.graph.question_policies[question["id"]][field], compiled["policy"][field])
-        self.assertEqual(sum(p["diagnosis_eligible"] for p in self.graph.question_policies.values()), 1967)
+        self.assertEqual(sum(p["diagnosis_eligible"] for p in self.graph.question_policies.values()), 1965)
 
     def test_twelve_retirements_preserve_question_content_and_old_metadata(self):
         audit = read(DATA / "question_retirements.json")
@@ -244,7 +244,7 @@ class RuntimeAndArchiveTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary) / "content.sqlite"
             counts = store.build(path, include_external=False)
-            self.assertEqual(counts["questions"], 3079)
+            self.assertEqual(counts["questions"], 3083)
             self.assertEqual(counts["retired_questions"], 489)
             with closing(sqlite3.connect(path)) as connection:
                 self.assertEqual(connection.execute("SELECT COUNT(*) FROM questions WHERE answer_spec_json IS NULL").fetchone()[0], 0)

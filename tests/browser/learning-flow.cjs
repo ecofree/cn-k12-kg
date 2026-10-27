@@ -536,17 +536,29 @@ const journeys = {
     assert.equal(closed.status, "resolved");
     assert.equal(closed.resolution.kind, "supported_confirmation");
     assert.equal(closed.resolution.independent_evidence, false);
+    const followup = plan.learning_needs.find(n => n.parent_need_id === originalNeed.need_id && n.kind === "independent_followup");
+    assert.ok(followup, "Supported success must retain an explicit goal-linked follow-up need");
+    assert.equal(followup.status, "open");
+    assert.equal(followup.resource_version, originalNeed.resource_version);
+    assert.equal(followup.followup.ready, false, "Just-finished support cannot provide a real 24-hour interval");
     assert.equal(plan.learning_needs.find(n => n.need_id === processNeed.need_id).status, "open");
     assert.ok((await apiRead("/api/session/" + origin)).summary.answers.some(a => a.status === "wrong"));
     await goto();
     await page.locator("#stage-select").selectOption("senior");
-    await page.waitForFunction(() => document.querySelector("#need-counts").textContent.includes("1 项待处理"));
+    await page.waitForFunction(count => document.querySelector("#need-counts").textContent.includes(`${count} 项待处理`), plan.need_counts.open);
     await page.locator("#open-needs").click(); await visible("#view-needs");
     assert.ok((await page.locator("#needs-list").textContent()).includes("过程待自查或修订"));
+    assert.ok((await page.locator("#needs-list").textContent()).includes("修订后待独立确认"));
+    const pendingFollowup = page.locator("#needs-list > article").filter({ hasText: "修订后待独立确认" }).first();
+    await pendingFollowup.getByRole("button", { name: "查看并继续确认", exact: true }).click();
+    await visible("#action-notice");
+    assert.ok((await page.locator("#action-notice").textContent()).includes("24小时"));
+    assert.equal((await apiRead("/api/plan")).learning_needs.find(n => n.need_id === followup.need_id).status, "open");
     result.observations.need_id = originalNeed.need_id;
     result.observations.support_session_id = support.session.id;
     claim("Wrong-answer and process needs survive completion, explicit deferral and stage changes.");
     claim("Intermediate help does not resolve the need; final confirmation records help and leaves the original wrong answer intact.");
+    claim("Supported success leaves a separate persistent goal-linked follow-up with an honest interval and executable practice route.");
   },
 
   async profile_backup_recovery() {

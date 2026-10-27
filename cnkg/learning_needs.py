@@ -10,7 +10,16 @@ import copy
 import hashlib
 import json
 
-from .review_timing import timestamp
+from .review_timing import qualified_review, timestamp
+
+_UNKNOWN_REPRESENTATIONS = {"", "unknown", "unclassified", "unspecified", "未知", "未分类"}
+
+
+def known_representations(value):
+    """Unknown metadata is absence of evidence, never a new representation."""
+    values = value if isinstance(value, list) else [value]
+    return {item.strip() for item in values if isinstance(item, str)
+            and item.strip().casefold() not in _UNKNOWN_REPRESENTATIONS}
 
 
 def _section(catalog, name):
@@ -136,12 +145,14 @@ def derive_needs(catalog, records, works=(), states=()):
     units, placements = _section(catalog, "units"), _section(catalog, "placements")
     # Index potential follow-ups once. Reading a long history must not compare
     # every wrong answer with every other answer in a quadratic scan.
-    correct_by_task, support_by_need, followups = {}, {}, {}
+    correct_by_task, support_by_need, followups, linked_observations = {}, {}, {}, {}
     primary_ids = {need_identity("process_revision" if answer.get("status") == "needs_review" else "answer_support",
                                 _source(record, answer), _version(record))
                    for record, answer in observations if record.get("kind") != "support"
                    and (answer.get("status") in {"wrong", "not_attempted", "needs_review"} or answer.get("skipped"))}
     for record, answer in observations:
+        for need_id in record.get("source_origin", {}).get("need_ids", []):
+            linked_observations.setdefault(need_id, []).append((record, answer))
         linked_ids = record.get("source_origin", {}).get("need_ids", []) if record.get("kind") == "support" else []
         for need_id in set(linked_ids) & primary_ids:
             followups.setdefault(need_id, []).append({"source_ref": _source(record, answer),
@@ -221,7 +232,8 @@ def derive_needs(catalog, records, works=(), states=()):
             if later_matches:
                 _, other, later, linked = min(later_matches, key=lambda item: (item[0], item[1]["id"]))
                 need["resolution"] = {"kind": "supported_confirmation" if linked else "later_same_task_correct",
-                                      "source_ref": _source(other, later), "observed_at": later.get("answered_at") or other.get("completed_at"),
+                                      "source_ref": _source(other, later), "observed_at": later.get("answered_at") or other.get("completed_at")
+                                      or other.get("updated_at") or other.get("created_at"),
                                       "help_used": later.get("help_used"), "independent_evidence": False,
                                       "notice": "保留后来作答的具体结果与帮助记录；重复题或帮助后的正确不证明独立掌握。"}
         needs.append(need)
@@ -241,6 +253,7 @@ def derive_needs(catalog, records, works=(), states=()):
                          and _when(record, answer) and _when(record, last) and _when(record, answer) > _when(record, last)]
         resolution = ({"kind": "supported_confirmation", "source_ref": _source(record, confirmations[-1]),
                        "help_used": confirmations[-1].get("help_used"), "independent_evidence": False,
+                       "observed_at": confirmations[-1].get("answered_at") or record.get("completed_at"),
                        "notice": "本次指导后的终结确认已记录；这不证明独立掌握。"} if confirmations else None)
         unit_id = record.get("source_origin", {}).get("unit_id") or record.get("unit_id")
         stage = record.get("stage") or units.get(unit_id, {}).get("stage")
@@ -286,6 +299,63 @@ def derive_needs(catalog, records, works=(), states=()):
                       "revision_needed": bool(work.get("revision_needed")), "resolution": resolution,
                       "evidence_basis": "learner_reported_revision",
                       "notice": notice})
+    # A bounded correction closes the support task, not the obligation to
+    # observe this target again without the recorded help. This second stable
+    # identity survives sessions, deferral, updates and re-derivation from a
+    # backup; an unrelated correct answer cannot silently discharge it.
+    for original in list(needs):
+        resolution = original.get("resolution") or {}
+        if resolution.get("kind") not in {"supported_confirmation", "later_same_task_correct"}:
+            continue
+        source = {"parent_need_id": original["need_id"]}
+        identity = need_identity("independent_followup", source, original.get("resource_version"))
+        observed_at = resolution.get("observed_at")
+        required = set(original.get("skill_ids", []))
+        covered, evidence, followup_rows = set(), [], []
+        for record, answer in linked_observations.get(identity, []):
+            origin, basis = record.get("source_origin", {}), answer.get("followup_basis", {})
+            when = _when(record, answer)
+            followup_rows.append({"source_ref": _source(record, answer), "status": answer.get("status"),
+                                  "help_used": answer.get("help_used"), "observed_at": answer.get("answered_at"),
+                                  "resource_version": _version(record)})
+            if (not required or not when or not timestamp(observed_at) or when <= timestamp(observed_at)
+                    or record.get("kind") == "support" or not qualified_review(record)
+                    or origin.get("resource_version") != original.get("resource_version")
+                    or answer.get("status") != "correct" or answer.get("skipped")
+                    or answer.get("help_used") is not False or basis.get("eligible") is not True
+                    or basis.get("family_status") != "declared" or not basis.get("family_id")
+                    or basis.get("family_id") == original.get("family_id")
+                    or basis.get("family_id") != answer.get("family_id")
+                    or not known_representations(basis.get("representation"))):
+                continue
+            matched = required & set(answer.get("skill_ids", []))
+            if matched:
+                covered.update(matched)
+                evidence.append({"source_ref": _source(record, answer), "skill_ids": sorted(matched),
+                                 "observed_at": answer.get("answered_at") or record.get("completed_at"),
+                                 "family_id": answer.get("family_id"), "help_used": False,
+                                 "resource_version": _version(record),
+                                 "actual_quiet_seconds": record.get("context", {}).get("actual_quiet_seconds")})
+        followup_resolution = None
+        if required and required <= covered:
+            followup_resolution = {"kind": "qualifying_followup_observation", "observations": evidence,
+                "observed_at": max((row["observed_at"] for row in evidence), key=timestamp),
+                "independent_evidence": False,
+                "notice": "对应目标已有明确关联的后续正确记录，使用已登记的不同题族、已知表征并达到真实间隔，且没有记录到帮助；这完成本次观察待办，不证明独立作答或稳定掌握。"}
+        needs.append({"need_id": identity, "parent_need_id": original["need_id"], "kind": "independent_followup",
+            "status": "open", "source_ref": copy.deepcopy(original["source_ref"]),
+            "source_refs": copy.deepcopy(original.get("source_refs", [])),
+            "resource_version": original.get("resource_version"), "unit_id": original.get("unit_id"),
+            "targets": list(original.get("targets", [])), "stages": list(original.get("stages", [])),
+            "title": original["title"], "skill_ids": sorted(required),
+            "objective_ids": list(original.get("objective_ids", [])), "family_id": original.get("family_id"),
+            "family_status": original.get("family_status", "unclassified"),
+            "representation": original.get("representation"), "observed_at": observed_at,
+            "source_completed": True, "source_kind": original.get("source_kind"),
+            "prior_confirmation": copy.deepcopy(resolution), "resolution": followup_resolution,
+            "followup_observations": followup_rows, "observed_skill_ids": sorted(covered),
+            "remaining_skill_ids": sorted(required - covered), "evidence_basis": "followup_after_supported_or_repeated_success",
+            "notice": "原支持或修订事项已有具体后续记录；这些目标仍需换已知题族，在真实间隔后继续观察。新阶段或内容更新不会清除这项待办。"})
     for need in needs:
         if need["resolution"]:
             need["status"] = "resolved"
@@ -305,7 +375,8 @@ def skill_evidence(catalog, records, needs):
         for sid in answer.get("skill_ids", []):
             row = result.setdefault(sid, {"skill_id": sid, "statement": skills.get(sid, {}).get("statement"),
                 "observations": [], "status_counts": {}, "family_ids": [], "representations": [],
-                "open_need_ids": [], "deferred_need_ids": [], "independent_mastery_evidence": False})
+                "open_need_ids": [], "deferred_need_ids": [], "independent_followup_need_ids": [],
+                "independent_mastery_evidence": False})
             status = answer.get("status", "unknown")
             row["status_counts"][status] = row["status_counts"].get(status, 0) + 1
             row["observations"].append({"source_ref": _source(record, answer), "status": status,
@@ -316,19 +387,22 @@ def skill_evidence(catalog, records, needs):
                 "actual_quiet_seconds": record.get("context", {}).get("actual_quiet_seconds")})
             if answer.get("family_status") == "declared" and answer.get("family_id"):
                 row["family_ids"].append(answer["family_id"])
-            if answer.get("representation"):
-                value = answer["representation"]
-                row["representations"].extend(value if isinstance(value, list) else [value])
+            row["representations"].extend(known_representations(answer.get("representation")))
     for need in needs:
         if need["status"] not in {"open", "deferred"}:
             continue
         for sid in need.get("skill_ids", []):
             if sid in result:
                 result[sid]["open_need_ids" if need["status"] == "open" else "deferred_need_ids"].append(need["need_id"])
+                if need["kind"] == "independent_followup":
+                    result[sid]["independent_followup_need_ids"].append(need["need_id"])
     for row in result.values():
         row["family_ids"] = sorted(set(row["family_ids"]))
         row["representations"] = sorted(set(row["representations"]))
-        row["next_action"] = "targeted_support" if row["open_need_ids"] else "further_observation"
+        support_ids = set(row["open_need_ids"]) - set(row["independent_followup_need_ids"])
+        row["next_action"] = ("targeted_support" if support_ids else "independent_followup"
+                              if set(row["open_need_ids"]) & set(row["independent_followup_need_ids"])
+                              else "further_observation")
         row["notice"] = "同题、同族、已看参考及帮助记录需要共同解释；单次结果与学习者自评不证明稳定迁移。"
     return [result[sid] for sid in sorted(result)]
 
@@ -364,8 +438,7 @@ def task_options(catalog, skill_ids, records, exposures=None, *, allowed_task_id
     seen_representations = set()
     for _, answer in observations:
         if set(answer.get("skill_ids", [])) & set(skill_ids):
-            value = answer.get("representation")
-            seen_representations.update(value if isinstance(value, list) else [value] if value else [])
+            seen_representations.update(known_representations(answer.get("representation")))
     exposures = exposures or {}
     question_exposures, family_exposures = exposures.get("questions", {}), exposures.get("families", {})
     options = []
@@ -385,17 +458,22 @@ def task_options(catalog, skill_ids, records, exposures=None, *, allowed_task_id
                                              ("presentation_count", "answer_count", "material_count", "reference_count", "feedback_count"))
         family_repeat = declared and (family in seen_families or any(fex.get(field, 0) for field in
                                              ("presentation_count", "answer_count", "material_count", "reference_count", "feedback_count")))
-        representations = task.get("representation")
-        representations = representations if isinstance(representations, list) else [representations] if representations else []
+        representations = known_representations(task.get("representation"))
+        known = bool(representations)
+        eligible = bool(declared and family and not repeat and not family_repeat and not helped and known
+                        and task.get("type") in {"numeric", "choice", "short"})
+        reason = ("题族尚未分类，只能作为继续练习，不能判定为新的独立观察。" if not declared else
+                  "题族已登记，但表征尚未核对；不能把未知表征算作新表征。" if not known else
+                  "换已声明题族与已知表征继续观察；仍需记录帮助和实际间隔。" if eligible else
+                  "可继续复习；重复、同族或已看参考不能冒充新的独立检查。")
         options.append({"task_id": tid, "resource_version": task.get("resource_version"),
                         "skill_ids": task.get("skill_ids", []), "family_id": family,
                         "family_status": task.get("family_status", "unclassified"), "representation": task.get("representation"),
                         "repeated_question": bool(repeat), "repeated_family": bool(family_repeat),
-                        "help_exposed": bool(helped), "new_representation": bool(set(representations) - seen_representations),
-                        "independent_evidence": False,
-                        "selection_reason": "换已声明题族与表征继续观察；仍需记录帮助和实际间隔。"
-                            if declared and not repeat and not family_repeat and not helped
-                            else "可用于有帮助的复习；重复、同族或已看参考不能冒充新的独立检查。"})
+                        "help_exposed": bool(helped), "new_representation": bool(representations - seen_representations),
+                        "known_representation_ids": sorted(representations), "representation_known": known,
+                        "eligible_for_followup": eligible, "phase": task.get("phase"),
+                        "independent_evidence": False, "selection_reason": reason})
     options.sort(key=lambda row: (row["repeated_question"], row["repeated_family"], row["help_exposed"],
                                  row["family_status"] != "declared", not row["new_representation"], row["task_id"]))
     return options if limit is None else options[:limit]

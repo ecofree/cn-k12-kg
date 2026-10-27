@@ -28,11 +28,11 @@ class QualityScopeTests(unittest.TestCase):
 
     def test_full_registered_denominator_and_distinct_completion_roles(self):
         summary = self.report["summary"]
-        self.assertEqual((summary["topic_count"], summary["volume_count"], summary["topic_goals"]), (477, 23, 954))
+        self.assertEqual((summary["topic_count"], summary["volume_count"], summary["topic_goals"]), (477, 23, 961))
         self.assertEqual((summary["core_topics"], summary["foundation_topics"]), (342, 135))
-        self.assertEqual((summary["unit_goals"], summary["project_goals"], summary["total_goals"]), (104, 66, 1124))
+        self.assertEqual((summary["unit_goals"], summary["project_goals"], summary["total_goals"]), (104, 66, 1131))
         topics = [row for row in self.report["goals"] if row["resource_kind"] == "topic"]
-        self.assertEqual(Counter(row["role"] for row in topics), {"core": 684, "foundation_support": 270})
+        self.assertEqual(Counter(row["role"] for row in topics), {"core": 688, "foundation_support": 273})
         self.assertTrue(self.report["manifest_valid"])
         self.assertTrue(all(row.get("optional_participation") for row in self.report["goals"] if row["resource_kind"] == "project"))
 
@@ -70,17 +70,18 @@ class QualityScopeTests(unittest.TestCase):
         self.assertTrue(all(row["status"] == "incomplete" for row in goals))
         self.assertTrue(all(any(gap["code"] == "explicit_goal_material_and_task" for gap in row["gaps"]) for row in goals))
         self.assertTrue(all(row["auxiliary_reference_refs"] for row in goals))
-        self.assertEqual(report["summary"]["total_goals"], 1124)
+        self.assertEqual(report["summary"]["total_goals"], 1131)
 
     def test_role_downgrade_or_goal_removal_in_manifest_is_rejected(self):
         manifest = copy.deepcopy(quality_scope.scope_manifest())
         foundation = next(row for row in manifest["topics"] if row["role"] == "foundation_support")
+        promised_goals = len(foundation["goals"])
         foundation["role"] = "extension"
         foundation["goals"].pop()
         report = quality_scope.build_scope_report(manifest=manifest)
         self.assertFalse(report["manifest_valid"])
         actual = [row for row in report["goals"] if row["resource_id"] == foundation["topic_id"]]
-        self.assertEqual(len(actual), 2)
+        self.assertEqual(len(actual), promised_goals)
         self.assertTrue(all(row["role"] == "foundation_support" for row in actual))
 
 

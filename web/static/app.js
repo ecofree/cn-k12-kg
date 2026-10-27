@@ -114,8 +114,9 @@ async function refreshPlan() {
     for (const step of activeSteps.slice(0, 3)) {
       const row = node("article", null, "plan-row"), detail = node("div");
       detail.append(node("strong", step.title), node("p", step.reason, "muted"));
-      if (step.due_at) detail.append(node("p", `建议复测时间：${formatTime(step.due_at)}`, "muted"));
-      const label = step.continuation === "reflect_and_revise" ? "自查并修订" : step.work_resource_id && !step.session_id ? "继续作品" : step.action === "continue" ? "继续" : step.action === "due_review" ? step.ready ? "开始复测" : "回看讲解" : step.action === "transfer" ? "迁移任务" : "开始学习";
+      if (step.due_at) detail.append(node("p", `最早再次观察时间：${formatTime(step.due_at)}`, "muted"));
+      if (step.interval_notice) detail.append(node("p", step.interval_notice, "muted"));
+      const label = step.action === "independent_followup" ? step.ready && step.followup_available ? "进行目标确认" : "查看待确认事项" : step.continuation === "reflect_and_revise" ? "自查并修订" : step.work_resource_id && !step.session_id ? "继续作品" : step.action === "continue" ? "继续" : step.action === "due_review" ? step.ready ? "开始复测" : "继续练习" : step.action === "transfer" ? "迁移任务" : "开始学习";
       row.append(detail, button(label, () => followPlan(step, plan))); root.append(row);
     }
     if (!root.children.length) root.append(node("p", "还没有保存的学习活动。选择学段后，可从下面的学习路径或教材目录开始。", "muted"));
@@ -132,6 +133,7 @@ async function followPlan(step, plan) {
     if (need) return actOnNeed(need);
   }
   if (step.targets?.length) return openTeach(step.targets[0]);
+  if (step.action === "due_review" && !step.ready) return startSession({ unit_id: step.unit_id, mode: "practice", focus_skill_ids: step.skill_ids || [] });
   if (step.action === "practice" || !step.ready) return openUnit(step.unit_id);
   return startSession({ unit_id: step.unit_id, mode: step.phase || "practice", previous_session_id: step.previous_session_id,
     focus_skill_ids: step.skill_ids || [] });
@@ -193,6 +195,20 @@ async function openSupport(unitId, supportId, needIds = [], routeMode = "push") 
   } catch (error) { notice(error.message); return false; } finally { state.pending = false; }
 }
 async function actOnNeed(need) {
+  if (need.kind === "independent_followup") {
+    const followup = need.followup || need;
+    const skillIds = need.remaining_skill_ids?.length ? need.remaining_skill_ids : need.skill_ids || [];
+    if (!need.unit_id) {
+      if (need.targets?.length) return openTeach(need.targets[0]);
+      if (need.source_ref?.session_id) return resumeSession(need.source_ref.session_id);
+      notice(need.notice); return false;
+    }
+    if (!followup.ready || !followup.followup_available) {
+      notice(followup.interval_notice || need.notice, { unit_id: need.unit_id, mode: "practice", focus_skill_ids: skillIds, followup_need_ids: [need.need_id] });
+      return false;
+    }
+    return startSession({ unit_id: need.unit_id, mode: "delayed", focus_skill_ids: skillIds, followup_need_ids: [need.need_id] });
+  }
   if (need.kind === "work_revision") return openSavedWork(need.work_resource_id);
   if (need.kind === "process_revision" || need.kind === "support_revision") return resumeSession(need.source_ref.session_id);
   if (need.unit_id && need.objective_ids?.length) {
@@ -218,12 +234,17 @@ async function openNeeds(routeMode = "push") {
       $("needs-status").textContent = `当前显示 ${rows.length} 项；全部 ${plan.learning_needs.length} 项均保留原始来源与内容版本。`;
       for (const need of rows) {
         const card = node("article", null, "card"), actions = node("div", null, "actions");
-        const kind = { answer_support: "作答后需进一步辨别", process_revision: "过程待自查或修订", work_revision: "作品待修订", support_revision: "指导练习待确认" };
+        const kind = { answer_support: "作答后需进一步辨别", process_revision: "过程待自查或修订", work_revision: "作品待修订", support_revision: "指导练习待确认", independent_followup: "修订后待独立确认" };
         card.append(node("h3", need.title), node("p", `${kind[need.kind] || "学习事项"} · ${formatTime(need.observed_at)}`, "muted"), node("p", need.notice));
         if (need.criterion_outcomes?.length) card.append(list(need.criterion_outcomes.filter(r => r.status !== "met").map(r => `${r.criterion}：${{ partial: "部分达到", revisit: "需要重做", not_checked: "尚未核对" }[r.status] || r.status}`)));
         if (need.resolution) card.append(node("p", need.resolution.notice, "muted"));
+        if (need.kind === "independent_followup") {
+          const followup = need.followup || need;
+          if (followup.interval_notice) card.append(node("p", followup.interval_notice, "muted"));
+          if (followup.due_at) card.append(node("p", `最早再次观察时间：${formatTime(followup.due_at)}`, "muted"));
+        }
         if (need.explicit_state) card.append(node("p", `暂缓或重开说明：${need.explicit_state.reason}`, "muted"));
-        if (need.status !== "resolved") actions.append(button(need.kind === "answer_support" ? "辨别与补学" : "继续处理", () => actOnNeed(need), "primary"));
+        if (need.status !== "resolved") actions.append(button(need.kind === "answer_support" ? "辨别与补学" : need.kind === "independent_followup" ? "查看并继续确认" : "继续处理", () => actOnNeed(need), "primary"));
         if (need.unit_id && need.skill_ids?.length && need.status !== "resolved") actions.append(button("针对这些目标再练习", () => startSession({ unit_id: need.unit_id, mode: "practice", focus_skill_ids: need.skill_ids })));
         if (need.source_ref.session_id) actions.append(button("查看原作答", () => resumeSession(need.source_ref.session_id)));
         if (need.status !== "resolved") {
@@ -531,6 +552,7 @@ function renderItem() {
   }
   if (!item) { $("submit").disabled = true; $("skip").disabled = true; return; }
   state.shownAt = performance.now(); state.selected = null;
+  $("quiz-used-help").checked = false; $("quiz-used-help").disabled = blocked;
   $("feedback").hidden = true; $("submit").disabled = false; $("submit").hidden = false; $("skip").disabled = false; $("skip").hidden = false;
   $("quiz-topic").textContent = item.topicName; $("quiz-progress").textContent = `第 ${state.session.answered_count + 1} 题`;
   $("quiz-meta").textContent = `${PHASE[state.session.mode]}${item.question.difficulty ? ` · 设计难度 ${item.question.difficulty}（待实测校准）` : ""}`;
@@ -588,7 +610,7 @@ async function submit(skipped = false) {
   state.pending = true; $("submit").disabled = true; $("skip").disabled = true;
   try {
     const data = await api("/api/answer", { session_id: state.session.id, question_id: state.item.question.id, answer, skip: skipped,
-      elapsed_ms: Math.round(performance.now() - state.shownAt) });
+      elapsed_ms: Math.round(performance.now() - state.shownAt), used_help: $("quiz-used-help").checked });
     state.session = data.session; state.nextItem = data.item; state.done = data.done; state.summary = data.summary; state.verdictText = data.verdictText; state.availability = data.availability;
     showFeedback(data.feedback);
   } catch (err) { $("quiz-hint").textContent = err.message; $("submit").disabled = false; $("skip").disabled = false; }
@@ -598,6 +620,7 @@ function showFeedback(feedback) {
   $("submit").hidden = true; $("skip").hidden = true; $("feedback").hidden = false;
   for (const input of $("choices").querySelectorAll("input")) input.disabled = true;
   $("numeric-input").disabled = true;
+  $("quiz-used-help").disabled = true;
   const deferred = feedback.deferred; const status = feedback.status;
   $("fb-title").textContent = deferred ? "答案已记录" : STATUS[status] || "已提交";
   $("fb-title").className = `fb-title ${status === "correct" ? "ok" : status === "wrong" ? "no" : ""}`;

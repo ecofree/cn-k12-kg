@@ -8,10 +8,11 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
 
-from .review_timing import qualified_review
+from .review_timing import (indexed_scope_activity, qualified_review, review_schedule,
+                            timestamp, unit_activity_scope)
 from .learning_needs import derive_needs, skill_evidence, support_routes, task_options
 
-RULE_VERSION = "activity-plan-v4"
+RULE_VERSION = "activity-plan-v5"
 REVIEW_INTERVAL_DAYS = (1, 3, 7)
 _PHASES = {"practice", "transfer", "delayed"}
 
@@ -102,7 +103,8 @@ def _work_continuation(work, need=None):
             "这份作品仍有尚未核对的量规项目，可以逐项自查；未核对不表示答错或已发现学习困难。")
 
 
-def plan(catalog, records, works=(), *, now=None, limit=12, stage=None, need_states=(), exposures=None):
+def plan(catalog, records, works=(), *, now=None, limit=12, stage=None, need_states=(), exposures=None,
+         scope_activities=None):
     """Return ranked, version-aware actions from observable activity.
 
     Pass full owner-filtered records or LearningStore.planning_records(), never
@@ -148,11 +150,63 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None, need_sta
                               for record in history)}
     candidates = []
 
+    def activity_for(unit):
+        if scope_activities is not None and unit["id"] in scope_activities:
+            return scope_activities[unit["id"]]
+        return indexed_scope_activity(unit_activity_scope(unit, catalog), exposures)
+
     def add(action, unit, reason, priority, **extra):
         item = {"action": action, "unit_id": unit["id"], "title": unit.get("title", unit["id"]),
                 "resource_version": _version(unit), "reason": reason, "ready": True,
                 "evidence_basis": "recorded_activity", "rule_version": RULE_VERSION, **extra}
         candidates.append((priority, item))
+
+    # The original correction may be resolved while a separate observation
+    # obligation remains. Keep its readiness on the need itself so the full
+    # ledger remains usable even when the short plan omits this candidate.
+    for need in needs:
+        if need["kind"] != "independent_followup":
+            continue
+        unit = units.get(need.get("unit_id"))
+        target_skills = need.get("remaining_skill_ids", need["skill_ids"])
+        if unit:
+            completed = [record for record in by_unit.get(unit["id"], []) if _observed_completion(record)]
+            activity = activity_for(unit)
+            confirmation = need.get("prior_confirmation", {}).get("observed_at")
+            if timestamp(confirmation) and (not activity or timestamp(activity.get("occurred_at"))
+                                            and timestamp(confirmation) > timestamp(activity["occurred_at"])):
+                activity = {"occurred_at": confirmation, "event_type": "supported_confirmation"}
+            schedule = review_schedule({"resource_version": _version(unit)}, completed,
+                                       now=current, latest_activity=activity)
+            allowed = {task["id"] for task in _tasks(unit, catalog) if task.get("phase") == "delayed"}
+            options = task_options(catalog, target_skills, records, exposures, allowed_task_ids=allowed, limit=None)
+            available_skills = {sid for option in options if option["eligible_for_followup"]
+                                for sid in option["skill_ids"]}
+            available = bool(target_skills) and set(target_skills) <= available_skills
+            for option in options:
+                option.update(unit_id=unit["id"], task_ids=[option["task_id"]], mode="delayed")
+            notice = ("对应目标有尚未呈现、未记录同族帮助的后续任务。" if available else
+                      "当前还缺少覆盖这些目标的未呈现且题族、表征已核对的后续任务。可以继续练习；这项待观察会保留。")
+            followup = {**schedule, "followup_available": available, "ready": schedule["ready"] and available,
+                "task_options": options, "task_ids": [row["task_id"] for row in options if row["eligible_for_followup"]],
+                "phase": "delayed", "unit_id": unit["id"], "availability_notice": notice,
+                "current_resource_version": _version(unit)}
+        else:
+            followup = {"ready": False, "practice_available": bool(need.get("targets")), "due_at": None,
+                "followup_available": False, "task_options": [], "task_ids": [], "phase": "practice",
+                "interval_notice": "这个原事项还没有可直接复测的单元目标路径；先回看原作答或对应主题，待观察继续保留。",
+                "availability_notice": "需要补充明确目标、已知题族及表征的后续任务，不能按主题名称猜测已确认。"}
+        need["followup"] = followup
+        if need["status"] != "open" or (stage is not None and stage not in need.get("stages", [])):
+            continue
+        candidates.append((85 if followup["ready"] else 30, {
+            "action": "independent_followup", "kind": "independent_followup", "title": need["title"],
+            "unit_id": need.get("unit_id"), "targets": need.get("targets", []),
+            "skill_ids": target_skills, "need_ids": [need["need_id"]],
+            "parent_need_id": need["parent_need_id"], "resource_version": need.get("resource_version"),
+            "reason": "帮助或重复后的修订已记录，这些具体目标仍需后续观察。" + followup["availability_notice"]
+                      + followup["interval_notice"], "evidence_basis": "specific_followup_obligation",
+            "rule_version": RULE_VERSION, **followup}))
 
     # Unfinished process work belongs to the source observation, not whichever
     # phase happened to be most recent. A content update also keeps this route.
@@ -288,15 +342,16 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None, need_sta
                 review_count = max([sum(qualified_review(record) for record in delayed)]
                                    + [int(record.get("qualified_review_count", 0)) for record in delayed])
                 interval = REVIEW_INTERVAL_DAYS[min(review_count, len(REVIEW_INTERVAL_DAYS) - 1)]
-                due = _time(latest["completed_at"]) + timedelta(days=interval)
-                ready = current >= due
+                schedule = review_schedule({"resource_version": version}, all_completed, now=current,
+                                           interval_days=interval, latest_activity=activity_for(unit))
+                ready = schedule["ready"]
                 add("due_review", unit,
-                    ("按产品默认间隔，已到再次观察这个单元表现的时间。" if ready
-                     else "已为这个单元保留下一次间隔观察时间；可先继续其他学习。"),
-                    100 if ready else 10, phase="delayed", ready=ready, due_at=_iso(due),
-                    interval_days=interval, previous_session_id=latest["id"],
+                    ("按产品默认间隔，已到再次观察这个单元表现的时间。" if ready else "间隔观察仍在等待。")
+                    + schedule["interval_notice"],
+                    100 if ready else 10, phase="delayed", **schedule,
+                    previous_session_id=schedule["interval_context"].get("previous_session_id", latest["id"]),
                     qualified_review_count=review_count,
-                    timing_basis="last_completed_same_scope", review_rule="product_default_1_3_7_days",
+                    review_rule="product_default_1_3_7_days",
                     progression_basis="completed_same_version_reviews_with_recorded_24h_quiet_interval")
                 continue
         if "practice" not in phases:
