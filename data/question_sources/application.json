@@ -1464,13 +1464,13 @@
     {
       "id": "m1a.5.5-q101",
       "topicId": "m1a.5.5",
-      "difficulty": "standard",
+      "difficulty": "basic",
       "type": "numeric",
       "prompt": "活动室又进来7名同学后共有16名同学，期间没有人离开，原来有几名同学？",
       "choices": [],
       "answer": "9",
       "explanation": "原来人数+7=16，求原来做逆向减法，16−7=9；9+7=16验证。",
-      "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
+      "difficulty_basis": "按题面需要的实际步骤判定设计档位，非学生实测难度。 AI作者复核，见docs/reviews/v6-corrections-ai-review.json。",
       "drill_kind": "application",
       "generated": true,
       "review_status": "ai-generated",
@@ -1481,9 +1481,8 @@
       "primaryTopicId": "m1a.5.5",
       "diagnosis_eligible": false,
       "target_alignment": "component_practice_only",
-      "alignment_note": "本题自动核对所求数值；数量关系的口头解释和本节完整目标由讲解卡的独立自检核查。",
+      "alignment_note": "只观察增加后用减法还原原数的对照目标，不作为本课减少后用加法求原数的证据。",
       "tested_criterion_indices": [
-        0,
         1
       ],
       "difficulty_calibration": "design_label_pending_student_data",
@@ -1503,18 +1502,23 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "primary.additive-structure.find-original-after-increase",
+      "variant_id": "m1a.5.5-q101",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "for_diagnosis": false
     },
     {
       "id": "m1a.5.5-q102",
       "topicId": "m1a.5.5",
-      "difficulty": "standard",
+      "difficulty": "basic",
       "type": "numeric",
       "prompt": "小雨又收集6枚徽章后共有14枚，没有丢失或送出。她原来有多少枚？",
       "choices": [],
       "answer": "8",
       "explanation": "现在14枚由原来数量和新增6枚组成，原来14−6=8枚。不能因“又收集”直接相加。",
-      "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
+      "difficulty_basis": "按题面需要的实际步骤判定设计档位，非学生实测难度。 AI作者复核，见docs/reviews/v6-corrections-ai-review.json。",
       "drill_kind": "application",
       "generated": true,
       "review_status": "ai-generated",
@@ -1525,9 +1529,8 @@
       "primaryTopicId": "m1a.5.5",
       "diagnosis_eligible": false,
       "target_alignment": "component_practice_only",
-      "alignment_note": "本题自动核对所求数值；数量关系的口头解释和本节完整目标由讲解卡的独立自检核查。",
+      "alignment_note": "只观察增加后用减法还原原数的对照目标，不作为本课减少后用加法求原数的证据。",
       "tested_criterion_indices": [
-        0,
         1
       ],
       "difficulty_calibration": "design_label_pending_student_data",
@@ -1547,7 +1550,12 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "primary.additive-structure.find-original-after-increase",
+      "variant_id": "m1a.5.5-q102",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "for_diagnosis": false
     },
     {
       "id": "m1b.1.2-q101",
@@ -14677,10 +14685,10 @@
       "topicId": "m8b.24.4",
       "difficulty": "standard",
       "type": "numeric",
-      "prompt": "一批数据中最大值是 87，最小值是 42，取组距为 9。这组数据应分成几组？",
+      "prompt": "一批数据最小值42、最大值87。从42开始，以9为组距，所有组都采用左闭右开区间。覆盖全部数据至少需几组？只填整数。",
       "choices": [],
-      "answer": "5",
-      "explanation": "极差是 87-42=45，再除以组距：45/9=5，正好分成 5 组。组数用「极差除以组距」向上取整；除不尽时宁可多分一组，也不能让最大值落在最后一组外面。",
+      "answer": "6",
+      "explanation": "前5组为[42,51)、[51,60)、[60,69)、[69,78)、[78,87)，都不含最大值87；还需第6组[87,96)。若末组改为右闭可用5组，但不符合本题所有组右开的约定。不能不看边界只把极差除以组距向上取整。",
       "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
       "drill_kind": "application",
       "generated": true,
@@ -14690,8 +14698,7 @@
         "m8b.24.4"
       ],
       "primaryTopicId": "m8b.24.4",
-      "difficulty_calibration": "design_label_pending_student_data",
-      "verify": "(87-42)/9",
+      "verify": "(87-42)/9+1",
       "evidence_level": "verified",
       "evidence_signals": {
         "analysis_chars": 78,
@@ -14707,18 +14714,28 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "statistics.grouping.endpoint-coverage",
+      "variant_id": "m8b.24.4-q101:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "观察给定起点和左闭右开边界下的完整覆盖，不由极差比值直接认定组数。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "m8b.24.4-q102",
       "topicId": "m8b.24.4",
-      "difficulty": "advanced",
+      "difficulty": "basic",
       "type": "numeric",
       "prompt": "某班 50 名学生参加体育测试，成绩在「良好」这一组的频率是 0.24。这一组有多少人？",
       "choices": [],
       "answer": "12",
       "explanation": "频数等于总数乘频率：50*0.24=12 人。频率是「占的比例」，求人数要乘回去；反过来求频率才是除以总数，方向弄反答案就完全不同。",
-      "difficulty_basis": "自产应用题（advanced）：要由频率乘总数反求频数，是频率分布表里唯一的方向性换算",
+      "difficulty_basis": "按题面需要的实际步骤判定设计档位，非学生实测难度。 AI作者复核，见docs/reviews/v6-corrections-ai-review.json。",
       "drill_kind": "application",
       "generated": true,
       "review_status": "ai-generated",
@@ -14744,7 +14761,18 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "tested_criterion_indices": [
+        1
+      ],
+      "family_id": "statistics.frequency.from-proportion",
+      "variant_id": "m8b.24.4-q102",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "50×0.24=12；题面已给频率，仅做人数换算，不应标advanced或整主题诊断。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "m9a.25.1-q101",
@@ -19433,10 +19461,10 @@
       "topicId": "mh1.5.2.1",
       "difficulty": "standard",
       "type": "numeric",
-      "prompt": "摩天轮半径 20 米，某座舱从最低点转过 30 度，高度上升了多少米？（已知 sin30=0.5）",
+      "prompt": "摩天轮半径20米，座舱从最低点绕圆心转过30°。相对出发最低点上升多少米？已知cos30°=√3/2，结果四舍五入保留两位小数，只填数值。",
       "choices": [],
-      "answer": "10",
-      "explanation": "座舱上升的高度等于半径乘正弦值：20*0.5=10 米。转过的角决定了上升的比例，正弦就是「竖直方向占多少」。",
+      "answer": "2.68",
+      "explanation": "以圆心为高度零点，最低点的竖直坐标是−20，转30°后是−20cos30°。上升量=−20cos30°−(−20)=20(1−√3/2)≈2.68米。20sin30°=10表示该位置的水平偏移量大小，不是从最低点上升的高度。",
       "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
       "drill_kind": "application",
       "generated": true,
@@ -19446,8 +19474,7 @@
         "mh1.5.2.1"
       ],
       "primaryTopicId": "mh1.5.2.1",
-      "difficulty_calibration": "design_label_pending_student_data",
-      "verify": "20*0.5",
+      "verify": "round(20*(1-sqrt(3)/2),2)",
       "evidence_level": "verified",
       "evidence_signals": {
         "analysis_chars": 55,
@@ -19463,7 +19490,17 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "trigonometry.circle.vertical-displacement-from-bottom",
+      "variant_id": "mh1.5.2.1-q101:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "仅观察确定角的起始方向和圆心坐标后使用余弦得到位移；不能代表三角函数全部定义或象限符号。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh1.5.2.1-q102",
@@ -27044,18 +27081,29 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "tested_criterion_indices": [
+        0
+      ],
+      "family_id": "probability.conditional.joint-over-condition",
+      "variant_id": "mh5.7.1.1-q101",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "已给联合概率与条件概率分母，只观察P(AB)/P(A)的代入，不能证明会建模或处理不等可能结果。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh5.7.1.1-q102",
       "topicId": "mh5.7.1.1",
-      "difficulty": "advanced",
+      "difficulty": "basic",
       "type": "numeric",
-      "prompt": "100 件产品中有 5 件次品，其中 2 件来自甲厂。已知抽到的是次品，它来自甲厂的概率是多少？",
+      "prompt": "从100件产品中等可能抽取1件，其中5件是次品，且这5件次品中有2件来自甲厂。已知抽到的是次品，它来自甲厂的概率是多少？",
       "choices": [],
       "answer": "0.4",
       "explanation": "条件写在「已知是次品」，所以样本空间缩小到 5 件次品。其中 2 件来自甲厂，概率是 2/5=0.4。分母用 100 件就会得到 0.02，那是「抽到甲厂次品」的概率。",
-      "difficulty_basis": "自产应用题（advanced）：条件概率的分母是已知事件，不是全体样本",
+      "difficulty_basis": "按题面需要的实际步骤判定设计档位，非学生实测难度。 AI作者复核，见docs/reviews/v6-corrections-ai-review.json。",
       "drill_kind": "application",
       "generated": true,
       "review_status": "ai-generated",
@@ -27081,7 +27129,18 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "tested_criterion_indices": [
+        0
+      ],
+      "family_id": "probability.conditional.finite-uniform-intersection",
+      "variant_id": "mh5.7.1.1-q102",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "显式均匀抽取后，条件空间为5件次品，甲厂次品2件，2/5。与骰子同是等可能条件集的交集计数；不推断非均匀抽样。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh5.7.1.2-q101",

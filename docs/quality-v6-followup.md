@@ -1,69 +1,62 @@
-# Quality V6 follow-up: unresolved correctness and alignment work
+# Quality V6：修复失败构建、数学反例和题目身份漂移
 
-Status: **audit backlog only; no implementation is claimed by this document**.
-Baseline: `codex/cnkg-quality-v5` at the currently published head.
-Teacher review and real-student outcome validation remain deferred by user request.
+## 状态与边界
 
-## Confirmed gaps from the current published source
+本轮从已经发布的 V5 `829f5ddf1c9fb548b2b43e3b68463e3879dcd3b0` 及 V6 草稿分支继续，不重置原内容、旧技能身份或学生历史。上一个 V6 草稿未通过 CI：卡片字段违反契约、作者源未重建、发布清单和语义审查失效，而且测试错误地把原目标的“去掉”写成了“拿走”。本轮修复这些具体问题，不降低检查门槛。
 
-1. **Skill granularity is uneven.** `data/skills/registry.json` still contains 954 `legacy_composite` skills, 96 `composite`, and 84 `observable`. Do not bulk-relabel. Split only when the task evidence and teaching material support the narrower behavior.
-2. **Question alignment is incomplete.** The published scope report records 1,134 stable target identities, with 198 targets in the deeply aligned set; 936 lack verified task-family and representation mappings. Existing question tags do not establish that the task observes the full target.
-3. **Target-specific support is incomplete.** The published report records 510 targets with explicit help/observation-boundary support and 624 without it.
-4. **Diagnostic eligibility must remain conservative.** Unknown representation and unknown task family are absence of evidence, not evidence of novelty or independent transfer. Text-only answer checks must not imply full-topic mastery.
-5. **Content and representation need targeted semantic review.** Review at least: reverse-operation word problems in early primary math; estimation boundary conditions; spatial-diagram tasks; multi-view solids; geometry volume tasks; conditional probability; grouped-data boundary inclusion; and any task whose solution is supplied in the prompt.
-6. **Some content cards and their task list need fine-grained alignment.** For example, `data/teach/mh2.8.3.1.json` includes a frustum-volume objective while its topic-level practice list also includes prism/pyramid/surface-area items. Keep these as practice only for the target they actually observe; do not infer skill evidence from the shared topic ID.
-7. **Restore and identity switching need a destructive-boundary regression.** If an anonymous profile has saved work but no recovery method, attempting to switch to another profile must not silently strand the first profile. Preserve access or require a verified recovery path before switching.
-8. **Review timing and task-family qualification must share one rule.** Planner recommendations must not advertise a due review that the session-creation endpoint rejects; unknown representation must not count as a new representation.
+这是有边界的修复与教学补充，不是全课程质量达标声明。教师独立审核和真实学生效果验证仍按用户要求暂缓；所有本轮内容复核保持 AI 作者复核身份。
 
-## Batch A — correctness and evidence boundaries
+## 实际内容修改
 
-- Add a regression case for every confirmed content or workflow counterexample before changing implementation.
-- Review each affected task's stem, constraints, answer, intermediate reasoning, units, representation, target mapping, and allowed use.
-- Keep old IDs and immutable historical attempts.
-- Separate observed response, learner self-report, help exposure, inferred prerequisite, and independent follow-up evidence.
-- Remove diagnostic or whole-target confirmation permissions when the item only measures a narrower behavior.
+| 任务 | 原问题 | 当前修正及观察边界 |
+| --- | --- | --- |
+| `mh5.7.1.1-q91` | 条件骰子漏算一个有利结果，答案1/4 | 条件集{3,4,5,6}，交集{3,4}，答案1/2；用枚举独立检查 |
+| `m8b.24.4-q101` | 未说明分组端点就给唯一组数 | 明确所有组左闭右开，从42开始宽9；必须6组才能包含87，并解释末组改右闭是不同约定 |
+| `mh1.5.2.1-q101` | 从摩天轮最低点出发的上升高度错误使用正弦 | 上升量R(1−cosθ)，R=20、θ=30°时保留两位为2.68；对应判分采用显式舍入契约 |
+| `m1a.5.5-q95` | 把已拿走的数量又加回，答案11 | 已剩8再添1是9；只作为当前数量对照练习，不绑定逆向加法目标 |
 
-Exit criteria:
-- All listed counterexamples have tests.
-- No unattempted prerequisite is silently inferred as mastered.
-- Planner and session endpoint agree on review eligibility.
-- Profile switching cannot strand unprotected saved work.
-- No content correction silently widens task admission.
+专题抽查合计32道题，每题有审查条目、用途和观察边界，见 `docs/reviews/v6-corrections-ai-review.json`。其中6道新题分别处理反求原数、判断理由、未知位置对照和正向检查；换物品换数字的两题仍属于同一题族。
 
-## Batch B — skill/task/teaching alignment
+`m1a.5.5-q90`—`q93` 仅停用练习与诊断，原题、答案及ID仍保留；它们超出本课20以内范围且不对应减少后求原数。`m1a.1.6-q90`—`q93` 已在V5档案中停用，本轮核对后没有重复修改它们。
 
-- Map tasks to explicit observable skills, not just topic IDs, when the evidence supports that mapping.
-- Record task-family identity, representation, cognitive demand, and answer/help exposure.
-- Treat `unknown` as unknown. Never fill metadata merely to improve coverage percentages.
-- Add a real diagram or interactive representation where the learning objective requires spatial or graphical reasoning.
-- Make help branches respond to the diagnosed error and end in a bounded follow-up observation.
-- Publish a coverage matrix with separate denominators for core, foundational support, and extension targets.
+更新4张讲解卡：5以内减法、逆向用加法解决问题、数据分组与整理、条件概率。各自补充明确的条件、观察边界、辨别问题和修订提示。逆向用加法页面以“送出6后剩8，原来14”为主例，保留原有减法对照技能而不改写其历史含义。两个新增行为使用独立稳定技能ID，不把相邻概念伪装成原技能的子目标。
 
-Exit criteria:
-- Every claimed target-to-task mapping is traceable to the actual prompt and expected student behavior.
-- Missing mappings remain visible.
-- Repeated numeric variants do not inflate independent transfer coverage.
-- The affected pages and tasks pass browser preview with version and identity checks.
+## 构建方面的实质修复
 
-## Batch C — sustainable authoring and release
+旧选项排序依赖全库位置。新增3道选择题曾导致95道无关题重新排列，进而使它们的用途指纹失效。本轮改为：
 
-- Maintain one authoritative source per resource; generated catalog/database files are not hand-edited.
-- Run semantic diff review and impact analysis for target, answer, family, representation, and admission changes.
-- Bind reports, screenshots, and test logs to one clean commit.
-- Preserve failed candidate logs and rerun the complete release gates after any code or content change.
-- Keep teacher review and real-student outcome validation explicitly deferred; do not label AI review as teacher approval or synthetic browser tests as learning-effect evidence.
+- 从V5冻结1151道既有选择题的稳定选项ID顺序，不储存答案或新的审核结论。
+- 新题按本题ID与选项ID的散列确定顺序；新增、删除、重排其他题不改变它。
+- 选项身份集合变化、重复ID、位置引用仍报错，不能静默把答案指向别项。
+- 正式来源清单和资源编译均绑定 `data/choice_orders.json`，防止缓存或重建忽略这个输入。
 
-## Non-goals for this follow-up
+旧全库平衡代码只保留历史兼容与测试用途，不再参与正式生产变换。没有为维持统计分布而移动已有正确项，也没有批量重签那些未发生语义变更的题目审核。
 
-- Do not claim the whole K12 curriculum is atomic or fully skill-aligned while legacy composite targets remain.
-- Do not infer instructional effectiveness from question counts, passing structural checks, or synthetic student models.
-- Do not reduce the declared curriculum scope to make coverage appear complete.
+## 计数与保留要求
 
+| 范围 | V5 | 当前 |
+| --- | ---: | ---: |
+| 教材导航点／完整卡 | 477／477 | 477／477 |
+| 主题目标 | 964 | 966 |
+| 全部登记技能（不同层级） | 1134 | 1136 |
+| 自有题完整档案 | 3572 | 3578 |
+| 活跃题 | 3083 | 3085 |
+| 隔离／退役题 | 489 | 493 |
+| 暂定诊断题 | 1866 | 1846 |
 
-## First implemented correction (2026-10-27)
+原3572个题ID全部保留，新增6个，未删除任何旧题。原身份集合的哈希和具体新增ID写入审查记录，并由回归测试校验。964项旧主题目标及原学生记录不会因新增目标被重编号。历史资源统计不用于推断学生效果。
 
-- Updated `data/teach/m1a.1.6.json` to add a separate objective for the inverse additive-structure problem: given the removed part and the remaining part, find the original total by addition.
-- The new objective includes its own explanation, observation boundary, self-check, reference reasoning, discriminating prompt, hint and revision task. The previous two objectives and the topic ID remain unchanged; teacher review stays pending.
-- Added `tests/test_quality_v6_followup.py` to guard the new objective and prevent accidental loss of the existing objectives.
+本轮纠正若干被标为进阶的简单代入任务，保留相应进阶任务不足的真实缺口，不为凑配额再贴advanced。目标分母与角色检查仍然严格；更新测试中的精确计数同时保留身份集合、用途不扩张和材料缺失时必须报错的测试。
 
-This is a targeted correction, not a claim that the full 1,134-goal alignment backlog is complete. Full execution of the repository test suite and the broader question/content audit are still required before treating this branch as a release.
+## 验证方法
+
+1. 使用正式作者源重建主题、题库、分层资料和资源目录，不单独手改派生物。
+2. 用独立枚举、状态序列、区间成员判断和旋转坐标模型验证上述数学反例；还要拒绝旧错误答案。
+3. 对稳定选项排序测试新增100题、删除、换序、重复执行和非法身份集合。
+4. 检查全部既有选择题顺序保持，确认新增题不产生无关用途指纹漂移。
+5. 按当前文件字节重新绑定具体语义审查，执行受影响页面预览和全部浏览器流程。
+6. 最终验收仅对固定、干净提交有效；结果以绑定该提交的 `build/regression_report.json` 及CI为准。
+
+## 尚未完成
+
+本轮没有完成所有旧复合目标细化、全题库逐题学科审查或全部专题的分支指导。新增有界元数据不代表目标永久掌握或独立迁移已经成立。未来应沿完整知识链扩展任务与帮助，并逐项登记未覆盖的表征、任务结构和反例；不缩小既有课程承诺以宣称完成。

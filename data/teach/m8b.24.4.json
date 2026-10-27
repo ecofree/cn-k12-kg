@@ -7,7 +7,7 @@
  "name": "数据的分组",
  "tier": "core",
  "hook": "分成太少的组会掩盖细节，太多组又很零散；怎样先保证分组正确？",
- "definition": "数据较多时需分组整理：先定组距再定组数，组数由极差除以组距向上取整得到；各组频数之和等于数据总数，各组频率之和为 1。",
+ "definition": "分组需明确起点、组距和端点包含规则，使每个数据恰归一组。组数须按实际区间检查最小值与最大值的覆盖；极差除以组距只能作估计，不能忽略末端是否包含。各组频数和为样本总数，频率和为1。",
  "why": "分组是对原数据的压缩，但必须保持每个数据恰计一次。组距与起点共同决定边界和组数；所有频数之和守恒为样本量，所有频率之和为1，因此可以据此检验表格或求缺失项。",
  "when_to_use": [
   "数据量大需制频数分布表",
@@ -43,7 +43,17 @@
     "criteria": [
      "组距选择与4至6组要求相容",
      "边界无重复遗漏且覆盖1和23"
-    ]
+    ],
+    "family_id": "statistics.grouping.endpoint-coverage",
+    "variant_id": "m8b.24.4:self-check:0:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+   },
+   "observation_note": "本项仅观察边界、起点与组距的共同覆盖；不证明会从真实数据独立选择最合适分组。",
+   "difficulty_support": {
+    "discriminating_prompt": "最大值87是否属于[78,87)？右边的圆括号是什么意思？",
+    "hint": "在数轴标出各组起终点；87不能落在右开端点，需进入[87,96)。",
+    "revision_prompt": "分别列全部右开和仅末组右闭两种方案，标出87归属，并保留原漏计位置。"
    }
   },
   {
@@ -56,7 +66,17 @@
     "criteria": [
      "前三组和28",
      "末组12且总计40"
-    ]
+    ],
+    "family_id": "statistics.grouping.frequency-conservation",
+    "variant_id": "m8b.24.4:self-check:1:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+   },
+   "observation_note": "本项仅观察频数守恒与已知总量；不能替代原始数据归组操作。",
+   "difficulty_support": {
+    "discriminating_prompt": "前三组是否已经互不重复地覆盖了除末组外的所有数据？",
+    "hint": "把前三组频数加起来，再用总数减去；频率应以同一总数为分母。",
+    "revision_prompt": "列一行各组频数及合计，逐组检查无重复、无遗漏，再算未知频数。"
    }
   }
  ],
@@ -73,5 +93,14 @@
    "id": "m8b.24.4-q1",
    "note": "独立作答后，按解析检查关键条件和推理。"
   }
- ]
+ ],
+ "conditions": [
+  "以下等组距分组须先给起点a及正组距h；常用左闭右开区间[a,a+h)、[a+h,a+2h)等。",
+  "若所有组均右开，终点必须严格大于最大值；若末组右闭须明确说明，不能暗改边界。"
+ ],
+ "content_revision": {
+  "author_type": "ai",
+  "date": "2026-10-27",
+  "teacher_review": "pending"
+ }
 }

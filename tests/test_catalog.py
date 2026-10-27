@@ -337,11 +337,11 @@ class FullCatalogTests(unittest.TestCase):
 
     def test_all_real_resource_classes_are_registered_and_contracts_explicit(self):
         counts = self.c.coverage["task_source_counts"]
-        self.assertEqual(counts["bank"], 3572)
-        self.assertEqual(counts["self_check"], 964)
+        self.assertEqual(counts["bank"], 3578)
+        self.assertEqual(counts["self_check"], 966)
         self.assertEqual(counts["project_step"], 84)
         self.assertEqual(counts["unit"], 231)
-        self.assertEqual(self.c.coverage["quarantined_tasks"], 489)
+        self.assertEqual(self.c.coverage["quarantined_tasks"], 493)
         self.assertTrue(all("answer_spec" in t for t in self.c.tasks.values()))
         self.assertEqual(validate_resource("catalog", self.c.data), [])
 
@@ -349,13 +349,13 @@ class FullCatalogTests(unittest.TestCase):
         self.assertEqual(self.c.coverage["policy_migration_changes"], [])
         policies = self.c.coverage["bank_policy_counts"]
         self.assertEqual(policies["original"], policies["compiled"])
-        self.assertEqual(policies["compiled"]["practice_eligible"], 3083)
+        self.assertEqual(policies["compiled"]["practice_eligible"], 3085)
 
     def test_reviewed_component_observations_cannot_confirm_or_reject_the_whole_topic(self):
         focus = set(read(DATA / "alignment_targets.json")["topic_ids"])
         tasks = [task for task in self.c.tasks.values() if task["source_kind"] == "bank"
                  and task["availability"] == "active" and focus.intersection(task["topic_ids"])]
-        self.assertEqual(len(tasks), 251)
+        self.assertEqual(len(tasks), 278)
         for task in tasks:
             self.assertFalse(task["policy"]["may_confirm_mastery"], task["id"])
             self.assertFalse(task["policy"]["may_judge_weak"], task["id"])

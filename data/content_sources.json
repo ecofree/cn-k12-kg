@@ -97,15 +97,17 @@
  ],
  "question_transforms": [
   {
-   "name": "balanced-choice-positions",
+   "name": "stable-choice-order",
    "version": 1,
-   "entrypoint": "tools/balance_options.py",
-   "inputs": [],
-   "algorithm": "After merging all sources and generators, group choice questions by option count, sort by (SHA-256(question ID), question ID), assign display positions round-robin and rotate choices while preserving option IDs and answers.",
-   "review_policy": "Never rewrite or re-sign quality_review. Choice order is included in the reviewed content hash; moved questions require review of their resulting version. Adding/removing questions may move other questions in the same group."
+   "entrypoint": "cnkg/choice_order.py",
+   "inputs": [
+    "data/choice_orders.json"
+   ],
+   "algorithm": "保留已发布题的冻结选项ID顺序；新题独立按SHA-256(question ID + option ID)排序，增删无关题不影响既有题。",
+   "review_policy": "不改答案ID、选项内容或审核记录；冻结选项集合变化须显式核对，新题仍须独立登记用途。"
   }
  ],
- "ordering": "registered source order; natural numeric IDs; display choice transform over the complete trace population preserves all pre-migration option positions; active runtime filters retired records after this transform",
+ "ordering": "registered source order; natural numeric IDs; population-independent choice order preserving published legacy options",
  "hash_policy": "sha256 of UTF-8 bytes after CRLF/CR normalization to LF",
  "quality_scope": "构建一致性、结构和算式检查不等同于独立学科审核；teacher_reviewed 以独立审核记录为准。",
  "migration": {

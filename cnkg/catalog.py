@@ -174,6 +174,8 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
     if (data / "content_sources.json").is_file():
         manifest = _read(data / "content_sources.json")
         source_paths.add(data / "content_sources.json")
+        if any(t.get("name") == "stable-choice-order" for t in manifest.get("question_transforms", [])):
+            source_paths.add(data / "choice_orders.json")
         for source in manifest.get("content_sources", []) + manifest.get("question_sources", []):
             path = data / source["path"]
             if not path.is_file() or not path.resolve().is_relative_to(data.resolve()):

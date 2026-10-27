@@ -40,7 +40,17 @@
     "criteria": [
      "分母取6",
      "结果2/3"
-    ]
+    ],
+    "family_id": "probability.conditional.finite-uniform-intersection",
+    "variant_id": "mh5.7.1.1:self-check:0:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+   },
+   "observation_note": "只观察题设等可能条件子集内的比例；反向条件和非等可能抽样仍需分别确认。",
+   "difficulty_support": {
+    "discriminating_prompt": "已知戴眼镜后，分母还应包含不戴眼镜的人吗？",
+    "hint": "先圈出条件组6人，再在组内标4名女生；先检查4≤6。",
+    "revision_prompt": "分别写原空间和条件空间，列交集人数，说明为何是4/6而不是4/10。"
    }
   },
   {
@@ -53,7 +63,17 @@
     "criteria": [
      "计算0.2",
      "明确两个概率分母范围不同"
-    ]
+    ],
+    "family_id": "probability.conditional-to-joint",
+    "variant_id": "mh5.7.1.1:self-check:1:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+   },
+   "observation_note": "只观察条件与交集概率分母的区别，不代表能判断独立性。",
+   "difficulty_support": {
+    "discriminating_prompt": "0.5是占全体的一半，还是只占事件A内的一半？",
+    "hint": "先取全体的0.4，再在这一部分中取0.5，重叠部分占全体0.2。",
+    "revision_prompt": "画嵌套区域并分别标出两个分母，重写乘法公式及P(A)>0条件。"
    }
   }
  ],
@@ -71,5 +91,14 @@
    "note": "完成后对照解析检查条件、步骤和结果：已知 P(A)=0.5，P(AB)=0.2，则 P(B|A) 等于多少？"
   }
  ],
- "check": "独立完成并写出依据：一组10人中6人戴眼镜，其中4人是女生；已知随机抽到的人戴眼镜，求是女生的概率。；若P(A)=0.4、P(B|A)=0.5，求P(A∩B)，并解释0.5与结果的区别。"
+ "check": "独立完成并写出依据：一组10人中6人戴眼镜，其中4人是女生；已知随机抽到的人戴眼镜，求是女生的概率。；若P(A)=0.4、P(B|A)=0.5，求P(A∩B)，并解释0.5与结果的区别。",
+ "conditions": [
+  "条件事件概率必须大于0；P(A)=0时本页的比值公式不适用。",
+  "用人数或结果数相除的前提是条件空间中的结果等可能；有权抽样必须按概率质量计算。"
+ ],
+ "content_revision": {
+  "author_type": "ai",
+  "date": "2026-10-27",
+  "teacher_review": "pending"
+ }
 }

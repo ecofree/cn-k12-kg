@@ -852,7 +852,7 @@
    "domain": "统计与概率",
    "theme": "抽样与数据分析",
    "type": "procedural",
-   "description": "数据较多时需分组整理：先定组距再定组数，组数由极差除以组距向上取整得到；各组频数之和等于数据总数，各组频率之和为 1。",
+   "description": "分组需明确起点、组距和端点包含规则，使每个数据恰归一组。组数须按实际区间检查最小值与最大值的覆盖；极差除以组距只能作估计，不能忽略末端是否包含。各组频数和为样本总数，频率和为1。",
    "mastery_criteria": [
     "能确定组距与组数",
     "能用频数或频率的守恒关系求未知组"
@@ -2001,7 +2001,18 @@
     "m8b.24.4"
    ],
    "primaryTopicId": "m8b.24.4",
-   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+   "tested_criterion_indices": [
+    1
+   ],
+   "family_id": "statistics.frequency.remaining-count",
+   "variant_id": "m8b.24.4-q1",
+   "representation": "verbal",
+   "cognitive_demand": "execute",
+   "alignment_note": "40−(6+8+10+9)=7；只观察频数总和约束，不代表会选择组距或统计原始数据。",
+   "target_alignment": "component_practice_only",
+   "diagnosis_eligible": false,
+   "for_diagnosis": false
   },
   {
    "id": "m8b.24.4-q2",
@@ -2016,7 +2027,18 @@
     "m8b.24.4"
    ],
    "primaryTopicId": "m8b.24.4",
-   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+   "tested_criterion_indices": [
+    1
+   ],
+   "family_id": "statistics.frequency.remaining-proportion",
+   "variant_id": "m8b.24.4-q2",
+   "representation": "verbal",
+   "cognitive_demand": "execute",
+   "alignment_note": "总频率1，剩余1−0.85=0.15；频率和约束不等同于会绘制直方图。",
+   "target_alignment": "component_practice_only",
+   "diagnosis_eligible": false,
+   "for_diagnosis": false
   },
   {
    "type": "short",
@@ -2978,7 +3000,7 @@
    "tested_criterion_indices": [
     1
    ],
-   "alignment_note": "用频数守恒补齐未知组。",
+   "alignment_note": "40−9−11−8=12；与q1同为补足频数之和，换数不算新题族。",
    "id": "m8b.24.4-q201",
    "topicId": "m8b.24.4",
    "topicIds": [
@@ -2992,7 +3014,11 @@
    "difficulty_basis": "原创补全：需识别本节结构并完成计算或判断；难度仍待课堂校准。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "statistics.frequency.remaining-count",
+   "variant_id": "m8b.24.4-q201",
+   "representation": "verbal",
+   "cognitive_demand": "execute"
   },
   {
    "type": "numeric",
@@ -3003,7 +3029,7 @@
    "tested_criterion_indices": [
     0
    ],
-   "alignment_note": "依据起点、组距与覆盖最大值确定组数。",
+   "alignment_note": "从0开始宽5，23落在[20,25)；第五组覆盖，端点条件必须与区间一致。",
    "id": "m8b.24.4-q202",
    "topicId": "m8b.24.4",
    "topicIds": [
@@ -3017,7 +3043,11 @@
    "difficulty_basis": "原创补全：需识别本节结构并完成计算或判断；难度仍待课堂校准。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "statistics.grouping.endpoint-coverage",
+   "variant_id": "m8b.24.4-q202",
+   "representation": "verbal",
+   "cognitive_demand": "execute"
   }
  ]
 }

@@ -33,6 +33,14 @@ REVIEWED_BASIC_APPLICATIONS = {
 }
 
 
+V6_REVIEWED_BASIC = {
+    "m8b.24.4-q102": {"topic": "m8b.24.4", "verify": "50*0.24"},
+    "mh5.7.1.1-q102": {"topic": "mh5.7.1.1", "verify": "2/5"},
+    "m1a.5.5-q101": {"topic": "m1a.5.5", "verify": "16-7"},
+    "m1a.5.5-q102": {"topic": "m1a.5.5", "verify": "14-6"},
+}
+
+
 class BatchShapeTest(unittest.TestCase):
     def test_batches_are_not_empty(self):
         self.assertTrue(app_items.BATCHES)
@@ -46,7 +54,7 @@ class BatchShapeTest(unittest.TestCase):
                 self.assertGreaterEqual(len(it.get("prompt") or ""), 15, "题干太短，多半不是应用题")
                 self.assertTrue(str(it.get("answer") or "").strip())
                 self.assertGreaterEqual(len(it.get("explanation") or ""), 20)
-                allowed = ("basic",) if it["id"] in REVIEWED_BASIC_APPLICATIONS else ("standard", "advanced")
+                allowed = ("basic",) if it["id"] in (REVIEWED_BASIC_APPLICATIONS | V6_REVIEWED_BASIC) else ("standard", "advanced")
                 self.assertIn(it.get("difficulty", "standard"), allowed)
 
     def test_advanced_items_say_why(self):
@@ -120,13 +128,13 @@ class CoverageTest(unittest.TestCase):
             self.assertTrue(row["resource_needed"])
 
     def test_secondary_design_levels_keep_the_reviewed_advanced_gaps_explicit(self):
-        """保留既有两档覆盖；两项明确复核的基础任务不能冒充 advanced。"""
+        """保留实际档位与明确复核的缺口；不把基础换算冒充advanced。"""
         by_topic: dict[str, set[str]] = collections.defaultdict(set)
         for it in ITEMS:
             by_topic[it["topic"]].add(it.get("difficulty", "standard"))
         target = [t for t in by_topic
                   if t[:2] in {"m7", "m8", "m9"} or t.startswith("mh")]
-        reviewed_topics = {row["topic"] for row in REVIEWED_BASIC_APPLICATIONS.values()}
+        reviewed_topics = {row["topic"] for row in (REVIEWED_BASIC_APPLICATIONS | V6_REVIEWED_BASIC).values()}
         thin = [t for t in target if by_topic[t] != ({"standard", "basic"} if t in reviewed_topics else {"standard", "advanced"})]
         self.assertEqual(sorted(thin), [], "保持既有或具体审查后的设计档位，不能为凑配额伪造advanced")
 
@@ -148,6 +156,24 @@ class CoverageTest(unittest.TestCase):
                 self.assertFalse(actual["for_diagnosis"])
                 self.assertEqual("design_label_pending_student_data", actual["difficulty_calibration"])
                 self.assertGreaterEqual(len(actual["why"]), 8)
+
+    def test_v6_design_downgrades_are_bound_to_the_actual_reviewed_items(self):
+        reviewed = {row["id"]: row for row in json.loads(
+            (ROOT / "docs/reviews/v6-corrections-ai-review.json").read_text(encoding="utf-8"))["tasks"]}
+        by_id = {item["id"]: item for item in ITEMS}
+        for qid, expected in V6_REVIEWED_BASIC.items():
+            with self.subTest(question=qid):
+                actual, decision = by_id[qid], reviewed[qid]
+                self.assertEqual(actual["prompt"], decision["new_prompt"])
+                self.assertEqual(actual["answer"], decision["new_answer"])
+                self.assertEqual(actual["alignment_note"], decision["observation_boundary"])
+                self.assertEqual(actual["verify"], expected["verify"])
+                self.assertEqual(actual["topic"], expected["topic"])
+                self.assertEqual(actual["difficulty"], "basic")
+                self.assertEqual(actual["target_alignment"], "component_practice_only")
+                self.assertFalse(actual["diagnosis_eligible"])
+                self.assertFalse(actual["for_diagnosis"])
+                self.assertEqual(decision["decision"], "practice_only")
 
     def test_primary_points_are_not_over_drilled(self):
         """小学基础点按用户要求「不堆题」：每点至少 2 道，但**不强制 advanced**。

@@ -10542,6 +10542,30 @@
       "refines_skill_ids": [
         "sk_6c96612201c440b8ae2f"
       ]
+    },
+    "sk_3a4c6f1e8d2b4975a6c1": {
+      "id": "sk_3a4c6f1e8d2b4975a6c1",
+      "statement": "能在已知去掉数与剩余数时，用加法求原来的总数",
+      "granularity": "observable",
+      "stage": "primary",
+      "domain": "数与代数",
+      "prerequisite_skill_ids": [
+        "sk_972369afdc8446b48bfc"
+      ],
+      "refines_skill_ids": []
+    },
+    "sk_639721e552d782fe5c98": {
+      "id": "sk_639721e552d782fe5c98",
+      "statement": "能把减少的数量与剩余数量相加求原来，并用减法正向检验",
+      "granularity": "observable",
+      "stage": "primary",
+      "domain": "数与代数",
+      "prerequisite_skill_ids": [
+        "sk_3a4c6f1e8d2b4975a6c1"
+      ],
+      "refines_skill_ids": [
+        "sk_6823add8ae974742ad3c"
+      ]
     }
   },
   "placements": {
@@ -10650,11 +10674,13 @@
       "topic_id": "m1a.1.6",
       "criterion_skill_ids": [
         "sk_4c239760d5114a9796de",
-        "sk_87dbf7e546b94f829bc7"
+        "sk_87dbf7e546b94f829bc7",
+        "sk_3a4c6f1e8d2b4975a6c1"
       ],
       "skill_ids": [
         "sk_4c239760d5114a9796de",
-        "sk_87dbf7e546b94f829bc7"
+        "sk_87dbf7e546b94f829bc7",
+        "sk_3a4c6f1e8d2b4975a6c1"
       ],
       "title": "1～5的加、减法（减法）",
       "stage": "primary",
@@ -11106,11 +11132,13 @@
       "topic_id": "m1a.5.5",
       "criterion_skill_ids": [
         "sk_6823add8ae974742ad3c",
-        "sk_07cd5f98e7c94c3a8eaa"
+        "sk_07cd5f98e7c94c3a8eaa",
+        "sk_639721e552d782fe5c98"
       ],
       "skill_ids": [
         "sk_6823add8ae974742ad3c",
-        "sk_07cd5f98e7c94c3a8eaa"
+        "sk_07cd5f98e7c94c3a8eaa",
+        "sk_639721e552d782fe5c98"
       ],
       "title": "逆向用加法解决问题",
       "stage": "primary",
@@ -21416,17 +21444,24 @@
       ],
       "primaryTopicId": "m1a.1.6",
       "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "tested_criterion_indices": [
+        1
+      ],
+      "family_id": "primary.subtract.compute-within-five",
+      "variant_id": "m1a.1.6-q1",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "只观察5−2的计算结果，不能证明学生已解释去掉含义或全部5以内运算。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:m1a.1.6-q1",
-      "variant_id": "m1a.1.6-q1",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:m1a.1.6-q1",
       "source_kind": "bank",
       "source_ref": {
@@ -21438,25 +21473,26 @@
       "topic_ids": [
         "m1a.1.6"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_87dbf7e546b94f829bc7"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "62cf81f2959ad88fea325d9f480e39adcaef7f09ed740f6006194d9090a80f4c"
+      "resource_version": "eaf658cc31e53064381282fbe65fb2f7f577b4c7dbee9fd6b0187e71dc3299af"
     },
     "m1a.1.6-q2": {
       "id": "m1a.1.6-q2",
@@ -21485,15 +21521,22 @@
       ],
       "primaryTopicId": "m1a.1.6",
       "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "tested_criterion_indices": [
+        0
+      ],
+      "family_id": "primary.subtract.remove-part",
+      "variant_id": "m1a.1.6-q2",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "观察已知原有4、飞走1后求剩余；选择结果不能替代数量关系解释或口算熟练度。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "choice"
       },
-      "family_id": "unclassified:m1a.1.6-q2",
-      "variant_id": "m1a.1.6-q2",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:m1a.1.6-q2",
       "source_kind": "bank",
       "source_ref": {
@@ -21505,25 +21548,26 @@
       "topic_ids": [
         "m1a.1.6"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_4c239760d5114a9796de"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
-        "evidence_level": "verified",
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "evidence_level": "explained",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "4e1787f89bebab5565818a0a1cd6e3185d96cc07f196b38256bd77c216e0288e"
+      "resource_version": "b9435f59be4f375d692d97c63b59d32d31f4853ff79e8109e3e2520c0923348a"
     },
     "m1a.1.6-q9": {
       "id": "m1a.1.6-q9",
@@ -21833,6 +21877,139 @@
       },
       "availability": "quarantined",
       "resource_version": "4b42cec421d65e2495ca71a43e73b6a04a85fbccd0dc970a91b37f9832a0f71f"
+    },
+    "m1a.1.6-q401": {
+      "id": "m1a.1.6-q401",
+      "topicId": "m1a.1.6",
+      "difficulty": "basic",
+      "difficulty_basis": "作者按一步数量关系设计，未作真实学生难度校准。",
+      "type": "numeric",
+      "prompt": "拿走1个圆片后还剩3个。原来有几个圆片？只填数字。",
+      "answer": "4",
+      "explanation": "原来由拿走的1个和留下的3个组成，1+3=4；4−1=3。",
+      "author_type": "ai",
+      "review_status": "draft",
+      "answer_spec": {
+        "version": 1,
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "verify": "1+3",
+      "family_id": "primary.additive-structure.find-original-after-removal",
+      "variant_id": "m1a.1.6-q401:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "tested_criterion_indices": [
+        2
+      ],
+      "alignment_note": "只观察题中规定的数量关系或选择理由；不确认整个主题，也不能以选择题代替独立解释。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "family_status": "declared",
+      "resource_id": "task:m1a.1.6-q401",
+      "source_kind": "bank",
+      "source_ref": {
+        "path": "data/questions.json",
+        "legacy_id": "m1a.1.6-q401",
+        "locator": "m1a.1.6-q401"
+      },
+      "material_id": "topic:m1a.1.6",
+      "topic_ids": [
+        "m1a.1.6"
+      ],
+      "skill_ids": [
+        "sk_3a4c6f1e8d2b4975a6c1"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "practice"
+      ],
+      "policy": {
+        "diagnosis_eligible": false,
+        "practice_eligible": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "evidence_level": "verified",
+        "reviewer_pending": true,
+        "confidence": "screening",
+        "reason": "v6_bounded_content_correction",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "935a0d82e17a659fe9284d22071dd875c35237d26fbf3bb5c70baf5b7d92d7f3"
+    },
+    "m1a.1.6-q402": {
+      "id": "m1a.1.6-q402",
+      "topicId": "m1a.1.6",
+      "difficulty": "basic",
+      "difficulty_basis": "作者按一步数量关系设计，未作真实学生难度校准。",
+      "type": "choice",
+      "prompt": "吃掉2块饼干，还剩2块。要求原来有几块，哪句话说明了正确方法？",
+      "answer": "o2",
+      "explanation": "原来总数含吃掉和剩余两部分，应2+2=4。两个已知的2指不同部分，不能只看到“吃掉”就用减法。",
+      "author_type": "ai",
+      "review_status": "draft",
+      "answer_spec": {
+        "version": 1,
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "o2",
+          "text": "2+2=4，因为原来包括吃掉的和剩下的。"
+        },
+        {
+          "id": "o1",
+          "text": "2−2=0，因为看到吃掉就要减。"
+        },
+        {
+          "id": "o3",
+          "text": "原来2块，因为题里有数字2。"
+        }
+      ],
+      "family_id": "primary.additive-structure.explain-original-sum",
+      "variant_id": "m1a.1.6-q402:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "tested_criterion_indices": [
+        2
+      ],
+      "alignment_note": "只观察题中规定的数量关系或选择理由；不确认整个主题，也不能以选择题代替独立解释。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "family_status": "declared",
+      "resource_id": "task:m1a.1.6-q402",
+      "source_kind": "bank",
+      "source_ref": {
+        "path": "data/questions.json",
+        "legacy_id": "m1a.1.6-q402",
+        "locator": "m1a.1.6-q402"
+      },
+      "material_id": "topic:m1a.1.6",
+      "topic_ids": [
+        "m1a.1.6"
+      ],
+      "skill_ids": [
+        "sk_3a4c6f1e8d2b4975a6c1"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "practice"
+      ],
+      "policy": {
+        "diagnosis_eligible": false,
+        "practice_eligible": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "evidence_level": "explained",
+        "reviewer_pending": true,
+        "confidence": "screening",
+        "reason": "v6_bounded_content_correction",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "347d57ffb668aeb4f35377257a1563137fa332d73f9e28e77c95c15931f4ec33"
     },
     "m1a.1.7-q1": {
       "id": "m1a.1.7-q1",
@@ -32291,17 +32468,24 @@
       ],
       "primaryTopicId": "m1a.5.5",
       "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "tested_criterion_indices": [
+        1
+      ],
+      "family_id": "primary.additive-structure.find-original-after-increase",
+      "variant_id": "m1a.5.5-q1",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "只观察增加后用减法还原原数的对照目标，不作为本课减少后用加法求原数的证据。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:m1a.5.5-q1",
-      "variant_id": "m1a.5.5-q1",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:m1a.5.5-q1",
       "source_kind": "bank",
       "source_ref": {
@@ -32313,25 +32497,26 @@
       "topic_ids": [
         "m1a.5.5"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_07cd5f98e7c94c3a8eaa"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "8be0af2bb8af9fafde07e01115c86c8f46282afb4eab020805a734738259dd79"
+      "resource_version": "d23cfd75a4e81bf5ebfcbe54a5fa154f582955dc2f7ca226927875282dac7c15"
     },
     "m1a.5.5-q2": {
       "id": "m1a.5.5-q2",
@@ -32349,15 +32534,22 @@
       ],
       "primaryTopicId": "m1a.5.5",
       "difficulty_basis": "手写说理题（第 2 问）：单知识点、无干扰项，猜测率低",
+      "tested_criterion_indices": [
+        1
+      ],
+      "family_id": "primary.additive-structure.select-inverse-after-increase",
+      "variant_id": "m1a.5.5-q2",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "只观察增加后用减法还原原数的对照目标，不作为本课减少后用加法求原数的证据。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "text"
       },
-      "family_id": "unclassified:m1a.5.5-q2",
-      "variant_id": "m1a.5.5-q2",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:m1a.5.5-q2",
       "source_kind": "bank",
       "source_ref": {
@@ -32369,8 +32561,10 @@
       "topic_ids": [
         "m1a.5.5"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_07cd5f98e7c94c3a8eaa"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
         "practice"
       ],
@@ -32379,14 +32573,14 @@
         "practice_eligible": true,
         "may_confirm_mastery": false,
         "may_judge_weak": false,
-        "evidence_level": "bare",
+        "evidence_level": "explained",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "practice_only",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "9f56e89dd7cc4e5f9cd0770d672c161e68a382a4c87d0d3fd40cef13b7207ec1"
+      "resource_version": "11be92aba4203c8b10ebdaf6a39444be63606dc1ac694823c978de280c99287d"
     },
     "m1a.5.5-q9": {
       "id": "m1a.5.5-q9",
@@ -32475,6 +32669,8 @@
       "generated": true,
       "review_status": "ai-generated",
       "source": "self-generated-calc",
+      "for_diagnosis": false,
+      "diagnosis_eligible": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
@@ -32499,23 +32695,20 @@
       ],
       "skill_ids": [],
       "alignment": "topic_only",
-      "purpose": [
-        "check",
-        "practice"
-      ],
+      "purpose": [],
       "policy": {
-        "diagnosis_eligible": true,
-        "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "diagnosis_eligible": false,
+        "practice_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_out_of_grade_target_isolation",
         "independent_evidence": false
       },
-      "availability": "active",
-      "resource_version": "ba7f01fbf8ec6f03bc943a8caf1097de5809b35028bae298f16e5dd01df8f8f1"
+      "availability": "quarantined",
+      "resource_version": "d479001f9090a2cf126716b51efbe93dbb595bbe45ea81bb079cf9601b127079"
     },
     "m1a.5.5-q91": {
       "id": "m1a.5.5-q91",
@@ -32535,6 +32728,8 @@
       "generated": true,
       "review_status": "ai-generated",
       "source": "self-generated-calc",
+      "for_diagnosis": false,
+      "diagnosis_eligible": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
@@ -32559,23 +32754,20 @@
       ],
       "skill_ids": [],
       "alignment": "topic_only",
-      "purpose": [
-        "check",
-        "practice"
-      ],
+      "purpose": [],
       "policy": {
-        "diagnosis_eligible": true,
-        "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "diagnosis_eligible": false,
+        "practice_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_out_of_grade_target_isolation",
         "independent_evidence": false
       },
-      "availability": "active",
-      "resource_version": "c41b05bc15401510e72c220c75587f5c23961167ed2acba1157b1c935ff33e83"
+      "availability": "quarantined",
+      "resource_version": "e67975b772abc5e7594b6fc6d6fc7c9991e2be1e111b481dc444712896d6570d"
     },
     "m1a.5.5-q92": {
       "id": "m1a.5.5-q92",
@@ -32595,6 +32787,8 @@
       "generated": true,
       "review_status": "ai-generated",
       "source": "self-generated-calc",
+      "for_diagnosis": false,
+      "diagnosis_eligible": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
@@ -32619,23 +32813,20 @@
       ],
       "skill_ids": [],
       "alignment": "topic_only",
-      "purpose": [
-        "check",
-        "practice"
-      ],
+      "purpose": [],
       "policy": {
-        "diagnosis_eligible": true,
-        "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "diagnosis_eligible": false,
+        "practice_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_out_of_grade_target_isolation",
         "independent_evidence": false
       },
-      "availability": "active",
-      "resource_version": "2c9d13e0c5f908369a9d9cf079f11b7b0027890169367daaf0624bb861054ace"
+      "availability": "quarantined",
+      "resource_version": "62b151d1e81699ae7799a67dc3a2988ed2b2ad49b582800c93ef3896c6ac86d5"
     },
     "m1a.5.5-q93": {
       "id": "m1a.5.5-q93",
@@ -32655,6 +32846,8 @@
       "generated": true,
       "review_status": "ai-generated",
       "source": "self-generated-calc",
+      "for_diagnosis": false,
+      "diagnosis_eligible": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
@@ -32679,23 +32872,20 @@
       ],
       "skill_ids": [],
       "alignment": "topic_only",
-      "purpose": [
-        "check",
-        "practice"
-      ],
+      "purpose": [],
       "policy": {
-        "diagnosis_eligible": true,
-        "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "diagnosis_eligible": false,
+        "practice_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_out_of_grade_target_isolation",
         "independent_evidence": false
       },
-      "availability": "active",
-      "resource_version": "98eef3fa65e9b9f86f0ca491d58dcc6458f08030c1f4e2578e2dd5a0ebf3540a"
+      "availability": "quarantined",
+      "resource_version": "75b47967ddc6997203eae45f24d60b4ef4eb02d5feda5be417cd235d69e7bead"
     },
     "m1a.5.5-q95": {
       "id": "m1a.5.5-q95",
@@ -32703,29 +32893,33 @@
       "type": "numeric",
       "prompt": "筐里原来有一些贴纸，被拿走 2 张贴纸后还剩 8 张贴纸。又拿来 1 张贴纸，现在有多少张贴纸？（只填数字）",
       "choices": [],
-      "answer": "11",
+      "answer": "9",
       "accept": [
-        "11"
+        "9"
       ],
-      "verify": "8+2+1",
-      "explanation": "先逆推原来有 8+2=10 张贴纸，再算 10+1=11。",
-      "difficulty": "standard",
-      "difficulty_basis": "自产计算题：2 步运算",
+      "verify": "8+1",
+      "explanation": "拿走2张之后当前已经剩8张，再拿来1张，现在是8+1=9张。8+2=10只是在求原来的数量；若恢复原数后直接加1，会忽略实际已拿走的2张。",
+      "difficulty": "basic",
+      "difficulty_basis": "当前已经8张，再添1张，只需8+1；旧两步算法重复还原已拿走部分。 AI作者复核，见docs/reviews/v6-corrections-ai-review.json。",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
       "source": "self-generated-calc",
+      "family_id": "primary.additive-structure.continue-from-current",
+      "variant_id": "m1a.5.5-q95:v6",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "只观察时间顺序中的当前数量，不为本主题的逆向目标提供直接证据。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only",
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:m1a.5.5-q95",
-      "variant_id": "m1a.5.5-q95",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:m1a.5.5-q95",
       "source_kind": "bank",
       "source_ref": {
@@ -32740,33 +32934,32 @@
       "skill_ids": [],
       "alignment": "topic_only",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "da55c16e0b733a6a53311e9744d8dedfda0a5edff99bacc42886c8981b47ff05"
+      "resource_version": "0d9d3ac14653b811deaa0787f7eb88d2cd8b87f0f3cc646d8053fa425a0f7bbf"
     },
     "m1a.5.5-q101": {
       "id": "m1a.5.5-q101",
       "topicId": "m1a.5.5",
-      "difficulty": "standard",
+      "difficulty": "basic",
       "type": "numeric",
       "prompt": "活动室又进来7名同学后共有16名同学，期间没有人离开，原来有几名同学？",
       "choices": [],
       "answer": "9",
       "explanation": "原来人数+7=16，求原来做逆向减法，16−7=9；9+7=16验证。",
-      "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
+      "difficulty_basis": "按题面需要的实际步骤判定设计档位，非学生实测难度。 AI作者复核，见docs/reviews/v6-corrections-ai-review.json。",
       "drill_kind": "application",
       "generated": true,
       "review_status": "ai-generated",
@@ -32777,9 +32970,8 @@
       "primaryTopicId": "m1a.5.5",
       "diagnosis_eligible": false,
       "target_alignment": "component_practice_only",
-      "alignment_note": "本题自动核对所求数值；数量关系的口头解释和本节完整目标由讲解卡的独立自检核查。",
+      "alignment_note": "只观察增加后用减法还原原数的对照目标，不作为本课减少后用加法求原数的证据。",
       "tested_criterion_indices": [
-        0,
         1
       ],
       "difficulty_calibration": "design_label_pending_student_data",
@@ -32800,17 +32992,18 @@
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
       ],
+      "family_id": "primary.additive-structure.find-original-after-increase",
+      "variant_id": "m1a.5.5-q101",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:m1a.5.5-q101",
-      "variant_id": "m1a.5.5-q101",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:m1a.5.5-q101",
       "source_kind": "bank",
       "source_ref": {
@@ -32823,8 +33016,7 @@
         "m1a.5.5"
       ],
       "skill_ids": [
-        "sk_07cd5f98e7c94c3a8eaa",
-        "sk_6823add8ae974742ad3c"
+        "sk_07cd5f98e7c94c3a8eaa"
       ],
       "alignment": "explicit_component",
       "purpose": [
@@ -32838,22 +33030,22 @@
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "practice_only",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "bb388dcbe0c130980c805cd3dc0b6ad7a5136f81b0b37c8eca125adc594b9953"
+      "resource_version": "8375766bc1b3ec1d40288360be0af819c50412c8b5d576edc6444ea00dfcc48b"
     },
     "m1a.5.5-q102": {
       "id": "m1a.5.5-q102",
       "topicId": "m1a.5.5",
-      "difficulty": "standard",
+      "difficulty": "basic",
       "type": "numeric",
       "prompt": "小雨又收集6枚徽章后共有14枚，没有丢失或送出。她原来有多少枚？",
       "choices": [],
       "answer": "8",
       "explanation": "现在14枚由原来数量和新增6枚组成，原来14−6=8枚。不能因“又收集”直接相加。",
-      "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
+      "difficulty_basis": "按题面需要的实际步骤判定设计档位，非学生实测难度。 AI作者复核，见docs/reviews/v6-corrections-ai-review.json。",
       "drill_kind": "application",
       "generated": true,
       "review_status": "ai-generated",
@@ -32864,9 +33056,8 @@
       "primaryTopicId": "m1a.5.5",
       "diagnosis_eligible": false,
       "target_alignment": "component_practice_only",
-      "alignment_note": "本题自动核对所求数值；数量关系的口头解释和本节完整目标由讲解卡的独立自检核查。",
+      "alignment_note": "只观察增加后用减法还原原数的对照目标，不作为本课减少后用加法求原数的证据。",
       "tested_criterion_indices": [
-        0,
         1
       ],
       "difficulty_calibration": "design_label_pending_student_data",
@@ -32887,17 +33078,18 @@
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
       ],
+      "family_id": "primary.additive-structure.find-original-after-increase",
+      "variant_id": "m1a.5.5-q102",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:m1a.5.5-q102",
-      "variant_id": "m1a.5.5-q102",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:m1a.5.5-q102",
       "source_kind": "bank",
       "source_ref": {
@@ -32910,8 +33102,7 @@
         "m1a.5.5"
       ],
       "skill_ids": [
-        "sk_07cd5f98e7c94c3a8eaa",
-        "sk_6823add8ae974742ad3c"
+        "sk_07cd5f98e7c94c3a8eaa"
       ],
       "alignment": "explicit_component",
       "purpose": [
@@ -32925,11 +33116,279 @@
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "practice_only",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "bfb9abaa4da740f8fc8780576c589cd92ae7810f0afa76e616316ed7f04f0709"
+      "resource_version": "684411e0f0f4462034afe739af9d2441b31c70cdc01302858e3516a2e8b167d6"
+    },
+    "m1a.5.5-q401": {
+      "id": "m1a.5.5-q401",
+      "topicId": "m1a.5.5",
+      "difficulty": "basic",
+      "difficulty_basis": "作者按一步数量关系设计，未作真实学生难度校准。",
+      "type": "numeric",
+      "prompt": "卖出8个面包后还剩6个，原来有几个面包？只填数字。",
+      "answer": "14",
+      "explanation": "原来=卖出8+剩余6=14；14−8=6复核。",
+      "author_type": "ai",
+      "review_status": "draft",
+      "answer_spec": {
+        "version": 1,
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "verify": "8+6",
+      "family_id": "primary.additive-structure.find-original-after-removal",
+      "variant_id": "m1a.5.5-q401:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "tested_criterion_indices": [
+        2
+      ],
+      "alignment_note": "只观察题中规定的数量关系或选择理由；不确认整个主题，也不能以选择题代替独立解释。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "family_status": "declared",
+      "resource_id": "task:m1a.5.5-q401",
+      "source_kind": "bank",
+      "source_ref": {
+        "path": "data/questions.json",
+        "legacy_id": "m1a.5.5-q401",
+        "locator": "m1a.5.5-q401"
+      },
+      "material_id": "topic:m1a.5.5",
+      "topic_ids": [
+        "m1a.5.5"
+      ],
+      "skill_ids": [
+        "sk_639721e552d782fe5c98"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "practice"
+      ],
+      "policy": {
+        "diagnosis_eligible": false,
+        "practice_eligible": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "evidence_level": "verified",
+        "reviewer_pending": true,
+        "confidence": "screening",
+        "reason": "v6_bounded_content_correction",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "9949ff4ec71985243fc4a5bcb668dc98c7ba69ec19588bfd9be8428451b1924c"
+    },
+    "m1a.5.5-q402": {
+      "id": "m1a.5.5-q402",
+      "topicId": "m1a.5.5",
+      "difficulty": "basic",
+      "difficulty_basis": "作者按一步数量关系设计，未作真实学生难度校准。",
+      "type": "choice",
+      "prompt": "甲：送出4本后还有9本，问原来几本。乙：原来9本送出4本，问剩几本。哪个算式组合正确？",
+      "answer": "o1",
+      "explanation": "甲求原来，应9+4=13；乙求剩余，应9−4=5。同有送出4，未知量不同，运算不同。",
+      "author_type": "ai",
+      "review_status": "draft",
+      "answer_spec": {
+        "version": 1,
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "o3",
+          "text": "甲9+4；乙9+4"
+        },
+        {
+          "id": "o1",
+          "text": "甲9+4；乙9−4"
+        },
+        {
+          "id": "o2",
+          "text": "甲9−4；乙9−4"
+        }
+      ],
+      "family_id": "primary.additive-structure.contrast-unknown-position",
+      "variant_id": "m1a.5.5-q402:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "tested_criterion_indices": [
+        0,
+        2
+      ],
+      "alignment_note": "只观察题中规定的数量关系或选择理由；不确认整个主题，也不能以选择题代替独立解释。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "family_status": "declared",
+      "resource_id": "task:m1a.5.5-q402",
+      "source_kind": "bank",
+      "source_ref": {
+        "path": "data/questions.json",
+        "legacy_id": "m1a.5.5-q402",
+        "locator": "m1a.5.5-q402"
+      },
+      "material_id": "topic:m1a.5.5",
+      "topic_ids": [
+        "m1a.5.5"
+      ],
+      "skill_ids": [
+        "sk_639721e552d782fe5c98",
+        "sk_6823add8ae974742ad3c"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "practice"
+      ],
+      "policy": {
+        "diagnosis_eligible": false,
+        "practice_eligible": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "evidence_level": "explained",
+        "reviewer_pending": true,
+        "confidence": "screening",
+        "reason": "v6_bounded_content_correction",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "2de8564ceb62162b0c5c089a98f84e9a86895b261c48697171bac94ec0b2c638"
+    },
+    "m1a.5.5-q403": {
+      "id": "m1a.5.5-q403",
+      "topicId": "m1a.5.5",
+      "difficulty": "basic",
+      "difficulty_basis": "作者按一步数量关系设计，未作真实学生难度校准。",
+      "type": "choice",
+      "prompt": "吃掉5颗糖后还剩8颗。小明写8−5=3求原来数，哪条检查能发现他的错误？",
+      "answer": "o3",
+      "explanation": "原来应8+5=13，正向检查13−5=8。8是已经减少后的数量，不能再减5求原来。",
+      "author_type": "ai",
+      "review_status": "draft",
+      "answer_spec": {
+        "version": 1,
+        "kind": "choice"
+      },
+      "choices": [
+        {
+          "id": "o1",
+          "text": "只要8−5算得3，就表示列式也正确。"
+        },
+        {
+          "id": "o3",
+          "text": "原来数减去5应等于8，而3不能满足；13−5=8。"
+        },
+        {
+          "id": "o2",
+          "text": "看到吃掉必须用减法，所以不用检查。"
+        }
+      ],
+      "family_id": "primary.additive-structure.validate-inverse",
+      "variant_id": "m1a.5.5-q403:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "tested_criterion_indices": [
+        2
+      ],
+      "alignment_note": "只观察题中规定的数量关系或选择理由；不确认整个主题，也不能以选择题代替独立解释。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "family_status": "declared",
+      "resource_id": "task:m1a.5.5-q403",
+      "source_kind": "bank",
+      "source_ref": {
+        "path": "data/questions.json",
+        "legacy_id": "m1a.5.5-q403",
+        "locator": "m1a.5.5-q403"
+      },
+      "material_id": "topic:m1a.5.5",
+      "topic_ids": [
+        "m1a.5.5"
+      ],
+      "skill_ids": [
+        "sk_639721e552d782fe5c98"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "practice"
+      ],
+      "policy": {
+        "diagnosis_eligible": false,
+        "practice_eligible": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "evidence_level": "explained",
+        "reviewer_pending": true,
+        "confidence": "screening",
+        "reason": "v6_bounded_content_correction",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "a15ea85f3d9c76fb48f00b7911e680599186e965ae793661fb856317a63f04fc"
+    },
+    "m1a.5.5-q404": {
+      "id": "m1a.5.5-q404",
+      "topicId": "m1a.5.5",
+      "difficulty": "basic",
+      "difficulty_basis": "作者按一步数量关系设计，未作真实学生难度校准。",
+      "type": "numeric",
+      "prompt": "盒里用去9支笔后还剩7支，原来几支？只填数字。",
+      "answer": "16",
+      "explanation": "原来包括用去9支和剩下7支，9+7=16；16−9=7。此题与卖出后求原来属于同一数学结构，不因换物品成为独立题族。",
+      "author_type": "ai",
+      "review_status": "draft",
+      "answer_spec": {
+        "version": 1,
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "verify": "9+7",
+      "family_id": "primary.additive-structure.find-original-after-removal",
+      "variant_id": "m1a.5.5-q404:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "tested_criterion_indices": [
+        2
+      ],
+      "alignment_note": "只观察题中规定的数量关系或选择理由；不确认整个主题，也不能以选择题代替独立解释。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "family_status": "declared",
+      "resource_id": "task:m1a.5.5-q404",
+      "source_kind": "bank",
+      "source_ref": {
+        "path": "data/questions.json",
+        "legacy_id": "m1a.5.5-q404",
+        "locator": "m1a.5.5-q404"
+      },
+      "material_id": "topic:m1a.5.5",
+      "topic_ids": [
+        "m1a.5.5"
+      ],
+      "skill_ids": [
+        "sk_639721e552d782fe5c98"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "practice"
+      ],
+      "policy": {
+        "diagnosis_eligible": false,
+        "practice_eligible": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "evidence_level": "verified",
+        "reviewer_pending": true,
+        "confidence": "screening",
+        "reason": "v6_bounded_content_correction",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "63f0fe72599e569d94f47f7506c8d297137a7a92c2f8fd07caaad937656ec277"
     },
     "m1b.1.1-q1": {
       "id": "m1b.1.1-q1",
@@ -151706,17 +152165,24 @@
       ],
       "primaryTopicId": "m8b.24.4",
       "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "tested_criterion_indices": [
+        1
+      ],
+      "family_id": "statistics.frequency.remaining-count",
+      "variant_id": "m8b.24.4-q1",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "40−(6+8+10+9)=7；只观察频数总和约束，不代表会选择组距或统计原始数据。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:m8b.24.4-q1",
-      "variant_id": "m8b.24.4-q1",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:m8b.24.4-q1",
       "source_kind": "bank",
       "source_ref": {
@@ -151728,25 +152194,26 @@
       "topic_ids": [
         "m8b.24.4"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_da4729b620ca47ad94d9"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "2a75ea8fc1c8314645c26b50c23710092b7cc28cc2e5259b90cbb2d97ca0ac94"
+      "resource_version": "1cf82ed81b5feb21a48206edb07cceb3006eb71df1410e4fb521c3bae1237c2c"
     },
     "m8b.24.4-q2": {
       "id": "m8b.24.4-q2",
@@ -151762,17 +152229,24 @@
       ],
       "primaryTopicId": "m8b.24.4",
       "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "tested_criterion_indices": [
+        1
+      ],
+      "family_id": "statistics.frequency.remaining-proportion",
+      "variant_id": "m8b.24.4-q2",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "总频率1，剩余1−0.85=0.15；频率和约束不等同于会绘制直方图。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "decimal"
       },
-      "family_id": "unclassified:m8b.24.4-q2",
-      "variant_id": "m8b.24.4-q2",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:m8b.24.4-q2",
       "source_kind": "bank",
       "source_ref": {
@@ -151784,25 +152258,26 @@
       "topic_ids": [
         "m8b.24.4"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_da4729b620ca47ad94d9"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "ecdbedc16eb2cca02859ebf63416521f55b6d0c7695b89cf5ab9c042b969c2c6"
+      "resource_version": "4ba10ec9d00adb447dcd9bd35541090f0c85cc163c4c310dd1824ca023059de0"
     },
     "m8b.24.4-q9": {
       "id": "m8b.24.4-q9",
@@ -151878,10 +152353,10 @@
       "topicId": "m8b.24.4",
       "difficulty": "standard",
       "type": "numeric",
-      "prompt": "一批数据中最大值是 87，最小值是 42，取组距为 9。这组数据应分成几组？",
+      "prompt": "一批数据最小值42、最大值87。从42开始，以9为组距，所有组都采用左闭右开区间。覆盖全部数据至少需几组？只填整数。",
       "choices": [],
-      "answer": "5",
-      "explanation": "极差是 87-42=45，再除以组距：45/9=5，正好分成 5 组。组数用「极差除以组距」向上取整；除不尽时宁可多分一组，也不能让最大值落在最后一组外面。",
+      "answer": "6",
+      "explanation": "前5组为[42,51)、[51,60)、[60,69)、[69,78)、[78,87)，都不含最大值87；还需第6组[87,96)。若末组改为右闭可用5组，但不符合本题所有组右开的约定。不能不看边界只把极差除以组距向上取整。",
       "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
       "drill_kind": "application",
       "generated": true,
@@ -151891,8 +152366,7 @@
         "m8b.24.4"
       ],
       "primaryTopicId": "m8b.24.4",
-      "difficulty_calibration": "design_label_pending_student_data",
-      "verify": "(87-42)/9",
+      "verify": "(87-42)/9+1",
       "evidence_level": "verified",
       "evidence_signals": {
         "analysis_chars": 78,
@@ -151909,17 +152383,23 @@
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
       ],
+      "family_id": "statistics.grouping.endpoint-coverage",
+      "variant_id": "m8b.24.4-q101:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "观察给定起点和左闭右开边界下的完整覆盖，不由极差比值直接认定组数。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:m8b.24.4-q101",
-      "variant_id": "m8b.24.4-q101",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:m8b.24.4-q101",
       "source_kind": "bank",
       "source_ref": {
@@ -151931,36 +152411,37 @@
       "topic_ids": [
         "m8b.24.4"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_40395de2948d450f9fd4"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "d25a7e5db702a6c50f84468abf3c813a7e1f367c8888aba358b847b33fe8dae7"
+      "resource_version": "cfe74b89059ef81d476fc54b644078e23b471242c796b76435d891d47c6ccb66"
     },
     "m8b.24.4-q102": {
       "id": "m8b.24.4-q102",
       "topicId": "m8b.24.4",
-      "difficulty": "advanced",
+      "difficulty": "basic",
       "type": "numeric",
       "prompt": "某班 50 名学生参加体育测试，成绩在「良好」这一组的频率是 0.24。这一组有多少人？",
       "choices": [],
       "answer": "12",
       "explanation": "频数等于总数乘频率：50*0.24=12 人。频率是「占的比例」，求人数要乘回去；反过来求频率才是除以总数，方向弄反答案就完全不同。",
-      "difficulty_basis": "自产应用题（advanced）：要由频率乘总数反求频数，是频率分布表里唯一的方向性换算",
+      "difficulty_basis": "按题面需要的实际步骤判定设计档位，非学生实测难度。 AI作者复核，见docs/reviews/v6-corrections-ai-review.json。",
       "drill_kind": "application",
       "generated": true,
       "review_status": "ai-generated",
@@ -151987,17 +152468,24 @@
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
       ],
+      "tested_criterion_indices": [
+        1
+      ],
+      "family_id": "statistics.frequency.from-proportion",
+      "variant_id": "m8b.24.4-q102",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "50×0.24=12；题面已给频率，仅做人数换算，不应标advanced或整主题诊断。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:m8b.24.4-q102",
-      "variant_id": "m8b.24.4-q102",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:m8b.24.4-q102",
       "source_kind": "bank",
       "source_ref": {
@@ -152009,25 +152497,26 @@
       "topic_ids": [
         "m8b.24.4"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_da4729b620ca47ad94d9"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "b9e88c0f890e017ec47ccf6985c9c53de3bce7d3d8631c338ac15f5db9792fbc"
+      "resource_version": "8745de27f3704f998aa74277046ae3244529a875a7c98a77535afc698a776461"
     },
     "m8b.24.4-q201": {
       "type": "numeric",
@@ -152038,7 +152527,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "用频数守恒补齐未知组。",
+      "alignment_note": "40−9−11−8=12；与q1同为补足频数之和，换数不算新题族。",
       "id": "m8b.24.4-q201",
       "topicId": "m8b.24.4",
       "topicIds": [
@@ -152053,17 +152542,17 @@
       "diagnosis_eligible": false,
       "for_diagnosis": false,
       "target_alignment": "component_practice_only",
+      "family_id": "statistics.frequency.remaining-count",
+      "variant_id": "m8b.24.4-q201",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:m8b.24.4-q201",
-      "variant_id": "m8b.24.4-q201",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:m8b.24.4-q201",
       "source_kind": "bank",
       "source_ref": {
@@ -152090,11 +152579,11 @@
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "practice_only",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "5ea4dfa49f98197f34ee47d2e1d13dd4c6482f3cdc44bebfd496df0275afe628"
+      "resource_version": "98292d33b65eb67636e1e478b09160dd7057c3530bd099dd4e788a673d55fe5e"
     },
     "m8b.24.4-q202": {
       "type": "numeric",
@@ -152105,7 +152594,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "依据起点、组距与覆盖最大值确定组数。",
+      "alignment_note": "从0开始宽5，23落在[20,25)；第五组覆盖，端点条件必须与区间一致。",
       "id": "m8b.24.4-q202",
       "topicId": "m8b.24.4",
       "topicIds": [
@@ -152120,17 +152609,17 @@
       "diagnosis_eligible": false,
       "for_diagnosis": false,
       "target_alignment": "component_practice_only",
+      "family_id": "statistics.grouping.endpoint-coverage",
+      "variant_id": "m8b.24.4-q202",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:m8b.24.4-q202",
-      "variant_id": "m8b.24.4-q202",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:m8b.24.4-q202",
       "source_kind": "bank",
       "source_ref": {
@@ -152157,11 +152646,11 @@
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "practice_only",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "be14f559c17e0d306bc3d4e5941b815b8623d46db0d56c68109378b723a413d0"
+      "resource_version": "042bd102011af5dd728845a160b0f978748ba063a6284f9321f0a8d03fb4b043"
     },
     "m9a.25.1-q1": {
       "id": "m9a.25.1-q1",
@@ -188521,10 +189010,10 @@
       "topicId": "mh1.5.2.1",
       "difficulty": "standard",
       "type": "numeric",
-      "prompt": "摩天轮半径 20 米，某座舱从最低点转过 30 度，高度上升了多少米？（已知 sin30=0.5）",
+      "prompt": "摩天轮半径20米，座舱从最低点绕圆心转过30°。相对出发最低点上升多少米？已知cos30°=√3/2，结果四舍五入保留两位小数，只填数值。",
       "choices": [],
-      "answer": "10",
-      "explanation": "座舱上升的高度等于半径乘正弦值：20*0.5=10 米。转过的角决定了上升的比例，正弦就是「竖直方向占多少」。",
+      "answer": "2.68",
+      "explanation": "以圆心为高度零点，最低点的竖直坐标是−20，转30°后是−20cos30°。上升量=−20cos30°−(−20)=20(1−√3/2)≈2.68米。20sin30°=10表示该位置的水平偏移量大小，不是从最低点上升的高度。",
       "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
       "drill_kind": "application",
       "generated": true,
@@ -188534,8 +189023,7 @@
         "mh1.5.2.1"
       ],
       "primaryTopicId": "mh1.5.2.1",
-      "difficulty_calibration": "design_label_pending_student_data",
-      "verify": "20*0.5",
+      "verify": "round(20*(1-sqrt(3)/2),2)",
       "evidence_level": "verified",
       "evidence_signals": {
         "analysis_chars": 55,
@@ -188552,17 +189040,25 @@
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
       ],
+      "family_id": "trigonometry.circle.vertical-displacement-from-bottom",
+      "variant_id": "mh1.5.2.1-q101:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "仅观察确定角的起始方向和圆心坐标后使用余弦得到位移；不能代表三角函数全部定义或象限符号。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
-        "comparison": "exact",
-        "representation": "any"
+        "comparison": "rounded",
+        "decimal_places": 2,
+        "rounding": "half_up",
+        "representation": "decimal"
       },
-      "family_id": "unclassified:mh1.5.2.1-q101",
-      "variant_id": "mh1.5.2.1-q101",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:mh1.5.2.1-q101",
       "source_kind": "bank",
       "source_ref": {
@@ -188574,25 +189070,26 @@
       "topic_ids": [
         "mh1.5.2.1"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_75eb569037404a04b6eb"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "a4bdb275f59254bf2f1f807ac1b91d75405ff78b9a1f2c69e63d01d19396c24f"
+      "resource_version": "79c0576a01e20a36ae0b33acf0d41a6de4c36c4573f2ea49391fd72b918b5e6a"
     },
     "mh1.5.2.1-q102": {
       "id": "mh1.5.2.1-q102",
@@ -253762,17 +254259,24 @@
       ],
       "primaryTopicId": "mh5.7.1.1",
       "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "tested_criterion_indices": [
+        0
+      ],
+      "family_id": "probability.conditional.joint-over-condition",
+      "variant_id": "mh5.7.1.1-q1",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "已给联合概率与条件概率分母，只观察P(AB)/P(A)的代入，不能证明会建模或处理不等可能结果。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:mh5.7.1.1-q1",
-      "variant_id": "mh5.7.1.1-q1",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:mh5.7.1.1-q1",
       "source_kind": "bank",
       "source_ref": {
@@ -253784,25 +254288,26 @@
       "topic_ids": [
         "mh5.7.1.1"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_8429842aa838495c9f7e"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "9704e643300403892364ca3bdc36f283c2d8817304bf2e98e2caffd17fd7ffb3"
+      "resource_version": "7b90f00fa0ec71a031ddaa70fd89db221a0b7fdaf8205f56d439a711186020d2"
     },
     "mh5.7.1.1-q2": {
       "id": "mh5.7.1.1-q2",
@@ -253835,15 +254340,22 @@
       ],
       "primaryTopicId": "mh5.7.1.1",
       "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "tested_criterion_indices": [
+        0
+      ],
+      "family_id": "probability.conditional.identify-denominator",
+      "variant_id": "mh5.7.1.1-q2",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "只观察记住条件A作为分母，不能凭识别一项公式判断条件概率建模能力。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "choice"
       },
-      "family_id": "unclassified:mh5.7.1.1-q2",
-      "variant_id": "mh5.7.1.1-q2",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:mh5.7.1.1-q2",
       "source_kind": "bank",
       "source_ref": {
@@ -253855,8 +254367,10 @@
       "topic_ids": [
         "mh5.7.1.1"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_8429842aa838495c9f7e"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
         "practice"
       ],
@@ -253865,14 +254379,14 @@
         "practice_eligible": true,
         "may_confirm_mastery": false,
         "may_judge_weak": false,
-        "evidence_level": "bare",
+        "evidence_level": "explained",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "practice_only",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "051cb9c042efc3550a14f2383eb1ebc35f647d41459e5bf07bfae9a0b22c154d"
+      "resource_version": "1e034bc1d51d2f2e37ad138a64bde6620a86517ae1288cd9e169a479b18be6bb"
     },
     "mh5.7.1.1-q9": {
       "id": "mh5.7.1.1-q9",
@@ -253954,24 +254468,31 @@
         "0.75"
       ],
       "verify": "3/4",
-      "explanation": "本题考查条件概率。在事件 A 发生的条件下事件 B 发生的概率 P(B|A)=P(AB)/P(A)（P(A)>0）。",
+      "explanation": "第一次已取走一个红球且不放回，袋内剩3个红球和1个白球，共4个。每个剩余球等可能被抽到，第二次红球概率为3/4。不能仍用原来的5个球作分母；此处条件是已知第一次红球，不是计算两次红球的联合概率。",
       "difficulty": "basic",
       "difficulty_basis": "自产计算题：1 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
       "source": "self-generated-calc",
+      "tested_criterion_indices": [
+        0
+      ],
+      "family_id": "probability.conditional.without-replacement-known-first",
+      "variant_id": "mh5.7.1.1-q90",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "核对不放回后的3红1白条件空间；q90/q92/q93同一数学结构，不把参数变化算新迁移。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:mh5.7.1.1-q90",
-      "variant_id": "mh5.7.1.1-q90",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:mh5.7.1.1-q90",
       "source_kind": "bank",
       "source_ref": {
@@ -253983,25 +254504,26 @@
       "topic_ids": [
         "mh5.7.1.1"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_8429842aa838495c9f7e"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "bc6f190ce71066974279e8251b0478ff8f65e23a76afa94451c9d7d82d7935db"
+      "resource_version": "ec2270f91285b4fbe4d53c8dc30574bbf428b675aa11ada6cbe2c01664246a8b"
     },
     "mh5.7.1.1-q91": {
       "id": "mh5.7.1.1-q91",
@@ -254009,29 +254531,36 @@
       "type": "numeric",
       "prompt": "掷一枚质地均匀的骰子，已知点数大于 2，求点数小于 5的概率是（　　）",
       "choices": [],
-      "answer": "0.25",
+      "answer": "0.5",
       "accept": [
-        "0.25"
+        "0.5",
+        "1/2"
       ],
-      "verify": "1/4",
-      "explanation": "本题考查条件概率。在事件 A 发生的条件下事件 B 发生的概率 P(B|A)=P(AB)/P(A)（P(A)>0）。",
+      "verify": "2/4",
+      "explanation": "已知点数大于2，条件空间为{3,4,5,6}，四种结果仍等可能。小于5的有3、4两种，所以概率2/4=1/2；1/4漏算了一个符合结果。",
       "difficulty": "basic",
       "difficulty_basis": "自产计算题：1 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
       "source": "self-generated-calc",
+      "family_id": "probability.conditional.finite-uniform-intersection",
+      "variant_id": "mh5.7.1.1-q91:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "观察等可能条件空间内计数；不代表能处理一般非等可能事件或反向条件。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:mh5.7.1.1-q91",
-      "variant_id": "mh5.7.1.1-q91",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:mh5.7.1.1-q91",
       "source_kind": "bank",
       "source_ref": {
@@ -254043,25 +254572,26 @@
       "topic_ids": [
         "mh5.7.1.1"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_8429842aa838495c9f7e"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "c90ba50158d7c4ccbe339afdcbc69b7c6fc11d71340d505585a8de56fa8370b9"
+      "resource_version": "023112809be98053dfef5f79b5aac331149275a03b13a1076929c41f320125d9"
     },
     "mh5.7.1.1-q92": {
       "id": "mh5.7.1.1-q92",
@@ -254074,24 +254604,31 @@
         "0.8"
       ],
       "verify": "4/5",
-      "explanation": "本题考查条件概率。在事件 A 发生的条件下事件 B 发生的概率 P(B|A)=P(AB)/P(A)（P(A)>0）。",
+      "explanation": "第一次已取走一个红球且不放回，袋内剩4个红球和1个白球，共5个。每个剩余球等可能被抽到，第二次红球概率为4/5。不能仍用原来的6个球作分母；此处条件是已知第一次红球，不是计算两次红球的联合概率。",
       "difficulty": "basic",
       "difficulty_basis": "自产计算题：1 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
       "source": "self-generated-calc",
+      "tested_criterion_indices": [
+        0
+      ],
+      "family_id": "probability.conditional.without-replacement-known-first",
+      "variant_id": "mh5.7.1.1-q92",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "核对不放回后的4红1白条件空间；q90/q92/q93同一数学结构，不把参数变化算新迁移。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:mh5.7.1.1-q92",
-      "variant_id": "mh5.7.1.1-q92",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:mh5.7.1.1-q92",
       "source_kind": "bank",
       "source_ref": {
@@ -254103,25 +254640,26 @@
       "topic_ids": [
         "mh5.7.1.1"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_8429842aa838495c9f7e"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "ec8991fe7176c1b0a0fe7fed6408c88ff42463e99a307b27d5f0e8024d445769"
+      "resource_version": "fa24a296578cb922996a76d5cb1ff6c0af37a1e7697a830ce134ce8a32c4a1bd"
     },
     "mh5.7.1.1-q93": {
       "id": "mh5.7.1.1-q93",
@@ -254134,24 +254672,31 @@
         "0.5"
       ],
       "verify": "1/2",
-      "explanation": "本题考查条件概率。在事件 A 发生的条件下事件 B 发生的概率 P(B|A)=P(AB)/P(A)（P(A)>0）。",
+      "explanation": "第一次已取走一个红球且不放回，袋内剩1个红球和1个白球，共2个。每个剩余球等可能被抽到，第二次红球概率为1/2。不能仍用原来的3个球作分母；此处条件是已知第一次红球，不是计算两次红球的联合概率。",
       "difficulty": "basic",
       "difficulty_basis": "自产计算题：1 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
       "source": "self-generated-calc",
+      "tested_criterion_indices": [
+        0
+      ],
+      "family_id": "probability.conditional.without-replacement-known-first",
+      "variant_id": "mh5.7.1.1-q93",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "核对不放回后的1红1白条件空间；q90/q92/q93同一数学结构，不把参数变化算新迁移。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:mh5.7.1.1-q93",
-      "variant_id": "mh5.7.1.1-q93",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:mh5.7.1.1-q93",
       "source_kind": "bank",
       "source_ref": {
@@ -254163,25 +254708,26 @@
       "topic_ids": [
         "mh5.7.1.1"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_8429842aa838495c9f7e"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "8aa72a9b5de2b6c09abd28b6f315c2eab6a75fce6e65558a33520fca30096b99"
+      "resource_version": "8f92efb91e617d3357757570f9f67565f315ce055fbe8c0a531e7f0bb2ad0132"
     },
     "mh5.7.1.1-q101": {
       "id": "mh5.7.1.1-q101",
@@ -254219,17 +254765,24 @@
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
       ],
+      "tested_criterion_indices": [
+        0
+      ],
+      "family_id": "probability.conditional.joint-over-condition",
+      "variant_id": "mh5.7.1.1-q101",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "已给联合概率与条件概率分母，只观察P(AB)/P(A)的代入，不能证明会建模或处理不等可能结果。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:mh5.7.1.1-q101",
-      "variant_id": "mh5.7.1.1-q101",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:mh5.7.1.1-q101",
       "source_kind": "bank",
       "source_ref": {
@@ -254241,36 +254794,37 @@
       "topic_ids": [
         "mh5.7.1.1"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_8429842aa838495c9f7e"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "22eab953e70b6d132e37faea08b46aa7d931a2955fea320092b5f182f8763631"
+      "resource_version": "1b8e2226eac1c8f8f9c27079c80f15c90b0b73eee594e2412f37fb15bb757ce9"
     },
     "mh5.7.1.1-q102": {
       "id": "mh5.7.1.1-q102",
       "topicId": "mh5.7.1.1",
-      "difficulty": "advanced",
+      "difficulty": "basic",
       "type": "numeric",
-      "prompt": "100 件产品中有 5 件次品，其中 2 件来自甲厂。已知抽到的是次品，它来自甲厂的概率是多少？",
+      "prompt": "从100件产品中等可能抽取1件，其中5件是次品，且这5件次品中有2件来自甲厂。已知抽到的是次品，它来自甲厂的概率是多少？",
       "choices": [],
       "answer": "0.4",
       "explanation": "条件写在「已知是次品」，所以样本空间缩小到 5 件次品。其中 2 件来自甲厂，概率是 2/5=0.4。分母用 100 件就会得到 0.02，那是「抽到甲厂次品」的概率。",
-      "difficulty_basis": "自产应用题（advanced）：条件概率的分母是已知事件，不是全体样本",
+      "difficulty_basis": "按题面需要的实际步骤判定设计档位，非学生实测难度。 AI作者复核，见docs/reviews/v6-corrections-ai-review.json。",
       "drill_kind": "application",
       "generated": true,
       "review_status": "ai-generated",
@@ -254297,17 +254851,24 @@
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
       ],
+      "tested_criterion_indices": [
+        0
+      ],
+      "family_id": "probability.conditional.finite-uniform-intersection",
+      "variant_id": "mh5.7.1.1-q102",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "显式均匀抽取后，条件空间为5件次品，甲厂次品2件，2/5。与骰子同是等可能条件集的交集计数；不推断非均匀抽样。",
+      "target_alignment": "component_practice_only",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
       "answer_spec": {
         "version": 1,
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
       },
-      "family_id": "unclassified:mh5.7.1.1-q102",
-      "variant_id": "mh5.7.1.1-q102",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:mh5.7.1.1-q102",
       "source_kind": "bank",
       "source_ref": {
@@ -254319,25 +254880,26 @@
       "topic_ids": [
         "mh5.7.1.1"
       ],
-      "skill_ids": [],
-      "alignment": "topic_only",
+      "skill_ids": [
+        "sk_8429842aa838495c9f7e"
+      ],
+      "alignment": "explicit_component",
       "purpose": [
-        "check",
         "practice"
       ],
       "policy": {
-        "diagnosis_eligible": true,
+        "diagnosis_eligible": false,
         "practice_eligible": true,
-        "may_confirm_mastery": true,
-        "may_judge_weak": true,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
         "evidence_level": "verified",
         "reviewer_pending": true,
         "confidence": "screening",
-        "reason": "provisional_evidence",
+        "reason": "v6_bounded_content_correction",
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "d07c28186c240527b136e3fd718045a5fd01e1b1659f7d52cd29bf4f54668e09"
+      "resource_version": "a8384880e5189723ccd62d66dcfd0c26e38f26b38c63625b39fb0b4e089f89e0"
     },
     "mh5.7.1.2-q1": {
       "id": "mh5.7.1.2-q1",
@@ -263114,12 +263676,12 @@
       ],
       "explanation": "减法先要知道整体与被去掉的部分。4辆车开走1辆时，4是原来总数，1是开走数量，3才是仍停着的数量。",
       "criterion_index": 0,
+      "family_id": "primary.subtract.remove-part",
+      "variant_id": "m1a.1.6:self-check:0:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
       "id": "sc_2f772413ec234260aef9",
-      "family_id": "unclassified:sc_2f772413ec234260aef9",
-      "variant_id": "sc_2f772413ec234260aef9",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "answer_spec": {
         "version": 1,
         "kind": "rubric"
@@ -263152,7 +263714,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "9bb2edc2b1fb8c89b15d5f7c76275c6fca3241e8f4c3e33fe5dcd4d7c93a3c62"
+      "resource_version": "f7e2fc39e3ba2fda253290f22115f44e18e5b294ca36f782d795b7398e89701f"
     },
     "sc_b9bb4f4be6604caab0d0": {
       "type": "rubric",
@@ -263172,12 +263734,12 @@
       ],
       "explanation": "利用分与合可以口算：4由1和3组成，所以4−1=3、4−3=1。减法结果还可以用“剩下+去掉=原来”检查。",
       "criterion_index": 1,
+      "family_id": "primary.subtract.fact-and-inverse-check",
+      "variant_id": "m1a.1.6:self-check:1:v6",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
       "id": "sc_b9bb4f4be6604caab0d0",
-      "family_id": "unclassified:sc_b9bb4f4be6604caab0d0",
-      "variant_id": "sc_b9bb4f4be6604caab0d0",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "answer_spec": {
         "version": 1,
         "kind": "rubric"
@@ -263210,7 +263772,65 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "ccf9c68ca30b8d7a30b67993841b5079457cde76e247f09fd8f7e6ebea0eb036"
+      "resource_version": "9e690a569847d61817d0b91b823947a0eeae6f8bdbe62709adf42987f5292be2"
+    },
+    "sc_26c05cb9e01645918caa": {
+      "type": "rubric",
+      "prompt": "盒里原有一些积木，拿走2块后还剩3块。原来有几块？写算式，并说明为什么这里用加法。",
+      "reference_answer": "2+3=5（块）。原来的积木分成拿走的2块和留下的3块，求原来总数要把两部分合起来。",
+      "rubric": [
+        {
+          "criterion": "用2+3求原数",
+          "points": 1,
+          "example": "2+3=5（块）。原来的积木分成拿走的2块和留下的3块，求原来总数要把两部分合起来。"
+        },
+        {
+          "criterion": "解释原数由拿走部分和剩余部分组成",
+          "points": 1,
+          "example": "2+3=5（块）。原来的积木分成拿走的2块和留下的3块，求原来总数要把两部分合起来。"
+        }
+      ],
+      "explanation": "减法情境不总是求剩余。若知道拿走了几件、还剩几件，原来的总数由“拿走的部分+留下的部分”组成，应把两部分相加。",
+      "criterion_index": 2,
+      "family_id": "primary.additive-structure.find-original-after-removal",
+      "variant_id": "m1a.1.6:reverse-addition:self-check:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "id": "sc_26c05cb9e01645918caa",
+      "family_status": "declared",
+      "answer_spec": {
+        "version": 1,
+        "kind": "rubric"
+      },
+      "resource_id": "task:sc_26c05cb9e01645918caa",
+      "source_kind": "self_check",
+      "source_ref": {
+        "path": "data/teach/m1a.1.6.json",
+        "legacy_id": "m1a.1.6",
+        "locator": "2"
+      },
+      "material_id": "topic:m1a.1.6",
+      "topic_ids": [
+        "m1a.1.6"
+      ],
+      "skill_ids": [
+        "sk_3a4c6f1e8d2b4975a6c1"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "self_check"
+      ],
+      "policy": {
+        "practice_eligible": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "reviewer_pending": true,
+        "reason": "authored_learning_task",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "489271f1c93e496a58e481b5b0cbc2afd934aea962bd4bc9a63a23f660956cf1"
     },
     "sc_f707daeabdbe48c9af1b": {
       "type": "rubric",
@@ -265931,32 +266551,37 @@
     },
     "sc_b7e89d7c637a4875be98": {
       "type": "rubric",
-      "prompt": "放入4块饼干后盒里有12块，未知的是哪个数量？数量关系是什么？",
-      "reference_answer": "未知原来数量；原来块数+4=12，是增加后求原来的逆向问题。",
+      "prompt": "甲：送出4本后还有9本。乙：又买4本后共有9本。两题各问原来几本，写出数量关系并解释运算。",
+      "reference_answer": "甲原来−4=9，所以原来9+4=13本；乙原来+4=9，所以原来9−4=5本。未知同为原来，变化方向相反。",
       "rubric": [
         {
-          "criterion": "指出原来未知",
+          "criterion": "识别两题原来未知",
           "points": 1,
-          "example": "未知原来数量；原来块数+4=12，是增加后求原来的逆向问题。"
+          "example": "甲原来−4=9，所以原来9+4=13本；乙原来+4=9，所以原来9−4=5本。未知同为原来，变化方向相反。"
         },
         {
-          "criterion": "关系式正确",
+          "criterion": "区分减少与增加",
           "points": 1,
-          "example": "未知原来数量；原来块数+4=12，是增加后求原来的逆向问题。"
+          "example": "甲原来−4=9，所以原来9+4=13本；乙原来+4=9，所以原来9−4=5本。未知同为原来，变化方向相反。"
+        },
+        {
+          "criterion": "分别列出9+4与9−4并说明依据",
+          "points": 1,
+          "example": "甲原来−4=9，所以原来9+4=13本；乙原来+4=9，所以原来9−4=5本。未知同为原来，变化方向相反。"
         }
       ],
-      "explanation": "识别逆向问题要看未知的是变化前还是变化后。",
+      "explanation": "先确定未知的是变化前还是变化后。两题都问原来，但变化方向不同，不能由题中出现同一个词而选择相同运算。",
       "criterion_index": 0,
+      "family_id": "primary.additive-structure.contrast-change-direction",
+      "variant_id": "m1a.5.5:check:0:v6",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy",
       "id": "sc_b7e89d7c637a4875be98",
       "answer_spec": {
         "version": 1,
         "kind": "rubric"
       },
-      "family_id": "unclassified:sc_b7e89d7c637a4875be98",
-      "variant_id": "sc_b7e89d7c637a4875be98",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:sc_b7e89d7c637a4875be98",
       "source_kind": "self_check",
       "source_ref": {
@@ -265985,36 +266610,41 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "ba8b9420360915f8b68226905a668c1f8f535590bbd92a5ecfdb730010e9fd99"
+      "resource_version": "f4206f5e2c0adae5debde36ef0b0345a255e416c6e34f42abf8d76411683585d"
     },
     "sc_cd87cf2333624a938d57": {
       "type": "rubric",
-      "prompt": "又买6本后共有15本，原来几本？",
-      "reference_answer": "15−6=9（本），检验9+6=15。",
+      "prompt": "又买6本后共有15本，原来几本？写正向检验。",
+      "reference_answer": "15−6=9本，检验9+6=15。",
       "rubric": [
         {
-          "criterion": "减法列式正确",
+          "criterion": "知道现在15含新买6",
           "points": 1,
-          "example": "15−6=9（本），检验9+6=15。"
+          "example": "15−6=9本，检验9+6=15。"
         },
         {
-          "criterion": "正向检验成立",
+          "criterion": "列出15−6=9",
           "points": 1,
-          "example": "15−6=9（本），检验9+6=15。"
+          "example": "15−6=9本，检验9+6=15。"
+        },
+        {
+          "criterion": "正向检验9+6=15",
+          "points": 1,
+          "example": "15−6=9本，检验9+6=15。"
         }
       ],
-      "explanation": "增加后求原来做减法，并用加法检验恢复的数量。",
+      "explanation": "这是为历史记录保留的增加后反求原来对照：现在总数含新添部分，去掉新添才是原来。它不替代本节主要的逆向加法目标。",
       "criterion_index": 1,
+      "family_id": "primary.additive-structure.find-original-after-addition",
+      "variant_id": "m1a.5.5:check:1:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
       "id": "sc_cd87cf2333624a938d57",
       "answer_spec": {
         "version": 1,
         "kind": "rubric"
       },
-      "family_id": "unclassified:sc_cd87cf2333624a938d57",
-      "variant_id": "sc_cd87cf2333624a938d57",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:sc_cd87cf2333624a938d57",
       "source_kind": "self_check",
       "source_ref": {
@@ -266043,7 +266673,70 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "d85a726bbef23ee92dc531fb4fb9e8e35f7b6c84e01c8775c30c6038adb39b75"
+      "resource_version": "8b5ce06ec0c7052e289cdd7feabba8cf007d2b5d503813951b90153ac625b490"
+    },
+    "sc_7cd9f906093f4b529d45": {
+      "type": "rubric",
+      "prompt": "盒里用去7支铅笔后还剩5支。原来几支？画两部分或写数量关系，再检查。",
+      "reference_answer": "原来数=用去7+剩余5=12支；检验12−7=5。7和5来自同一原整体的两个不重复部分。",
+      "rubric": [
+        {
+          "criterion": "原数用7+5恢复",
+          "points": 1,
+          "example": "原来数=用去7+剩余5=12支；检验12−7=5。7和5来自同一原整体的两个不重复部分。"
+        },
+        {
+          "criterion": "结果12且对象为铅笔",
+          "points": 1,
+          "example": "原来数=用去7+剩余5=12支；检验12−7=5。7和5来自同一原整体的两个不重复部分。"
+        },
+        {
+          "criterion": "用12−7=5正向检查",
+          "points": 1,
+          "example": "原来数=用去7+剩余5=12支；检验12−7=5。7和5来自同一原整体的两个不重复部分。"
+        }
+      ],
+      "explanation": "已知用去部分和剩余部分，两部分相加得到原数。应回到原来的正向减少过程检查，而非只记“逆向”一词。",
+      "criterion_index": 2,
+      "family_id": "primary.additive-structure.find-original-after-removal",
+      "variant_id": "m1a.5.5:check:2:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "id": "sc_7cd9f906093f4b529d45",
+      "family_status": "declared",
+      "answer_spec": {
+        "version": 1,
+        "kind": "rubric"
+      },
+      "resource_id": "task:sc_7cd9f906093f4b529d45",
+      "source_kind": "self_check",
+      "source_ref": {
+        "path": "data/teach/m1a.5.5.json",
+        "legacy_id": "m1a.5.5",
+        "locator": "2"
+      },
+      "material_id": "topic:m1a.5.5",
+      "topic_ids": [
+        "m1a.5.5"
+      ],
+      "skill_ids": [
+        "sk_639721e552d782fe5c98"
+      ],
+      "alignment": "explicit_component",
+      "purpose": [
+        "self_check"
+      ],
+      "policy": {
+        "practice_eligible": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false,
+        "reviewer_pending": true,
+        "reason": "authored_learning_task",
+        "independent_evidence": false
+      },
+      "availability": "active",
+      "resource_version": "30c2c76c6e1a514073855eab8b4b51039ea3220eb7a628b06fac26ce4faaa836"
     },
     "sc_5cd67b1cff424a1c906c": {
       "type": "rubric",
@@ -297270,16 +297963,16 @@
       ],
       "explanation": "选组距时结合数据范围和希望的组数，再用端点规则检查覆盖；合理分组可能不唯一。",
       "criterion_index": 0,
+      "family_id": "statistics.grouping.endpoint-coverage",
+      "variant_id": "m8b.24.4:self-check:0:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
       "id": "sc_61556f0b40a44b4488cb",
       "answer_spec": {
         "version": 1,
         "kind": "rubric"
       },
-      "family_id": "unclassified:sc_61556f0b40a44b4488cb",
-      "variant_id": "sc_61556f0b40a44b4488cb",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:sc_61556f0b40a44b4488cb",
       "source_kind": "self_check",
       "source_ref": {
@@ -297308,7 +298001,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "72c09fa4095e26204ad38f52192365ce51373851ac5bdc5bc74838a73a24432d"
+      "resource_version": "a7e7a4b310aa38d82a7d7444f659738dc28d9e7d77bd0c974eecf37cb2401dfc"
     },
     "sc_1405d653ccfd4ff7be04": {
       "type": "rubric",
@@ -297328,16 +298021,16 @@
       ],
       "explanation": "频数守恒与频率总和1来自每个数据恰归一组。",
       "criterion_index": 1,
+      "family_id": "statistics.grouping.frequency-conservation",
+      "variant_id": "m8b.24.4:self-check:1:v6",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
       "id": "sc_1405d653ccfd4ff7be04",
       "answer_spec": {
         "version": 1,
         "kind": "rubric"
       },
-      "family_id": "unclassified:sc_1405d653ccfd4ff7be04",
-      "variant_id": "sc_1405d653ccfd4ff7be04",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:sc_1405d653ccfd4ff7be04",
       "source_kind": "self_check",
       "source_ref": {
@@ -297366,7 +298059,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "b08bd962dd163390d8d01356f0927178df48ee82fd48badf338b9c56bf255b70"
+      "resource_version": "a572df817e7f56c152fb0ce27eb120111252f195f2c45c4e202594d97b94a334"
     },
     "sc_c281bcd8e14c4bf8a2f0": {
       "type": "rubric",
@@ -317109,16 +317802,16 @@
       ],
       "explanation": "条件概率重算的是限制在A内部的比例。",
       "criterion_index": 0,
+      "family_id": "probability.conditional.finite-uniform-intersection",
+      "variant_id": "mh5.7.1.1:self-check:0:v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
       "id": "sc_caf41b4ca3b74cfcbcb3",
       "answer_spec": {
         "version": 1,
         "kind": "rubric"
       },
-      "family_id": "unclassified:sc_caf41b4ca3b74cfcbcb3",
-      "variant_id": "sc_caf41b4ca3b74cfcbcb3",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:sc_caf41b4ca3b74cfcbcb3",
       "source_kind": "self_check",
       "source_ref": {
@@ -317147,7 +317840,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "83102ac4db746465af20e3fa2b38c14e296b09ee0bb8785436486a743e39f260"
+      "resource_version": "681ce3f25c02256a92dc10392cd013b0a88f0bc51a151a82fa93a35e2d1dd165"
     },
     "sc_4a944b2ae8044be598b6": {
       "type": "rubric",
@@ -317167,16 +317860,16 @@
       ],
       "explanation": "交集概率用全体作分母，条件概率用条件子群作分母。",
       "criterion_index": 1,
+      "family_id": "probability.conditional-to-joint",
+      "variant_id": "mh5.7.1.1:self-check:1:v6",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
       "id": "sc_4a944b2ae8044be598b6",
       "answer_spec": {
         "version": 1,
         "kind": "rubric"
       },
-      "family_id": "unclassified:sc_4a944b2ae8044be598b6",
-      "variant_id": "sc_4a944b2ae8044be598b6",
-      "family_status": "unclassified",
-      "representation": "unknown",
-      "cognitive_demand": "unknown",
+      "family_status": "declared",
       "resource_id": "task:sc_4a944b2ae8044be598b6",
       "source_kind": "self_check",
       "source_ref": {
@@ -317205,7 +317898,7 @@
         "independent_evidence": false
       },
       "availability": "active",
-      "resource_version": "c4d059ab3094513d9be681bd68405d7b49cb3d93da5d1e435a8107a5fc46f0c8"
+      "resource_version": "df3c47b5dbb335ccf15558a9672ec6db7f9a0992e784e69fd7a3de25ffa8025a"
     },
     "sc_2ccb32b00c554935929e": {
       "type": "rubric",
@@ -339888,24 +340581,28 @@
         "m1a.1.6-q91",
         "m1a.1.6-q92",
         "m1a.1.6-q93",
+        "m1a.1.6-q401",
+        "m1a.1.6-q402",
         "sc_2f772413ec234260aef9",
-        "sc_b9bb4f4be6604caab0d0"
+        "sc_b9bb4f4be6604caab0d0",
+        "sc_26c05cb9e01645918caa"
       ],
       "family_ids": [
-        "primary.subtract.remove-part",
-        "unclassified:sc_2f772413ec234260aef9",
-        "unclassified:sc_b9bb4f4be6604caab0d0"
+        "primary.additive-structure.find-original-after-removal",
+        "primary.subtract.fact-and-inverse-check",
+        "primary.subtract.remove-part"
       ],
       "assessment_family_ids": [
-        "unclassified:m1a.1.6-q1",
-        "unclassified:m1a.1.6-q2",
+        "primary.additive-structure.explain-original-sum",
+        "primary.additive-structure.find-original-after-removal",
+        "primary.subtract.compute-within-five",
+        "primary.subtract.fact-and-inverse-check",
+        "primary.subtract.remove-part",
         "unclassified:m1a.1.6-q9",
         "unclassified:m1a.1.6-q90",
         "unclassified:m1a.1.6-q91",
         "unclassified:m1a.1.6-q92",
-        "unclassified:m1a.1.6-q93",
-        "unclassified:sc_2f772413ec234260aef9",
-        "unclassified:sc_b9bb4f4be6604caab0d0"
+        "unclassified:m1a.1.6-q93"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
       "reference_families_by_key": {
@@ -339913,13 +340610,16 @@
           "primary.subtract.remove-part"
         ],
         "self_check:0": [
-          "unclassified:sc_2f772413ec234260aef9"
+          "primary.subtract.remove-part"
         ],
         "self_check:1": [
-          "unclassified:sc_b9bb4f4be6604caab0d0"
+          "primary.subtract.fact-and-inverse-check"
+        ],
+        "self_check:2": [
+          "primary.additive-structure.find-original-after-removal"
         ]
       },
-      "resource_version": "cec0ff9766feed57307040300b91b53d3b6162d4daa596db33a5d7f4829cdc64"
+      "resource_version": "d7d9213482f72c18533959816f926aa4ed5600b556ad6400f21e4e8892a60735"
     },
     "topic:m1a.1.7": {
       "id": "topic:m1a.1.7",
@@ -341013,41 +341713,50 @@
         "m1a.5.5-q95",
         "m1a.5.5-q101",
         "m1a.5.5-q102",
+        "m1a.5.5-q401",
+        "m1a.5.5-q402",
+        "m1a.5.5-q403",
+        "m1a.5.5-q404",
         "sc_b7e89d7c637a4875be98",
-        "sc_cd87cf2333624a938d57"
+        "sc_cd87cf2333624a938d57",
+        "sc_7cd9f906093f4b529d45"
       ],
       "family_ids": [
-        "unclassified:ex_13253d6a5fc44f68b6ce",
-        "unclassified:sc_b7e89d7c637a4875be98",
-        "unclassified:sc_cd87cf2333624a938d57"
+        "primary.additive-structure.contrast-change-direction",
+        "primary.additive-structure.find-original-after-addition",
+        "primary.additive-structure.find-original-after-removal"
       ],
       "assessment_family_ids": [
-        "unclassified:m1a.5.5-q1",
-        "unclassified:m1a.5.5-q101",
-        "unclassified:m1a.5.5-q102",
-        "unclassified:m1a.5.5-q2",
+        "primary.additive-structure.continue-from-current",
+        "primary.additive-structure.contrast-change-direction",
+        "primary.additive-structure.contrast-unknown-position",
+        "primary.additive-structure.find-original-after-addition",
+        "primary.additive-structure.find-original-after-increase",
+        "primary.additive-structure.find-original-after-removal",
+        "primary.additive-structure.select-inverse-after-increase",
+        "primary.additive-structure.validate-inverse",
         "unclassified:m1a.5.5-q9",
         "unclassified:m1a.5.5-q90",
         "unclassified:m1a.5.5-q91",
         "unclassified:m1a.5.5-q92",
-        "unclassified:m1a.5.5-q93",
-        "unclassified:m1a.5.5-q95",
-        "unclassified:sc_b7e89d7c637a4875be98",
-        "unclassified:sc_cd87cf2333624a938d57"
+        "unclassified:m1a.5.5-q93"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
       "reference_families_by_key": {
         "example:0": [
-          "unclassified:ex_13253d6a5fc44f68b6ce"
+          "primary.additive-structure.find-original-after-removal"
         ],
         "self_check:0": [
-          "unclassified:sc_b7e89d7c637a4875be98"
+          "primary.additive-structure.contrast-change-direction"
         ],
         "self_check:1": [
-          "unclassified:sc_cd87cf2333624a938d57"
+          "primary.additive-structure.find-original-after-addition"
+        ],
+        "self_check:2": [
+          "primary.additive-structure.find-original-after-removal"
         ]
       },
-      "resource_version": "39faf41fa4052f00b98c4e73aa196cef3bd268ac3463502892d5ddf681a5a27e"
+      "resource_version": "7469291eaac13bdc03e2e4a41fae3c417d3c3e650980cd7fd0f679cd664d2406"
     },
     "topic:m1b.1.1": {
       "id": "topic:m1b.1.1",
@@ -353657,20 +354366,17 @@
         "sc_1405d653ccfd4ff7be04"
       ],
       "family_ids": [
-        "unclassified:ex_4f3cebc757ed45c98af0",
-        "unclassified:sc_1405d653ccfd4ff7be04",
-        "unclassified:sc_61556f0b40a44b4488cb"
+        "statistics.grouping.endpoint-coverage",
+        "statistics.grouping.frequency-conservation",
+        "unclassified:ex_4f3cebc757ed45c98af0"
       ],
       "assessment_family_ids": [
-        "unclassified:m8b.24.4-q1",
-        "unclassified:m8b.24.4-q101",
-        "unclassified:m8b.24.4-q102",
-        "unclassified:m8b.24.4-q2",
-        "unclassified:m8b.24.4-q201",
-        "unclassified:m8b.24.4-q202",
-        "unclassified:m8b.24.4-q9",
-        "unclassified:sc_1405d653ccfd4ff7be04",
-        "unclassified:sc_61556f0b40a44b4488cb"
+        "statistics.frequency.from-proportion",
+        "statistics.frequency.remaining-count",
+        "statistics.frequency.remaining-proportion",
+        "statistics.grouping.endpoint-coverage",
+        "statistics.grouping.frequency-conservation",
+        "unclassified:m8b.24.4-q9"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
       "reference_families_by_key": {
@@ -353678,13 +354384,13 @@
           "unclassified:ex_4f3cebc757ed45c98af0"
         ],
         "self_check:0": [
-          "unclassified:sc_61556f0b40a44b4488cb"
+          "statistics.grouping.endpoint-coverage"
         ],
         "self_check:1": [
-          "unclassified:sc_1405d653ccfd4ff7be04"
+          "statistics.grouping.frequency-conservation"
         ]
       },
-      "resource_version": "0c2ab52f39649ffda2c10bca0794271e0f3362b8069499c87446e71e7111e7ad"
+      "resource_version": "c9e8fcd1b9b12c4eb3c32e7d0c386677304fba073fbe588ef19519d2c9388fe2"
     },
     "topic:m9a.25.1": {
       "id": "topic:m9a.25.1",
@@ -356906,8 +357612,8 @@
         "unclassified:sc_a12810d9b77a4a9a86c6"
       ],
       "assessment_family_ids": [
+        "trigonometry.circle.vertical-displacement-from-bottom",
         "unclassified:mh1.5.2.1-q1",
-        "unclassified:mh1.5.2.1-q101",
         "unclassified:mh1.5.2.1-q102",
         "unclassified:mh1.5.2.1-q2",
         "unclassified:mh1.5.2.1-q201",
@@ -356930,7 +357636,7 @@
           "unclassified:sc_7dc62856121147fb986c"
         ]
       },
-      "resource_version": "dfeae5743924eefa1a01d1facf222b2fa85abe323dd5283b6522d8def0ce0182"
+      "resource_version": "ab77f606df9fbc9624899a240fd2535d1c4106c8e819a6df1433834a7395e626"
     },
     "topic:mh1.5.2.2": {
       "id": "topic:mh1.5.2.2",
@@ -362264,22 +362970,17 @@
         "sc_4a944b2ae8044be598b6"
       ],
       "family_ids": [
-        "unclassified:ex_20fd90573f664d1fac11",
-        "unclassified:sc_4a944b2ae8044be598b6",
-        "unclassified:sc_caf41b4ca3b74cfcbcb3"
+        "probability.conditional-to-joint",
+        "probability.conditional.finite-uniform-intersection",
+        "unclassified:ex_20fd90573f664d1fac11"
       ],
       "assessment_family_ids": [
-        "unclassified:mh5.7.1.1-q1",
-        "unclassified:mh5.7.1.1-q101",
-        "unclassified:mh5.7.1.1-q102",
-        "unclassified:mh5.7.1.1-q2",
-        "unclassified:mh5.7.1.1-q9",
-        "unclassified:mh5.7.1.1-q90",
-        "unclassified:mh5.7.1.1-q91",
-        "unclassified:mh5.7.1.1-q92",
-        "unclassified:mh5.7.1.1-q93",
-        "unclassified:sc_4a944b2ae8044be598b6",
-        "unclassified:sc_caf41b4ca3b74cfcbcb3"
+        "probability.conditional-to-joint",
+        "probability.conditional.finite-uniform-intersection",
+        "probability.conditional.identify-denominator",
+        "probability.conditional.joint-over-condition",
+        "probability.conditional.without-replacement-known-first",
+        "unclassified:mh5.7.1.1-q9"
       ],
       "reference_scope": "provided_examples_and_self_check_references",
       "reference_families_by_key": {
@@ -362287,13 +362988,13 @@
           "unclassified:ex_20fd90573f664d1fac11"
         ],
         "self_check:0": [
-          "unclassified:sc_caf41b4ca3b74cfcbcb3"
+          "probability.conditional.finite-uniform-intersection"
         ],
         "self_check:1": [
-          "unclassified:sc_4a944b2ae8044be598b6"
+          "probability.conditional-to-joint"
         ]
       },
-      "resource_version": "1cae16d9c8c246a35f15d7ede32862645d4ac9df1ea8732494439b5885ebff72"
+      "resource_version": "cbdb99f7b38353f197eab229e60d1acbe4042b11f7b4a87a8a089d4751111111"
     },
     "topic:mh5.7.1.2": {
       "id": "topic:mh5.7.1.2",
@@ -364658,26 +365359,29 @@
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:m1a.1.6-q1": {
-      "id": "unclassified:m1a.1.6-q1",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "primary.subtract.compute-within-five": {
+      "id": "primary.subtract.compute-within-five",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
         "m1a.1.6-q1"
       ],
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:m1a.1.6-q2": {
-      "id": "unclassified:m1a.1.6-q2",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "primary.subtract.remove-part": {
+      "id": "primary.subtract.remove-part",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
-        "m1a.1.6-q2"
+        "m1a.1.6-q2",
+        "sc_2f772413ec234260aef9"
       ],
-      "material_ids": [],
+      "material_ids": [
+        "topic:m1a.1.6"
+      ],
       "independence_established": false
     },
     "unclassified:m1a.1.6-q9": {
@@ -364731,6 +365435,35 @@
       "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
       "task_ids": [
         "m1a.1.6-q93"
+      ],
+      "material_ids": [],
+      "independence_established": false
+    },
+    "primary.additive-structure.find-original-after-removal": {
+      "id": "primary.additive-structure.find-original-after-removal",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
+      "task_ids": [
+        "m1a.1.6-q401",
+        "m1a.5.5-q401",
+        "m1a.5.5-q404",
+        "sc_26c05cb9e01645918caa",
+        "sc_7cd9f906093f4b529d45"
+      ],
+      "material_ids": [
+        "topic:m1a.1.6",
+        "topic:m1a.5.5"
+      ],
+      "independence_established": false
+    },
+    "primary.additive-structure.explain-original-sum": {
+      "id": "primary.additive-structure.explain-original-sum",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
+      "task_ids": [
+        "m1a.1.6-q402"
       ],
       "material_ids": [],
       "independence_established": false
@@ -366300,22 +367033,24 @@
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:m1a.5.5-q1": {
-      "id": "unclassified:m1a.5.5-q1",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "primary.additive-structure.find-original-after-increase": {
+      "id": "primary.additive-structure.find-original-after-increase",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
-        "m1a.5.5-q1"
+        "m1a.5.5-q1",
+        "m1a.5.5-q101",
+        "m1a.5.5-q102"
       ],
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:m1a.5.5-q2": {
-      "id": "unclassified:m1a.5.5-q2",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "primary.additive-structure.select-inverse-after-increase": {
+      "id": "primary.additive-structure.select-inverse-after-increase",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
         "m1a.5.5-q2"
       ],
@@ -366377,35 +367112,35 @@
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:m1a.5.5-q95": {
-      "id": "unclassified:m1a.5.5-q95",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "primary.additive-structure.continue-from-current": {
+      "id": "primary.additive-structure.continue-from-current",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
         "m1a.5.5-q95"
       ],
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:m1a.5.5-q101": {
-      "id": "unclassified:m1a.5.5-q101",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "primary.additive-structure.contrast-unknown-position": {
+      "id": "primary.additive-structure.contrast-unknown-position",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
-        "m1a.5.5-q101"
+        "m1a.5.5-q402"
       ],
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:m1a.5.5-q102": {
-      "id": "unclassified:m1a.5.5-q102",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "primary.additive-structure.validate-inverse": {
+      "id": "primary.additive-structure.validate-inverse",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
-        "m1a.5.5-q102"
+        "m1a.5.5-q403"
       ],
       "material_ids": [],
       "independence_established": false
@@ -385855,22 +386590,23 @@
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:m8b.24.4-q1": {
-      "id": "unclassified:m8b.24.4-q1",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "statistics.frequency.remaining-count": {
+      "id": "statistics.frequency.remaining-count",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
-        "m8b.24.4-q1"
+        "m8b.24.4-q1",
+        "m8b.24.4-q201"
       ],
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:m8b.24.4-q2": {
-      "id": "unclassified:m8b.24.4-q2",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "statistics.frequency.remaining-proportion": {
+      "id": "statistics.frequency.remaining-proportion",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
         "m8b.24.4-q2"
       ],
@@ -385888,46 +386624,28 @@
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:m8b.24.4-q101": {
-      "id": "unclassified:m8b.24.4-q101",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "statistics.grouping.endpoint-coverage": {
+      "id": "statistics.grouping.endpoint-coverage",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
-        "m8b.24.4-q101"
+        "m8b.24.4-q101",
+        "m8b.24.4-q202",
+        "sc_61556f0b40a44b4488cb"
       ],
-      "material_ids": [],
+      "material_ids": [
+        "topic:m8b.24.4"
+      ],
       "independence_established": false
     },
-    "unclassified:m8b.24.4-q102": {
-      "id": "unclassified:m8b.24.4-q102",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "statistics.frequency.from-proportion": {
+      "id": "statistics.frequency.from-proportion",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
         "m8b.24.4-q102"
-      ],
-      "material_ids": [],
-      "independence_established": false
-    },
-    "unclassified:m8b.24.4-q201": {
-      "id": "unclassified:m8b.24.4-q201",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
-      "task_ids": [
-        "m8b.24.4-q201"
-      ],
-      "material_ids": [],
-      "independence_established": false
-    },
-    "unclassified:m8b.24.4-q202": {
-      "id": "unclassified:m8b.24.4-q202",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
-      "task_ids": [
-        "m8b.24.4-q202"
       ],
       "material_ids": [],
       "independence_established": false
@@ -391550,11 +392268,11 @@
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:mh1.5.2.1-q101": {
-      "id": "unclassified:mh1.5.2.1-q101",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "trigonometry.circle.vertical-displacement-from-bottom": {
+      "id": "trigonometry.circle.vertical-displacement-from-bottom",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
         "mh1.5.2.1-q101"
       ],
@@ -401578,22 +402296,23 @@
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:mh5.7.1.1-q1": {
-      "id": "unclassified:mh5.7.1.1-q1",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "probability.conditional.joint-over-condition": {
+      "id": "probability.conditional.joint-over-condition",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
-        "mh5.7.1.1-q1"
+        "mh5.7.1.1-q1",
+        "mh5.7.1.1-q101"
       ],
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:mh5.7.1.1-q2": {
-      "id": "unclassified:mh5.7.1.1-q2",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "probability.conditional.identify-denominator": {
+      "id": "probability.conditional.identify-denominator",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
         "mh5.7.1.1-q2"
       ],
@@ -401611,70 +402330,32 @@
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:mh5.7.1.1-q90": {
-      "id": "unclassified:mh5.7.1.1-q90",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "probability.conditional.without-replacement-known-first": {
+      "id": "probability.conditional.without-replacement-known-first",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
-        "mh5.7.1.1-q90"
-      ],
-      "material_ids": [],
-      "independence_established": false
-    },
-    "unclassified:mh5.7.1.1-q91": {
-      "id": "unclassified:mh5.7.1.1-q91",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
-      "task_ids": [
-        "mh5.7.1.1-q91"
-      ],
-      "material_ids": [],
-      "independence_established": false
-    },
-    "unclassified:mh5.7.1.1-q92": {
-      "id": "unclassified:mh5.7.1.1-q92",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
-      "task_ids": [
-        "mh5.7.1.1-q92"
-      ],
-      "material_ids": [],
-      "independence_established": false
-    },
-    "unclassified:mh5.7.1.1-q93": {
-      "id": "unclassified:mh5.7.1.1-q93",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
-      "task_ids": [
+        "mh5.7.1.1-q90",
+        "mh5.7.1.1-q92",
         "mh5.7.1.1-q93"
       ],
       "material_ids": [],
       "independence_established": false
     },
-    "unclassified:mh5.7.1.1-q101": {
-      "id": "unclassified:mh5.7.1.1-q101",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "probability.conditional.finite-uniform-intersection": {
+      "id": "probability.conditional.finite-uniform-intersection",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
-        "mh5.7.1.1-q101"
+        "mh5.7.1.1-q102",
+        "mh5.7.1.1-q91",
+        "sc_caf41b4ca3b74cfcbcb3"
       ],
-      "material_ids": [],
-      "independence_established": false
-    },
-    "unclassified:mh5.7.1.1-q102": {
-      "id": "unclassified:mh5.7.1.1-q102",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
-      "task_ids": [
-        "mh5.7.1.1-q102"
+      "material_ids": [
+        "topic:mh5.7.1.1"
       ],
-      "material_ids": [],
       "independence_established": false
     },
     "unclassified:mh5.7.1.2-q1": {
@@ -403015,35 +403696,11 @@
       ],
       "independence_established": false
     },
-    "primary.subtract.remove-part": {
-      "id": "primary.subtract.remove-part",
+    "primary.subtract.fact-and-inverse-check": {
+      "id": "primary.subtract.fact-and-inverse-check",
       "status": "declared",
       "basis": "author_declared",
       "description": "作者声明的任务结构族。",
-      "task_ids": [],
-      "material_ids": [
-        "topic:m1a.1.6"
-      ],
-      "independence_established": false
-    },
-    "unclassified:sc_2f772413ec234260aef9": {
-      "id": "unclassified:sc_2f772413ec234260aef9",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
-      "task_ids": [
-        "sc_2f772413ec234260aef9"
-      ],
-      "material_ids": [
-        "topic:m1a.1.6"
-      ],
-      "independence_established": false
-    },
-    "unclassified:sc_b9bb4f4be6604caab0d0": {
-      "id": "unclassified:sc_b9bb4f4be6604caab0d0",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
       "task_ids": [
         "sc_b9bb4f4be6604caab0d0"
       ],
@@ -403678,22 +404335,11 @@
       ],
       "independence_established": false
     },
-    "unclassified:ex_13253d6a5fc44f68b6ce": {
-      "id": "unclassified:ex_13253d6a5fc44f68b6ce",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
-      "task_ids": [],
-      "material_ids": [
-        "topic:m1a.5.5"
-      ],
-      "independence_established": false
-    },
-    "unclassified:sc_b7e89d7c637a4875be98": {
-      "id": "unclassified:sc_b7e89d7c637a4875be98",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "primary.additive-structure.contrast-change-direction": {
+      "id": "primary.additive-structure.contrast-change-direction",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
         "sc_b7e89d7c637a4875be98"
       ],
@@ -403702,11 +404348,11 @@
       ],
       "independence_established": false
     },
-    "unclassified:sc_cd87cf2333624a938d57": {
-      "id": "unclassified:sc_cd87cf2333624a938d57",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "primary.additive-structure.find-original-after-addition": {
+      "id": "primary.additive-structure.find-original-after-addition",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
         "sc_cd87cf2333624a938d57"
       ],
@@ -412667,24 +413313,11 @@
       ],
       "independence_established": false
     },
-    "unclassified:sc_61556f0b40a44b4488cb": {
-      "id": "unclassified:sc_61556f0b40a44b4488cb",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
-      "task_ids": [
-        "sc_61556f0b40a44b4488cb"
-      ],
-      "material_ids": [
-        "topic:m8b.24.4"
-      ],
-      "independence_established": false
-    },
-    "unclassified:sc_1405d653ccfd4ff7be04": {
-      "id": "unclassified:sc_1405d653ccfd4ff7be04",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "statistics.grouping.frequency-conservation": {
+      "id": "statistics.grouping.frequency-conservation",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
         "sc_1405d653ccfd4ff7be04"
       ],
@@ -418753,24 +419386,11 @@
       ],
       "independence_established": false
     },
-    "unclassified:sc_caf41b4ca3b74cfcbcb3": {
-      "id": "unclassified:sc_caf41b4ca3b74cfcbcb3",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
-      "task_ids": [
-        "sc_caf41b4ca3b74cfcbcb3"
-      ],
-      "material_ids": [
-        "topic:mh5.7.1.1"
-      ],
-      "independence_established": false
-    },
-    "unclassified:sc_4a944b2ae8044be598b6": {
-      "id": "unclassified:sc_4a944b2ae8044be598b6",
-      "status": "unclassified",
-      "basis": "unclassified",
-      "description": "尚未完成数学结构分族；ID 不同不构成独立任务证据。",
+    "probability.conditional-to-joint": {
+      "id": "probability.conditional-to-joint",
+      "status": "declared",
+      "basis": "author_declared",
+      "description": "作者声明的任务结构族。",
       "task_ids": [
         "sc_4a944b2ae8044be598b6"
       ],
@@ -434028,6 +434648,8 @@
     "bank:m1a.1.6-q91": "m1a.1.6-q91",
     "bank:m1a.1.6-q92": "m1a.1.6-q92",
     "bank:m1a.1.6-q93": "m1a.1.6-q93",
+    "bank:m1a.1.6-q401": "m1a.1.6-q401",
+    "bank:m1a.1.6-q402": "m1a.1.6-q402",
     "bank:m1a.1.7-q1": "m1a.1.7-q1",
     "bank:m1a.1.7-q2": "m1a.1.7-q2",
     "bank:m1a.1.7-q9": "m1a.1.7-q9",
@@ -434200,6 +434822,10 @@
     "bank:m1a.5.5-q95": "m1a.5.5-q95",
     "bank:m1a.5.5-q101": "m1a.5.5-q101",
     "bank:m1a.5.5-q102": "m1a.5.5-q102",
+    "bank:m1a.5.5-q401": "m1a.5.5-q401",
+    "bank:m1a.5.5-q402": "m1a.5.5-q402",
+    "bank:m1a.5.5-q403": "m1a.5.5-q403",
+    "bank:m1a.5.5-q404": "m1a.5.5-q404",
     "bank:m1b.1.1-q1": "m1b.1.1-q1",
     "bank:m1b.1.1-q2": "m1b.1.1-q2",
     "bank:m1b.1.1-q9": "m1b.1.1-q9",
@@ -437580,6 +438206,7 @@
     "self_check:m1a.1.5:1": "sc_b7b72b7521574a349963",
     "self_check:m1a.1.6:0": "sc_2f772413ec234260aef9",
     "self_check:m1a.1.6:1": "sc_b9bb4f4be6604caab0d0",
+    "self_check:m1a.1.6:2": "sc_26c05cb9e01645918caa",
     "self_check:m1a.1.7:0": "sc_f707daeabdbe48c9af1b",
     "self_check:m1a.1.7:1": "sc_5f831ca5c4f44b5b83f7",
     "self_check:m1a.2.1:0": "sc_20710deb75524000baed",
@@ -437628,6 +438255,7 @@
     "self_check:m1a.5.4:1": "sc_2a904a1188c64245953c",
     "self_check:m1a.5.5:0": "sc_b7e89d7c637a4875be98",
     "self_check:m1a.5.5:1": "sc_cd87cf2333624a938d57",
+    "self_check:m1a.5.5:2": "sc_7cd9f906093f4b529d45",
     "self_check:m1b.1.1:0": "sc_5cd67b1cff424a1c906c",
     "self_check:m1b.1.1:1": "sc_d6dd80ca44604f28a280",
     "self_check:m1b.1.2:0": "sc_463b7508571d438ba666",
@@ -438846,9 +439474,10 @@
     "project_step:water_use_inquiry:3": "ps_ee45e07ce88b41e48dac"
   },
   "source_hashes": {
-    "data/alignment_targets.json": "b7247857fb05cca70010da0c8a18924d8fd264e913e2e2fe629a2d7f018f96cc",
+    "data/alignment_targets.json": "70fcb082ab36f621ecfe1f477a32ef8c369784c2a07dcf97221bc462ae1fb3ea",
+    "data/choice_orders.json": "806481c2b55e44710a9e9d1080758b272116b6189c18f32a4d630fa63823342b",
     "data/content/bashang.json": "d1a6613bd48f3f0b18ba7516e2758689a31d997f8fc4199a25ab14a25f8ed163",
-    "data/content/baxia.json": "4cec3b5999f36cac461e8c0a2a4ef17ac00f03dddccd7d4300a572dd591cdd8b",
+    "data/content/baxia.json": "d76a783c157f57971a326b0d37542a0dc7339298a1e9545b4533088d7c9c9e22",
     "data/content/bx1.json": "d2e99c9b69c3cbd2d88076ea3891d212386c86cd8db39a4d0b1e73f9473d1939",
     "data/content/bx2.json": "ecfd3a4d093f2ec56c8183a8195fb36a7c8a270bbea807f8be86aa27c18a8a75",
     "data/content/ershang.json": "c521e84dab6a793712ed1dad82ae0b2a2a91d1d8c70b43dea23eb8d1a27f5dbd",
@@ -438867,10 +439496,10 @@
     "data/content/wuxia.json": "4f9ba252eb1adf90fcaf892e48ba53ddc92d5a42d8b593335eb891eab5606db0",
     "data/content/xby1.json": "0679cbc138cfd71940ced680fbb1ac7b30a986f2d5a2b57ae269352e7120a8d3",
     "data/content/xby2.json": "416d18f72bf2a35140df7ad8f19a8929f7971b2811553526f9df9bae8c7954be",
-    "data/content/xby3.json": "26b5e182e97abfb708ad05f71fdc6b77d2e9e9e76d02b8bbc35818ff2d64dedb",
-    "data/content/yishang.json": "0e49920dc1361f8bc3f4aac537728a7820af8f0648c27437725d624e6a6d8d84",
+    "data/content/xby3.json": "3873c2200684906a7e17719a50fd51b9c3fdcfa086696fe5f67061390e3113e3",
+    "data/content/yishang.json": "8a9b2716599885009a9cf8fa438d2e4128b5c5b23875d1908379d29b322d3e39",
     "data/content/yixia.json": "fb9e7a18182641b76e8e33708b8f42176ce26f86f153c33870c60f763fd7dd07",
-    "data/content_sources.json": "6412fdbb29341ddcc5a5e0c44f34b9e410f932aed104e006c2c5567c211ac65a",
+    "data/content_sources.json": "0770cfdafc2f8c434c5c0a7c69db0e1665223df79d10e77afc57ac63560350d1",
     "data/learning_units/common_factors_multiples.json": "156f063d2e6c1745a39aa7c0984078cb48c00ebda0caa4e5718337e01dacf264",
     "data/learning_units/correlation_and_regression.json": "d54c4938093988fd23d2aecf48206b5f85e3a2e9f7252d8d82d297a36969fd45",
     "data/learning_units/data_reading_and_mean.json": "214477cd20b0cadcf9705767f0d4227e28b1985bb82469fd273643b21090bf72",
@@ -438906,19 +439535,19 @@
     "data/projects/time_diary.json": "ef4baf6d5d14de81b1a851e2f2695ec62e585f80ddcaee43b8d8c4327065af5c",
     "data/projects/treasure_map.json": "18d9f2bfc259dbaa611513c42c4a51e208d3a76cd48efd4a70c7845973f6bee5",
     "data/projects/water_use_inquiry.json": "a4dcc51ffb2b36fdbeefcab52a144674c9227afccb7de585a497c824ddda9fed",
-    "data/question_sources/application.json": "7cea2d01869178c8538756f8c45358301854af6621db2541cf86f888a422ef22",
+    "data/question_sources/application.json": "867685c1b4075a22299a79131976638510e3aac105fc57073e87a99857e96e7d",
     "data/question_sources/retired-alignment.json": "ecb91df67389abc235fc1dc3f218fdf18574d18782032b001f7d6db3c33deb08",
     "data/question_sources/retired-memory.json": "6b47b394be4a7130d1b37637506d04da6a8b6f8a81f941264d2f866ba59056f0",
-    "data/questions.json": "918a8755c73ca1d2f6f15c2af715007f11f5044e5f458c7cab258ce162b1a1d6",
-    "data/skills/catalog-bindings.json": "a999c616e50427c52e62eb8a214f0da018c37d19c2921536adbf7a0a182b0164",
-    "data/skills/registry.json": "bcabeb6e80aac56852cea8f0d4a040bb4f03d95b04653183b767c07b950a8a75",
-    "data/task_admissions.json": "7b77c8b5d18276fd918b7ebcb66ddd95b07c99a94dddfc30c8b7029ec7883db3",
+    "data/questions.json": "08cda78f924ed7406ef85c2a3673748400101db0bfe1c0e94628427d07f3dd3e",
+    "data/skills/catalog-bindings.json": "d3e0ac52f7134e05de9ae4f6360a099f6bc5744c0b8287331c680798459f88ce",
+    "data/skills/registry.json": "73a7505cc810d0a494f372690ceffca5f674a1acbd8eb91a342c96b700f1c2e4",
+    "data/task_admissions.json": "6804ed45ccd09397203f00381c5c418b7b8fcdd3c70cd6c89d0fe639a74473b8",
     "data/teach/m1a.1.1.json": "2d2b6f5876fb3b574ff0a4ba4b4999a05364c32f4ea79c09767e76129942a140",
     "data/teach/m1a.1.2.json": "642d9142b9e827be79f989f60a795136b7479609b5787955256cf722f8e492a7",
     "data/teach/m1a.1.3.json": "decdb4a563c1c9bf0f53f8d511e642ab1002221b4a5871c32ab58f66ecb6c6ad",
     "data/teach/m1a.1.4.json": "cb1c918281fb9ed02bbe78bc49b7683b20e4a659f52be07f79e7325a00017f4b",
     "data/teach/m1a.1.5.json": "5ccf431bac3ae1a30cefe0f25a4fcd2ccb8bde9b2559584ba41889301b3c85d1",
-    "data/teach/m1a.1.6.json": "e1aa64c019685219d66c15b39a1afc225826110e34b80a6ed49d5634579dfb31",
+    "data/teach/m1a.1.6.json": "4a8a473309a81aaf1e0a6bb5a3ec8a151cf4c4ebf62d660d7f660ed5f826ecfb",
     "data/teach/m1a.1.7.json": "a797ebad1e526de5d0225edf33c83420f841924dd04f8612e17de666cb6aa7b3",
     "data/teach/m1a.2.1.json": "4b8ddb9c2bcef7de2baa94c96168837d1ea7e69ceb8b02536b3bbd63f9912e40",
     "data/teach/m1a.2.10.json": "9e69f2eb7532344427d9af8160e4116ace681aa18718f1ee1ea71e5a42624a95",
@@ -438942,7 +439571,7 @@
     "data/teach/m1a.5.2.json": "87ad416004c422d263bfa0daba472e7487c73a972c868e71df25bf5e884a58ef",
     "data/teach/m1a.5.3.json": "dbb57ef99e9fd813e085f5e68e08e2fe52686cfc51fb08482f7dcd7b45ff8e09",
     "data/teach/m1a.5.4.json": "ef4184c3d99d54fd23037cbb95752bf0e16f2e0d67760c1493d01b182f535fb4",
-    "data/teach/m1a.5.5.json": "646bc4d332a5ff2c7cb4ce012d96c537b32ef9c0b981d194ac2f93646072aa2b",
+    "data/teach/m1a.5.5.json": "98634da1c2f773b91a6680da0650dc3fa6e8b3762e317e030f5c92b31322fe05",
     "data/teach/m1b.1.1.json": "2e33bddd10d51315979f6313179a20b992f0baa5cb05a671b9a9d5665864d4a2",
     "data/teach/m1b.1.2.json": "ed156abf049b5b8968dc8cfd4114dbd38e7cf2997cc8504269110008365fbf4f",
     "data/teach/m1b.1.3.json": "1ff1d71e99fbec0e57b224331b5a084dc84817a7f2d949da4dded3e833b09954",
@@ -439208,7 +439837,7 @@
     "data/teach/m8b.24.1.json": "b4ffc54f100ad7232970a3e6188610db8c3bfcd22e257eba0c6c504dd758e04d",
     "data/teach/m8b.24.2.json": "1112a76a5c23a78eb5a59f855624e78bf32b9b72e57a6cccee9b07a021f0a1b7",
     "data/teach/m8b.24.3.json": "eced581bf48e0e50664c2a0ed92bdf3ec3d7bdce687f79de6dc7a753abe6e7db",
-    "data/teach/m8b.24.4.json": "b09625f42a75c9357c73d9fb6f3c3e3b3f8b458f4ab608ce0148fc417d9dc5b3",
+    "data/teach/m8b.24.4.json": "c9bc116641a7b03d6b1ec81ea82ea06d3a610187a8952d33f5668650f54fa56f",
     "data/teach/m9a.25.1.json": "3a7fb8ab20b5b2b4dea1f7087107ba915a1373dc95dfc1a85cc88da1d8a43777",
     "data/teach/m9a.25.2.json": "dbed69627d2ec5de231cd32e2dcea603ca37597b5f55d122099e21c154e92931",
     "data/teach/m9a.25.3.json": "1cb7faeb0f2673bbfc0f26bd8ec670fa791ae1a6766ffaec8b50f2862c979a90",
@@ -439376,7 +440005,7 @@
     "data/teach/mh5.6.2.4.json": "f9592ff363fbde717e82d8bded7fd48512c892c65202ac835aa0b865ddfd0ddc",
     "data/teach/mh5.6.3.1.json": "3648ad05a09173eec1e9f53d4d68674fe47b5130bc01d1a3d7273d406e6e8cb1",
     "data/teach/mh5.6.3.2.json": "e91bcf334b9a962ad81bd3a8d68226be50fdee1be65d65187512cd0340ad21b8",
-    "data/teach/mh5.7.1.1.json": "1cbc00ffdb83eb40a5b1943673c3fc0b886e61847f030d39ef14ff0ffbb202cc",
+    "data/teach/mh5.7.1.1.json": "8701605386c45738809f134a217753c4e1891d7fbe9623eb99e860572bbc4743",
     "data/teach/mh5.7.1.2.json": "f21fabadc09cdb38d11243bd8065ad0666d49c68063349a7c4cd4ecc10d7630e",
     "data/teach/mh5.7.2.json": "f7f5ca3e40925acad94fce26e0df817d7420e3f52c54a1e5fae1be044775762a",
     "data/teach/mh5.7.3.1.json": "b8ec4491b468065c0a9b2b56eec8845a956a4cf4d4ab10678b958ace8847b044",
@@ -439390,7 +440019,7 @@
     "data/teach/mh5.8.2.2.json": "91bbad9cc97e62dd3735f882f242d760df416577021eeaafcaa144a1c9b427e2",
     "data/teach/mh5.8.3.1.json": "ee6fbcb9ba769cdc17c6bbb380882e577789f49894753721e950c0d2141634f6",
     "data/teach/mh5.8.3.2.json": "485be2e75452ce4098c6aec4be47e726fce84a869691740be91ace262a56c529",
-    "data/topics.json": "7ff1d86ef892b00334d1760afea173f60ec2e59cb667dde4f18ae32837b07402",
+    "data/topics.json": "2c8e98afe672b4578a710e899fd3b25a06ac1ec699e339a8348d00cdd31d2174",
     "web/static/diagrams/bearing-reference.svg": "afa32082746c09527758321d48f1251e6cc69eaa9885c98db503d58be740a880",
     "web/static/diagrams/clock-0820.svg": "44b66b834b663b1e0c9e03aa64b5f5e26f37f1311997c6c68dd6866d0eae267e",
     "web/static/diagrams/clock-1035.svg": "66e89be5a82721f4c3763f52f362ad96ee9371c72e4315b3faf1390b30d93276",
@@ -439486,36 +440115,36 @@
         "without_explicit_tasks": 0
       },
       "observable": {
-        "registered": 84,
-        "with_explicit_tasks": 84,
+        "registered": 86,
+        "with_explicit_tasks": 86,
         "without_explicit_tasks": 0
       }
     },
     "task_source_counts": {
-      "bank": 3572,
+      "bank": 3578,
       "project_step": 84,
-      "self_check": 964,
+      "self_check": 966,
       "unit": 231
     },
     "task_alignment_counts": {
       "explicit": 315,
-      "explicit_component": 1808,
-      "topic_only": 2239
+      "explicit_component": 1833,
+      "topic_only": 2218
     },
     "answer_kind_counts": {
-      "choice": 1207,
+      "choice": 1210,
       "coordinate": 8,
       "interval": 8,
-      "number": 2358,
+      "number": 2361,
       "number_list": 2,
       "polynomial": 12,
-      "rubric": 1150,
+      "rubric": 1152,
       "text": 106
     },
-    "active_tasks": 4362,
-    "quarantined_tasks": 489,
-    "declared_families": 403,
-    "unclassified_families": 4566,
+    "active_tasks": 4366,
+    "quarantined_tasks": 493,
+    "declared_families": 425,
+    "unclassified_families": 4535,
     "topic_placements": 477,
     "independent_mastery_evidence": false,
     "limitations": [
@@ -439526,15 +440155,15 @@
     ],
     "bank_policy_counts": {
       "original": {
-        "practice_eligible": 3083,
-        "diagnosis_eligible": 1866
+        "practice_eligible": 3085,
+        "diagnosis_eligible": 1846
       },
       "compiled": {
-        "practice_eligible": 3083,
-        "diagnosis_eligible": 1866
+        "practice_eligible": 3085,
+        "diagnosis_eligible": 1846
       }
     },
     "policy_migration_changes": []
   },
-  "content_sha256": "f8164592c91e9fa9ba559c001ac4a5e60bc00e036f838e23bef8ba137fb7fc8b"
+  "content_sha256": "996b4ab97a05e658610f6fc37ec72df74b31d90b579553190ec75ad20689337a"
 }

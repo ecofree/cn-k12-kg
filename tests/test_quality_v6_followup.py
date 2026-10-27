@@ -30,7 +30,7 @@ class ReverseAdditionLessonTests(unittest.TestCase):
             [g["criterion_index"] for g in self.card["objective_coverage"]],
             [0, 1, 2],
         )
-        self.assertIn("拿走", self.card["objective_coverage"][0]["title"])
+        self.assertEqual(self.card["objective_coverage"][0]["title"], "理解减法的含义是“去掉”")
         self.assertIn("口算", self.card["objective_coverage"][1]["title"])
         self.assertEqual(self.card["content_revision"]["teacher_review"], "pending")
 
@@ -41,7 +41,8 @@ class ReverseAdditionLessonTests(unittest.TestCase):
         new_skill = registry["skills"][skill_ids[2]]
         self.assertEqual(new_skill["granularity"], "observable")
         self.assertIn("加法求原来的总数", new_skill["statement"])
-        self.assertIn(skill_ids[0], new_skill["refines_skill_ids"])
+        self.assertEqual(new_skill["refines_skill_ids"], [])
+        self.assertIn("sk_972369afdc8446b48bfc", new_skill["prerequisite_skill_ids"])
         source = json.loads((ROOT / "data" / "content" / "yishang.json").read_text(encoding="utf-8"))
         criteria = source["topics"]["m1a.1.6"]["mastery_criteria"]
         self.assertEqual(criteria[2], new_skill["statement"])

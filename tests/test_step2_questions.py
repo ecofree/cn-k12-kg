@@ -24,6 +24,7 @@ from cnkg.verify import check_question  # noqa: E402
 from tools import gen_calc_questions as G  # noqa: E402
 
 REVIEWED_SINGLE_OPERATION = {
+    "m1a.5.5-q95": {"verify": "8+1", "answer": "9", "family_id": "primary.additive-structure.continue-from-current", "criterion_indices": []},
     "m1a.4.1-q95": {"verify": "10+8", "answer": "18", "family_id": "placevalue.ten-and-ones", "criterion_indices": [1]},
     "m1a.5.1-q95": {"verify": "9+3", "answer": "12", "family_id": "addition.make-ten", "criterion_indices": [0]},
     "m1a.5.2-q95": {"verify": "8+8", "answer": "16", "family_id": "addition.make-ten", "criterion_indices": [0]},
@@ -99,13 +100,15 @@ class TestStep2Questions(unittest.TestCase):
         self.assertFalse(frac, f"答案写成了分数：{frac[:5]}")
 
     def test_published_structure_and_design_level_follow_explicit_content_review(self):
-        """只放行三条有具体改写证据的基础任务，其余仍保留复合要求。"""
+        """只放行有逐题语义核对的四条基础任务，其余仍保留复合要求。"""
         applied = [q for q in self.questions if q["id"].endswith("-q95")]
         expected_ids = {tid + "-q95" for tid in self.step2}
         self.assertEqual(expected_ids, {q["id"] for q in applied})
         self.assertEqual(len(expected_ids), len(applied), "稳定身份不可缺失或重复")
         review = json.loads((ROOT / "docs/reviews/v5-batch2-primary-ai-review.json").read_text(encoding="utf-8"))
         reviewed = {row["id"]: row for row in review["tasks"]}
+        v6 = json.loads((ROOT / "docs/reviews/v6-corrections-ai-review.json").read_text(encoding="utf-8"))
+        reviewed.update({row["id"]: row for row in v6["tasks"]})
         for question in applied:
             qid = question["id"]
             with self.subTest(question=qid):
@@ -122,7 +125,7 @@ class TestStep2Questions(unittest.TestCase):
                 self.assertEqual(expected["verify"], question["verify"])
                 self.assertEqual(expected["answer"], question["answer"])
                 self.assertEqual(expected["family_id"], question["family_id"])
-                self.assertEqual(expected["criterion_indices"], question["tested_criterion_indices"])
+                self.assertEqual(expected["criterion_indices"], question.get("tested_criterion_indices", []))
                 self.assertEqual(expected["criterion_indices"], decision["new_tested_criterion_indices"])
                 self.assertEqual(1, self.count_steps(question["verify"]))
                 self.assertEqual("basic", question["difficulty"])

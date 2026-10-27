@@ -125,17 +125,22 @@ def load_registry(data_dir: pathlib.Path = DATA) -> dict:
         if set(generator.get("inputs", [])) != expected:
             raise SourceError("register the exact app_items batches and evidence/verify inputs")
     from tools import balance_options
+    from cnkg import choice_order
     transforms = registry.get("question_transforms", [])
+    allowed = {balance_options.TRANSFORM_NAME: (balance_options.TRANSFORM_VERSION,
+                balance_options.TRANSFORM_ENTRYPOINT, []),
+               choice_order.NAME: (choice_order.VERSION, choice_order.ENTRYPOINT, choice_order.INPUTS)}
     if (not isinstance(transforms, list) or len(transforms) > 1
-            or any(t.get("name") != balance_options.TRANSFORM_NAME for t in transforms)):
+            or any(t.get("name") not in allowed for t in transforms)):
         raise SourceError("unsupported or repeated question transform")
     for transform in transforms:
-        if (transform.get("version") != balance_options.TRANSFORM_VERSION
-                or transform.get("entrypoint") != balance_options.TRANSFORM_ENTRYPOINT
-                or transform.get("inputs") != []):
+        expected = allowed[transform["name"]]
+        if (transform.get("version"), transform.get("entrypoint"), transform.get("inputs")) != expected:
             raise SourceError("choice-order transform identity or inputs do not match its implementation")
         if not (ROOT / transform["entrypoint"]).is_file():
             raise SourceError("missing registered choice-order transform")
+        if transform["name"] == choice_order.NAME and not (data_dir / "choice_orders.json").is_file():
+            raise SourceError("missing frozen legacy choice order snapshot")
     return registry
 
 
@@ -170,15 +175,20 @@ def application_questions(base_questions: list) -> list:
     return generated
 
 
-def apply_question_transforms(questions: list, registry: dict) -> list:
-    """Apply registered transforms to the full source + generator population."""
+def apply_question_transforms(questions: list, registry: dict, data_dir=DATA) -> list:
+    """Apply an explicitly versioned transform; never re-sign content reviews."""
     from tools import balance_options
-
+    from cnkg import choice_order
     for transform in registry.get("question_transforms", []):
-        if transform.get("name") != balance_options.TRANSFORM_NAME:
-            raise SourceError(f"unsupported question transform: {transform.get('name')}")
         try:
-            questions = balance_options.balance_questions(questions)
+            if transform.get("name") == choice_order.NAME:
+                snapshot = read_json(pathlib.Path(data_dir) / "choice_orders.json")
+                questions = choice_order.stable_order(questions, snapshot)
+            elif transform.get("name") == balance_options.TRANSFORM_NAME:
+                # Historical fixtures/imports only; production uses stable-choice-order.
+                questions = balance_options.balance_questions(questions)
+            else:
+                raise SourceError(f"unsupported question transform: {transform.get('name')}")
         except balance_options.ChoiceOrderError as exc:
             raise SourceError(str(exc)) from exc
     return questions
@@ -230,7 +240,7 @@ def build_data(data_dir: pathlib.Path = DATA, *, apply_transforms: bool = True) 
             add("questions.json", question, source["path"])
 
     if apply_transforms:
-        rows["questions.json"] = apply_question_transforms(rows["questions.json"], registry)
+        rows["questions.json"] = apply_question_transforms(rows["questions.json"], registry, data_dir)
 
     topics = index_rows("topics.json", rows["topics.json"])
     for edge in rows["dependencies.json"]:
