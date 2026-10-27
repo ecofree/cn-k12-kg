@@ -292,6 +292,9 @@ async function openContentPreview(task, first) {
         expectedVersion = authoredCatalog.units[id].resource_version;
         expectedResource = `unit:unit:${id}`;
         assert.equal(descriptor.resource_version, body.resource_version);
+        const goalIdentity = ({ id, skill_id, statement, granularity }) => ({ id, skill_id, statement, granularity });
+        assert.deepEqual(body.objectives.map(goalIdentity), authoredCatalog.units[id].objectives.map(goalIdentity),
+          "The unit response must preserve every authored goal, including retained composite goals");
         assert.deepEqual(descriptor.resource_snapshot.fields.map(field => field.id), ["notes"]);
         assert.deepEqual(descriptor.resource_snapshot.criteria, body.objectives.map(goal => goal.statement));
       } else {
@@ -371,8 +374,11 @@ async function openContentPreview(task, first) {
       const content = view.querySelector("#" + kind + "-content");
       const goalTitle = { teach: "本节目标", unit: "这次逐项练习", project: "活动中需要展示" }[kind];
       const goals = [...(content?.children || [])].find(card => card.querySelector(":scope > h3")?.textContent === goalTitle);
+      const unitGoalRows = goals && kind === "unit" ? [...goals.querySelectorAll(":scope > div > article.goal-summary")] : [];
       return { title: view.querySelector("h2")?.textContent,
-        goals: goals ? [...goals.querySelectorAll(":scope > ul > li")].map(sourceText) : [],
+        goals: goals ? [...goals.querySelectorAll(kind === "unit" ? ":scope > div > article.goal-summary > p" : ":scope > ul > li")].map(sourceText) : [],
+        unitGoalRows: unitGoalRows.map(row => ({ paragraphs: row.querySelectorAll(":scope > p").length,
+          buttons: [...row.querySelectorAll(":scope > button")].map(button => ({ name: button.textContent, disabled: button.disabled })) })),
         prompts: text(".self-check-prompt"), indices: [...view.querySelectorAll('textarea[id^="self-check-"]')].map(input => input.id),
         editors: [...view.querySelectorAll(".work-editor")].map(editor => ({ prompts: [...editor.querySelectorAll(".work-prompt")].map(sourceText),
           criteria: [...editor.querySelectorAll(".self-assessment-row > label")].map(label => label.textContent),
@@ -391,6 +397,11 @@ async function openContentPreview(task, first) {
         ? body.objectives.filter(goal => goal.granularity === "observable").map(goal => goal.statement) : body.objectives.map(goal => goal.statement);
       assert.ok(Array.isArray(goals) && goals.length, "The material must provide actual goals");
       assert.deepEqual(canonical(dom.goals), canonical(goals), "Displayed goals differ from this material: " + task.path);
+      if (kind === "unit") {
+        assert.deepEqual(dom.unitGoalRows, goals.map(() => ({ paragraphs: 1,
+          buttons: [{ name: "查看这项目标的基础、帮助与任务", disabled: false }] })),
+        "Every displayed unit goal must retain its own available pathway control");
+      }
       if (kind === "teach") {
         assert.deepEqual(dom.indices, checks.map(row => "self-check-" + row.criterion_index));
         assert.deepEqual(canonical(dom.prompts), canonical(checks.map(row => row.self_check.prompt)));
@@ -441,6 +452,27 @@ const journeys = {
   },
   async goal_alignment() {
     const registry = read("data/skills/registry.json");
+    const unitId = "common_factors_multiples";
+    const unitGoals = authoredCatalog.units[unitId].objectives;
+    const displayed = unitGoals.some(goal => goal.granularity === "observable")
+      ? unitGoals.filter(goal => goal.granularity === "observable") : unitGoals;
+    result.observations.unit_goal_routes = [];
+    for (const [index, goal] of displayed.entries()) {
+      await goto("?unit=" + unitId); await visible("#view-unit");
+      const row = page.locator("#view-unit .goal-summary").nth(index);
+      assert.equal(previewText(await row.locator(":scope > p").textContent()), previewText(goal.statement));
+      const pathway = await actionResponse(() => row.getByRole("button", { name: "查看这项目标的基础、帮助与任务", exact: true }).click(),
+        "/api/goal", "GET", response => {
+          const query = new URL(response.url()).searchParams;
+          return query.get("skill_id") === goal.skill_id && query.get("unit_id") === unitId;
+        });
+      assert.equal(pathway.skill_id, goal.skill_id);
+      assert.equal(pathway.statement, goal.statement);
+      await visible("#view-goal");
+      const query = new URL(page.url()).searchParams;
+      assert.equal(query.get("goal"), goal.skill_id); assert.equal(query.get("goal_unit"), unitId);
+      result.observations.unit_goal_routes.push({ unit_id: unitId, skill_id: goal.skill_id, statement: goal.statement });
+    }
     const whole = registry.objective_skill_ids["fraction_equivalence:whole"];
     await goto("?goal=" + whole + "&goal_unit=fraction_equivalence");
     await visible("#view-goal");
@@ -465,6 +497,7 @@ const journeys = {
     result.observations.selected_task_id = started.item.question.id;
     result.observations.goal_id = lineGoal;
     claim("Specific goals open their own prerequisites, help and tasks without exposing answers.");
+    claim("Each displayed common-factor/multiple unit goal opens its own stable goal identity and unit context through the actual button.");
     claim("A selected bank task starts exactly that task, and a deep link focuses the corresponding self-check with its actual graph.");
   },
   async changed_content_preview() {

@@ -3,7 +3,7 @@
   "reviewer_kind": "ai",
   "reviewer": "root with independent content and regression reviewers",
   "reviewed_at": "2026-10-27T02:32:19+00:00",
-  "review_status": "semantic_corrections_reviewed_development_rechecks_passed_fixed_release_pending",
+  "review_status": "semantic_corrections_reviewed_fixed_release_pending",
   "initial_candidate": "123e188",
   "accepted_initial_candidate": false,
   "initial_core_result": {
@@ -384,7 +384,7 @@
     "data/topic_tiers.json": "8133c764c2b2da4feabf5fc8326ead6481163d55b110c1f1a32eb74fd47c892e",
     "tools/build_project.py": "8361ea67c1a351bde8ee9edf567a7618c57c076b4b0375d56c321f14f017c26f",
     "tools/classify_tiers.py": "8a6257465af0e0ab153299787fc2037eb900c6d4be184dcdf6511545a236c3e4",
-    "tests/browser/learning-flow.cjs": "dd028f4bde48ba6c3a4389d836e49307fec5b7c278655080cd3587b3d8e14ecb",
+    "tests/browser/learning-flow.cjs": "a77480ebc033bc69eec8b0cd5b61ba133ea27bfc165a7d2b44d8acb008307b44",
     "tests/test_app_items.py": "eb782eff72a9e29c1605f79822585aa9a4f086c43ac22c2196b56e01a280d7fd",
     "tests/test_content_regressions.py": "d02a49d56fc209e3532ec1bdcb1b055ab5d15cfdd148edb1809fa82928ceff95",
     "tests/test_diagnostic_contract.py": "7870416331f59bbb6fe41b7d896994ebf40753eaf3bfe00010217c508b4484de",
@@ -393,5 +393,51 @@
     "tests/test_quality_v5_decisions.py": "7043f5061c8942e31b21dab64ec55918eed4bbff7cfbd1750e8be77c46176940",
     "tests/test_step2_questions.py": "430e3f8280c23bb070cd3fd091ee7581a09d000b99f682fd23db168a47cddf63",
     "tests/test_tiers.py": "d1770dbff0f172430d553158e71d14e801678db5650fc0080315aacdb46bc6e1"
+  },
+  "preview_followup": {
+    "reviewed_at": "2026-10-27T02:43:40+00:00",
+    "reviewer_kind": "ai",
+    "reviewer": "root with independent read-only v5_delivery_review",
+    "failed_candidate": "295e3f733008e9140b9b961054d446b5c68ff232",
+    "accepted_candidate": false,
+    "preserved_evidence": "build/acceptance-attempts/v5-295e3f7-preview",
+    "actual_results": {
+      "core_checks_passed": 18,
+      "tests_run": 869,
+      "tests_passed": 853,
+      "unittest_skip_entries": 16,
+      "browser_journeys_passed": 14,
+      "preview_pages_passed": 477
+    },
+    "failure": "The first unit common_factors_multiples rendered all four goals and pathway buttons, but openContentPreview still selected the prior ul/li layout.",
+    "evidence": [
+      {
+        "path": "tests/browser/learning-flow.cjs",
+        "before_sha256": "dd028f4bde48ba6c3a4389d836e49307fec5b7c278655080cd3587b3d8e14ecb",
+        "after_sha256": "a77480ebc033bc69eec8b0cd5b61ba133ea27bfc165a7d2b44d8acb008307b44"
+      },
+      {
+        "path": "web/static/app.js",
+        "sha256": "fd009eab4a32f2f82acecf2f1de38b7ad2bd297d0fbf401ca3405cbdc0c45163",
+        "finding": "openUnit renders section > div > article.goal-summary with a direct p and the real openGoal(skill_id, unit_id) button; teacher/project lists retain ul/li."
+      },
+      {
+        "path": "build/acceptance-attempts/v5-295e3f7-preview/browser-check/changed_content_preview/failure.png",
+        "sha256": "bcabb9ed0fc93944534687a0fc94bda01b48959c575eff576f0d0c692ed6bb8d",
+        "finding": "Root and independent reviewer visually confirmed the four authored goals and four pathway controls."
+      }
+    ],
+    "correction": [
+      "Use the exact direct paragraph selector only for unit goal cards; teaching and project list selectors remain unchanged. Never compare the whole article including its button name.",
+      "Retain nonempty goal checks and strict ordered full-text equality, all 495 impact paths, actual reference interactions, titles, material identities, old-view detachment and work-version checks.",
+      "Also compare every API goal identity/statement/granularity with the compiled authoring catalog, including retained composites, and require one available pathway button per displayed goal.",
+      "The goal_alignment journey now actually clicks each of four displayed common-factor/multiple goals and verifies request skill_id/unit_id, response skill_id/statement and goal/goal_unit URL. This does not claim all 74 visible unit goals have been click-tested."
+    ],
+    "validation_at_review": {
+      "javascript_syntax": "passed",
+      "git_diff_check": "passed",
+      "new_fixed_commit_full_acceptance": "pending"
+    },
+    "limits": "The failed candidate is not releasable. The complete 19-gate acceptance and 15 browser journeys must run on the new clean commit; teacher review and real student effects remain deferred."
   }
 }
