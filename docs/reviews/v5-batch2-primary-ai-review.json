@@ -1,0 +1,2101 @@
+{
+  "schema": 1,
+  "reviewer_type": "ai",
+  "status": "authored_review_complete_pending_cross_review_and_fixed_release",
+  "date": "2026-10-27",
+  "topics": [
+    "m1a.1.1",
+    "m1a.2.9",
+    "m1a.2.10",
+    "m1a.4.1",
+    "m1a.4.2",
+    "m1a.5.1",
+    "m1a.5.2",
+    "m5b.1.1",
+    "m5b.2.1",
+    "m5b.3.1",
+    "m6b.1.1",
+    "m6a.1.1",
+    "m6a.1.2"
+  ],
+  "teacher_review": "deferred_by_user",
+  "student_effect_validation": "deferred_by_user",
+  "method": "逐题读取目标、题干、答案与观察方式，独立复算代表性反例，按相同数学结构保留题族；逐项修订自检、困难支持与精确SVG。未升级任何准入。",
+  "findings": [
+    "改写18道原来超出低年级所挂目标的算式/复合应用，保留ID并把新题明确限制在十、凑十或十与一换算；旧快照不改。",
+    "4道因数倍数练习不再把前句已给乘法答案当能力观察。",
+    "分数加法只问分子时补上最简要求；两次取分率明确共同的原整体。",
+    "分数结果自检改为实际出现3/6并约成1/2，加入同减导致1/4的反例。",
+    "位置定义与条件题补齐观测点；方位自检改读真实图，作图改为独立北偏西40度、300米条件。",
+    "9加几排除0的非法拆分，6/7/8加几明确第二数足够补到10才使用凑十。",
+    "69个作者源活跃题全部为有边界的练习；无观察过程不升级目标确认。",
+    "复核6个相关单元的题族与实际表征：逐一点数跨散点/十格同族；凑十错误辨别和数位错误辨别不另造“独立”题族；原整体求余题与fraction_equivalence统一。",
+    "7道没有实际图或操作任务的文字选择/数值题，将表征改为verbal，避免把题干提到数轴/面积/小棒当作实际新表征。",
+    "6单元的26个参考例逐项分类，复合参考补充真实涉及的第二题族；先修关系与目标身份未改。"
+  ],
+  "tasks": [
+    {
+      "id": "m1a.1.1-q1",
+      "source": "data/content/yishang.json",
+      "before_sha256": "2828e6646849bee0641094f33a163b489de9c18c1152f4d40ed387005136d2a4",
+      "after_sha256": "95951fd7fce998f7645460a30d69358436701cb38f6897f9e19cc61b271f133f",
+      "old_prompt": "盘子里有 3 个苹果，用数字表示是几？（只填数字）",
+      "new_prompt": "盘子里有 3 个苹果，用数字表示是几？（只填数字）",
+      "old_answer": "3",
+      "new_answer": "3",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [],
+      "family_id": "primary.symbol.copy-given-number",
+      "representation": "verbal",
+      "observation_boundary": "题干已经明示3，只观察已给数字的抄读；不观察逐一计数、口头读音或手写，不映射承诺目标。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.1.1-q2",
+      "source": "data/content/yishang.json",
+      "before_sha256": "24f6edfb2f311ad611aeaa72f880147cc0b20497f1d239b671e18023ced71008",
+      "after_sha256": "1dc1e9b86feca4440981c2393a4341847b62cc6e9d36c88b9d6f51f1897793cb",
+      "old_prompt": "4 后面的一个数是几？（只填数字）",
+      "new_prompt": "4 后面的一个数是几？（只填数字）",
+      "old_answer": "5",
+      "new_answer": "5",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [],
+      "family_id": "primary.order.successor-within-five",
+      "representation": "symbolic",
+      "observation_boundary": "只观察5以内后继数，不直接观察物体计数、数量配对或数字读写，保留数序支持练习。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.2.10-q1",
+      "source": "data/content/yishang.json",
+      "before_sha256": "6cca9405ff3215cc14532d0df54bc4406b9ca74bd801d6b18e7641f1fd58c5a6",
+      "after_sha256": "1f8169809f61d1959907ee1fe3ef2944d376e9d6d783d347cf62e393af1a2828",
+      "old_prompt": "6+4=？（只填数字）",
+      "new_prompt": "6+4=？（只填数字）",
+      "old_answer": "10",
+      "new_answer": "10",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "primary.ten.complements",
+      "representation": "symbolic",
+      "observation_boundary": "观察两部分合成10的计算结果；没有口算过程记录，不能证明所有组成已熟记。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.2.10-q2",
+      "source": "data/content/yishang.json",
+      "before_sha256": "d95fb7a912b02dc88f42ef5a2a3ea30302acb1735ebfd567950d2311ff714a1b",
+      "after_sha256": "33ba5476b1fa8c773480a213db4aadbfb593c389f82789379206bdd2cb63a601",
+      "old_prompt": "10-7=？（只填数字）",
+      "new_prompt": "10-7=？（只填数字）",
+      "old_answer": "3",
+      "new_answer": "3",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "primary.ten.remove-part",
+      "representation": "symbolic",
+      "observation_boundary": "观察从10减去一部分的结果，须另看拿走与剩下的区分；换数字仍是同一去掉结构。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.2.10-q90",
+      "source": "data/content/yishang.json",
+      "before_sha256": "cd275bfe53468f34ada16d67cb2b37b14a0ed372d5cce7c2f69e2283d8bbfb89",
+      "after_sha256": "f1ed5350d25dd10218377563b7ceaf81ec3ecd889a065a8b4b09185e180c6f98",
+      "old_prompt": "计算 17 + 3 = （　　）",
+      "new_prompt": "计算7+3，结果是多少？只填数字。",
+      "old_answer": "20",
+      "new_answer": "10",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "primary.ten.complements",
+      "representation": "symbolic",
+      "observation_boundary": "观察两部分合成10的计算结果；没有口算过程记录，不能证明所有组成已熟记。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.2.10-q91",
+      "source": "data/content/yishang.json",
+      "before_sha256": "cbdfc69060db60bcb2c35ecc2449498676ff30c8ec12516bcacf9ced42717f04",
+      "after_sha256": "7c1d037dc8485681f78e5863f234707ab979c0ca4b8e14bbb1f82c30eb52bc11",
+      "old_prompt": "计算 11 − 4 = （　　）",
+      "new_prompt": "计算10−4，结果是多少？只填数字。",
+      "old_answer": "7",
+      "new_answer": "6",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "primary.ten.remove-part",
+      "representation": "symbolic",
+      "observation_boundary": "观察从10减去一部分的结果，须另看拿走与剩下的区分；换数字仍是同一去掉结构。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.2.10-q92",
+      "source": "data/content/yishang.json",
+      "before_sha256": "5e911bcb762699a0e2e8d7087ead66dd34f6263f33d6ee91bbb206cf93495b19",
+      "after_sha256": "407c6f798dbe62e7a9a3fc8aa7334c389d13de202cde1ec8ba3d4a845e5c5a42",
+      "old_prompt": "计算 11 + 3 = （　　）",
+      "new_prompt": "计算10−0，结果是多少？只填数字。",
+      "old_answer": "14",
+      "new_answer": "10",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "primary.ten.remove-part",
+      "representation": "symbolic",
+      "observation_boundary": "观察从10减去一部分的结果，须另看拿走与剩下的区分；换数字仍是同一去掉结构。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.2.10-q93",
+      "source": "data/content/yishang.json",
+      "before_sha256": "60393aed787d55cb489ded45473c7b320f3c6251b433ad16baff232956939b33",
+      "after_sha256": "378dbd4215ddcfd272fb4b124889f95b222b21419e0001624224c3ea35369ea1",
+      "old_prompt": "计算 9 − 8 = （　　）",
+      "new_prompt": "计算10−8，结果是多少？只填数字。",
+      "old_answer": "1",
+      "new_answer": "2",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "primary.ten.remove-part",
+      "representation": "symbolic",
+      "observation_boundary": "观察从10减去一部分的结果，须另看拿走与剩下的区分；换数字仍是同一去掉结构。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.2.9-q1",
+      "source": "data/content/yishang.json",
+      "before_sha256": "cf294f052ac1b728d87ceec4b33c7caf860a920e6ca456b69e5d7ef125d69119",
+      "after_sha256": "e218ccb261053a908140d21f18be2851672f8ce163bb5396cfa4bcd695d087cc",
+      "old_prompt": "10 里面有几个一？（只填数字）",
+      "new_prompt": "10 里面有几个一？（只填数字）",
+      "old_answer": "10",
+      "new_answer": "10",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "placevalue.ten-adjacent-units",
+      "representation": "verbal",
+      "observation_boundary": "观察十换成一的单位关系；题干已给10，数值答案不能代替拆捆验证或证明理解。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.2.9-q2",
+      "source": "data/content/yishang.json",
+      "before_sha256": "ae73ceabaa60a293e75802a89d83dbcd25cf4070cee27834a823a83676a088db",
+      "after_sha256": "2095b50912770a5dbe9af5759093d5675cfce735612c3bc098922bced7817157",
+      "old_prompt": "10 前面的一个数是几？",
+      "new_prompt": "10 前面的一个数是几？",
+      "old_answer": "o3",
+      "new_answer": "o3",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "primary.order.predecessor",
+      "representation": "symbolic",
+      "observation_boundary": "只观察10的前一个数；不能据此确认读十、写10及后继数都已完成。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.4.1-q1",
+      "source": "data/content/yishang.json",
+      "before_sha256": "cd2dd3be0d9cdbac8ef02295469df3af1df5dd15747d95dd25ee1d3c80d80115",
+      "after_sha256": "8e7d39c8e8a06cf9e70942a9927db6a08a4d649d281e1b49d2366fac533a38f0",
+      "old_prompt": "10 里面有几个十？（只填数字）",
+      "new_prompt": "10 里面有几个十？（只填数字）",
+      "old_answer": "1",
+      "new_answer": "1",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "placevalue.ten-adjacent-units",
+      "representation": "verbal",
+      "observation_boundary": "观察十与一的换算；须先确认每个十等于10个一，单个数字不能证明捆拆过程。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.4.1-q2",
+      "source": "data/content/yishang.json",
+      "before_sha256": "6c205db29a3dc4864fcd09645ceae0989b1e428b229d7318e9e648d7752dd48a",
+      "after_sha256": "44b361944ac15510bed68ae76fcb8ad7c6d2bf550e6209e685e49c2727da313d",
+      "old_prompt": "1 个十和 0 个一合起来是多少？（只填数字）",
+      "new_prompt": "1 个十和 0 个一合起来是多少？（只填数字）",
+      "old_answer": "10",
+      "new_answer": "10",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "placevalue.ten-and-ones",
+      "representation": "verbal",
+      "observation_boundary": "观察先统一十与一再合并数量；不把数值正确当作一般两位数加法掌握。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.4.1-q90",
+      "source": "data/content/yishang.json",
+      "before_sha256": "13e2647534b2f4e4a925788cc4d2eb9220a26f5df1540f11cc086cde65eff167",
+      "after_sha256": "298cf1bd4aeadea01108590510c3b59db4650e796f42164c16d64e93aeb5eadb",
+      "old_prompt": "计算 14 + 7 = （　　）",
+      "new_prompt": "每捆恰好10根小棒，2捆合起来是多少个一？只填数字。",
+      "old_answer": "21",
+      "new_answer": "20",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "placevalue.ten-adjacent-units",
+      "representation": "verbal",
+      "observation_boundary": "观察十与一的换算；须先确认每个十等于10个一，单个数字不能证明捆拆过程。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.4.1-q91",
+      "source": "data/content/yishang.json",
+      "before_sha256": "bf033fd2a77f8547d59f6980e187e2533e44aa4d1c816400c5531a896fe32c5c",
+      "after_sha256": "2a666689cd3c2d4a3d76fe3a4caaf26233f7fca9445e67aa5e6863f75056bc6d",
+      "old_prompt": "计算 17 − 8 = （　　）",
+      "new_prompt": "20个一，每10个一换成1个十，能换成几个十？只填数字。",
+      "old_answer": "9",
+      "new_answer": "2",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "placevalue.ten-adjacent-units",
+      "representation": "verbal",
+      "observation_boundary": "观察十与一的换算；须先确认每个十等于10个一，单个数字不能证明捆拆过程。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.4.1-q92",
+      "source": "data/content/yishang.json",
+      "before_sha256": "5bc6acc5e6c03d3c97871c7082edf5a2715afafdc9c2626b025045991b0890e3",
+      "after_sha256": "b4e99de26e8e1bfb93d63572a1e7397d69890b02c1d3d233f3a87997d00272ac",
+      "old_prompt": "计算 10 + 5 = （　　）",
+      "new_prompt": "1个十和5个一，合起来是多少个一？只填数字。",
+      "old_answer": "15",
+      "new_answer": "15",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "placevalue.ten-and-ones",
+      "representation": "verbal",
+      "observation_boundary": "观察先统一十与一再合并数量；不把数值正确当作一般两位数加法掌握。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.4.1-q93",
+      "source": "data/content/yishang.json",
+      "before_sha256": "c23f9c23d531c78b8de476262165ae1343c05ccd756a79225944bf9e20aad64f",
+      "after_sha256": "b7c8fbf54d35a5e35c62f504069fe4d125a50386b4f1172ef057224974640a3d",
+      "old_prompt": "计算 19 − 2 = （　　）",
+      "new_prompt": "1个十和9个一，合起来是多少个一？只填数字。",
+      "old_answer": "17",
+      "new_answer": "19",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "placevalue.ten-and-ones",
+      "representation": "verbal",
+      "observation_boundary": "观察先统一十与一再合并数量；不把数值正确当作一般两位数加法掌握。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.4.1-q95",
+      "source": "data/content/yishang.json",
+      "before_sha256": "00c41a69bb66de1ed7474c051fff94beca097b95e240a12c726fec09690069c5",
+      "after_sha256": "8cbddd395d4bad3682aa51ed8c33868be75156d85dbf4254ec035312c3889f5b",
+      "old_prompt": "妈妈买了 1 盒装 10 块糖果，又零买了 8 块糖果，吃去 6 块糖果，还剩多少块糖果？（只填数字）",
+      "new_prompt": "一整盒装10块糖，盒外另有8块。盒内外一共有多少块糖？只填数字。",
+      "old_answer": "12",
+      "new_answer": "18",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "placevalue.ten-and-ones",
+      "representation": "verbal",
+      "observation_boundary": "整盒10块对应一个十，另8块为8个一，观察单位转换到情境的结果；还需说出一盒为什么代表十。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.4.2-q1",
+      "source": "data/content/yishang.json",
+      "before_sha256": "94dee91fe5525a018ad5c4d7588ccef1e5c91006c3eb7d06ca3b0e2a7389cef8",
+      "after_sha256": "b723765ed90f1ffdf842fde3efe2dfa608d386b646f2c679e458656dfac37581",
+      "old_prompt": "1 个十和 3 个一合起来是多少？（只填数字）",
+      "new_prompt": "1 个十和 3 个一合起来是多少？（只填数字）",
+      "old_answer": "13",
+      "new_answer": "13",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "placevalue.ten-and-ones",
+      "representation": "verbal",
+      "observation_boundary": "观察十与一组成的一个分量；本题不采集11至20逐个口头读数和纸上书写。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.4.2-q2",
+      "source": "data/content/yishang.json",
+      "before_sha256": "bd4cb7026ea264968b42af4db8829fa3d463557f68802f0af1705fdde8ea6c0e",
+      "after_sha256": "bd059ff06d231aa77aff28bdf1e4d419feeb93d0dc4c609348aa9545e724aca4",
+      "old_prompt": "15 里面有几个十？（只填数字）",
+      "new_prompt": "15 里面有几个十？（只填数字）",
+      "old_answer": "1",
+      "new_answer": "1",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "placevalue.ten-and-ones",
+      "representation": "verbal",
+      "observation_boundary": "观察十与一组成的一个分量；本题不采集11至20逐个口头读数和纸上书写。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.5.1-q1",
+      "source": "data/content/yishang.json",
+      "before_sha256": "65b0ceb0f2b1dc236fcbbf0a27b677b38c0e4bfcbce3bec9ead0030f6304eaeb",
+      "after_sha256": "d13dc3aad1e0913966e5b643444e7db42d622b72861b351d957ca03e1302e7c8",
+      "old_prompt": "9+4=？（只填数字）",
+      "new_prompt": "9+4=？（只填数字）",
+      "old_answer": "13",
+      "new_answer": "13",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "addition.make-ten",
+      "representation": "symbolic",
+      "observation_boundary": "观察9加一位数的结果；答案相同可由点数等方法得到，须另写拆出1与剩余部分，不能仅判分确认使用凑十法。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.5.1-q2",
+      "source": "data/content/yishang.json",
+      "before_sha256": "9ebb4b8cdb3af839933edc3e9f1180a3b305003466704ad45b7d1cf7010d3439",
+      "after_sha256": "ea1d5f582ecfe8e5a44c4b6e7fa63d6892f542cb0cd84503ba1fc13420f22739",
+      "old_prompt": "计算 9+5 时，用凑十法应该把 5 分成几和几？",
+      "new_prompt": "计算 9+5 时，用凑十法应该把 5 分成几和几？",
+      "old_answer": "o2",
+      "new_answer": "o2",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "addition.make-ten",
+      "representation": "symbolic",
+      "observation_boundary": "观察能否选出补9到10所需的拆分；选择1和4并未口头解释为什么分1，理由仍待过程自检。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.5.1-q90",
+      "source": "data/content/yishang.json",
+      "before_sha256": "29b247868a1eb644d3d41682cf92fa0ed6cc0ae0ba4bbc79eb311cf4e465a494",
+      "after_sha256": "3ed9975be30e0695bd9346ad43a91ce0da7294856975616feddef10ec9105e60",
+      "old_prompt": "计算 8 − 7 = （　　）",
+      "new_prompt": "计算9+2，结果是多少？只填数字。",
+      "old_answer": "1",
+      "new_answer": "11",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "addition.make-ten",
+      "representation": "symbolic",
+      "observation_boundary": "观察9加一位数的结果；答案相同可由点数等方法得到，须另写拆出1与剩余部分，不能仅判分确认使用凑十法。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.5.1-q91",
+      "source": "data/content/yishang.json",
+      "before_sha256": "32acb208cfb4716bcf2512b9cef609572d657ed8ae04cd8ecbd4f14a5b3fb366",
+      "after_sha256": "18fce27adc57769823c14a88f3d1acdf3c127210aecac97561e1b384fb42d38f",
+      "old_prompt": "计算 18 + 2 = （　　）",
+      "new_prompt": "计算9+8，结果是多少？只填数字。",
+      "old_answer": "20",
+      "new_answer": "17",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "addition.make-ten",
+      "representation": "symbolic",
+      "observation_boundary": "观察9加一位数的结果；答案相同可由点数等方法得到，须另写拆出1与剩余部分，不能仅判分确认使用凑十法。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.5.1-q92",
+      "source": "data/content/yishang.json",
+      "before_sha256": "10baede2c76632825e6c9bf245522d2abcd9517480d4a6ead9fe4aae93640376",
+      "after_sha256": "1d57c89f1cd2c6f9b668550b07ad5d8ff35d16b1266a212e606cc105557e200b",
+      "old_prompt": "计算 9 − 5 = （　　）",
+      "new_prompt": "计算9+7，结果是多少？只填数字。",
+      "old_answer": "4",
+      "new_answer": "16",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "addition.make-ten",
+      "representation": "symbolic",
+      "observation_boundary": "观察9加一位数的结果；答案相同可由点数等方法得到，须另写拆出1与剩余部分，不能仅判分确认使用凑十法。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.5.1-q93",
+      "source": "data/content/yishang.json",
+      "before_sha256": "3620c1d69036f029f7d52a19e6a92714cb49eac65b8433dc054a6978fdcebbbb",
+      "after_sha256": "32b564b39e5ddf214a1e4b8854a931b2f9fcc03cb8daba3df8a09ef182416d14",
+      "old_prompt": "计算 17 + 9 = （　　）",
+      "new_prompt": "计算9+6，结果是多少？只填数字。",
+      "old_answer": "26",
+      "new_answer": "15",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "addition.make-ten",
+      "representation": "symbolic",
+      "observation_boundary": "观察9加一位数的结果；答案相同可由点数等方法得到，须另写拆出1与剩余部分，不能仅判分确认使用凑十法。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.5.1-q95",
+      "source": "data/content/yishang.json",
+      "before_sha256": "00da5d9391827d2c3523b3e86b87ff2b28a1795282c110402989418b11911445",
+      "after_sha256": "6384998e6a2044f6b185171063f6b329e2f50a434c2979832436a291f1c14b26",
+      "old_prompt": "原来有 9 个五角星，又拿来 3 个五角星，用去 5 个五角星，现在有多少个五角星？（只填数字）",
+      "new_prompt": "桌上原有9个五角星，又拿来3个，一共有多少个五角星？只填数字。",
+      "old_answer": "7",
+      "new_answer": "12",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "addition.make-ten",
+      "representation": "verbal",
+      "observation_boundary": "观察9与新增3合并的情境结果；需另看3=1+2与凑十过程，不让复合加减任务遮蔽本目标。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.5.2-q1",
+      "source": "data/content/yishang.json",
+      "before_sha256": "1a1434a288a5ae75027cfd383cc9fd1eadf6b1ad6da244928814b81156612762",
+      "after_sha256": "9b4fae9f96c981c5a135818c82ff2cbdff540f9a40168ca716dcab6dc323601a",
+      "old_prompt": "8+5=？（只填数字）",
+      "new_prompt": "8+5=？（只填数字）",
+      "old_answer": "13",
+      "new_answer": "13",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "addition.make-ten",
+      "representation": "symbolic",
+      "observation_boundary": "观察8、7或6加一位数的结果；仍需根据首数说明补2、3或4并保留余数，单个答案不能确认策略。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.5.2-q2",
+      "source": "data/content/yishang.json",
+      "before_sha256": "e333ebce470fa27d7275a7135787d204c6490ae0c0feece9d7ad878027e3e199",
+      "after_sha256": "afa96d7c2f986ece7776ccdf7556e1e4947febf90d4ac6dd00546df331431bf7",
+      "old_prompt": "7+6=？（只填数字）",
+      "new_prompt": "7+6=？（只填数字）",
+      "old_answer": "13",
+      "new_answer": "13",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "addition.make-ten",
+      "representation": "symbolic",
+      "observation_boundary": "观察8、7或6加一位数的结果；仍需根据首数说明补2、3或4并保留余数，单个答案不能确认策略。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.5.2-q90",
+      "source": "data/content/yishang.json",
+      "before_sha256": "97396234ebf7ee69316ca5658e87054606acade1303ae1b68542cb292b93f823",
+      "after_sha256": "9f38e5072243c3f609ad2488e09d50d659b145332ad1409226843e391a240d1c",
+      "old_prompt": "计算 8 + 9 = （　　）",
+      "new_prompt": "计算 8 + 9 = （　　）",
+      "old_answer": "17",
+      "new_answer": "17",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "addition.make-ten",
+      "representation": "symbolic",
+      "observation_boundary": "观察8、7或6加一位数的结果；仍需根据首数说明补2、3或4并保留余数，单个答案不能确认策略。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.5.2-q91",
+      "source": "data/content/yishang.json",
+      "before_sha256": "0c2aa193e416336dd1a1d63b97a5b7f27670804231795a387aa9c82549eeec36",
+      "after_sha256": "ab851d5fc4e667e2742f900ee799f3ec4427354c7ed3e8b270578ea0f1b076a9",
+      "old_prompt": "计算 13 + 9 = （　　）",
+      "new_prompt": "计算7+9，结果是多少？只填数字。",
+      "old_answer": "22",
+      "new_answer": "16",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "addition.make-ten",
+      "representation": "symbolic",
+      "observation_boundary": "观察8、7或6加一位数的结果；仍需根据首数说明补2、3或4并保留余数，单个答案不能确认策略。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.5.2-q92",
+      "source": "data/content/yishang.json",
+      "before_sha256": "ab9762525fc23764b8ff3f0052f4a9fba14acbd889cbed41ec04a6f1bcb8c15b",
+      "after_sha256": "1c69294a811f41d5ad9bd15efedc3e3427697573decbd88ffc39824ffdf9638b",
+      "old_prompt": "计算 8 − 6 = （　　）",
+      "new_prompt": "计算6+8，结果是多少？只填数字。",
+      "old_answer": "2",
+      "new_answer": "14",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "addition.make-ten",
+      "representation": "symbolic",
+      "observation_boundary": "观察8、7或6加一位数的结果；仍需根据首数说明补2、3或4并保留余数，单个答案不能确认策略。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.5.2-q93",
+      "source": "data/content/yishang.json",
+      "before_sha256": "b4bb36048439b3e6865da54f4a16d4d7361d1329a6b95767ff769fd97d07225c",
+      "after_sha256": "f78104c914cb1baaf372f4c0d35895d23839877f4c2b1a0a17fbe53744fb4a52",
+      "old_prompt": "计算 14 − 5 = （　　）",
+      "new_prompt": "计算7+5，结果是多少？只填数字。",
+      "old_answer": "9",
+      "new_answer": "12",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "addition.make-ten",
+      "representation": "symbolic",
+      "observation_boundary": "观察8、7或6加一位数的结果；仍需根据首数说明补2、3或4并保留余数，单个答案不能确认策略。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.5.2-q95",
+      "source": "data/content/yishang.json",
+      "before_sha256": "0cbe97fac370ed66bec6ef4a7a4ce0feab840d498c91eed0bfc962134b8bf6e0",
+      "after_sha256": "0235b2fc144c57223af915ab48f60b3208ab2ee3b13e6562c0142ca0f0020763",
+      "old_prompt": "原来有 8 个桃子，又拿来 8 个桃子，用去 3 个桃子，现在有多少个桃子？（只填数字）",
+      "new_prompt": "盘里有8个桃子，又放入8个，现在一共有多少个桃子？只填数字。",
+      "old_answer": "13",
+      "new_answer": "16",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "addition.make-ten",
+      "representation": "verbal",
+      "observation_boundary": "观察8与新增8合并的情境结果；凑十所取2与留下6要另留过程，不能仅据16判断解释目标完成。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m1a.1.1-q301",
+      "source": "data/content/yishang.json",
+      "before_sha256": "7adcc263af9248c9fa9f83fc2ae964c10dfaeae9b9fa9a1d20888f716893a710",
+      "after_sha256": "2d957d3051400110e281c83aba6563354f5696f163fd71151e02c99702d89e91",
+      "old_prompt": "请逐个点数图中的圆点，一共有几个？只填数字。",
+      "new_prompt": "请逐个点数图中的圆点，一共有几个？只填数字。",
+      "old_answer": "5",
+      "new_answer": "5",
+      "old_tested_criterion_indices": [
+        0,
+        2
+      ],
+      "new_tested_criterion_indices": [
+        0,
+        2
+      ],
+      "family_id": "primary.count.distinct-objects",
+      "representation": "manipulative",
+      "observation_boundary": "观察无数量文字提示的圆点总数与数字对应；输入5仍不能确认点数是否一一对应，需保留点数过程。两题仅排列变化，属于同一题族。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.1.1-q302",
+      "source": "data/content/yishang.json",
+      "before_sha256": "4eebe5ee6a25824033b3283bbb3a5e825e6b6661a8679e19cee7f362a8e3c1a8",
+      "after_sha256": "55c27a1d631d3490c3db82836a7bc45ef2e9a9924ebd7e2d92249880fc9b7188",
+      "old_prompt": "数字4应与图中的哪一组圆点配对？选对应组名。",
+      "new_prompt": "数字4应与图中的哪一组圆点配对？选对应组名。",
+      "old_answer": "group_b",
+      "new_answer": "group_b",
+      "old_tested_criterion_indices": [
+        2
+      ],
+      "new_tested_criterion_indices": [
+        2
+      ],
+      "family_id": "primary.match.symbol-to-collection",
+      "representation": "manipulative",
+      "observation_boundary": "观察数字4与物体组匹配；不采集口头读音或手写，选择正确也不能单独证明逐一计数过程。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m1a.1.1-q303",
+      "source": "data/content/yishang.json",
+      "before_sha256": "d1d0b5d48f817c99ae644365d94a5dc8e543fc36bc137716d1e78df481e1f8d1",
+      "after_sha256": "7c31f277edfc01a2b9d6cae9aa152e2efeadfc91286b6ea101fed44c77b359a8",
+      "old_prompt": "请点数这一排圆点，一共有几个？只填数字。",
+      "new_prompt": "请点数这一排圆点，一共有几个？只填数字。",
+      "old_answer": "5",
+      "new_answer": "5",
+      "old_tested_criterion_indices": [
+        0,
+        2
+      ],
+      "new_tested_criterion_indices": [
+        0,
+        2
+      ],
+      "family_id": "primary.count.distinct-objects",
+      "representation": "manipulative",
+      "observation_boundary": "观察无数量文字提示的圆点总数与数字对应；输入5仍不能确认点数是否一一对应，需保留点数过程。两题仅排列变化，属于同一题族。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m5b.1.1-q1",
+      "source": "data/content/wuxia.json",
+      "before_sha256": "9d096e2289a20d88243299036c136bc42d898e5022586976c1a0401d7b30ff40",
+      "after_sha256": "531fb6b638c4138a0989d3dc406b0bab259f22e7ae453fd1324b811b7fec6360",
+      "old_prompt": "12 有几个因数？（只填数字）",
+      "new_prompt": "12 有几个因数？（只填数字）",
+      "old_answer": "6",
+      "new_answer": "6",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "number.factors-enumerate",
+      "representation": "symbolic",
+      "observation_boundary": "只提交全部因数的个数；须另外列出成对因数，才能判断是否遗漏或重复，不涉及倍数无限性解释。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m5b.1.1-q2",
+      "source": "data/content/wuxia.json",
+      "before_sha256": "6cbd88b30b4ad95fd324c89406d41674964130dd9a400ab0a006a02ed6268d88",
+      "after_sha256": "189786110cc5562bef81d232fabcad70c1964832e7899bb42480d6fbd453a85d",
+      "old_prompt": "5 的最小正倍数是多少？（只填数字）",
+      "new_prompt": "5 的最小正倍数是多少？（只填数字）",
+      "old_answer": "5",
+      "new_answer": "5",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "number.smallest-positive-multiple",
+      "representation": "symbolic",
+      "observation_boundary": "观察最小正倍数等于自身的一个实例，不能确认能列倍数及解释无最大倍数。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m5b.1.1-q90",
+      "source": "data/content/wuxia.json",
+      "before_sha256": "873e6c628008c34860ab67f670163e61d9b541f2eac065e5e2f6ac28ee63b1e7",
+      "after_sha256": "a36501939735978da929c326998e16ad97b392c0a590d21835b65b2a38f53436",
+      "old_prompt": "3 × 6 = 18，所以 18 是 3 的倍数。18 ÷ 3 的商是多少？（只填数字）",
+      "new_prompt": "18的因数中，比3大、比9小的数是多少？只填数字。",
+      "old_answer": "6",
+      "new_answer": "6",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "number.factors-enumerate",
+      "representation": "symbolic",
+      "observation_boundary": "观察在给定开区间筛选18的因数；候选需整除18，不能用近似商；还需列表过程确认完整性。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m5b.1.1-q91",
+      "source": "data/content/wuxia.json",
+      "before_sha256": "a0866bef6f8ef38cc561e8852d92570563df411158be84cc99687f0d9d288c43",
+      "after_sha256": "8e2bb75eab283fd2c20c152d1f798a77dbdfee2f1db698bbd123db6bdeb55d51",
+      "old_prompt": "7 × 2 = 14，所以 14 是 7 的倍数。14 ÷ 7 的商是多少？（只填数字）",
+      "new_prompt": "14的全部正因数有几个？只填个数。",
+      "old_answer": "2",
+      "new_answer": "4",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "number.factors-enumerate",
+      "representation": "symbolic",
+      "observation_boundary": "只提交全部因数的个数；须另外列出成对因数，才能判断是否遗漏或重复，不涉及倍数无限性解释。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m5b.1.1-q92",
+      "source": "data/content/wuxia.json",
+      "before_sha256": "7aa85b76d84627c352dadf644819f56ccff8ccbbddf2373c90ff02af0a2751bd",
+      "after_sha256": "8843aeb482235f9aab7a98e284b37ec83588829eeff4eccbb4a4b5408d96f0e2",
+      "old_prompt": "6 × 8 = 48，所以 48 是 6 的倍数。48 ÷ 6 的商是多少？（只填数字）",
+      "new_prompt": "6是48的因数，与6配成乘积48的另一个因数是多少？只填数字。",
+      "old_answer": "8",
+      "new_answer": "8",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "number.factor-pair",
+      "representation": "symbolic",
+      "observation_boundary": "观察与已知因数6配成48的因数8；这不是找全所有因数，也不观察倍数个数特点。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m5b.1.1-q93",
+      "source": "data/content/wuxia.json",
+      "before_sha256": "c493ae33b531c07908e650c64a317259f86c77141bf2045ee92f4adbda72f770",
+      "after_sha256": "06d1f4dd5f6737b3c42cd9a47c9543b6e8ead760df739472043685d929862e6a",
+      "old_prompt": "3 × 9 = 27，所以 27 是 3 的倍数。27 ÷ 3 的商是多少？（只填数字）",
+      "new_prompt": "3的正倍数中，大于8且小于12的数是多少？只填数字。",
+      "old_answer": "9",
+      "new_answer": "9",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "number.multiples-enumerate",
+      "representation": "symbolic",
+      "observation_boundary": "观察列举3的正倍数并按严格范围筛选；给出9不证明知道正倍数无限。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m5b.2.1-q1",
+      "source": "data/content/wuxia.json",
+      "before_sha256": "de7fb57a0c4a14feeabe32cef82899f8543570d10d377efeb7ede867aa974351",
+      "after_sha256": "bb09c9d584264d57ac4edb1be1833a2d2911915fb3e5c6496682291956b22439",
+      "old_prompt": "把 12/18 约成最简分数后，分子是多少？（只填数字）",
+      "new_prompt": "把 12/18 约成最简分数后，分子是多少？（只填数字）",
+      "old_answer": "2",
+      "new_answer": "2",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "fraction.reduce-direct",
+      "representation": "symbolic",
+      "observation_boundary": "观察约成最简分数后的分子；分母与同除因数的过程仍需核对，此题不观察通分。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m5b.2.1-q2",
+      "source": "data/content/wuxia.json",
+      "before_sha256": "faff3e7a2ecc57e8c436e7348159ac2e68d6daa52c94bfabcd037ccce49471b8",
+      "after_sha256": "c5b99f50f97c37dce605a76a781856660fe968f37c3161e8a2232c4bbfec5408",
+      "old_prompt": "分数的基本性质是什么？",
+      "new_prompt": "分数的基本性质是什么？",
+      "old_answer": "o1",
+      "new_answer": "o1",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "fraction.equivalence-rule-recognition",
+      "representation": "verbal",
+      "observation_boundary": "只观察能识别同乘同除非零数的规则；没有解释细分或合组为何保值，不当作解释目标完成。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m5b.3.1-q1",
+      "source": "data/content/wuxia.json",
+      "before_sha256": "af2f4c8e90219640fea7acfbee1b987cdb4186af107dba03d4ffd22a74896b87",
+      "after_sha256": "f246d80bcb442aeef9935d9ec8d26f6fa78fde839007841c2dbab1fa9f2d4e22",
+      "old_prompt": "计算 1/2+1/3，所得结果的分子是多少？（只填数字）",
+      "new_prompt": "计算1/2+1/3，把结果写成最简分数后，分子是多少？只填数字。",
+      "old_answer": "5",
+      "new_answer": "5",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "fraction.add-common-unit",
+      "representation": "symbolic",
+      "observation_boundary": "观察异分母加法最简结果的分子；须同时核对分母与通分过程，单个5不能覆盖完整计算。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m5b.3.1-q2",
+      "source": "data/content/wuxia.json",
+      "before_sha256": "45b6fd15e81843e2ae18f9fb24beece24502eaf9cc4409b422c57b71fbe836cb",
+      "after_sha256": "eeacfb086bc7b19174aebb0505dc846d7a420bdc68111eda5685c6225528d881",
+      "old_prompt": "3/4-1/2=？（只填小数）",
+      "new_prompt": "3/4-1/2=？（只填小数）",
+      "old_answer": "0.25",
+      "new_answer": "0.25",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "fraction.subtract-common-unit",
+      "representation": "symbolic",
+      "observation_boundary": "观察异分母减法结果；只填小数0.25不观察写出最简分数或解释通分。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m5b.3.1-q90",
+      "source": "data/content/wuxia.json",
+      "before_sha256": "2d2f76e3236df8da442f692a6ef5df1c4283a77042ae6b630583f71d670d5682",
+      "after_sha256": "cd075d9af5f9e97e81fec2fdd0d9c75c71dad6eaedee919f7191a2b69e732513",
+      "old_prompt": "计算 1/2 + 4/6，通分后分母是 6，分子是多少？（只填分子）",
+      "new_prompt": "计算 1/2 + 4/6，通分后分母是 6，分子是多少？（只填分子）",
+      "old_answer": "7",
+      "new_answer": "7",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "fraction.add-common-unit",
+      "representation": "symbolic",
+      "observation_boundary": "题干提供公分母，只观察等值换算后分子相加；不观察独立选择公分母，也不据此确认约分到最简。数字改变属于同一题族。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m5b.3.1-q91",
+      "source": "data/content/wuxia.json",
+      "before_sha256": "754150e257af39874b58dc8c5ba6f0aac6bc3375e73efb7398b75bf6abc94a03",
+      "after_sha256": "e488f25561510e861993335fdc6f4968af2ccbb1f90bdc5df81b73c58163997f",
+      "old_prompt": "计算 1/3 + 3/6，通分后分母是 6，分子是多少？（只填分子）",
+      "new_prompt": "计算 1/3 + 3/6，通分后分母是 6，分子是多少？（只填分子）",
+      "old_answer": "5",
+      "new_answer": "5",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "fraction.add-common-unit",
+      "representation": "symbolic",
+      "observation_boundary": "题干提供公分母，只观察等值换算后分子相加；不观察独立选择公分母，也不据此确认约分到最简。数字改变属于同一题族。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m5b.3.1-q92",
+      "source": "data/content/wuxia.json",
+      "before_sha256": "f9e5a981aa10f8c34a4c552f79a593e33298a23db195a8d5d4271c5446baab0d",
+      "after_sha256": "0ab1769ee34b9bd9c6413f2bd199a9c06546c8ba0daac7007d1ea374aa29b06b",
+      "old_prompt": "计算 3/4 + 1/8，通分后分母是 8，分子是多少？（只填分子）",
+      "new_prompt": "计算 3/4 + 1/8，通分后分母是 8，分子是多少？（只填分子）",
+      "old_answer": "7",
+      "new_answer": "7",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "fraction.add-common-unit",
+      "representation": "symbolic",
+      "observation_boundary": "题干提供公分母，只观察等值换算后分子相加；不观察独立选择公分母，也不据此确认约分到最简。数字改变属于同一题族。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m5b.3.1-q93",
+      "source": "data/content/wuxia.json",
+      "before_sha256": "eb219c3645e92dc344479671124832f082ea8a8aa990304cab2bd7beacb0b834",
+      "after_sha256": "042f84d9f1aeb576acba0f35578ef9737ee977ba5deae94118932b2f8fba67d0",
+      "old_prompt": "计算 1/2 + 3/8，通分后分母是 8，分子是多少？（只填分子）",
+      "new_prompt": "计算 1/2 + 3/8，通分后分母是 8，分子是多少？（只填分子）",
+      "old_answer": "7",
+      "new_answer": "7",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "fraction.add-common-unit",
+      "representation": "symbolic",
+      "observation_boundary": "题干提供公分母，只观察等值换算后分子相加；不观察独立选择公分母，也不据此确认约分到最简。数字改变属于同一题族。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m6a.1.1-q1",
+      "source": "data/content/liushang.json",
+      "before_sha256": "e8f6472dd64006cac1c2bc98342ae7f9e0d82fe9e298c88b06a21bb1c51d6326",
+      "after_sha256": "b32f0708107220ed3ea46121b7ea5141fe9afc32ae174c523cab0a09b620bdf9",
+      "old_prompt": "数对 (3,5) 中的 3 表示什么？",
+      "new_prompt": "本题约定数对按（列，行）书写。数对(3,5)中的3表示什么？",
+      "old_answer": "o1",
+      "new_answer": "o1",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "position.ordered-pair-location",
+      "representation": "verbal",
+      "observation_boundary": "在明确先列后行约定下识别首数角色，未呈现实际点，不能确认由图写出完整数对。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m6a.1.1-q2",
+      "source": "data/content/liushang.json",
+      "before_sha256": "f401bc76171aa20621476e716c1e22da7ce9a613acba515952b2a3fc99899b14",
+      "after_sha256": "4ff4ff015eb5089ab324deaa2127a6730bb728c72f0c28be5f45146fba9f60aa",
+      "old_prompt": "数对 (4,2) 和 (2,4) 表示的位置相同吗？（填 相同/不同）",
+      "new_prompt": "同一张方格图按（列，行）编号，列向右、行向上增大，均从1开始。数对(4,2)和(2,4)表示的位置相同吗？填“相同”或“不同”。",
+      "old_answer": "不同",
+      "new_answer": "不同",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "position.coordinate-order-error",
+      "representation": "symbolic",
+      "observation_boundary": "观察交换不等两数后位置不同；只有“不同”未证明找出了两个点，也不能推广为交换总会变。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m6a.1.1-q3",
+      "source": "data/content/liushang.json",
+      "before_sha256": "4047bae6aeaad3cd81da413209514bdaa2974b881fa901a83cdb0db269e88046",
+      "after_sha256": "f7f0c350cb8e28f871940c7d707f5a4470c877665b3489b824acaa7846cc627a",
+      "old_prompt": "数对 (3,5) 中的 3 表示第几列？（填数字）",
+      "new_prompt": "本题按（列，行）书写。数对(3,5)中的3表示第几列？填数字。",
+      "old_answer": "3",
+      "new_answer": "3",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [],
+      "family_id": "primary.symbol.copy-given-number",
+      "representation": "verbal",
+      "observation_boundary": "题干已说首数3是列数，抄写3不观察读图或定位；保留熟悉答题形式的支持练习，不映射承诺目标。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m6a.1.2-q1",
+      "source": "data/content/liushang.json",
+      "before_sha256": "b3b5aea8e6ba95c32257f63be49616b30a726874b9955ef9d479133a4bc25c6e",
+      "after_sha256": "689b0bdd3137b7ee5bc90505fb6ca66915bfbbaf0a551293d9f0f651aea2bcb3",
+      "old_prompt": "用方向和距离确定位置，需要知道什么？",
+      "new_prompt": "没有其他位置上下文时，要唯一确定地图上的一个点，哪组条件完整？",
+      "old_answer": "o1",
+      "new_answer": "o1",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "position.insufficient-reference",
+      "representation": "verbal",
+      "observation_boundary": "观察识别观测点、方向、距离这组必要条件；不直接观察从图完整描述一个实际位置。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m6a.1.2-q2",
+      "source": "data/content/liushang.json",
+      "before_sha256": "5608e2e742d29e314c9c0b58448331e22780380984d91c6fc00ed116d58a3be8",
+      "after_sha256": "d350e3f279a63988c7a56bb6621def80fa326506c1cfd465ace2bf0fe326b226",
+      "old_prompt": "“北偏东 30°”表示什么？",
+      "new_prompt": "“北偏东 30°”表示什么？",
+      "old_answer": "o3",
+      "new_answer": "o3",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "position.bearing-definition",
+      "representation": "verbal",
+      "observation_boundary": "只观察北偏东的基准方向与转角读法，没有距离或观测点，不覆盖完整位置描述。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m6a.1.2-q3",
+      "source": "data/content/liushang.json",
+      "before_sha256": "37916c76a11f580d40696ce2e110bbf31e4e40dbe12a62fb106e0ea677c7e747",
+      "after_sha256": "6594d12de95f3cabe85aaea5981ecec0f33795447187e640efd456a4bbd1c178",
+      "old_prompt": "用方向和距离确定位置，除了方向还必须知道什么？",
+      "new_prompt": "已经明确观测点和具体方向，要在这条方向射线上确定一个点，还必须知道什么？",
+      "old_answer": "距离",
+      "new_answer": "距离",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "position.insufficient-reference",
+      "representation": "verbal",
+      "observation_boundary": "在观测点明确的前提下识别距离缺失；文字“距离”不能证明实际描述或画出指定点。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m6b.1.1-q1",
+      "source": "data/content/liuxia.json",
+      "before_sha256": "5d93ad37c0de47249c468105ca9c5d5f74142459196f17b45c768aa980fe0a4b",
+      "after_sha256": "052c3ef17096301e34d42255c2e130e8608bff6cd730bdc41ecc2f9cfb738c68",
+      "old_prompt": "把 12:18 化成最简整数比是 2:k，k 等于多少？（只填数字）",
+      "new_prompt": "把 12:18 化成最简整数比是 2:k，k 等于多少？（只填数字）",
+      "old_answer": "3",
+      "new_answer": "3",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "ratio.reduce-direct",
+      "representation": "symbolic",
+      "observation_boundary": "观察化简比的后项，尚未提交完整最简比与比值；不能据一个数字确认两个行为。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m6b.1.1-q2",
+      "source": "data/content/liuxia.json",
+      "before_sha256": "edc5e73e4fbcf52fcd90214972d38cf54abdf52f2e44c94dc574e699c774bc02",
+      "after_sha256": "3b2db216eaf732e91550798d707906b8ab7da994479564b784752f1329f3b9db",
+      "old_prompt": "若 3:x=1:2，x 等于多少？（只填数字）",
+      "new_prompt": "若 3:x=1:2，x 等于多少？（只填数字）",
+      "old_answer": "6",
+      "new_answer": "6",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        1
+      ],
+      "family_id": "ratio.solve-proportion",
+      "representation": "symbolic",
+      "observation_boundary": "观察解比例的数值结果；需核对后项x非零及代回相等，不根据6推定已会选择内外项。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m6b.1.1-q90",
+      "source": "data/content/liuxia.json",
+      "before_sha256": "5aaebbe11eb49f5c14b2ec3f07f6e1b88167c69d7672a340f06ff86bf8ee4388",
+      "after_sha256": "680465f55a1118342e854cdfc971526f0c35518a6c6fd4caebed3d8886b0b5bb",
+      "old_prompt": "40 : 32 的比值是多少？（只填数字）",
+      "new_prompt": "40 : 32 的比值是多少？（只填数字）",
+      "old_answer": "1.25",
+      "new_answer": "1.25",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "ratio.value-direct",
+      "representation": "symbolic",
+      "observation_boundary": "观察前项除以后项的比值，后项非零；不观察化简比为a:b。数字改变不是新的数学结构。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m6b.1.1-q91",
+      "source": "data/content/liuxia.json",
+      "before_sha256": "d09c27a2db9a1d28942b7b664fda6da98cdf91d1ad04855ad6f5382394af4c34",
+      "after_sha256": "3c067cb6ba417281d2bd46b5b7b902d072622a72304c90ae6956217b8f870660",
+      "old_prompt": "72 : 30 的比值是多少？（只填数字）",
+      "new_prompt": "72 : 30 的比值是多少？（只填数字）",
+      "old_answer": "2.4",
+      "new_answer": "2.4",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "ratio.value-direct",
+      "representation": "symbolic",
+      "observation_boundary": "观察前项除以后项的比值，后项非零；不观察化简比为a:b。数字改变不是新的数学结构。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m6b.1.1-q92",
+      "source": "data/content/liuxia.json",
+      "before_sha256": "66db2f1c4a56411aa3092af76e069780f50697218d50c4d712ab9f55b8a6b6a4",
+      "after_sha256": "12301d5d7bbe7ec4a0f64cf35db64734a3fc76c2afcf3ab4e6121cc3d6d73296",
+      "old_prompt": "42 : 15 的比值是多少？（只填数字）",
+      "new_prompt": "42 : 15 的比值是多少？（只填数字）",
+      "old_answer": "2.8",
+      "new_answer": "2.8",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "ratio.value-direct",
+      "representation": "symbolic",
+      "observation_boundary": "观察前项除以后项的比值，后项非零；不观察化简比为a:b。数字改变不是新的数学结构。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m6b.1.1-q93",
+      "source": "data/content/liuxia.json",
+      "before_sha256": "5ff664cf1e6d18bffcc3f5a27b77fd2acb17ed81f3353db13c3cba61b83ff218",
+      "after_sha256": "c394dd27a8500358dc18354b79a5ca6cc0ba0d8fdf2fd1dc42427dc804b4a367",
+      "old_prompt": "25 : 10 的比值是多少？（只填数字）",
+      "new_prompt": "25 : 10 的比值是多少？（只填数字）",
+      "old_answer": "2.5",
+      "new_answer": "2.5",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "ratio.value-direct",
+      "representation": "symbolic",
+      "observation_boundary": "观察前项除以后项的比值，后项非零；不观察化简比为a:b。数字改变不是新的数学结构。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m5b.3.1-q101",
+      "source": "data/question_sources/application.json",
+      "before_sha256": "b8f948749b0fa2746263b891dcfb949ec23e4df373946d00a973b42b0ea2f628",
+      "after_sha256": "8ef5628e14e56d1bfa45ae31ca63b54953df27abb0010f665fab59968bc2ddc5",
+      "old_prompt": "一瓶饮料，第一次喝了 1/4，第二次又喝了 1/4。两次一共喝了这瓶的几分之几（用小数表示）？",
+      "new_prompt": "一瓶饮料，第一次喝了原来整瓶的1/4，第二次又喝了原来整瓶的1/4。两次一共喝了原来整瓶的几分之几？用小数表示。",
+      "old_answer": "0.5",
+      "new_answer": "0.5",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "fraction.add-common-unit",
+      "representation": "verbal",
+      "observation_boundary": "两次分率都以原整瓶为整体，观察同单位相加；小数回答不能证明最简分数形式，需要留下算式。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m5b.3.1-q102",
+      "source": "data/question_sources/application.json",
+      "before_sha256": "14e26267e568b2e639c158888211a940638ff1bd3db609ba68cb41a4db810f09",
+      "after_sha256": "2c9d1cf9444c21a132b15023b1ebdf39803338d6502c72cd65db97f46d0e35a7",
+      "old_prompt": "一根绳子第一次用去 2/5，第二次用去 1/5，还剩几分之几（用小数表示）？",
+      "new_prompt": "一根绳子第一次用去原全长的2/5，第二次用去原全长的1/5，还剩原全长的几分之几？用小数表示。",
+      "old_answer": "0.4",
+      "new_answer": "0.4",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "fraction.remainder-from-original",
+      "representation": "verbal",
+      "observation_boundary": "两次用量都以原绳全长为整体，观察1减去两部分的模型；不是依次取剩余部分的分率，仍需算式辨别。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": true
+    },
+    {
+      "id": "m6a.1.2-q101",
+      "source": "data/question_sources/application.json",
+      "before_sha256": "232bbe48ce5ad8e190e53b9927ac65eb444ff4c3100627dd3e59b03a6998385c",
+      "after_sha256": "0dab2c1a578d4adcd1ff1eed96e972925aa6421d76e07a30c3836ee47c7667c1",
+      "old_prompt": "一幅地图上，1 厘米表示实际距离 200 米。广场到少年宫的图上距离是 3.5 厘米，实际距离是多少米？",
+      "new_prompt": "一幅地图上，1 厘米表示实际距离 200 米。广场到少年宫的图上距离是 3.5 厘米，实际距离是多少米？",
+      "old_answer": "700",
+      "new_answer": "700",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [],
+      "family_id": "ratio.map-length-convert",
+      "representation": "verbal",
+      "observation_boundary": "只有比例尺距离换算，没有方位或作图；是定位的距离支持练习，不映射完整描述和作图目标。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m6a.1.2-q102",
+      "source": "data/question_sources/application.json",
+      "before_sha256": "50c211287ccc364bbf77f8dd517365e8ab3250f0faa3d1821454c4ecc424b358",
+      "after_sha256": "65e645ea8d33b35bd764afabde01713c84be9baab64b1d95f75243d9f6d27830",
+      "old_prompt": "A 地在 B 地的北偏东 40° 方向、距离 300 米处。那么 B 地在 A 地的什么方向？",
+      "new_prompt": "A 地在 B 地的北偏东 40° 方向、距离 300 米处。那么 B 地在 A 地的什么方向？",
+      "old_answer": "南偏西40°",
+      "new_answer": "南偏西40°",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [
+        0
+      ],
+      "family_id": "position.reverse-bearing",
+      "representation": "verbal",
+      "observation_boundary": "观察交换观测点后的反方向表述，接受南偏西40度与西偏南50度；单独方向答案仍不包含完整距离陈述。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m6b.1.1-q101",
+      "source": "data/question_sources/application.json",
+      "before_sha256": "4d38c98f0f48760b35c38789df9903bf028507a76254c3474d46eb99ab319d21",
+      "after_sha256": "c22d3801d6df241562bfe444cb8af93c0180019d3ca31c34efe93a28de9690fe",
+      "old_prompt": "配制一种糖水，糖和水的质量比是 1:9。要配制 500 克糖水，需要糖多少克？",
+      "new_prompt": "配制一种糖水，糖和水的质量比是 1:9。要配制 500 克糖水，需要糖多少克？",
+      "old_answer": "50",
+      "new_answer": "50",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [],
+      "family_id": "ratio.allocate-from-total",
+      "representation": "verbal",
+      "observation_boundary": "按比分配给定总量，观察找总份数与部分量；这超出本卡化简求比值和解比例两个承诺，归入ratio_models对应分配活动支持，不能代替原目标。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m6b.1.1-q102",
+      "source": "data/question_sources/application.json",
+      "before_sha256": "9bad8d749b56e209b3285f898cc59506a4fd543b33d77d74b19e6532163550db",
+      "after_sha256": "36d5bed729c046de3143f3cb0183528567d65d050784bf7f22fa2169915cc31a",
+      "old_prompt": "一种混凝土由水泥、沙子、石子按 2:3:5 的质量比配成。要配制 2000 千克混凝土，需要石子多少千克？",
+      "new_prompt": "一种混凝土由水泥、沙子、石子按 2:3:5 的质量比配成。要配制 2000 千克混凝土，需要石子多少千克？",
+      "old_answer": "1000",
+      "new_answer": "1000",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [],
+      "family_id": "ratio.allocate-from-total",
+      "representation": "verbal",
+      "observation_boundary": "按比分配给定总量，观察找总份数与部分量；这超出本卡化简求比值和解比例两个承诺，归入ratio_models对应分配活动支持，不能代替原目标。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    },
+    {
+      "id": "m6b.1.1-q103",
+      "source": "data/question_sources/application.json",
+      "before_sha256": "6c1bf3ce9f24fd6aee523fd444f7c8064ca0462299bea3b61d984933d3ed5a0b",
+      "after_sha256": "55ecae7198350b232d5b6b739b06e32ad14b559eb366234a92f6f11b1cd449a0",
+      "old_prompt": "甲、乙两地实际相距 240 千米。在比例尺是 1:4000000 的地图上，两地相距多少厘米？",
+      "new_prompt": "甲、乙两地实际相距 240 千米。在比例尺是 1:4000000 的地图上，两地相距多少厘米？",
+      "old_answer": "6",
+      "new_answer": "6",
+      "old_tested_criterion_indices": [],
+      "new_tested_criterion_indices": [],
+      "family_id": "ratio.map-length-convert",
+      "representation": "verbal",
+      "observation_boundary": "观察统一长度单位后按给定比例尺求图距，未要求化简比或解未知比例；保留ratio_models地图应用支持，不映射本卡承诺。",
+      "diagnosis_policy": "practice_only_no_mastery_confirmation",
+      "semantic_change": false
+    }
+  ],
+  "cards": [
+    {
+      "topic_id": "m1a.1.1",
+      "before_sha256": "bc6cd06d1e89073627484a3488acaa0c738fe447cfbfddaa136c4b78f25ceb9a",
+      "after_sha256": "fb1c42281624c8325f67132106d638f723600caf370f16f2009856f5d45bac32",
+      "goals_retained": [
+        "能一个一个地数出 5 以内物体的个数",
+        "能认、读、写 1～5",
+        "能把1至5个可逐一计数的物体与相应数字配对",
+        "能逐个口头读出打乱顺序的数字1至5",
+        "能在纸上写出可辨认的数字1至5并与数量对应"
+      ],
+      "self_check_families": [
+        "count.arrangement-invariance",
+        "primary.symbol.read-write-match",
+        "primary.match.symbol-to-collection",
+        "primary.symbol.oral-reading",
+        "primary.symbol.handwriting-match"
+      ]
+    },
+    {
+      "topic_id": "m1a.2.9",
+      "before_sha256": "6709aa20347d0095478f77751ec1eaac72bc86ae76df6a34370930bf5af813c0",
+      "after_sha256": "8817860d4d67e23a6264d976f3613ecb19cf14553d2a11668a84ea1fadd65ed9",
+      "goals_retained": [
+        "知道 10 个一是 1 个十",
+        "能认、读、写 10 并说出相邻的数"
+      ],
+      "self_check_families": [
+        "placevalue.ten-adjacent-units",
+        "placevalue.ten.read-write-order"
+      ]
+    },
+    {
+      "topic_id": "m1a.2.10",
+      "before_sha256": "35e96aa110a1a1845cff087f44dbac6673331462cb85ed3cb097bbe9c0ab52b3",
+      "after_sha256": "86e612a023242511751ea5906898129e5e9809f2935db80b861f31054415e9dd",
+      "goals_retained": [
+        "能熟记 10 的组成",
+        "能口算 10 的加减法"
+      ],
+      "self_check_families": [
+        "ten.complete-frame",
+        "primary.ten.remove-part"
+      ]
+    },
+    {
+      "topic_id": "m1a.4.1",
+      "before_sha256": "4ad5228b31a20d2f6d6345ae3f8782d1f2c93e80957aff6faf60c544afc9a489",
+      "after_sha256": "ac939a687b6fc741a474c76b815324dbffa16d3f1b624b6fcaca79af59b65f5f",
+      "goals_retained": [
+        "知道 10 个一等于 1 个十",
+        "能在“十”和“一”之间换算"
+      ],
+      "self_check_families": [
+        "placevalue.ten-adjacent-units",
+        "placevalue.ten-adjacent-units"
+      ]
+    },
+    {
+      "topic_id": "m1a.4.2",
+      "before_sha256": "84f24eb9355c90fab08873cb4f1ee77bf5ccafd76ba34124520b79ba2b60027e",
+      "after_sha256": "45c3cad2d6ebfaccfc424340478aaeea505bb750cfe3cc6bf465302db1e94b74",
+      "goals_retained": [
+        "能说出 11～20 各数由几个十和几个一组成",
+        "能正确读写 11～20"
+      ],
+      "self_check_families": [
+        "placevalue.ten-and-ones",
+        "placevalue.two-digit-read-write"
+      ]
+    },
+    {
+      "topic_id": "m1a.5.1",
+      "before_sha256": "8cb3d5e6bd51199c325860499f08001055b630aaae28443035d37542ad0d1e4c",
+      "after_sha256": "2c63627e5809c89f57d3201d89a0229d4c2b691efa4b8c99b93440988d9a0511",
+      "goals_retained": [
+        "能用凑十法计算 9 加几",
+        "能说清把第二个数分成 1 和几的道理"
+      ],
+      "self_check_families": [
+        "addition.make-ten",
+        "addition.make-ten"
+      ]
+    },
+    {
+      "topic_id": "m1a.5.2",
+      "before_sha256": "82214f1fc3843f96bbaabda8e7ba4549b08ccf4a5a46c1a9c239489bea0eeaf7",
+      "after_sha256": "5c3e65612dc3e849a739fe3934c6134c3bf5fbbbe63ad6f8785e4f1d943db581",
+      "goals_retained": [
+        "能用凑十法计算 8、7、6 加几",
+        "能根据第一个数确定要凑的数"
+      ],
+      "self_check_families": [
+        "addition.make-ten",
+        "addition.make-ten"
+      ]
+    },
+    {
+      "topic_id": "m5b.1.1",
+      "before_sha256": "e62b650dea2d5df2e29cd73a2c369ba33279f075bc0040ca2246d24c13d736ca",
+      "after_sha256": "888ffd87bcd701ea64eb2ab563cce341407af3eaa3543715a44db213d9a93bce",
+      "goals_retained": [
+        "能找出一个数的因数与倍数",
+        "能区分因数与倍数的个数特点"
+      ],
+      "self_check_families": [
+        "number.factors-enumerate",
+        "number.finite-factors-infinite-multiples"
+      ]
+    },
+    {
+      "topic_id": "m5b.2.1",
+      "before_sha256": "70643fb6b1a49aa972acafd6ac3407f78aca0dfc5821fbeb2750be7c8a9d209e",
+      "after_sha256": "bb131b9cdf14770a0edad099f6b5bc78ef56ba6465ed4751675fde29991e7c98",
+      "goals_retained": [
+        "能运用分数的基本性质约分与通分",
+        "能说明分子分母变化而分数值不变的原因"
+      ],
+      "self_check_families": [
+        "fraction.reduce-direct",
+        "fraction.partition-refinement"
+      ]
+    },
+    {
+      "topic_id": "m5b.3.1",
+      "before_sha256": "efcf8b297790fcf619a3ce7ff551475b381e8b5a0658d725e45b2a886017ce68",
+      "after_sha256": "5129c193f345d16573b20976d23702341bd7b3f71aa02d3544ca403ad69e6c45",
+      "goals_retained": [
+        "能计算同分母与异分母分数的加减",
+        "能把结果化成最简分数"
+      ],
+      "self_check_families": [
+        "fraction.add-common-unit",
+        "fraction.reduce-direct"
+      ]
+    },
+    {
+      "topic_id": "m6b.1.1",
+      "before_sha256": "edf19229d8251f87aa08758dfe6a106cd9e11fad8af0520f323daa8ed2be7d00",
+      "after_sha256": "d63963f3f9dc7b4de44a16086a414615c50c4257234c774294bbc8a73d61cc81",
+      "goals_retained": [
+        "能化简比并求比值",
+        "能用比例的基本性质解比例"
+      ],
+      "self_check_families": [
+        "ratio.reduce-direct",
+        "ratio.solve-proportion"
+      ]
+    },
+    {
+      "topic_id": "m6a.1.1",
+      "before_sha256": "b6528f01ba07f044079b2e98095a4683b059e6c06172fe95bc7b1ddbd95aa98d",
+      "after_sha256": "6c48bedb656335eca89424905556b9efd8448c7d06f95c8a3bc8280950574c54",
+      "goals_retained": [
+        "能用数对表示点的位置",
+        "能根据数对在方格纸上找到点"
+      ],
+      "self_check_families": [
+        "position.ordered-pair-location",
+        "position.ordered-pair-location"
+      ]
+    },
+    {
+      "topic_id": "m6a.1.2",
+      "before_sha256": "3f9116a64a36fd1ea42a26c22ab61872ddabfa1628713d1b48c5206d71e97861",
+      "after_sha256": "7df7eaeffc59db2b1b3c47e0a9ffe0d753a15a735568fb2e7b5cc760a8065b08",
+      "goals_retained": [
+        "能用方向和距离描述位置",
+        "能根据描述在图上标出位置"
+      ],
+      "self_check_families": [
+        "position.bearing-read",
+        "position.bearing-construction"
+      ]
+    }
+  ],
+  "assets": [
+    "primary-ten-frame-blank-v5.svg",
+    "primary-make-ten-v5.svg",
+    "primary-fraction-refinement-v5.svg",
+    "primary-fraction-add-v5.svg",
+    "primary-ordered-grid-v5.svg",
+    "primary-bearing-read-v5.svg",
+    "primary-bearing-blank-v5.svg"
+  ],
+  "limitations": [
+    "AI内容审查不是教师独立审核或真实教学效果验证。",
+    "口头读数、手写、实物操作与纸上作图须保留真实作品；数值判分不能代替过程。",
+    "比例分配与地图应用保留为相应学习单元支持，未冒充本卡两项目标。",
+    "正式浏览器视觉预览与固定版本验收由主任务统一执行。"
+  ],
+  "verification": {
+    "command": "../cnkg-venv/bin/python -B -m unittest tests.test_quality_v5_primary -v",
+    "tests_passed": 12,
+    "tests_failed": 0,
+    "duration_seconds": 0.677,
+    "scope": "源内容契约、给定答案评分、错误旧答案拒绝、分率整体反例、实际SVG涂色长度/圆片数/方位角、目标映射边界。不是正式发布验收。",
+    "visual_preview": "build/v5-primary-preview/diagrams.png",
+    "visual_observation": "在本地Chromium151实际渲染并查看7图拼页，中文完整，数值和标注可读，未见裁切重叠。网页学习流程与固定版本预览仍由主任务统一完成。",
+    "log": "build/v5-primary-preview/tests.log"
+  },
+  "counts": {
+    "topics": 13,
+    "self_checks": 29,
+    "active_bank_tasks": 69,
+    "topic_only_tasks": 7,
+    "mapped_component_practice_tasks": 62,
+    "new_bank_ids": 0,
+    "new_objectives": 0,
+    "semantic_wording_answer_changes": 30,
+    "answer_changes": 18,
+    "new_svgs": 7
+  },
+  "unit_family_representation_review": [
+    {
+      "unit_id": "ten_frame_place_value",
+      "changes": [
+        {
+          "reference": "example:0",
+          "prompt": "十框里放了8颗，还空几格？",
+          "before": {
+            "family_id": "ten.complete-frame",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "ten.complete-frame",
+            "representation": "manipulative",
+            "reference_family_ids": null
+          }
+        },
+        {
+          "reference": "example:1",
+          "prompt": "1捆10根的小棒，旁边另有4根，一共几根？",
+          "before": {
+            "family_id": "placevalue.ten-and-ones",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "placevalue.ten-and-ones",
+            "representation": "manipulative",
+            "reference_family_ids": null
+          }
+        },
+        {
+          "reference": "example:2",
+          "prompt": "摆一摆，说明8+5为什么等于13。",
+          "before": {
+            "family_id": "addition.make-ten",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "addition.make-ten",
+            "representation": "manipulative",
+            "reference_family_ids": null
+          }
+        },
+        {
+          "task_id": "ten_frame_place_value:practice-1",
+          "prompt": "数一数图中的点，一共有几颗？每个点只数一次。只填数字。",
+          "before": {
+            "family_id": "count.ten-frame-read",
+            "representation": "manipulative"
+          },
+          "after": {
+            "family_id": "primary.count.distinct-objects",
+            "representation": "manipulative"
+          }
+        },
+        {
+          "task_id": "ten_frame_place_value:practice-2",
+          "prompt": "一个十框有10格，已经放了6颗，每格1颗。还要放几颗才满？只填数字。",
+          "before": {
+            "family_id": "ten.complete-frame",
+            "representation": "manipulative"
+          },
+          "after": {
+            "family_id": "ten.complete-frame",
+            "representation": "verbal"
+          }
+        },
+        {
+          "task_id": "ten_frame_place_value:practice-3",
+          "prompt": "1捆小棒有10根，旁边另放3根。一共几根？",
+          "before": {
+            "family_id": "placevalue.ten-and-ones",
+            "representation": "manipulative"
+          },
+          "after": {
+            "family_id": "placevalue.ten-and-ones",
+            "representation": "verbal"
+          }
+        },
+        {
+          "task_id": "ten_frame_place_value:transfer-1",
+          "prompt": "打开1捆10根的小棒，分给同伴4根。自己还剩几根？只填数字。",
+          "before": {
+            "family_id": "placevalue.unbundle-and-remove",
+            "representation": "manipulative"
+          },
+          "after": {
+            "family_id": "placevalue.unbundle-and-remove",
+            "representation": "verbal"
+          }
+        },
+        {
+          "task_id": "ten_frame_place_value:delayed-2",
+          "prompt": "算8+7时，从7里拿2给8凑成10。接下来应该怎样算？",
+          "before": {
+            "family_id": "addition.make-ten-error-critique",
+            "representation": "symbolic"
+          },
+          "after": {
+            "family_id": "addition.make-ten",
+            "representation": "symbolic"
+          }
+        },
+        {
+          "task_id": "ten_frame_place_value:delayed-4",
+          "prompt": "小明说：“16里的1是一根小棒，6是六根，所以16就是7根。”用一捆十根和散棒解释哪里错了，并写出正确总数。可以口述后记录。",
+          "before": {
+            "family_id": "placevalue.digit-unit-error",
+            "representation": "manipulative"
+          },
+          "after": {
+            "family_id": "placevalue.ten-and-ones",
+            "representation": "manipulative"
+          }
+        }
+      ],
+      "reason": "同一计数/凑十/数位分解不因排列或错例文本变成新结构；原整体求余跨材料统一。复合参考显式记录实际展示的方法。没有图、只文字叙述且数值/选择作答的题不把想象图示记成已经呈现的图形或操作表征。"
+    },
+    {
+      "unit_id": "common_factors_multiples",
+      "changes": [
+        {
+          "reference": "example:0",
+          "prompt": "求12与18的最大公因数，并说明没有漏掉更大的公共因数。",
+          "before": {
+            "family_id": "number.gcd-enumerate",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "number.gcd-enumerate",
+            "representation": "symbolic",
+            "reference_family_ids": [
+              "number.factor-pair",
+              "number.factors-enumerate"
+            ]
+          }
+        },
+        {
+          "reference": "example:1",
+          "prompt": "两个提示灯从同一时刻开始，每隔4秒与6秒各闪一次。开始后第几秒首次再次同时闪？",
+          "before": {
+            "family_id": "number.lcm-synchronized-cycles",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "number.lcm-synchronized-cycles",
+            "representation": "verbal",
+            "reference_family_ids": [
+              "number.lcm-positive-direct",
+              "number.multiples-enumerate"
+            ]
+          }
+        },
+        {
+          "reference": "example:2",
+          "prompt": "4与6的乘积24是公倍数，为什么不一定最小？",
+          "before": {
+            "family_id": "number.lcm-minimality-error",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "number.lcm-minimality-error",
+            "representation": "symbolic",
+            "reference_family_ids": [
+              "number.lcm-positive-direct"
+            ]
+          }
+        },
+        {
+          "reference": "example:3",
+          "prompt": "12厘米和18厘米的两根绳子，剪成同样长的整数厘米小段，不剩余，最长每段多少厘米？",
+          "before": {
+            "family_id": "number.gcd-equal-cuts",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "number.gcd-equal-cuts",
+            "representation": "geometry",
+            "reference_family_ids": null
+          }
+        },
+        {
+          "reference": "example:4",
+          "prompt": "已知12与18的最大公因数为6，怎样把12/18约成最简分数？",
+          "before": {
+            "family_id": "fraction.reduce-direct",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "fraction.reduce-direct",
+            "representation": "symbolic",
+            "reference_family_ids": null
+          }
+        }
+      ],
+      "reason": "同一计数/凑十/数位分解不因排列或错例文本变成新结构；原整体求余跨材料统一。复合参考显式记录实际展示的方法。没有图、只文字叙述且数值/选择作答的题不把想象图示记成已经呈现的图形或操作表征。"
+    },
+    {
+      "unit_id": "fraction_equivalence",
+      "changes": [
+        {
+          "reference": "example:0",
+          "prompt": "把12/18约成最简分数，并解释为什么这样约分。",
+          "before": {
+            "family_id": "fraction.reduce-direct",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "fraction.reduce-direct",
+            "representation": "symbolic",
+            "reference_family_ids": null
+          }
+        },
+        {
+          "reference": "example:1",
+          "prompt": "同一根绳子，先剪去全长的1/4，再剪去原全长的1/6。共剪去原全长的几分之几？",
+          "before": {
+            "family_id": "fraction.add-common-unit",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "fraction.add-common-unit",
+            "representation": "verbal",
+            "reference_family_ids": [
+              "fraction.common-unit-equivalence-check"
+            ]
+          }
+        },
+        {
+          "reference": "example:2",
+          "prompt": "12颗珠子占整串的3/4，整串共有多少颗？为什么不是把12再乘3/4？",
+          "before": {
+            "family_id": "fraction.reconstruct-whole",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "fraction.reconstruct-whole",
+            "representation": "verbal",
+            "reference_family_ids": null
+          }
+        },
+        {
+          "reference": "example:3",
+          "prompt": "观察单元图的两条同长色带，为什么1/2与2/4表示同样多？",
+          "before": {
+            "family_id": "fraction.partition-refinement",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "fraction.partition-refinement",
+            "representation": "area_model",
+            "reference_family_ids": null
+          }
+        },
+        {
+          "reference": "example:4",
+          "prompt": "单元图数轴从0画到2。已标出的点在0与1正中间，它表示整段0到2的一半吗？它的数值是多少？",
+          "before": {
+            "family_id": "fraction.number-line-read",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "fraction.number-line-read",
+            "representation": "number_line",
+            "reference_family_ids": null
+          }
+        },
+        {
+          "reference": "example:5",
+          "prompt": "为什么不能把3/5的分子、分母同时加2后说5/7与它等值？",
+          "before": {
+            "family_id": "fraction.additive-equivalence-error",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "fraction.additive-equivalence-error",
+            "representation": "symbolic",
+            "reference_family_ids": [
+              "fraction.partition-refinement"
+            ]
+          }
+        },
+        {
+          "task_id": "fraction_equivalence:practice-1",
+          "prompt": "把同一张纸的3/5涂色。将原来的每一份再平均分成2小份，为什么涂色部分可以写成6/10？",
+          "before": {
+            "family_id": "fraction.partition-refinement",
+            "representation": "area_model"
+          },
+          "after": {
+            "family_id": "fraction.partition-refinement",
+            "representation": "verbal"
+          }
+        },
+        {
+          "task_id": "fraction_equivalence:practice-4",
+          "prompt": "一张纸被分成4块，4块面积不相等。只知道其中2块涂了颜色，能否直接说涂色面积占整张纸的1/2？",
+          "before": {
+            "family_id": "fraction.equal-partition-condition",
+            "representation": "area_model"
+          },
+          "after": {
+            "family_id": "fraction.equal-partition-condition",
+            "representation": "verbal"
+          }
+        },
+        {
+          "task_id": "fraction_equivalence:delayed-3",
+          "prompt": "数轴上A点表示1/6，B点表示3/4，0到1的长度为1。A到B的距离是多少个单位长度？用最简分数填写。",
+          "before": {
+            "family_id": "fraction.number-line-distance",
+            "representation": "number_line"
+          },
+          "after": {
+            "family_id": "fraction.number-line-distance",
+            "representation": "verbal"
+          }
+        }
+      ],
+      "reason": "同一计数/凑十/数位分解不因排列或错例文本变成新结构；原整体求余跨材料统一。复合参考显式记录实际展示的方法。没有图、只文字叙述且数值/选择作答的题不把想象图示记成已经呈现的图形或操作表征。"
+    },
+    {
+      "unit_id": "position_reference_frames",
+      "changes": [
+        {
+          "reference": "example:0",
+          "prompt": "公园P在学校O的北偏东30°方向600米处。从P看O是什么方向和距离？",
+          "before": {
+            "family_id": "position.reverse-bearing",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "position.reverse-bearing",
+            "representation": "geometry",
+            "reference_family_ids": null
+          }
+        },
+        {
+          "reference": "example:1",
+          "prompt": "方格图按先列后行编号，每格边长表示100米。A在(2,1)，B在(5,3)。从A沿网格先向东再向北走到B，路线怎样描述？走了多少米？",
+          "before": {
+            "family_id": "position.route-length-versus-distance",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "position.route-length-versus-distance",
+            "representation": "mixed",
+            "reference_family_ids": [
+              "position.grid-translation"
+            ]
+          }
+        },
+        {
+          "reference": "example:2",
+          "prompt": "同一个观察者原地从面朝北转为面朝南，右手侧的地理方向怎样改变？",
+          "before": {
+            "family_id": "position.body-turn",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "position.body-turn",
+            "representation": "verbal",
+            "reference_family_ids": null
+          }
+        },
+        {
+          "reference": "example:3",
+          "prompt": "北偏东30°怎样改用以东为起始方向的描述？",
+          "before": {
+            "family_id": "position.complementary-bearing",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "position.complementary-bearing",
+            "representation": "symbolic",
+            "reference_family_ids": null
+          }
+        },
+        {
+          "task_id": "position_reference_frames:practice-4",
+          "prompt": "A在B的北偏西20°方向3千米处。从A观察B，正确描述是哪项？",
+          "before": {
+            "family_id": "position.reverse-bearing",
+            "representation": "geometry"
+          },
+          "after": {
+            "family_id": "position.reverse-bearing",
+            "representation": "verbal"
+          }
+        }
+      ],
+      "reason": "同一计数/凑十/数位分解不因排列或错例文本变成新结构；原整体求余跨材料统一。复合参考显式记录实际展示的方法。没有图、只文字叙述且数值/选择作答的题不把想象图示记成已经呈现的图形或操作表征。"
+    },
+    {
+      "unit_id": "ratio_models",
+      "changes": [
+        {
+          "reference": "example:0",
+          "prompt": "糖与水按质量比2:7混合，糖水总质量450克，需要糖多少克？",
+          "before": {
+            "family_id": "ratio.allocate-from-total",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "ratio.allocate-from-total",
+            "representation": "verbal",
+            "reference_family_ids": [
+              "ratio.part-part-to-whole"
+            ]
+          }
+        },
+        {
+          "reference": "example:1",
+          "prompt": "同一条24千米的路线，匀速速度由6千米/时提高到8千米/时。时间由多少小时变成多少小时？速度与时间成什么关系？",
+          "before": {
+            "family_id": "ratio.fixed-distance-inverse",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "ratio.fixed-distance-inverse",
+            "representation": "verbal",
+            "reference_family_ids": null
+          }
+        },
+        {
+          "reference": "example:2",
+          "prompt": "饮用水按固定单价出售，不另收费用，3升12元。1升与5升各需多少元？在双数轴上怎样表示？",
+          "before": {
+            "family_id": "ratio.unit-rate-projection",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "ratio.unit-rate-projection",
+            "representation": "number_line",
+            "reference_family_ids": null
+          }
+        },
+        {
+          "reference": "example:3",
+          "prompt": "收费规则为先收8元，再每小时收2元。虽然时间和总费一起增加，为什么仍不是正比例？",
+          "before": {
+            "family_id": "ratio.constant-increment-vs-proportion",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "ratio.constant-increment-vs-proportion",
+            "representation": "verbal",
+            "reference_family_ids": null
+          }
+        }
+      ],
+      "reason": "同一计数/凑十/数位分解不因排列或错例文本变成新结构；原整体求余跨材料统一。复合参考显式记录实际展示的方法。没有图、只文字叙述且数值/选择作答的题不把想象图示记成已经呈现的图形或操作表征。"
+    },
+    {
+      "unit_id": "time_duration_calendar",
+      "changes": [
+        {
+          "reference": "example:0",
+          "prompt": "同一天上午8:45开始阅读，9:20结束。经过多少分钟？",
+          "before": {
+            "family_id": "time.elapsed-sameday",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "time.elapsed-sameday",
+            "representation": "verbal",
+            "reference_family_ids": null
+          }
+        },
+        {
+          "reference": "example:1",
+          "prompt": "一班车5月6日23:40出发，5月7日00:25到达，途中没有调时。经过多少分钟？",
+          "before": {
+            "family_id": "time.elapsed-cross-midnight",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "time.elapsed-cross-midnight",
+            "representation": "verbal",
+            "reference_family_ids": [
+              "time.elapsed-sameday"
+            ]
+          }
+        },
+        {
+          "reference": "example:2",
+          "prompt": "从公历2028年2月28日中午12:00到3月1日中午12:00，经过几天？",
+          "before": {
+            "family_id": "time.calendar-ordinary-leap",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "time.calendar-ordinary-leap",
+            "representation": "verbal",
+            "reference_family_ids": null
+          }
+        },
+        {
+          "reference": "example:3",
+          "prompt": "时间线上依次标出2月28日中午、2月29日中午、3月1日中午，为什么3个日期标记只对应2个整天间隔？",
+          "before": {
+            "family_id": "time.date-points-vs-intervals",
+            "representation": null,
+            "reference_family_ids": null
+          },
+          "after": {
+            "family_id": "time.date-points-vs-intervals",
+            "representation": "number_line",
+            "reference_family_ids": [
+              "time.calendar-ordinary-leap"
+            ]
+          }
+        }
+      ],
+      "reason": "同一计数/凑十/数位分解不因排列或错例文本变成新结构；原整体求余跨材料统一。复合参考显式记录实际展示的方法。没有图、只文字叙述且数值/选择作答的题不把想象图示记成已经呈现的图形或操作表征。"
+    }
+  ]
+}

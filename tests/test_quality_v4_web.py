@@ -199,6 +199,40 @@ class QualityV4HTTPTest(unittest.TestCase):
         _, other = self.request("/api/manipulative?unit_id=fraction_equivalence", client=self.make_client())
         self.assertIsNone(other["saved"])
 
+    def test_reference_opening_records_each_exposed_method_and_no_other_reference(self):
+        expected = {"statistics.ols-from-paired-data", "statistics.ols-intercept-from-centre", "statistics.signed-residual"}
+        code, response = self.request("/api/exposure", {"resource_id": "topic:mh5.8.2.2",
+            "event_type": "reference_opened", "reference_key": "example:0"})
+        self.assertEqual(200, code, response)
+        code, response = self.request("/api/exposure", {"resource_id": "topic:mh5.8.2.2",
+            "event_type": "reference_opened", "reference_key": "self_check:1"})
+        self.assertEqual(200, code, response)
+        with self.servers[0][0].learning_store._connect() as db:
+            events = [json.loads(row[0]) for row in db.execute(
+                "SELECT payload_json FROM events WHERE event_type='reference_opened' ORDER BY seq")]
+        self.assertEqual(set(events[0]["family_ids"]), expected)
+        self.assertEqual(set(events[1]["family_ids"]), {"statistics.ols-intercept-from-centre"})
+        self.assertEqual(1, len(events[1]["task_ids"]))
+        self.assertEqual(400, self.request("/api/exposure", {"resource_id": "topic:mh5.8.2.2",
+            "event_type": "reference_opened", "reference_key": "example:1"})[0])
+
+    def test_self_check_works_freeze_the_actual_diagram_used_by_the_learner(self):
+        source = {"kind": "self_check", "topic_id": "m5b.5.1", "criterion_index": "0"}
+        code, work = self.request("/api/work?" + urllib.parse.urlencode(source))
+        self.assertEqual(200, code, work)
+        snapshot = work["descriptor"]["resource_snapshot"]
+        src = "/static/diagrams/statistics-v5-line-self-check.svg"
+        self.assertEqual(snapshot["diagram"]["src"], src)
+        self.assertEqual(snapshot["asset_snapshots"][src], server._CONTENT.assets[src])
+        code, saved = self.request("/api/work", {**source, "criterion_index": 0,
+            "resource_id": work["descriptor"]["resource_id"], "expected_revision": 0, "request_id": "diagram-v5",
+            "draft": {"response": "四天中第三天降低，整体末值仍比首值高。"}})
+        self.assertEqual(200, code, saved)
+        self.assertEqual(saved["work"]["payload"]["resource_snapshot"], snapshot)
+        with patch.dict(server._CONTENT.assets, {src: {"sha256": "new-asset", "body_base64": "different"}}):
+            _, restored = self.request("/api/work?" + urllib.parse.urlencode({"resource_id": work["descriptor"]["resource_id"]}))
+        self.assertEqual(restored["descriptor"]["resource_snapshot"], snapshot)
+
 
 if __name__ == "__main__":
     unittest.main()

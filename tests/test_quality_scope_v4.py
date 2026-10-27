@@ -28,11 +28,11 @@ class QualityScopeTests(unittest.TestCase):
 
     def test_full_registered_denominator_and_distinct_completion_roles(self):
         summary = self.report["summary"]
-        self.assertEqual((summary["topic_count"], summary["volume_count"], summary["topic_goals"]), (477, 23, 961))
+        self.assertEqual((summary["topic_count"], summary["volume_count"], summary["topic_goals"]), (477, 23, 964))
         self.assertEqual((summary["core_topics"], summary["foundation_topics"]), (342, 135))
-        self.assertEqual((summary["unit_goals"], summary["project_goals"], summary["total_goals"]), (104, 66, 1131))
+        self.assertEqual((summary["unit_goals"], summary["project_goals"], summary["total_goals"]), (104, 66, 1134))
         topics = [row for row in self.report["goals"] if row["resource_kind"] == "topic"]
-        self.assertEqual(Counter(row["role"] for row in topics), {"core": 688, "foundation_support": 273})
+        self.assertEqual(Counter(row["role"] for row in topics), {"core": 691, "foundation_support": 273})
         self.assertTrue(self.report["manifest_valid"])
         self.assertTrue(all(row.get("optional_participation") for row in self.report["goals"] if row["resource_kind"] == "project"))
 
@@ -70,7 +70,7 @@ class QualityScopeTests(unittest.TestCase):
         self.assertTrue(all(row["status"] == "incomplete" for row in goals))
         self.assertTrue(all(any(gap["code"] == "explicit_goal_material_and_task" for gap in row["gaps"]) for row in goals))
         self.assertTrue(all(row["auxiliary_reference_refs"] for row in goals))
-        self.assertEqual(report["summary"]["total_goals"], 1131)
+        self.assertEqual(report["summary"]["total_goals"], 1134)
 
     def test_role_downgrade_or_goal_removal_in_manifest_is_rejected(self):
         manifest = copy.deepcopy(quality_scope.scope_manifest())

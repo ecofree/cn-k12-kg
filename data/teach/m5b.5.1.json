@@ -20,14 +20,18 @@
     "先核对横纵轴的单位与刻度，再比较相同时间间隔下的增减幅度。"
   ],
   "worked_example": {
-    "prompt": "某地气温 1 月 5℃、2 月 8℃、3 月 12℃，2 月到 3 月上升了多少℃？",
+    "prompt": "读本课顶部一至三月的气温折线图：二月至三月上升了多少摄氏度？先读两个点，再求差。",
     "verify": "12-8",
     "answer": "4",
     "steps": [
       "找到 2 月的点（8℃）和 3 月的点（12℃）。",
       "上升的量是两点的差：12-8。",
       "12-8=4℃，所以上升了 4℃。"
-    ]
+    ],
+    "family_id": "statistics.line-adjacent-change",
+    "variant_id": "m5b.5.1:worked-v5",
+    "representation": "graph",
+    "cognitive_demand": "execute"
   },
   "pitfalls": [
     "把点的高低当成变化量：3 月 12℃ 就说「上升了 12℃」。",
@@ -48,10 +52,10 @@
       "note": "比较两段增温幅度，明确各自的时间段"
     }
   ],
-  "check": "完成本卡变化趋势与增减幅度的目标自检。比较斜度前先核对横纵轴的单位和刻度；在同一刻度、相同时间间隔下，解释哪一段增减幅度更大。",
+  "check": "先独立完成本页两项自检，保留计算或判断过程；再逐项核对参考与观察边界，按具体困难修订。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -60,12 +64,26 @@
       "title": "能读懂折线统计图的变化趋势",
       "explanation": "折线图按时间等顺序连接点，先读横纵轴单位和刻度再描述涨跌。",
       "self_check": {
-        "prompt": "连续四天温度18、20、19、23℃，折线趋势如何？",
+        "prompt": "读这道自检附的四天折线图，按时间顺序描述每段气温升降和四天总体变化，写出相邻两天的差。",
         "reference_answer": "先升2℃、后降1℃、再升4℃；总体从18升到23℃。",
         "criteria": [
           "三个相邻方向正确",
           "总体与局部区别"
-        ]
+        ],
+        "family_id": "statistics.line-local-and-overall-trend",
+        "variant_id": "m5b.5.1:criterion-0-v5",
+        "representation": "graph",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/statistics-v5-line-self-check.svg",
+          "alt": "四天等距折线图，纵轴从0到24摄氏度，每格2度；最高气温依次18、20、19、23摄氏度。"
+        }
+      },
+      "observation_note": "观察是否按时间顺序逐段读出升降，并区分局部下降与全程上升；描述趋势不等于能预测下一天温度。",
+      "difficulty_support": {
+        "discriminating_prompt": "配图第2天到第3天下降，是否说明这四天一直下降？",
+        "hint": "局部只比较相邻两点；全程要比较第1天18℃和第4天23℃。",
+        "revision_prompt": "给三段依次标上+2、−1、+4，再写“局部有下降，全程从18到23上升5℃”，不外推第5天。"
       }
     },
     {
@@ -73,12 +91,26 @@
       "title": "能在折线统计图上比较增减幅度",
       "explanation": "相邻点纵坐标之差是增减量；横轴间隔相同时才可直接用陡缓比较变化快慢。",
       "self_check": {
-        "prompt": "上述四天哪一段升温最多？若另一图时间间隔不同，能只比线的斜度吗？",
+        "prompt": "读这道自检附的四天折线图：哪一段升温最多？若另一图的时间间隔不同，能只比较图上线段的斜度吗？说明理由。",
         "reference_answer": "第3至4天升4℃最多；时间间隔不同时需算单位时间变化，且图轴尺度须一致。",
         "criteria": [
           "最大升幅4℃",
           "说明时间及尺度条件"
-        ]
+        ],
+        "family_id": "statistics.line-change-comparison",
+        "variant_id": "m5b.5.1:criterion-1-v5",
+        "representation": "graph",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/statistics-v5-line-self-check.svg",
+          "alt": "四天等距折线图，纵轴从0到24摄氏度，每格2度；最高气温依次18、20、19、23摄氏度。"
+        }
+      },
+      "observation_note": "观察相邻纵坐标差和最大增幅；跨图比较斜率还需要时间间隔与坐标比例一致，不能只凭肉眼陡缓。",
+      "difficulty_support": {
+        "discriminating_prompt": "两段线一段更陡，若它跨两天、另一段只跨一天，就一定升温更快吗？",
+        "hint": "变化量是纵坐标差；变化快慢还要除以经过时间，并检查两图的轴尺度。",
+        "revision_prompt": "先用本图相等一天间隔算三段差值，指出第3至4天升4℃最多；再说明跨图比较需要补齐什么信息。"
       }
     }
   ],

@@ -139,7 +139,7 @@ def build_scope_report(data=None, *, manifest=None):
                 # Small unpublished fixtures can still exercise source checks.
                 policy_cache[qid] = question_policy(question)
             else:
-                from .admissions import policies
+                from .admissions import policies, resolved_question
                 binding = task_bindings.get("bank:" + qid)
                 if not isinstance(binding, dict) or binding.get("id") != qid:
                     raise ValueError(f"课程范围无法验证显式准入 {qid}：缺少对应题目的答案契约绑定")
@@ -147,7 +147,7 @@ def build_scope_report(data=None, *, manifest=None):
                 if not isinstance(spec, dict):
                     raise ValueError(f"课程范围无法验证显式准入 {qid}：答案契约缺失")
                 try:
-                    policy_cache[qid] = policies(question, {**question, "answer_spec": spec}, admission_rows[qid])[1]
+                    policy_cache[qid] = policies(question, resolved_question(question, binding), admission_rows[qid])[1]
                 except ValueError as exc:
                     raise ValueError(f"课程范围无法验证显式准入 {qid}：{exc}") from exc
         return policy_cache[qid]

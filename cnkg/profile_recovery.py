@@ -449,6 +449,7 @@ def _validate_work_record(row, sessions):
     _require(isinstance(payload, dict) and isinstance(payload.get("kind"), str) and payload["kind"] in WORK_KINDS)
     _require(payload.get("resource_version") == record["resource_version"])
     _require(isinstance(payload.get("resource_snapshot"), dict) and payload["resource_snapshot"])
+    _validate_assets(payload["resource_snapshot"])
     source = payload.get("source_ref")
     if isinstance(source, str):
         _text(source)

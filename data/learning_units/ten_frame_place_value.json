@@ -37,27 +37,41 @@
     {
       "id": "ten_frame_place_value:count",
       "statement": "能一一对应点数，并说明只改变摆放、没有添减时个数不变。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "ten_frame_place_value:compose_ten",
       "statement": "能找出合成10的两个部分，并把需要补入的数量按十的结构拆开。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "ten_frame_place_value:count"
+      ]
     },
     {
       "id": "ten_frame_place_value:place_value",
       "statement": "能把1个十与若干个一对应到11至20的数，说明十位上的1表示10个一。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "ten_frame_place_value:count"
+      ]
     },
     {
       "id": "ten_frame_place_value:make_ten",
       "statement": "能把20以内进位加法先凑成10再加余数，说明移动的部分不能重复计算。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "ten_frame_place_value:compose_ten",
+        "ten_frame_place_value:place_value"
+      ]
     },
     {
       "id": "ten_frame_place_value:operation",
       "statement": "能区分合并、拿走与求缺少部分的数量关系，用加减算式或操作核对答案。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "ten_frame_place_value:count"
+      ]
     }
   ],
   "explanation": {
@@ -82,7 +96,9 @@
       "answer": "2",
       "verify": "10-8",
       "family_id": "ten.complete-frame",
-      "variant_id": "ten_frame_place_value:example-1"
+      "variant_id": "ten_frame_place_value:example-1",
+      "representation": "manipulative",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "1捆10根的小棒，旁边另有4根，一共几根？",
@@ -94,7 +110,9 @@
       "answer": "14",
       "verify": "10+4",
       "family_id": "placevalue.ten-and-ones",
-      "variant_id": "ten_frame_place_value:example-2"
+      "variant_id": "ten_frame_place_value:example-2",
+      "representation": "manipulative",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "摆一摆，说明8+5为什么等于13。",
@@ -106,7 +124,9 @@
       "answer": "13",
       "verify": "8+5",
       "family_id": "addition.make-ten",
-      "variant_id": "ten_frame_place_value:example-3"
+      "variant_id": "ten_frame_place_value:example-3",
+      "representation": "manipulative",
+      "cognitive_demand": "explain"
     }
   ],
   "diagram": {
@@ -127,7 +147,7 @@
         "correct": "结果匹配。请核对解释中使用的条件与单位。",
         "incorrect": "从一排开始，点一颗数一次，再换到另一排，别重复。"
       },
-      "family_id": "count.ten-frame-read",
+      "family_id": "primary.count.distinct-objects",
       "variant_id": "ten_frame_place_value:practice-1",
       "representation": "manipulative",
       "cognitive_demand": "execute",
@@ -158,7 +178,7 @@
       },
       "family_id": "ten.complete-frame",
       "variant_id": "ten_frame_place_value:practice-2",
-      "representation": "manipulative",
+      "representation": "verbal",
       "cognitive_demand": "execute",
       "answer": "4",
       "verify": "10-6",
@@ -183,7 +203,7 @@
       },
       "family_id": "placevalue.ten-and-ones",
       "variant_id": "ten_frame_place_value:practice-3",
-      "representation": "manipulative",
+      "representation": "verbal",
       "cognitive_demand": "execute",
       "answer": "B",
       "answer_spec": {
@@ -315,7 +335,7 @@
       },
       "family_id": "placevalue.unbundle-and-remove",
       "variant_id": "ten_frame_place_value:transfer-1",
-      "representation": "manipulative",
+      "representation": "verbal",
       "cognitive_demand": "model",
       "answer": "6",
       "verify": "10-4",
@@ -506,7 +526,7 @@
         "correct": "结果匹配。请核对解释中使用的条件与单位。",
         "incorrect": "让被移动的两颗只出现一次：它们现在在哪一组？原来的7还剩多少？"
       },
-      "family_id": "addition.make-ten-error-critique",
+      "family_id": "addition.make-ten",
       "variant_id": "ten_frame_place_value:delayed-2",
       "representation": "symbolic",
       "cognitive_demand": "explain",
@@ -572,7 +592,7 @@
         "correct": "请按量规逐项自查，记录依据；本题保留过程，不自动确认掌握。",
         "incorrect": "先给两个数字各配一种计数单位：十位按十数，个位按一数。"
       },
-      "family_id": "placevalue.digit-unit-error",
+      "family_id": "placevalue.ten-and-ones",
       "variant_id": "ten_frame_place_value:delayed-4",
       "representation": "manipulative",
       "cognitive_demand": "explain",

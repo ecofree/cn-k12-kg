@@ -24,13 +24,17 @@
   "steps": [
    "最长边为11，而另外两边之和4+6=10。",
    "因为10<11，不满足两边之和大于第三边，不能组成三角形。"
-  ]
+  ],
+  "family_id": "triangle.side-feasibility",
+  "variant_id": "m8a.13.2:worked-example-v5",
+  "representation": "symbolic",
+  "cognitive_demand": "explain"
  },
  "pitfalls": [
   "中线不一定垂直于对边，高也不一定平分对边。",
   "两边和等于第三边会排成一条直线，不能组成三角形。"
  ],
- "check": "独立完成并解释：画一个一般三角形ABC，从A分别作高AH、中线AM、角平分线AD并标记条件。；已知两边长为3厘米和8厘米，第三边长可取下面哪个值？ 备选：A. 5厘米；B. 6厘米；C. 11厘米 请写出判断或计算依据。",
+ "check": "保留原三种线段综合目标；作高、作中线、作角平分线分别留下图及定义证据。三边判定另核对正长度和严格不等号，不能把几个数值结果合并当全部完成。",
  "objective_coverage": [
   {
    "criterion_index": 0,
@@ -42,7 +46,22 @@
     "criteria": [
      "三种对象与条件一一对应",
      "保留垂足或中点和等角标记"
+    ],
+    "family_id": "triangle.special-lines.construction-comparison",
+    "variant_id": "m8a.13.2:self-check:0",
+    "representation": "geometry",
+    "cognitive_demand": "execute",
+    "reference_family_ids": [
+     "triangle.altitude.perpendicular-line",
+     "triangle.median.midpoint",
+     "triangle.bisector.equal-angles"
     ]
+   },
+   "observation_note": "这是保留的综合目标；下列三个细目标分别记录。半边长度算对不证明高、中线和角平分线都能作出。",
+   "difficulty_support": {
+    "discriminating_prompt": "你是否给三条线段都画了直角？中点和等角分别在哪里？",
+    "hint": "先分成三张相同三角形，每张只画一种线段，配上唯一对应的定义标记。",
+    "revision_prompt": "逐图写出“垂直”“两段相等”“两角相等”的依据，再合并比较哪些线段并不重合。"
    }
   },
   {
@@ -55,7 +74,92 @@
     "criteria": [
      "列5<x<11",
      "排除边界5和11"
-    ]
+    ],
+    "family_id": "triangle.third-side-range",
+    "variant_id": "m8a.13.2:self-check:1",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+   },
+   "observation_note": "选择6只观察这个候选范围；还需明确两个端点为何不能取，不能把结果正确当作一般条件已经会用。",
+   "difficulty_support": {
+    "discriminating_prompt": "5、11为什么不能选？其中一个使两短边和等于长边，另一个发生了什么？",
+    "hint": "写两边差8−3与和8+3，得到严格开区间；等号时三点共线。",
+    "revision_prompt": "画出边长3、5、8的退化情形，再换成3、6、8说明怎样真正围起来。"
+   }
+  },
+  {
+   "criterion_index": 2,
+   "title": "能从顶点向对边所在直线作垂线段，并识别钝角三角形的外部高",
+   "explanation": "高的两个要求是从一个顶点出发、垂直于对边所在直线。以BC为底时从A作垂线；钝角三角形中垂足可能落在BC的延长线上，这仍是高。",
+   "self_check": {
+    "prompt": "画一个∠C为钝角的三角形ABC，从A向BC所在直线作高AH，标直角并说明H在BC线段上还是延长线上。再画一幅锐角三角形作对照。",
+    "reference_answer": "在∠C钝角的图中，A到BC所在直线的垂足H在越过C的延长线上，AH⊥BC；锐角三角形相应高的垂足在边BC内部。高是线段AH，不是无限长的垂线。",
+    "criteria": [
+     "由顶点A出发",
+     "垂足在BC所在直线上并有直角标记",
+     "钝角例中识别外部高",
+     "保留锐角与钝角两图"
+    ],
+    "family_id": "triangle.altitude.perpendicular-line",
+    "variant_id": "m8a.13.2:self-check:2",
+    "representation": "geometry",
+    "cognitive_demand": "execute"
+   },
+   "observation_note": "必须看到图和垂直标记；只回答“在外面”未说明是哪一条高，也不能确认作图正确。",
+   "difficulty_support": {
+    "discriminating_prompt": "你是否为了把线段画在内部而把垂足移到了BC中点？",
+    "hint": "先把BC延长，再用直尺三角板从A作垂线，最后只保留A到垂足的线段。",
+    "revision_prompt": "保留原图错误垂足，以另一颜色重作高；逐项核对出发顶点、落脚直线、直角。"
+   }
+  },
+  {
+   "criterion_index": 3,
+   "title": "能连接顶点与对边中点作中线，并用两段相等核对中点",
+   "explanation": "中线由一个顶点连向对边中点，条件是两段相等而非垂直。若BC长12厘米，中点M满足BM=MC=6；连接AM后一般不与BC垂直。",
+   "self_check": {
+    "prompt": "画一个非等腰三角形ABC，在BC上取中点M并连接AM。用BM=MC标记核对，再说明是否能据此断言AM垂直BC。",
+    "reference_answer": "M在线段BC上，BM=MC，连接AM即为中线。仅由中点条件不能推出AM⊥BC；非等腰图通常不垂直。",
+    "criteria": [
+     "中点在线段BC上",
+     "BM和MC有等长证据",
+     "连接A与M",
+     "没有凭中线身份追加垂直结论"
+    ],
+    "family_id": "triangle.median.midpoint",
+    "variant_id": "m8a.13.2:self-check:3",
+    "representation": "geometry",
+    "cognitive_demand": "execute"
+   },
+   "observation_note": "数值练习给出半长只验证中点关系；本自检仍需实际画线和等长标记。",
+   "difficulty_support": {
+    "discriminating_prompt": "你只画了一条垂线就叫中线了吗？垂足是否恰好把BC平分？",
+    "hint": "先量BC并找一半位置标M，核对左右两段，再连接A。",
+    "revision_prompt": "对照原图量两段并记录，若不等重新取中点；删去没有依据的直角标记。"
+   }
+  },
+  {
+   "criterion_index": 4,
+   "title": "能从顶点作平分内角的线段，并用两角相等核对角平分线",
+   "explanation": "三角形内角平分线从顶点出发，平分该内角，与对边的交点作为线段另一端。等角不是对边两段等长；没有等腰条件时交点通常不是中点。",
+   "self_check": {
+    "prompt": "画一个AB与AC长度不同的三角形ABC，作∠A的角平分线AD交BC于D，标∠BAD=∠DAC。能否仅由这一条件写BD=DC？说明理由。",
+    "reference_answer": "AD从A出发，D在BC上，∠BAD=∠DAC。不能只由等角条件推出BD=DC；那是中线的条件，须有额外依据。",
+    "criteria": [
+     "线段从A出发并交BC于D",
+     "用等角弧或测量记录核对两个角",
+     "不把等角直接当等长",
+     "明确角平分线线段AD的两个端点"
+    ],
+    "family_id": "triangle.bisector.equal-angles",
+    "variant_id": "m8a.13.2:self-check:4",
+    "representation": "geometry",
+    "cognitive_demand": "execute"
+   },
+   "observation_note": "图上相近的角不能靠肉眼证明相等；应保留作图或测量核对说明，有限测量仍不是一般定理证明。",
+   "difficulty_support": {
+    "discriminating_prompt": "你取的是BC中点还是∠A的一半方向？这两个定义一样吗？",
+    "hint": "先读∠A，再确定一半方向画射线，与BC交于D；最后比较两个角。",
+    "revision_prompt": "重新给两个小角写读数或作图依据，移除未经证明的BD=DC等长记号。"
    }
   }
  ],
@@ -72,5 +176,20 @@
    "id": "m8a.13.2-q102",
    "note": "独立作答后，按解析检查关键条件和推理。"
   }
- ]
+ ],
+ "conditions": [
+  "三角形为平面内非退化三角形，边长为正且单位相同。",
+  "高垂直于对边所在直线，垂足可在边上或延长线上；中线端点必须是对边中点。",
+  "角平分线从顶点出发将内角等分，并与对边相交；无额外对称条件时三种线段一般不重合。"
+ ],
+ "representation_note": "上方三图分别只标一种定义条件：直角、等长记号、等角弧。下方钝角三角形的高落在对边延长线上，检验“高总在内部”的错误想法。",
+ "diagram": {
+  "src": "/static/diagrams/triangle-special-lines-v5.svg",
+  "alt": "三幅同形三角形分别标高、中线、角平分线；下图钝角三角形从A作高AH，垂足H落在BC延长线上。"
+ },
+ "content_revision": {
+  "author_type": "ai",
+  "date": "2026-10-27",
+  "teacher_review": "pending"
+ }
 }

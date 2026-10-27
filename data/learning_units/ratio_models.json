@@ -16,17 +16,20 @@
     {
       "id": "ratio_models:o1",
       "statement": "能说明一个比的前后项各表示什么，并区分部分与部分的比、部分占整体的比。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "ratio_models:o2",
       "statement": "能根据不变量判断正比例、反比例或都不是，并说明结论的适用条件。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "ratio_models:o3",
       "statement": "能在按比例分配、比例尺等情境中列数量关系、统一单位，并检验结果。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "ratio_models:referent",
@@ -34,7 +37,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "ratio_models:o1"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "ratio_models:part_whole",
@@ -42,6 +46,10 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "ratio_models:o1"
+      ],
+      "prerequisite_objective_ids": [
+        "ratio_models:referent",
+        "fraction_equivalence:whole"
       ]
     },
     {
@@ -51,6 +59,10 @@
       "refines_objective_ids": [
         "ratio_models:o1",
         "ratio_models:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "ratio_models:referent",
+        "fraction_equivalence:scale"
       ]
     },
     {
@@ -60,6 +72,9 @@
       "refines_objective_ids": [
         "ratio_models:o2",
         "ratio_models:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "ratio_models:referent"
       ]
     },
     {
@@ -68,6 +83,9 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "ratio_models:o2"
+      ],
+      "prerequisite_objective_ids": [
+        "ratio_models:unit_rate"
       ]
     },
     {
@@ -76,6 +94,10 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "ratio_models:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "ratio_models:part_whole",
+        "ratio_models:equivalent_ratio"
       ]
     },
     {
@@ -84,6 +106,9 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "ratio_models:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "ratio_models:equivalent_ratio"
       ]
     }
   ],
@@ -113,7 +138,12 @@
       "answer": "100",
       "verify": "450/(2+7)*2",
       "family_id": "ratio.allocate-from-total",
-      "variant_id": "ratio_models:example-1"
+      "variant_id": "ratio_models:example-1",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "reference_family_ids": [
+        "ratio.part-part-to-whole"
+      ]
     },
     {
       "prompt": "同一条24千米的路线，匀速速度由6千米/时提高到8千米/时。时间由多少小时变成多少小时？速度与时间成什么关系？",
@@ -124,7 +154,9 @@
       ],
       "answer": "由4小时变为3小时；速度与时间成反比例。",
       "family_id": "ratio.fixed-distance-inverse",
-      "variant_id": "ratio_models:example-2"
+      "variant_id": "ratio_models:example-2",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "饮用水按固定单价出售，不另收费用，3升12元。1升与5升各需多少元？在双数轴上怎样表示？",
@@ -135,7 +167,9 @@
       ],
       "answer": "1升4元，5升20元；每升4元。",
       "family_id": "ratio.unit-rate-projection",
-      "variant_id": "ratio_models:example-3"
+      "variant_id": "ratio_models:example-3",
+      "representation": "number_line",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "收费规则为先收8元，再每小时收2元。虽然时间和总费一起增加，为什么仍不是正比例？",
@@ -146,7 +180,9 @@
       ],
       "answer": "不是正比例；固定增量不能代替总量比值恒定。",
       "family_id": "ratio.constant-increment-vs-proportion",
-      "variant_id": "ratio_models:example-4"
+      "variant_id": "ratio_models:example-4",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     }
   ],
   "tasks": [

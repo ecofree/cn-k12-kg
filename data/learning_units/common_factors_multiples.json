@@ -16,17 +16,20 @@
     {
       "id": "common_factors_multiples:o1",
       "statement": "能列出两个正整数的公因数并确定最大公因数，解释“公有”与“最大”的含义。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "common_factors_multiples:o2",
       "statement": "能用列举或倍数关系找到两个正整数的最小公倍数，排除0并核对“最小”。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "common_factors_multiples:o3",
       "statement": "能根据整分、同期、约分或通分的要求选择公因数或公倍数模型，并解释结果和限制条件。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "common_factors_multiples:gcd",
@@ -34,7 +37,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "common_factors_multiples:o1"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "common_factors_multiples:lcm",
@@ -42,7 +46,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "common_factors_multiples:o2"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "common_factors_multiples:choose_model",
@@ -50,6 +55,10 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "common_factors_multiples:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "common_factors_multiples:gcd",
+        "common_factors_multiples:lcm"
       ]
     },
     {
@@ -60,6 +69,10 @@
         "common_factors_multiples:o1",
         "common_factors_multiples:o2",
         "common_factors_multiples:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "common_factors_multiples:gcd",
+        "common_factors_multiples:lcm"
       ]
     }
   ],
@@ -88,7 +101,13 @@
       ],
       "answer": "6",
       "family_id": "number.gcd-enumerate",
-      "variant_id": "common_factors_multiples:example-1"
+      "variant_id": "common_factors_multiples:example-1",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "reference_family_ids": [
+        "number.factor-pair",
+        "number.factors-enumerate"
+      ]
     },
     {
       "prompt": "两个提示灯从同一时刻开始，每隔4秒与6秒各闪一次。开始后第几秒首次再次同时闪？",
@@ -100,7 +119,13 @@
       "answer": "12",
       "verify": "4*3",
       "family_id": "number.lcm-synchronized-cycles",
-      "variant_id": "common_factors_multiples:example-2"
+      "variant_id": "common_factors_multiples:example-2",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "reference_family_ids": [
+        "number.lcm-positive-direct",
+        "number.multiples-enumerate"
+      ]
     },
     {
       "prompt": "4与6的乘积24是公倍数，为什么不一定最小？",
@@ -111,7 +136,12 @@
       ],
       "answer": "24是公倍数但不是最小，最小为12。",
       "family_id": "number.lcm-minimality-error",
-      "variant_id": "common_factors_multiples:example-3"
+      "variant_id": "common_factors_multiples:example-3",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "reference_family_ids": [
+        "number.lcm-positive-direct"
+      ]
     },
     {
       "prompt": "12厘米和18厘米的两根绳子，剪成同样长的整数厘米小段，不剩余，最长每段多少厘米？",
@@ -123,7 +153,9 @@
       "answer": "6",
       "verify": "12/2",
       "family_id": "number.gcd-equal-cuts",
-      "variant_id": "common_factors_multiples:example-4"
+      "variant_id": "common_factors_multiples:example-4",
+      "representation": "geometry",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "已知12与18的最大公因数为6，怎样把12/18约成最简分数？",
@@ -135,7 +167,9 @@
       "answer": "2/3",
       "verify": "12/18",
       "family_id": "fraction.reduce-direct",
-      "variant_id": "common_factors_multiples:example-5"
+      "variant_id": "common_factors_multiples:example-5",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
     }
   ],
   "tasks": [

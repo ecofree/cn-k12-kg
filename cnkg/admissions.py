@@ -14,12 +14,37 @@ POLICY_FIELDS = {"diagnosis_eligible", "practice_eligible", "may_confirm_mastery
                  "evidence_level", "reviewer_pending", "confidence", "reason"}
 FLAGS = ("challenge", "review_status", "quarantined", "diagnosis_eligible", "practice_eligible",
          "for_diagnosis", "evidence_level", "quality_review", "cross_source_evidence")
+ALIGNMENT_FIELDS = ("tested_criterion_indices", "alignment_note", "target_alignment", "family_id", "variant_id",
+                    "representation", "cognitive_demand", "reference_family_ids")
 
 
-def fingerprint(question):
+def fingerprint(question, version=2):
     from .evidence import question_content_sha256
     content = {"content": question_content_sha256(question), "admission_flags": {key: question.get(key) for key in FLAGS}}
+    if version == 2:
+        content.update(fingerprint_version=2, alignment={key: question.get(key) for key in ALIGNMENT_FIELDS})
+        if "_effective_metadata" in question:
+            content["effective_metadata"] = question["_effective_metadata"]
+    elif version != 1:
+        raise ValueError("不支持的准入指纹版本")
     return hashlib.sha256(json.dumps(content, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+
+def resolved_question(question, binding):
+    """Bind the actual contract and alignment, including migration fallbacks.
+
+    Author declarations have the same precedence as the catalog compiler.
+    The extra snapshot keeps a binding-only edit from reusing an old decision.
+    """
+    result = copy.deepcopy(question)
+    result["answer_spec"] = copy.deepcopy(question.get("answer_spec") or binding.get("answer_spec"))
+    metadata = {field: copy.deepcopy(question.get(field, binding.get(field)))
+                for field in ("family_id", "variant_id", "representation", "cognitive_demand")}
+    metadata["family_status"] = "declared" if "family_id" in question else binding.get("family_status")
+    metadata["type"] = binding.get("type", question.get("type"))
+    result.update(metadata)
+    result["_effective_metadata"] = copy.deepcopy(metadata)
+    return result
 
 
 def policies(question, resolved, row):
@@ -59,7 +84,8 @@ def runtime_policy(question):
     snapshot = question.get("_admission")
     if not isinstance(snapshot, dict):
         return None
-    if snapshot.get("content_sha256") != fingerprint(question):
+    version = snapshot.get("fingerprint_version", 1)
+    if type(version) is not int or version not in (1, 2) or snapshot.get("content_sha256") != fingerprint(question, version):
         return {"diagnosis_eligible": False, "practice_eligible": False, "may_confirm_mastery": False,
                 "may_judge_weak": False, "evidence_level": "bare", "reviewer_pending": True,
                 "confidence": "screening", "reason": "admission_version_mismatch"}

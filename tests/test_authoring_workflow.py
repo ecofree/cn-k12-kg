@@ -197,7 +197,7 @@ class RuntimeAndArchiveTests(unittest.TestCase):
                 self.assertEqual(answers.grade_answer(question, question["answer"])["status"], "correct", question["id"])
                 for field in ("practice_eligible", "diagnosis_eligible"):
                     self.assertEqual(self.graph.question_policies[question["id"]][field], compiled["policy"][field])
-        self.assertEqual(sum(p["diagnosis_eligible"] for p in self.graph.question_policies.values()), 1965)
+        self.assertEqual(sum(p["diagnosis_eligible"] for p in self.graph.question_policies.values()), 1866)
 
     def test_twelve_retirements_preserve_question_content_and_old_metadata(self):
         audit = read(DATA / "question_retirements.json")

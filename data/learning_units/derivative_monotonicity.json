@@ -16,17 +16,20 @@
     {
       "id": "derivative_monotonicity:o1",
       "statement": "能先确定定义域，再由导数零点与未定义点划分区间，判断各区间导数的符号。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "derivative_monotonicity:o2",
       "statement": "能把导数符号转化为相应区间上的单调性，并说明不能跨定义域空缺直接合并结论。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "derivative_monotonicity:o3",
       "statement": "能根据驻点两侧的变化判断极值，说明导数为0只是候选条件而非极值的充分条件。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "derivative_monotonicity:domain_split",
@@ -34,7 +37,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "derivative_monotonicity:o1"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "derivative_monotonicity:sign_chart",
@@ -42,6 +46,9 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "derivative_monotonicity:o1"
+      ],
+      "prerequisite_objective_ids": [
+        "derivative_monotonicity:domain_split"
       ]
     },
     {
@@ -50,6 +57,10 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "derivative_monotonicity:o2"
+      ],
+      "prerequisite_objective_ids": [
+        "derivative_monotonicity:domain_split",
+        "derivative_monotonicity:sign_chart"
       ]
     },
     {
@@ -58,6 +69,9 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "derivative_monotonicity:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "derivative_monotonicity:monotonic_intervals"
       ]
     },
     {
@@ -67,6 +81,10 @@
       "refines_objective_ids": [
         "derivative_monotonicity:o1",
         "derivative_monotonicity:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "derivative_monotonicity:domain_split",
+        "derivative_monotonicity:extrema"
       ]
     }
   ],
@@ -95,7 +113,12 @@
       ],
       "answer": "递增区间(−∞,−1)、(1,+∞)；递减区间(−1,1)。",
       "family_id": "derivative.factored-sign-intervals",
-      "variant_id": "derivative_monotonicity:example-1"
+      "variant_id": "derivative_monotonicity:example-1",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "reference_family_ids": [
+        "derivative.stationary-candidates"
+      ]
     },
     {
       "prompt": "f(x)=1/x的导数在所有定义点都小于0，能否说它在整个定义域上递减？",
@@ -106,7 +129,9 @@
       ],
       "answer": "只能说在(−∞,0)和(0,+∞)上分别递减，不能合并为整个定义域递减。",
       "family_id": "derivative.disconnected-domain",
-      "variant_id": "derivative_monotonicity:example-2"
+      "variant_id": "derivative_monotonicity:example-2",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "f(x)=x³在0处导数为0，为什么0不是极值点？",
@@ -117,7 +142,9 @@
       ],
       "answer": "0不是极值点；驻点条件不是充分条件。",
       "family_id": "derivative.stationary-not-extremum",
-      "variant_id": "derivative_monotonicity:example-3"
+      "variant_id": "derivative_monotonicity:example-3",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
     }
   ],
   "tasks": [

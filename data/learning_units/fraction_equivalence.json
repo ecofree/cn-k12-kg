@@ -17,17 +17,20 @@
     {
       "id": "fraction_equivalence:o1",
       "statement": "能以同一整体的等分解释等值分数，并核对分率所对应的单位“1”。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "fraction_equivalence:o2",
       "statement": "能用公因数约成最简分数、用公倍数通分，说明这些变形为什么不改变分数的值。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "fraction_equivalence:o3",
       "statement": "能在同一整体下用通分比较或加减分数，并解释不能把分母直接相加。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "fraction_equivalence:whole",
@@ -35,7 +38,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "fraction_equivalence:o1"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "fraction_equivalence:represent",
@@ -43,6 +47,9 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "fraction_equivalence:o1"
+      ],
+      "prerequisite_objective_ids": [
+        "fraction_equivalence:whole"
       ]
     },
     {
@@ -52,6 +59,9 @@
       "refines_objective_ids": [
         "fraction_equivalence:o1",
         "fraction_equivalence:o2"
+      ],
+      "prerequisite_objective_ids": [
+        "fraction_equivalence:represent"
       ]
     },
     {
@@ -60,6 +70,10 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "fraction_equivalence:o2"
+      ],
+      "prerequisite_objective_ids": [
+        "fraction_equivalence:scale",
+        "common_factors_multiples:gcd"
       ]
     },
     {
@@ -68,6 +82,10 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "fraction_equivalence:o2"
+      ],
+      "prerequisite_objective_ids": [
+        "fraction_equivalence:scale",
+        "common_factors_multiples:lcm"
       ]
     },
     {
@@ -76,6 +94,10 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "fraction_equivalence:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "fraction_equivalence:whole",
+        "fraction_equivalence:common_unit"
       ]
     }
   ],
@@ -104,7 +126,9 @@
       "answer": "2/3",
       "verify": "12/18",
       "family_id": "fraction.reduce-direct",
-      "variant_id": "fraction_equivalence:example-1"
+      "variant_id": "fraction_equivalence:example-1",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "同一根绳子，先剪去全长的1/4，再剪去原全长的1/6。共剪去原全长的几分之几？",
@@ -116,7 +140,12 @@
       "answer": "5/12",
       "verify": "1/4+1/6",
       "family_id": "fraction.add-common-unit",
-      "variant_id": "fraction_equivalence:example-2"
+      "variant_id": "fraction_equivalence:example-2",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "reference_family_ids": [
+        "fraction.common-unit-equivalence-check"
+      ]
     },
     {
       "prompt": "12颗珠子占整串的3/4，整串共有多少颗？为什么不是把12再乘3/4？",
@@ -128,7 +157,9 @@
       "answer": "16",
       "verify": "12/3*4",
       "family_id": "fraction.reconstruct-whole",
-      "variant_id": "fraction_equivalence:example-3"
+      "variant_id": "fraction_equivalence:example-3",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "观察单元图的两条同长色带，为什么1/2与2/4表示同样多？",
@@ -139,7 +170,9 @@
       ],
       "answer": "整体不变，每份同时细分，所以1/2=2/4。",
       "family_id": "fraction.partition-refinement",
-      "variant_id": "fraction_equivalence:example-4"
+      "variant_id": "fraction_equivalence:example-4",
+      "representation": "area_model",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "单元图数轴从0画到2。已标出的点在0与1正中间，它表示整段0到2的一半吗？它的数值是多少？",
@@ -150,7 +183,9 @@
       ],
       "answer": "数值为1/2；它不是画出的0到2整段的中点。",
       "family_id": "fraction.number-line-read",
-      "variant_id": "fraction_equivalence:example-5"
+      "variant_id": "fraction_equivalence:example-5",
+      "representation": "number_line",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "为什么不能把3/5的分子、分母同时加2后说5/7与它等值？",
@@ -161,7 +196,12 @@
       ],
       "answer": "3/5≠5/7；分子分母同时加同一个数不保证等值。",
       "family_id": "fraction.additive-equivalence-error",
-      "variant_id": "fraction_equivalence:example-6"
+      "variant_id": "fraction_equivalence:example-6",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "reference_family_ids": [
+        "fraction.partition-refinement"
+      ]
     }
   ],
   "tasks": [
@@ -197,7 +237,7 @@
       },
       "family_id": "fraction.partition-refinement",
       "variant_id": "fraction_equivalence:practice-1",
-      "representation": "area_model",
+      "representation": "verbal",
       "cognitive_demand": "explain"
     },
     {
@@ -414,7 +454,7 @@
       },
       "family_id": "fraction.equal-partition-condition",
       "variant_id": "fraction_equivalence:practice-4",
-      "representation": "area_model",
+      "representation": "verbal",
       "cognitive_demand": "explain",
       "answer": "B",
       "answer_spec": {
@@ -726,7 +766,7 @@
       },
       "family_id": "fraction.number-line-distance",
       "variant_id": "fraction_equivalence:delayed-3",
-      "representation": "number_line",
+      "representation": "verbal",
       "cognitive_demand": "model",
       "answer": "7/12",
       "verify": "3/4-1/6",

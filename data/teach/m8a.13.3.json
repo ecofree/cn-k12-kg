@@ -25,7 +25,14 @@
       "∠C=180°−40°−65°=75°。",
       "外角∠ACD与∠C互补，故180°−75°=105°，也等于40°+65°。"
     ],
-    "verify": "40+65"
+    "verify": "40+65",
+    "family_id": "triangle.exterior-angle-sum",
+    "variant_id": "m8a.13.3:worked-example-v5",
+    "representation": "mixed",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "triangle.interior-angle-sum"
+    ]
   },
   "pitfalls": [
     "外角等于两个不相邻内角之和，不能把相邻内角加进去。",
@@ -43,7 +50,17 @@
         "criteria": [
           "列内角和方程",
           "求得65°"
-        ]
+        ],
+        "family_id": "triangle.interior-angle-sum",
+        "variant_id": "m8a.13.3:self-check:0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "本题观察内角和求未知角，未观察内角和一般证明；若误差或取值不合理，应先核对是否把外角当内角。",
+      "difficulty_support": {
+        "discriminating_prompt": "你相减得到负数了吗？给出的48°和67°都在三角形内部吗？",
+        "hint": "先写∠A+∠B+∠C=180°，再代入，不直接拼凑数字。",
+        "revision_prompt": "画清三内角位置并写完整等式，算完检验三个正角之和回到180°。"
       }
     },
     {
@@ -56,7 +73,17 @@
         "criteria": [
           "指出∠ACD对应A、B两角",
           "求得70°"
-        ]
+        ],
+        "family_id": "triangle.exterior-angle-sum",
+        "variant_id": "m8a.13.3:self-check:1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "本题只观察明确延长方向后的外角关系；需指出不相邻的A、B，不能只凭125−55正确确认位置辨析。",
+      "difficulty_support": {
+        "discriminating_prompt": "你把C点的内角也加进外角和了吗？它与∠ACD是什么关系？",
+        "hint": "外角125°与内角C互补；再用三内角和消去C，得到125°=A+B。",
+        "revision_prompt": "同时写125°=55°+B和C=180°−125°，核对三内角和，并圈出两个不相邻内角。"
       }
     }
   ],
@@ -80,7 +107,13 @@
   },
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
-  }
+  },
+  "conditions": [
+    "讨论欧氏平面内非退化三角形，各内角大于0°且总和180°。",
+    "邻补外角由一边与邻边的延长线构成；必须先确定顶点和延长方向。",
+    "外角大于不相邻内角，不能把“不相邻”删掉推广到全部内角。"
+  ],
+  "representation_note": "图中利用过A且平行于BC的辅助线对应内错角，说明内角和；求外角时另画清BC经过C延长到D。图形看起来的大小不能替代角位置与定理。"
 }

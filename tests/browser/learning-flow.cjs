@@ -420,6 +420,34 @@ async function openContentPreview(task, first) {
 }
 
 const journeys = {
+  async goal_alignment() {
+    const registry = read("data/skills/registry.json");
+    const whole = registry.objective_skill_ids["fraction_equivalence:whole"];
+    await goto("?goal=" + whole + "&goal_unit=fraction_equivalence");
+    await visible("#view-goal");
+    const pathway = await apiRead("/api/goal?skill_id=" + whole + "&unit_id=fraction_equivalence");
+    const commonFactorSkills = authoredCatalog.units.common_factors_multiples.skill_ids;
+    assert.ok(!pathway.prerequisite_skill_ids.some(id => commonFactorSkills.includes(id)), "Identifying the whole must not inherit every unit-level GCD/LCM prerequisite");
+    assert.ok((await page.locator("#goal-title").textContent()).includes("单位"));
+    for (const option of pathway.task_options) assert.ok(!("answer" in option) && !("explanation" in option));
+    const sid = registry.placements["m1a.1.1"].criterion_skill_ids[2];
+    await goto("?goal=" + sid); await visible("#view-goal");
+    const counting = await apiRead("/api/goal?skill_id=" + sid);
+    const index = counting.task_options.findIndex(option => option.task_id === "m1a.1.1-q301");
+    assert.ok(index >= 0, "A real counting task must remain linked to its exact target");
+    const started = await startFrom(page.locator(".goal-task").nth(index).getByRole("button", { name: "做这道任务", exact: true }), "practice");
+    assert.equal(started.item.question.id, "m1a.1.1-q301", "The chosen route must not silently substitute a random task");
+    const lineGoal = registry.placements["m5b.5.1"].criterion_skill_ids[0];
+    await goto("?teach=m5b.5.1&goal=" + lineGoal); await visible("#view-teach .selected-goal");
+    assert.equal(await page.locator("#view-teach .selected-goal").getAttribute("data-goal-id"), lineGoal);
+    const image = page.locator("#view-teach .selected-goal img");
+    await image.waitFor(); assert.ok((await image.getAttribute("src")).includes("statistics-v5-line-self-check.svg"));
+    await page.waitForFunction(() => [...document.querySelectorAll(".selected-goal img")].every(image => image.complete && image.naturalWidth > 0));
+    result.observations.selected_task_id = started.item.question.id;
+    result.observations.goal_id = lineGoal;
+    claim("Specific goals open their own prerequisites, help and tasks without exposing answers.");
+    claim("A selected bank task starts exactly that task, and a deep link focuses the corresponding self-check with its actual graph.");
+  },
   async changed_content_preview() {
     // Exhaustive previews retain the real DOM assertions and representative PNGs.
     // Automatic full-DOM snapshots also traverse the hidden whole-site catalogue
@@ -1040,8 +1068,13 @@ const journeys = {
   },
 
   async pool_exhaustion() {
-    const waiting = page.waitForResponse(response => isResponse(response, "/api/session", "POST"));
+    // Counting practice no longer claims to confirm oral reading or handwriting.
+    const practiceOnly = page.waitForResponse(response => isResponse(response, "/api/session", "POST"));
     await goto("?target=m1a.1.1");
+    assert.equal((await practiceOnly).status(), 409);
+    await visible("#action-notice");
+    const waiting = page.waitForResponse(response => isResponse(response, "/api/session", "POST"));
+    await goto("?target=m2a.1.1");
     let response = await waiting;
     assert.equal(response.status(), 200);
     let current = await response.json();
@@ -1056,7 +1089,7 @@ const journeys = {
     }
     assert.ok((await page.locator("#result-actions").textContent()).includes("复习练习仍可继续"));
     const exhausted = page.waitForResponse(response => isResponse(response, "/api/session", "POST") && response.status() === 409);
-    await goto("?target=m1a.1.1");
+    await goto("?target=m2a.1.1");
     const unavailable = await (await exhausted).json();
     assert.equal(unavailable.code, "no_fresh_tasks");
     await visible("#action-notice");
@@ -1065,6 +1098,7 @@ const journeys = {
     assert.equal(answered.feedback.status, "correct");
     result.observations.completed_checks_before_exhaustion = checks;
     claim("An exhausted check pool provides a visible, working practice alternative.");
+    claim("Practice-only early counting tasks cannot re-enter diagnostic screening through a direct launch URL.");
   },
 };
 

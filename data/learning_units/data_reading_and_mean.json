@@ -20,27 +20,38 @@
     {
       "id": "data_reading_and_mean:read_scale",
       "statement": "能根据统计图的轴名、单位和刻度读出数量，并核对条长比较是否受截断刻度影响。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "data_reading_and_mean:mean",
       "statement": "能把一组可比数据的总量平均分到对应份数，计算或反求平均数关系中的未知量。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "data_reading_and_mean:combine",
       "statement": "能用各组人数和每组平均数还原总量，再求合并平均数。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "data_reading_and_mean:mean"
+      ]
     },
     {
       "id": "data_reading_and_mean:choose_chart",
       "statement": "能依据比较类别、观察时间变化或表示整体中各部分的目的，选择相应统计图并说明理由。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "data_reading_and_mean:read_scale"
+      ]
     },
     {
       "id": "data_reading_and_mean:limited_claim",
       "statement": "能指出统计结论中超出已给数据的断言，并写出只涉及已知对象的结论。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "data_reading_and_mean:read_scale"
+      ]
     }
   ],
   "prerequisites": [
@@ -70,7 +81,9 @@
       "answer": "5",
       "family_id": "statistics.mean-from-values",
       "variant_id": "data_reading_and_mean:example-1",
-      "verify": "(3+5+7)/3"
+      "verify": "(3+5+7)/3",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "prompt": "图中四周借阅量为4、6、2、8本。第4周比第1周多几本？",
@@ -82,7 +95,9 @@
       "answer": "4",
       "family_id": "statistics.bar-axis-reading",
       "variant_id": "data_reading_and_mean:example-2",
-      "verify": "8-4"
+      "verify": "8-4",
+      "representation": "graph",
+      "cognitive_demand": "execute"
     },
     {
       "prompt": "甲组2人平均借4本，乙组3人平均借6本，合并平均每人几本？",
@@ -94,7 +109,12 @@
       "answer": "5.2",
       "family_id": "statistics.combine-group-means",
       "variant_id": "data_reading_and_mean:example-3",
-      "verify": "(2*4+3*6)/(2+3)"
+      "verify": "(2*4+3*6)/(2+3)",
+      "reference_family_ids": [
+        "statistics.mean-from-values"
+      ],
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "prompt": "想比较四种图书的借阅量，又想展示连续四周借阅总量变化，各选什么图？",
@@ -105,7 +125,9 @@
       ],
       "answer": "类别比较可用条形图；时间变化可用折线图。",
       "family_id": "statistics.chart-purpose",
-      "variant_id": "data_reading_and_mean:example-4"
+      "variant_id": "data_reading_and_mean:example-4",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy"
     }
   ],
   "tasks": [
@@ -448,7 +470,7 @@
         "correct": "请对照解释核对依据、单位和适用条件。",
         "incorrect": "0页表示这一天已记录但没读，不是缺失的一天。"
       },
-      "family_id": "statistics.mean-including-recorded-zero",
+      "family_id": "statistics.mean-from-values",
       "variant_id": "data_reading_and_mean:delayed-2",
       "representation": "verbal",
       "cognitive_demand": "execute",

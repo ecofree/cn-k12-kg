@@ -44,10 +44,17 @@ class CatalogFixtureTests(unittest.TestCase):
         registry = read(DATA / "skills/registry.json")
         registry["placements"] = {tid: p for tid, p in registry["placements"].items() if tid in self.topic_ids}
         objective_ids = {o["id"] for o in unit["objectives"]}
+        # Cross-unit prerequisites belong to the production catalog. This
+        # isolated fixture keeps only relations whose source is included.
+        for objective in unit["objectives"]:
+            objective["prerequisite_objective_ids"] = [oid for oid in objective.get("prerequisite_objective_ids", [])
+                                                        if oid in objective_ids]
         registry["objective_skill_ids"] = {oid: sid for oid, sid in registry["objective_skill_ids"].items() if oid in objective_ids}
         skill_ids = {sid for p in registry["placements"].values() for sid in p["criterion_skill_ids"]}
         skill_ids.update(registry["objective_skill_ids"].values())
         registry["skills"] = {sid: s for sid, s in registry["skills"].items() if sid in skill_ids}
+        for skill in registry["skills"].values():
+            skill["prerequisite_skill_ids"] = [sid for sid in skill["prerequisite_skill_ids"] if sid in skill_ids]
         bindings = read(DATA / "skills/catalog-bindings.json")
         qids = {q["id"] for q in questions}
         bindings["tasks"] = {key: row for key, row in bindings["tasks"].items()
@@ -113,6 +120,35 @@ class CatalogFixtureTests(unittest.TestCase):
         cube = c.task("m5b.4.1-q2")
         self.assertEqual(cube["family_id"], c.self_check("m5b.4.1", 1)["family_id"])
         self.assertIn(cube["family_id"], c.material("topic:m5b.4.1")["family_ids"])
+
+    def test_authored_check_metadata_and_its_own_diagram_survive_compilation(self):
+        card = read(self.data / "teach/m5b.4.1.json")
+        check = card["objective_coverage"][1]["self_check"]
+        check.update(family_id="geometry.cube.surface-volume-from-edge",
+                     variant_id="cube-check-with-own-diagram", representation="geometry",
+                     cognitive_demand="explain",
+                     diagram={"src": "/static/diagrams/polyhedra-heights-v5.svg", "alt": "高和侧棱分开的示意图"})
+        write(self.data / "teach/m5b.4.1.json", card)
+        c = Catalog(self.compile())
+        task = c.self_check("m5b.4.1", 1)
+        for field in ("family_id", "variant_id", "representation", "cognitive_demand", "diagram"):
+            self.assertEqual(task[field], check[field])
+        self.assertEqual(task["family_status"], "declared")
+        self.assertEqual(task["skill_ids"], c.placement("m5b.4.1")["criterion_skill_ids"][1:2])
+
+    def test_each_reference_tracks_all_of_its_structures_without_subtracting_shared_ones(self):
+        card = read(self.data / "teach/m5b.4.1.json")
+        shared = "geometry.cube.surface-volume-from-edge"
+        area, volume = "geometry.cube.six-face-area", "geometry.cube.three-edge-volume"
+        card["worked_example"].update(family_id=shared, reference_family_ids=[area, volume])
+        card["objective_coverage"][1]["self_check"].update(family_id=shared, reference_family_ids=[area])
+        write(self.data / "teach/m5b.4.1.json", card)
+        c = Catalog(self.compile())
+        material = c.material("topic:m5b.4.1")
+        self.assertEqual(set(material["reference_families_by_key"]["example:0"]), {shared, area, volume})
+        self.assertEqual(set(material["reference_families_by_key"]["self_check:1"]), {shared, area})
+        self.assertTrue({shared, area, volume} <= set(material["family_ids"]))
+        self.assertNotIn(volume, material["reference_families_by_key"]["self_check:1"])
 
     def test_material_exposure_does_not_include_every_assessment_family(self):
         c = Catalog(self.compile())
@@ -302,7 +338,7 @@ class FullCatalogTests(unittest.TestCase):
     def test_all_real_resource_classes_are_registered_and_contracts_explicit(self):
         counts = self.c.coverage["task_source_counts"]
         self.assertEqual(counts["bank"], 3572)
-        self.assertEqual(counts["self_check"], 961)
+        self.assertEqual(counts["self_check"], 964)
         self.assertEqual(counts["project_step"], 84)
         self.assertEqual(counts["unit"], 231)
         self.assertEqual(self.c.coverage["quarantined_tasks"], 489)
@@ -314,6 +350,18 @@ class FullCatalogTests(unittest.TestCase):
         policies = self.c.coverage["bank_policy_counts"]
         self.assertEqual(policies["original"], policies["compiled"])
         self.assertEqual(policies["compiled"]["practice_eligible"], 3083)
+
+    def test_reviewed_component_observations_cannot_confirm_or_reject_the_whole_topic(self):
+        focus = set(read(DATA / "alignment_targets.json")["topic_ids"])
+        tasks = [task for task in self.c.tasks.values() if task["source_kind"] == "bank"
+                 and task["availability"] == "active" and focus.intersection(task["topic_ids"])]
+        self.assertEqual(len(tasks), 251)
+        for task in tasks:
+            self.assertFalse(task["policy"]["may_confirm_mastery"], task["id"])
+            self.assertFalse(task["policy"]["may_judge_weak"], task["id"])
+        # This is still a useful local screening task; its numerical result
+        # cannot establish that the learner can collect or represent data.
+        self.assertTrue(self.c.task("m3b.5.1-q1")["policy"]["diagnosis_eligible"])
 
     def test_real_approximation_tasks_have_explicit_rounding_precision(self):
         spec = self.c.task("m7b.8.3-q101")["answer_spec"]

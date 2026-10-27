@@ -20,14 +20,18 @@
     "把各部分加起来，检查是否为 100%"
   ],
   "worked_example": {
-    "prompt": "扇形统计图中某部分占 30%，总体为 200 人，该部分有多少人？",
+    "prompt": "读本课顶部的扇形统计图：总体200人，蓝色部分占30%，这一部分有多少人？",
     "verify": "200*0.3",
     "answer": "60",
     "steps": [
       "图上的 30% 是占比，总体是 200 人。",
       "部分 = 总数 × 百分比 = 200×30%。",
       "200×0.3=60 人。"
-    ]
+    ],
+    "family_id": "statistics.part-from-percentage",
+    "variant_id": "m6b.2.1:worked-v5",
+    "representation": "graph",
+    "cognitive_demand": "execute"
   },
   "pitfalls": [
     "把 30% 直接当成人数的答案。",
@@ -48,10 +52,10 @@
       "note": "由部分数量与占比反求总数，核对整圆代表的整体"
     }
   ],
-  "check": "能从图中读出百分比并换算出人数，且能说出「为什么不能直接比较两个扇形图的数量」。",
+  "check": "先独立完成本页两项自检，保留计算或判断过程；再逐项核对参考与观察边界，按具体困难修订。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,7 +69,17 @@
         "criteria": [
           "百分比作比例",
           "数量28人"
-        ]
+        ],
+        "family_id": "statistics.part-from-percentage",
+        "variant_id": "m6b.2.1:criterion-0-v5",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "observation_note": "观察是否把百分比与同一个整体相乘并保留人数单位；只看扇形大小、或不知道总人数时不能直接确定人数。",
+      "difficulty_support": {
+        "discriminating_prompt": "阅读占35%，是否就表示35人？若共有80人呢？",
+        "hint": "35%是每100份中占35份的比例；80人的35%用80×0.35。",
+        "revision_prompt": "先写整体80人，再写比例35/100，算出28人；最后用28÷80检查与图示占比一致。"
       }
     },
     {
@@ -78,7 +92,17 @@
         "criteria": [
           "三种选择合理",
           "给出对应理由"
-        ]
+        ],
+        "family_id": "statistics.chart-purpose",
+        "variant_id": "m6b.2.1:criterion-1-v5",
+        "representation": "verbal",
+        "cognitive_demand": "choose_strategy"
+      },
+      "observation_note": "观察图形选择与“构成、类别数量、时间变化”的问题是否匹配；能说出图名还需解释数据类别和比较目的。",
+      "difficulty_support": {
+        "discriminating_prompt": "月份气温变化和各班人数都能画图，为什么不把班级按任意顺序连线说成时间趋势？",
+        "hint": "月份有时间顺序；班级名称只是类别。扇形则强调各部分相对同一整体的占比。",
+        "revision_prompt": "为三种情境各写一个要回答的问题，再选图；把“数量”“趋势”“占比”与所选图逐一连起来。"
       }
     }
   ],

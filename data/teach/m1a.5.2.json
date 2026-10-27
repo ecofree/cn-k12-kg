@@ -7,11 +7,11 @@
   "name": "8、7、6 加几",
   "tier": "tool",
   "hook": "8颗红珠和7颗蓝珠，怎样移动一部分先凑成10颗？",
-  "definition": "8、7、6加一个一位数并需要凑十时，分别先补2、3、4到10，再加第二个数的剩余部分。",
+  "definition": "当8、7、6加一个一位数，且和至少为10时，可以分别先补2、3、4到10，再加第二个数的剩余部分。若第二个数不够补到10，就不强用这一步，例如6+2=8。",
   "why": "10与第一个数的差决定要补的数量：8缺2、7缺3、6缺4。补数不同，但移动圆片前后总量相同。",
   "conditions": [
-    "第一个加数为8、7或6；需要凑十时第二个数必须够补。",
-    "若相加未满10，可直接利用数的组成。"
+    "这里两个加数都为一位数，和至少为10，才能从第二个数中取足补数。",
+    "8补2、7补3、6补4；若第二个数不够补，如6+2，应直接计算，不能硬拆出4。"
   ],
   "representation_note": "以十格空位数表示补数，框外圆片表示拆分后的剩余。",
   "when_to_use": [
@@ -31,8 +31,8 @@
       "8+7=8+2+5=10+5=15。"
     ],
     "answer": "15",
-    "family_id": "primary.add.make-ten",
-    "variant_id": "m1a.5.2:worked-v4",
+    "family_id": "addition.make-ten",
+    "variant_id": "m1a.5.2:worked-example-v5",
     "representation": "manipulative",
     "cognitive_demand": "explain",
     "verify": "8+7"
@@ -59,14 +59,18 @@
   "objective_coverage": [
     {
       "explanation": "在8+6、7+5、6+6中，第二个数足够补满10，分别拆成2+4、3+2、4+2，得到14、12、12。",
-      "observation_note": "本项观察两题先凑十再加剩余、拆分与结果正确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "observation_note": "结果13并不显示使用了凑十法；分别保留8需补2、6需补4，以及另一堆的拆分和剩余，不能把一题正确扩展到所有首数。",
       "self_check": {
         "prompt": "计算8+5和6+7，写出先凑十的两步。",
         "reference_answer": "8+5=8+2+3=13；6+7=6+4+3=13。",
         "criteria": [
           "两题先凑十再加剩余",
           "拆分与结果正确"
-        ]
+        ],
+        "family_id": "addition.make-ten",
+        "variant_id": "m1a.5.2:self-check:0:v5",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
       },
       "difficulty_support": {
         "discriminating_prompt": "8+5时十格框空几格？剩下的5还能有几个留在框外？",
@@ -78,14 +82,18 @@
     },
     {
       "explanation": "补几由第一个数决定，不由第二个数看起来大或小决定。可先列“8→2、7→3、6→4”，再去拆第二个加数。",
-      "observation_note": "本项观察依据7确定补3、说明分1不能凑成10；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "observation_note": "观察从首数7推出补3，并解释取1只到8；数值15正确而没有补数依据时，目标仍需后续过程确认。",
       "self_check": {
         "prompt": "算7+8时应从8里分出几？为什么不是1？写出结果。",
         "reference_answer": "分出3，因为7+3=10；8=3+5，7+8=15。",
         "criteria": [
           "依据7确定补3",
           "说明分1不能凑成10"
-        ]
+        ],
+        "family_id": "addition.make-ten",
+        "variant_id": "m1a.5.2:self-check:1:v5",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
       },
       "difficulty_support": {
         "discriminating_prompt": "7再添1会到10还是到8？",
@@ -98,7 +106,7 @@
   ],
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   }
 }

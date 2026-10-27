@@ -17,17 +17,20 @@
     {
       "id": "triangle_conditions:o1",
       "statement": "能用严格的三角形三边关系判断正长度能否围成三角形，并处理等号和整数范围。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "triangle_conditions:o2",
       "statement": "能区分内角、邻补外角与不相邻内角，依据角的关系计算并核对。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "triangle_conditions:o3",
       "statement": "能用已知条件和定理组织可检查的说理，区分测量例子、反例与一般证明。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "triangle_conditions:feasibility",
@@ -35,7 +38,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "triangle_conditions:o1"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "triangle_conditions:integer_range",
@@ -43,6 +47,9 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "triangle_conditions:o1"
+      ],
+      "prerequisite_objective_ids": [
+        "triangle_conditions:feasibility"
       ]
     },
     {
@@ -51,7 +58,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "triangle_conditions:o2"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "triangle_conditions:proof_chain",
@@ -59,6 +67,9 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "triangle_conditions:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "triangle_conditions:angle_relations"
       ]
     },
     {
@@ -69,6 +80,9 @@
         "triangle_conditions:o1",
         "triangle_conditions:o2",
         "triangle_conditions:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "triangle_conditions:feasibility"
       ]
     }
   ],

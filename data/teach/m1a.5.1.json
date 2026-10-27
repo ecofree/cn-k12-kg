@@ -7,11 +7,11 @@
   "name": "9加几",
   "tier": "tool",
   "hook": "9颗红珠和6颗蓝珠合起来，怎样先凑成10颗再数？",
-  "definition": "9加一个一位数，可以从第二个数中分出1，先把9凑成10，再加剩下的数。分出1后，第二个数必须相应减少1。",
+  "definition": "计算9加1至9，可以从第二个数中分出1，先把9凑成10，再加剩下的数。分出1后，第二个数必须相应减少1。9+0直接等于9，不使用这一步分拆。",
   "why": "9离10只差1。从6里移出1给9，只是重新分组，全部圆片仍是9个与6个的总量；于是9+6=10+5。",
   "conditions": [
-    "第一个加数为9，第二个加数为1至9。",
-    "拆分保持第二个加数总量不变。"
+    "这里讨论9加1至9；9+0不必也不能从0里分出1，结果仍为9。",
+    "移动1个给9凑十后，第二堆必须少1，总数保持不变。"
   ],
   "representation_note": "十格框装9个，第二种颜色补1个；框外剩余清楚可见。",
   "when_to_use": [
@@ -31,8 +31,8 @@
       "9+6=9+1+5=10+5=15。"
     ],
     "answer": "15",
-    "family_id": "primary.add.make-ten",
-    "variant_id": "m1a.5.1:worked-v4",
+    "family_id": "addition.make-ten",
+    "variant_id": "m1a.5.1:worked-example-v5",
     "representation": "manipulative",
     "cognitive_demand": "explain",
     "verify": "9+6"
@@ -59,14 +59,18 @@
   "objective_coverage": [
     {
       "explanation": "凑十先完成容易的9+1，接着计算10加剩余。9+4中4=1+3，因此最后是10+3=13。",
-      "observation_note": "本项观察两个结果正确、拆分后先凑成10；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "observation_note": "两道数值结果都可能通过逐一点数得到；还要看到第二数分成1与余数、先凑10的过程，才能观察目标中的方法。",
       "self_check": {
         "prompt": "分别用凑十法计算9+5与9+8，写出第二个数的拆分。",
         "reference_answer": "5=1+4，9+5=14；8=1+7，9+8=17。",
         "criteria": [
           "两个结果正确",
           "拆分后先凑成10"
-        ]
+        ],
+        "family_id": "addition.make-ten",
+        "variant_id": "m1a.5.1:self-check:0:v5",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
       },
       "difficulty_support": {
         "discriminating_prompt": "9再添几就满十格？",
@@ -78,14 +82,18 @@
     },
     {
       "explanation": "分成1和几的原因是9只缺1；不是所有凑十都固定分1。用十格框时，补上的1必须来自第二堆。",
-      "observation_note": "本项观察指出重复的1、第二部分正确减去1；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "observation_note": "观察能否指出被重复计算的那1个并修正拆分；仅改成16未说明移动前后两个部分怎样变化，理由仍待确认。",
       "self_check": {
         "prompt": "有人把9+7写成10+7。指出重复算了什么，并改正。",
         "reference_answer": "从7中取出的1已经进入10，不能再算一次；7剩6，所以9+7=10+6=16。",
         "criteria": [
           "指出重复的1",
           "第二部分正确减去1"
-        ]
+        ],
+        "family_id": "addition.make-ten",
+        "variant_id": "m1a.5.1:self-check:1:v5",
+        "representation": "manipulative",
+        "cognitive_demand": "explain"
       },
       "difficulty_support": {
         "discriminating_prompt": "从7颗蓝珠拿1颗放到红珠一堆，蓝珠原地还剩7颗吗？",
@@ -98,7 +106,11 @@
   ],
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
+  },
+  "diagram": {
+    "src": "/static/diagrams/primary-make-ten-v5.svg",
+    "alt": "凑十前左框9个蓝片、右边6个橙片；先预测搬走1个后原处剩几，再用实物核对。"
   }
 }

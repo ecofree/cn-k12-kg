@@ -8,7 +8,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from cnkg.admissions import fingerprint, policies
+from cnkg.admissions import fingerprint, policies, resolved_question
 from cnkg.evidence import _legacy_question_policy
 from cnkg.evidence import may_confirm_mastery, may_judge_weak
 from cnkg.answers import grade_answer
@@ -25,9 +25,8 @@ def check(data):
     if set(rows) != {q["id"] for q in questions}:
         errors.append("准入登记与自有题目身份集合不一致")
     for q in questions:
-        spec = q.get("answer_spec") or bindings["bank:" + q["id"]].get("answer_spec")
         try:
-            policies(q, {**q, "answer_spec": spec}, rows.get(q["id"]))
+            policies(q, resolved_question(q, bindings["bank:" + q["id"]]), rows.get(q["id"]))
         except ValueError as exc:
             errors.append(f"{q['id']}: {exc}")
     return errors
@@ -37,6 +36,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--snapshot-baseline", action="store_true", help="仅允许首次迁移，不覆盖既有准入登记")
+    parser.add_argument("--upgrade-fingerprints", action="store_true", help="仅在所有旧指纹仍匹配时绑定目标与题族元数据，不更改用途")
+    parser.add_argument("--bind-effective-metadata", action="store_true", help="为尚未绑定的V2登记补充实际采用的目录元数据；原题义与用途必须仍匹配")
     parser.add_argument("--record-id", help="完成具体语义核对后，登记一个题目的新用途")
     parser.add_argument("--purpose", choices=("practice", "screening", "quarantine"))
     parser.add_argument("--evidence-level", choices=("bare", "explained", "verified"))
@@ -44,6 +45,43 @@ def main():
     parser.add_argument("--reason", help="写明实际核对的题义、条件、答案及观察边界")
     args = parser.parse_args()
     data, target = ROOT / "data", ROOT / "data/task_admissions.json"
+    if args.bind_effective_metadata:
+        manifest = json.loads(target.read_text())
+        if manifest.get("fingerprint_version") != 2 or manifest.get("effective_metadata_bound"):
+            parser.error("仅允许为尚未绑定实际元数据的V2登记补充迁移")
+        questions = json.loads((data / "questions.json").read_text())
+        bindings = json.loads((data / "skills/catalog-bindings.json").read_text())["tasks"]
+        if set(manifest["tasks"]) != {q["id"] for q in questions}:
+            parser.error("题目集合已改变，不能用补充迁移登记新题")
+        for q in questions:
+            row, binding = manifest["tasks"][q["id"]], bindings["bank:" + q["id"]]
+            former = {**q, "answer_spec": q.get("answer_spec") or binding.get("answer_spec")}
+            if row["source_sha256"] != fingerprint(q) or row["resolved_sha256"] != fingerprint(former):
+                parser.error(f"{q['id']}: 原登记已不匹配，须先逐题复核")
+            row["prior_resolved_fingerprint_without_effective_metadata"] = row["resolved_sha256"]
+            row["resolved_sha256"] = fingerprint(resolved_question(q, binding))
+        manifest["effective_metadata_bound"] = True
+        manifest["effective_metadata_migration_note"] = "仅将仍匹配的既有题义登记补充绑定实际采用的评分契约、题族状态、变式、表征和认知要求；保留旧指纹及全部用途，没有新增语义审核或诊断资格。"
+        target.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    if args.upgrade_fingerprints:
+        manifest = json.loads(target.read_text())
+        if manifest.get("fingerprint_version", 1) != 1:
+            parser.error("准入指纹已升级；后续内容变更须逐题重新核对")
+        questions = json.loads((data / "questions.json").read_text())
+        bindings = json.loads((data / "skills/catalog-bindings.json").read_text())["tasks"]
+        if set(manifest["tasks"]) != {q["id"] for q in questions}:
+            parser.error("旧登记与题目集合不一致，不能用迁移登记新题")
+        for q in questions:
+            row = manifest["tasks"][q["id"]]
+            resolved = {**q, "answer_spec": q.get("answer_spec") or bindings["bank:" + q["id"]].get("answer_spec")}
+            if row["source_sha256"] != fingerprint(q, 1) or row["resolved_sha256"] != fingerprint(resolved, 1):
+                parser.error(f"{q['id']}: 旧内容已改变，不能用指纹迁移代替实际语义审查")
+            row["prior_fingerprints_v1"] = {key: row[key] for key in ("source_sha256", "resolved_sha256")}
+            row["source_sha256"], row["resolved_sha256"] = fingerprint(q), fingerprint(resolved_question(q, bindings["bank:" + q["id"]]))
+        manifest["fingerprint_version"] = 2
+        manifest["effective_metadata_bound"] = True
+        manifest["fingerprint_migration_note"] = "在既有题义指纹全部匹配时扩展绑定目标映射、题族、表征和认知元数据。所有准入用途及原审查依据原样保留；未知继续未知，不新增学科审核或诊断资格。旧指纹逐题保存。"
+        target.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
     if args.snapshot_baseline:
         if target.exists():
             parser.error("已有显式登记，不能通过重跑迁移绕过语义复核")
@@ -52,12 +90,12 @@ def main():
         rows = {}
         for q in questions:
             spec = q.get("answer_spec") or bindings["bank:" + q["id"]].get("answer_spec")
-            resolved = {**q, "answer_spec": spec}
+            resolved = resolved_question(q, bindings["bank:" + q["id"]])
             rows[q["id"]] = {"id": q["id"], "source_sha256": fingerprint(q), "resolved_sha256": fingerprint(resolved),
                 "source_policy": _legacy_question_policy(q), "policy": _legacy_question_policy(resolved),
                 "basis": {"method": "v3_provisional_policy_migration", "independent_review": False,
                     "limitation": "仅固定原有用途，不提升数学正确性或学科审核等级；解析长度仅作历史来源说明。修改后须核对题义、答案、适用条件和用途。"}}
-        target.write_text(json.dumps({"schema": 1, "tasks": rows}, ensure_ascii=False, indent=2) + "\n")
+        target.write_text(json.dumps({"schema": 1, "fingerprint_version": 2, "effective_metadata_bound": True, "tasks": rows}, ensure_ascii=False, indent=2) + "\n")
     if args.record_id:
         if not all((args.purpose, args.evidence_level, args.reviewer, args.reason and args.reason.strip())):
             parser.error("登记须同时提供 --purpose、--evidence-level、--reviewer、--reason")
@@ -67,7 +105,7 @@ def main():
             parser.error("题目尚未进入登记的作者源构建")
         bindings = json.loads((data / "skills/catalog-bindings.json").read_text())["tasks"]
         spec = q.get("answer_spec") or bindings["bank:" + q["id"]].get("answer_spec")
-        resolved = {**q, "answer_spec": spec}
+        resolved = resolved_question(q, bindings["bank:" + q["id"]])
         if args.purpose != "quarantine" and grade_answer(resolved, q.get("answer"))["status"] != "correct":
             parser.error("参考答案不满足显式答案契约，不能准入")
         if args.evidence_level == "verified" and (q.get("type") != "numeric" or not q.get("verify") or check_question(q)["status"] != "pass"):

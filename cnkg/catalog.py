@@ -161,6 +161,8 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
 
     source_paths = {data / "skills/registry.json", data / "skills/catalog-bindings.json",
                     data / "topics.json", data / "questions.json"}
+    if (data / "alignment_targets.json").is_file():
+        source_paths.add(data / "alignment_targets.json")
     admission_rows = None
     if (data / "task_admissions.json").is_file():
         admission_manifest = _read(data / "task_admissions.json")
@@ -302,8 +304,18 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
                     errors.append(f"{objective['id']}: 无效细化目标 {oid}")
                 else:
                     refinements.append(ref)
+            objective_prerequisites = []
+            for oid in objective.get("prerequisite_objective_ids", []):
+                ref = objective_skill_ids.get(oid)
+                if ref is None or ref == sid:
+                    errors.append(f"{objective['id']}: 无效先修目标 {oid}")
+                else:
+                    objective_prerequisites.append(ref)
             skills[sid]["refines_skill_ids"] = sorted(set(skills[sid]["refines_skill_ids"] + refinements))
-            skills[sid]["prerequisite_skill_ids"] = sorted(set(skills[sid]["prerequisite_skill_ids"] + prereq_ids))
+            # Unit-level prerequisites are overview navigation, not evidence
+            # that every target needs every skill in the preceding unit.
+            skills[sid]["prerequisite_skill_ids"] = sorted(set(
+                skills[sid]["prerequisite_skill_ids"] + objective_prerequisites))
 
     def diagram_assets(value, label):
         assets = {}
@@ -417,9 +429,12 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
         status = "declared" if example.get("family_id") else registered["family_status"]
         for fid in fids:
             add_family(fid, status, key)
-        return fids
+        extra = example.get("reference_family_ids", [])
+        for fid in extra:
+            add_family(fid, "declared", key)
+        return sorted(set(fids + extra))
 
-    def add_material(mid, kind, raw, *, task_ids, reference_families, topic_ids):
+    def add_material(mid, kind, raw, *, task_ids, reference_families, topic_ids, reference_map=None):
         reference_families = sorted(set(reference_families))
         task_ids = [tid for tid in task_ids if tid is not None]
         material = {"id": mid, "kind": kind, "title": raw.get("title", raw.get("name", "")),
@@ -427,6 +442,8 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
                     "family_ids": reference_families,
                     "assessment_family_ids": sorted({tasks[t]["family_id"] for t in task_ids}),
                     "reference_scope": "provided_examples_and_self_check_references"}
+        if reference_map is not None:
+            material["reference_families_by_key"] = copy.deepcopy(reference_map)
         assets = diagram_assets(raw, mid)
         material["resource_version"] = content_hash({"content": raw, "catalog": material,
                                                      "diagram_assets": assets,
@@ -455,9 +472,9 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
             errors.append(f"{qid}: 退役题源仍声明可练或可诊断，必须核对准入依据")
         original_policy = question_policy(question)
         if admission_rows is not None:
-            from .admissions import policies
+            from .admissions import policies, resolved_question
             try:
-                original_policy, policy = policies(question, {**question, "answer_spec": meta["answer_spec"]},
+                original_policy, policy = policies(question, resolved_question(question, meta),
                                                      admission_rows.get(qid))
             except ValueError as exc:
                 errors.append(f"{qid}: {exc}")
@@ -480,9 +497,11 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
         card = cards.get(tid)
         mid = "topic:" + tid
         reference_families = []
+        reference_map = {}
         card_tasks = list(topic_task_ids[tid])
         if card:
-            reference_families += example_families("example:topic:" + tid, card["worked_example"])
+            reference_map["example:0"] = example_families("example:topic:" + tid, card["worked_example"])
+            reference_families += reference_map["example:0"]
             for row in card.get("objective_coverage", []):
                 index = row["criterion_index"]
                 check = row["self_check"]
@@ -494,15 +513,24 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
                        "rubric": [{"criterion": c, "points": 1, "example": check["reference_answer"]}
                                   for c in check["criteria"]],
                        "explanation": row["explanation"], "criterion_index": index}
+                # Use the authored self-check's actual structure and image.
+                # The initial migration's unknown metadata is only a fallback.
+                for field in ("family_id", "variant_id", "representation", "cognitive_demand", "diagram", "reference_family_ids"):
+                    if field in check:
+                        raw[field] = copy.deepcopy(check[field])
                 task_id = add_task(_task_key("self_check", tid, index), raw, source_kind="self_check",
                                    path=f"data/teach/{tid}.json", legacy_id=tid, locator=index,
                                    material_id=mid, topic_ids=[tid], skill_ids=[sid[index]],
                                    alignment="explicit_component", purpose=["self_check"])
                 card_tasks.append(task_id)
                 if task_id:
-                    reference_families.append(tasks[task_id]["family_id"])
+                    extra = check.get("reference_family_ids", [])
+                    for fid in extra:
+                        add_family(fid, "declared", _task_key("self_check", tid, index))
+                    reference_map[f"self_check:{index}"] = sorted(set([tasks[task_id]["family_id"], *extra]))
+                    reference_families += reference_map[f"self_check:{index}"]
         add_material(mid, "topic", card or topic, task_ids=card_tasks,
-                     reference_families=reference_families, topic_ids=[tid])
+                     reference_families=reference_families, topic_ids=[tid], reference_map=reference_map)
 
     compiled_units = {}
     for uid, unit in units.items():
@@ -519,10 +547,12 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
                                alignment="explicit", purpose=[task["phase"]])
             unit_tasks.append(task_id)
         reference_families = []
+        reference_map = {}
         for index, example in enumerate(unit["worked_examples"]):
-            reference_families += example_families(_task_key("example:unit", uid, index), example)
+            reference_map[f"example:{index}"] = example_families(_task_key("example:unit", uid, index), example)
+            reference_families += reference_map[f"example:{index}"]
         material = add_material(mid, "unit", unit, task_ids=unit_tasks,
-                                reference_families=reference_families, topic_ids=unit["topic_ids"])
+                                reference_families=reference_families, topic_ids=unit["topic_ids"], reference_map=reference_map)
         prereq_units = unit.get("prerequisite_unit_ids", [])
         for ref in prereq_units:
             if ref == uid or ref not in units:
@@ -540,6 +570,9 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
             if objective["id"] in mapped:
                 objective["skill_id"] = mapped[objective["id"]]
                 objective["granularity"] = skills[mapped[objective["id"]]]["granularity"]
+                objective["support_ids"] = [support["id"]
+                    for support in unit.get("instructional_support", {}).get("supports", [])
+                    if support.get("objective_id") == objective["id"]]
         compiled_units[uid].update(resource_id=mid, resource_version=material["resource_version"],
                                    skill_ids=sorted(mapped.values()), task_ids=[x for x in unit_tasks if x],
                                    prerequisite_unit_ids=list(prereq_units),

@@ -124,6 +124,9 @@ def _policy(graph, question):
 def _pick_question(graph, session, tid, attempt):
     bank = graph.practice_bank if session["mode"] == "practice" else graph.bank
     pool = [q for q in bank.get(tid, []) if q["id"] not in set(session["seen"])]
+    if "allowed_question_ids" in session:
+        allowed = set(session["allowed_question_ids"])
+        pool = [question for question in pool if question["id"] in allowed]
     if not pool:
         return None, False
     if attempt == 1:

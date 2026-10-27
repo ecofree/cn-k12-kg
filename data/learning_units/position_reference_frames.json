@@ -17,17 +17,20 @@
     {
       "id": "position_reference_frames:o1",
       "statement": "能指明观察点和朝向，区分随朝向变化的左右与以北向为基准的东南西北。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "position_reference_frames:o2",
       "statement": "能同时用参照点、方向角和距离定位，并把往返方向或互余角表述正确转换。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "position_reference_frames:o3",
       "statement": "能按给定的列行顺序读写数对，用方格路线描述移动并区分所走路程与两点直线距离。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "position_reference_frames:body_frame",
@@ -35,7 +38,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "position_reference_frames:o1"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "position_reference_frames:bearing",
@@ -43,6 +47,9 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "position_reference_frames:o2"
+      ],
+      "prerequisite_objective_ids": [
+        "position_reference_frames:body_frame"
       ]
     },
     {
@@ -51,6 +58,9 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "position_reference_frames:o2"
+      ],
+      "prerequisite_objective_ids": [
+        "position_reference_frames:bearing"
       ]
     },
     {
@@ -59,7 +69,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "position_reference_frames:o3"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "position_reference_frames:route_distance",
@@ -67,6 +78,9 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "position_reference_frames:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "position_reference_frames:coordinate"
       ]
     }
   ],
@@ -96,7 +110,9 @@
       ],
       "answer": "O在P的南偏西30°方向600米处。",
       "family_id": "position.reverse-bearing",
-      "variant_id": "position_reference_frames:example-1"
+      "variant_id": "position_reference_frames:example-1",
+      "representation": "geometry",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "方格图按先列后行编号，每格边长表示100米。A在(2,1)，B在(5,3)。从A沿网格先向东再向北走到B，路线怎样描述？走了多少米？",
@@ -107,7 +123,12 @@
       ],
       "answer": "先向东300米，再向北200米；路程500米。",
       "family_id": "position.route-length-versus-distance",
-      "variant_id": "position_reference_frames:example-2"
+      "variant_id": "position_reference_frames:example-2",
+      "representation": "mixed",
+      "cognitive_demand": "explain",
+      "reference_family_ids": [
+        "position.grid-translation"
+      ]
     },
     {
       "prompt": "同一个观察者原地从面朝北转为面朝南，右手侧的地理方向怎样改变？",
@@ -118,7 +139,9 @@
       ],
       "answer": "右侧从东变为西。",
       "family_id": "position.body-turn",
-      "variant_id": "position_reference_frames:example-3"
+      "variant_id": "position_reference_frames:example-3",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "北偏东30°怎样改用以东为起始方向的描述？",
@@ -129,7 +152,9 @@
       ],
       "answer": "东偏北60°。",
       "family_id": "position.complementary-bearing",
-      "variant_id": "position_reference_frames:example-4"
+      "variant_id": "position_reference_frames:example-4",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
     }
   ],
   "tasks": [
@@ -445,7 +470,7 @@
       },
       "family_id": "position.reverse-bearing",
       "variant_id": "position_reference_frames:practice-4",
-      "representation": "geometry",
+      "representation": "verbal",
       "cognitive_demand": "execute",
       "answer": "C",
       "answer_spec": {

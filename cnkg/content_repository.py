@@ -33,6 +33,8 @@ class ContentRepository:
             self.briefs[path.stem] = json.loads(path.read_text(encoding="utf-8"))
         from .quality_scope import build_scope_report
         self.scope_report = build_scope_report(self.data)
+        from .alignment import build_alignment_report
+        self.alignment_report = build_alignment_report(self.data, catalog=self.catalog, scope_report=self.scope_report)
         for relative, expected in self.catalog.data["source_hashes"].items():
             path = self.data.parent / relative
             raw = path.read_bytes()

@@ -31,6 +31,15 @@ window.CNKGWork = (() => {
     if (!root.isConnected) return null;
     loading.remove();
     const descriptor = data.descriptor, snapshot = descriptor.resource_snapshot;
+    if (!options.hidePrompt && snapshot.diagram) {
+      const asset = snapshot.asset_snapshots?.[snapshot.diagram.src];
+      if (asset?.body_base64) {
+        const figure = create("figure", null, "lesson-diagram"), image = create("img");
+        image.src = "data:image/svg+xml;base64," + asset.body_base64;
+        image.alt = snapshot.diagram.alt || "这份原作品使用的数学图示";
+        figure.append(image, create("figcaption", image.alt, "muted")); root.append(figure);
+      }
+    }
     const saved = data.work?.payload || {};
     const fields = new Map();
     for (const field of snapshot.fields) {

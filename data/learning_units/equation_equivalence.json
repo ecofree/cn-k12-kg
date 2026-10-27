@@ -17,17 +17,20 @@
     {
       "id": "equation_equivalence:o1",
       "statement": "能判断等式变形是否保持等价，特别检查除数不能为0和两边操作一致。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "equation_equivalence:o2",
       "statement": "能正确处理括号和分母，解一元一次方程并代回原方程检验。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "equation_equivalence:o3",
       "statement": "能由实际数量关系列方程，并根据整数、非负数和单位等条件解释所得解。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "equation_equivalence:reversible",
@@ -35,7 +38,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "equation_equivalence:o1"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "equation_equivalence:distribute",
@@ -43,7 +47,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "equation_equivalence:o2"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "equation_equivalence:solve_check",
@@ -52,6 +57,10 @@
       "refines_objective_ids": [
         "equation_equivalence:o1",
         "equation_equivalence:o2"
+      ],
+      "prerequisite_objective_ids": [
+        "equation_equivalence:reversible",
+        "equation_equivalence:distribute"
       ]
     },
     {
@@ -60,7 +69,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "equation_equivalence:o3"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "equation_equivalence:domain_constraint",
@@ -68,6 +78,10 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "equation_equivalence:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "equation_equivalence:model_quantity",
+        "equation_equivalence:solve_check"
       ]
     }
   ],
@@ -97,7 +111,12 @@
       "answer": "6",
       "verify": "12/3+2",
       "family_id": "equation.solve-linear",
-      "variant_id": "equation_equivalence:example-1"
+      "variant_id": "equation_equivalence:example-1",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "reference_family_ids": [
+        "equation.property-operation-justification"
+      ]
     },
     {
       "prompt": "解方程(x+1)/3−(x−2)/2=1。",
@@ -109,7 +128,13 @@
       "answer": "2",
       "verify": "(2+6-6)/(3-2)",
       "family_id": "equation.solve-linear",
-      "variant_id": "equation_equivalence:example-2"
+      "variant_id": "equation_equivalence:example-2",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "reference_family_ids": [
+        "equation.denominator-missed-term",
+        "equation.distribution-sign-error"
+      ]
     },
     {
       "prompt": "从0×2=0×3能否同除以0，得到2=3？",
@@ -120,7 +145,12 @@
       ],
       "answer": "不能；除数为0，操作不合法。",
       "family_id": "equation.divide-variable-zero",
-      "variant_id": "equation_equivalence:example-3"
+      "variant_id": "equation_equivalence:example-3",
+      "representation": "symbolic",
+      "cognitive_demand": "explain",
+      "reference_family_ids": [
+        "equation.multiply-zero-error"
+      ]
     }
   ],
   "tasks": [

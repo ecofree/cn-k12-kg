@@ -293,6 +293,80 @@ class ProfileRecoveryTests(unittest.TestCase):
                 profiles.restore(recovery._encrypt(data, secret), credentials["recovery_code"])
             self.assertEqual(target.count(OWNER), 0)
 
+    def test_self_check_nested_svg_roundtrip_and_active_import_rejection_are_atomic(self):
+        credentials, _ = self.seed()
+        resource_id = "self-check-with-frozen-figure"
+        # A current lesson asset may later change; the saved work must retain
+        # the exact figure that accompanied the student's earlier reasoning.
+        current_asset = Path(self.tmp.name) / "current-self-check.svg"
+        current_asset.write_bytes(SVG)
+        frozen = current_asset.read_bytes()
+        payload = {
+            "kind": "self_check", "source_ref": "topic:old-statistics:criterion:0",
+            "resource_version": "old-self-check-version",
+            "resource_snapshot": {
+                "id": "old-statistics:0", "prompt": "说明当时图中的刻度",
+                "criteria": ["逐格说明", "保留单位"], "stage": "primary",
+                "diagram": {"src": ASSET, "alt": "保存作品时使用的图"},
+                "asset_snapshots": {ASSET: {"sha256": hashlib.sha256(frozen).hexdigest(),
+                    "body_base64": base64.b64encode(frozen).decode()}},
+            },
+            "draft": "每格两人", "reflection": "还需要核对单位",
+            "self_assessment": [{"criterion_index": 1, "status": "revisit"}],
+        }
+        self.store.save_work(OWNER, resource_id, payload, 0, "nested-first")
+        revised = copy.deepcopy(payload)
+        revised["draft"] = "每格两人，从0刻度开始读"
+        self.store.save_work(OWNER, resource_id, revised, 1, "nested-second")
+        envelope = self.profiles.backup(OWNER, credentials["recovery_code"])
+        original_rows = self.original_rows(self.store)
+        current_asset.write_bytes(b'<svg xmlns="http://www.w3.org/2000/svg"><text>NEW FIGURE</text></svg>')
+        target, profiles = self.new_install()
+        profiles.restore(envelope, credentials["recovery_code"])
+        self.assertEqual(self.original_rows(target), original_rows)
+        history = target.work_history(OWNER, resource_id)
+        self.assertEqual(len(history), 2)
+        for record in history:
+            snapshot = record["payload"]["resource_snapshot"]
+            self.assertEqual(snapshot["diagram"]["src"], ASSET)
+            self.assertEqual(base64.b64decode(snapshot["asset_snapshots"][ASSET]["body_base64"]), frozen)
+            self.assertNotEqual(frozen, current_asset.read_bytes())
+
+        secret = recovery._recovery_secret(credentials["recovery_code"])
+        plaintext = recovery._decrypt(envelope, secret)
+        occupied, occupied_profiles = self.new_install("occupied-nested-target")
+        occupied.save(session("other-preserved", OTHER))
+        current = occupied_profiles.enable(OTHER)
+        before = self.dump(occupied)
+        cases = [(SVG + b" ", False, "图示内容校验失败"),
+                 (b'<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>', True, "活动内容")]
+        for raw, matching_hash, message in cases:
+            data = copy.deepcopy(plaintext)
+            revisions = {}
+            for table in ("works", "work_revisions"):
+                for row in data["tables"][table]:
+                    if row["resource_id"] != resource_id:
+                        continue
+                    record = json.loads(row["record_json"])
+                    asset = record["payload"]["resource_snapshot"]["asset_snapshots"][ASSET]
+                    asset["body_base64"] = base64.b64encode(raw).decode()
+                    if matching_hash:
+                        asset["sha256"] = hashlib.sha256(raw).hexdigest()
+                    row["record_json"] = _json(record)
+                    revisions[row["revision"]] = record
+            # Keep surrounding history/request contracts internally consistent,
+            # so the refusal specifically tests the nested SVG validator.
+            for row in data["tables"]["work_requests"]:
+                if row["resource_id"] == resource_id:
+                    row["request_sha256"] = hashlib.sha256(_json({
+                        "payload": revisions[row["revision"]]["payload"],
+                        "expected_revision": row["revision"] - 1}).encode()).hexdigest()
+            with self.subTest(message=message), self.assertRaisesRegex(ProfileRecoveryError, message):
+                occupied_profiles.restore(recovery._encrypt(data, secret), credentials["recovery_code"],
+                                          current_owner=OTHER, current_recovery_code=current["recovery_code"])
+            self.assertEqual(self.dump(occupied), before)
+            self.assertEqual(occupied_profiles.resolve_owner(current["cookie_token"]), OTHER)
+
     def test_support_session_snapshot_is_preserved_and_mismatch_is_rejected(self):
         record = session()
         record.update(kind="support", mode="support", task_ids=["q1"], index=0,

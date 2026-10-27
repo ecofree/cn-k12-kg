@@ -1435,31 +1435,47 @@
     "mh4.5.3.1"
    ],
    "primaryTopicId": "mh4.5.3.1",
-   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+   "family_id": "derivative.positive-sign-theorem",
+   "variant_id": "mh4.5.3.1-q1",
+   "representation": "symbolic",
+   "cognitive_demand": "recall",
+   "alignment_note": "识别可导区间内处处正导数的充分条件；不证明会求导或处理零点与断点。",
+   "tested_criterion_indices": [
+    0
+   ]
   },
   {
    "id": "mh4.5.3.1-q2",
    "topicId": "mh4.5.3.1",
    "difficulty": "basic",
    "type": "numeric",
-   "prompt": "函数 f(x)=x²-2x 的单调递增区间从 x 大于多少开始？",
+   "prompt": "函数f(x)=x²−2x在实数范围内定义。导数由负变正的分界点横坐标是多少？只填数值。",
    "answer": "1",
    "verify": "2/2",
-   "explanation": "f'(x)=2x-2>0 得 x>1。",
+   "explanation": "f′(x)=2x−2。在x<1时为负，在x>1时为正，分界点为1；函数分别在(−∞,1)递减、(1,+∞)递增。",
    "topicIds": [
     "mh4.5.3.1"
    ],
    "primaryTopicId": "mh4.5.3.1",
-   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+   "family_id": "derivative.linear-sign",
+   "variant_id": "mh4.5.3.1-q2",
+   "representation": "symbolic",
+   "cognitive_demand": "execute",
+   "alignment_note": "求线性导数的分界点，作为完整单调区间分析的一部分；须另写左右符号。",
+   "tested_criterion_indices": [
+    1
+   ]
   },
   {
    "id": "mh4.5.3.2-q1",
    "topicId": "mh4.5.3.2",
    "difficulty": "basic",
    "type": "choice",
-   "prompt": "可导函数在 x0 处取极值的必要条件是什么？",
+   "prompt": "函数在定义区间的内点x0处可导，并在该点取得局部极大值或极小值。下面哪一项是必要条件？",
    "answer": "o4",
-   "explanation": "极值点处导数为 0（可导时），但导数为 0 不一定取极值。",
+   "explanation": "在可导的区间内点取局部极值，导数必须为0。端点或不可导点不能直接套用；反过来导数为0也不保证极值。",
    "choices": [
     {
      "id": "o1",
@@ -1482,7 +1498,15 @@
     "mh4.5.3.2"
    ],
    "primaryTopicId": "mh4.5.3.2",
-   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+   "family_id": "derivative.extremum-necessary-condition",
+   "variant_id": "mh4.5.3.2-q1",
+   "representation": "symbolic",
+   "cognitive_demand": "recall",
+   "alignment_note": "识别可导内点极值的必要条件；仍需符号变化或定义判断，不能由f′=0直接确认极值。",
+   "tested_criterion_indices": [
+    0
+   ]
   },
   {
    "id": "mh4.5.3.2-q2",
@@ -1497,7 +1521,15 @@
     "mh4.5.3.2"
    ],
    "primaryTopicId": "mh4.5.3.2",
-   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+   "family_id": "derivative.polynomial-extrema",
+   "variant_id": "mh4.5.3.2-q2",
+   "representation": "symbolic",
+   "cognitive_demand": "execute",
+   "alignment_note": "求二次函数极小值点横坐标；需另核对导数由负变正，不把横坐标当极小值。",
+   "tested_criterion_indices": [
+    0
+   ]
   },
   {
    "id": "mh4.4.1-q201",
@@ -2733,7 +2765,7 @@
    "tested_criterion_indices": [
     0
    ],
-   "alignment_note": "本题具体检验“能用导数判断函数的单调性”中的题干所述任务；单题结果不代表整个目标已掌握。",
+   "alignment_note": "用x³在0处导数为0的反例区分充分条件与必要条件。",
    "type": "choice",
    "prompt": "f(x)=x³在实数上严格递增，但f′(0)=0。这说明哪一项？",
    "choices": [
@@ -2758,7 +2790,11 @@
    "explanation": "x³严格递增而在0处导数为0，直接否定必要性；可导区间上处处正导数仍足以推出严格递增。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "derivative.nonnegative-vs-strict",
+   "variant_id": "mh4.5.3.1-q201",
+   "representation": "symbolic",
+   "cognitive_demand": "choose_strategy"
   },
   {
    "id": "mh4.5.3.1-q202",
@@ -2776,7 +2812,7 @@
    "tested_criterion_indices": [
     1
    ],
-   "alignment_note": "本题具体检验“能求出函数的单调区间”中的题干所述任务；单题结果不代表整个目标已掌握。",
+   "alignment_note": "根据线性导数的符号选择单调区间，与q2的分界结构相同。",
    "type": "choice",
    "prompt": "f(x)=x²-6x的递增区间是哪一个？",
    "choices": [
@@ -2801,7 +2837,11 @@
    "explanation": "f′=2x-6，x>3时导数正，故在(3,+∞)递增；x<3时递减。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "derivative.linear-sign",
+   "variant_id": "mh4.5.3.1-q202",
+   "representation": "symbolic",
+   "cognitive_demand": "execute"
   },
   {
    "id": "mh4.5.3.1-q203",
@@ -2819,7 +2859,7 @@
    "tested_criterion_indices": [
     1
    ],
-   "alignment_note": "本题具体检验“能求出函数的单调区间”中的题干所述任务；单题结果不代表整个目标已掌握。",
+   "alignment_note": "只找导数的一个正零点，为分区候选步骤；不能单凭此结果确认四则符号或完整单调区间。",
    "type": "numeric",
    "prompt": "f(x)=x³-12x的导数在正数范围内为0的x是多少？",
    "answer": "2",
@@ -2827,7 +2867,11 @@
    "explanation": "f′=3x²-12，令它为0得x=±2，正根为2，是划分单调区间的候选点。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "derivative.stationary-candidates",
+   "variant_id": "mh4.5.3.1-q203",
+   "representation": "symbolic",
+   "cognitive_demand": "execute"
   },
   {
    "id": "mh4.5.3.1-q204",
@@ -2845,7 +2889,7 @@
    "tested_criterion_indices": [
     1
    ],
-   "alignment_note": "本题具体检验“能求出函数的单调区间”中的题干所述任务；单题结果不代表整个目标已掌握。",
+   "alignment_note": "区分两个连通区间上分别递减与跨断点整体递减，观察定义域边界处理。",
    "type": "choice",
    "prompt": "f(x)=1/x的单调性应怎样表述？",
    "choices": [
@@ -2870,7 +2914,11 @@
    "explanation": "定义域排除0，f′=-1/x²<0只分别保证每个区间递减；不能跨0合并，例如f(-1)=-1<f(1)=1。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "derivative.disconnected-domain",
+   "variant_id": "mh4.5.3.1-q204",
+   "representation": "symbolic",
+   "cognitive_demand": "choose_strategy"
   },
   {
    "id": "mh4.5.3.2-q201",
@@ -2888,7 +2936,7 @@
    "tested_criterion_indices": [
     1
    ],
-   "alignment_note": "本题具体检验“能求闭区间上的最大值与最小值”中的题干所述任务；单题结果不代表整个目标已掌握。",
+   "alignment_note": "比较候选值得闭区间最小值，不从导数为零直接跳到全局结论。",
    "type": "numeric",
    "prompt": "f(x)=x²-6x+2在区间[0,4]上的最小值是多少？",
    "answer": "-7",
@@ -2896,7 +2944,11 @@
    "explanation": "f′=2x-6在3处为0且由负变正；端点值2、-6，内点值-7，所以最小值-7。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "derivative.closed-interval-extrema",
+   "variant_id": "mh4.5.3.2-q201",
+   "representation": "symbolic",
+   "cognitive_demand": "execute"
   },
   {
    "id": "mh4.5.3.2-q202",
@@ -2914,7 +2966,7 @@
    "tested_criterion_indices": [
     1
    ],
-   "alignment_note": "本题具体检验“能求闭区间上的最大值与最小值”中的题干所述任务；单题结果不代表整个目标已掌握。",
+   "alignment_note": "与q201同函数同候选结构，只改变问最大还是最小，不算新题族。",
    "type": "numeric",
    "prompt": "f(x)=x²-6x+2在区间[0,4]上的最大值是多少？",
    "answer": "2",
@@ -2922,7 +2974,11 @@
    "explanation": "比较端点x=0、4和临界点3，函数值2、-6、-7，最大为2。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "derivative.closed-interval-extrema",
+   "variant_id": "mh4.5.3.2-q202",
+   "representation": "symbolic",
+   "cognitive_demand": "execute"
   },
   {
    "id": "mh4.5.3.2-q203",
@@ -2940,7 +2996,7 @@
    "tested_criterion_indices": [
     0
    ],
-   "alignment_note": "本题具体检验“能求函数的极值点”中的题干所述任务；单题结果不代表整个目标已掌握。",
+   "alignment_note": "识别驻点但两侧同增时没有极值，观察必要与充分条件的区别。",
    "type": "choice",
    "prompt": "f(x)=x³在x=0处导数为0，是否有极值？",
    "choices": [
@@ -2965,7 +3021,11 @@
    "explanation": "导数3x²在0左右均为正，函数在两侧持续递增，没有增减方向转换，故无极值。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "derivative.stationary-not-extremum",
+   "variant_id": "mh4.5.3.2-q203",
+   "representation": "symbolic",
+   "cognitive_demand": "choose_strategy"
   },
   {
    "id": "mh4.5.3.2-q204",
@@ -2983,7 +3043,7 @@
    "tested_criterion_indices": [
     1
    ],
-   "alignment_note": "本题具体检验“能求闭区间上的最大值与最小值”中的题干所述任务；单题结果不代表整个目标已掌握。",
+   "alignment_note": "识别端点、驻点及不可导内点的完整候选集合，尚未观察实际求值比较。",
    "type": "choice",
    "prompt": "求连续函数在闭区间上的最值时，哪一组候选点应检查？",
    "choices": [
@@ -3008,7 +3068,11 @@
    "explanation": "最值可能在内点临界位置，也可能在端点；可导性并非处处保证，所以不可导内点也应列入。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "derivative.extremum-candidate-completeness",
+   "variant_id": "mh4.5.3.2-q204",
+   "representation": "symbolic",
+   "cognitive_demand": "choose_strategy"
   }
  ]
 }

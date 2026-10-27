@@ -6,7 +6,7 @@
  "name": "立体图形的直观图",
  "tier": "core",
  "hook": "水平正方形画成平行四边形后，为什么不能拿图上的斜边长度当原长？",
- "definition": "斜二测画法：与 x 轴平行的线段长度不变，与 y 轴平行的线段长度减半，两轴成 45°。斜二测画法通常保持x向长度，y向长度缩为一半，画成45°（或135°）轴；竖直z向长度保持。",
+ "definition": "斜二测画法先选原来的互相垂直的x、y、z方向。水平面内x向长度保持，y向长度缩成一半；图上x′与y′通常画成45°或135°。竖直z向长度保持。非轴向线段不直接减半，而是按规则确定两个端点再连线。",
  "why": "直观图以固定的平行投影规则换取立体感，不是长度和角度完全保真的照片。沿坐标轴的分量按规则变换，平行与共线关系保留，但水平面的直角常画成斜角。",
  "when_to_use": [
   "根据真实尺寸画空间图的水平底面",
@@ -24,7 +24,15 @@
    "x向边取6，y向边取2，补平行四边形。",
    "图中夹角45°不代表原矩形夹角变为45°，原角仍90°。"
   ],
-  "answer": "边沿x′取6、沿y′取2的平行四边形"
+  "answer": "边沿x′取6、沿y′取2的平行四边形",
+  "family_id": "projection.oblique.construct-axis-polygon",
+  "variant_id": "mh2.8.2:worked-example-v5",
+  "representation": "geometry",
+  "cognitive_demand": "execute",
+  "reference_family_ids": [
+   "projection.oblique.axis-rule",
+   "projection.oblique.forward-length"
+  ]
  },
  "pitfalls": [
   "把所有边都缩短一半",
@@ -41,7 +49,21 @@
     "criteria": [
      "轴角和两方向尺度正确",
      "四顶点与连线完整"
+    ],
+    "family_id": "projection.oblique.construct-axis-polygon",
+    "variant_id": "mh2.8.2:self-check:0",
+    "representation": "geometry",
+    "cognitive_demand": "execute",
+    "reference_family_ids": [
+     "projection.oblique.axis-rule",
+     "projection.oblique.forward-length"
     ]
+   },
+   "observation_note": "实际作图需看到轴角、端点和连线，单独答出“长度2”只观察其中一步；图上角度不能当作原空间角度。",
+   "difficulty_support": {
+    "discriminating_prompt": "你是否先选了原图的x、y方向？如果把所有边都减半，x向4会变成多少？",
+    "hint": "把四个顶点的原坐标列为(0,0)、(4,0)、(4,4)、(0,4)，逐点把y分量减半，再沿斜轴定位。",
+    "revision_prompt": "用另一颜色标出原图与直观图中对应的四个顶点；保留第一次错误缩放的边，再修订。"
    }
   },
   {
@@ -54,7 +76,20 @@
     "criteria": [
      "还原原长6",
      "明确长度与角度失真规则"
+    ],
+    "family_id": "projection.oblique.inverse-length",
+    "variant_id": "mh2.8.2:self-check:1",
+    "representation": "mixed",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+     "projection.oblique.axis-rule"
     ]
+   },
+   "observation_note": "这里只观察沿已知y方向的长度还原及角度边界；斜边原长或任意空间角不能直接从图量得。",
+   "difficulty_support": {
+    "discriminating_prompt": "你把图中长3直接当原长3了吗？或者认为图上的45°就是原来的角？",
+    "hint": "把“图中y向=原y向的一半”写成3=原长÷2；再回想原x、y轴互相垂直。",
+    "revision_prompt": "先分别写长度等式和角度说明，再用一个x向边长作对照，避免将两方向混用。"
    }
   }
  ],
@@ -72,5 +107,21 @@
    "id": "mh2.8.2-q203",
    "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
   }
- ]
+ ],
+ "conditions": [
+  "本页采用x′、y′夹45°的约定，原图讨论水平面；作图比例另有约定时应先读题。",
+  "x、y是水平面内互相垂直的两个方向；空间竖直方向是z，不能把y向误叫z向。",
+  "直观图保持共线和平行，但一般不保持长度、角度和面积。"
+ ],
+ "representation_note": "左图是水平矩形原形，右图按同样单位尺度画出直观图。沿x的6保持6，沿y的4变成沿斜轴的2。先在两图中用同一字母对应顶点，再比较方向与比例。",
+ "diagram": {
+  "src": "/static/diagrams/oblique-projection-v5.svg",
+  "alt": "水平矩形原图沿x长6、沿y宽4；直观图沿x′长6、沿45°的y′长2。z向不缩短。"
+ },
+ "author_type": "ai",
+ "content_revision": {
+  "author_type": "ai",
+  "date": "2026-10-27",
+  "teacher_review": "pending"
+ }
 }

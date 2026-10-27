@@ -14,17 +14,20 @@
     {
       "id": "time_duration_calendar:o1",
       "statement": "能读取钟面和24时计时法中的时刻，区分一个时刻与一段经过时间。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "time_duration_calendar:o2",
       "statement": "能把时、分换成同一单位，计算同日或已明确跨日的经过时间，并检查60进制换算。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "time_duration_calendar:o3",
       "statement": "能利用给定的公历月份天数和闰年规则计算简单跨月间隔，说明日期包含方式。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "time_duration_calendar:read_time",
@@ -32,7 +35,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "time_duration_calendar:o1"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "time_duration_calendar:units60",
@@ -40,7 +44,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "time_duration_calendar:o2"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "time_duration_calendar:elapsed",
@@ -48,6 +53,10 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "time_duration_calendar:o2"
+      ],
+      "prerequisite_objective_ids": [
+        "time_duration_calendar:read_time",
+        "time_duration_calendar:units60"
       ]
     },
     {
@@ -56,6 +65,9 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "time_duration_calendar:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "time_duration_calendar:count_intervals"
       ]
     },
     {
@@ -65,7 +77,8 @@
       "refines_objective_ids": [
         "time_duration_calendar:o1",
         "time_duration_calendar:o3"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     }
   ],
   "prerequisites": [
@@ -95,7 +108,9 @@
       "answer": "35",
       "verify": "(9*60+20)-(8*60+45)",
       "family_id": "time.elapsed-sameday",
-      "variant_id": "time_duration_calendar:example-1"
+      "variant_id": "time_duration_calendar:example-1",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "一班车5月6日23:40出发，5月7日00:25到达，途中没有调时。经过多少分钟？",
@@ -107,7 +122,12 @@
       "answer": "45",
       "verify": "(24*60-(23*60+40))+25",
       "family_id": "time.elapsed-cross-midnight",
-      "variant_id": "time_duration_calendar:example-2"
+      "variant_id": "time_duration_calendar:example-2",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "reference_family_ids": [
+        "time.elapsed-sameday"
+      ]
     },
     {
       "prompt": "从公历2028年2月28日中午12:00到3月1日中午12:00，经过几天？",
@@ -118,7 +138,9 @@
       ],
       "answer": "2天",
       "family_id": "time.calendar-ordinary-leap",
-      "variant_id": "time_duration_calendar:example-3"
+      "variant_id": "time_duration_calendar:example-3",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "时间线上依次标出2月28日中午、2月29日中午、3月1日中午，为什么3个日期标记只对应2个整天间隔？",
@@ -129,7 +151,12 @@
       ],
       "answer": "3个时刻标记之间只有2段间隔。",
       "family_id": "time.date-points-vs-intervals",
-      "variant_id": "time_duration_calendar:example-4"
+      "variant_id": "time_duration_calendar:example-4",
+      "representation": "number_line",
+      "cognitive_demand": "explain",
+      "reference_family_ids": [
+        "time.calendar-ordinary-leap"
+      ]
     }
   ],
   "tasks": [

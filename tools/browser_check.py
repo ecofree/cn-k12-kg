@@ -29,7 +29,7 @@ SCRIPT = ROOT / "tests/browser/learning-flow.cjs"
 JOURNEYS = ("self_check_autosave", "rubric_revision", "unit_phases",
             "project_history", "mobile_stage", "pool_exhaustion",
             "navigation_recovery", "keyboard_accessibility", "learning_needs_support",
-            "profile_backup_recovery", "scope_and_manipulatives", "changed_content_preview")
+            "profile_backup_recovery", "scope_and_manipulatives", "goal_alignment", "changed_content_preview")
 ARTIFACT_NAMES = ("result.json", "browser.log", "http.log", "final.png",
                   "desktop-unit.png", "desktop-home.png", "desktop-project.png", "primary-entry.png")
 INPUTS = ("web/server.py", "web/static/index.html", "web/static/app.js", "web/static/work.js",
@@ -37,7 +37,7 @@ INPUTS = ("web/server.py", "web/static/index.html", "web/static/app.js", "web/st
           "web/static/style.css", "cnkg/portfolio.py", "cnkg/planner.py", "cnkg/learning_store.py",
           "cnkg/session_content.py", "cnkg/instruction.py", "cnkg/profile_recovery.py", "cnkg/learning_needs.py",
           "cnkg/content_repository.py", "cnkg/quality_scope.py", "cnkg/manipulatives.py", "cnkg/runtime_version.py",
-          "data/curriculum_scope.json", "data/catalog.json", "package-lock.json",
+          "cnkg/alignment.py", "data/alignment_targets.json", "data/curriculum_scope.json", "data/catalog.json", "package-lock.json",
           "tools/browser_check.py", "tests/browser/learning-flow.cjs")
 
 

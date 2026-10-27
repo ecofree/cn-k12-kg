@@ -18,27 +18,42 @@
     {
       "id": "sampling_and_variation:population",
       "statement": "能对调查问题明确总体、实际样本和抽样名册，并指出名册遗漏的对象。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "sampling_and_variation:sampling",
       "statement": "能给出从完整编号名册进行不放回随机抽取的步骤，说明便利或自愿样本可能产生的偏差。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "sampling_and_variation:population"
+      ]
     },
     {
       "id": "sampling_and_variation:centre",
       "statement": "能计算给定小样本的平均数和中位数，并按典型个体或总量目的选择解释。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "data_reading_and_mean:mean"
+      ]
     },
     {
       "id": "sampling_and_variation:spread",
       "statement": "能在单位与背景可比时用描述性方差比较波动，并核对极差或单位变化不能替代方差比较。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "data_reading_and_mean:mean"
+      ]
     },
     {
       "id": "sampling_and_variation:inference",
       "statement": "能把样本描述与总体估计分开报告，指出样本量增加不能自动消除抽样方式的偏差。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "sampling_and_variation:population",
+        "sampling_and_variation:sampling",
+        "data_reading_and_mean:limited_claim"
+      ]
     }
   ],
   "prerequisites": [
@@ -67,7 +82,9 @@
       ],
       "answer": "完整名册、随机抽号、不放回、记录未响应。",
       "family_id": "statistics.complete-frame-random-sample",
-      "variant_id": "sampling_and_variation:example-1"
+      "variant_id": "sampling_and_variation:example-1",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "prompt": "通学时间为2、3、3、4、18分钟。平均和中位数分别是多少？若描述多数人的典型位置需注意什么？",
@@ -77,8 +94,14 @@
         "18分钟拉高均值；报告中位数3更接近多数人的位置，同时保留均值或说明极端值。"
       ],
       "answer": "平均6分钟，中位3分钟；应说明18分钟这一较大值。",
-      "family_id": "statistics.mean-median-outlier",
-      "variant_id": "sampling_and_variation:example-2"
+      "family_id": "statistics.centre-for-purpose-outlier",
+      "variant_id": "sampling_and_variation:example-2",
+      "reference_family_ids": [
+        "statistics.mean-from-values",
+        "statistics.median-position"
+      ],
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "图中甲组4、5、6分钟，乙组1、5、9分钟，比较方差。",
@@ -88,8 +111,13 @@
         "乙组平方离差为16、0、16，方差32/3平方分钟；同背景和单位下乙更分散。"
       ],
       "answer": "甲为2/3，乙为32/3，乙组波动更大。",
-      "family_id": "statistics.same-centre-different-spread",
-      "variant_id": "sampling_and_variation:example-3"
+      "family_id": "statistics.variance-comparison",
+      "variant_id": "sampling_and_variation:example-3",
+      "reference_family_ids": [
+        "statistics.variance-from-values"
+      ],
+      "representation": "graph",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "一项网站自愿调查有2000份回答，可以据此说比随机抽取200人的调查一定更有代表性吗？",
@@ -100,7 +128,9 @@
       ],
       "answer": "不能；较大自愿样本仍可能有系统性选择偏差。",
       "family_id": "statistics.large-biased-sample",
-      "variant_id": "sampling_and_variation:example-4"
+      "variant_id": "sampling_and_variation:example-4",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     }
   ],
   "tasks": [
@@ -211,7 +241,7 @@
         "correct": "请对照解释核对依据、单位和适用条件。",
         "incorrect": "先减均值，再平方，最后除以三条记录。"
       },
-      "family_id": "statistics.same-centre-different-spread",
+      "family_id": "statistics.variance-from-values",
       "variant_id": "sampling_and_variation:practice-4",
       "representation": "graph",
       "cognitive_demand": "execute",

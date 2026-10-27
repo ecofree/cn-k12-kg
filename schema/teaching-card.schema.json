@@ -157,6 +157,52 @@
                   "pattern": "\\S"
                 },
                 "minItems": 1
+              },
+              "family_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+              },
+              "variant_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+              },
+              "representation": {
+                "type": "string",
+                "enum": [
+                  "verbal",
+                  "symbolic",
+                  "number_line",
+                  "area_model",
+                  "table",
+                  "graph",
+                  "geometry",
+                  "manipulative",
+                  "mixed",
+                  "unknown"
+                ]
+              },
+              "cognitive_demand": {
+                "type": "string",
+                "enum": [
+                  "recall",
+                  "execute",
+                  "explain",
+                  "choose_strategy",
+                  "prove",
+                  "model",
+                  "unknown"
+                ]
+              },
+              "diagram": {
+                "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/diagram"
+              },
+              "reference_family_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                },
+                "uniqueItems": true
               }
             },
             "required": [

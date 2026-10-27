@@ -19,17 +19,20 @@
     {
       "id": "linear_function_representations:o1",
       "statement": "能从数值表计算变化率和初始值，写出一次函数表达式并用表中数据检查。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "linear_function_representations:o2",
       "statement": "能读取一次函数图象中的坐标信息，并说明点、表中数据和函数式之间的对应关系。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "linear_function_representations:o3",
       "statement": "能结合单位解释斜率、截距和自变量范围，比较模型结果并排除不符合情境的延伸。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "linear_function_representations:rate",
@@ -38,6 +41,9 @@
       "refines_objective_ids": [
         "linear_function_representations:o1",
         "linear_function_representations:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "ratio_models:unit_rate"
       ]
     },
     {
@@ -46,6 +52,10 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "linear_function_representations:o1"
+      ],
+      "prerequisite_objective_ids": [
+        "linear_function_representations:rate",
+        "equation_equivalence:reversible"
       ]
     },
     {
@@ -54,6 +64,10 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "linear_function_representations:o1"
+      ],
+      "prerequisite_objective_ids": [
+        "linear_function_representations:rate",
+        "linear_function_representations:intercept"
       ]
     },
     {
@@ -62,6 +76,9 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "linear_function_representations:o2"
+      ],
+      "prerequisite_objective_ids": [
+        "linear_function_representations:rate"
       ]
     },
     {
@@ -70,6 +87,10 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "linear_function_representations:o2"
+      ],
+      "prerequisite_objective_ids": [
+        "linear_function_representations:read_graph",
+        "linear_function_representations:formula"
       ]
     },
     {
@@ -78,6 +99,10 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "linear_function_representations:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "linear_function_representations:rate",
+        "linear_function_representations:intercept"
       ]
     },
     {
@@ -86,6 +111,11 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "linear_function_representations:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "linear_function_representations:formula",
+        "linear_function_representations:units_domain",
+        "equation_equivalence:solve_check"
       ]
     }
   ],
@@ -114,7 +144,9 @@
       ],
       "answer": "y=3x+2",
       "family_id": "linear.table-to-parameters",
-      "variant_id": "linear_function_representations:example-1"
+      "variant_id": "linear_function_representations:example-1",
+      "representation": "table",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "两种服务的费用分别为A=6+3x、B=12+2x，x表示使用时长（小时），允许取非负实数。使用多少小时两种费用相同？",
@@ -126,7 +158,9 @@
       "answer": "6",
       "verify": "(12-6)/(3-2)",
       "family_id": "linear.equal-cost-intersection",
-      "variant_id": "linear_function_representations:example-2"
+      "variant_id": "linear_function_representations:example-2",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "一辆车按固定速度行驶，出发记录时已行驶10千米，此后每小时行驶40千米。用t小时表示记录之后的时间，写出总里程y，并解释为何不是正比例。",
@@ -137,7 +171,12 @@
       ],
       "answer": "y=40t+10；斜率40千米/小时，截距10千米；不是正比例。",
       "family_id": "linear.proportional-vs-affine",
-      "variant_id": "linear_function_representations:example-3"
+      "variant_id": "linear_function_representations:example-3",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "reference_family_ids": [
+        "linear.affine-classification"
+      ]
     },
     {
       "prompt": "观察单元图中的点(1,3)，怎样把图上的位置、坐标与式子y=2x+1联系起来？",
@@ -148,7 +187,9 @@
       ],
       "answer": "(1,3)表示输入1对应输出3，满足y=2x+1。",
       "family_id": "linear.graph-point-read",
-      "variant_id": "linear_function_representations:example-4"
+      "variant_id": "linear_function_representations:example-4",
+      "representation": "graph",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "水箱原有12升水，每分钟排3升，排空即停且无进水。为什么不能用y=12−3t算6分钟后水量为−6升？",
@@ -159,7 +200,9 @@
       ],
       "answer": "6分钟后为0升；下降线段到(4,0)为止，此后沿横轴保持0。",
       "family_id": "linear.capacity-boundary-model",
-      "variant_id": "linear_function_representations:example-5"
+      "variant_id": "linear_function_representations:example-5",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     }
   ],
   "tasks": [

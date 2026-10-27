@@ -31,8 +31,8 @@
       "空4格；6+4=10，也就是10−6=4。"
     ],
     "answer": "4",
-    "family_id": "primary.ten.complements",
-    "variant_id": "m1a.2.10:worked-v4",
+    "family_id": "ten.complete-frame",
+    "variant_id": "m1a.2.10:worked-example-v5",
     "representation": "manipulative",
     "cognitive_demand": "explain",
     "verify": "10-6"
@@ -59,14 +59,22 @@
   "objective_coverage": [
     {
       "explanation": "允许0时，10的有序配对为0和10、1和9、2和8、3和7、4和6、5和5，再把前面的次序交换。每对都正好占满十格。",
-      "observation_note": "本项观察三对都合成10、用格子说明一对关系；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "observation_note": "观察1、4、7各自的补数与一次十格验证；三对正确不能证明0至10的全部配对已经熟记，未测配对继续待确认。",
       "self_check": {
         "prompt": "填出1和几、4和几、7和几合成10，并用十格框检查其中一对。",
         "reference_answer": "分别是9、6、3；如放7个后还有3个空格。",
         "criteria": [
           "三对都合成10",
           "用格子说明一对关系"
-        ]
+        ],
+        "family_id": "ten.complete-frame",
+        "variant_id": "m1a.2.10:self-check:0:v5",
+        "representation": "manipulative",
+        "cognitive_demand": "execute",
+        "diagram": {
+          "src": "/static/diagrams/primary-ten-frame-blank-v5.svg",
+          "alt": "两排各5格的空十格框，供自己摆放与检查组成。"
+        }
       },
       "difficulty_support": {
         "discriminating_prompt": "十格中放4个，空格是否也有4个？",
@@ -78,13 +86,20 @@
     },
     {
       "explanation": "若a和b合成10，则a+b=10，10−a=b，10−b=a。减法是在同一个十格整体中找另一部分。",
-      "observation_note": "本项观察四题结果正确、把算式对应到部分或整体；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "observation_note": "分别观察加到10、从10减去部分、全部拿走得0；文字结果不采集实际口算速度，也不替代对整体与部分的解释。",
       "self_check": {
         "prompt": "算8+2、10−3、10−6、10−10，并任选一道说明。",
         "reference_answer": "依次为10、7、4、0；10−10表示十格全部拿走，剩0。",
         "criteria": [
           "四题结果正确",
           "把算式对应到部分或整体"
+        ],
+        "family_id": "primary.ten.remove-part",
+        "variant_id": "m1a.2.10:self-check:1:v5",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "reference_family_ids": [
+          "primary.ten.complements"
         ]
       },
       "difficulty_support": {
@@ -98,7 +113,11 @@
   ],
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
+  },
+  "diagram": {
+    "src": "/static/diagrams/primary-ten-frame-blank-v5.svg",
+    "alt": "两排各5格的空十格框，供自己摆放与检查组成。"
   }
 }

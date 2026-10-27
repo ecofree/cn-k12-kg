@@ -1,76 +1,112 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh2.10.2",
- "name": "事件的相互独立性",
- "tier": "core",
- "hook": "两个事件不能同时发生，是否意味着它们互不影响？恰好可能相反。",
- "definition": "若 P(AB)=P(A)P(B)，则 A、B 相互独立；独立与互斥是两个不同的概念。独立定义为P(A∩B)=P(A)P(B)；互斥为A∩B=∅。两个概率均正的互斥事件一定不独立。",
- "why": "独立要求共同发生的概率等于边际概率乘积，即知道一件发生不改变另一件概率。互斥却规定一件发生时另一件不能发生，若后者原概率为正，就明显改变了它。",
- "when_to_use": [
-  "试验说明各次独立或需要检验独立性",
-  "需要区分不放回、互斥与独立的关系"
- ],
- "steps": [
-  "先确定试验机制，不能仅凭名称猜独立",
-  "列P(A)、P(B)、P(A∩B)检验乘积",
-  "互斥时另看概率是否正，数值乘法须有独立依据"
- ],
- "worked_example": {
-  "prompt": "掷均匀骰一次，A为偶数、B为大于4，判断是否独立。",
-  "steps": [
-   "P(A)=3/6=1/2，P(B)=2/6=1/3。",
-   "交集为{6}，概率1/6。",
-   "乘积(1/2)(1/3)=1/6等于交集概率，故独立，但不互斥。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh2.10.2",
+  "name": "事件的相互独立性",
+  "tier": "core",
+  "hook": "两个事件不能同时发生，是否意味着它们互不影响？恰好可能相反。",
+  "definition": "事件A、B独立的定义为P(A∩B)=P(A)P(B)；互斥的定义为A∩B为空。独立检验要使用同一个随机试验的边际和交概率。两个概率都正的互斥事件不独立；不可能事件与任意事件既互斥又独立，所以不能省去正概率条件。",
+  "why": "独立要求共同发生的概率等于边际概率乘积，即知道一件发生不改变另一件概率。互斥却规定一件发生时另一件不能发生，若后者原概率为正，就明显改变了它。",
+  "when_to_use": [
+    "试验说明各次独立或需要检验独立性",
+    "需要区分不放回、互斥与独立的关系"
   ],
-  "answer": "独立且不互斥"
- },
- "pitfalls": [
-  "把独立与互斥混为一谈",
-  "从不放回抽样中仍直接使用两次相同边际概率相乘"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能判断两个事件是否独立",
-   "explanation": "独立性可由明确随机机制给出，也可用三个概率检验，不能从事件发生先后推断。",
-   "self_check": {
-    "prompt": "掷均匀骰一次，A={1,2,3}、B={3,4,5}，检验独立性。",
-    "reference_answer": "P(A)=P(B)=1/2，交集{3}概率1/6，不等于1/4，所以不独立。",
-    "criteria": [
-     "计算交集概率及乘积",
-     "用不相等得出结论"
+  "steps": [
+    "先确定试验机制，不能仅凭名称猜独立",
+    "列P(A)、P(B)、P(A∩B)检验乘积",
+    "互斥时另看概率是否正，数值乘法须有独立依据"
+  ],
+  "worked_example": {
+    "prompt": "掷均匀骰一次，A为偶数、B为大于4，判断是否独立。",
+    "steps": [
+      "P(A)=3/6=1/2，P(B)=2/6=1/3。",
+      "交集为{6}，概率1/6。",
+      "乘积(1/2)(1/3)=1/6等于交集概率，故独立，但不互斥。"
+    ],
+    "answer": "独立且不互斥",
+    "family_id": "probability.enumerated-independence",
+    "variant_id": "mh2.10.2:worked-example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "probability.independence-vs-exclusive"
     ]
-   }
   },
-  {
-   "criterion_index": 1,
-   "title": "能区分独立与互斥",
-   "explanation": "正概率互斥事件的交概率0，小于正的概率乘积，因此不独立。",
-   "self_check": {
-    "prompt": "公平硬币抛一次，A为正面、B为反面；再比较‘第一次正面’与独立第二次的‘第二次正面’。",
-    "reference_answer": "前者互斥且不独立，0≠1/4；后者独立且可同时发生，交概率1/4。",
-    "criteria": [
-     "两种机制下区分关系",
-     "给出交概率检验"
-    ]
-   }
+  "pitfalls": [
+    "把独立与互斥混为一谈",
+    "从不放回抽样中仍直接使用两次相同边际概率相乘"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断两个事件是否独立",
+      "explanation": "独立性可由明确随机机制给出，也可用三个概率检验，不能从事件发生先后推断。",
+      "self_check": {
+        "prompt": "掷均匀骰一次，A={1,2,3}、B={3,4,5}，检验独立性。",
+        "reference_answer": "P(A)=P(B)=1/2，交集{3}概率1/6，不等于1/4，所以不独立。",
+        "criteria": [
+          "计算交集概率及乘积",
+          "用不相等得出结论"
+        ],
+        "family_id": "probability.enumerated-independence",
+        "variant_id": "mh2.10.2:self-check:0",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "observation_note": "观察能否分别求两个边际和交集概率并比较乘积；只算1/6或在题设已经独立时直接相乘，都不足以展示独立性判断。",
+      "difficulty_support": {
+        "discriminating_prompt": "A和B都是3个点数就一定独立吗？交集的点数会怎样影响结论？",
+        "hint": "在同一等可能样本空间1至6中分别圈A、B，交集只有3。把P(A∩B)=1/6与P(A)P(B)=1/4并排比较。",
+        "revision_prompt": "保存三个概率与乘积比较，写不独立；再检查一个独立例子，说明同一次实验中的事件也可能独立。"
+      }
+    },
+    {
+      "criterion_index": 1,
+      "title": "能区分独立与互斥",
+      "explanation": "互斥检查能否同现，独立比较交概率与边际乘积，是两个不同问题。一次公平硬币的正反面互斥且不独立；题设两次抛掷独立时，两次正面事件独立且可以同现。若两条记录复制同一结果，即使时间不同也不独立。",
+      "self_check": {
+        "prompt": "公平硬币抛一次，A为正面、B为反面；再比较‘第一次正面’与独立第二次的‘第二次正面’。",
+        "reference_answer": "前者互斥且不独立，0≠1/4；后者独立且可同时发生，交概率1/4。",
+        "criteria": [
+          "两种机制下区分关系",
+          "给出交概率检验"
+        ],
+        "family_id": "probability.independence-vs-exclusive",
+        "variant_id": "mh2.10.2:self-check:1",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "probability.independent-intersection",
+          "probability.coupled-mechanism",
+          "probability.zero-probability-boundary"
+        ]
+      },
+      "observation_note": "观察互斥的不能同现与独立的乘积关系是否分别核对；两个正概率条件不能丢，两个不同时间也不自动独立。",
+      "difficulty_support": {
+        "discriminating_prompt": "同一次抛硬币的正反面能同时发生吗？如果把第一次结果原样复制为第二条记录，两条正面事件独立吗？",
+        "hint": "互斥先看交集为空，独立再比较交概率与边际乘积；两个概率都正时，互斥给0而乘积大于0。",
+        "revision_prompt": "把一次正反面与两次独立抛掷的联合结果分别列出，核对0和1/4；另说明不可能事件与任意事件可同时满足互斥和独立。"
+      }
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：计算交集概率及乘积；两种机制下区分关系。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh2.10.2-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.10.2-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.10.2-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "diagram": {
+    "src": "/static/diagrams/independence-die-table-v5.svg",
+    "alt": "公平骰的1至6六种等可能结果；偶数为2、4、6，大于4为5、6，两者交集只有6。"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：计算交集概率及乘积；两种机制下区分关系。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh2.10.2-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh2.10.2-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh2.10.2-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

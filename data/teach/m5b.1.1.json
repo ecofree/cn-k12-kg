@@ -31,10 +31,13 @@
       "12乘1至5，得到12、24、36、48、60；倍数还可以继续。"
     ],
     "answer": "因数1、2、3、4、6、12；前5个正倍数12、24、36、48、60",
-    "family_id": "primary.divisibility.factors-multiples",
-    "variant_id": "m5b.1.1:worked-v4",
-    "representation": "table",
-    "cognitive_demand": "explain"
+    "family_id": "number.factors-enumerate",
+    "variant_id": "m5b.1.1:worked-example-v5",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "number.multiples-enumerate"
+    ]
   },
   "pitfalls": [
     "说“12是倍数”而不说明谁的倍数，关系不完整。",
@@ -58,13 +61,21 @@
   "objective_coverage": [
     {
       "explanation": "有序配对可避免漏因数：18的配对是1×18、2×9、3×6；4、5不能整除，6以后只会出现调换过的已知配对，整理为1、2、3、6、9、18。倍数按乘数顺序不断生成。",
-      "observation_note": "本项观察因数有序完整且无重复、倍数及关系说明正确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "observation_note": "分开观察18的完整因数表、三个正倍数、关系句；只填因数个数或商不能显示有没有漏掉因数，也不确认无限性解释。",
       "self_check": {
         "prompt": "找出18的全部因数及前3个正倍数，并用一组乘法说明因数与倍数关系。",
         "reference_answer": "因数1、2、3、6、9、18；正倍数18、36、54。因为3×6=18，所以3、6是18的因数，18是它们的倍数。",
         "criteria": [
           "因数有序完整且无重复",
           "倍数及关系说明正确"
+        ],
+        "family_id": "number.factors-enumerate",
+        "variant_id": "m5b.1.1:self-check:0:v5",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "number.multiples-enumerate",
+          "number.factor-pair"
         ]
       },
       "difficulty_support": {
@@ -77,14 +88,18 @@
     },
     {
       "explanation": "一个非零自然数的正因数都在1与它自身之间，所以个数有限；正倍数可不断加上原数，总能找到更大的一个，所以有无限多个。1只有因数1，但仍有无限多个正倍数。",
-      "observation_note": "本项观察区分有限因数与无限倍数、正确处理数1的特殊情况；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "observation_note": "需给出因数被1至本身界定、任意正倍数之后还能加6的理由；只说“有限/无限”仍可能是背诵，数1的边界须单独核对。",
       "self_check": {
         "prompt": "说明6的因数为什么能列完而倍数列不完；再说1的因数有几个。",
         "reference_answer": "6的因数为1、2、3、6，范围不超过6，所以有限；倍数6、12、18……每次再加6都可继续，没有最大正倍数；1只有1个因数，就是1。",
         "criteria": [
           "区分有限因数与无限倍数",
           "正确处理数1的特殊情况"
-        ]
+        ],
+        "family_id": "number.finite-factors-infinite-multiples",
+        "variant_id": "m5b.1.1:self-check:1:v5",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
       },
       "difficulty_support": {
         "discriminating_prompt": "若把60称为6的最大倍数，能否再找一个更大的？",
@@ -97,7 +112,7 @@
   ],
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   }
 }

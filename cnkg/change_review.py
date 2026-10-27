@@ -81,14 +81,14 @@ def _categories(pointer, path, *values):
     kinds = set()
     fields = {
         "objectives": {"objectives", "mastery_criteria", "objective_ids", "skill_ids", "criterion_index", "tested_criterion_indices", "placements", "refines_skill_ids"},
-        "conditions": {"conditions", "prerequisites", "prerequisite_skill_ids", "prerequisite_unit_ids", "prerequisite_topic_ids", "when_to_use", "counterexample"},
+        "conditions": {"conditions", "prerequisites", "prerequisite_skill_ids", "prerequisite_objective_ids", "prerequisite_unit_ids", "prerequisite_topic_ids", "when_to_use", "counterexample"},
         "answers_and_criteria": {"answer", "reference_answer", "verify", "answer_spec", "criteria", "rubric", "normalized_answer"},
         "representations": {"representation", "representation_note", "diagram", "alt", "src"},
-        "task_families": {"family_id", "family_ids", "family_status", "variant_id"},
+        "task_families": {"family_id", "family_ids", "family_status", "variant_id", "reference_family_ids", "reference_families_by_key"},
         "instructional_support": {"instructional_support", "difficulty_support", "diagnostic", "guided_task", "feedback", "hints", "followup_task_ids", "discriminating_prompt", "revision_prompt"},
         "teaching_process": {"explanation", "definition", "why", "reasoning", "intuition", "steps", "worked_example", "worked_examples", "self_check", "prompt", "pitfalls", "task_brief", "deliverable"},
         "scope_and_identity": {"role", "tier", "goals", "id", "topicId", "topic_ids", "source_tier", "completion_requirement"},
-        "review_claims": {"review_status", "teacher_review", "content_revision", "reviewed_sha256", "assessment_note", "observation_note"},
+        "review_claims": {"review_status", "teacher_review", "content_revision", "reviewed_sha256", "assessment_note", "observation_note", "alignment_note", "target_alignment"},
     }
     for name, names in fields.items():
         if tokens & names:

@@ -408,23 +408,113 @@ def skill_evidence(catalog, records, needs):
 
 
 def support_routes(catalog, skill_ids, *, preferred_unit=None):
-    """Consume explicit skill prerequisites, including ones within the same unit."""
+    """Resolve declared target identities to real material/support/task routes.
+
+    Never infer a route from a similar title or an enclosing topic. A missing
+    route is returned explicitly, and an observed upstream activity does not
+    remove the prerequisite or declare it mastered.
+    """
     skills, units = _section(catalog, "skills"), _section(catalog, "units")
+    placements, tasks = _section(catalog, "placements"), _section(catalog, "tasks")
     prerequisites = sorted({pid for sid in skill_ids for pid in skills.get(sid, {}).get("prerequisite_skill_ids", [])})
     routes = []
     for sid in list(dict.fromkeys([*prerequisites, *skill_ids])):
         matches = []
+        role = "prerequisite" if sid in prerequisites else "target"
+        reason = ("作者为当前具体目标登记了这个前置目标，可检查所需基础；看过材料或完成活动不等于已掌握。"
+                  if role == "prerequisite" else "这是当前明确选择或原事项绑定的目标，任务和帮助按稳定目标身份定位。")
         for uid, unit in units.items():
-            objective_ids = [row["id"] for row in unit.get("objectives", []) if isinstance(row, dict)
-                             and (row.get("skill_id") == sid or row.get("id") == sid)]
+            objectives = [row for row in unit.get("objectives", []) if isinstance(row, dict)
+                          and (row.get("skill_id") == sid or row.get("id") == sid)]
+            objective_ids = [row["id"] for row in objectives]
             if objective_ids or sid in unit.get("skill_ids", []):
+                support_ids = sorted({identity for row in objectives for identity in row.get("support_ids", [])})
+                unit_tasks = unit.get("task_ids", [row.get("id") if isinstance(row, dict) else row
+                                                  for row in unit.get("tasks", [])])
+                task_ids = [tid for tid in unit_tasks if tid in tasks and sid in tasks[tid].get("skill_ids", [])
+                            and tasks[tid].get("availability", "active") == "active"]
+                by_phase = {phase: [tid for tid in task_ids if tasks[tid].get("phase") == phase]
+                            for phase in ("practice", "transfer", "delayed")}
+                actions = [{"action": "open_unit_goal", "unit_id": uid, "skill_id": sid,
+                            "objective_ids": objective_ids}]
+                actions += [{"action": "start_support", "unit_id": uid, "support_id": identity,
+                             "skill_ids": [sid]} for identity in support_ids]
+                if by_phase["practice"]:
+                    actions.append({"action": "start_session", "unit_id": uid, "mode": "practice",
+                                    "focus_skill_ids": [sid], "task_ids": by_phase["practice"]})
                 matches.append({"skill_id": sid, "unit_id": uid, "objective_ids": objective_ids,
                                 "resource_version": _version(unit), "title": unit.get("title", uid),
-                                "role": "prerequisite" if sid in prerequisites else "target",
-                                "within_current_unit": uid == preferred_unit})
-        matches.sort(key=lambda item: (item["unit_id"] != preferred_unit, item["unit_id"]))
-        routes.extend(matches[:1])
+                                "statement": skills.get(sid, {}).get("statement"), "role": role,
+                                "within_current_unit": uid == preferred_unit, "resource_kind": "unit",
+                                "available": True, "support_ids": support_ids,
+                                "support_id": support_ids[0] if support_ids else None,
+                                "task_ids_by_phase": by_phase, "actions": actions, "selection_reason": reason})
+        if matches:
+            matches.sort(key=lambda item: (item["unit_id"] != preferred_unit, item["unit_id"]))
+            routes.extend(matches[:1])
+            continue
+        for tid, placement in placements.items():
+            ids = placement.get("criterion_skill_ids", placement.get("skill_ids", []))
+            if sid not in ids:
+                continue
+            index = ids.index(sid)
+            checks = [task["id"] for task in tasks.values() if task.get("source_kind") == "self_check"
+                      and task.get("material_id") == "topic:" + tid and sid in task.get("skill_ids", [])
+                      and task.get("availability", "active") == "active"]
+            material = _section(catalog, "materials").get("topic:" + tid, {})
+            matches.append({"skill_id": sid, "statement": skills.get(sid, {}).get("statement"),
+                "role": role, "resource_kind": "topic", "topic_id": tid, "criterion_index": index,
+                "title": placement.get("title", tid), "resource_version": material.get("resource_version"),
+                "available": bool(checks), "self_check_task_ids": checks, "selection_reason": reason,
+                "actions": [{"action": "open_topic_goal", "topic_id": tid, "criterion_index": index,
+                             "skill_id": sid}] if checks else [],
+                "availability_notice": "已明确绑定教材目标与逐目标自检。" if checks else
+                                       "目标已有教材定位，但没有可用的逐目标自检；不按同主题题目假定覆盖。"})
+        if not matches:
+            for pid, project in _section(catalog, "projects").items():
+                objectives = [row for row in project.get("objectives", []) if row.get("skill_id") == sid]
+                if objectives:
+                    matches.append({"skill_id": sid, "statement": skills.get(sid, {}).get("statement"),
+                        "role": role, "resource_kind": "project", "project_id": pid,
+                        "objective_ids": [row["id"] for row in objectives], "title": project.get("title", pid),
+                        "resource_version": project.get("resource_version"), "available": True,
+                        "selection_reason": reason,
+                        "actions": [{"action": "open_project_goal", "project_id": pid, "skill_id": sid}]})
+        routes.extend(matches[:1] or [{"skill_id": sid, "statement": skills.get(sid, {}).get("statement"),
+            "role": role, "resource_kind": None, "available": False, "actions": [],
+            "selection_reason": reason, "availability_notice": "尚无此稳定目标的明确材料或活动入口，保留缺口；没有按相似标题猜测路径。"}])
     return prerequisites, routes
+
+
+def task_start_action(catalog, task):
+    """Only return exact, server-checkable navigation; no answer or prompt."""
+    tid, material = task.get("id"), task.get("material_id", "")
+    if task.get("availability", "active") != "active":
+        return None
+    if task.get("source_kind") == "unit" and material.startswith("unit:"):
+        uid = material[5:]
+        unit = _section(catalog, "units").get(uid, {})
+        ids = unit.get("task_ids", [row.get("id") if isinstance(row, dict) else row for row in unit.get("tasks", [])])
+        if tid in ids and task.get("phase") in {"practice", "transfer", "delayed"}:
+            return {"action": "start_session", "unit_id": uid, "mode": task["phase"],
+                    "focus_skill_ids": list(task.get("skill_ids", [])), "task_ids": [tid]}
+    if task.get("source_kind") == "bank" and material.startswith("topic:"):
+        topic = material[6:]
+        if topic in _section(catalog, "placements") and "practice" in task.get("purpose", []):
+            return {"action": "start_session", "targets": [topic], "mode": "practice", "task_ids": [tid], "limit": 1}
+    if task.get("source_kind") == "self_check" and material.startswith("topic:"):
+        topic, index = material[6:], task.get("criterion_index")
+        placement = _section(catalog, "placements").get(topic, {})
+        ids = placement.get("criterion_skill_ids", placement.get("skill_ids", []))
+        if isinstance(index, int) and not isinstance(index, bool) and 0 <= index < len(ids) and ids[index] in task.get("skill_ids", []):
+            return {"action": "open_topic_goal", "topic_id": topic, "criterion_index": index, "skill_id": ids[index]}
+    if task.get("source_kind") == "project_step" and material.startswith("project:"):
+        pid = material[8:]
+        project = _section(catalog, "projects").get(pid, {})
+        if tid in project.get("task_ids", []):
+            return {"action": "open_project_goal", "project_id": pid, "task_id": tid,
+                    "objective_ids": task.get("objective_ids", [])}
+    return None
 
 
 def task_options(catalog, skill_ids, records, exposures=None, *, allowed_task_ids=None, limit=5):
@@ -473,7 +563,32 @@ def task_options(catalog, skill_ids, records, exposures=None, *, allowed_task_id
                         "help_exposed": bool(helped), "new_representation": bool(representations - seen_representations),
                         "known_representation_ids": sorted(representations), "representation_known": known,
                         "eligible_for_followup": eligible, "phase": task.get("phase"),
+                        "source_kind": task.get("source_kind"), "start_action": task_start_action(catalog, task),
                         "independent_evidence": False, "selection_reason": reason})
     options.sort(key=lambda row: (row["repeated_question"], row["repeated_family"], row["help_exposed"],
                                  row["family_status"] != "declared", not row["new_representation"], row["task_id"]))
     return options if limit is None else options[:limit]
+
+
+def goal_pathway(catalog, skill_id, records=(), *, exposures=None, preferred_unit=None, needs=()):
+    """A goal's exact pathways and evidence limits without exposing test content."""
+    skills = _section(catalog, "skills")
+    if skill_id not in skills:
+        raise KeyError(skill_id)
+    if preferred_unit is not None:
+        unit = _section(catalog, "units").get(preferred_unit)
+        if not unit or skill_id not in unit.get("skill_ids", []):
+            raise ValueError("目标不属于指定单元")
+    skill = skills[skill_id]
+    prerequisites, routes = support_routes(catalog, [skill_id], preferred_unit=preferred_unit)
+    refined_by = [{"skill_id": sid, "statement": row["statement"], "granularity": row["granularity"]}
+                  for sid, row in skills.items() if skill_id in row.get("refines_skill_ids", [])]
+    return {"schema": 1, "skill_id": skill_id, "statement": skill["statement"],
+        "granularity": skill.get("granularity"), "stage": skill.get("stage"),
+        "prerequisite_skill_ids": prerequisites, "routes": routes,
+        "refines_skill_ids": list(skill.get("refines_skill_ids", [])), "refined_by": refined_by,
+        "task_options": task_options(catalog, [skill_id], records, exposures, limit=20),
+        "pending_need_ids": [need["need_id"] for need in needs if skill_id in need.get("skill_ids", [])
+                             and need.get("status") in {"open", "deferred"}],
+        "independent_mastery_evidence": False,
+        "notice": "这些入口来自明确目标关系和现有活动。先修是检查所需基础的路线，不是必须刷完所有前置内容的门槛；完成活动不自动证明掌握。"}

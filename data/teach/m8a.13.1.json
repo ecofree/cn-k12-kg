@@ -24,6 +24,13 @@
   "steps": [
    "三条边由相邻顶点连接得到AB、BC、CA。",
    "∠B以B为顶点，角边为射线BA、BC，未经过B的边AC与它相对。"
+  ],
+  "family_id": "triangle.elements.opposite-side",
+  "variant_id": "m8a.13.1:worked-example-v5",
+  "representation": "mixed",
+  "cognitive_demand": "explain",
+  "reference_family_ids": [
+   "triangle.elements.classification"
   ]
  },
  "pitfalls": [
@@ -42,7 +49,17 @@
     "criteria": [
      "指出∠A两边AB、AC",
      "对边为BC"
-    ]
+    ],
+    "family_id": "triangle.elements.opposite-side",
+    "variant_id": "m8a.13.1:self-check:0",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+   },
+   "observation_note": "写对BC仅观察角A的对边；还应换顶点核对另外两组，不能由一次文字选择确认全部元素。",
+   "difficulty_support": {
+    "discriminating_prompt": "你选的边是不是经过顶点A？经过A的两边是在组成∠A还是与它相对？",
+    "hint": "先圈顶点A，描出射线AB与AC；剩下不经过A的线段就是对边。",
+    "revision_prompt": "换成∠B再找一次，列三行“顶点—角边—对边”并保留更正。"
    }
   },
   {
@@ -55,22 +72,46 @@
     "criteria": [
      "连接三条线段",
      "使用△ABC表示封闭图形"
-    ]
+    ],
+    "family_id": "triangle.closed-segments-notation",
+    "variant_id": "m8a.13.1:self-check:1",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+   },
+   "observation_note": "本题观察封闭线段与△符号的对应，不观察周长计算。实际画出三段线并命名能补足仅选项作答的局限。",
+   "difficulty_support": {
+    "discriminating_prompt": "只画AB、BC时哪里没有封口？画两条无限延长的直线能限定三角形吗？",
+    "hint": "用手指沿A→B→C→A走一圈，确认每次走的是线段。",
+    "revision_prompt": "补画缺失线段并写△ABC；再画三点共线的反例，解释为什么不能称三角形。"
    }
   }
  ],
  "practice": [
   {
    "id": "m8a.13.1-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
+   "note": "观察角与对边的对应。"
+  },
+  {
+   "id": "m8a.13.1-q202",
+   "note": "观察三条封闭线段与符号的对应。"
   },
   {
    "id": "m8a.13.1-q101",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.13.1-q102",
-   "note": "独立作答后，按解析检查关键条件和推理。"
+   "note": "补充周长运用；不用于确认本页元素辨认和符号目标。"
   }
- ]
+ ],
+ "conditions": [
+  "三顶点不共线，由三条线段首尾相接构成封闭图形。",
+  "三角形的边是线段；内角的角边是从同一顶点出发的射线，二者不能混为不同长度的“边”。"
+ ],
+ "representation_note": "图中蓝色线段BC不经过顶点A，因此它是∠A的对边。右图的三个共线点虽可连接，却不能围成有内部区域的三角形。",
+ "diagram": {
+  "src": "/static/diagrams/triangle-elements-v5.svg",
+  "alt": "三角形ABC中BC与角A相对；右侧P、Q、R共线，不能围成非退化三角形。"
+ },
+ "content_revision": {
+  "author_type": "ai",
+  "date": "2026-10-27",
+  "teacher_review": "pending"
+ }
 }

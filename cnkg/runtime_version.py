@@ -23,7 +23,7 @@ GRADER_SOURCES = {
     "support": ("cnkg/answers.py", "cnkg/verify.py", "schema/answer-spec.schema.json"),
     "unit": ("cnkg/learning.py", "cnkg/verify.py", "cnkg/answers.py",
              "cnkg/contracts.py", "schema/answer-spec.schema.json"),
-    "topic": ("cnkg/engine.py", "cnkg/graph.py", "cnkg/evidence.py", "cnkg/verify.py",
+    "topic": ("cnkg/engine.py", "cnkg/graph.py", "cnkg/evidence.py", "cnkg/admissions.py", "cnkg/verify.py",
               "cnkg/answers.py", "cnkg/contracts.py", "schema/answer-spec.schema.json"),
 }
 

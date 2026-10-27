@@ -577,6 +577,14 @@
               "declared",
               "unclassified"
             ]
+          },
+          "reference_family_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
           }
         },
         "required": [
@@ -765,6 +773,20 @@
           "resource_version": {
             "type": "string",
             "pattern": "^[0-9a-f]{64}$"
+          },
+          "reference_families_by_key": {
+            "type": "object",
+            "propertyNames": {
+              "pattern": "^(example|self_check):[0-9]+$"
+            },
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+              },
+              "uniqueItems": true
+            }
           }
         },
         "required": [
@@ -911,6 +933,22 @@
                 "skill_id": {
                   "type": "string",
                   "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                },
+                "prerequisite_objective_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                  },
+                  "uniqueItems": true
+                },
+                "support_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                  },
+                  "uniqueItems": true
                 }
               },
               "required": [
@@ -1227,6 +1265,14 @@
                   ]
                 },
                 "refines_objective_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                  },
+                  "uniqueItems": true
+                },
+                "prerequisite_objective_ids": {
                   "type": "array",
                   "items": {
                     "type": "string",

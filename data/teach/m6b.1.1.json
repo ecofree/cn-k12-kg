@@ -27,7 +27,11 @@
       "3:x=1:2 中，外项是 3 和 2，内项是 x 和 1。",
       "外项积 = 内项积：3×2=1×x。",
       "所以 x=6。回验：3:6=1:2，比值都是 1/2。"
-    ]
+    ],
+    "variant_id": "m6b.1.1:worked-example-v5",
+    "family_id": "ratio.solve-proportion",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
   },
   "pitfalls": [
     "把「化简比」写成一个小数或分数值，丢掉「a:b」的形式。",
@@ -51,7 +55,7 @@
   "check": "能区分「化简比」和「求比值」，并解出 3:x=1:2 中 x=6。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,7 +69,20 @@
         "criteria": [
           "形式区分",
           "数值正确"
+        ],
+        "family_id": "ratio.reduce-direct",
+        "variant_id": "m6b.1.1:self-check:0:v5",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "reference_family_ids": [
+          "ratio.value-direct"
         ]
+      },
+      "observation_note": "分别留下最简比3:4和比值3/4，两种输出承担不同任务；只报0.75不证明会化简比，只报后项4也不够。",
+      "difficulty_support": {
+        "discriminating_prompt": "题目要“化简比”时写0.75，和要求“求比值”写3:4，各遗漏了什么？",
+        "hint": "化简比仍保留两个数及冒号；比值是前项除以后项得到的一个数。",
+        "revision_prompt": "把答题分成两行，第一行18:24=3:4，第二行18÷24=3/4；核对同除6没有改变比值。"
       }
     },
     {
@@ -78,8 +95,23 @@
         "criteria": [
           "外项内项积正确",
           "解8且检验"
-        ]
+        ],
+        "family_id": "ratio.solve-proportion",
+        "variant_id": "m6b.1.1:self-check:1:v5",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "observation_note": "观察交叉乘积、解出8及代回检验三步；单独输入8可能来自试数，不足以确认会写内外项关系。",
+      "difficulty_support": {
+        "discriminating_prompt": "x:6=4:3中哪两个是外项？写成4x=18为什么不对应原比例？",
+        "hint": "按从左到右的四项x、6、4、3，外项为x和3，内项为6和4。",
+        "revision_prompt": "重新连接内外项写3x=24，解得8后代回8/6=4/3；保留原错误连线。"
       }
     }
+  ],
+  "conditions": [
+    "比的后项非零；本卡应用只讨论正数量。",
+    "比例中的两个后项都不能为0，解出未知数后代回核对。",
+    "按比分配和地图比例尺应用在ratio_models单元另有建模目标，不用这些应用的数值替代本卡两项目标。"
   ]
 }

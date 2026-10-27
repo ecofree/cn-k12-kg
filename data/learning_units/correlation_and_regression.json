@@ -18,27 +18,47 @@
     {
       "id": "correlation_and_regression:correlation",
       "statement": "能根据样本相关系数和散点形状解释线性趋势，区分零线性相关与未定义的相关系数。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "sampling_and_variation:centre",
+        "sampling_and_variation:spread"
+      ]
     },
     {
       "id": "correlation_and_regression:ols",
       "statement": "能在含截距的一元最小二乘条件下由成对数据或样本中心求拟合系数，并检查横坐标变异条件。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "data_reading_and_mean:mean",
+        "linear_function_representations:formula"
+      ]
     },
     {
       "id": "correlation_and_regression:residual",
       "statement": "能按观测值减预测值计算有符号残差，并用图中上下位置解释正负。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "linear_function_representations:formula"
+      ]
     },
     {
       "id": "correlation_and_regression:r_squared",
       "statement": "能在明确的含截距一元最小二乘条件下解释R²=r²，区分样本解释变异、残差比例与因果或预测准确率。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "correlation_and_regression:correlation",
+        "correlation_and_regression:residual"
+      ]
     },
     {
       "id": "correlation_and_regression:prediction_limits",
       "statement": "能对基于观察数据的预测说明样本范围与关联证据的限制，指出外推或因果推断所需的额外依据。",
-      "granularity": "observable"
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "correlation_and_regression:correlation",
+        "correlation_and_regression:residual",
+        "sampling_and_variation:inference"
+      ]
     }
   ],
   "prerequisites": [
@@ -67,7 +87,9 @@
       ],
       "answer": "第一组负且更强；常数x时r未定义。",
       "family_id": "statistics.correlation-sign-and-domain",
-      "variant_id": "correlation_and_regression:example-1"
+      "variant_id": "correlation_and_regression:example-1",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "对三条成对数据(0,2)、(1,7)、(2,6)作含截距一元最小二乘拟合，并求x=1那条观测的残差。",
@@ -78,7 +100,14 @@
       ],
       "answer": "ŷ=3+2x；中间点残差2。",
       "family_id": "statistics.ols-from-paired-data",
-      "variant_id": "correlation_and_regression:example-2"
+      "variant_id": "correlation_and_regression:example-2",
+      "reference_family_ids": [
+        "statistics.ols-intercept-from-centre",
+        "statistics.signed-residual",
+        "statistics.prediction-substitution"
+      ],
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "prompt": "同一组非退化样本作含截距一元最小二乘回归，r=−0.8。R²是多少，能说80%的人一定被预测准确吗？",
@@ -89,7 +118,9 @@
       ],
       "answer": "R²=0.64；不能解读为人数命中率或因果比例。",
       "family_id": "statistics.r-squared-interpretation",
-      "variant_id": "correlation_and_regression:example-3"
+      "variant_id": "correlation_and_regression:example-3",
+      "representation": "symbolic",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "只在x为0到10时收集数据并拟合ŷ=2x+1。能仅因式子有定义，就保证x=100时实际y=201吗？",
@@ -100,7 +131,9 @@
       ],
       "answer": "201是外推值，原数据不保证实际值为201。",
       "family_id": "statistics.extrapolation-boundary",
-      "variant_id": "correlation_and_regression:example-4"
+      "variant_id": "correlation_and_regression:example-4",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     }
   ],
   "tasks": [

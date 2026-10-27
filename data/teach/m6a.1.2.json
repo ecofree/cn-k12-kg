@@ -6,7 +6,7 @@
   "name": "用方向和距离确定位置",
   "tier": "core",
   "hook": "只说「在东北方」，能找到那个点吗？还差什么？",
-  "definition": "用方向和距离确定位置：先说方向（如北偏东 30°），再说距离。方向和距离缺一不可。",
+  "definition": "先明确观测点和方向基准，再给出具体方向（如从北向东偏30°）及到观测点的距离，才能在平面图上唯一确定位置。",
   "why": "一个方向只能确定一条射线，射线上有无数个点；加上距离，才能从这条射线上「截」出唯一的一个点。这就是为什么导航既要说「朝哪个方向」，也要说「走多远」。",
   "when_to_use": [
     "要求描述某个物体在观测点的什么位置",
@@ -27,7 +27,11 @@
       "先看比例尺：图上 1 厘米 = 实际 100 米。",
       "图上有 4 厘米，就是 4 个 100 米。",
       "4×100=400 米。"
-    ]
+    ],
+    "variant_id": "m6a.1.2:worked-example-v5",
+    "family_id": "ratio.map-length-convert",
+    "representation": "verbal",
+    "cognitive_demand": "execute"
   },
   "pitfalls": [
     "只说方向不说距离，或只说距离不说方向。",
@@ -51,7 +55,7 @@
   "check": "能完整说出「北偏东 30°、距离 4 千米」，并在图上标出正确位置。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -60,12 +64,32 @@
       "title": "能用方向和距离描述位置",
       "explanation": "先给观测点，再给基准方向、偏转角和距离，才能唯一定位；方向表述必须明确。",
       "self_check": {
-        "prompt": "以学校为观测点，图书馆在北偏东30°方向500米处，应怎样完整描述？",
-        "reference_answer": "图书馆在学校北偏东30°、距离500米处；观测点是学校，从北向东转30°。",
+        "prompt": "看本题方位图：以学校O为观测点，完整描述图书馆P的位置。说明30度从哪条方向线量起；若只写“北偏东30度”，还缺什么？",
+        "reference_answer": "图书馆P在学校O的北偏东30度、距离500米处。30度从学校处的北向线向东量起。只写方向缺少距离；若离开本图，也须补明观测点学校O。",
         "criteria": [
-          "观测点明确",
-          "角度基准和距离齐全"
+          "观测点是学校O",
+          "从北向东量30度",
+          "距学校500米",
+          "区分只给方向与完整定位"
+        ],
+        "family_id": "position.bearing-read",
+        "variant_id": "m6a.1.2:self-check:0:v5",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-bearing-read-v5.svg",
+          "alt": "以学校O为观测点，P在北偏东30度、500米处。"
+        },
+        "reference_family_ids": [
+          "position.insufficient-reference",
+          "position.bearing-definition"
         ]
+      },
+      "observation_note": "读取图上的角度、距离并组合为完整描述；不是照抄一段已经写全的位置句子。仍需说明角度基准，缺任一条件继续保留。",
+      "difficulty_support": {
+        "discriminating_prompt": "把观测点从学校换成你家，原来的“北偏东30度、500米”一定还是同一点吗？",
+        "hint": "把“从哪里看、从哪条线转、转多少度、离多远”四项逐项指向图。",
+        "revision_prompt": "补全原描述的缺项，再画两个不同观测点说明同一方向距离未必给出同一点。"
       }
     },
     {
@@ -73,13 +97,42 @@
       "title": "能根据描述在图上标出位置",
       "explanation": "按比例尺把距离转成图长，从观测点沿所给方向射线截取图长。",
       "self_check": {
-        "prompt": "图上1厘米代表100米，画学校北偏东30°、500米的点。写步骤。",
-        "reference_answer": "学校处画北向线，向东转30°画射线；500÷100=5，沿射线量5厘米标图书馆。",
+        "prompt": "另在纸上作图：图上1厘米代表100米，标出学校O北偏西40度、距离300米的体育馆T。先写预测的图距，再作图，记录量角和量长步骤。",
+        "reference_answer": "预测图距300÷100=3厘米。以O画北向线，从北向西量40度作射线；沿射线量3厘米标T。屏幕图会缩放，纸上的厘米长度要用尺核对。",
         "criteria": [
-          "方向作法准确",
-          "图距5厘米"
+          "先预测图距3厘米",
+          "从北向西量40度",
+          "从O沿所作射线量3厘米",
+          "保留实际图和核对记录"
+        ],
+        "family_id": "position.bearing-construction",
+        "variant_id": "m6a.1.2:self-check:1:v5",
+        "representation": "geometry",
+        "cognitive_demand": "execute",
+        "diagram": {
+          "src": "/static/diagrams/primary-bearing-blank-v5.svg",
+          "alt": "只有学校O与北、东、西方向线，目标T尚未画出。"
+        },
+        "reference_family_ids": [
+          "ratio.map-length-convert"
         ]
+      },
+      "observation_note": "须留下实际图、量角基准和按比例尺量距；只输入3或文字步骤不证明点画在正确射线上，屏幕渲染长度不能当作厘米证据。",
+      "difficulty_support": {
+        "discriminating_prompt": "你从北向西还是从西向北量40度？两条射线一样吗？",
+        "hint": "量角器中心放在O，零刻度线对正北，向西的一侧读40；距离另用300÷100换算。",
+        "revision_prompt": "保留原射线，用另一颜色从正北重作40度，沿新射线量3厘米标T，并对照原点说明改动。"
       }
     }
-  ]
+  ],
+  "conditions": [
+    "观测点、北向或其他方向基准必须明确，角度从所说的基准射线量起。",
+    "距离为从观测点到目标的直线距离；按比例尺作图时，先统一单位。",
+    "屏幕图会缩放；要求厘米长度的作图在纸上完成，不用像素代替厘米。"
+  ],
+  "representation_note": "方位图以学校O为顶点，北向上、东向右；OP从北向东转30度，标注500米。作图自检另提供空白基准，避免照抄已画好的点。",
+  "diagram": {
+    "src": "/static/diagrams/primary-bearing-read-v5.svg",
+    "alt": "以学校O为观测点，P在北偏东30度、500米处。"
+  }
 }

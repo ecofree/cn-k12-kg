@@ -4912,7 +4912,7 @@
       "topicId": "m4a.6.1",
       "difficulty": "standard",
       "type": "numeric",
-      "prompt": "四（1）班同学最喜欢的运动统计如下：跳绳 12 人、篮球 9 人、足球 6 人、乒乓球 13 人。喜欢人数最多的项目比最少的项目多多少人？",
+      "prompt": "读附图：四（1）班每人只选一项最喜欢的运动。喜欢人数最多的项目比最少的项目多多少人？",
       "choices": [],
       "answer": "7",
       "explanation": "条形统计图里直条越高人数越多。最多是乒乓球 13 人，最少是足球 6 人，相差 13-6=7 人。比较多少直接看直条高低，不用把数据全加起来。",
@@ -4942,6 +4942,18 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "diagram": {
+        "src": "/static/diagrams/statistics-v5-sports-bars.svg",
+        "alt": "每人只选择一项最喜欢的运动，纵轴为人数，每格2人；跳绳12人、篮球9人、足球6人、乒乓球13人。"
+      },
+      "family_id": "statistics.bar-axis-reading",
+      "variant_id": "m4a.6.1-q101:v5",
+      "representation": "graph",
+      "cognitive_demand": "execute",
+      "alignment_note": "从四类运动的实际直条读取最大13与最小6并比较差7；同结构读图与减法。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -4949,10 +4961,10 @@
       "topicId": "m4a.6.1",
       "difficulty": "standard",
       "type": "numeric",
-      "prompt": "用上题的数据：跳绳 12 人、篮球 9 人、足球 6 人、乒乓球 13 人。四（1）班一共有多少人参加统计？",
+      "prompt": "读附图：统计已覆盖四（1）班全体学生，每人只选一项最喜欢的运动。全班共有多少人？",
       "choices": [],
       "answer": "40",
-      "explanation": "每个同学只选一个项目，各部分人数合起来就是总人数：12+9+6+13=40 人。求总数才需要相加，比较多少时不必。",
+      "explanation": "每人只选择一项，且已覆盖全班，才能把四类人数相加。12+9+6+13=40。若允许多选，选择次数就不一定等于学生人数。",
       "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
       "drill_kind": "application",
       "generated": true,
@@ -4979,6 +4991,18 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "diagram": {
+        "src": "/static/diagrams/statistics-v5-sports-bars.svg",
+        "alt": "每人只选择一项最喜欢的运动，纵轴为人数，每格2人；跳绳12人、篮球9人、足球6人、乒乓球13人。"
+      },
+      "family_id": "statistics.bar-total-count",
+      "variant_id": "m4a.6.1-q102:v5",
+      "representation": "graph",
+      "cognitive_demand": "execute",
+      "alignment_note": "从互斥且覆盖全班的运动图读取四类人数并求和40；缺少每人只选一项条件时不能据此求班级人数。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -6378,10 +6402,10 @@
       "topicId": "m5b.3.1",
       "difficulty": "standard",
       "type": "numeric",
-      "prompt": "一瓶饮料，第一次喝了 1/4，第二次又喝了 1/4。两次一共喝了这瓶的几分之几（用小数表示）？",
+      "prompt": "一瓶饮料，第一次喝了原来整瓶的1/4，第二次又喝了原来整瓶的1/4。两次一共喝了原来整瓶的几分之几？用小数表示。",
       "choices": [],
       "answer": "0.5",
-      "explanation": "分母相同，分子相加：1+1=2，得 2/4，约分是 1/2，也就是 1/4+1/4=0.5。分数相加后要养成约分的习惯，2/4 和 1/2 是同一个数，但后者才是最终答案。",
+      "explanation": "两次都以原来整瓶为整体，相同单位可直接加份数：1/4+1/4=2/4=1/2=0.5。2/4和1/2等值；若要求最简分数应写1/2，本题按要求用小数0.5。",
       "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
       "drill_kind": "application",
       "generated": true,
@@ -6394,31 +6418,26 @@
       "difficulty_calibration": "design_label_pending_student_data",
       "verify": "1/4+1/4",
       "evidence_level": "verified",
-      "evidence_signals": {
-        "analysis_chars": 86,
-        "has_steps": true,
-        "final_letter": null,
-        "final_match": false,
-        "arith_ok": 2,
-        "arith_bad": 0,
-        "recompute_hits_key": true,
-        "answer_in_analysis": true,
-        "cross_source": false,
-        "verify_consistent": true
-      },
-      "evidence_notes": [
-        "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      "family_id": "fraction.add-common-unit",
+      "variant_id": "m5b.3.1-q101:v5",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "两次分率都以原整瓶为整体，观察同单位相加；小数回答不能证明最简分数形式，需要留下算式。",
+      "diagnosis_eligible": false,
+      "tested_criterion_indices": [
+        0
+      ],
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "m5b.3.1-q102",
       "topicId": "m5b.3.1",
       "difficulty": "standard",
       "type": "numeric",
-      "prompt": "一根绳子第一次用去 2/5，第二次用去 1/5，还剩几分之几（用小数表示）？",
+      "prompt": "一根绳子第一次用去原全长的2/5，第二次用去原全长的1/5，还剩原全长的几分之几？用小数表示。",
       "choices": [],
       "answer": "0.4",
-      "explanation": "两次一共用去 3/5，剩下 1-3/5=2/5，即 0.4，一条式子是 1-2/5-1/5=0.4。「1」要换成 5/5 才能和分数相减，直接写 1 减分数是这类题最常见的卡点。",
+      "explanation": "两个分率的整体都是原全长，两次共用3/5；原全长是5/5，剩5/5−3/5=2/5=0.4。若第二次指剩余长度的1/5，题意和结果都会不同，不能混用。",
       "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
       "drill_kind": "application",
       "generated": true,
@@ -6431,21 +6450,16 @@
       "difficulty_calibration": "design_label_pending_student_data",
       "verify": "1-2/5-1/5",
       "evidence_level": "verified",
-      "evidence_signals": {
-        "analysis_chars": 89,
-        "has_steps": true,
-        "final_letter": null,
-        "final_match": false,
-        "arith_ok": 2,
-        "arith_bad": 0,
-        "recompute_hits_key": true,
-        "answer_in_analysis": true,
-        "cross_source": false,
-        "verify_consistent": true
-      },
-      "evidence_notes": [
-        "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      "family_id": "fraction.remainder-from-original",
+      "variant_id": "m5b.3.1-q102:v5",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "两次用量都以原绳全长为整体，观察1减去两部分的模型；不是依次取剩余部分的分率，仍需算式辨别。",
+      "diagnosis_eligible": false,
+      "tested_criterion_indices": [
+        0
+      ],
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "m5b.4.1-q101",
@@ -6568,14 +6582,20 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "statistics.mean-from-values",
+      "variant_id": "m5b.5.1-q101:v5",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "五天气温之和107除5为21.4，是平均数支持练习，不观察折线趋势或变化幅度。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "diagnosis_eligible": false
     },
     {
       "id": "m5b.5.1-q102",
       "topicId": "m5b.5.1",
       "difficulty": "advanced",
       "type": "numeric",
-      "prompt": "某地 1 月平均气温 5℃，2 月 8℃，3 月 12℃，4 月 18℃。3 月到 4 月比 2 月到 3 月多上升了多少摄氏度？",
+      "prompt": "读附图一至四月平均气温：三月至四月的升温量比二月至三月的升温量多多少摄氏度？",
       "choices": [],
       "answer": "2",
       "explanation": "先分别求两段变化：3 月到 4 月上升 18-12=6 ℃，2 月到 3 月上升 12-8=4 ℃；再比较多少：6-4=2 ℃。折线统计图上「陡」就是单位时间变化大，算的就是这个差。",
@@ -6605,6 +6625,18 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "diagram": {
+        "src": "/static/diagrams/statistics-v5-line-months.svg",
+        "alt": "月份等距，纵轴从0到20摄氏度，每格2度；一至四月平均气温分别为5、8、12、18摄氏度。"
+      },
+      "family_id": "statistics.line-change-comparison",
+      "variant_id": "m5b.5.1-q102:v5",
+      "representation": "graph",
+      "cognitive_demand": "execute",
+      "alignment_note": "从实际一至四月图算12−8=4与18−12=6，再比较增幅相差2；未仅凭陡缓判断。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "tested_criterion_indices": [
+        1
       ]
     },
     {
@@ -6642,7 +6674,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "ratio.map-length-convert",
+      "variant_id": "m6a.1.2-q101:v5",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "只有比例尺距离换算，没有方位或作图；是定位的距离支持练习，不映射完整描述和作图目标。",
+      "diagnosis_eligible": false,
+      "target_alignment": "topic_only"
     },
     {
       "id": "m6a.1.2-q102",
@@ -6685,7 +6724,17 @@
       },
       "evidence_notes": [
         "解析具有推导信号且结论与答案一致；尚无独立审核"
-      ]
+      ],
+      "family_id": "position.reverse-bearing",
+      "variant_id": "m6a.1.2-q102:v5",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "alignment_note": "观察交换观测点后的反方向表述，接受南偏西40度与西偏南50度；单独方向答案仍不包含完整距离陈述。",
+      "diagnosis_eligible": false,
+      "tested_criterion_indices": [
+        0
+      ],
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "m6a.2.1-q101",
@@ -7671,7 +7720,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "ratio.allocate-from-total",
+      "variant_id": "m6b.1.1-q101:v5",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "按比分配给定总量，观察找总份数与部分量；这超出本卡化简求比值和解比例两个承诺，归入ratio_models对应分配活动支持，不能代替原目标。",
+      "diagnosis_eligible": false,
+      "target_alignment": "topic_only"
     },
     {
       "id": "m6b.1.1-q102",
@@ -7708,7 +7764,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "ratio.allocate-from-total",
+      "variant_id": "m6b.1.1-q102:v5",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "按比分配给定总量，观察找总份数与部分量；这超出本卡化简求比值和解比例两个承诺，归入ratio_models对应分配活动支持，不能代替原目标。",
+      "diagnosis_eligible": false,
+      "target_alignment": "topic_only"
     },
     {
       "id": "m6b.1.1-q103",
@@ -7745,7 +7808,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "ratio.map-length-convert",
+      "variant_id": "m6b.1.1-q103:v5",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "观察统一长度单位后按给定比例尺求图距，未要求化简比或解未知比例；保留ratio_models地图应用支持，不映射本卡承诺。",
+      "diagnosis_eligible": false,
+      "target_alignment": "topic_only"
     },
     {
       "id": "m6b.2.1-q101",
@@ -7782,6 +7852,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "statistics.part-from-percentage",
+      "variant_id": "m6b.2.1-q101:v5",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "已给总人数40与占比35%，计算14；只观察比例到数量，不证明从未标数值的扇形读百分比。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -7819,6 +7897,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "statistics.whole-from-part-percentage",
+      "variant_id": "m6b.2.1-q102:v5",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "由12对应25%反求整体48，观察目标中的整体与部分关系，非直接乘整体题。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -7856,6 +7942,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "statistics.part-difference-from-percentages",
+      "variant_id": "m6b.2.1-q103:v5",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "同一总量2400下比较40%与25%对应数量差360；观察比例差的应用，未观察实际扇形读图。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -8892,7 +8986,15 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "equation.balance-model",
+      "variant_id": "m7a.5.1.2-q101",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "数值答案只观察天平情境的建模求值，没有收集两边同做何种操作的解释，不能作为本节两条说明性目标的证据。",
+      "target_alignment": "topic_only_practice",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "m7a.5.1.2-q102",
@@ -8929,7 +9031,15 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "equation.solve-linear",
+      "variant_id": "m7a.5.1.2-q102",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "只填写数值不展示等式性质；可继续练习线性方程，但不能由结果确认变形依据的说明。",
+      "target_alignment": "topic_only_practice",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "m7a.5.2-q101",
@@ -8966,6 +9076,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "equation.solve-linear",
+      "variant_id": "m7a.5.2-q101",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "观察两边含未知数的方程求解结果；与其他数字改写同属求线性方程解的题族。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -9003,7 +9121,15 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "equation.solution-substitution-parameter",
+      "variant_id": "m7a.5.2-q102",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "已知x的解后求参数a，观察代入解的含义；不要求解未知x的步骤，也没有去分母漏乘，保留主题支持练习。",
+      "target_alignment": "topic_only_practice",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "m7a.5.3-q101",
@@ -9040,6 +9166,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "equation.meeting-model",
+      "variant_id": "m7a.5.3-q101",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "与q3同为相向同时匀速运动的相遇模型；更换数字不构成新的独立题族。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -9077,6 +9211,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "equation.discount-base-model",
+      "variant_id": "m7a.5.3-q102",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "需要分清进价作为利润率基数、标价作为折扣基数；填折数不能确认完整建模说明。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -11436,6 +11578,14 @@
       },
       "evidence_notes": [
         "解析具有推导信号且结论与答案一致；尚无独立审核"
+      ],
+      "family_id": "statistics.census-purpose",
+      "variant_id": "m7b.12.1.1-q101:v5",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy",
+      "alignment_note": "校服逐人合身要求每人的身高胸围，与尺码核对任务同族。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -11473,6 +11623,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "statistics.census-purpose",
+      "variant_id": "m7b.12.1.1-q102:v5",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy",
+      "alignment_note": "逐项区分个体服务和破坏性寿命试验，两个场合适合全查；计数只是报告三次方案判断。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -11732,7 +11890,15 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "triangle.perimeter.isosceles",
+      "variant_id": "m8a.13.1-q101",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "等腰三角形周长计算不是辨认元素或书写三角形符号的直接任务，保留topic_only。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "m8a.13.1-q102",
@@ -11769,7 +11935,15 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "triangle.perimeter.proportional-sides",
+      "variant_id": "m8a.13.1-q102",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "按边长比与周长求边长，不能硬绑基本元素/符号目标，保留topic_only。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "m8a.13.2-q101",
@@ -11779,7 +11953,7 @@
       "prompt": "两根木条分别长 5 厘米和 8 厘米，要用第三根木条与它们钉成一个三角形（木条长度取整厘米）。第三根最长可以是多少厘米？",
       "choices": [],
       "answer": "12",
-      "explanation": "三角形任意两边之和大于第三边，所以第三边必须小于 5+8=13 厘米；长度取整厘米时最大是 13-1=12 厘米。判断三条线段能否围成三角形，只看较短两边之和是否大于最长边。",
+      "explanation": "第三边x须同时满足8−5<x<8+5，即3<x<13。最大整数为12；复核5+8>12且其他两边和也大于第三边，所以12可行。只看x<13而忽略下界不能一般地判断所有候选。",
       "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
       "drill_kind": "application",
       "generated": true,
@@ -11806,7 +11980,18 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "triangle.third-side-integer-range",
+      "variant_id": "m8a.13.2-q101",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "第三边严格范围转整数最大值，与单元同结构题保留同族。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "m8a.13.2-q102",
@@ -11816,7 +12001,7 @@
       "prompt": "三角形纸片 ABC 中，AD 是 BC 边上的中线。沿 AD 剪开后，三角形 ABD 的面积是 7 平方厘米。原三角形纸片的面积是多少平方厘米？",
       "choices": [],
       "answer": "14",
-      "explanation": "中线把对边分成相等的两段，两块三角形等底同高，所以面积相等；原面积是两块之和，7*2=14 平方厘米。看到中线先想「平分面积」，看到高才想面积公式，两条线索不要混。",
+      "explanation": "AD是中线，所以BD=DC。三角形ABD与ACD以BD、DC为底时，共用顶点A到底边所在直线的垂直距离；等底同高得到面积相等，因此原面积7+7=14平方厘米。AD一般不垂直BC，不能把中线长度直接当高。",
       "difficulty_basis": "自产应用题（advanced）：要认出「中线把面积平分」，再用一半推整体，方向是逆向的",
       "drill_kind": "application",
       "generated": true,
@@ -11843,7 +12028,15 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "triangle.median.equal-area",
+      "variant_id": "m8a.13.2-q102",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "alignment_note": "中线等底同高的面积推论不等于作出高/中线/角平分线，也非三边判定，保留topic_only。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "m8a.13.3-q101",
@@ -11880,7 +12073,18 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "triangle.interior-angle-sum",
+      "variant_id": "m8a.13.3-q101",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "玻璃情境仍为两已知内角求第三角，不因情境新而声明独立迁移。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "m8a.13.3-q102",
@@ -11917,7 +12121,18 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "triangle.angle-equation-model",
+      "variant_id": "m8a.13.3-q102",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "外角关系加两内角差，需同时列和差方程；与单元相同数学结构合族。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "m8a.14.1-q101",
@@ -13804,18 +14019,26 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "arithmetic.price-discount",
+      "variant_id": "m8b.22.2-q101",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "单次价格乘折扣计算，不要求选择函数表示或读图；不以主题标签冒充目标覆盖。",
+      "target_alignment": "topic_only_practice",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "m8b.22.2-q102",
       "topicId": "m8b.22.2",
       "difficulty": "advanced",
       "type": "numeric",
-      "prompt": "下表记录了某网约车的计费规则：3 公里内 10 元，超过 3 公里后每公里 2.4 元。会员在此基础上再减 3 元。会员行驶 8 公里比非会员少付多少元？",
+      "prompt": "某网约车3公里内收费10元，超过3公里的部分按每公里2.4元收费。会员在同一计费结果上统一减3元。会员与非会员各行驶8公里，会员少付多少元？",
       "choices": [],
       "answer": "3",
-      "explanation": "非会员付 10+2.4*5=22 元，会员在这基础上减 3 元，即 19 元；两者相差 22-19=3 元。「少付多少」是求差，不是求会员价——问什么就答什么，这一步丢分最常见。",
-      "difficulty_basis": "自产应用题（advanced）：要用函数的两种表示对照：先由表格读出一组对应值，再算差",
+      "explanation": "非会员费用为10+2.4×(8−3)=22元，会员费用为22−3=19元，相差3元。也可以直接由统一减3元判断差额；这一步不需要读取图表。",
+      "difficulty_basis": "给定固定优惠后的差额识别；本题不观察表格读取或函数表示的选择。",
       "drill_kind": "application",
       "generated": true,
       "review_status": "ai-generated",
@@ -13841,7 +14064,15 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "arithmetic.fixed-discount-difference",
+      "variant_id": "m8b.22.2-q102",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "会员统一少付3元已在题干给出；仅练习识别所问差额，未观察任何函数表示行为。",
+      "target_alignment": "topic_only_practice",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "m8b.23.1-q101",
@@ -13878,6 +14109,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "linear.table-to-parameters",
+      "variant_id": "m8b.23.1-q101",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "已知截距后代入一个点求斜率，是完整待定系数过程的一部分。",
+      "tested_criterion_indices": [
+        1
       ]
     },
     {
@@ -13888,7 +14127,7 @@
       "prompt": "已知 y 与 x 成正比例，当 x=4 时 y=10。当 x=6 时 y 是多少？",
       "choices": [],
       "answer": "15",
-      "explanation": "正比例函数是 y=kx，由 10=4k 得 k=2.5；所以 x=6 时 y=10/4*6=15。先把系数求出来，再代第二个 x——顺序反了就得解一次方程。",
+      "explanation": "由正比例前提写y=kx。代入x=4、y=10得k=10/4=2.5，再令x=6得y=15；也可按比值不变直接计算10×6/4。两种顺序都成立，但需要保留正比例前提。",
       "difficulty_basis": "自产应用题（advanced）：要先由一组对应值求出正比例系数，再算另一处的函数值",
       "drill_kind": "application",
       "generated": true,
@@ -13915,6 +14154,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "linear.proportional-parameters",
+      "variant_id": "m8b.23.1-q102",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "利用正比例前提由一组值求系数再求另一输出；结果不能代替系数推导和前提说明。",
+      "tested_criterion_indices": [
+        1
       ]
     },
     {
@@ -13952,6 +14199,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "linear.axis-intercepts",
+      "variant_id": "m8b.23.2-q101",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "与q2同属令y=0求轴交点的结构，更换系数不算新题族。",
+      "tested_criterion_indices": [
+        1
       ]
     },
     {
@@ -13962,7 +14217,7 @@
       "prompt": "一次函数的图象经过点 (1,5) 和 (3,11)。当 x=5 时 y 是多少？",
       "choices": [],
       "answer": "17",
-      "explanation": "先求斜率：两点纵坐标之差除以横坐标之差，(11-5)/(3-1)=6/2=3；再由 5=3*1+b 得 b=2，所以解析式是 y=3x+2；当 x=5 时 y=3*5+2=17。待定系数法永远是「先 k 后 b」，k 用两点纵差比横差最快。",
+      "explanation": "两点横坐标不同，斜率为(11−5)/(3−1)=3。代入(1,5)得b=2，所以y=3x+2，x=5时y=17。也可联立两个点代入的方程求k、b；求系数没有必须先k后b的固定顺序。",
       "difficulty_basis": "自产应用题（advanced）：要先由两点求解析式，再代第三个 x，是待定系数法的完整流程",
       "drill_kind": "application",
       "generated": true,
@@ -13989,7 +14244,15 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "linear.table-to-parameters",
+      "variant_id": "m8b.23.2-q102",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "由两点求式后求值，没有问象限、增减性或轴交点；保留对待定系数的支持练习。",
+      "target_alignment": "topic_only_practice",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "m8b.23.3-q101",
@@ -14100,6 +14363,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "equation.single-fee-model",
+      "variant_id": "m8b.23.4-q101",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "由固定月租与每分钟费求费用，观察建模结果的一部分；需要作品记录函数式与系数单位。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -14137,6 +14408,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "linear.equal-cost-intersection",
+      "variant_id": "m8b.23.4-q102",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "为两方案写费用关系再求交点；所给分钟数不单独证明函数式和适用条件。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -14174,6 +14453,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "statistics.mean-from-values",
+      "variant_id": "m8b.24.1-q101:v5",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "五次成绩总和430除5为86，仅观察平均数分项。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -14211,6 +14498,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "statistics.missing-value-from-mean",
+      "variant_id": "m8b.24.1-q102:v5",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "用6×85−430反求80，观察均值与总量关系，未证明中位数或众数能力。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -14218,7 +14513,7 @@
       "topicId": "m8b.24.2",
       "difficulty": "standard",
       "type": "numeric",
-      "prompt": "一组数据是 2、4、6、8，它们的平均数是 5。这组数据的方差是多少？",
+      "prompt": "一组数据为2、4、6、8，平均数为5。按平方离差和除以数据个数n计算，它们的描述性方差是多少？",
       "choices": [],
       "answer": "5",
       "explanation": "每个数与平均数的差是 -3、-1、1、3，平方后是 9、1、1、9，总和 20 除以 4：((2-5)^2+(4-5)^2+(6-5)^2+(8-5)^2)/4=5。方差算的是「差的平方的平均」，平方是为了不让正负相互抵消。",
@@ -14248,6 +14543,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "statistics.variance-from-values",
+      "variant_id": "m8b.24.2-q101:v5",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "均值已给5，平方离差和20除4得5；只观察方差计算后半段。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -14255,7 +14558,7 @@
       "topicId": "m8b.24.2",
       "difficulty": "advanced",
       "type": "numeric",
-      "prompt": "甲组数据是 3、5、7，乙组数据是 1、5、9。乙组方差比甲组方差大多少？",
+      "prompt": "同一测量指标、同一单位下，甲组数据3、5、7，乙组1、5、9。两组方差均按平方离差和除以n计算。乙的方差比甲大多少？",
       "choices": [],
       "answer": "8",
       "explanation": "两组平均数都是 5。甲组偏差是 -2、0、2，方差是 8/3；乙组偏差是 -4、0、4，方差是 32/3；两者相差 32/3-8/3=8。数据越往两端散，偏差的平方就越大——所以乙组虽然平均数和甲组一样，波动却大得多。",
@@ -14285,6 +14588,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "statistics.variance-difference",
+      "variant_id": "m8b.24.2-q102:v5",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "两组同单位描述性方差分别8/3、32/3，差8；题目只报数值差，稳定性解释仍需另外观察。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -16542,17 +16853,25 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "views.cuboid.dimensions-volume",
+      "variant_id": "m9b.33.2.2-q101",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "由已知长方体的视图读取三维尺寸并求体积；形体已给定，不用于确认由视图辨认形状或方块计数。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "m9b.33.2.2-q102",
       "topicId": "m9b.33.2.2",
       "difficulty": "advanced",
       "type": "numeric",
-      "prompt": "一个圆柱的主视图是长 4 厘米、高 6 厘米的长方形。这个圆柱的体积是 π 的多少倍？",
+      "prompt": "一个轴竖直、底面水平的直圆柱，主视图是宽4厘米、高6厘米的长方形。这里宽4厘米对应底面直径。这个圆柱的体积是π的多少倍（以立方厘米计）？",
       "choices": [],
       "answer": "24",
-      "explanation": "主视图的长 4 是底面直径，所以底面半径是 2，底面积是 4π；体积是底面积乘高：4*6=24，即 24π 立方厘米。圆柱的主视图给的是直径不是半径，直接拿 4 去平方会把体积算大四倍。",
+      "explanation": "按题设直立方式，主视宽4厘米为底面直径，半径4÷2=2厘米，高为6厘米。所以V=π×2²×6=24π立方厘米。若把4当作半径会得到96π，属于直径与半径混淆；该解释依赖题设摆放方向。",
       "difficulty_basis": "自产应用题（advanced）：圆柱的主视图只给直径和高，体积要先由直径求半径再平方",
       "drill_kind": "application",
       "generated": true,
@@ -16579,7 +16898,15 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "views.upright-cylinder.diameter-volume",
+      "variant_id": "m9b.33.2.2-q102",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "由已知直立圆柱主视图取直径和高再求体积；不用于确认辨认形体或方块计数。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "m9b.34.1.1-q101",
@@ -21400,11 +21727,11 @@
       "topicId": "mh2.8.2",
       "difficulty": "standard",
       "type": "numeric",
-      "prompt": "用斜二测画法把一个边长为 4 的正方形画成直观图。直观图中竖直方向的边长是多少？",
+      "prompt": "用标准45°斜二测画法画一个水平放置、边长4的正方形，两条邻边分别平行于原x轴、y轴。原来平行于y轴的那条边，在直观图上画多长？",
       "choices": [],
       "answer": "2",
-      "explanation": "斜二测画法规定：水平方向长度不变，竖直方向长度减半。所以竖直方向变成 4/2=2。这也解释了为什么直观图看起来「扁」。",
-      "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
+      "explanation": "缩短的是水平面中原来沿y方向的分量，它在图中沿y′轴画为4÷2=2。这里不是空间竖直的z方向；沿z方向的长度保持不变。",
+      "difficulty_basis": "区分水平面的y向缩放与空间z向长度，执行标准斜二测比例。",
       "drill_kind": "application",
       "generated": true,
       "review_status": "ai-generated",
@@ -21430,18 +21757,29 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "projection.oblique.forward-length",
+      "variant_id": "mh2.8.2-q101",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "只观察原y向边在图上的长度；不是空间z向，也不证明完整作图。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "mh2.8.2-q102",
       "topicId": "mh2.8.2",
       "difficulty": "advanced",
       "type": "numeric",
-      "prompt": "同上，边长为 4 的正方形画成斜二测直观图后，直观图的面积是多少？（sin45 约 0.707）",
+      "prompt": "一个水平放置、边长4的正方形，两条邻边分别平行于x轴、y轴。按x′与y′夹45°、x向不变且y向减半的斜二测规则作直观图。按sin45°≈0.707计算，图中平行四边形面积是多少平方单位？",
       "choices": [],
       "answer": "5.656",
-      "explanation": "直观图是一个平行四边形：底仍是 4，高变成 2 乘 sin45。面积 4*2*0.707=5.656 平方单位，约是原面积的一半。斜二测直观图的面积总是原图形面积的四分之根号二倍。",
-      "difficulty_basis": "自产应用题（advanced）：直观图面积要按竖直减半、夹角 45 度一起算，不等于原面积",
+      "explanation": "两条邻边在图中分别为4与2、夹角45°，所以面积4×2×0.707=5.656平方单位。相对原正方形面积16，面积比为5.656÷16=0.3535，约等于√2/4，不是一半。这里讨论水平面中按该规则变换的图形，不把面积规则推广到任意空间平面。",
+      "difficulty_basis": "将y向缩半和轴夹角45°共同计入平行四边形面积，避免把缩半直接当面积减半。",
       "drill_kind": "application",
       "generated": true,
       "review_status": "ai-generated",
@@ -21467,17 +21805,25 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "projection.oblique.area-scale",
+      "variant_id": "mh2.8.2-q102",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "任务要求投影面积比，超出当前两条目标的直接行为描述；保留topic_only，不硬绑作图完成。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "mh2.8.3.1-q101",
       "topicId": "mh2.8.3.1",
       "difficulty": "standard",
       "type": "numeric",
-      "prompt": "某三棱柱形帐篷的底面积是 6 平方米，高是 4 米。它的体积是多少立方米？",
+      "prompt": "某三棱柱形帐篷的三角形底面面积是6平方米，两个平行三角形底面之间的垂直距离是4米。它的体积是多少立方米？",
       "choices": [],
       "answer": "24",
-      "explanation": "柱体体积等于底面积乘高：6*4=24 立方米。柱体不需要除以 3，锥体才要。",
+      "explanation": "棱柱体积等于底面积乘两个底面的垂直距离，所以6×4=24立方米。此处4米是柱体的高，不是三角形底面内的高；棱柱不除以3。",
       "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
       "drill_kind": "application",
       "generated": true,
@@ -21504,17 +21850,28 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "solid.prism.base-height-volume",
+      "variant_id": "mh2.8.3.1-q101",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        3
+      ],
+      "alignment_note": "三棱柱帐篷与直接给底面积、高的题是同族，不因情境文字变化成为迁移独立题。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "mh2.8.3.1-q102",
       "topicId": "mh2.8.3.1",
       "difficulty": "advanced",
       "type": "numeric",
-      "prompt": "某棱台形水槽的上底面积 4 平方米、下底面积 9 平方米、高 3 米。它的体积是多少立方米？",
+      "prompt": "某棱台形水槽的上下底面来自同一棱锥的平行截面，面积分别为4与9平方米，两底面垂直距离为3米。它的容积按几何体体积计算是多少立方米？",
       "choices": [],
       "answer": "19",
-      "explanation": "台体体积等于三分之一乘高，再乘「上底加下底加两者几何平均」。4 与 9 的几何平均是 6，因为 6 乘 6 等于 4 乘 9。所以体积是 3/3*(4+9+6)=19 立方米。",
+      "explanation": "平行截得保证可用棱台公式。几何平均项√(4×9)=6，所以V=3×(4+9+6)÷3=19立方米。只取两底平均再乘高会给19.5，这不是棱台的正确体积。",
       "difficulty_basis": "自产应用题（advanced）：台体公式里的中间项是上下底面积的几何平均，漏掉会算小",
       "drill_kind": "application",
       "generated": true,
@@ -21541,7 +21898,18 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "solid.frustum.parallel-cut-volume",
+      "variant_id": "mh2.8.3.1-q102",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        5
+      ],
+      "alignment_note": "只观察平行截得的棱台水槽体积；上下底面积与垂直高为条件。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "mh2.8.3.2-q101",
@@ -22990,7 +23358,15 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "probability.independent-intersection",
+      "variant_id": "mh2.10.2-q101",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "独立射击前提已给，数值乘积不能反向证明会检验独立性；与q2同族。",
+      "target_alignment": "topic_only_practice",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh2.10.2-q102",
@@ -23027,7 +23403,15 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "probability.at-least-one-independent",
+      "variant_id": "mh2.10.2-q102",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "在明确独立的前提下求至少一人的概率，练习补事件方法，未要求检验独立或区分互斥。",
+      "target_alignment": "topic_only_practice",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh2.10.3.1-q101",
@@ -25932,10 +26316,10 @@
       "topicId": "mh4.5.3.1",
       "difficulty": "standard",
       "type": "numeric",
-      "prompt": "某产品利润 f(x)=x^2-4x（万元），x 是产量。利润开始由降转升的产量是多少？",
+      "prompt": "在一个连续产量模型中，x的单位为吨，允许0≤x≤5，利润f(x)=x²−4x（万元）。利润在何产量处由下降转为上升？请填吨数。",
       "choices": [],
       "answer": "2",
-      "explanation": "求导得 2x-4，令其为零得 x=2。x 小于 2 时导数为负、大于 2 时为正，所以 2 是单调性转折点。解方程时 4/2=2。",
+      "explanation": "f′(x)=2x−4。允许范围内，0<x<2时导数负，2<x<5时导数正，因此在x=2吨处由下降转为上升；该点位于允许区间内。",
       "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
       "drill_kind": "application",
       "generated": true,
@@ -25962,6 +26346,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "derivative.linear-sign",
+      "variant_id": "mh4.5.3.1-q101",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "在明确连续产量模型范围内定位下降转上升的分界；仍需解释导数两侧符号。",
+      "tested_criterion_indices": [
+        1
       ]
     },
     {
@@ -25973,7 +26365,7 @@
       "choices": [],
       "answer": "2",
       "explanation": "求导得 3x^2-3，零点为 1 与 -1。在 -1 左侧导数为正、右侧为负，先增后减，所以 x=-1 取极大值。代入得 -1 加 3，即 -1+3=2。",
-      "difficulty_basis": "自产应用题（advanced）：导数由正变负才是极大，变号方向决定极大还是极小",
+      "difficulty_basis": "题干已给极大值位置，本题只练习函数值代入，不能据此认定会用导数求单调区间。",
       "drill_kind": "application",
       "generated": true,
       "review_status": "ai-generated",
@@ -25999,17 +26391,25 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "function.value-at-given-point",
+      "variant_id": "mh4.5.3.1-q102",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "极大值位置已由题干告知，只需代入求函数值；不能作为导数判断单调性或求区间的证据。",
+      "target_alignment": "topic_only_practice",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh4.5.3.2-q101",
       "topicId": "mh4.5.3.2",
       "difficulty": "standard",
       "type": "numeric",
-      "prompt": "某商品利润 f(x)=-x^2+4x（万元），x 是售价。最大利润是多少万元？",
+      "prompt": "某商品的简化利润模型为f(x)=−x²+4x（万元），x表示售价（百元），允许0≤x≤4且可连续取值。在这一允许范围内，最大利润是多少万元？",
       "choices": [],
       "answer": "4",
-      "explanation": "求导得 -2x+4，令其为零得 x=2。代入 -(2*2)+4*2=4 万元。二次函数开口向下，顶点就是最大值点。",
+      "explanation": "f′(x)=−2x+4，区间内驻点为x=2。比较f(0)=0、f(2)=4、f(4)=0，最大利润为4万元，在售价2百元时取得。必须核对驻点处于允许范围，并与端点比较。",
       "difficulty_basis": "自产应用题（standard）：把知识用到具体情境里，一步或两步完成",
       "drill_kind": "application",
       "generated": true,
@@ -26036,6 +26436,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "derivative.closed-interval-extrema",
+      "variant_id": "mh4.5.3.2-q101",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "在明确允许售价闭区间内比较驻点和端点利润；求最大值只是完整最值任务的一部分。",
+      "tested_criterion_indices": [
+        1
       ]
     },
     {
@@ -26046,7 +26454,7 @@
       "prompt": "函数 f(x)=x^3-3x 在区间 [-2,2] 上的最大值是多少？",
       "choices": [],
       "answer": "2",
-      "explanation": "极值点 f(-1)=2、f(1)=-2，端点 f(-2)=-2、f(2)=2。四处比较，最大值是 2，由端点 f(2)=8-6=2 给出。只盯着极值点会以为最大值一定在极值处。",
+      "explanation": "f′(x)=3x²−3，内点驻点为−1、1。比较f(−2)=−2、f(−1)=2、f(1)=−2、f(2)=2，最大值为2，在x=−1和x=2两处都取得。端点和内点都要检查，不能只保留一个取得位置。",
       "difficulty_basis": "自产应用题（advanced）：闭区间最值要把端点值和极值点一起比较",
       "drill_kind": "application",
       "generated": true,
@@ -26073,6 +26481,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "derivative.closed-interval-extrema",
+      "variant_id": "mh4.5.3.2-q102",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "比较内点驻点及两端点求闭区间最大值；同值在两个位置取得，不能只报端点。",
+      "tested_criterion_indices": [
+        1
       ]
     },
     {
@@ -27220,7 +27636,13 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "statistics.square-given-correlation",
+      "variant_id": "mh5.8.1.1-q101:v5",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "仅算(-0.9)^2×100=81，不观察散点方向或函数/相关关系区分，保留运算支持。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "diagnosis_eligible": false
     },
     {
       "id": "mh5.8.1.1-q102",
@@ -27257,7 +27679,13 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "statistics.square-given-correlation",
+      "variant_id": "mh5.8.1.1-q102:v5",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "单位变换后相关系数不变已经由题面给出，实际只算0.8²×100=64；不能声称检验了单位不变性或关系区分。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "diagnosis_eligible": false
     },
     {
       "id": "mh5.8.1.2-q101",
@@ -27294,7 +27722,13 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "statistics.square-given-correlation",
+      "variant_id": "mh5.8.1.2-q101:v5",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "只算0.9²=0.81，无统计解释要求，不直接观察两个主题目标。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "diagnosis_eligible": false
     },
     {
       "id": "mh5.8.1.2-q102",
@@ -27331,7 +27765,13 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "statistics.r-squared-interpretation",
+      "variant_id": "mh5.8.1.2-q102:v5",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "在同数据、含截距、非零变异条件下算R²解释变异比例25%；这是单元R²目标的支持，不能硬挂旧主题强弱/零相关目标。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "diagnosis_eligible": false
     },
     {
       "id": "mh5.8.2.1-q101",
@@ -27368,17 +27808,23 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "statistics.prediction-substitution",
+      "variant_id": "mh5.8.2.1-q101:v5",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "在样本范围内代入2×5+3=13，观察预测代入支持，不直接解释参数或计算残差。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "diagnosis_eligible": false
     },
     {
       "id": "mh5.8.2.1-q102",
       "topicId": "mh5.8.2.1",
       "difficulty": "advanced",
       "type": "numeric",
-      "prompt": "某回归方程是 y=0.8x+2。当 x 增加 10 时，y 平均增加多少？",
+      "prompt": "在已有样本范围内，拟合预测式为ŷ=0.8x+2。x增加10单位时，模型预测的平均y增加多少单位？",
       "choices": [],
       "answer": "8",
-      "explanation": "斜率 0.8 表示 x 每增加 1，y 平均增加 0.8。增加 10 就是 0.8*10=8。截距 2 只决定起点，与增量无关。",
+      "explanation": "斜率0.8表示模型中x每增加1单位，拟合平均y增加0.8单位，因此变化量0.8×10=8。这不是每个个体或干预必然增加8的保证。",
       "difficulty_basis": "自产应用题（advanced）：斜率是单位变化量，截距不随 x 变化",
       "drill_kind": "application",
       "generated": true,
@@ -27405,6 +27851,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "statistics.regression-parameter-interpretation",
+      "variant_id": "mh5.8.2.1-q102:v5",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "利用斜率0.8把x的10单位变化转为拟合平均y的8单位变化；不保证个体或因果变化。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "tested_criterion_indices": [
+        0
       ]
     },
     {
@@ -27412,7 +27866,7 @@
       "topicId": "mh5.8.2.2",
       "difficulty": "standard",
       "type": "numeric",
-      "prompt": "对一组成对数据作含截距的一元最小二乘回归，样本中心为(3,5)，拟合直线的斜率为2。该拟合直线的截距是多少？",
+      "prompt": "对x有非零变异的成对数据作含截距一元最小二乘回归，样本中心为(3,5)，拟合斜率为2。截距是多少？",
       "choices": [],
       "answer": "-1",
       "explanation": "含截距的一元最小二乘拟合满足残差和为0，因此拟合直线经过样本中心。代入(3,5)，截距为5-2*3=-1。此性质依赖含截距和最小二乘条件，不可推广到任意拟合方法或强制过原点的拟合。",
@@ -27442,6 +27896,14 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
+      ],
+      "family_id": "statistics.ols-intercept-from-centre",
+      "variant_id": "mh5.8.2.2-q101:v5",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "用5−2×3=−1求含截距拟合的截距；与单元同中心公式任务同族。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "tested_criterion_indices": [
+        1
       ]
     },
     {
@@ -27449,7 +27911,7 @@
       "topicId": "mh5.8.2.2",
       "difficulty": "advanced",
       "type": "numeric",
-      "prompt": "对一组成对数据作含截距的一元最小二乘回归，拟合斜率为2，样本中心为(4,9)。x=6位于已有样本取值范围内，对应的预测值是多少？",
+      "prompt": "对x有非零变异的成对数据作含截距一元最小二乘回归，拟合斜率2、样本中心(4,9)。x=6位于已有样本范围内，对应的预测值是多少？",
       "choices": [],
       "answer": "13",
       "explanation": "含截距的一元最小二乘拟合经过样本中心(4,9)。当x从4增加到6，预测值增加2*(6-4)，所以ŷ=9+2*(6-4)=13。它是样本范围内的模型预测，实际观测仍可能有残差。",
@@ -27479,7 +27941,15 @@
       },
       "evidence_notes": [
         "给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核"
-      ]
+      ],
+      "family_id": "statistics.ols-centre-and-prediction",
+      "variant_id": "mh5.8.2.2-q102:v5",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "可直接以样本中心为基点，计算9+2×(6−4)=13；题目未要求求出截距或斜率，不能把一种可选解法当成已观察到参数求解。保留预测支持练习，不映射当前两条主题目标。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false,
+      "target_alignment": "component_practice_only"
     },
     {
       "id": "mh5.8.3.2-q101",

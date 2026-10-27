@@ -134,7 +134,7 @@ class ExplicitAdmissionTest(unittest.TestCase):
     def test_longer_explanation_cannot_promote_published_task(self):
         q = {"id": "short", "topicId": "t", "type": "short", "prompt": "说明这道题", "answer": "1", "explanation": "答案1"}
         policy = _legacy_question_policy(q)
-        q["_admission"] = {"content_sha256": fingerprint(q), "policy": policy}
+        q["_admission"] = {"fingerprint_version": 2, "content_sha256": fingerprint(q), "policy": policy}
         self.assertEqual(policy, question_policy(q))
         q["explanation"] = "因为这里有很多连接词和文字，所以解析足够长，故由这些文字得到答案1。"
         self.assertFalse(question_policy(q)["diagnosis_eligible"])

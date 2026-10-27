@@ -13,7 +13,7 @@ async function api(path, body) {
 }
 function show(view) {
   state.view = view;
-  for (const name of ["home", "teach", "unit", "quiz", "result", "project", "history", "work", "needs", "support", "profile", "scope"]) $(`view-${name}`).hidden = name !== view;
+  for (const name of ["home", "teach", "unit", "quiz", "result", "project", "history", "work", "needs", "support", "profile", "scope", "goal"]) $(`view-${name}`).hidden = name !== view;
   $("restart").hidden = view === "home";
   $("action-notice").hidden = true;
   if (view === "home") refreshPlan();
@@ -116,6 +116,7 @@ async function refreshPlan() {
       detail.append(node("strong", step.title), node("p", step.reason, "muted"));
       if (step.due_at) detail.append(node("p", `最早再次观察时间：${formatTime(step.due_at)}`, "muted"));
       if (step.interval_notice) detail.append(node("p", step.interval_notice, "muted"));
+      if (step.skill_ids?.length) detail.append(button("查看具体目标与安排依据", () => openGoal(step.skill_ids[0], step.unit_id)));
       const label = step.action === "independent_followup" ? step.ready && step.followup_available ? "进行目标确认" : "查看待确认事项" : step.continuation === "reflect_and_revise" ? "自查并修订" : step.work_resource_id && !step.session_id ? "继续作品" : step.action === "continue" ? "继续" : step.action === "due_review" ? step.ready ? "开始复测" : "继续练习" : step.action === "transfer" ? "迁移任务" : "开始学习";
       row.append(detail, button(label, () => followPlan(step, plan))); root.append(row);
     }
@@ -138,6 +139,61 @@ async function followPlan(step, plan) {
   return startSession({ unit_id: step.unit_id, mode: step.phase || "practice", previous_session_id: step.previous_session_id,
     focus_skill_ids: step.skill_ids || [] });
 }
+async function followGoalAction(action) {
+  if (action.action === "open_unit_goal") return openUnit(action.unit_id, "push", action.skill_id);
+  if (action.action === "open_topic_goal") return openTeach(action.topic_id, "push", action.skill_id);
+  if (action.action === "open_project_goal") return openProject(action.project_id, "push", action.skill_id);
+  if (action.action === "start_support") return openSupport(action.unit_id, action.support_id);
+  if (action.action === "start_session") {
+    const { action: _, ...payload } = action;
+    return startSession(payload);
+  }
+  notice("这个目标尚缺可用的活动入口，已保留在课程对齐清单中。"); return false;
+}
+async function openGoal(skillId, unitId = null, routeMode = "push") {
+  const token = await prepareNavigation(); if (!token) return false;
+  try {
+    const query = new URLSearchParams({ skill_id: skillId }); if (unitId) query.set("unit_id", unitId);
+    const goal = await api("/api/goal?" + query); if (token !== state.navigation) return false;
+    show("goal"); rememberRoute({ goal: skillId, ...(unitId ? { goal_unit: unitId } : {}) }, routeMode);
+    $("goal-title").textContent = goal.statement;
+    const root = $("goal-content"); root.replaceChildren(node("p", goal.notice, "muted"));
+    if (goal.pending_need_ids.length) root.append(node("p", `这个目标还有 ${goal.pending_need_ids.length} 项待处理或暂缓事项。`), button("查看未解决事项", () => openNeeds()));
+    if (goal.refined_by.length) {
+      const children = node("div", null, "actions");
+      for (const child of goal.refined_by) children.append(button(child.statement, () => openGoal(child.skill_id, unitId)));
+      root.append(section("分开观察这些具体表现", children));
+    }
+    for (const role of ["target", "prerequisite"]) {
+      const routes = goal.routes.filter(route => route.role === role);
+      if (!routes.length) continue;
+      const group = node("div");
+      for (const route of routes) {
+        const row = node("article", null, "card goal-route");
+        row.append(rich("h4", route.statement || route.title), node("p", route.selection_reason, "muted"));
+        if (route.availability_notice) row.append(node("p", route.availability_notice));
+        const actions = node("div", null, "actions");
+        for (const action of route.actions) {
+          const label = action.action === "start_support" ? "辨别困难并练习" : action.action === "start_session" ? "练习这个目标" : "打开对应材料与自检";
+          actions.append(button(label, () => followGoalAction(action), action.action === "start_session" ? "primary" : "ghost"));
+        }
+        if (role === "prerequisite") actions.append(button("查看这项基础的具体路径", () => openGoal(route.skill_id)));
+        row.append(actions); group.append(row);
+      }
+      root.append(section(role === "target" ? "当前目标的材料与帮助" : "需要时检查这些基础", group));
+    }
+    const options = node("div");
+    for (const [index, task] of goal.task_options.entries()) {
+      const row = node("article", null, "card goal-task");
+      row.append(node("h4", `后续任务 ${index + 1}`), node("p", task.selection_reason), node("p", task.eligible_for_followup ? "具有安排后续观察的条件；实际间隔和帮助仍在开始时核对。" : "用于练习或过程观察；不能自动当作新的独立确认。", "muted"));
+      if (task.start_action) row.append(button(task.source_kind === "self_check" ? "打开这项目标自检" : task.source_kind === "project_step" ? "打开对应活动" : "做这道任务", () => followGoalAction(task.start_action), "primary"));
+      const detail = node("details"); detail.append(node("summary", "这道任务的安排依据"), node("p", `是否出现过：${task.repeated_question ? "是" : "否"}；是否见过同类方法：${task.repeated_family ? "是" : "否"}；有无参考或反馈记录：${task.help_exposed ? "有" : "无"}。`), node("p", task.representation_known ? (task.new_representation ? "使用了此前未观察过的已核对表征。" : "表征已有观察记录，可以继续比较表现。") : "表征还未核对，继续保留这个限制。"));
+      row.append(detail); options.append(row);
+    }
+    if (!options.children.length) options.append(node("p", "还没有明确绑定到这个目标的可用任务。这个缺口会继续保留。"));
+    root.append(section("接下来可以做什么", options)); return true;
+  } catch (error) { notice(error.message); return false; }
+}
 async function openProfile(routeMode = "push") {
   const token = await prepareNavigation(); if (!token) return false;
   show("profile"); rememberRoute({ profile: "1" }, routeMode);
@@ -151,13 +207,17 @@ async function openScope(routeMode = "push") {
   show("scope"); rememberRoute({ scope: "1" }, routeMode);
   $("scope-summary").textContent = "正在读取逐目标目录…";
   try {
-    const report = await api("/api/quality-scope"); if (token !== state.navigation) return false;
+    const [report, alignment] = await Promise.all([api("/api/quality-scope"), api("/api/alignment")]); if (token !== state.navigation) return false;
+    const alignmentByGoal = new Map(alignment.goals.map(goal => [goal.goal_id, goal]));
+    const gapNames = { goal_specific_help: "还缺本目标专属的辨别、提示和修订指导", authored_observation_boundary: "还需具体说明任务观察什么、没有观察什么", known_task_structure_and_representation: "任务的数学结构或表征还未核对", multiple_objective_task_families: "还缺多种已核对的客观任务结构；开放过程仍需另行观察" };
+    const summary = $("alignment-summary"), dimensions = alignment.summary;
+    summary.replaceChildren(node("h3", "分别查看材料与观察条件"), node("p", `全部 ${dimensions.goals} 项登记目标中，${dimensions.goal_specific_help} 项有目标专属帮助，${dimensions.authored_observation_boundary} 项有作者写明的观察边界，${dimensions.known_task_structure_and_representation} 项有题族和表征已核对的对应任务。`), node("p", alignment.focus.notice, "muted"), node("p", alignment.limits[0], "muted"));
     const policy = $("scope-policy"); policy.replaceChildren(rich("p", report.scope));
     for (const role of Object.values(report.roles)) policy.append(section(role.label, list([role.learner_requirement, role.author_requirement])));
     policy.append(node("p", report.limits.join(" "), "muted"));
     const render = () => {
-      const role = $("scope-role").value, stage = $("scope-stage").value, search = $("scope-search").value.trim().toLowerCase();
-      const goals = report.goals.filter(g => (!role || g.role === role) && (!stage || g.stage === stage) && (!search || (g.title + g.statement + g.goal_id).toLowerCase().includes(search)));
+      const role = $("scope-role").value, stage = $("scope-stage").value, search = $("scope-search").value.trim().toLowerCase(), gap = $("scope-gap").value;
+      const goals = report.goals.filter(g => (!role || g.role === role) && (!stage || g.stage === stage) && (!gap || alignmentByGoal.get(g.goal_id)?.gaps.includes(gap)) && (!search || (g.title + g.statement + g.goal_id).toLowerCase().includes(search)));
       $("scope-summary").textContent = `当前显示 ${goals.length} 项。完整清单：${report.summary.topic_goals} 项教材目标、${report.summary.unit_goals} 项单元目标、${report.summary.project_goals} 项活动目标；这些层级分别统计，不相加为课标覆盖率。`;
       const root = $("scope-goals"); root.replaceChildren();
       let offset = 0;
@@ -168,7 +228,10 @@ async function openScope(routeMode = "push") {
           const card = node("article", null, "card");
           card.append(node("h3", goal.title), rich("p", goal.statement), node("p", `${report.roles[goal.role].label} · ${goal.status === "materials_ready" ? "材料与任务已有对应" : "仍有材料缺口"}`, "muted"), rich("p", goal.observation_boundary || "按活动步骤、作品和量规核对，仍需保留未解决的问题。"));
           if (goal.gaps.length) card.append(list(goal.gaps.map(g => g.message || g.code)));
-          card.append(button("打开学习材料与任务", () => goal.resource_kind === "topic" ? openTeach(goal.resource_id) : goal.resource_kind === "unit" ? openUnit(goal.resource_id) : openProject(goal.resource_id), "primary"));
+          const aligned = alignmentByGoal.get(goal.goal_id);
+          if (aligned?.gaps.length) card.append(list(aligned.gaps.map(key => gapNames[key])));
+          if (aligned && !aligned.gaps.length) card.append(node("p", "本目标已有专属帮助、具体观察边界和多种任务结构；实际表现仍结合帮助、间隔及过程记录解释。", "muted"));
+          card.append(button("查看目标、材料与后续任务", () => openGoal(goal.goal_id, goal.resource_kind === "unit" ? goal.resource_id : null), "primary"));
           const sources = node("details"); sources.append(node("summary", "目标与材料引用"), node("p", `稳定目标ID：${goal.goal_id}`, "muted"));
           for (const ref of goal.material_refs) sources.append(node("p", ref.path + ref.json_pointer, "muted"));
           card.append(sources); root.append(card);
@@ -177,7 +240,7 @@ async function openScope(routeMode = "push") {
       }
       append();
     };
-    $("scope-role").onchange = $("scope-stage").onchange = $("scope-search").oninput = render; render(); return true;
+    $("scope-role").onchange = $("scope-stage").onchange = $("scope-gap").onchange = $("scope-search").oninput = render; render(); return true;
   } catch (error) { $("scope-summary").textContent = error.message; return false; }
 }
 function renderSupport(data, routeMode) {
@@ -305,11 +368,12 @@ function renderChapters(keyword) {
   }
   if (!root.children.length) root.append(node("p", "没有匹配的知识点。", "muted"));
 }
-async function openTeach(id, routeMode = "push") {
+async function openTeach(id, routeMode = "push", skillId = null) {
   const token = await prepareNavigation(); if (!token) return false;
   try {
     const card = await api(`/api/teach/${encodeURIComponent(id)}`); if (token !== state.navigation) return false;
-    state.viewedTopics.add(id); show("teach"); rememberRoute({ teach: id }, routeMode);
+    if (skillId && !card.criterion_skill_ids?.includes(skillId)) throw new Error("这个目标不属于当前材料，未打开相似目标代替。");
+    state.viewedTopics.add(id); show("teach"); rememberRoute({ teach: id, ...(skillId ? { goal: skillId } : {}) }, routeMode);
     $("teach-title").textContent = card.topicName;
     $("teach-status").textContent = `${card.tier === "tool" ? "基础支持" : "核心学习"} · ${card.mode === "full" ? "已有单点讲解" : card.mode === "brief" ? "辅助速查；完整细目标覆盖仍需检查" : "完整讲解待补充"} · 内容初稿`;
     const root = $("teach-content"); root.textContent = "";
@@ -330,6 +394,7 @@ async function openTeach(id, routeMode = "push") {
         const task = objective.self_check;
         const content = node("div");
         content.append(rich("p", objective.explanation), rich("p", task.prompt, "self-check-prompt"));
+        if (task.diagram) content.append(diagram(task.diagram));
         content.append(node("p", objective.observation_note || "这次自检观察下面的具体检查点。完成一题或自报达到，仍不足以确认其他情形与稍后迁移。", "muted"));
         if (objective.difficulty_support) {
           const support = node("details"), help = objective.difficulty_support;
@@ -348,7 +413,12 @@ async function openTeach(id, routeMode = "push") {
         answer.append(node("summary", "完成后查看参考过程与检查点"), rich("div", task.reference_answer), list(task.criteria));
         trackReference(answer, "topic:" + id, "self_check:" + objective.criterion_index);
         content.append(answer);
-        root.append(section(`目标 ${objective.criterion_index + 1} · ${objective.title}`, content));
+        const goalId = card.criterion_skill_ids?.[objective.criterion_index];
+        if (goalId) content.prepend(button("查看这个目标的基础与后续任务", () => openGoal(goalId)));
+        const goalSection = section(`目标 ${objective.criterion_index + 1} · ${objective.title}`, content);
+        if (goalId) goalSection.dataset.goalId = goalId;
+        if (goalId === skillId) { goalSection.classList.add("selected-goal"); goalSection.tabIndex = -1; }
+        root.append(goalSection);
       }
     }
     if (card.check) root.append(section("学习后能做到什么", rich("div", card.check)));
@@ -358,6 +428,7 @@ async function openTeach(id, routeMode = "push") {
     const retest = button("用未呈现题检查", () => startSession({ targets: [id], mode: "diagnose", instruction_seen: true, previous_session_id: state.lastResultSession })); retest.disabled = !(card.availability?.unseen_count ?? card.diagnostic_count);
     actions.append(practice, retest);
     if (retest.disabled) actions.append(node("p", "暂无未呈现且未暴露同族参考的检查题；仍可继续练习。", "muted"));
+    if (skillId) requestAnimationFrame(() => { const selected = root.querySelector(".selected-goal"); if (selected) { selected.scrollIntoView({ block: "start" }); selected.focus({ preventScroll: true }); } });
     return true;
   } catch (err) { notice(err.message); return false; }
 }
@@ -366,17 +437,25 @@ function workedExample(ex, index, resource) {
   root.append(rich("div", ex.prompt), list(ex.steps, true), rich("div", `结论：${ex.answer}`));
   if (resource) trackReference(root, resource, "example:" + (index || 0)); return root;
 }
-async function openUnit(id, routeMode = "push") {
+async function openUnit(id, routeMode = "push", skillId = null) {
   const token = await prepareNavigation(); if (!token) return false;
   try {
     const unit = await api(`/api/learning/units/${encodeURIComponent(id)}`); if (token !== state.navigation) return false;
-    state.viewedUnits.add(id); state.unit = unit; show("unit"); rememberRoute({ unit: id }, routeMode);
+    if (skillId && !unit.objectives.some(goal => goal.skill_id === skillId)) throw new Error("这个目标不属于当前单元。");
+    state.viewedUnits.add(id); state.unit = unit; show("unit"); rememberRoute({ unit: id, ...(skillId ? { goal: skillId } : {}) }, routeMode);
     $("unit-title").textContent = unit.title; $("unit-status").textContent = reviewLabel(unit.teacher_review);
     const root = $("unit-content"); root.textContent = "";
     const scopeNotes = [unit.navigation_note, unit.coverage_note, ...(unit.standard_alignment || []).map(row => row.note)].filter(Boolean);
     if (scopeNotes.length) root.append(section("这个单元的学习范围", list([...new Set(scopeNotes)])));
-    const goals = unit.objectives.some(goal => goal.granularity === "observable") ? unit.objectives.filter(goal => goal.granularity === "observable") : unit.objectives;
-    root.append(section("这次逐项练习", list(goals.map(o => o.statement))));
+    const goals = unit.objectives.some(goal => goal.granularity === "observable") ? unit.objectives.filter(goal => goal.granularity === "observable" || goal.skill_id === skillId) : unit.objectives;
+    const goalList = node("div");
+    for (const goal of goals) {
+      const item = node("article", null, "goal-summary"); item.append(rich("p", goal.statement));
+      if (goal.skill_id) item.append(button("查看这项目标的基础、帮助与任务", () => openGoal(goal.skill_id, id)));
+      if (goal.skill_id === skillId) { item.classList.add("selected-goal"); item.tabIndex = -1; }
+      goalList.append(item);
+    }
+    root.append(section("这次逐项练习", goalList));
     if (unit.prerequisites && unit.prerequisites.length) root.append(section("先准备这些基础", list(unit.prerequisites)));
     if (unit.prerequisite_unit_ids?.length) {
       const links = node("div", null, "actions");
@@ -403,17 +482,19 @@ async function openUnit(id, routeMode = "push") {
     window.CNKGWork.mount(notesRoot, { kind: "unit", unit_id: id }, { compact: true }).catch(() => {});
     const actions = $("unit-actions"); actions.textContent = "";
     for (const phase of ["practice", "transfer", "delayed"]) actions.append(button(phase === "delayed" ? "复测题（建议隔1–3天）" : PHASE[phase], () => startSession({ unit_id: id, mode: phase, instruction_seen: true, previous_session_id: state.lastResultSession }), phase === "practice" ? "primary" : "ghost"));
+    if (skillId) requestAnimationFrame(() => { const selected = root.querySelector(".selected-goal"); if (selected) { selected.scrollIntoView({ block: "start" }); selected.focus({ preventScroll: true }); } });
     return true;
   } catch (err) { notice(err.message); return false; }
 }
-async function openProject(id, routeMode = "push") {
+async function openProject(id, routeMode = "push", skillId = null) {
   const token = await prepareNavigation(); if (!token) return false;
   try {
     const project = await api(`/api/projects/${encodeURIComponent(id)}`); if (token !== state.navigation) return false;
-    show("project"); rememberRoute({ project: id }, routeMode);
+    show("project"); rememberRoute({ project: id, ...(skillId ? { goal: skillId } : {}) }, routeMode);
     $("project-title").textContent = project.title;
     $("project-status").textContent = `${reviewLabel(project.teacher_review)} · ${project.duration_hint}`;
     const root = $("project-content"); root.textContent = "";
+    if (skillId) root.append(button("回到这个目标的安排依据", () => openGoal(skillId)));
     root.append(section("要完成的任务", rich("div", project.task_brief)),
       section("活动中需要展示", list(project.objectives.map(goal => goal.statement))),
       section("准备材料", list(project.materials)));
@@ -712,9 +793,10 @@ async function restoreLocation(routeMode) {
   if (params.has("profile")) return openProfile(routeMode);
   if (params.has("needs")) return openNeeds(routeMode);
   if (params.has("scope")) return openScope(routeMode);
-  if (params.get("project")) return openProject(params.get("project"), routeMode);
-  if (params.get("unit")) return openUnit(params.get("unit"), routeMode);
-  if (params.get("teach")) return openTeach(params.get("teach"), routeMode);
+  if (params.get("project")) return openProject(params.get("project"), routeMode, params.get("goal"));
+  if (params.get("unit")) return openUnit(params.get("unit"), routeMode, params.get("goal"));
+  if (params.get("teach")) return openTeach(params.get("teach"), routeMode, params.get("goal"));
+  if (params.get("goal")) return openGoal(params.get("goal"), params.get("goal_unit"), routeMode);
   // A launch link becomes the concrete saved session URL before the learner can refresh it.
   if (params.get("target")) return startSession({ targets: [params.get("target")], mode: "diagnose" }, "replace");
   if (params.get("volume")) return startSession({ volume: params.get("volume"), mode: "screen" }, "replace");

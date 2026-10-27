@@ -1479,11 +1479,11 @@
    "type": "choice",
    "prompt": "下列不属于函数三种表示方法的是哪一个？",
    "answer": "o1",
-   "explanation": "函数的三种常用表示法是解析式法、列表法和图象法，所以求导法不属于函数的三种表示方法。",
+   "explanation": "解析式法、列表法和图象法能给出输入与对应输出的关系；仅说一个面积公式的名称，没有表示具体变量之间的对应关系。",
    "choices": [
     {
      "id": "o1",
-     "text": "求导法"
+     "text": "只给出一个面积公式名称"
     },
     {
      "id": "o2",
@@ -1502,22 +1502,42 @@
     "m8b.22.2"
    ],
    "primaryTopicId": "m8b.22.2",
-   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+   "family_id": "function.representation-name-recall",
+   "variant_id": "m8b.22.2-q1",
+   "representation": "verbal",
+   "cognitive_demand": "recall",
+   "alignment_note": "只识记表示法名称，没有按具体用途选择，也不读取图象，保留主题支持练习。",
+   "target_alignment": "topic_only_practice",
+   "diagnosis_eligible": false,
+   "for_diagnosis": false
   },
   {
    "id": "m8b.22.2-q2",
    "topicId": "m8b.22.2",
    "difficulty": "basic",
    "type": "numeric",
-   "prompt": "函数图象上一点的坐标是 (3,7)，当 x=3 时函数值是多少？（只填数字）",
+   "prompt": "观察坐标图中的点P。当x=3时，点P表示的函数值是多少？只填数值。",
    "answer": "7",
    "verify": "7",
-   "explanation": "图象上点的纵坐标就是对应的函数值。",
+   "explanation": "从横轴x=3向上找到点P，再向左对照纵轴刻度，读得y=7。横坐标是输入，纵坐标是对应输出。",
    "topicIds": [
     "m8b.22.2"
    ],
    "primaryTopicId": "m8b.22.2",
-   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+   "family_id": "linear.graph-point-read",
+   "variant_id": "m8b.22.2-q2",
+   "representation": "graph",
+   "cognitive_demand": "execute",
+   "alignment_note": "采用实际带刻度坐标图，替代文本保留同样数据；记录对应值读取的结果，不单凭答案证明视觉定位过程。",
+   "tested_criterion_indices": [
+    1
+   ],
+   "diagram": {
+    "src": "/static/diagrams/function-point-read-v5.svg",
+    "alt": "坐标网格横轴0至4、纵轴0至8，点P位于横坐标3、纵坐标7的位置。"
+   }
   },
   {
    "id": "m8b.23.1-q1",
@@ -1549,7 +1569,15 @@
     "m8b.23.1"
    ],
    "primaryTopicId": "m8b.23.1",
-   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+   "family_id": "linear.affine-classification",
+   "variant_id": "m8b.23.1-q1",
+   "representation": "symbolic",
+   "cognitive_demand": "choose_strategy",
+   "alignment_note": "辨认k≠0的一次函数形式；本题仅观察一次函数识别部分，不同时确认正比例边界。",
+   "tested_criterion_indices": [
+    0
+   ]
   },
   {
    "id": "m8b.23.1-q2",
@@ -1564,7 +1592,15 @@
     "m8b.23.1"
    ],
    "primaryTopicId": "m8b.23.1",
-   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+   "family_id": "linear.table-to-parameters",
+   "variant_id": "m8b.23.1-q2",
+   "representation": "symbolic",
+   "cognitive_demand": "execute",
+   "alignment_note": "把x=0处的坐标用于求截距；只涉及两个待定系数中的b。",
+   "tested_criterion_indices": [
+    1
+   ]
   },
   {
    "id": "m8b.23.2-q1",
@@ -1596,7 +1632,15 @@
     "m8b.23.2"
    ],
    "primaryTopicId": "m8b.23.2",
-   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+   "family_id": "linear.slope-monotonicity",
+   "variant_id": "m8b.23.2-q1",
+   "representation": "symbolic",
+   "cognitive_demand": "execute",
+   "alignment_note": "从斜率负号判断递减，仅观察复合目标中的增减性部分。",
+   "tested_criterion_indices": [
+    1
+   ]
   },
   {
    "id": "m8b.23.2-q2",
@@ -1611,7 +1655,15 @@
     "m8b.23.2"
    ],
    "primaryTopicId": "m8b.23.2",
-   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+   "family_id": "linear.axis-intercepts",
+   "variant_id": "m8b.23.2-q2",
+   "representation": "symbolic",
+   "cognitive_demand": "execute",
+   "alignment_note": "令y=0求x轴交点横坐标；不同时证明会求y轴交点或解释增减性。",
+   "tested_criterion_indices": [
+    1
+   ]
   },
   {
    "id": "m8b.23.3-q1",
@@ -1673,7 +1725,15 @@
     "m8b.23.4"
    ],
    "primaryTopicId": "m8b.23.4",
-   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+   "family_id": "linear.formula-evaluation",
+   "variant_id": "m8b.23.4-q1",
+   "representation": "symbolic",
+   "cognitive_demand": "execute",
+   "alignment_note": "题干已给完整模型s=60t，仅代入求值，不能说明会自主建立模型或写实际范围。",
+   "target_alignment": "topic_only_practice",
+   "diagnosis_eligible": false,
+   "for_diagnosis": false
   },
   {
    "id": "m8b.23.4-q2",
@@ -1705,7 +1765,15 @@
     "m8b.23.4"
    ],
    "primaryTopicId": "m8b.23.4",
-   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+   "family_id": "model.domain-recall",
+   "variant_id": "m8b.23.4-q2",
+   "representation": "verbal",
+   "cognitive_demand": "recall",
+   "alignment_note": "选择泛泛原则没有写任何具体取值范围；保留建模前的支持练习。",
+   "target_alignment": "topic_only_practice",
+   "diagnosis_eligible": false,
+   "for_diagnosis": false
   },
   {
    "id": "m8b.24.1-q1",
@@ -1720,7 +1788,15 @@
     "m8b.24.1"
    ],
    "primaryTopicId": "m8b.24.1",
-   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+   "family_id": "statistics.median-position",
+   "variant_id": "m8b.24.1-q1:v5",
+   "representation": "verbal",
+   "cognitive_demand": "execute",
+   "alignment_note": "已排序五数取第3位7，仅观察中位数分项，尚未观察平均数和众数。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+   "tested_criterion_indices": [
+    0
+   ]
   },
   {
    "id": "m8b.24.1-q2",
@@ -1735,7 +1811,15 @@
     "m8b.24.1"
    ],
    "primaryTopicId": "m8b.24.1",
-   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+   "family_id": "statistics.mode-frequency",
+   "variant_id": "m8b.24.1-q2:v5",
+   "representation": "verbal",
+   "cognitive_demand": "execute",
+   "alignment_note": "根据频数最高选3，仅观察众数分项，不把排序位置等同于频数。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+   "tested_criterion_indices": [
+    0
+   ]
   },
   {
    "id": "m8b.24.2-q1",
@@ -1750,22 +1834,36 @@
     "m8b.24.2"
    ],
    "primaryTopicId": "m8b.24.2",
-   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+   "family_id": "statistics.mean-from-values",
+   "variant_id": "m8b.24.2-q1:v5",
+   "representation": "verbal",
+   "cognitive_demand": "execute",
+   "alignment_note": "只求均值3，是求方差的先修支持；未计算平方离差或比较稳定性。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+   "diagnosis_eligible": false
   },
   {
    "id": "m8b.24.2-q2",
    "topicId": "m8b.24.2",
    "difficulty": "basic",
    "type": "numeric",
-   "prompt": "数据 1、3 的方差是多少？（只填数字）",
+   "prompt": "数据1、3的描述性方差按平方离差和除以数据个数n计算，结果是多少？请只填数值。",
    "answer": "1",
    "verify": "((1-2)**2+(3-2)**2)/2",
-   "explanation": "平均数为 2，方差 =[(1-2)²+(3-2)²]÷2=1。",
+   "explanation": "均值为2，平方离差为1和1，按本题除以n=2，方差为(1+1)/2=1；不使用除以n−1的估计公式。",
    "topicIds": [
     "m8b.24.2"
    ],
    "primaryTopicId": "m8b.24.2",
-   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+   "family_id": "statistics.variance-from-values",
+   "variant_id": "m8b.24.2-q2:v5",
+   "representation": "verbal",
+   "cognitive_demand": "execute",
+   "alignment_note": "按除以n的描述性方差，1、3围绕均值2的平方离差平均为1；明确不混用n−1。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+   "tested_criterion_indices": [
+    0
+   ]
   },
   {
    "id": "m8b.24.3-q1",
@@ -2413,7 +2511,7 @@
    "tested_criterion_indices": [
     0
    ],
-   "alignment_note": "按保留离散实测数据的目的选择列表法。",
+   "alignment_note": "在保留日期与实测值、不作外推的目的下选择列表法；仍需核对选择理由。",
    "id": "m8b.22.2-q201",
    "topicId": "m8b.22.2",
    "topicIds": [
@@ -2427,18 +2525,22 @@
    "difficulty_basis": "原创补全：需识别本节结构并完成计算或判断；难度仍待课堂校准。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "function.representation-choice",
+   "variant_id": "m8b.22.2-q201",
+   "representation": "verbal",
+   "cognitive_demand": "choose_strategy"
   },
   {
    "type": "numeric",
-   "prompt": "函数图象由连接(0,0)与(2,6)、再连接(2,6)与(5,6)的两条线段组成。当x=4时，y是多少？",
+   "prompt": "观察图中的函数图象。当x=4时，对应的y是多少？只填数值。",
    "answer": "6",
    "verify": "6",
-   "explanation": "x=4落在第二条水平线段的横坐标范围[2,5]内，该线段纵坐标恒为6，因此y=6。",
+   "explanation": "x=4位于2到5之间，向上对应第二段水平线段；沿纵轴读到y=6。第一段的上升趋势不能外推到第二段。",
    "tested_criterion_indices": [
     1
    ],
-   "alignment_note": "由明确分段线段图象读取对应值。",
+   "alignment_note": "从真实分段线段图象中按输入位置读取水平段的纵坐标，不只依据文字中直接给出的坐标。",
    "id": "m8b.22.2-q202",
    "topicId": "m8b.22.2",
    "topicIds": [
@@ -2452,7 +2554,15 @@
    "difficulty_basis": "原创补全：需识别本节结构并完成计算或判断；难度仍待课堂校准。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "function.piecewise-graph-read",
+   "variant_id": "m8b.22.2-q202",
+   "representation": "graph",
+   "cognitive_demand": "execute",
+   "diagram": {
+    "src": "/static/diagrams/function-piecewise-read-v5.svg",
+    "alt": "函数图象从原点上升到横坐标2纵坐标6，再水平延伸至横坐标5，横纵轴每格均为1。"
+   }
   },
   {
    "type": "choice",
@@ -2476,7 +2586,7 @@
    "tested_criterion_indices": [
     0
    ],
-   "alignment_note": "同时检查非零一次项系数与常数项。",
+   "alignment_note": "同时检查一次项非零与截距非零以区分一次函数和正比例函数。",
    "id": "m8b.23.1-q201",
    "topicId": "m8b.23.1",
    "topicIds": [
@@ -2490,7 +2600,11 @@
    "difficulty_basis": "原创补全：需识别本节结构并完成计算或判断；难度仍待课堂校准。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "linear.affine-classification",
+   "variant_id": "m8b.23.1-q201",
+   "representation": "symbolic",
+   "cognitive_demand": "choose_strategy"
   },
   {
    "type": "short",
@@ -2504,7 +2618,7 @@
    "tested_criterion_indices": [
     1
    ],
-   "alignment_note": "用两个点确定一次函数的两个系数。",
+   "alignment_note": "由两个不同横坐标的点求完整一次函数式；应通过过程自检确认代入与复核。",
    "id": "m8b.23.1-q202",
    "topicId": "m8b.23.1",
    "topicIds": [
@@ -2518,7 +2632,11 @@
    "difficulty_basis": "原创补全：需识别本节结构并完成计算或判断；难度仍待课堂校准。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "linear.table-to-parameters",
+   "variant_id": "m8b.23.1-q202",
+   "representation": "symbolic",
+   "cognitive_demand": "execute"
   },
   {
    "type": "choice",
@@ -2546,7 +2664,7 @@
    "tested_criterion_indices": [
     0
    ],
-   "alignment_note": "用符号与截距分段确认图象象限。",
+   "alignment_note": "根据x与y符号和零点分段判断不经过的象限；仍需自检给出区间依据。",
    "id": "m8b.23.2-q201",
    "topicId": "m8b.23.2",
    "topicIds": [
@@ -2560,7 +2678,11 @@
    "difficulty_basis": "原创补全：需识别本节结构并完成计算或判断；难度仍待课堂校准。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "linear.quadrant-sign-analysis",
+   "variant_id": "m8b.23.2-q201",
+   "representation": "symbolic",
+   "cognitive_demand": "choose_strategy"
   },
   {
    "type": "numeric",
@@ -2571,7 +2693,7 @@
    "tested_criterion_indices": [
     1
    ],
-   "alignment_note": "用y=0求与x轴交点。",
+   "alignment_note": "只观察x轴交点这一部分；完整目标的递减性与两轴交点在自检中分别要求。",
    "id": "m8b.23.2-q202",
    "topicId": "m8b.23.2",
    "topicIds": [
@@ -2585,7 +2707,11 @@
    "difficulty_basis": "原创补全：需识别本节结构并完成计算或判断；难度仍待课堂校准。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "linear.axis-intercepts",
+   "variant_id": "m8b.23.2-q202",
+   "representation": "symbolic",
+   "cognitive_demand": "execute"
   },
   {
    "type": "short",
@@ -2649,7 +2775,7 @@
    "tested_criterion_indices": [
     0
    ],
-   "alignment_note": "从固定费用与单位时间费建立线性关系。",
+   "alignment_note": "固定费加按实际时长计费，与月租题同属固定加变量费用模型，未把换情境算新结构。",
    "id": "m8b.23.4-q201",
    "topicId": "m8b.23.4",
    "topicIds": [
@@ -2663,7 +2789,11 @@
    "difficulty_basis": "原创补全：需识别本节结构并完成计算或判断；难度仍待课堂校准。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "equation.single-fee-model",
+   "variant_id": "m8b.23.4-q201",
+   "representation": "verbal",
+   "cognitive_demand": "model"
   },
   {
    "type": "short",
@@ -2677,7 +2807,7 @@
    "tested_criterion_indices": [
     1
    ],
-   "alignment_note": "用时间与剩余量非负共同限定模型区间。",
+   "alignment_note": "以开始时间和水量非负共同限制排水模型区间，要求含两个边界。",
    "id": "m8b.23.4-q202",
    "topicId": "m8b.23.4",
    "topicIds": [
@@ -2691,7 +2821,11 @@
    "difficulty_basis": "原创补全：需识别本节结构并完成计算或判断；难度仍待课堂校准。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "linear.capacity-boundary-model",
+   "variant_id": "m8b.23.4-q202",
+   "representation": "verbal",
+   "cognitive_demand": "model"
   },
   {
    "type": "numeric",
@@ -2702,7 +2836,7 @@
    "tested_criterion_indices": [
     0
    ],
-   "alignment_note": "排序后按位置求中位数。",
+   "alignment_note": "五数按中间位置得3，虽然也恰为众数，答案3本身不能辨认使用的是位置还是频数。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
    "id": "m8b.24.1-q201",
    "topicId": "m8b.24.1",
    "topicIds": [
@@ -2716,7 +2850,11 @@
    "difficulty_basis": "原创补全：需识别本节结构并完成计算或判断；难度仍待课堂校准。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "statistics.median-position",
+   "variant_id": "m8b.24.1-q201:v5",
+   "representation": "verbal",
+   "cognitive_demand": "execute"
   },
   {
    "type": "choice",
@@ -2740,7 +2878,7 @@
    "tested_criterion_indices": [
     1
    ],
-   "alignment_note": "结合极端值和描述目的选集中趋势指标。",
+   "alignment_note": "结合多数家庭典型水平与62的影响选择中位数10；不能据此说均值在所有目的下都错误。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
    "id": "m8b.24.1-q202",
    "topicId": "m8b.24.1",
    "topicIds": [
@@ -2754,7 +2892,11 @@
    "difficulty_basis": "原创补全：需识别本节结构并完成计算或判断；难度仍待课堂校准。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "statistics.centre-for-purpose-outlier",
+   "variant_id": "m8b.24.1-q202:v5",
+   "representation": "verbal",
+   "cognitive_demand": "choose_strategy"
   },
   {
    "type": "numeric",
@@ -2765,7 +2907,7 @@
    "tested_criterion_indices": [
     0
    ],
-   "alignment_note": "按总体式方差公式完整计算平均数与平方离差。",
+   "alignment_note": "完整算均值4、平方离差和8，再除3；与同类方差计算同族。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
    "id": "m8b.24.2-q201",
    "topicId": "m8b.24.2",
    "topicIds": [
@@ -2779,7 +2921,11 @@
    "difficulty_basis": "原创补全：需识别本节结构并完成计算或判断；难度仍待课堂校准。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "statistics.variance-from-values",
+   "variant_id": "m8b.24.2-q201:v5",
+   "representation": "verbal",
+   "cognitive_demand": "execute"
   },
   {
    "type": "choice",
@@ -2803,7 +2949,7 @@
    "tested_criterion_indices": [
     1
    ],
-   "alignment_note": "在可比条件下用较小方差表示更稳定。",
+   "alignment_note": "在同单位同均值背景下以4小于25解释甲更集中；不推断甲平均水平更高。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
    "id": "m8b.24.2-q202",
    "topicId": "m8b.24.2",
    "topicIds": [
@@ -2817,7 +2963,11 @@
    "difficulty_basis": "原创补全：需识别本节结构并完成计算或判断；难度仍待课堂校准。",
    "diagnosis_eligible": false,
    "for_diagnosis": false,
-   "target_alignment": "component_practice_only"
+   "target_alignment": "component_practice_only",
+   "family_id": "statistics.variance-comparison",
+   "variant_id": "m8b.24.2-q202:v5",
+   "representation": "verbal",
+   "cognitive_demand": "choose_strategy"
   },
   {
    "type": "numeric",

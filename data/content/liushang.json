@@ -1061,7 +1061,7 @@
    "topicId": "m6a.1.1",
    "difficulty": "basic",
    "type": "choice",
-   "prompt": "数对 (3,5) 中的 3 表示什么？",
+   "prompt": "本题约定数对按（列，行）书写。数对(3,5)中的3表示什么？",
    "answer": "o1",
    "explanation": "数对先写列数再写行数，3 表示第 3 列。",
    "choices": [
@@ -1082,29 +1082,49 @@
     "m6a.1.1"
    ],
    "primaryTopicId": "m6a.1.1",
-   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+   "family_id": "position.ordered-pair-location",
+   "variant_id": "m6a.1.1-q1:v5",
+   "representation": "verbal",
+   "cognitive_demand": "recall",
+   "alignment_note": "在明确先列后行约定下识别首数角色，未呈现实际点，不能确认由图写出完整数对。",
+   "diagnosis_eligible": false,
+   "tested_criterion_indices": [
+    0
+   ],
+   "target_alignment": "component_practice_only"
   },
   {
    "id": "m6a.1.1-q2",
    "topicId": "m6a.1.1",
    "difficulty": "basic",
    "type": "short",
-   "prompt": "数对 (4,2) 和 (2,4) 表示的位置相同吗？（填 相同/不同）",
+   "prompt": "同一张方格图按（列，行）编号，列向右、行向上增大，均从1开始。数对(4,2)和(2,4)表示的位置相同吗？填“相同”或“不同”。",
    "answer": "不同",
    "accept": [],
-   "explanation": "数对有序，列与行交换后位置不同。",
+   "explanation": "(4,2)是第4列第2行，(2,4)是第2列第4行，两个点不同。但(3,3)交换后不变，所以不能说交换总会改变位置。",
    "topicIds": [
     "m6a.1.1"
    ],
    "primaryTopicId": "m6a.1.1",
-   "difficulty_basis": "手写说理题（第 2 问）：单知识点、无干扰项，猜测率低"
+   "difficulty_basis": "手写说理题（第 2 问）：单知识点、无干扰项，猜测率低",
+   "family_id": "position.coordinate-order-error",
+   "variant_id": "m6a.1.1-q2:v5",
+   "representation": "symbolic",
+   "cognitive_demand": "explain",
+   "alignment_note": "观察交换不等两数后位置不同；只有“不同”未证明找出了两个点，也不能推广为交换总会变。",
+   "diagnosis_eligible": false,
+   "tested_criterion_indices": [
+    0
+   ],
+   "target_alignment": "component_practice_only"
   },
   {
    "id": "m6a.1.1-q3",
    "topicId": "m6a.1.1",
    "difficulty": "basic",
    "type": "short",
-   "prompt": "数对 (3,5) 中的 3 表示第几列？（填数字）",
+   "prompt": "本题按（列，行）书写。数对(3,5)中的3表示第几列？填数字。",
    "answer": "3",
    "accept": [
     "第三列",
@@ -1115,20 +1135,27 @@
     "m6a.1.1"
    ],
    "primaryTopicId": "m6a.1.1",
-   "difficulty_basis": "手写说理题（第 3 问）：单知识点、无干扰项，猜测率低"
+   "difficulty_basis": "手写说理题（第 3 问）：单知识点、无干扰项，猜测率低",
+   "family_id": "primary.symbol.copy-given-number",
+   "variant_id": "m6a.1.1-q3:v5",
+   "representation": "verbal",
+   "cognitive_demand": "recall",
+   "alignment_note": "题干已说首数3是列数，抄写3不观察读图或定位；保留熟悉答题形式的支持练习，不映射承诺目标。",
+   "diagnosis_eligible": false,
+   "target_alignment": "topic_only"
   },
   {
    "id": "m6a.1.2-q1",
    "topicId": "m6a.1.2",
    "difficulty": "basic",
    "type": "choice",
-   "prompt": "用方向和距离确定位置，需要知道什么？",
+   "prompt": "没有其他位置上下文时，要唯一确定地图上的一个点，哪组条件完整？",
    "answer": "o1",
-   "explanation": "用方向和距离确定位置，两者缺一不可：只有方向或只有距离都无法唯一确定一个点。",
+   "explanation": "必须先确定从哪里观察，再给出相对约定方向基准的具体方向及距离。只有方向是一条射线，只有距离是一圈；不说明观测点也不能唯一定位。",
    "choices": [
     {
      "id": "o1",
-     "text": "方向和距离"
+     "text": "观测点、明确的方向和距离"
     },
     {
      "id": "o2",
@@ -1143,7 +1170,17 @@
     "m6a.1.2"
    ],
    "primaryTopicId": "m6a.1.2",
-   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+   "family_id": "position.insufficient-reference",
+   "variant_id": "m6a.1.2-q1:v5",
+   "representation": "verbal",
+   "cognitive_demand": "choose_strategy",
+   "alignment_note": "观察识别观测点、方向、距离这组必要条件；不直接观察从图完整描述一个实际位置。",
+   "diagnosis_eligible": false,
+   "tested_criterion_indices": [
+    0
+   ],
+   "target_alignment": "component_practice_only"
   },
   {
    "id": "m6a.1.2-q2",
@@ -1171,22 +1208,42 @@
     "m6a.1.2"
    ],
    "primaryTopicId": "m6a.1.2",
-   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+   "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+   "family_id": "position.bearing-definition",
+   "variant_id": "m6a.1.2-q2:v5",
+   "representation": "verbal",
+   "cognitive_demand": "recall",
+   "alignment_note": "只观察北偏东的基准方向与转角读法，没有距离或观测点，不覆盖完整位置描述。",
+   "diagnosis_eligible": false,
+   "tested_criterion_indices": [
+    0
+   ],
+   "target_alignment": "component_practice_only"
   },
   {
    "id": "m6a.1.2-q3",
    "topicId": "m6a.1.2",
    "difficulty": "basic",
    "type": "short",
-   "prompt": "用方向和距离确定位置，除了方向还必须知道什么？",
+   "prompt": "已经明确观测点和具体方向，要在这条方向射线上确定一个点，还必须知道什么？",
    "answer": "距离",
-   "explanation": "只有方向只能确定一条射线，加上距离才能锁定唯一的位置。",
+   "explanation": "在观测点已经明确时，方向只确定射线；还要给出距观测点的距离，才能截取该射线上的一个点。",
    "accept": [],
    "topicIds": [
     "m6a.1.2"
    ],
    "primaryTopicId": "m6a.1.2",
-   "difficulty_basis": "手写说理题（第 3 问）：单知识点、无干扰项，猜测率低"
+   "difficulty_basis": "手写说理题（第 3 问）：单知识点、无干扰项，猜测率低",
+   "family_id": "position.insufficient-reference",
+   "variant_id": "m6a.1.2-q3:v5",
+   "representation": "verbal",
+   "cognitive_demand": "recall",
+   "alignment_note": "在观测点明确的前提下识别距离缺失；文字“距离”不能证明实际描述或画出指定点。",
+   "diagnosis_eligible": false,
+   "tested_criterion_indices": [
+    0
+   ],
+   "target_alignment": "component_practice_only"
   },
   {
    "id": "m6a.2.1-q1",

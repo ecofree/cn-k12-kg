@@ -186,6 +186,7 @@ def build_teach(topic_id: str) -> dict | None:
         **card, "topicId": topic_id, "mode": mode, "tier": tier.get("tier"),
         "topicName": topic["name"], "description": topic.get("description"),
         "mastery_criteria": topic.get("mastery_criteria", []),
+        "criterion_skill_ids": list(get_catalog().placements.get(topic_id, {}).get("criterion_skill_ids", [])),
         "review_status": card.get("review_status", "draft"),
         "diagnostic_count": len(GRAPH.bank.get(topic_id, [])),
         "practice_count": len(pool),
@@ -710,6 +711,9 @@ def work_descriptor(values, owner):
             work_id=f"self_check:{task['id']}@{version[:16]}")
         resource["resource_snapshot"].update(task_ids=[task["id"]], family_ids=[task["family_id"]]
             if task.get("family_status") == "declared" else [])
+        if task.get("diagram"):
+            resource["resource_snapshot"].update(diagram=copy.deepcopy(task["diagram"]),
+                asset_snapshots=_CONTENT.assets_for([task]))
         return resource
     if kind == "project":
         pid = values.get("project_id")
@@ -910,6 +914,21 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, get_profile().status(self._owner()))
         if path == "/api/quality-scope":
             return self._json(200, _CONTENT.scope_report)
+        if path == "/api/alignment":
+            return self._json(200, _CONTENT.alignment_report)
+        if path == "/api/goal":
+            owner = self._owner()
+            scopes, works, states = public_learning_inputs(owner)
+            catalog = get_catalog()
+            try:
+                result = learning_needs.goal_pathway(catalog, params.get("skill_id"), scopes,
+                    exposures=get_store().exposures(owner), preferred_unit=params.get("unit_id"),
+                    needs=learning_needs.derive_needs(catalog, scopes, works, states))
+            except KeyError:
+                return self._error(404, "稳定学习目标不存在")
+            except ValueError as exc:
+                return self._error(400, str(exc))
+            return self._json(200, result)
         if path == "/api/manipulative":
             uid = params.get("unit_id")
             if uid not in manipulatives.CONFIG:
@@ -946,7 +965,11 @@ class Handler(BaseHTTPRequestHandler):
             teaching.pop("tasks", None)
             teaching["task_counts"] = unit_summary(unit)["task_counts"]
             teaching["prerequisite_unit_ids"] = unit.get("prerequisite_unit_ids", [])
-            teaching["objectives"] = copy.deepcopy(unit["objectives"])
+            teaching["objectives"] = copy.deepcopy(get_catalog().units.get(uid, {}).get("objectives", unit["objectives"]))
+            for objective in teaching["objectives"]:
+                if objective.get("skill_id"):
+                    prereqs, routes = learning_needs.support_routes(get_catalog(), [objective["skill_id"]], preferred_unit=uid)
+                    objective.update(prerequisite_skill_ids=prereqs, routes=routes)
             teaching["instructional_support"] = instruction.support_index(unit)
             teaching["resource_version"] = get_catalog().units.get(uid, {}).get("resource_version", teaching["content_sha256"])
             if uid in manipulatives.CONFIG:
@@ -1181,22 +1204,16 @@ class Handler(BaseHTTPRequestHandler):
                     if reference_kind == "self_check" and resource.startswith("topic:"):
                         task = get_catalog().self_check(resource[6:], index)
                         task_ids = [task["id"]]
-                        if task["family_status"] == "declared":
-                            family_ids = [task["family_id"]]
                     elif reference_kind == "example" and resource.startswith("unit:"):
                         examples = learning_units()[resource[5:]]["worked_examples"]
                         if index >= len(examples):
                             return self._error(400, "参考例题不存在")
-                        family = examples[index].get("family_id")
-                        if family in get_catalog().families and get_catalog().families[family]["status"] == "declared":
-                            family_ids = [family]
                     elif reference_kind == "example" and resource.startswith("topic:") and index == 0:
-                        checks = [get_catalog().tasks[tid]["family_id"] for tid in material["task_ids"]
-                                  if get_catalog().tasks[tid]["source_kind"] == "self_check"]
-                        family_ids = [fid for fid in material["family_ids"] if fid not in checks
-                                      and get_catalog().families[fid]["status"] == "declared"]
+                        pass
                     else:
                         return self._error(400, "这份材料不包含该参考项目")
+                    family_ids = [fid for fid in material.get("reference_families_by_key", {}).get(reference, [])
+                                  if fid in get_catalog().families and get_catalog().families[fid]["status"] == "declared"]
                     get_store().add_event(self._owner(), {"event_type": "reference_opened", "occurred_at": _now(),
                         "resource_id": resource, "content_sha256": material["resource_version"],
                         "payload": {"family_ids": family_ids, "task_ids": task_ids, "reference_key": reference,
@@ -1329,6 +1346,18 @@ class Handler(BaseHTTPRequestHandler):
                     raise ValueError("出题上限须为1到500的整数")
                 session = engine.create_session(GRAPH, targets, mode=mode, limit=limit,
                                                 rotate=prior_count)
+                requested_tasks = payload.get("task_ids")
+                if requested_tasks is not None:
+                    valid_tasks = {question["id"] for tid in targets for question in GRAPH.practice_bank.get(tid, [])}
+                    if (mode != "practice" or not isinstance(requested_tasks, list) or not requested_tasks
+                            or len(requested_tasks) > 50 or not all(isinstance(tid, str) for tid in requested_tasks)
+                            or len(requested_tasks) != len(set(requested_tasks))
+                            or not set(requested_tasks) <= valid_tasks):
+                        raise ValueError("具体主题任务须为所选主题内的活跃练习题，且只可用于练习")
+                    session["allowed_question_ids"] = list(requested_tasks)
+                    session["limit"] = min(session["limit"], len(requested_tasks))
+                    record["selection_basis"] = {"task_ids": list(requested_tasks),
+                        "notice": "按明确任务身份进入练习；不会用同主题其他题替换，也不作为新的独立诊断。"}
                 _SESSION_COUNTER += 1
             except (TypeError, ValueError) as exc:
                 return self._error(400, str(exc))

@@ -15,17 +15,20 @@
     {
       "id": "independent_events:o1",
       "statement": "能用P(A∩B)=P(A)P(B)判断两个事件是否独立，并区分独立与互斥。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "independent_events:o2",
       "statement": "能根据放回、混匀和是否相互影响等试验机制，说明已知一次结果后另一次事件的概率是否改变。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "independent_events:o3",
       "statement": "能在独立性或逐步条件已说明时求同时发生、至少一次发生的概率，并选择相应计算方法。",
-      "granularity": "composite"
+      "granularity": "composite",
+      "prerequisite_objective_ids": []
     },
     {
       "id": "independent_events:classify",
@@ -33,7 +36,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "independent_events:o1"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "independent_events:conditional",
@@ -41,7 +45,8 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "independent_events:o2"
-      ]
+      ],
+      "prerequisite_objective_ids": []
     },
     {
       "id": "independent_events:multiply",
@@ -49,6 +54,10 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "independent_events:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "independent_events:classify",
+        "independent_events:conditional"
       ]
     },
     {
@@ -57,6 +66,9 @@
       "granularity": "observable",
       "refines_objective_ids": [
         "independent_events:o3"
+      ],
+      "prerequisite_objective_ids": [
+        "independent_events:multiply"
       ]
     },
     {
@@ -66,6 +78,10 @@
       "refines_objective_ids": [
         "independent_events:o1",
         "independent_events:o2"
+      ],
+      "prerequisite_objective_ids": [
+        "independent_events:classify",
+        "independent_events:conditional"
       ]
     }
   ],
@@ -95,7 +111,9 @@
       "answer": "1/4",
       "verify": "(1/2)*(1/2)",
       "family_id": "probability.independent-intersection",
-      "variant_id": "independent_events:example-1"
+      "variant_id": "independent_events:example-1",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "袋中有4个红球、2个白球，球除颜色外相同。每次等可能随机摸一个，连续摸两次且不放回。两次都是红球的概率是多少？第二次红球事件与第一次红球事件独立吗？",
@@ -106,7 +124,9 @@
       ],
       "answer": "两次都红的概率为2/5；两个红球事件不独立。",
       "family_id": "probability.without-replacement",
-      "variant_id": "independent_events:example-2"
+      "variant_id": "independent_events:example-2",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "只掷一次公平硬币，正面事件与反面事件为什么互斥却不独立？",
@@ -117,7 +137,9 @@
       ],
       "answer": "互斥但不独立。",
       "family_id": "probability.independence-vs-exclusive",
-      "variant_id": "independent_events:example-3"
+      "variant_id": "independent_events:example-3",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     }
   ],
   "tasks": [
