@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import math
 import re
 import sys
@@ -14,6 +15,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 from cnkg.verify import compare, compare_short, evaluate  # noqa: E402
 from cnkg.evidence import question_policy  # noqa: E402
+from cnkg.task_families import task_contract  # noqa: E402
 from tools.rebuild_data import build_data  # noqa: E402
 from tools.teach_cards import check_card  # noqa: E402
 
@@ -72,6 +74,36 @@ ELECTIVE_COMPONENT_ONLY = {
     'mh5.7.4.1-q204': ('probability.binomial-point-mass', '0.375', ('点概率', '均值方差')),
 }
 
+# V7 appended these specifically bounded observations. The former broad
+# criteria remain rejected: computing a result still cannot stand in for a
+# proof, a complete model, a distribution construction or an interval argument.
+# Each permission below is additionally tied to the exact reviewed source and
+# answer contract, and to an appended criterion after the old criterion range.
+ELECTIVE_V7_OBSERVABLE_GOALS = {
+    'mh3.1.4.1-q203': '能由已给法向量判断两个平面是否垂直',
+    'mh3.2.2.2-q201': '能由两个已知点求直线上指定横坐标对应的纵坐标',
+    'mh3.2.2.2-q204': '能由两个点的坐标求非竖直直线的纵截距',
+    'mh3.2.2.3-q203': '能识别直线一般式中一次项系数不全为零的条件',
+    'mh3.2.3.4-q204': '能识别成比例直线方程重合时距离为零',
+    'mh4.4.2.1-q202': '能由等差数列中两个给定序号的项求公差',
+    'mh4.4.4-q203': '能计算归纳步骤中已给新增项表达式的具体值',
+    'mh4.5.2.2-q204': '能识别两个可导函数的乘积求导公式',
+    'mh4.5.3.1-q203': '能求给定多项式导函数的指定范围零点',
+    'mh5.6.2.1-q201': '能计算从不同元素中选取若干个作有序安排的总数',
+    'mh5.6.2.1-q204': '能计算从不同元素中选取若干个作有序安排的总数',
+    'mh5.6.3.2-q204': '能识别二项式系数中最大系数的位置',
+    'mh5.7.2-q204': '能按已给有限分布列计算指定取值范围的概率',
+    'mh5.7.4.1-q204': '能计算独立重复伯努利试验中恰好指定成功次数的概率',
+    'mh5.8.1.1-q202': '能由实际散点图识别明显的弯曲趋势',
+    'mh5.8.1.1-q203': '能判断仅有观察性相关证据不足以推出因果结论',
+    'mh5.8.1.2-q203': '能判断一个样本变量没有变异时相关系数未定义',
+}
+
+
+def canonical_digest(value):
+    return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True,
+                                    separators=(',', ':')).encode()).hexdigest()
+
 
 class ContentRegressionTest(unittest.TestCase):
     @classmethod
@@ -79,6 +111,16 @@ class ContentRegressionTest(unittest.TestCase):
         cls.questions = json.loads((ROOT / "data/questions.json").read_text())
         cls.bank = {q["id"]: q for q in cls.questions}
         cls.catalog_tasks = json.loads((ROOT / "data/catalog.json").read_text())["tasks"]
+        cls.authored = {}
+        for folder in ('data/content', 'data/question_sources'):
+            for path in (ROOT / folder).glob('*.json'):
+                cls.authored.update({q['id']: q for q in json.loads(path.read_text())['questions']})
+        cls.v7_review = {row['id']: row for row in json.loads(
+            (ROOT / 'docs/reviews/v7-bank-metadata-review.json').read_text())['tasks']}
+        goals = json.loads((ROOT / 'docs/reviews/v7-observable-goal-review.json').read_text())['goals']
+        cls.v7_goals = {qid: row for row in goals for qid in row['bank_task_ids']}
+        cls.bindings = json.loads((ROOT / 'data/skills/catalog-bindings.json').read_text())['tasks']
+        cls.registry = json.loads((ROOT / 'data/skills/registry.json').read_text())
 
     def test_component_calculation_does_not_certify_proof_inquiry_or_simulation(self):
         for topic in ("mh4.4.4", "mh2.9.3", "mh2.10.3.2"):
@@ -114,7 +156,20 @@ class ContentRegressionTest(unittest.TestCase):
                     self.assertTrue(question['tested_criterion_indices'])
                     continue
                 support_seen.add(question['id'])
-                self.assertNotIn('tested_criterion_indices', question)
+                identity = question['id']
+                reviewed, goal = self.v7_review[identity], self.v7_goals[identity]
+                source = self.authored[identity]
+                self.assertEqual(canonical_digest(source), reviewed['current_source_task_sha256'])
+                self.assertEqual(task_contract(source, self.bindings['bank:' + identity]),
+                                 reviewed['current_task_contract'])
+                self.assertEqual('ai', reviewed['reviewer_kind'])
+                self.assertIs(False, reviewed['independent_teacher_review'])
+                self.assertEqual([], reviewed['baseline_metadata']['tested_skill_ids'])
+                self.assertEqual([goal['criterion_index']], question['tested_criterion_indices'])
+                self.assertGreaterEqual(goal['criterion_index'], goal['original_criterion_count'])
+                self.assertEqual(ELECTIVE_V7_OBSERVABLE_GOALS[identity], goal['statement'])
+                self.assertEqual([goal['statement']],
+                                 [entry['statement'] for entry in reviewed['current_goal_mapping']])
                 self.assertEqual(question['family_id'], support['family_id'])
                 for term in support['prompt_terms']:
                     self.assertIn(term, question['prompt'])
@@ -122,11 +177,16 @@ class ContentRegressionTest(unittest.TestCase):
                                 if choice['id'] == question['answer'])
                            if question['type'] == 'choice' else question['answer'])
                 self.assertEqual(correct, support.get('correct_choice', support.get('canonical_answer')))
-                for term in support['reason_terms']:
-                    self.assertIn(term, question['alignment_note'])
+                self.assertTrue(reviewed['observation_boundary'])
+                # The old excluded behaviors are represented by the retained
+                # original criteria. No such old skill is newly granted merely
+                # because the task now has a small observable result target.
+                old_ids = self.registry['placements'][question['topicId']]['criterion_skill_ids'][:goal['original_criterion_count']]
                 task = self.catalog_tasks[question['id']]
-                self.assertEqual(task['alignment'], 'topic_only')
-                self.assertEqual(task['skill_ids'], [])
+                self.assertEqual(task['alignment'], 'explicit_component')
+                self.assertEqual(task['skill_ids'], [goal['skill']['id']])
+                self.assertTrue(set(task['skill_ids']).isdisjoint(old_ids))
+                self.assertEqual([], self.registry['skills'][goal['skill']['id']]['refines_skill_ids'])
                 self.assertEqual(task['topic_ids'], [question['topicId']])
                 self.assertEqual(task['purpose'], ['practice'])
                 self.assertEqual(task['availability'], 'active')
@@ -135,6 +195,7 @@ class ContentRegressionTest(unittest.TestCase):
                               'may_judge_weak', 'independent_evidence'):
                     self.assertFalse(task['policy'][field])
         self.assertEqual(support_seen, set(ELECTIVE_SUPPORT_ONLY) | set(ELECTIVE_COMPONENT_ONLY))
+        self.assertEqual(support_seen, set(ELECTIVE_V7_OBSERVABLE_GOALS))
 
     def test_advanced_clock_problem_requires_relative_motion_and_exact_fraction(self):
         question = self.bank["m7a.6.3.1-q102"]

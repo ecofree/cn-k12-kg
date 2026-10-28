@@ -126,6 +126,30 @@
         "hint": "量角器中心放在O，零刻度线对正北，向西的一侧读40；距离另用300÷100换算。",
         "revision_prompt": "保留原射线，用另一颜色从正北重作40度，沿新射线量3厘米标T，并对照原点说明改动。"
       }
+    },
+    {
+      "criterion_index": 2,
+      "title": "能按已给比例尺把图上距离换算为实际距离",
+      "explanation": "比例尺给出图上长度与实际长度的对应。图上每厘米对应固定实际长度时，用图上厘米数乘每厘米代表的长度；若求图上长度，则反向除，并先核对单位。",
+      "self_check": {
+        "prompt": "图上1厘米表示实际200米。图上4厘米对应多少米？实际600米在图上对应多少厘米？分别标出乘与除的方向。",
+        "reference_answer": "4×200=800米；600÷200=3厘米。前者由图到实，后者由实到图。",
+        "criteria": [
+          "图到实算800米",
+          "实到图算3厘米",
+          "方向和单位一致"
+        ],
+        "family_id": "ratio.map-length-convert",
+        "variant_id": "m6a.1.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "不观察方向描述或图上位置标记。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "你要求的是图上的厘米，还是实际的米？",
+        "hint": "先写“1厘米↔200米”，再把已知量放到对应一边，决定乘或除。",
+        "revision_prompt": "把比例改成1厘米表示100米，对实际700米求图上长度，写出单位核对。"
+      }
     }
   ],
   "conditions": [

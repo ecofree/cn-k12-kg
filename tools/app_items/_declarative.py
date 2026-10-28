@@ -22,6 +22,12 @@ def items_for(name):
     for qid in batch["question_ids"]:
         item = copy.deepcopy(questions[qid])
         item["topic"] = item["topicId"]
-        item["why"] = item.get("difficulty_basis", "").partition("：")[2]
+        basis = item.get("difficulty_basis", "")
+        prefix, separator, explanation = basis.partition("：")
+        # Older records prefixed the reason with a design-label caption. New
+        # authored reasons are already complete text; a missing caption must
+        # not turn that real explanation into an empty compatibility field.
+        legacy_caption = prefix.startswith(("自产应用题（", "设计难度复核（", "设计难点（"))
+        item["why"] = explanation if separator and legacy_caption else basis
         result.append(item)
     return result

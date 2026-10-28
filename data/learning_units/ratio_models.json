@@ -1016,22 +1016,30 @@
           "family_id": "ratio.referent-order",
           "representation": "verbal",
           "cognitive_demand": "choose_strategy",
-          "reference_family_ids": [
-            "ratio.part-part-to-whole"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "按文字顺序给比的两项贴上名称和单位。"
+            "text": "按文字顺序给比的两项贴上名称和单位。",
+            "reference_family_ids": [
+              "ratio.referent-order"
+            ]
           },
           {
             "level": 2,
-            "text": "画红色2格、蓝色5格，全部是7格；若问红占全部，分母改为总份数。"
+            "text": "画红色2格、蓝色5格，全部是7格；若问红占全部，分母改为总份数。",
+            "reference_family_ids": [
+              "ratio.referent-order",
+              "ratio.part-part-to-whole"
+            ]
           },
           {
             "level": 3,
-            "text": "果汁:水=3:7表示果汁3份、水7份，果汁占饮料3/10；果汁与水的比值3/7回答的是另一个问题。"
+            "text": "果汁:水=3:7表示果汁3份、水7份，果汁占饮料3/10；果汁与水的比值3/7回答的是另一个问题。",
+            "reference_family_ids": [
+              "ratio.part-part-to-whole"
+            ]
           }
         ],
         "guided_task": {
@@ -1059,15 +1067,179 @@
           "family_id": "ratio.part-part-to-whole",
           "representation": "verbal",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "ratio.part-part-to-whole"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "ratio_models:practice-1",
           "ratio_models:transfer-1",
           "ratio_models:delayed-2"
-        ]
+        ],
+        "default_route": {
+          "title": "继续检查：把比的前后项各指给一个量",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "复合目标先检查比的参照对象；单位率、等比变化和部分占整体还需分别确认。"
+        },
+        "guided_branches": [
+          {
+            "id": "assemble_the_whole",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "先把两种珠子的份数合成全部",
+            "rationale": "把比的后项5看成总数，未区分蓝珠与红蓝全部。",
+            "observation_note": "观察两个互不重叠部分组成整体的份数关系，不涉及额外第三种珠子。",
+            "guided_task": {
+              "prompt": "一盒只含红珠和蓝珠，红:蓝=2:5。总份数和蓝珠占全部的份额是哪项？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "总共7份，蓝珠占5/2"
+                },
+                {
+                  "id": "B",
+                  "text": "总共7份，蓝珠占5/7"
+                },
+                {
+                  "id": "C",
+                  "text": "总共5份，蓝珠占5/5"
+                }
+              ],
+              "answer": "B",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "红2份与蓝5份合为7份，问蓝占全部应用5÷7；5只是蓝珠份数。",
+              "family_id": "ratio.part-part-to-whole",
+              "representation": "area_model",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:o1:assemble_the_whole"
+            }
+          },
+          {
+            "id": "separate_ratio_shares_and_counts",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "份数既不是固定颗数也不是相差颗数",
+            "rationale": "把5当成红蓝相差的实际颗数，混淆相对份数与绝对数量。",
+            "observation_note": "观察同一比可对应不同实际数量，未由此确定未给的总量。",
+            "guided_task": {
+              "prompt": "两盒分别有红2蓝5、红4蓝10。都符合红:蓝=2:5。关于“5”的理解哪项正确？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "两盒蓝珠都只有5颗"
+                },
+                {
+                  "id": "B",
+                  "text": "两盒红珠都比蓝珠多5颗"
+                },
+                {
+                  "id": "C",
+                  "text": "它表示蓝珠的相对份数，两盒实际差分别3颗和6颗"
+                }
+              ],
+              "answer": "C",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "第二盒两部分都为第一盒2倍，比仍是2:5；实际蓝红之差由3变6，所以5不是固定差。",
+              "family_id": "ratio.referent-order",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [
+                "ratio.equivalent-scaling"
+              ],
+              "variant_id": "ratio_models:support:o1:separate_ratio_shares_and_counts"
+            }
+          }
+        ],
+        "branch_hints": {
+          "A": [
+            {
+              "level": 1,
+              "text": "用不同颜色分别画2份和5份。",
+              "reference_family_ids": [
+                "ratio.part-part-to-whole"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "将两部分一起框成全部；再看所问的蓝色占框内几份。",
+              "reference_family_ids": [
+                "ratio.part-part-to-whole"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "红2份与蓝5份合为7份，问蓝占全部应用5÷7；5只是蓝珠份数。",
+              "reference_family_ids": [
+                "ratio.part-part-to-whole"
+              ]
+            }
+          ],
+          "C": [
+            {
+              "level": 1,
+              "text": "分别计算两盒的实际蓝红差，观察是否都等于5。",
+              "reference_family_ids": [
+                "ratio.referent-order"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "再把第二盒红与蓝同时除以2，看看份数关系为何相同。",
+              "reference_family_ids": [
+                "ratio.referent-order",
+                "ratio.equivalent-scaling"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "第二盒两部分都为第一盒2倍，比仍是2:5；实际蓝红之差由3变6，所以5不是固定差。",
+              "reference_family_ids": [
+                "ratio.referent-order",
+                "ratio.equivalent-scaling"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先按顺序给比的两项命名",
+          "rationale": "暂时不会时先分清前项与后项的对象。",
+          "observation_note": "只观察比的顺序，未转成占整体的分率。",
+          "guided_task": {
+            "prompt": "文字写“红珠:蓝珠=2:5”，比号左边的2对应什么？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "A",
+                "text": "两种珠子的总颗数"
+              },
+              {
+                "id": "B",
+                "text": "红珠的份数"
+              },
+              {
+                "id": "C",
+                "text": "蓝珠的份数"
+              }
+            ],
+            "answer": "B",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "对象顺序是红在前、蓝在后，所以2对应红、5对应蓝。",
+            "family_id": "ratio.referent-order",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "reference_family_ids": [],
+            "variant_id": "ratio_models:support:o1:skip"
+          }
+        }
       },
       {
         "id": "ratio_models:support:o2",
@@ -1109,23 +1281,30 @@
           "family_id": "ratio.invariant-classify",
           "representation": "verbal",
           "cognitive_demand": "explain",
-          "reference_family_ids": [
-            "ratio.fixed-distance-inverse",
-            "ratio.invariant-classify"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "别先看“增加、减少”，先问题设保证哪个关系始终不变。"
+            "text": "别先看“增加、减少”，先问题设保证哪个关系始终不变。",
+            "reference_family_ids": [
+              "ratio.invariant-classify"
+            ]
           },
           {
             "level": 2,
-            "text": "计算或推导y/x、xy；商固定可判正比例，积固定可判反比例，须满足适用的正数量条件。"
+            "text": "计算或推导y/x、xy；商固定可判正比例，积固定可判反比例，须满足适用的正数量条件。",
+            "reference_family_ids": [
+              "ratio.invariant-classify"
+            ]
           },
           {
             "level": 3,
-            "text": "固定路程120千米时，速度40与60对应时间3与2，乘积都为120；若固定的是周长，长宽的和不变，不能套用反比例。"
+            "text": "固定路程120千米时，速度40与60对应时间3与2，乘积都为120；若固定的是周长，长宽的和不变，不能套用反比例。",
+            "reference_family_ids": [
+              "ratio.fixed-distance-inverse",
+              "ratio.invariant-classify"
+            ]
           }
         ],
         "guided_task": {
@@ -1153,16 +1332,176 @@
           "family_id": "ratio.constant-increment-vs-proportion",
           "representation": "verbal",
           "cognitive_demand": "explain",
-          "reference_family_ids": [
-            "ratio.fixed-distance-inverse",
-            "ratio.invariant-classify"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "ratio_models:practice-2",
           "ratio_models:transfer-5",
-          "ratio_models:delayed-1"
-        ]
+          "ratio_models:delayed-1",
+          "ratio_models:delayed-4"
+        ],
+        "default_route": {
+          "title": "继续检查：用不变量判断比例关系",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "复合目标短题区分乘积固定与同向反向变化；一般规律的依据另需检查。"
+        },
+        "guided_branches": [
+          {
+            "id": "check_product_not_opposite_trend",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "一增一减还要检验乘积",
+            "rationale": "用变化方向代替反比例的恒定乘积条件。",
+            "observation_note": "观察反比例必要条件失败的反例，不把有限两条相等乘积自动推广到所有值。",
+            "guided_task": {
+              "prompt": "周长固定24米的长方形，长为2米时宽10米，长为4米时宽8米。哪条计算说明长宽不成反比例？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "长增宽减，所以一定反比例"
+                },
+                {
+                  "id": "B",
+                  "text": "2+10=4+8=12，所以乘积也一定固定"
+                },
+                {
+                  "id": "C",
+                  "text": "2×10=20，4×8=32，乘积不固定"
+                }
+              ],
+              "answer": "C",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "固定周长给长+宽=12；两种面积20与32不同，已经违反长×宽恒定的反比例要求。",
+              "family_id": "ratio.invariant-classify",
+              "representation": "table",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:o2:check_product_not_opposite_trend"
+            }
+          },
+          {
+            "id": "identify_constant_quotient",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "两个量都变化不能决定比例类型",
+            "rationale": "只因两个量变化就叫反比例，未查哪个不变量。",
+            "observation_note": "观察已给规则下的恒定商，不把任意两条数据当已知全域规律。",
+            "guided_task": {
+              "prompt": "题设保证正数量始终满足y=3x。应怎样判断关系？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "x与y都变化，所以成反比例"
+                },
+                {
+                  "id": "B",
+                  "text": "每次都乘3，所以乘积xy恒定"
+                },
+                {
+                  "id": "C",
+                  "text": "y/x始终等于3，所以成正比例"
+                }
+              ],
+              "answer": "C",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "对所有允许的x>0，y/x=3；而xy=3x²会随x改变。变化本身不是分类依据。",
+              "family_id": "ratio.invariant-classify",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:o2:identify_constant_quotient"
+            }
+          }
+        ],
+        "branch_hints": {
+          "A": [
+            {
+              "level": 1,
+              "text": "为每行分别添一列“长×宽”。",
+              "reference_family_ids": [
+                "ratio.invariant-classify"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "反比例应使这列恒定；和恒定是另一种关系。",
+              "reference_family_ids": [
+                "ratio.invariant-classify"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "固定周长给长+宽=12；两种面积20与32不同，已经违反长×宽恒定的反比例要求。",
+              "reference_family_ids": [
+                "ratio.invariant-classify"
+              ]
+            }
+          ],
+          "C": [
+            {
+              "level": 1,
+              "text": "把题设保证的关系写成商或积。",
+              "reference_family_ids": [
+                "ratio.invariant-classify"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "两边除以正数x得到y/x=3，再判断固定的是哪一个。",
+              "reference_family_ids": [
+                "ratio.invariant-classify"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "对所有允许的x>0，y/x=3；而xy=3x²会随x改变。变化本身不是分类依据。",
+              "reference_family_ids": [
+                "ratio.invariant-classify"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先区分恒定商与恒定积",
+          "rationale": "暂时不会时先读懂比例的判定条件。",
+          "observation_note": "这里只识别定义，不证明某个真实情境满足定义。",
+          "guided_task": {
+            "prompt": "在正数量范围，若两个量的乘积始终固定为12，应称为什么关系？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "A",
+                "text": "正比例关系"
+              },
+              {
+                "id": "B",
+                "text": "只要有12就无法判断"
+              },
+              {
+                "id": "C",
+                "text": "反比例关系"
+              }
+            ],
+            "answer": "C",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "x、y为正且xy=12，对应y=12/x，是反比例；正比例要求y/x固定。",
+            "family_id": "ratio.invariant-classify",
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy",
+            "reference_family_ids": [],
+            "variant_id": "ratio_models:support:o2:skip"
+          }
+        }
       },
       {
         "id": "ratio_models:support:o3",
@@ -1170,8 +1509,8 @@
         "title": "先找一份，再检查单位和总量",
         "observation_note": "复合目标先检查按总量分配；比例尺和单位率应用仍需独立任务确认。",
         "hypotheses": [
-          "可能把总量直接除以某一方份数。",
-          "可能算出了份数，却把它当实际数量。"
+          "可能把已知总量当成两组差量。",
+          "可能把比中的相对份数当作实际本数，每份固定为1本。"
         ],
         "diagnostic": {
           "prompt": "把45本书按2:3分给甲乙。求一份多少本，应怎么算？",
@@ -1179,14 +1518,14 @@
           "choices": [
             {
               "id": "A",
-              "text": "45÷2",
-              "feedback": "45是两组总量，应除以总份数。",
+              "text": "45÷(3−2)，把45本作为两组之差",
+              "feedback": "45本是两组总数，应该对应份数和，不是份数差。",
               "next_hint_level": 2
             },
             {
               "id": "B",
-              "text": "45÷3",
-              "feedback": "3只是乙的份数，不是总份数。",
+              "text": "一份就是1本，比2:3已经给出实际本数",
+              "feedback": "2:3给的是相对份数；每份实际有多少本要由总数45本确定。",
               "next_hint_level": 2
             },
             {
@@ -1204,22 +1543,32 @@
           "family_id": "ratio.allocate-from-total",
           "representation": "verbal",
           "cognitive_demand": "choose_strategy",
-          "reference_family_ids": [
-            "ratio.allocate-from-difference"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "先标清已知的是总量、某一份量，还是两组的差。"
+            "text": "先标清已知的是总量、某一份量，还是两组的差。",
+            "reference_family_ids": [
+              "ratio.allocate-from-total",
+              "ratio.allocate-from-difference"
+            ]
           },
           {
             "level": 2,
-            "text": "把已知量与对应份数配对，求一份；再乘目标份数。"
+            "text": "把已知量与对应份数配对，求一份；再乘目标份数。",
+            "reference_family_ids": [
+              "ratio.allocate-from-total",
+              "ratio.allocate-from-difference"
+            ]
           },
           {
             "level": 3,
-            "text": "总量48按1:3分：4份共48，一份12，得到12与36。若已知两组相差24，差对应2份，仍先求每份12，不能把差当总量。"
+            "text": "总量48按1:3分：4份共48，一份12，得到12与36。若已知两组相差24，差对应2份，仍先求每份12，不能把差当总量。",
+            "reference_family_ids": [
+              "ratio.allocate-from-total",
+              "ratio.allocate-from-difference"
+            ]
           }
         ],
         "guided_task": {
@@ -1236,15 +1585,169 @@
           "family_id": "ratio.allocate-from-total",
           "representation": "verbal",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "ratio.allocate-from-difference"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "ratio_models:practice-3",
-          "ratio_models:transfer-1",
-          "ratio_models:delayed-3"
-        ]
+          "ratio_models:transfer-4",
+          "ratio_models:delayed-6",
+          "ratio_models:delayed-7"
+        ],
+        "default_route": {
+          "title": "继续检查：先找一份，再检查单位和总量",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "复合目标先检查按总量分配；比例尺和单位率应用仍需独立任务确认。"
+        },
+        "guided_branches": [
+          {
+            "id": "match_total_to_sum_of_shares",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "总量对应份数和而非份数差",
+            "rationale": "把45本当差量去除以3−2，混淆“共”与“多”。",
+            "observation_note": "观察已知量应对应哪段份数，不据一次配对确认所有比例模型。",
+            "guided_task": {
+              "prompt": "甲有2份、乙有3份，共45本。把两组条形合起来的一整条对应几份，哪式才是每份量？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "1份，45÷(3−2)"
+                },
+                {
+                  "id": "B",
+                  "text": "3份，45÷3"
+                },
+                {
+                  "id": "C",
+                  "text": "5份，45÷(2+3)"
+                }
+              ],
+              "answer": "C",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "“共45本”覆盖甲的2份和乙的3份，共5份；份数差1只对应乙比甲多的本数。",
+              "family_id": "ratio.allocate-from-total",
+              "representation": "area_model",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:o3:match_total_to_sum_of_shares"
+            }
+          },
+          {
+            "id": "scale_shares_to_actual_total",
+            "choice_ids": [
+              "B"
+            ],
+            "title": "比给相对份数，实际量还受总数约束",
+            "rationale": "把2:3理解为甲2本、乙3本，没有用45本总量确定每份大小。",
+            "observation_note": "观察同时满足比例与总量，不允许只检验其中一个条件。",
+            "guided_task": {
+              "prompt": "总共45本，按甲:乙=2:3分。哪种方案同时符合两个条件？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "甲18本、乙27本"
+                },
+                {
+                  "id": "B",
+                  "text": "甲2本、乙3本"
+                },
+                {
+                  "id": "C",
+                  "text": "甲20本、乙25本"
+                }
+              ],
+              "answer": "A",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "18+27=45且18:27=2:3；2与3比例虽对但总数仅5，20与25总数对但比为4:5。",
+              "family_id": "ratio.allocate-from-total",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [
+                "ratio.equivalent-scaling"
+              ],
+              "variant_id": "ratio_models:support:o3:scale_shares_to_actual_total"
+            }
+          }
+        ],
+        "branch_hints": {
+          "A": [
+            {
+              "level": 1,
+              "text": "把“共45本”的括号画在两组的全部份上。",
+              "reference_family_ids": [
+                "ratio.allocate-from-total"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "数括号内2份加3份，不能只数两条的长度差。",
+              "reference_family_ids": [
+                "ratio.allocate-from-total"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "“共45本”覆盖甲的2份和乙的3份，共5份；份数差1只对应乙比甲多的本数。",
+              "reference_family_ids": [
+                "ratio.allocate-from-total"
+              ]
+            }
+          ],
+          "B": [
+            {
+              "level": 1,
+              "text": "给每个方案分别检查“和”与“比”。",
+              "reference_family_ids": [
+                "ratio.allocate-from-total"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "由45÷5=9可知每份9本，并非固定1本。",
+              "reference_family_ids": [
+                "ratio.allocate-from-total",
+                "ratio.equivalent-scaling"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "18+27=45且18:27=2:3；2与3比例虽对但总数仅5，20与25总数对但比为4:5。",
+              "reference_family_ids": [
+                "ratio.allocate-from-total",
+                "ratio.equivalent-scaling"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先合计比中的总份数",
+          "rationale": "暂时不会时先只找两个互斥部分的全部份数。",
+          "observation_note": "只检查份数相加，未把实际总量分到每份。",
+          "guided_task": {
+            "prompt": "甲3份、乙4份，两部分合起来共几份？",
+            "type": "numeric",
+            "answer": "7",
+            "answer_spec": {
+              "kind": "number",
+              "comparison": "exact",
+              "representation": "any"
+            },
+            "explanation": "两个不重叠部分合计3+4=7份，实际每份多少还需总量。",
+            "family_id": "ratio.allocate-from-total",
+            "representation": "area_model",
+            "cognitive_demand": "execute",
+            "reference_family_ids": [],
+            "verify": "3+4",
+            "variant_id": "ratio_models:support:o3:skip"
+          }
+        }
       },
       {
         "id": "ratio_models:support:referent",
@@ -1286,22 +1789,31 @@
           "family_id": "ratio.map-scale-infer",
           "representation": "verbal",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "ratio.rate-compare-unit-conversion"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "在比号左右分别写名称，避免只记数字。"
+            "text": "在比号左右分别写名称，避免只记数字。",
+            "reference_family_ids": [
+              "ratio.referent-order"
+            ]
           },
           {
             "level": 2,
-            "text": "长度比较先都换成厘米或米；单位率如元/千克则保留两种单位的含义。"
+            "text": "长度比较先都换成厘米或米；单位率如元/千克则保留两种单位的含义。",
+            "reference_family_ids": [
+              "ratio.map-scale-infer",
+              "ratio.referent-order"
+            ]
           },
           {
             "level": 3,
-            "text": "“甲用3分钟走150米”中，速度是150÷3=50米/分钟；时间与路程之比3:150回答的是每米用时，方向相反。"
+            "text": "“甲用3分钟走150米”中，速度是150÷3=50米/分钟；时间与路程之比3:150回答的是每米用时，方向相反。",
+            "reference_family_ids": [
+              "ratio.referent-order",
+              "ratio.inverse-unit-rate-query"
+            ]
           }
         ],
         "guided_task": {
@@ -1329,15 +1841,177 @@
           "family_id": "ratio.referent-order",
           "representation": "verbal",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "ratio.rate-compare-unit-conversion"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "ratio_models:practice-1",
+          "ratio_models:practice-5",
           "ratio_models:transfer-1",
+          "ratio_models:transfer-3",
           "ratio_models:delayed-2"
-        ]
+        ],
+        "default_route": {
+          "title": "继续检查：顺序和单位一起写",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "观察能否按给定顺序写比；数量比较与单位统一还要在后续任务中检查。"
+        },
+        "guided_branches": [
+          {
+            "id": "unify_length_units",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "同类长度比较先统一单位",
+            "rationale": "直接写3:6忽略厘米与米不同，数字比不能代替量的比。",
+            "observation_note": "观察同类量单位统一，不要求不同量的单位率也变成同类量。",
+            "guided_task": {
+              "prompt": "求2米与50厘米的长度比，哪种改写有依据？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "2:50=1:25"
+                },
+                {
+                  "id": "B",
+                  "text": "2米:50厘米=2:5"
+                },
+                {
+                  "id": "C",
+                  "text": "200厘米:50厘米=4:1"
+                }
+              ],
+              "answer": "C",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "2米=200厘米，同单位后才可取数值比200:50=4:1。",
+              "family_id": "ratio.map-scale-infer",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:referent:unify_length_units"
+            }
+          },
+          {
+            "id": "preserve_requested_order",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "按题目所问的顺序写比",
+            "rationale": "换算正确却写成实际:图上，可能把前后参照颠倒。",
+            "observation_note": "观察比号两侧对象的顺序，不把逆比当同一个问题。",
+            "guided_task": {
+              "prompt": "图上长2厘米，实际长500厘米。题目这次明确求“实际:图上”，哪式对应它？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "502:2"
+                },
+                {
+                  "id": "B",
+                  "text": "500:2"
+                },
+                {
+                  "id": "C",
+                  "text": "2:500"
+                }
+              ],
+              "answer": "B",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "先写实际量500，再写图上量2；2:500是相反次序，回答另一种比。",
+              "family_id": "ratio.referent-order",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:referent:preserve_requested_order"
+            }
+          }
+        ],
+        "branch_hints": {
+          "A": [
+            {
+              "level": 1,
+              "text": "先给每个数字写上原单位。",
+              "reference_family_ids": [
+                "ratio.map-scale-infer"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "把2米换成200厘米，保留对象前后顺序再化简。",
+              "reference_family_ids": [
+                "ratio.map-scale-infer"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "2米=200厘米，同单位后才可取数值比200:50=4:1。",
+              "reference_family_ids": [
+                "ratio.map-scale-infer"
+              ]
+            }
+          ],
+          "C": [
+            {
+              "level": 1,
+              "text": "在比号左右先写“实际”和“图上”，再填数。",
+              "reference_family_ids": [
+                "ratio.referent-order"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "不要沿用常见比例尺的图:实顺序，本题已换了所问对象。",
+              "reference_family_ids": [
+                "ratio.referent-order"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "先写实际量500，再写图上量2；2:500是相反次序，回答另一种比。",
+              "reference_family_ids": [
+                "ratio.referent-order"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先用文字给前后项排队",
+          "rationale": "暂时不会时先写对象顺序，暂不化简。",
+          "observation_note": "只识别所求比，未处理单位转换。",
+          "guided_task": {
+            "prompt": "题目问“蓝珠与红珠的比”，比号左边应放哪一类的数量？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "A",
+                "text": "两类合计"
+              },
+              {
+                "id": "B",
+                "text": "蓝珠"
+              },
+              {
+                "id": "C",
+                "text": "红珠"
+              }
+            ],
+            "answer": "B",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "“蓝与红”按蓝:红排列；整体数量只有在问占全部时才放入比较。",
+            "family_id": "ratio.referent-order",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "reference_family_ids": [],
+            "variant_id": "ratio_models:support:referent:skip"
+          }
+        }
       },
       {
         "id": "ratio_models:support:part_whole",
@@ -1379,22 +2053,30 @@
           "family_id": "ratio.part-part-to-whole",
           "representation": "verbal",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "ratio.reconstruct-total-from-part"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "先圈出“占谁”：占另一部分还是占全部。"
+            "text": "先圈出“占谁”：占另一部分还是占全部。",
+            "reference_family_ids": [
+              "ratio.part-part-to-whole"
+            ]
           },
           {
             "level": 2,
-            "text": "两部分无重叠且组成全部时，总份数为前项+后项。"
+            "text": "两部分无重叠且组成全部时，总份数为前项+后项。",
+            "reference_family_ids": [
+              "ratio.part-part-to-whole"
+            ]
           },
           {
             "level": 3,
-            "text": "男:女=4:5，男占全部4/9。若已知女生15人，则每份3人，男12人，全班27人，12/27仍为4/9。"
+            "text": "男:女=4:5，男占全部4/9。若已知女生15人，则每份3人，男12人，全班27人，12/27仍为4/9。",
+            "reference_family_ids": [
+              "ratio.part-part-to-whole",
+              "ratio.reconstruct-component-from-part"
+            ]
           }
         ],
         "guided_task": {
@@ -1411,15 +2093,176 @@
           "family_id": "ratio.part-part-to-whole",
           "representation": "verbal",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "ratio.reconstruct-total-from-part"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "ratio_models:practice-1",
           "ratio_models:transfer-1",
-          "ratio_models:delayed-2"
-        ]
+          "ratio_models:delayed-2",
+          "ratio_models:delayed-6"
+        ],
+        "default_route": {
+          "title": "继续检查：从两部分的比得到总份数",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "观察部分占整体的分母；没有实际总量时不能推出每份的绝对数量。"
+        },
+        "guided_branches": [
+          {
+            "id": "use_total_as_denominator",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "占全部要以总份数为分母",
+            "rationale": "3/2回答黑与白的比，未把所问整体作为基准。",
+            "observation_note": "观察两部分无重叠且穷尽整体时的分母，其他成分须另计。",
+            "guided_task": {
+              "prompt": "袋中只有黑、白两类球，黑4份、白3份。若问黑占全部，分母应取什么及理由？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "7，因为全部包含黑4份和白3份"
+                },
+                {
+                  "id": "B",
+                  "text": "3，因为白球在比的后项"
+                },
+                {
+                  "id": "C",
+                  "text": "4，因为问的是黑球"
+                }
+              ],
+              "answer": "A",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "整体是4+3=7份，所求黑占全部为4/7；4/3是黑与白的比值。",
+              "family_id": "ratio.part-part-to-whole",
+              "representation": "area_model",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:part_whole:use_total_as_denominator"
+            }
+          },
+          {
+            "id": "label_numerator_by_requested_part",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "所问部分决定分子",
+            "rationale": "写2/5用对总份数，却取了白球的份数作为黑球分子。",
+            "observation_note": "观察分子对象的准确对应，不把两种颜色的份额互换。",
+            "guided_task": {
+              "prompt": "黑:白=3:2，总份数5。哪组标签和分率完全对应？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "黑占2/5，白占3/5"
+                },
+                {
+                  "id": "B",
+                  "text": "黑占3/2，白占2/3"
+                },
+                {
+                  "id": "C",
+                  "text": "黑占3/5，白占2/5"
+                }
+              ],
+              "answer": "C",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "黑对应前项3、白对应后项2；两者都除总份数5，且3/5+2/5=1。",
+              "family_id": "ratio.part-part-to-whole",
+              "representation": "table",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:part_whole:label_numerator_by_requested_part"
+            }
+          }
+        ],
+        "branch_hints": {
+          "A": [
+            {
+              "level": 1,
+              "text": "把黑和白一起圈进“全部”。",
+              "reference_family_ids": [
+                "ratio.part-part-to-whole"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "分母数圈内全部份数，分子才数所问颜色的份数。",
+              "reference_family_ids": [
+                "ratio.part-part-to-whole"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "整体是4+3=7份，所求黑占全部为4/7；4/3是黑与白的比值。",
+              "reference_family_ids": [
+                "ratio.part-part-to-whole"
+              ]
+            }
+          ],
+          "C": [
+            {
+              "level": 1,
+              "text": "给3标黑、2标白，再填分率的分子。",
+              "reference_family_ids": [
+                "ratio.part-part-to-whole"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "检查黑份额应更大，因为黑3份多于白2份。",
+              "reference_family_ids": [
+                "ratio.part-part-to-whole"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "黑对应前项3、白对应后项2；两者都除总份数5，且3/5+2/5=1。",
+              "reference_family_ids": [
+                "ratio.part-part-to-whole"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先辨认“全部”包含哪些部分",
+          "rationale": "暂时不会时先明确整体范围。",
+          "observation_note": "只确定整体对象，未进行份额计算。",
+          "guided_task": {
+            "prompt": "一盒只有红珠和蓝珠。“红珠占全部”的全部是指什么？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "A",
+                "text": "只有红珠"
+              },
+              {
+                "id": "B",
+                "text": "红珠与蓝珠合在一起"
+              },
+              {
+                "id": "C",
+                "text": "只有蓝珠"
+              }
+            ],
+            "answer": "B",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "“全部”覆盖两种珠子；若盒中另有其他种类，还须把它们计入。",
+            "family_id": "ratio.part-part-to-whole",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "reference_family_ids": [],
+            "variant_id": "ratio_models:support:part_whole:skip"
+          }
+        }
       },
       {
         "id": "ratio_models:support:equivalent_ratio",
@@ -1461,23 +2304,32 @@
           "family_id": "ratio.equivalent-scaling",
           "representation": "symbolic",
           "cognitive_demand": "explain",
-          "reference_family_ids": [
-            "ratio.additive-change-error",
-            "ratio.rescaled-map"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "比较新旧两项的倍数，而不是只看增加量。"
+            "text": "比较新旧两项的倍数，而不是只看增加量。",
+            "reference_family_ids": [
+              "ratio.equivalent-scaling"
+            ]
           },
           {
             "level": 2,
-            "text": "若两项同乘非零数，比值不变；若图变大而实物不变，两个量并未同倍变化。"
+            "text": "若两项同乘非零数，比值不变；若图变大而实物不变，两个量并未同倍变化。",
+            "reference_family_ids": [
+              "ratio.equivalent-scaling",
+              "ratio.rescaled-map"
+            ]
           },
           {
             "level": 3,
-            "text": "配方3:5变成9:15，两项均乘3，比例不变；各加6变成9:11则改变。原图1:100放大2倍，图:实=2:100=1:50。"
+            "text": "配方3:5变成9:15，两项均乘3，比例不变；各加6变成9:11则改变。原图1:100放大2倍，图:实=2:100=1:50。",
+            "reference_family_ids": [
+              "ratio.equivalent-scaling",
+              "ratio.additive-change-error",
+              "ratio.rescaled-map"
+            ]
           }
         ],
         "guided_task": {
@@ -1505,16 +2357,175 @@
           "family_id": "ratio.reconstruct-component-from-part",
           "representation": "verbal",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "ratio.additive-change-error",
-            "ratio.rescaled-map"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "ratio_models:practice-7",
           "ratio_models:transfer-7",
           "ratio_models:delayed-5"
-        ]
+        ],
+        "default_route": {
+          "title": "继续检查：同时扩大倍数，检查比值不变",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "观察同乘与同加的差别；绘图缩放时还需确认实际量是否保持不变。"
+        },
+        "guided_branches": [
+          {
+            "id": "test_growth_with_counterexample",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "两项都增加不等于同倍变化",
+            "rationale": "只看两个数都变大，没有核对它们扩大的倍数。",
+            "observation_note": "观察一个共同增加却改变比例的反例，不由此说所有增加都会改变比例。",
+            "guided_task": {
+              "prompt": "2:3改成3:4，两项都增加1。为何不能据此认定比值不变？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "后项更大，所以两比都等于1"
+                },
+                {
+                  "id": "B",
+                  "text": "2/3与3/4不等，前项乘1.5而后项乘4/3，倍数不同"
+                },
+                {
+                  "id": "C",
+                  "text": "只要都增加，就一定等值"
+                }
+              ],
+              "answer": "B",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "2×4=8而3×3=9，两个比值不同；等值要求前后两项同乘同一非零倍数。",
+              "family_id": "ratio.additive-change-error",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:equivalent_ratio:test_growth_with_counterexample"
+            }
+          },
+          {
+            "id": "distinguish_ratio_and_difference",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "同倍扩大保持商却改变差",
+            "rationale": "用“差没变”解释比例，混淆乘法不变量和加法不变量。",
+            "observation_note": "观察同倍扩大中哪些量保持，不把恒定差当恒定比。",
+            "guided_task": {
+              "prompt": "比3:5同乘3变为9:15，原差2、新差6。哪句解释准确？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "差扩大3倍，但3/5=9/15，所以比值保持"
+                },
+                {
+                  "id": "B",
+                  "text": "差变了，所以比一定变了"
+                },
+                {
+                  "id": "C",
+                  "text": "差2与6其实相等，因此比保持"
+                }
+              ],
+              "answer": "A",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "同乘3使两项及其差都扩大3倍；商中的共同倍数约去，仍为3/5。",
+              "family_id": "ratio.equivalent-scaling",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:equivalent_ratio:distinguish_ratio_and_difference"
+            }
+          }
+        ],
+        "branch_hints": {
+          "A": [
+            {
+              "level": 1,
+              "text": "分别比较新前项÷旧前项与新后项÷旧后项。",
+              "reference_family_ids": [
+                "ratio.additive-change-error"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "核对两倍数相同才可用同倍扩大规则。",
+              "reference_family_ids": [
+                "ratio.additive-change-error"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "2×4=8而3×3=9，两个比值不同；等值要求前后两项同乘同一非零倍数。",
+              "reference_family_ids": [
+                "ratio.additive-change-error"
+              ]
+            }
+          ],
+          "C": [
+            {
+              "level": 1,
+              "text": "分别列一行“后项−前项”和一行“前项÷后项”。",
+              "reference_family_ids": [
+                "ratio.equivalent-scaling"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "差由2变6，而商仍为3/5，不要把两个检验混用。",
+              "reference_family_ids": [
+                "ratio.equivalent-scaling"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "同乘3使两项及其差都扩大3倍；商中的共同倍数约去，仍为3/5。",
+              "reference_family_ids": [
+                "ratio.equivalent-scaling"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先找同一个倍数",
+          "rationale": "暂时不会时先检查两项是否按同倍扩大。",
+          "observation_note": "只识别同步乘法，尚未解释单位率或图纸缩放的条件。",
+          "guided_task": {
+            "prompt": "把4:7的两项都乘2，应该得到哪个比？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "A",
+                "text": "8:14"
+              },
+              {
+                "id": "B",
+                "text": "6:9"
+              },
+              {
+                "id": "C",
+                "text": "8:7"
+              }
+            ],
+            "answer": "A",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "4×2=8、7×2=14；同加2或只改一项都不是两项同倍扩大。",
+            "family_id": "ratio.equivalent-scaling",
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy",
+            "reference_family_ids": [],
+            "variant_id": "ratio_models:support:equivalent_ratio:skip"
+          }
+        }
       },
       {
         "id": "ratio_models:support:unit_rate",
@@ -1556,22 +2567,29 @@
           "family_id": "ratio.rate-compare-unit-conversion",
           "representation": "verbal",
           "cognitive_demand": "choose_strategy",
-          "reference_family_ids": [
-            "ratio.rate-compare-unit-conversion"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "把“每1什么”写出来，放在除数对应的位置。"
+            "text": "把“每1什么”写出来，放在除数对应的位置。",
+            "reference_family_ids": [
+              "ratio.unit-rate-projection"
+            ]
           },
           {
             "level": 2,
-            "text": "统一可比单位后求每单位数量，比较时同时核对起点和是否有固定额外量。"
+            "text": "统一可比单位后求每单位数量，比较时同时核对起点和是否有固定额外量。",
+            "reference_family_ids": [
+              "ratio.rate-compare-unit-conversion"
+            ]
           },
           {
             "level": 3,
-            "text": "甲3分钟走450米，乙2分钟走0.32千米。乙为320÷2=160米/分钟，大于甲150，不能仅因甲路程450较大判甲更快。"
+            "text": "甲3分钟走450米，乙2分钟走0.32千米。乙为320÷2=160米/分钟，大于甲150，不能仅因甲路程450较大判甲更快。",
+            "reference_family_ids": [
+              "ratio.rate-compare-unit-conversion"
+            ]
           }
         ],
         "guided_task": {
@@ -1588,16 +2606,180 @@
           "family_id": "ratio.unit-rate-projection",
           "representation": "verbal",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "ratio.rate-compare-unit-conversion"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "ratio_models:practice-4",
           "ratio_models:transfer-3",
           "ratio_models:delayed-3",
           "ratio_models:practice-9"
-        ]
+        ],
+        "default_route": {
+          "title": "继续检查：把量换成每一个单位",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "观察单位率的除法方向；选择更优方案还需要同单位及规则一致。"
+        },
+        "guided_branches": [
+          {
+            "id": "read_reciprocal_rate_units",
+            "choice_ids": [
+              "B"
+            ],
+            "title": "倒过来除得到另一种单位率",
+            "rationale": "5÷400求每米用时，却误贴成米/分钟。",
+            "observation_note": "观察除法顺序与单位对应；倒数单位率本身有意义，不能说它一概错误。",
+            "guided_task": {
+              "prompt": "走400米用5分钟。计算5÷400得到0.0125，这个量的正确含义是什么？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "每分钟走0.0125米"
+                },
+                {
+                  "id": "B",
+                  "text": "共走0.0125米"
+                },
+                {
+                  "id": "C",
+                  "text": "每米用0.0125分钟"
+                }
+              ],
+              "answer": "C",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "分钟÷米的单位为分钟/米；要问米/分钟才用400÷5=80。两个率互为倒数，问题不同。",
+              "family_id": "ratio.inverse-unit-rate-query",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [
+                "ratio.unit-rate-projection"
+              ],
+              "variant_id": "ratio_models:support:unit_rate:read_reciprocal_rate_units"
+            }
+          },
+          {
+            "id": "share_quantity_not_subtract_units",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "每单位量是等分，不是异类量相减",
+            "rationale": "把米与分钟直接相减，既没有得到每1分钟，也混合了不同量纲。",
+            "observation_note": "观察单位率的等分含义，不保证所有情境都单价固定。",
+            "guided_task": {
+              "prompt": "3千克水果共12元，单价固定。要找每1千克的价钱，哪种解释对应12÷3？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "12和3都减1就得到每单位量"
+                },
+                {
+                  "id": "B",
+                  "text": "把12元平均分给3份，每份对应1千克，得4元/千克"
+                },
+                {
+                  "id": "C",
+                  "text": "从12元里减去3千克，得9元/千克"
+                }
+              ],
+              "answer": "B",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "每份对应同样1千克，3份共12元，单份12÷3=4元；元和千克不能直接相减得单价。",
+              "family_id": "ratio.unit-rate-projection",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:unit_rate:share_quantity_not_subtract_units"
+            }
+          }
+        ],
+        "branch_hints": {
+          "B": [
+            {
+              "level": 1,
+              "text": "让单位跟随除法顺序一起相除。",
+              "reference_family_ids": [
+                "ratio.inverse-unit-rate-query"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "“每1米”对应以米数作除数，“每1分钟”对应以分钟数作除数。",
+              "reference_family_ids": [
+                "ratio.inverse-unit-rate-query",
+                "ratio.unit-rate-projection"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "分钟÷米的单位为分钟/米；要问米/分钟才用400÷5=80。两个率互为倒数，问题不同。",
+              "reference_family_ids": [
+                "ratio.inverse-unit-rate-query",
+                "ratio.unit-rate-projection"
+              ]
+            }
+          ],
+          "C": [
+            {
+              "level": 1,
+              "text": "把3千克看成3个相同的1千克单位。",
+              "reference_family_ids": [
+                "ratio.unit-rate-projection"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "将总费用按这3个单位平均分，商带“元/千克”。",
+              "reference_family_ids": [
+                "ratio.unit-rate-projection"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "每份对应同样1千克，3份共12元，单份12÷3=4元；元和千克不能直接相减得单价。",
+              "reference_family_ids": [
+                "ratio.unit-rate-projection"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先确定“每1什么”",
+          "rationale": "暂时不会时先辨认单位率的基准。",
+          "observation_note": "只识别所求单位，不单凭它假定恒定速度。",
+          "guided_task": {
+            "prompt": "题目问“每分钟走多少米”，需要把哪种量变成1？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "A",
+                "text": "路程变成1米"
+              },
+              {
+                "id": "B",
+                "text": "总路程变成0"
+              },
+              {
+                "id": "C",
+                "text": "时间变成1分钟"
+              }
+            ],
+            "answer": "C",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "“每分钟”把时间定为单位1，路程除以对应的分钟数得到每分钟的米数。",
+            "family_id": "ratio.unit-rate-projection",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "reference_family_ids": [],
+            "variant_id": "ratio_models:support:unit_rate:skip"
+          }
+        }
       },
       {
         "id": "ratio_models:support:invariant",
@@ -1639,22 +2821,31 @@
           "family_id": "ratio.constant-increment-vs-proportion",
           "representation": "symbolic",
           "cognitive_demand": "explain",
-          "reference_family_ids": [
-            "ratio.invariant-classify"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "先写假设：哪些量为正，什么条件始终成立。"
+            "text": "先写假设：哪些量为正，什么条件始终成立。",
+            "reference_family_ids": [
+              "ratio.invariant-classify"
+            ]
           },
           {
             "level": 2,
-            "text": "正比例检查y/x=k；反比例检查xy=k。只有几条记录时，结论先限定在记录范围。"
+            "text": "正比例检查y/x=k；反比例检查xy=k。只有几条记录时，结论先限定在记录范围。",
+            "reference_family_ids": [
+              "ratio.invariant-classify",
+              "model.finite-data-limit"
+            ]
           },
           {
             "level": 3,
-            "text": "面积固定36时，长3宽12与长6宽6的积都为36；周长固定时则检查长宽和。两类问题不能只凭一增一减混用。"
+            "text": "面积固定36时，长3宽12与长6宽6的积都为36；周长固定时则检查长宽和。两类问题不能只凭一增一减混用。",
+            "reference_family_ids": [
+              "ratio.invariant-classify",
+              "ratio.fixed-distance-inverse"
+            ]
           }
         ],
         "guided_task": {
@@ -1682,15 +2873,177 @@
           "family_id": "model.finite-data-limit",
           "representation": "symbolic",
           "cognitive_demand": "explain",
-          "reference_family_ids": [
-            "ratio.invariant-classify"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "ratio_models:practice-2",
           "ratio_models:transfer-5",
-          "ratio_models:delayed-1"
-        ]
+          "ratio_models:transfer-6",
+          "ratio_models:delayed-1",
+          "ratio_models:delayed-4"
+        ],
+        "default_route": {
+          "title": "继续检查：固定增量不等于固定商",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "观察正比例的商条件；有限几个相合数据本身不足以保证规则。"
+        },
+        "guided_branches": [
+          {
+            "id": "test_zero_input_and_base_fee",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "固定增量不能消去固定初始量",
+            "rationale": "每次多4说明斜率固定，不说明总量与用量成正比例。",
+            "observation_note": "观察含基础费的完整规则不满足正比例；若0不在定义域，仍可用允许值的比值检验。",
+            "guided_task": {
+              "prompt": "规则y=2+5x，x≥0，单位分别是元与次。哪项直接显示它不是费用与次数成正比例？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "只要y会增加，就不需看基础费"
+                },
+                {
+                  "id": "B",
+                  "text": "x=0时仍收2元，不符合y=kx在0次时收费0元"
+                },
+                {
+                  "id": "C",
+                  "text": "每增加1次多5元，所以必成正比例"
+                }
+              ],
+              "answer": "B",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "2元是固定项；y=2+5x不能写成对所有允许x成立的y=kx。也可比较x=1与2时的比值7和6。",
+              "family_id": "ratio.constant-increment-vs-proportion",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:invariant:test_zero_input_and_base_fee"
+            }
+          },
+          {
+            "id": "derive_inverse_change_from_product",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "反比例从乘积推出方向",
+            "rationale": "把随x增大也增大叫反比例，没有理解正数量下固定乘积的含义。",
+            "observation_note": "观察已给固定乘积的后果，不把单次一增一减当充分条件。",
+            "guided_task": {
+              "prompt": "两个正数量满足xy=12。x从2变4时，y应怎样变化，理由是什么？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "从6变8，因为x加2，y也加2"
+                },
+                {
+                  "id": "B",
+                  "text": "从6变3，x扩大2倍，y缩成一半才能保住乘积12"
+                },
+                {
+                  "id": "C",
+                  "text": "从6变12，因为两个量要一起增大"
+                }
+              ],
+              "answer": "B",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "当x=2时y=12÷2=6；x=4时y=12÷4=3。乘积固定要求正量作反向倍数变化。",
+              "family_id": "ratio.fixed-distance-inverse",
+              "representation": "table",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:invariant:derive_inverse_change_from_product"
+            }
+          }
+        ],
+        "branch_hints": {
+          "A": [
+            {
+              "level": 1,
+              "text": "先把0次的费用代入规则。",
+              "reference_family_ids": [
+                "ratio.constant-increment-vs-proportion"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "比例关系y=kx的图式要求0对应0；固定加2改变了这一点。",
+              "reference_family_ids": [
+                "ratio.constant-increment-vs-proportion"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "2元是固定项；y=2+5x不能写成对所有允许x成立的y=kx。也可比较x=1与2时的比值7和6。",
+              "reference_family_ids": [
+                "ratio.constant-increment-vs-proportion"
+              ]
+            }
+          ],
+          "C": [
+            {
+              "level": 1,
+              "text": "分别用12除以新的x求对应y。",
+              "reference_family_ids": [
+                "ratio.fixed-distance-inverse"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "检查两行乘积都回到12，而不是只描述升降。",
+              "reference_family_ids": [
+                "ratio.fixed-distance-inverse"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "当x=2时y=12÷2=6；x=4时y=12÷4=3。乘积固定要求正量作反向倍数变化。",
+              "reference_family_ids": [
+                "ratio.fixed-distance-inverse"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先从完整规则读出不变量",
+          "rationale": "暂时不会时先做一个直接的商检查。",
+          "observation_note": "只观察已给规则，不把有限记录自行当完整规律。",
+          "guided_task": {
+            "prompt": "已知所有允许的正x都满足y=4x，y/x等于什么？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "A",
+                "text": "无法从完整公式判断"
+              },
+              {
+                "id": "B",
+                "text": "恒为4"
+              },
+              {
+                "id": "C",
+                "text": "恒为4x"
+              }
+            ],
+            "answer": "B",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "因x>0可除以x，y/x=(4x)/x=4；这是题设给定规则的推论。",
+            "family_id": "ratio.invariant-classify",
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy",
+            "reference_family_ids": [],
+            "variant_id": "ratio_models:support:invariant:skip"
+          }
+        }
       },
       {
         "id": "ratio_models:support:allocation",
@@ -1732,22 +3085,32 @@
           "family_id": "ratio.allocate-from-difference",
           "representation": "verbal",
           "cognitive_demand": "choose_strategy",
-          "reference_family_ids": [
-            "ratio.indivisible-allocation-feasibility"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "先判断已知“共多少”还是“多多少”。"
+            "text": "先判断已知“共多少”还是“多多少”。",
+            "reference_family_ids": [
+              "ratio.allocate-from-total",
+              "ratio.allocate-from-difference"
+            ]
           },
           {
             "level": 2,
-            "text": "总量除以份数和，差量除以份数差，再乘目标份数。"
+            "text": "总量除以份数和，差量除以份数差，再乘目标份数。",
+            "reference_family_ids": [
+              "ratio.allocate-from-total",
+              "ratio.allocate-from-difference"
+            ]
           },
           {
             "level": 3,
-            "text": "两组比4:1，差21个：3份=21，一份7，得到28与7。若物品不可拆分，算出的分配还必须是整数，不能随意四舍五入。"
+            "text": "两组比4:1，差21个：3份=21，一份7，得到28与7。若物品不可拆分，算出的分配还必须是整数，不能随意四舍五入。",
+            "reference_family_ids": [
+              "ratio.allocate-from-difference",
+              "ratio.indivisible-allocation-feasibility"
+            ]
           }
         ],
         "guided_task": {
@@ -1764,16 +3127,176 @@
           "family_id": "ratio.allocate-from-difference",
           "representation": "verbal",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "ratio.indivisible-allocation-feasibility"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "ratio_models:practice-3",
           "ratio_models:transfer-4",
           "ratio_models:delayed-6",
           "ratio_models:delayed-7"
-        ]
+        ],
+        "default_route": {
+          "title": "继续检查：总量和差量对应不同份数",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "观察按差分配的份数；最后仍需核对分配总量、比和整数限制。"
+        },
+        "guided_branches": [
+          {
+            "id": "map_difference_to_unmatched_shares",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "差量对应多出来的份数",
+            "rationale": "把18本的差量对应到5+2总份数，混淆条形整体与剩余长段。",
+            "observation_note": "观察差与份数差的匹配，不由此确定不可拆物品的整数可行性。",
+            "guided_task": {
+              "prompt": "甲5份、乙2份，把两条的起点对齐。甲比乙多的18本对应哪一部分？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "超过乙末端的3份"
+                },
+                {
+                  "id": "B",
+                  "text": "甲乙合起来的7份"
+                },
+                {
+                  "id": "C",
+                  "text": "甲整条的5份"
+                }
+              ],
+              "answer": "A",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "先将两条共同的2份配对抵消，甲只多5−2=3份；18本应分给这3份。",
+              "family_id": "ratio.allocate-from-difference",
+              "representation": "area_model",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:allocation:map_difference_to_unmatched_shares"
+            }
+          },
+          {
+            "id": "distinguish_group_amount_and_gap",
+            "choice_ids": [
+              "B"
+            ],
+            "title": "较大组本数不是两组差",
+            "rationale": "把甲的5份当成差量对应份数，漏掉乙组也占有的部分。",
+            "observation_note": "观察较大组、较小组与差三者有不同量，不把已知差直接当一组总数。",
+            "guided_task": {
+              "prompt": "甲实际有27本、乙有9本，每份9本，所以比是3:1。两组相差18本应对应几份？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "1份，因为乙较少"
+                },
+                {
+                  "id": "B",
+                  "text": "2份，因为27−9=18且3−1=2"
+                },
+                {
+                  "id": "C",
+                  "text": "3份，因为甲较多"
+                }
+              ],
+              "answer": "B",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "甲3份、乙1份，相差的是2份；18本既不是甲的27本，也不是乙的9本。",
+              "family_id": "ratio.allocate-from-difference",
+              "representation": "table",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:allocation:distinguish_group_amount_and_gap"
+            }
+          }
+        ],
+        "branch_hints": {
+          "A": [
+            {
+              "level": 1,
+              "text": "把乙的2份与甲前2份一一对齐。",
+              "reference_family_ids": [
+                "ratio.allocate-from-difference"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "只圈甲没有被乙配对的那段，再让18本对应它。",
+              "reference_family_ids": [
+                "ratio.allocate-from-difference"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "先将两条共同的2份配对抵消，甲只多5−2=3份；18本应分给这3份。",
+              "reference_family_ids": [
+                "ratio.allocate-from-difference"
+              ]
+            }
+          ],
+          "B": [
+            {
+              "level": 1,
+              "text": "在表里单列甲、本数较少的乙和两组差。",
+              "reference_family_ids": [
+                "ratio.allocate-from-difference"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "本数用27−9，份数也用3−1，两个差彼此对应。",
+              "reference_family_ids": [
+                "ratio.allocate-from-difference"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "甲3份、乙1份，相差的是2份；18本既不是甲的27本，也不是乙的9本。",
+              "reference_family_ids": [
+                "ratio.allocate-from-difference"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先读出总量词与差量词",
+          "rationale": "暂时不会时先识别叙述中给的是哪一种量。",
+          "observation_note": "只辨认已知量角色，还没求一份与目标组。",
+          "guided_task": {
+            "prompt": "“甲比乙多12本”中的12本指什么？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "A",
+                "text": "两组总本数"
+              },
+              {
+                "id": "B",
+                "text": "甲组全部本数"
+              },
+              {
+                "id": "C",
+                "text": "两组本数之差"
+              }
+            ],
+            "answer": "C",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "“比……多”比较两组的差，不是“共有”，也没有直接给甲或乙的完整数量。",
+            "family_id": "ratio.allocate-from-difference",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "reference_family_ids": [],
+            "variant_id": "ratio_models:support:allocation:skip"
+          }
+        }
       },
       {
         "id": "ratio_models:support:scale",
@@ -1815,22 +3338,30 @@
           "family_id": "ratio.map-length-convert",
           "representation": "verbal",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "ratio.rescaled-map"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "把比例尺读成“图上1厘米代表实际多少厘米”。"
+            "text": "把比例尺读成“图上1厘米代表实际多少厘米”。",
+            "reference_family_ids": [
+              "ratio.map-length-convert"
+            ]
           },
           {
             "level": 2,
-            "text": "图上长度乘后项得到实际厘米数，再换成米或千米。"
+            "text": "图上长度乘后项得到实际厘米数，再换成米或千米。",
+            "reference_family_ids": [
+              "ratio.map-length-convert"
+            ]
           },
           {
             "level": 3,
-            "text": "1:50000的地图上3厘米，对应150000厘米=1500米=1.5千米；若把图长打印为2倍，实物不变，新比例尺应是1:25000。"
+            "text": "1:50000的地图上3厘米，对应150000厘米=1500米=1.5千米；若把图长打印为2倍，实物不变，新比例尺应是1:25000。",
+            "reference_family_ids": [
+              "ratio.map-length-convert",
+              "ratio.rescaled-map"
+            ]
           }
         ],
         "guided_task": {
@@ -1847,15 +3378,164 @@
           "family_id": "ratio.map-length-convert",
           "representation": "verbal",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "ratio.rescaled-map"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "ratio_models:practice-5",
           "ratio_models:transfer-2",
           "ratio_models:delayed-5"
-        ]
+        ],
+        "default_route": {
+          "title": "继续检查：比例尺的两边用相同单位",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "观察图上与实际的乘除方向和单位换算；放大打印后的比例尺另需核对。"
+        },
+        "guided_branches": [
+          {
+            "id": "convert_real_length_units",
+            "choice_ids": [
+              "B"
+            ],
+            "title": "比例换算后继续核对厘米与千米",
+            "rationale": "得到实际厘米数后误换成千米，可能漏掉厘米到米这一层。",
+            "observation_note": "观察公制换算链，不由此确认比例尺方向本身正确。",
+            "guided_task": {
+              "prompt": "已经算出实际距离为150000厘米。先换成米，实际是多少米？",
+              "type": "numeric",
+              "answer": "1500",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "explanation": "1米=100厘米，150000÷100=1500米；再换千米才是1.5千米。",
+              "family_id": "ratio.map-length-convert",
+              "representation": "symbolic",
+              "cognitive_demand": "execute",
+              "reference_family_ids": [],
+              "verify": "150000/100",
+              "variant_id": "ratio_models:support:scale:convert_real_length_units"
+            }
+          },
+          {
+            "id": "solve_scale_in_correct_direction",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "由图长求实长要反解比值",
+            "rationale": "把图长再次除以比例尺后项，使实际距离比图纸还小。",
+            "observation_note": "观察图:实的除法方向，仅在统一长度单位和所给缩小比例尺下成立。",
+            "guided_task": {
+              "prompt": "图长g与实长s单位相同，比例尺1:1000说明g/s=1/1000。由图长求实长的关系应是哪式？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "s=g/1000"
+                },
+                {
+                  "id": "B",
+                  "text": "s=g−1000"
+                },
+                {
+                  "id": "C",
+                  "text": "s=1000g"
+                }
+              ],
+              "answer": "C",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "由g/s=1/1000交叉相乘得s=1000g；图上1单位对应实际1000同类单位，不能再缩小。",
+              "family_id": "ratio.map-length-convert",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "ratio_models:support:scale:solve_scale_in_correct_direction"
+            }
+          }
+        ],
+        "branch_hints": {
+          "B": [
+            {
+              "level": 1,
+              "text": "写下1米=100厘米，不把1千米=1000米错用在厘米上。",
+              "reference_family_ids": [
+                "ratio.map-length-convert"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "单位从厘米换成米，数值应除以100。",
+              "reference_family_ids": [
+                "ratio.map-length-convert"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "1米=100厘米，150000÷100=1500米；再换千米才是1.5千米。",
+              "reference_family_ids": [
+                "ratio.map-length-convert"
+              ]
+            }
+          ],
+          "C": [
+            {
+              "level": 1,
+              "text": "先用“图上1对应实际1000”检验方向。",
+              "reference_family_ids": [
+                "ratio.map-length-convert"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "若图长取1，正确式子应给实长1000。",
+              "reference_family_ids": [
+                "ratio.map-length-convert"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "由g/s=1/1000交叉相乘得s=1000g；图上1单位对应实际1000同类单位，不能再缩小。",
+              "reference_family_ids": [
+                "ratio.map-length-convert"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先读懂1比后项的单位",
+          "rationale": "暂时不会时先解释比例尺中的一对长度。",
+          "observation_note": "只读取固定比例尺，未检查图纸再缩放后的新比例。",
+          "guided_task": {
+            "prompt": "比例尺1:50000，在同一长度单位下，图上1厘米代表实际多少？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "A",
+                "text": "1/50000厘米"
+              },
+              {
+                "id": "B",
+                "text": "50000厘米"
+              },
+              {
+                "id": "C",
+                "text": "50000千米"
+              }
+            ],
+            "answer": "B",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "前后项表示同单位长度的比，图上1厘米对应实际50000厘米，不能直接给后项换单位。",
+            "family_id": "ratio.map-length-convert",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "reference_family_ids": [],
+            "variant_id": "ratio_models:support:scale:skip"
+          }
+        }
       }
     ]
   }

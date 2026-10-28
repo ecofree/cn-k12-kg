@@ -19,8 +19,8 @@ import xml.etree.ElementTree as ET
 PREFIXES = ("data", "schema", "cnkg", "web", "tools")
 DERIVED = {"data/catalog.json", "data/release_manifest.json"}
 PRESERVATION_POLICY = {
-    "sessions": "保留原会话ID、冻结内容、原始作答、评分版本和原始评分；新内容不追溯重判旧作答。",
-    "works": "保留作品资源版本、全部修订和帮助记录；按原量规查看旧作品，新量规另建版本。",
+    "sessions": "保留原会话ID及实际已保存的冻结内容、原始作答、评分版本和原始评分；缺失原快照或汇总时明确显示缺失，不用当前题目或引擎补算，新内容不追溯重判旧作答。",
+    "works": "保留实际已保存的作品版本、修订和帮助记录；只显示原记录中存在的题面、量规、提示和参考，缺失字段不从新版补入，新量规另建版本。",
     "unresolved_needs": "新会话、阶段或版本不得清除旧事项；只允许有具体后续证据的解决或带理由的显式暂缓。",
     "identity": "不得按标题相似度重编号或猜测目标等价；删除、拆分、合并需显式映射及旧资源查看路径。",
     "review_evidence": "旧的内容审核与预览只绑定旧内容指纹，不能自动转移到修改后的资源。",

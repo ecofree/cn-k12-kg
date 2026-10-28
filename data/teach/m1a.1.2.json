@@ -99,6 +99,30 @@
         "hint": "每个符号的开口都朝较大的数。",
         "revision_prompt": "把左右交换的两句一起写，并核对开口方向。"
       }
+    },
+    {
+      "criterion_index": 2,
+      "title": "能在两个已给的5以内数字中选出较大的数",
+      "explanation": "两个已写出的数比较大小，可以在1至5的数序中定位；越靠后的数表示的个数越多。这里只检查识别较大的数字，实物一一对应和关系符号另行观察。",
+      "self_check": {
+        "prompt": "分别比较2与5、4与1，圈出较大的数字，并在1至5的数序中指出它们的位置。",
+        "reference_answer": "2与5中5大；4与1中4大。5在2后面，4在1后面。",
+        "criteria": [
+          "第一组选择5",
+          "第二组选择4",
+          "比较数值而非字形占据的面积"
+        ],
+        "family_id": "primary.compare.integer-magnitude",
+        "variant_id": "m1a.1.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "不要求填写关系符号，也未观察对应比较方法。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "如果把数字1写得特别大，它的数值会超过4吗？",
+        "hint": "先说数字表示几个，再沿1至5的顺序定位；字写得大不改变数值。",
+        "revision_prompt": "再比较3与2，把数字写得一大一小，记录你按数值作出的选择。"
+      }
     }
   ],
   "conditions": [

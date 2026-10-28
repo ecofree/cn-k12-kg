@@ -307,7 +307,7 @@ def create(unit, support_id, owner, catalog, exposures, needs, when, *, assets=N
     # Use the actual exposure index. Unknown families never count as novel.
     def score(task):
         question = exposures.get("questions", {}).get(task["id"], {})
-        family = family_exposure(exposures.get("families", {}), task.get("family_id"))
+        family = family_exposure(exposures.get("families", {}), task.get("family_id"), questions=exposures.get("questions", {}))
         old_representations = {n.get("representation") for n in needs}
         return (bool(question), task.get("type") == "rubric",
                 task.get("family_status") != "declared" or bool(family),
@@ -377,7 +377,7 @@ def create(unit, support_id, owner, catalog, exposures, needs, when, *, assets=N
         "presentations": {}, "feedback_exposed": [], "hints_opened": [], "route_selection": None,
         "feedback_policy": "immediate", "context": {"independent_evidence": False, "help_used": True},
         "selection_basis": {"candidate_ids": [t["id"] for t in options],
-            "selected_id": followup["id"], "same_family_exposed": bool(family_exposure(exposures.get("families", {}), followup["family_id"])),
+            "selected_id": followup["id"], "same_family_exposed": bool(family_exposure(exposures.get("families", {}), followup["family_id"], questions=exposures.get("questions", {}))),
             "notice": "先避免已呈现题；有未呈现且可客观判分的对应任务时，优先用于这次有限确认，再比较已知题族和表征。帮助后的确认不作为独立检查或间隔复测。"}}
     return record, [_event(record, "support_started", when), *_present(record, when)]
 

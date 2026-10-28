@@ -753,6 +753,20 @@ const journeys = {
   },
 
   async scope_and_manipulatives() {
+    const topicId = "m2b.3.2", authored = read(`data/teach/${topicId}.json`);
+    const goalIds = ["sk_73042cd1d7e745278f0c", "sk_3c2f855afc1749c8aec1", "sk_58a5d5d5113f50c4aa59"];
+    assert.deepEqual(authoredCatalog.placements[topicId].criterion_skill_ids, goalIds,
+      "Retain the two original goals and the distinct thousands/hundreds composition goal");
+    assert.deepEqual(authored.objective_coverage.map(objective => objective.criterion_index), goalIds.map((_, index) => index));
+    assert.deepEqual(authored.objective_coverage.map(objective => objective.title), goalIds.map(id => authoredCatalog.skills[id].statement));
+    assert.deepEqual(authored.objective_coverage.map(objective => objective.self_check.family_id), [
+      "placevalue.ten-adjacent-units", "placevalue.abacus-five-and-one", "placevalue.thousands-hundreds-composition"]);
+    assert.match(authored.objective_coverage[0].self_check.prompt, /10个百=○个千，10个千=○个万/);
+    assert.match(authored.objective_coverage[1].self_check.prompt, /3057.*清盘.*4068/);
+    assert.match(authored.objective_coverage[1].observation_note, /填3057本身不能证明会用算盘/);
+    assert.equal(authoredCatalog.skills[goalIds[2]].granularity, "observable");
+    assert.match(authored.objective_coverage[2].self_check.reference_answer, /4200和4000/);
+    assert.match(authored.objective_coverage[2].observation_note, /没有算盘操作证据/);
     await goto("?scope=1"); await visible("#view-scope");
     const report = await apiRead("/api/quality-scope");
     assert.equal(report.summary.core_topics, 342); assert.equal(report.summary.foundation_topics, 135);
@@ -760,11 +774,33 @@ const journeys = {
     await page.locator("#scope-role").selectOption("foundation_support");
     await page.locator("#scope-stage").selectOption("primary");
     await page.locator("#scope-search").fill("算盘");
-    assert.ok(await page.locator("#scope-goals article").count());
-    await page.locator("#scope-goals article").first().getByRole("button", { name: "查看目标、材料与后续任务" }).click();
+    for (const goalId of goalIds) assert.equal(await page.locator("#scope-goals article").filter({ hasText: goalId }).count(), 1);
+    const goal = await actionResponse(() => page.locator("#scope-goals article").filter({ hasText: goalIds[0] })
+      .getByRole("button", { name: "查看目标、材料与后续任务" }).click(), "/api/goal", "GET",
+    response => new URL(response.url()).searchParams.get("skill_id") === goalIds[0]);
     await visible("#view-goal");
-    await page.locator(".goal-route").first().getByRole("button", { name: "打开对应材料与自检" }).click();
-    await visible("#view-teach"); assert.equal(await page.locator(".self-check-prompt").count(), 2);
+    assert.equal(goal.skill_id, goalIds[0]); assert.equal(goal.statement, authored.objective_coverage[0].title);
+    const card = await actionResponse(() => page.locator(".goal-route").first()
+      .getByRole("button", { name: "打开对应材料与自检" }).click(), `/api/teach/${topicId}`, "GET");
+    await visible("#view-teach");
+    assert.equal(card.topicId, topicId); assert.deepEqual(card.criterion_skill_ids, goalIds);
+    assert.deepEqual(card.objective_coverage, authored.objective_coverage);
+    assert.equal(new URL(page.url()).searchParams.get("teach"), topicId);
+    assert.equal(new URL(page.url()).searchParams.get("goal"), goalIds[0]);
+    assert.deepEqual(await page.locator("#teach-content [data-goal-id]").evaluateAll(elements => elements.map(element => element.dataset.goalId)), goalIds);
+    assert.equal(await page.locator("#teach-content .selected-goal").getAttribute("data-goal-id"), goalIds[0]);
+    assert.deepEqual(await page.locator("#teach-content .self-check-prompt").allTextContents(),
+      authored.objective_coverage.map(objective => objective.self_check.prompt),
+      "Render every authored self-check once, including the added 4200/4000 composition task");
+    for (const [index, goalId] of goalIds.entries()) {
+      const section = page.locator(`#teach-content [data-goal-id="${goalId}"]`);
+      assert.equal((await section.locator(".self-check-prompt").textContent()).trim(), authored.objective_coverage[index].self_check.prompt);
+      assert.ok((await section.textContent()).includes(authored.objective_coverage[index].observation_note));
+    }
+    const abacusDiagram = page.locator(`#teach-content [data-goal-id="${goalIds[1]}"] img`);
+    assert.equal(await abacusDiagram.getAttribute("src"), authored.objective_coverage[1].self_check.diagram.src);
+    assert.equal(await abacusDiagram.getAttribute("alt"), authored.objective_coverage[1].self_check.diagram.alt);
+    result.observations.abacus_goals = { topic_id: topicId, goal_ids: goalIds, self_check_count: authored.objective_coverage.length };
     await page.setViewportSize({ width: 390, height: 844 });
     for (const [uid, control, action] of [
       ["ten_frame_place_value", "a", "End"], ["fraction_equivalence", "factor", "3"],
@@ -1139,6 +1175,11 @@ const journeys = {
       if (new URL(route.request().url()).searchParams.get("resource_id") !== resourceId) return route.continue();
       const response = await route.fetch(); const payload = await response.json();
       payload.current_content = { status: "legacy_unverified", url: "/?teach=m1a.1.1" };
+      // This response-only fixture represents the earliest one-field work.
+      // The real old-record lookup and rejected references have HTTP coverage.
+      const snapshot = payload.descriptor.resource_snapshot;
+      snapshot.fields = snapshot.fields.filter(field => field.id === "response");
+      delete snapshot.work_schema; delete snapshot.difficulty_support; delete snapshot.reference_answer;
       await route.fulfill({ response, json: payload });
     };
     await page.route("**/api/work?**", legacyWorkNotice);
@@ -1147,18 +1188,40 @@ const journeys = {
     assert.ok(legacyWorkText.includes("缺少可核对的逐题版本信息"));
     assert.ok(legacyWorkText.includes("无法确认"));
     assert.ok(!legacyWorkText.includes("已有新版"));
+    const missingFields = await page.locator("#work-content .work-snapshot-notice").textContent();
+    assert.ok(missingFields.includes("未保存原提示、原参考答案"));
+    assert.ok(missingFields.includes("不会用当前材料补写"));
+    assert.equal(await page.locator("#work-content .goal-support, #work-content .work-frozen-reference").count(), 0);
     await page.unroute("**/api/work?**", legacyWorkNotice);
+    const missingSummary = async route => {
+      const response = await route.fetch(); const payload = await response.json();
+      payload.done = true; payload.item = null;
+      payload.summary = { title: "旧记录原作答", history_status: "summary_not_saved",
+        history_notice: "这份历史记录未保存当时的汇总结论。这里只展示已保存的原作答，不按当前规则补算。",
+        answers: [{ question_id: "old-record-only", status: "wrong", prompt: "当时已保存的题面", raw_answer: "当时已保存的回答" }], context: {} };
+      await route.fulfill({ response, json: payload });
+    };
+    await page.route(sessionURL, missingSummary);
+    await goto("?session=" + session.session.id); await visible("#view-result");
+    assert.ok((await page.locator("#verdict").textContent()).includes("未保存当时的汇总结论"));
+    assert.equal(await page.locator("#diagnostic-result").isVisible(), false);
+    assert.equal(await page.locator("#objective-result").isVisible(), false);
+    await page.locator("#answer-review .answer-entry > summary").click();
+    assert.ok((await page.locator("#answer-review").textContent()).includes("当时已保存的回答"));
+    await page.unroute(sessionURL, missingSummary);
     result.observations.resource_id = resourceId;
     result.observations.injected_failures = ["reference_record_network_failure", "draft_write_failure_during_reference_request",
       "real_revision_conflict_during_material_reference_request"];
     result.observations.simulated_ui_states = ["updated_content_notice_response_fixture; actual lookup covered by HTTP regression",
-      "legacy_unverified_session_and_work_notices_response_fixtures"];
+      "legacy_unverified_session_and_work_notices_response_fixtures",
+      "missing_legacy_reference_fields_and_summary_response_fixtures; actual no-rejudgment covered by HTTP regression"];
     claim("Original response, difficulty discrimination and guided revision save independently and restore after reload.");
     claim("Help records bind the original work version; failed recording leaves the hint closed and preserves input.");
     claim("Edits remain possible while reference recording waits; a later failed save or actual revision conflict keeps help closed and preserves the latest input until recovery.");
     claim("A restored work shows its frozen reference and preserves actual help order at mobile width.");
     claim("A saved session displays its content-update notice and current-material link without replacing the original task.");
     claim("A missing historical version is described as unverifiable in both session and work views, without claiming that current material changed.");
+    claim("An old one-field work names references that were never saved; a missing old summary renders saved answers without fabricated topic or goal conclusions.");
   },
 
   async self_check_autosave() {

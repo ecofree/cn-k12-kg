@@ -10,7 +10,6 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from cnkg.admissions import fingerprint, policies, resolved_question
 from cnkg.evidence import _legacy_question_policy
-from cnkg.evidence import may_confirm_mastery, may_judge_weak
 from cnkg.answers import grade_answer
 from cnkg.verify import check_question
 
@@ -116,8 +115,11 @@ def main():
             parser.error("需要实际解释；不会用文字长度替代语义判断")
         screening = args.purpose == "screening"
         policy = {"diagnosis_eligible": screening, "practice_eligible": args.purpose != "quarantine",
-            "may_confirm_mastery": screening and may_confirm_mastery(args.evidence_level),
-            "may_judge_weak": screening and may_judge_weak(args.evidence_level),
+            # This command records provisional use, not an independent review
+            # of the whole goal or calibrated evidence of mastery/weakness.
+            # Arithmetic consistency must never silently restore those rights.
+            "may_confirm_mastery": False,
+            "may_judge_weak": False,
             "evidence_level": args.evidence_level, "reviewer_pending": True, "confidence": "screening", "reason": "explicit_provisional_use_decision"}
         row = {"id": q["id"], "source_sha256": fingerprint(q), "resolved_sha256": fingerprint(resolved),
             "source_policy": policy, "policy": policy,

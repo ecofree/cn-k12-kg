@@ -7,7 +7,7 @@
 from __future__ import annotations
 
 from . import evidence
-from .task_families import canonical_family
+from .task_families import canonical_family, exposure_family
 
 DIFF_RANK = {"basic": 0, "standard": 1, "advanced": 2}
 MODES = {
@@ -180,7 +180,8 @@ def _pick_question(graph, session, tid, attempt):
     # A change of answer format or number is not a new mathematical structure.
     # Prefer an authored different family and goals not yet observed, while
     # retaining the admitted evidence order for diagnostic questions.
-    seen_families = {_declared_family(entry) for entry in session["log"] if entry["topicId"] == tid}
+    seen_families = {exposure_family(entry.get("family_id"), question_id=entry.get("questionId"))
+                     for entry in session["log"] if entry["topicId"] == tid}
     observed_goals = {index for entry in session["log"] if entry["topicId"] == tid
                       for index in entry.get("observed_criterion_indices", [])}
     ordered.sort(key=lambda q: (

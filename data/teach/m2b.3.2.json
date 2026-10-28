@@ -100,6 +100,30 @@
         "hint": "本卡每档只有4颗下珠，先用上珠表示5再补2。",
         "revision_prompt": "清盘后逐档重拨或重画，并写出每档的值。"
       }
+    },
+    {
+      "criterion_index": 2,
+      "title": "能根据千位和百位上的数量组成万以内的数",
+      "explanation": "某一数位上的数字要乘这一位的计数单位。4个千是4000，2个百是200；没有十和一时仍要用0占位，不能把4和2紧挨着写成42。",
+      "self_check": {
+        "prompt": "写出由4个千、2个百组成的数，再写出由4个千、0个百组成的数。指出十位和个位怎样处理。",
+        "reference_answer": "分别是4200和4000；十位、个位均写0，第二个数的百位也为0。",
+        "criteria": [
+          "第一数写4200",
+          "第二数写4000",
+          "零保留正确数位"
+        ],
+        "family_id": "placevalue.thousands-hundreds-composition",
+        "variant_id": "m2b.3.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "不要求说明相邻单位十进关系，也没有算盘操作证据。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "4个千中的4在个位上吗？如果写42，它还表示4个千吗？",
+        "hint": "先列千、百、十、个四个位置，再把各位数量放进去，缺少的位写0。",
+        "revision_prompt": "写出3个千与7个百组成的数，把它读回各数位数量核对。"
+      }
     }
   ],
   "conditions": [

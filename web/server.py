@@ -45,7 +45,7 @@ from cnkg.review_timing import interval_context, unit_activity_scope  # noqa: E4
 from cnkg import manipulatives, step_practice  # noqa: E402
 from cnkg.content_repository import ContentRepository  # noqa: E402
 from cnkg.runtime_version import freeze_grader  # noqa: E402
-from cnkg.task_families import canonical_family, family_exposure  # noqa: E402
+from cnkg.task_families import canonical_family, exposure_family, family_exposure, historical_question_ids  # noqa: E402
 
 # This process runs the imported grading functions until it is restarted.
 # Freeze eagerly; the first new session may arrive after files have changed.
@@ -261,7 +261,8 @@ def presented_metadata(record, question_id):
 def exposure_exclusions(owner):
     observed = get_store().exposures(owner)
     questions = set(observed["questions"])
-    families = {canonical_family(identity) for identity in observed["families"]}
+    families = {exposure_family(identity) for identity in observed["families"]}
+    families.update(family for qid in questions if (family := exposure_family(None, question_id=qid)))
     excluded = questions | {qid for qid, task in get_catalog().tasks.items()
                             if task.get("family_status") == "declared" and canonical_family(task.get("family_id")) in families}
     return excluded, questions, families
@@ -404,6 +405,28 @@ def _release_feedback(record, question_ids, events):
 def session_summary(record: dict) -> dict:
     if record.get("summary_snapshot"):
         return copy.deepcopy(record["summary_snapshot"])
+    if record.get("completed_at") and record["kind"] != "support":
+        # Earliest records did not save a result summary. Even an available
+        # graph snapshot does not freeze the old interpretation rules. Expose
+        # only what was actually saved, never today's inferred conclusions.
+        return {"kind": record["kind"], "mode": record["mode"],
+                "title": record.get("title", "原学习记录"),
+                "history_status": "summary_not_saved",
+                "history_notice": "这份历史记录未保存当时的汇总结论。这里只展示已保存的原作答；不按当前内容和规则补算掌握、薄弱或补学起点。",
+                "saved_verdict": record.get("verdict_snapshot"),
+                "saved_topic_states": copy.deepcopy(record.get("engine", {}).get("state", {})),
+                "answers": copy.deepcopy(record.get("answers", [])),
+                "asked_count": len(record.get("answers", [])),
+                "context": copy.deepcopy(record.get("context", {})),
+                "created_at": record["created_at"], "completed_at": record["completed_at"],
+                "content_sha256": record["content_sha256"],
+                "resource_version": record.get("resource_version", record["content_sha256"]),
+                "independent_mastery_evidence": False}
+    return _build_session_summary(record)
+
+
+def _build_session_summary(record: dict) -> dict:
+    """Compute only for this running session, before freezing its result."""
     if record["kind"] == "support":
         summary = {"kind": "support", "title": record["title"], "asked_count": len(record["answers"]),
                    "independent_evidence": False, "incomplete": not bool(record.get("completed_at")),
@@ -425,6 +448,7 @@ def session_summary(record: dict) -> dict:
         summary = {"kind": "unit", "unit_id": record["unit_id"], "mode": record["mode"],
                    "title": unit["title"], "objective_results": goals,
                    "asked_count": len(record["answers"]), "confidence": "provisional",
+                   "observation_scope": "presented_tasks_only", "independent_mastery_evidence": False,
                    "teacher_review": unit.get("teacher_review", {"status": "pending"}),
                    "incomplete": record["index"] < len(record["task_ids"])}
     summary["answers"] = copy.deepcopy(record["answers"])
@@ -438,7 +462,7 @@ def session_summary(record: dict) -> dict:
 
 def _freeze_result(record):
     """完成时连同文字结论一起冻结；升级后的图与规则不重算历史结果。"""
-    summary = session_summary(record)
+    summary = _build_session_summary(record)
     record["summary_snapshot"] = summary
     record["verdict_snapshot"] = (engine.verdict_label(summary) if record["kind"] == "topic" else
                                   "逐个目标查看本次表现；过程题已保存，可以按量规自查、补充依据并继续修订。")
@@ -506,8 +530,19 @@ def session_content_updates(record):
 def session_payload(record: dict) -> dict:
     if record["kind"] == "support":
         return instruction.public_session(record)
-    item = session_item(record)
-    done = item is None
+    problem = _version_problem(record)
+    if record.get("completed_at"):
+        item = None
+    elif problem:
+        try:
+            item = session_item(record)
+        except (KeyError, TypeError, StopIteration):
+            item = None
+    else:
+        item = session_item(record)
+    # A blocked legacy session may have no restorable current task. That is
+    # missing history, not completion and not permission to compute a result.
+    done = bool(record.get("completed_at")) or (item is None and not problem)
     response = {"session": {"id": record["id"], "kind": record["kind"],
                             "mode": record["mode"], "answered_count": len(record["answers"]),
                             "targets": record.get("engine", {}).get("targets", []),
@@ -518,7 +553,6 @@ def session_payload(record: dict) -> dict:
                             "context": copy.deepcopy(record["context"]),
                             "current_content": session_content_updates(record)},
                 "item": item, "done": done}
-    problem = _version_problem(record)
     if problem:
         response["session"]["resume_blocked"] = True
         response["session"]["resume_message"] = problem
@@ -803,6 +837,12 @@ def work_descriptor(values, owner):
         record = get_store().load(sid, owner) if isinstance(sid, str) else None
         if record is None or not isinstance(qid, str) or qid not in record["presentations"]:
             raise KeyError("任务尚未呈现或不属于本浏览器")
+        work_id = f"session_task:{sid}:{qid}"
+        existing = get_store().load_work(owner, work_id)
+        if existing:
+            # In particular, submitting a support task must not replace its
+            # already saved pre-help draft's initial value or field contract.
+            return portfolio.from_work(existing)
         tasks = (record["unit_snapshot"]["tasks"] if record["kind"] == "unit"
                  else list(record["question_snapshots"].values()))
         question = next((task for task in tasks if task["id"] == qid), None)
@@ -817,11 +857,20 @@ def work_descriptor(values, owner):
             topic = next((t for t in record.get("graph_snapshot", {}).get("topics", []) if t["id"] == question.get("topicId")), {})
             if topic.get("volume"):
                 stage = {"小学": "primary", "初中": "junior", "高中": "senior"}.get(stage_of(topic["volume"]))
-        return portfolio.descriptor(kind, {"session_id": sid, "question_id": qid}, question_hash(record, question),
+        version = question_hash(record, question)
+        if record["kind"] == "support":
+            version = _hash({"task": version, "support_draft_schema": 1})
+        resource = portfolio.descriptor(kind, {"session_id": sid, "question_id": qid}, version,
             record.get("title", "任务") + " · 过程记录",
             [{"id": "response", "label": "我的过程与修订", "prompt": question["prompt"],
               "initial_value": answer.get("raw_answer", "")}], criteria,
-            work_id=f"session_task:{sid}:{qid}", stage=stage)
+            work_id=work_id, stage=stage)
+        if record["kind"] == "support":
+            # Reuse the existing owner/revision/idempotency contract for an
+            # unsubmitted help-task draft. It is neither a graded answer nor
+            # an unassessed process task that should create a new need.
+            resource["resource_snapshot"].update(criteria=[], draft_only=True, support_draft_schema=1)
+        return resource
     raise ValueError("不支持的作品类型")
 
 
@@ -859,7 +908,13 @@ def work_current_content(resource, owner):
         current = work_descriptor(selector, owner)
     except (KeyError, ValueError):
         return {"status": "unavailable"}
-    return {"status": "current" if current["resource_version"] == resource["resource_version"] else "updated",
+    status = "current" if current["resource_version"] == resource["resource_version"] else "updated"
+    if (kind == "self_check" and status == "updated"
+            and resource.get("resource_snapshot", {}).get("work_schema") != 2):
+        # A legacy work identity may change solely because newer work schemas
+        # save more fields. Missing old references cannot prove a content edit.
+        status = "legacy_unverified"
+    return {"status": status,
             "resource_version": current["resource_version"], "url": "/?" + urllib.parse.urlencode(route)}
 
 
@@ -1364,6 +1419,17 @@ class Handler(BaseHTTPRequestHandler):
                     if path.endswith("/hint"):
                         feedback, events = instruction.hint(record, payload.get("level"), _now())
                     else:
+                        prior = next((row for row in record["answers"] if row["question_id"] == payload.get("question_id")), None)
+                        if prior:
+                            if (prior.get("skipped", False) != (payload.get("skipped") is True)
+                                    or prior["raw_answer"] != payload.get("answer", "")):
+                                return self._error(409, "这一步已提交，原作答不能覆盖；可以恢复活动或在草稿中保留修订。")
+                            # A lost HTTP response must be safely retryable.
+                            # Return the saved grade and next task, never grade
+                            # the old answer again under current code.
+                            response = {**instruction.public_session(record), "feedback": copy.deepcopy(prior), "duplicate": True}
+                            self._session_response_exposure(record, response)
+                            return self._json(200, response)
                         feedback, events = instruction.answer(record, payload.get("question_id"),
                             payload.get("answer", ""), _now(), payload.get("skipped") is True)
                     if events:
@@ -1381,8 +1447,11 @@ class Handler(BaseHTTPRequestHandler):
                     reference = payload.get("reference_key")
                     if reference not in {"difficulty", "hint", "answer"}:
                         return self._error(400, "参考项目不正确")
+                    support = snapshot.get("difficulty_support") or {}
+                    available = {"difficulty": bool(support.get("discriminating_prompt")),
+                                 "hint": bool(support.get("hint")), "answer": bool(snapshot.get("reference_answer"))}
                     if (snapshot.get("work_schema") != 2 or resource["kind"] != "self_check"
-                            or (reference in {"difficulty", "hint"} and not snapshot.get("difficulty_support"))):
+                            or not available[reference]):
                         return self._error(400, "这份旧作品未保存该参考内容，不能用新版材料代替")
                     get_store().add_event(self._owner(), {"event_type": "reference_opened", "occurred_at": _now(),
                         "resource_id": resource["resource_id"], "content_sha256": resource["resource_version"],
@@ -1708,8 +1777,10 @@ class Handler(BaseHTTPRequestHandler):
                  "family_id": presented_metadata(record, qid).get("family_id"),
                  "family_status": presented_metadata(record, qid).get("family_status", "unclassified")}
         family = entry.get("family_id") if entry["family_status"] == "declared" else None
-        observed = get_store().exposures(record["owner_id"], question_ids=[qid], family_ids=[family] if family else [])
-        rows = [observed["questions"].get(qid, {}), family_exposure(observed["families"], family)]
+        related_questions = [qid, *historical_question_ids([family] if family else [])]
+        observed = get_store().exposures(record["owner_id"], question_ids=related_questions, family_ids=[family] if family else [])
+        rows = [observed["questions"].get(qid, {}),
+                family_exposure(observed["families"], family, questions=observed["questions"])]
         entry["help_used"] = bool(payload.get("used_help") is True or any(
             row.get("material_count", 0) or row.get("reference_count", 0) or row.get("feedback_count", 0)
             for row in rows))

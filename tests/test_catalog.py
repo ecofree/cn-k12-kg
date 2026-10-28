@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import json
+import copy
+from collections import Counter
 from pathlib import Path
 import shutil
 import subprocess
@@ -11,6 +13,7 @@ import unittest
 
 from cnkg.catalog import Catalog, CatalogError, compile_catalog, load_catalog, public_task
 from cnkg.contracts import validate_resource
+from cnkg.engine import _declared_family
 from tools.register_catalog import register_new_sources
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -159,14 +162,36 @@ class CatalogFixtureTests(unittest.TestCase):
         self.assertNotIn(volume, material["reference_families_by_key"]["self_check:1"])
 
     def test_material_exposure_does_not_include_every_assessment_family(self):
+        # This page now actually teaches squaring a supplied correlation.
+        # Add a different, mathematically explicit fixture task: sum paired
+        # centered products, (-1)*(-2)+0*1+1*1=3. No page reference teaches it.
+        qid = 'mh5.8.1.1-q998'
+        unrelated = 'fixture.statistics.centered-product-sum'
+        questions = read(self.data / 'questions.json')
+        questions.append({'id': qid, 'topicId': 'mh5.8.1.1', 'type': 'numeric',
+                          'prompt': '三组配对离差依次为(-1,-2)、(0,1)、(1,1)。每组两数相乘后相加，结果是多少？',
+                          'answer': '3', 'verify': '(-1)*(-2)+0*1+1*1',
+                          'explanation': '逐对相乘得到2、0、1，合计为3；这里只观察配对离差乘积和。',
+                          'source': 'self-generated-fixture', 'difficulty': 'standard',
+                          'diagnosis_eligible': False, 'for_diagnosis': False})
+        write(self.data / 'questions.json', questions)
+        bindings = read(self.data / 'skills/catalog-bindings.json')
+        binding = copy.deepcopy(bindings['tasks']['bank:mh5.8.1.1-q101'])
+        binding.update(id=qid, family_id=unrelated, family_status='declared', variant_id=qid,
+                       representation='symbolic', cognitive_demand='execute')
+        bindings['tasks']['bank:' + qid] = binding
+        write(self.data / 'skills/catalog-bindings.json', bindings)
         c = Catalog(self.compile())
-        # This card explains scatter direction, nonlinearity and causal
-        # limits; none of its references squares a supplied coefficient.
         material = c.material("topic:mh5.8.1.1")
-        question = c.task("mh5.8.1.1-q101")
+        taught = c.task('mh5.8.1.1-q101')['family_id']
+        self.assertEqual(taught, 'statistics.square-given-correlation')
+        self.assertIn(taught, material['family_ids'])
+        self.assertEqual([taught], material['reference_families_by_key']['self_check:2'])
+        self.assertTrue(all(taught not in families for key, families in
+                            material['reference_families_by_key'].items() if key != 'self_check:2'))
+        question = c.task(qid)
         self.assertEqual(question["family_status"], "declared")
-        unrelated = question["family_id"]
-        self.assertEqual(unrelated, "statistics.square-given-correlation")
+        self.assertEqual(question['family_id'], unrelated)
         self.assertIn(unrelated, material["assessment_family_ids"])
         self.assertNotIn(unrelated, material["family_ids"])
         self.assertTrue(all(unrelated not in families
@@ -188,22 +213,45 @@ class CatalogFixtureTests(unittest.TestCase):
         c = Catalog(self.compile())
         # Computing r² from a supplied r does not observe either scatter
         # direction or the distinction between functions and association.
-        old = c.task("mh5.8.1.1-q101")
-        self.assertEqual(old["availability"], "active")
-        self.assertTrue(c.placement("mh5.8.1.1")["criterion_skill_ids"])
-        self.assertEqual(old["skill_ids"], [])
-        self.assertEqual(old["alignment"], "topic_only")
+        qid = 'mh5.8.1.1-q101'
+        current = c.task(qid)
+        ids = c.placement('mh5.8.1.1')['criterion_skill_ids']
+        self.assertEqual(current['availability'], 'active')
+        self.assertEqual(current['skill_ids'], ids[2:3])
+        self.assertTrue(set(current['skill_ids']).isdisjoint(ids[:2]))
+        self.assertEqual(c.skill(ids[2])['statement'], '能计算已给样本相关系数的平方及其百分制数值')
+        self.assertEqual(current['alignment'], 'explicit_component')
+        self.assertFalse(current['policy']['may_confirm_mastery'])
+        self.assertFalse(current['policy']['may_judge_weak'])
         mapped = c.task("m5b.4.1-q101")
-        self.assertEqual(mapped["skill_ids"], c.placement("m5b.4.1")["criterion_skill_ids"][1:2])
+        self.assertEqual(mapped["skill_ids"], c.placement("m5b.4.1")["criterion_skill_ids"][2:3])
         self.assertEqual(mapped["alignment"], "explicit_component")
-        self.assertEqual(c.skill(mapped["skill_ids"][0])["granularity"], "legacy_composite")
+        self.assertEqual(c.skill(mapped["skill_ids"][0])["statement"], '能计算封闭长方体的表面积')
+        self.assertEqual(c.skill(mapped["skill_ids"][0])["granularity"], "observable")
+        # With the actual mapping removed in this isolated fixture, the
+        # compiler must not fill any goal merely from topic membership.
+        questions = read(self.data / 'questions.json')
+        next(q for q in questions if q['id'] == qid).pop('tested_criterion_indices')
+        write(self.data / 'questions.json', questions)
+        unmapped = Catalog(self.compile()).task(qid)
+        self.assertEqual(unmapped['skill_ids'], [])
+        self.assertEqual(unmapped['alignment'], 'topic_only')
 
     def test_unknown_family_identity_never_establishes_independence(self):
+        qid = 'm5b.4.1-q101'
+        questions = read(self.data / 'questions.json')
+        next(q for q in questions if q['id'] == qid).pop('family_id', None)
+        write(self.data / 'questions.json', questions)
+        bindings = read(self.data / 'skills/catalog-bindings.json')
+        bindings['tasks']['bank:' + qid].update(family_id='unclassified:' + qid, family_status='unclassified')
+        write(self.data / 'skills/catalog-bindings.json', bindings)
         c = Catalog(self.compile())
-        q = c.task("m5b.4.1-q101")
+        q = c.task(qid)
         self.assertEqual(q["availability"], "active")
         self.assertTrue(q["policy"]["practice_eligible"])
         self.assertEqual(q["family_status"], "unclassified")
+        self.assertEqual(q['family_id'], 'unclassified:' + qid)
+        self.assertIsNone(_declared_family(q))
         self.assertFalse(c.families[q["family_id"]]["independence_established"])
         self.assertFalse(q["policy"]["independent_evidence"])
 
@@ -359,9 +407,9 @@ class FullCatalogTests(unittest.TestCase):
     def test_all_real_resource_classes_are_registered_and_contracts_explicit(self):
         counts = self.c.coverage["task_source_counts"]
         self.assertEqual(counts["bank"], 3584)
-        self.assertEqual(counts["self_check"], 966)
+        self.assertEqual(counts["self_check"], 1608)
         self.assertEqual(counts["project_step"], 84)
-        self.assertEqual(counts["unit"], 234)
+        self.assertEqual(counts["unit"], 235)
         self.assertEqual(self.c.coverage["quarantined_tasks"], 493)
         self.assertTrue(all("answer_spec" in t for t in self.c.tasks.values()))
         self.assertEqual(validate_resource("catalog", self.c.data), [])
@@ -374,8 +422,11 @@ class FullCatalogTests(unittest.TestCase):
 
     def test_all_active_component_observations_cannot_confirm_or_reject_the_whole_topic(self):
         tasks = [task for task in self.c.tasks.values() if task["availability"] == "active"]
-        self.assertEqual(len(tasks), 4375)
-        self.assertEqual(sum(task["source_kind"] == "bank" for task in tasks), 3091)
+        self.assertEqual(Counter(task['source_kind'] for task in tasks),
+                         {'bank': 3091, 'self_check': 1608, 'unit': 235, 'project_step': 84})
+        self.assertEqual(len(tasks), self.c.coverage['active_tasks'])
+        self.assertEqual(len(tasks), sum(self.c.coverage['task_source_counts'].values())
+                         - self.c.coverage['quarantined_tasks'])
         for task in tasks:
             self.assertFalse(task["policy"]["may_confirm_mastery"], task["id"])
             self.assertFalse(task["policy"]["may_judge_weak"], task["id"])

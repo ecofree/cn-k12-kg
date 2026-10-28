@@ -113,15 +113,20 @@ class QualityV5ContentTests(unittest.TestCase):
         self.assertIn(g[0], self.catalog.skill(g[4])['refines_skill_ids'])
 
     def test_copy_and_successor_items_cannot_confirm_composite_mastery(self):
-        for qid in ('m1a.1.1-q1', 'm1a.1.1-q2'):
+        p = self.catalog.placement('m1a.1.1')['criterion_skill_ids']
+        for qid, index in [('m1a.1.1-q1', 0), ('m1a.1.1-q2', 5)]:
             q = self.catalog.task(qid)
             self.assertTrue(q['policy']['practice_eligible'])
             self.assertFalse(q['policy']['diagnosis_eligible'])
             self.assertFalse(q['policy']['may_confirm_mastery'])
             self.assertFalse(q['policy']['may_judge_weak'])
-            self.assertEqual(q['skill_ids'], [])
+            self.assertEqual(q['skill_ids'], [p[index]])
+            self.assertTrue({p[1], p[3], p[4]}.isdisjoint(q['skill_ids']))
             history = read(self.data / 'task_admissions.json')['tasks'][qid]['previous_decisions']
             self.assertTrue(history[0]['policy']['diagnosis_eligible'])
+        self.assertEqual(self.catalog.task('m1a.1.1-q1')['prompt'].count('●'), 3)
+        self.assertEqual(self.catalog.skill(p[5])['statement'], '能确定1至4各数在1至5数序中的后继数')
+        self.assertEqual(self.catalog.skill(p[5])['refines_skill_ids'], [])
 
     def test_actual_dot_assets_and_matching_option_agree_with_answers(self):
         ns = {'s': 'http://www.w3.org/2000/svg'}

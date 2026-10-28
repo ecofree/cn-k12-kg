@@ -4,6 +4,7 @@
 稳定的-q95后缀不承诺题目永远保持复合运算。V5/V6逐题审查按实际
 目标修正任务；本轮30条例外须同时命中固定名单、完整作者对象指纹与
 已审查合同。未入名单的题保留旧复合要求，不能因审查文件存在就放行。
+V7只对四个新增有限目标映射续审，不修改旧V6记录或扩大内容例外名单。
 
 运算符数量只是历史算式结构检查，不是实测学生难度。旧生成器继续保持
 整数/小数输出约定；这不表示现行精确判分不支持分数。
@@ -43,6 +44,9 @@ V6_EXACT_CONTENT_OVERRIDES = frozenset({
     "m3a.4.4-q95", "m3a.6.4-q95", "m3a.6.6-q95", "m3b.2.1-q95",
     "m3b.2.2-q95", "m4a.3.1-q95",
 })
+V7_MAPPING_CONTINUATIONS = frozenset({
+    "m1a.5.5-q95", "m2b.3.2-q95", "m3a.6.2-q95", "m6a.3.3-q95",
+})
 PUBLISHED_REVIEW_FIELDS = (
     "prompt", "answer", "verify", "difficulty", "difficulty_basis",
     "family_id", "variant_id", "representation", "cognitive_demand",
@@ -76,6 +80,8 @@ class TestStep2Questions(unittest.TestCase):
             (ROOT / "data" / "questions.json").read_text(encoding="utf-8"))
         cls.v6_review = json.loads((ROOT / "docs/reviews/v6-step-task-review.json").read_text(encoding="utf-8"))
         cls.v6_decisions = {row["id"]: row for row in cls.v6_review["tasks"]}
+        cls.v7_review = json.loads((ROOT / "docs/reviews/v7-step-task-review.json").read_text(encoding="utf-8"))
+        cls.v7_decisions = {row["id"]: row for row in cls.v7_review["tasks"]}
         cls.author_questions = {}
         for source in {row["source"] for row in cls.v6_review["tasks"]}:
             path = Path(source)
@@ -147,7 +153,7 @@ class TestStep2Questions(unittest.TestCase):
         for question in applied:
             qid = question["id"]
             with self.subTest(question=qid):
-                decision = self.v6_decisions[qid]
+                decision = self.v7_decisions.get(qid, self.v6_decisions[qid])
                 source, author_question = self.author_questions[qid]
                 self.assertEqual(source, decision["source"])
                 self.assertTrue(_matches_reviewed_source(author_question, decision),
@@ -165,6 +171,18 @@ class TestStep2Questions(unittest.TestCase):
                 if qid not in REVIEWED_SINGLE_OPERATION:
                     self.assertGreaterEqual(self.count_steps(question["verify"]), 2)
                     self.assertIn(question["difficulty"], ("standard", "advanced"))
+                    continue
+                if qid in self.v7_decisions:
+                    # A finite goal was added; the original mathematics remains
+                    # exactly constrained, without reusing a stale V6 mapping.
+                    expected = REVIEWED_SINGLE_OPERATION[qid]
+                    for field in ("verify", "answer", "family_id"):
+                        self.assertEqual(expected[field], question[field])
+                    self.assertEqual([decision["newly_registered_goal"]["criterion_index"]],
+                                     question["tested_criterion_indices"])
+                    self.assertEqual("basic", question["difficulty"])
+                    self.assertEqual("component_practice_only", question["target_alignment"])
+                    self.assertFalse(question["diagnosis_eligible"])
                     continue
                 expected, decision = REVIEWED_SINGLE_OPERATION[qid], reviewed[qid]
                 self.assertTrue(decision["semantic_change"])
@@ -209,6 +227,27 @@ class TestStep2Questions(unittest.TestCase):
                                      ("todo", "tbd", "待补", "略"))
                 self.assertFalse(row["legacy_counter_is_cognitive_steps"])
                 self.assertFalse(row["student_difficulty_calibrated"])
+
+    def test_v7_mapping_continuation_cannot_expand_or_rewrite_the_v6_exceptions(self):
+        self.assertEqual(V7_MAPPING_CONTINUATIONS, set(self.v7_decisions))
+        self.assertEqual(len(V7_MAPPING_CONTINUATIONS), len(self.v7_review["tasks"]))
+        self.assertEqual(V6_EXACT_CONTENT_OVERRIDES, set(self.v7_review["approved_exact_overrides_unchanged"]))
+        self.assertFalse(self.v7_review["independent_teacher_review"])
+        self.assertEqual("ai", self.v7_review["reviewer_kind"])
+        for qid, current in self.v7_decisions.items():
+            with self.subTest(question=qid):
+                previous = self.v6_decisions[qid]
+                self.assertEqual(previous["current_source_task_sha256"], current["previous_source_task_sha256"])
+                self.assertNotEqual(current["previous_source_task_sha256"], current["current_source_task_sha256"])
+                self.assertEqual(previous["allow_exact_content_override"], current["allow_exact_content_override"])
+                for field in PUBLISHED_REVIEW_FIELDS:
+                    if field not in {"tested_criterion_indices", "target_alignment", "alignment_note"}:
+                        self.assertEqual(previous["current_contract"][field], current["current_contract"][field])
+                self.assertTrue(current["continued_review_reason"].strip())
+                self.assertEqual("explicit_finite_goal_mapping_and_observation_boundary_only", current["semantic_change_scope"])
+                source = self.author_questions[qid][1]
+                self.assertTrue(_matches_reviewed_source(source, current))
+                self.assertFalse(_matches_reviewed_source({**source, "answer": "unreviewed answer"}, current))
 
     def test_reviewed_exception_does_not_survive_unreviewed_content_changes(self):
         decision = self.v6_decisions["m3a.6.4-q95"]

@@ -8,7 +8,7 @@ Legacy records remain readable, but missing timing evidence is not invented.
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
-from .task_families import matching_exposures
+from .task_families import historical_question_ids, matching_exposures
 
 TIMING_POLICY = "latest_scope_activity_v1"
 MINIMUM_INTERVAL_SECONDS = 86400
@@ -52,6 +52,7 @@ def unit_activity_scope(unit, catalog):
             families.add(task["family_id"])
     resource = "unit:" + unit["id"]
     families.update(materials.get(resource, {}).get("family_ids", []))
+    task_ids.update(historical_question_ids(families))
     return {"resource_ids": [resource, unit["id"]], "question_ids": sorted(task_ids),
             "family_ids": sorted(families)}
 
@@ -66,7 +67,7 @@ def indexed_scope_activity(scope, exposures):
     for kind, identities in (("questions", scope["question_ids"]), ("families", scope["family_ids"])):
         for identity in identities:
             index = (exposures or {}).get(kind, {})
-            rows = matching_exposures(index, identity) if kind == "families" else [index.get(identity, {})]
+            rows = matching_exposures(index, identity, questions=(exposures or {}).get("questions", {})) if kind == "families" else [index.get(identity, {})]
             for row in rows:
                 value = row.get("last_seen_at")
                 if not value:

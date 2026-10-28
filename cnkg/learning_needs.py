@@ -11,7 +11,7 @@ import hashlib
 import json
 
 from .review_timing import qualified_review, timestamp
-from .task_families import canonical_family, family_exposure
+from .task_families import canonical_family, exposure_family, family_exposure
 
 _UNKNOWN_REPRESENTATIONS = {"", "unknown", "unclassified", "unspecified", "未知", "未分类"}
 
@@ -330,6 +330,12 @@ def derive_needs(catalog, records, works=(), states=()):
         observed_at = resolution.get("observed_at")
         required = set(original.get("skill_ids", []))
         covered, evidence, followup_rows = set(), [], []
+        # A reviewed historical identity may rule out a supposedly different
+        # family even when an older saved eligibility flag predates the review.
+        # This is a negative comparison only: keep the original classification,
+        # skill observations and submitted grades exactly as recorded.
+        original_exposure_family = exposure_family(original.get("family_id"),
+            question_id=original.get("source_ref", {}).get("question_id"))
         for record, answer in linked_observations.get(identity, []):
             origin, basis = record.get("source_origin", {}), answer.get("followup_basis", {})
             when = _when(record, answer)
@@ -342,7 +348,7 @@ def derive_needs(catalog, records, works=(), states=()):
                     or answer.get("status") != "correct" or answer.get("skipped")
                     or answer.get("help_used") is not False or basis.get("eligible") is not True
                     or basis.get("family_status") != "declared" or not basis.get("family_id")
-                    or canonical_family(basis.get("family_id")) == canonical_family(original.get("family_id"))
+                    or canonical_family(basis.get("family_id")) == original_exposure_family
                     or canonical_family(basis.get("family_id")) != canonical_family(answer.get("family_id"))
                     or not known_representations(basis.get("representation"))):
                 continue
@@ -541,8 +547,10 @@ def task_options(catalog, skill_ids, records, exposures=None, *, allowed_task_id
         return []
     observations = list(_observations(records, include_pending=True))
     seen_questions = {answer["question_id"] for _, answer in observations}
-    seen_families = {canonical_family(answer["family_id"]) for _, answer in observations
-                     if answer.get("family_status") == "declared" and answer.get("family_id")}
+    # Historical placeholders may block novelty after an explicit source-bound
+    # review. They still cannot contribute to positive skill observations.
+    seen_families = {family for _, answer in observations
+                     if (family := exposure_family(answer.get("family_id"), question_id=answer.get("question_id")))}
     seen_representations = set()
     for _, answer in observations:
         if set(answer.get("skill_ids", [])) & set(skill_ids):
@@ -558,7 +566,7 @@ def task_options(catalog, skill_ids, records, exposures=None, *, allowed_task_id
         family = task.get("family_id")
         declared = task.get("family_status") == "declared"
         qex = question_exposures.get(tid, {})
-        fex = family_exposure(family_exposures, family) if declared else {}
+        fex = family_exposure(family_exposures, family, questions=question_exposures) if declared else {}
         exposure_rows = [qex, fex]
         helped = any(row.get("material_count", 0) or row.get("reference_count", 0) or row.get("feedback_count", 0)
                      for row in exposure_rows)
@@ -585,6 +593,16 @@ def task_options(catalog, skill_ids, records, exposures=None, *, allowed_task_id
                         "independent_evidence": False, "selection_reason": reason})
     options.sort(key=lambda row: (row["repeated_question"], row["repeated_family"], row["help_exposed"],
                                  row["family_status"] != "declared", not row["new_representation"], row["task_id"]))
+    # A short recommendation list should expose actual method choices before
+    # filling all slots with number changes from one family. Reviewed aliases
+    # share a slot; unknown labels never establish a second method.
+    family_counts, ranked = {}, []
+    for index, option in enumerate(options):
+        key = (option["eligible_for_followup"], canonical_family(option["family_id"]))
+        occurrence = family_counts.get(key, 0) if option["family_status"] == "declared" else 0
+        family_counts[key] = occurrence + 1
+        ranked.append((not option["eligible_for_followup"], occurrence, index, option))
+    options = [row[-1] for row in sorted(ranked, key=lambda row: row[:3])]
     return options if limit is None else options[:limit]
 
 
@@ -601,11 +619,32 @@ def goal_pathway(catalog, skill_id, records=(), *, exposures=None, preferred_uni
     prerequisites, routes = support_routes(catalog, [skill_id], preferred_unit=preferred_unit)
     refined_by = [{"skill_id": sid, "statement": row["statement"], "granularity": row["granularity"]}
                   for sid, row in skills.items() if skill_id in row.get("refines_skill_ids", [])]
+    broader_goals = [{"skill_id": sid, "statement": skills[sid]["statement"],
+                      "granularity": skills[sid].get("granularity")}
+                     for sid in skill.get("refines_skill_ids", []) if sid in skills]
+    options = task_options(catalog, [skill_id], records, exposures, limit=None)
+    tasks = _section(catalog, "tasks")
+    objective_options = [option for option in options if option["start_action"] and
+                         tasks[option["task_id"]].get("type") in {"numeric", "choice", "short"}]
+    known = [option for option in objective_options if option["family_status"] == "declared"
+             and option["family_id"] and option["representation_known"]]
+    families = {canonical_family(option["family_id"]) for option in known}
+    available = {canonical_family(option["family_id"]) for option in known if option["eligible_for_followup"]}
+    opportunity = {"task_count": len(options), "objective_task_count": len(objective_options),
+        "known_objective_family_count": len(families), "available_followup_family_count": len(available),
+        "multiple_known_families": len(families) >= 2, "independent_mastery_evidence": False,
+        "notice": ("当前尚无明确绑定到这个目标的可用任务，观察缺口继续保留。" if not options else
+                   "当前对应任务以过程记录或自查为主，尚缺可客观记录的对应任务；继续保存过程，不能据此确认整个目标。" if not objective_options else
+                   "当前可用任务还不足两种已核对的客观题族；可以练习，但不同数值或同族改名不能补足这个缺口。" if len(families) < 2 else
+                   "已有多种已核对的客观题族，仍只观察这些具体任务；不能据此认定整个目标已经掌握。"),
+        "availability_notice": (f"按当前记录，尚有 {len(available)} 种未呈现、未记录同族参考的已知题族可继续观察；实际帮助与间隔仍须核对。" if available else
+                                "当前没有符合未呈现且未记录同族参考条件的已知题族。复习和过程修订仍可继续，待观察事项会保留。")}
     return {"schema": 1, "skill_id": skill_id, "statement": skill["statement"],
         "granularity": skill.get("granularity"), "stage": skill.get("stage"),
         "prerequisite_skill_ids": prerequisites, "routes": routes,
         "refines_skill_ids": list(skill.get("refines_skill_ids", [])), "refined_by": refined_by,
-        "task_options": task_options(catalog, [skill_id], records, exposures, limit=20),
+        "broader_goals": broader_goals, "observation_opportunities": opportunity,
+        "task_options": options[:20],
         "pending_need_ids": [need["need_id"] for need in needs if skill_id in need.get("skill_ids", [])
                              and need.get("status") in {"open", "deferred"}],
         "independent_mastery_evidence": False,

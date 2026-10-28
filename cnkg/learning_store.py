@@ -15,7 +15,7 @@ from pathlib import Path
 import sqlite3
 
 from .review_timing import timestamp, qualified_review
-from .task_families import equivalent_names
+from .task_families import equivalent_names, historical_question_ids
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_VERSION = 4
@@ -570,7 +570,9 @@ class LearningStore:
                        'answer_submitted','feedback_released','session_content_provided',
                        'diagram_provided','export_content_provided')""", [owner_id, *chunk])
                 candidates.extend({**dict(row), "from_event": True} for row in rows)
-        observed = self.exposures(owner_id, question_ids=question_ids, family_ids=family_ids)
+        scoped_questions = (None if question_ids is None else
+                            sorted(set(question_ids) | set(historical_question_ids(family_ids))))
+        observed = self.exposures(owner_id, question_ids=scoped_questions, family_ids=family_ids)
         for kind, values in observed.items():
             for item in values.values():
                 event_type = ("reference_opened" if item["last_reference_at"] == item["last_seen_at"] else

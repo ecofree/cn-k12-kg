@@ -86,11 +86,15 @@ class GoalPathwayTests(unittest.TestCase):
     def test_all_new_triangle_goals_keep_original_goal_ids(self):
         registry = json.loads((ROOT / "data/skills/registry.json").read_text())
         ids = registry["placements"]["m8a.13.2"]["criterion_skill_ids"]
-        self.assertEqual(len(ids), 5)
+        self.assertEqual(len(ids), 6)
         self.assertEqual(ids[0], "sk_6c96612201c440b8ae2f")
-        for sid in ids[2:]:
+        for sid in ids[2:5]:
             self.assertEqual(registry["skills"][sid]["granularity"], "observable")
             self.assertEqual(registry["skills"][sid]["refines_skill_ids"], ids[:1])
+        # Doubling a given half-area does not observe any construction.
+        self.assertEqual(registry["skills"][ids[5]]["statement"], '能由中线分成的一半面积求原三角形面积')
+        self.assertEqual(registry["skills"][ids[5]]["granularity"], "observable")
+        self.assertEqual(registry["skills"][ids[5]]["refines_skill_ids"], [])
 
 
 class ExactTaskSelectionTests(unittest.TestCase):

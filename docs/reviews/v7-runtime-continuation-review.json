@@ -1,0 +1,190 @@
+{
+  "schema": 1,
+  "review": "V7 continuation runtime, history, planning and accessibility boundaries",
+  "created_at": "2026-10-28T02:25:20+00:00",
+  "baseline_commit": "de1244557d11a432f53bef00c9a3d094ab756bc8",
+  "reviewer_kind": "ai",
+  "independent_review": false,
+  "status": "implemented_local_targeted_verification_complete_final_integrated_browser_and_release_validation_pending",
+  "scope": [
+    "cnkg/learning_needs.py",
+    "cnkg/planner.py",
+    "web/server.py",
+    "web/static/app.js",
+    "web/static/work.js",
+    "web/static/support.js",
+    "tests/test_portfolio_web.py",
+    "tests/test_quality_v5_branches.py",
+    "tests/test_runtime_learning_boundaries_v7.py",
+    "tests/test_support_runtime_all_goals_v7.py",
+    "tests/browser/learning-flow.cjs",
+    "tests/browser/support-branches.cjs"
+  ],
+  "findings": [
+    {
+      "id": "history-missing-summary",
+      "severity": "high",
+      "before": "Completed legacy topic records without a summary/graph snapshot were summarized using the current graph and engine. A retired topic ID raises KeyError; an existing ID can silently receive a new interpretation.",
+      "after": "Saved summaries are returned verbatim. A completed record without one returns only saved answers, saved topic-state data and any saved verdict, with an explicit missing-summary notice. Live completion computes and freezes its own result through a separate path.",
+      "evidence": "Actual baseline minimal record failed with KeyError retired-original-topic; real HTTP regression restores and exports the record while engine.summarize is forbidden, without changing the stored record."
+    },
+    {
+      "id": "history-missing-current-task",
+      "severity": "high",
+      "before": "An unfinished blocked legacy record with no restorable current task was treated as done and passed to the current summarizer; the UI could retain the previous task DOM.",
+      "after": "The record stays blocked and unfinished, retains feedback secrecy and saved raw answers, and explicitly clears stale task content in the UI.",
+      "evidence": "Real HTTP counterexample asserts done=false, item=null, no summary, resume_blocked=true, no unreleased grade/reference leakage, and an unchanged stored record."
+    },
+    {
+      "id": "partial-work-reference",
+      "severity": "medium",
+      "before": "A schema marker could permit reference_opened for an actually missing answer/hint, and old single-field works were described too broadly.",
+      "after": "Reference recording checks the requested saved field. The UI names missing prompt/rubric/hint/reference fields and never imports current help into an old work. Old incomplete work versions are unverified; version mismatch wording does not claim a content change solely from a storage-contract change.",
+      "evidence": "Real HTTP rejects missing hint/answer without adding events; legacy field/notice browser response fixtures added, with real old-record lookup independently covered by HTTP."
+    },
+    {
+      "id": "support-draft-persistence",
+      "severity": "high",
+      "before": "Unsubmitted support choices/text existed only in an in-memory Map. Reload discarded them, and hints could appear while a later draft failed to save.",
+      "after": "Support input uses the existing owner-scoped, revisioned, idempotent work store. Blank/new drafts do not fabricate grades or error needs. Hint opening flushes drafts before and after the request. Failed saves and 409 conflicts preserve local text and keep new hints closed. A new support_draft_schema is part of new work versions; already saved descriptors win over regenerated initial values.",
+      "evidence": "Real HTTP validates owner isolation, separate draft revisions, unchanged submitted answers, frozen pre-submission descriptors and a resumable activity without a fabricated need. Real browser journey adds reload, pending-hint save failure, actual competing-write 409, explicit conflict recovery and retained histories; browser execution remains pending."
+    },
+    {
+      "id": "support-answer-retry",
+      "severity": "medium",
+      "before": "A lost successful answer response followed by retry returned a stale-task error and required manual recovery.",
+      "after": "An exact retry returns the stored feedback and next task without grading or appending an answer again; changing an already submitted answer remains a 409.",
+      "evidence": "Real HTTP retry regression forbids instruction.answer, compares the full stored record and asserts exactly one answer_submitted event."
+    },
+    {
+      "id": "support-continuation",
+      "severity": "medium",
+      "before": "A support activity with no answer or only a correct probe disappeared from recommendations because it had not created an error-based need.",
+      "after": "The plan retains a scoped resume action for unfinished compatible supports, without duplicating an existing failure continuation or inventing an error. Planner rule identity is activity-plan-v6.1.",
+      "evidence": "Compact-record tests cover no answer, correct probe, an existing failed probe, stage filtering and a blocked old runtime."
+    },
+    {
+      "id": "recommendation-method-diversity",
+      "severity": "medium",
+      "before": "On the clean baseline, 53 goals had another eligible method outside the first five suggestions because number variants occupied the shortlist.",
+      "after": "Eligible methods receive family-diverse turns before repeated variants. Reviewed aliases share one family identity. Goal pages show objective-family counts, available recorded-novelty opportunities and honest shortages; unknown metadata and absent tasks are not counted as sufficient evidence.",
+      "evidence": "Baseline catalog inspection found 53 such shortlists. Counterexamples cover eight same-method variants, an old-name alias, an actual second method, old alias reference exposure, known-representation gaps and an empty broad-goal task set."
+    },
+    {
+      "id": "fine-broad-goal-boundary",
+      "severity": "medium",
+      "before": "The relationship was mostly one-way in the UI and did not explicitly state that a fine-goal attempt leaves the broad goal unobserved.",
+      "after": "Both directions of the declared relationship are navigable, without carrying an unrelated unit restriction. Fine-goal success creates no broad-goal observation or task mapping. Unit-result wording describes answered tasks rather than certification of the whole ability.",
+      "evidence": "Counterexample has a fine goal outside its broad goal unit; only the fine skill receives evidence, and the broad goal has zero tasks."
+    },
+    {
+      "id": "support-accessibility",
+      "severity": "medium",
+      "before": "Hint buttons had no controlled-region/expanded state and lost keyboard focus when disabled while waiting.",
+      "after": "Each hint names an existing region, exposes aria-expanded, indicates busy state and keeps its keyboard focus. Answer controls stay disabled during draft recovery; feedback focus targets the actual feedback heading.",
+      "evidence": "Native keyboard and ARIA assertions added to support_branches. Syntax passed; actual browser acceptance is pending."
+    }
+  ],
+  "validation": {
+    "isolation": "Clean git archive of baseline de1244557d11 at /tmp/cnkg-runtime-audit-v7 with only owned runtime/tests overlaid, while other agents edit author sources. No main-tree catalog/admissions/manifest/current files were regenerated.",
+    "runs": [
+      {
+        "modules": [
+          "test_runtime_learning_boundaries_v7",
+          "test_support_runtime_all_goals_v7",
+          "test_learning_needs_v4",
+          "test_planner",
+          "test_family_aliases_v6",
+          "test_quality_v5_branches"
+        ],
+        "run": 63,
+        "passed": 63,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "modules": [
+          "test_portfolio_web",
+          "test_learning_web",
+          "test_quality_v4_web"
+        ],
+        "transport": "real_localhost_http",
+        "run": 60,
+        "passed": 60,
+        "failed": 0,
+        "skipped": 0,
+        "log": "/tmp/cnkg-v7-runtime-http-tests.log"
+      },
+      {
+        "modules": [
+          "test_quality_v5_decisions",
+          "test_alignment_v5",
+          "test_runtime_version_v4",
+          "test_prerequisite_observation_v6",
+          "test_statistics_alignment_v5",
+          "test_profile_recovery"
+        ],
+        "run": 64,
+        "passed_in_initial_run": 60,
+        "initial_environment_errors": 4,
+        "reason": "The four DecisionHTTPTests require localhost socket permission; these were rerun with the approved socket-capable execution."
+      },
+      {
+        "modules": [
+          "test_quality_v5_decisions.DecisionHTTPTests",
+          "test_portfolio_web.PortfolioWebTests.test_support_draft_is_owner_scoped_revisable_and_keeps_its_pre_submission_snapshot"
+        ],
+        "transport": "real_localhost_http",
+        "run": 5,
+        "passed": 5,
+        "failed": 0,
+        "skipped": 0,
+        "purpose": "Resolve the four socket-only errors and verify the final support draft version identity."
+      }
+    ],
+    "baseline_support_paths_exercised": {
+      "supports": 104,
+      "branched_supports": 27,
+      "authored_wrong_choices": 54,
+      "default_paths": 104,
+      "skip_paths": 104,
+      "note": "The generic test automatically traverses the later expanded source after the root agent rebuilds. These baseline counts do not claim all new 77 branches were already integration-tested."
+    },
+    "static_checks": [
+      "git diff --check",
+      "node --check web/static/app.js",
+      "node --check web/static/work.js",
+      "node --check web/static/support.js",
+      "node --check tests/browser/learning-flow.cjs",
+      "node --check tests/browser/support-branches.cjs"
+    ],
+    "browser_status": "Not executed locally: Chromium is unavailable. Existing support_branches and goal_support_revision journeys contain new real race/recovery/keyboard tests. No added journey registration is required.",
+    "full_release_status": "Pending root-controlled exact-source integrated build, full tests and real browser acceptance; local targeted runs are not a clean-commit release certificate."
+  },
+  "audit_no_change": [
+    "Existing family-alias comparisons preserve old event IDs/names, use max per-name counters instead of summing duplicate indexes, and prevent renamed structures from becoming novel. Existing alias/timing regressions pass.",
+    "Unknown/unobserved prerequisites and helped evidence retain bounded semantics. Existing prerequisite and decision tests pass; no mastery qualification was expanded.",
+    "runtime_version already includes cnkg/admissions.py in topic sources, so the root admission change changes the topic grader identity. Completed historical records remain immutable.",
+    "The review timing ladder remains a product convention tied to recorded activity, not a student-effectiveness model."
+  ],
+  "limits": [
+    "AI technical review only; no independent teacher approval or real-student outcome validation.",
+    "No automatic rewriting or rejudging of old grades, works, family IDs or missing fields.",
+    "A saved/helped/repeated response and a finer-goal observation do not establish whole-goal or whole-topic mastery.",
+    "Browser response fixtures exercise display only; server boundaries are covered separately by actual HTTP regressions."
+  ],
+  "source_sha256_at_review": {
+    "cnkg/learning_needs.py": "6e8398c898023c8d201fb1a88faf7dad01e0ccae38ab560b7d2aa76e3e8ee19b",
+    "cnkg/planner.py": "a70ed24e947961edf98d91453264f02e37bc1924e76c84bff51fe566937e47e4",
+    "web/server.py": "1ecf83fd163ae298fe6ac7f7d1038f0afa7aa533a8c30651b0564d9b5c5dfbc5",
+    "web/static/app.js": "2281ff7ce68fa63ffd2efd0aa301d192e2ab937a82ccdedb32cfc82c4eb69254",
+    "web/static/work.js": "c2e6375d938863dcf95cb27c76b201591fae3c22a634fb6b1bcb846a31dde205",
+    "web/static/support.js": "1a9ecdd88554e1ecbc3126035240a4d047df22e498e43901854c043322d7e386",
+    "tests/test_portfolio_web.py": "0c49f31f54a655b054e5a14872a23709cbf17e694a69902709f220a8398d1825",
+    "tests/test_quality_v5_branches.py": "9df215e4829d2e9e024121f031d032a19debcd58b5c31915700ab9311585b984",
+    "tests/test_runtime_learning_boundaries_v7.py": "8e5a7381eb5f23b7352797bff312a9f710ca794200afee33429a72ee55a9599f",
+    "tests/test_support_runtime_all_goals_v7.py": "836f94687d6c058558734c57f8ab8c429003be073e252907b5a75cc211b7cd90",
+    "tests/browser/learning-flow.cjs": "ae819c8db4ba69c8d0dccb524d9fb80413fd2654d10fa99394d674d94eafd50c",
+    "tests/browser/support-branches.cjs": "b01a2e79c82eb5060245e52e015fc010ec18b0457228d1ba21d6a55868c8b323"
+  }
+}

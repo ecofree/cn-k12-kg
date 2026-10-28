@@ -26,7 +26,7 @@ CHECKS = [
     ('catalog', '统一资源目录与作者来源一致', ['tools/compile_catalog.py', '--check']),
     ('admissions', '显式题目用途与当前内容版本一致', ['tools/task_admissions.py', '--check']),
     ('quality_scope', '完整目标范围与实际材料任务对应', ['tools/quality_scope.py', '--check', '--require-complete', '--json', 'build/quality-scope.json']),
-    ('alignment', '全部目标的专属帮助、观察边界、实际题族表征及加强题目关系', ['tools/check_alignment.py', '--check']),
+    ('alignment', '全部目标支持与全部活跃题的目标、题族、表征、认知和观察边界', ['tools/check_alignment.py', '--check']),
     ('semantic_review', '内容语义审查记录与影响清单绑定当前版本', ['tools/check_change_review.py']),
     ('structure', '图、目录、题库与答案结构', ['tools/validate.py']),
     ('teaching', '完整讲解与逐目标材料', ['tools/teach_cards.py', '--check']),

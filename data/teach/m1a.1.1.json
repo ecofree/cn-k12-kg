@@ -200,6 +200,30 @@
         "hint": "先用手指沿数字卡描一遍，再看卡写；把这次标为“有帮助”。",
         "revision_prompt": "把易混淆的那个数字单独练一遍，遮卡重写并配上小点，保留修改前后。"
       }
+    },
+    {
+      "criterion_index": 5,
+      "title": "能确定1至4各数在1至5数序中的后继数",
+      "explanation": "在1、2、3、4、5的顺序中，紧接一个数后面的数叫它的后继数。每向后走一个位置，数量增加1；“后面一个”只走一步。这里检查1至4的后继，不把5之后的数放进1至5的范围。",
+      "self_check": {
+        "prompt": "把数字卡排成1、2、3、4、5。从2出发只向后走一个位置，再从4出发走一个位置，分别停在哪张卡？记录起点和终点。",
+        "reference_answer": "从2到3，从4到5；各只走了一个位置。起点不是走过的一步。",
+        "criteria": [
+          "2的后继写3",
+          "4的后继写5",
+          "能把起点与向后一步的终点分开"
+        ],
+        "family_id": "primary.order.successor-within-five",
+        "variant_id": "m1a.1.1:self-check:5:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察键入后继数；不含口头读音、书写形体和实物点数。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "你把起点数了一步，还是从起点走到下一张才算一步？",
+        "hint": "手指先放在起点，保持不动时不计步；移动到相邻的下一张才记一次。",
+        "revision_prompt": "换成1和3作起点，分别记录向后一步的终点；若仍需按顺序背数，保留提示记录。"
+      }
     }
   ],
   "conditions": [

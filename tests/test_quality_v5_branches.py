@@ -34,8 +34,11 @@ class AuthoredBranchesTest(unittest.TestCase):
         cls.catalog = load_catalog()
         cls.units = {uid: json.loads((ROOT / "data/learning_units" / (uid + ".json")).read_text())
                      for uid in ("fraction_equivalence", "equation_equivalence", "data_reading_and_mean")}
+        original_goals = {"fraction_equivalence:whole", "fraction_equivalence:scale", "fraction_equivalence:common_unit",
+                          "equation_equivalence:reversible", "data_reading_and_mean:read_scale", "data_reading_and_mean:mean",
+                          "data_reading_and_mean:combine", "data_reading_and_mean:choose_chart", "data_reading_and_mean:limited_claim"}
         cls.supports = [(unit, support) for unit in cls.units.values()
-                        for support in unit["instructional_support"]["supports"] if support.get("guided_branches")]
+                        for support in unit["instructional_support"]["supports"] if support["objective_id"] in original_goals]
 
     def create(self, unit, support):
         return instruction.create(unit, support["id"], OWNER, self.catalog, {}, [],

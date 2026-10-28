@@ -7,6 +7,8 @@ a content release. No identity is inferred from names, grades or question IDs.
 from __future__ import annotations
 
 import json
+import hashlib
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -46,25 +48,153 @@ def canonical_family(identity):
     return ALIASES.get(identity, identity)
 
 
+def task_contract(question, binding):
+    """Exact learner task and bound answer contract used by the V7 review."""
+    return {**{key: question.get(key) for key in ("type", "prompt", "choices", "answer", "accept", "verify", "answer_spec")},
+            "bound_answer_spec": binding.get("answer_spec")}
+
+
+def load_history(path, *, root):
+    """Read source/evidence-bound placeholders for exposure comparisons only.
+
+    Ordinary aliases deliberately reject unknown families. This separate
+    registry can only reduce claims of novelty; it cannot supply observations
+    or change a saved task's classification, goals, grade or source version.
+    """
+    value = json.loads(Path(path).read_text())
+    if value.get("schema") != 1 or not isinstance(value.get("aliases"), list):
+        raise ValueError("历史题族曝光登记格式不正确")
+    root = Path(root).resolve()
+    result, tasks, evidence_reviews = {}, {}, {}
+    task_hash_keys = ("baseline_source_task_sha256", "current_source_task_sha256",
+                      "baseline_task_contract_sha256", "current_task_contract_sha256")
+    binding_path = root / "data/skills/catalog-bindings.json"
+    bindings = json.loads(binding_path.read_text()).get("tasks", {}) if binding_path.exists() else {}
+    for row in value["aliases"]:
+        alias, target, qid = row.get("alias"), row.get("canonical"), row.get("task_id")
+        hashes = [row.get(key) for key in (*task_hash_keys, "review_evidence_sha256")]
+        if (not isinstance(qid, str) or not qid or alias != "unclassified:" + qid or alias in result
+                or not isinstance(target, str) or not target.strip() or target.startswith("unclassified:")
+                or target in {"unknown", "unclassified"} or row.get("use") != "exposure_only"
+                or row.get("alias_kind") != "reviewed_historical_task_identity"
+                or row.get("reviewer_kind") != "ai" or row.get("independent_review") is not False
+                or not isinstance(row.get("reason"), str) or not row["reason"].strip()
+                or not all(isinstance(h, str) and re.fullmatch(r"[0-9a-f]{64}", h) for h in hashes)
+                or not isinstance(row.get("baseline_commit"), str)
+                or not re.fullmatch(r"[0-9a-f]{40}", row["baseline_commit"])):
+            raise ValueError("历史题族只能按唯一题ID、完整指纹与明确审查作曝光比较")
+        source, evidence = row.get("source"), row.get("review_evidence")
+        for name, prefixes in ((source, ("data/content/", "data/question_sources/")),
+                               (evidence, ("docs/reviews/",))):
+            if (not isinstance(name, str) or not name.startswith(prefixes) or not name.endswith(".json")
+                    or "\\" in name or ".." in Path(name).parts or Path(name).is_absolute()
+                    or not (root / name).resolve().is_relative_to(root)):
+                raise ValueError("历史题族来源与审查证据须位于明确的仓库路径")
+            current = root
+            for part in Path(name).parts:
+                current = current / part
+                if current.is_symlink():
+                    raise ValueError("历史题族来源及证据不得使用符号链接")
+        if evidence not in evidence_reviews:
+            evidence_bytes = (root / evidence).read_bytes()
+            review = json.loads(evidence_bytes)
+            if not isinstance(review, dict) or not isinstance(review.get("tasks"), list):
+                raise ValueError("历史题族审查证据须有逐题审查列表")
+            reviewed_tasks = {}
+            for reviewed_task in review["tasks"]:
+                if (not isinstance(reviewed_task, dict) or not isinstance(reviewed_task.get("id"), str)
+                        or not reviewed_task["id"].strip() or reviewed_task["id"] in reviewed_tasks):
+                    raise ValueError("历史题族逐题审查须有唯一明确题ID")
+                reviewed_tasks[reviewed_task["id"]] = reviewed_task
+            evidence_reviews[evidence] = {"sha256": hashlib.sha256(evidence_bytes).hexdigest(),
+                "baseline_commit": review.get("baseline_commit"), "tasks": reviewed_tasks}
+        review = evidence_reviews[evidence]
+        if review["sha256"] != row["review_evidence_sha256"]:
+            raise ValueError("历史题族审查证据指纹已改变")
+        reviewed_task = review["tasks"].get(qid, {})
+        exposure_review = reviewed_task.get("history_exposure_review")
+        if (review["baseline_commit"] != row["baseline_commit"]
+                or reviewed_task.get("reviewer_kind") != "ai"
+                or reviewed_task.get("independent_teacher_review") is not False
+                or not isinstance(exposure_review, dict)
+                or exposure_review.get("decision") != "allow_same_structure"
+                or not isinstance(exposure_review.get("reason"), str)
+                or not exposure_review["reason"].strip()):
+            raise ValueError("历史题族逐题证据未按原版本明确允许同结构曝光比较")
+        if any(reviewed_task.get(key) != row[key] for key in task_hash_keys):
+            raise ValueError("历史题族逐题审查指纹与登记不一致")
+        # The hashes bind the reviewed source versions, not mathematical
+        # equivalence. A documented same-structure review may allow changed
+        # numbers or conditions with different task-contract hashes.
+        if source not in tasks:
+            data = json.loads((root / source).read_text())
+            questions = data.get("questions", []) if isinstance(data, dict) else data
+            tasks[source] = {question["id"]: question for question in questions}
+            if len(tasks[source]) != len(questions):
+                raise ValueError("历史题族来源包含重复题ID")
+        question = tasks[source].get(qid)
+        actual = hashlib.sha256(json.dumps(question, ensure_ascii=False, sort_keys=True,
+                                           separators=(",", ":")).encode()).hexdigest()
+        if not question or actual != row["current_source_task_sha256"]:
+            raise ValueError("历史题族所绑定的当前题目已改变，须重新审查")
+        binding = bindings.get("bank:" + qid, {})
+        contract_hash = hashlib.sha256(json.dumps(task_contract(question, binding), ensure_ascii=False,
+                                                sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        if contract_hash != row["current_task_contract_sha256"]:
+            raise ValueError("历史题族所绑定的当前判分合同已改变，须重新审查")
+        family = question.get("family_id") or binding.get("family_id")
+        if canonical_family(family) != canonical_family(target):
+            raise ValueError("历史题族目标与当前题目实际声明不一致")
+        result[alias] = canonical_family(target)
+    return result
+
+
+HISTORICAL_FAMILIES = load_history(ROOT / "data/task_family_history.json", root=ROOT)
+
+
+def exposure_family(identity, *, question_id=None):
+    """Conservative comparison key; never use this to award positive evidence."""
+    if identity in HISTORICAL_FAMILIES:
+        return HISTORICAL_FAMILIES[identity]
+    if (not identity or identity in {"unknown", "unclassified"}) and question_id:
+        historical = HISTORICAL_FAMILIES.get("unclassified:" + question_id)
+        if historical:
+            return historical
+    return canonical_family(identity)
+
+
+def historical_question_ids(identities):
+    if isinstance(identities, str):
+        raise ValueError("历史曝光查询需要题族ID列表")
+    selected = {exposure_family(identity) for identity in identities}
+    return sorted(alias.removeprefix("unclassified:") for alias, family in HISTORICAL_FAMILIES.items()
+                  if canonical_family(family) in selected)
+
+
 def equivalent_names(identities):
     """Expand a selected query to all reviewed historical names, not all data."""
-    canonical = {canonical_family(identity) for identity in identities}
-    return sorted(canonical | {alias for alias, target in ALIASES.items() if target in canonical})
+    canonical = {exposure_family(identity) for identity in identities}
+    return sorted(canonical | {alias for alias, target in ALIASES.items() if target in canonical}
+                  | {alias for alias, target in HISTORICAL_FAMILIES.items() if canonical_family(target) in canonical})
 
 
-def matching_exposures(index, identity):
-    target = canonical_family(identity)
-    return [row for name, row in index.items() if canonical_family(name) == target] if target else []
+def matching_exposures(index, identity, *, questions=None):
+    target = exposure_family(identity)
+    if not target:
+        return []
+    rows = [row for name, row in index.items() if exposure_family(name) == target]
+    rows += [(questions or {})[qid] for qid in historical_question_ids([target]) if qid in (questions or {})]
+    return rows
 
 
-def family_exposure(index, identity):
+def family_exposure(index, identity, *, questions=None):
     """Presence/counter bounds for selection; never claim a unique event count.
 
     One event may have indexed both historical names, so summing aggregate
     counters could double-count it. The maximum preserves every positive help
     or repetition flag; original indexed rows remain available unchanged.
     """
-    rows = matching_exposures(index, identity)
+    rows = matching_exposures(index, identity, questions=questions)
     if not rows:
         return {}
     return {"family_id": canonical_family(identity), "count_basis": "maximum_per_indexed_name",

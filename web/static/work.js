@@ -31,11 +31,12 @@ window.CNKGWork = (() => {
     if (!root.isConnected) return null;
     loading.remove();
     const descriptor = data.descriptor, snapshot = descriptor.resource_snapshot;
+    const draftOnly = snapshot.draft_only === true;
     if (!options.hidePrompt && ["updated", "legacy_unverified"].includes(data.current_content?.status)) {
       const update = create("aside", null, "work-version-notice");
       update.append(create("p", data.current_content.status === "legacy_unverified"
         ? "这份旧作品缺少可核对的逐题版本信息，暂时无法确认它与当前材料是否相同。这里保留已保存的原版本内容与修订过程；旧的待确认事项继续保留。"
-        : "当前学习材料已有新版。这里保留这份作品已保存的原版本内容与修订过程；旧的待确认事项继续保留。"));
+        : "当前可用版本与这份作品的保存版本不同。这里保留已保存的原版本内容与修订过程；旧的待确认事项继续保留。"));
       if (data.current_content.url) {
         const link = create("a", "查看当前材料（新标签页）");
         link.href = data.current_content.url; link.target = "_blank"; link.rel = "noopener";
@@ -52,7 +53,7 @@ window.CNKGWork = (() => {
         image.src = "data:image/svg+xml;base64," + asset.body_base64;
         image.alt = snapshot.diagram.alt || "这份原作品使用的数学图示";
         figure.append(image, create("figcaption", image.alt, "muted")); root.append(figure);
-      }
+      } else root.append(create("p", "这份作品未保存可恢复的原图示，无法还原；这里不会用当前图示替换。", "muted work-snapshot-notice"));
     }
     const saved = data.work?.payload || {};
     const fields = new Map();
@@ -73,7 +74,7 @@ window.CNKGWork = (() => {
         if (field.deliverable) group.append(create("p", "这一步留下：" + field.deliverable, "muted"));
         if (field.phase && supportPanel) {
           if (!supportPanel.parentNode) root.append(supportPanel);
-          if (field.phase === "revision") {
+          if (field.phase === "revision" && support.hint) {
             hintPanel = create("details", null, "goal-support-hint"); hintPanel.append(create("summary", "需要时看这一步提示"));
             const hint = create("div"); window.setRichText(hint, support.hint); hintPanel.append(hint); supportPanel.append(hintPanel);
           }
@@ -91,8 +92,14 @@ window.CNKGWork = (() => {
       const reference = create("div"); window.setRichText(reference, snapshot.reference_answer); referencePanel.append(reference);
       if (snapshot.observation_note) referencePanel.append(create("p", snapshot.observation_note, "muted"));
       root.append(referencePanel);
-    } else if (!options.hidePrompt && descriptor.kind === "self_check" && !snapshot.work_schema) {
-      root.append(create("p", "这份历史作品保存了原题和量规。原提示与参考答案未存入当时的作品，仍按已保存的原题继续修订。", "muted"));
+    }
+    if (!options.hidePrompt && descriptor.kind === "self_check") {
+      const missing = [];
+      if (!snapshot.fields.some(field => field.prompt)) missing.push("原题面");
+      if (!snapshot.criteria.length) missing.push("原量规");
+      if (!support?.hint) missing.push("原提示");
+      if (!snapshot.reference_answer) missing.push("原参考答案");
+      if (missing.length) root.append(create("p", `这里只显示当时实际保存的内容。这份作品未保存${missing.join("、")}，无法还原，也不会用当前材料补写。`, "muted work-snapshot-notice"));
     }
     root.append(referenceStatus);
     const reflection = create("textarea"); reflection.rows = 3; reflection.maxLength = 8000;
@@ -114,13 +121,15 @@ window.CNKGWork = (() => {
       row.append(label, select, detail); self.append(row); selections.push(select); comments.push(comment);
     }
     const reflectionLabel = create("label", "我改进了什么？还有什么问题？"); reflectionLabel.htmlFor = reflection.id;
-    self.append(reflectionLabel, reflection); root.append(self);
+    self.append(reflectionLabel, reflection); if (!draftOnly) root.append(self);
     const controls = create("div", null, "actions"), save = create("button", "保存记录", "ghost"), finish = create("button", "提交我的自查", "ghost");
     save.type = finish.type = "button";
     const status = create("p", data.work ? "已恢复保存的记录。" : "填写后会自动保存。", "muted work-status"); status.setAttribute("role", "status");
     const conflict = create("button", "保留两版并保存本页内容", "ghost"); conflict.type = "button"; conflict.hidden = true;
-    controls.append(save, finish, conflict); root.append(controls); root.prepend(status);
+    controls.append(save); if (!draftOnly) controls.append(finish); controls.append(conflict); root.append(controls); root.prepend(status);
+    if (draftOnly) root.append(create("p", "这里保存的是尚未提交的草稿及其修订。点击“记录这一步”后，正式作答另行保存；修改草稿不会改写已提交的答案。", "muted"));
     let revision = data.work?.revision || 0, learnerStatus = saved.status || "draft";
+    root.dataset.resourceId = descriptor.resource_id; root.dataset.revision = String(revision);
     let pending = null, timer = null, running = null, lastSaved = null, failed = false, conflictSeen = false;
     const values = () => ({ draft: Object.fromEntries([...fields].map(([key, input]) => [key, input.value])),
       reflection: reflection.value,

@@ -1,0 +1,1706 @@
+{
+  "schema": 1,
+  "review_id": "v7-statistics-task-mathematics-review",
+  "reviewed_at": "2026-10-28",
+  "reviewer_kind": "ai",
+  "independent_teacher_review": false,
+  "student_effectiveness_evidence": false,
+  "scope": {
+    "mh2_groups": 33,
+    "mh2_tasks": 38,
+    "mh5_groups": 34,
+    "mh5_tasks": 42,
+    "total_groups": 67,
+    "total_distinct_tasks": 80
+  },
+  "mathematical_content_fields": [
+    "type",
+    "prompt",
+    "choices",
+    "answer",
+    "explanation",
+    "accept",
+    "diagram"
+  ],
+  "hash_boundary": "Hash binds the actual type, prompt, choice text/identity, answer, explanation, acceptance and diagram fields. Goal alignment, family classification, admissions and workflow metadata are deliberately excluded; a changed mathematical task requires a renewed review.",
+  "group_reviews": [
+    {
+      "proposal_key": "sampling.sample-fraction",
+      "topic_id": "mh2.9.1.3",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.1.3-q101",
+          "independently_checked_result": "10",
+          "mathematical_reason": "200/2000=0.1=10%；答案栏只填百分数的数字10，抽样比例本身不证明代表性。",
+          "mathematical_content_sha256": "7c3f05eb34054172a04f92d08b6074c17852d850f292c14227577b983637e0c2"
+        }
+      ],
+      "four_fields": {
+        "explanation": "样本量表示实际调查了多少个对象，总体数量表示所研究总体有多少个对象。样本占总体的比例为样本量除以总体数量；要求百分数时再乘100，并按答案栏要求决定是否写百分号。这个比例描述规模，不能单凭比例大就认定样本有代表性。",
+        "discrimination": "分母应是总体数量还是样本量？得到小数比例后，题目要填这个小数还是百分率的数字？",
+        "hint": "分别标出总体N和样本n，写n/N；需要百分数时把同一个比例换写成百分之多少，并检查样本没有超过总体。",
+        "criterion": "使用样本量作分子、总体量作分母，百分数格式正确且不由抽样比例推出代表性"
+      },
+      "family_id": "sampling.sample-fraction",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "sampling.proportional-allocation",
+      "topic_id": "mh2.9.1.3",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.1.3-q102",
+          "independently_checked_result": "30",
+          "mathematical_reason": "按给定比例分层，50×600/(600+400)=30。",
+          "mathematical_content_sha256": "fb8752f73447d2da966320735f475f88c027eaf19c881fd884ab804d0bb72373"
+        }
+      ],
+      "four_fields": {
+        "explanation": "题目明确按各层人数占总体的比例分配样本时，第i层样本量为总样本量乘该层人数再除以总体人数。总体人数要包括所有互不重叠的层；分配名额后仍需在每层按规定随机抽取。按比例分配是本题方案，不能说所有分层抽样都必须采用相同抽样比例。",
+        "discrimination": "你把总样本量乘的是该层占总体的比例，还是除以层数直接均分？总体是否包含了每一层？",
+        "hint": "先合计各层人数，再给每层写“总样本量×该层人数/总体人数”；相加核对分配的样本量是否回到计划总量。",
+        "criterion": "按题定比例分配而非简单按层均分，各层样本量与总体份额及总样本量一致"
+      },
+      "family_id": "sampling.proportional-allocation",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "statistics.histogram-total-area-recall",
+      "topic_id": "mh2.9.2.1",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.2.1-q1",
+          "independently_checked_result": "1",
+          "mathematical_reason": "纵轴频率/组距、全样本各频率和1，所以总柱面积1。",
+          "mathematical_content_sha256": "1973df30f677e036d9177ce926cb4fc750e9a803cf5f0bb1185ebe1ce0d612e2"
+        }
+      ],
+      "four_fields": {
+        "explanation": "完整样本的各组频率合计为1。若直方图纵轴规定为频率除以组距，每个矩形的面积等于该组频率，所以覆盖完整样本的全部矩形面积合计为1。这个结论用到纵轴含义、组距和完整覆盖，不能直接用于任意纵轴的直方图。",
+        "discrimination": "纵轴写的是频率密度、频率还是频数？图中的组是否覆盖了全部样本？",
+        "hint": "把每柱的“高度×宽度”写成“频率/组距×组距”，再把所有组的频率相加。",
+        "criterion": "以频率密度乘组距得到组频率，并在完整分组条件下识别总面积1"
+      },
+      "family_id": "statistics.histogram-total-area-recall",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "statistics.frequency-to-count",
+      "topic_id": "mh2.9.2.1",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.2.1-q101",
+          "independently_checked_result": "10",
+          "mathematical_reason": "组频率.2已给，人数50×.2=10。",
+          "mathematical_content_sha256": "b361149ffb66b61c7f7b75f2d9b9a57de5dde12131df05d7b9ee8e14debb7aab"
+        }
+      ],
+      "four_fields": {
+        "explanation": "频率是某组频数占样本量的比例，频数则是该组实际有多少个对象。已知频率和样本量时，用样本量乘频率得到该组频数；若频率由文字直接给出，这一步只观察换算，并不证明已经独立读取直方图。",
+        "discrimination": "给定频率表示占全部的比例，还是这一组的人数？本题样本量要乘还是除？",
+        "hint": "先写“该组人数/样本人数=给定频率”，还原该组人数后再除以样本人数核对原比例。",
+        "criterion": "按样本量乘给定组频率求频数，区分人数与比例以及文字换算和读图"
+      },
+      "family_id": "statistics.frequency-to-count",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "statistics.histogram-density-area",
+      "topic_id": "mh2.9.2.1",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.2.1-q102",
+          "independently_checked_result": "1/5",
+          "mathematical_reason": "密度.04与组距5以文字给出，频率面积=.2。",
+          "mathematical_content_sha256": "71c1a3d4b8f28060a9dc7dc9ec0f23feac592f12396a9668b0286fdf42ef2968"
+        }
+      ],
+      "four_fields": {
+        "explanation": "当纵轴明确为频率密度时，高度是频率除以组距，频率应由高度乘组距得到。矩形高度本身一般不是频率；不同组距下即使等高，频率也可能不同。频率应处于0到1之间，若各组完整覆盖样本，其面积还应合计1。",
+        "discrimination": "题目给的是矩形高度还是面积？为什么不能把给定频率密度直接当作频率？",
+        "hint": "先圈出纵轴定义，再写频率密度×组距；把组距单位约掉，核对结果是无量纲的比例。",
+        "criterion": "在已给频率密度定义下由高乘组距求组频率，不把高度直接当频率"
+      },
+      "family_id": "statistics.histogram-density-area",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "statistics.median-percentile-recall",
+      "topic_id": "mh2.9.2.2",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.2.2-q2",
+          "independently_checked_result": "中位数",
+          "mathematical_reason": "按本课约定第50百分位为中位数。",
+          "mathematical_content_sha256": "aca435ef91a0e1701ea4f9a5dbe4c08a39e8d93d4d33ba41b629b947037ed8a9"
+        },
+        {
+          "task_id": "mh2.9.2.2-q4",
+          "independently_checked_result": "50",
+          "mathematical_reason": "中位数对应第50百分位。",
+          "mathematical_content_sha256": "4efb1a72ddb5d1fe0bf574a28c62bd81c7d05db0ca46b2788ff6ecbd3b5ec615"
+        }
+      ],
+      "four_fields": {
+        "explanation": "按本课的定位约定，中位数对应第50百分位数。排序后，奇数个数据取中间一个，偶数个数据取中间两个的平均；它描述中间位置，不等于平均所有数据所得的平均数。有并列值时，不应理解成恰好一半数据严格小于中位数。",
+        "discrimination": "你把位置在中间的统计量与所有数相加后平均混淆了吗？若全部数据相同，仍有恰好一半严格小于中位数吗？",
+        "hint": "先写“本课第50百分位↔排序中间位置”，再用奇数、偶数两种项数检查中位数的取法。",
+        "criterion": "按本课约定对应中位数与第50百分位，不把名称关系扩大为严格小于比例恒为50%"
+      },
+      "family_id": "statistics.median-percentile-recall",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "statistics.percentile-position-label",
+      "topic_id": "mh2.9.2.2",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.2.2-q5",
+          "independently_checked_result": "75",
+          "mathematical_reason": "“第p”中给定75%位置，标签p75，非实际分位数值。",
+          "mathematical_content_sha256": "5c859eac2e91a99c45c48428a0a765ab650022569ff2b8752330d93a1a5b19a6"
+        }
+      ],
+      "four_fields": {
+        "explanation": "“第p百分位数”中的p标明排序位置的百分数标签，例如报告75%位置时标签为75。这个标签不是该分位数的实际数值；实际值还需要原数据以及题设定位、平均或插值规则。单凭“至少p%的数据不超过某值”不能在所有情况下唯一确定这个值。",
+        "discrimination": "题目问的是p这个位置标签，还是排序数据中的具体分位数值？位置百分数是否自动等于同数字的得分？",
+        "hint": "把“第____百分位数”与“它的数值是____”分开，只在题目给出的百分比位置处填写标签。",
+        "criterion": "从已给排序百分比读取p，明确位置标签不等于分位数的量值"
+      },
+      "family_id": "statistics.percentile-position-label",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "statistics.percentile-sort-step",
+      "topic_id": "mh2.9.2.2",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.2.2-q7",
+          "independently_checked_result": "从小到大",
+          "mathematical_reason": "先升序排列，随后才按约定定位。",
+          "mathematical_content_sha256": "9eb9510330f7c1924940b2e346182916622698fc28a05ca1ebe0f84ff7a35456"
+        }
+      ],
+      "four_fields": {
+        "explanation": "百分位数需要依据数据在整体排序中的位置，所以先将原数据从小到大排列，再按题目给定约定定位或插值。排列时保留重复数据及其次数，不因数值相同就删掉；排序完成只是准备步骤，还不能替代后续百分位数计算。",
+        "discrimination": "你按原记录顺序直接找位置了吗？两个相同观测值是两个数据，还是应该删成一个？",
+        "hint": "逐个把数据升序排好并保留每个观测，检查个数与原表相同，再使用本题规定的定位方法。",
+        "criterion": "识别并执行从小到大排列的准备步骤，保留重复观测且不跳过后续定位约定"
+      },
+      "family_id": "statistics.percentile-sort-step",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "fraction.part-from-whole",
+      "topic_id": "mh2.9.2.2",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.2.2-q102",
+          "independently_checked_result": "100",
+          "mathematical_reason": "阈值上方比例20%已给，500×.2=100。",
+          "mathematical_content_sha256": "acb88f129680aa95686111f76a1314c62cc8b64a627db6c7ff53e1d82982eeb6"
+        }
+      ],
+      "four_fields": {
+        "explanation": "求某部分占整体的已知比例所对应的量，用整体量乘这个比例。比例可写成分数、小数或百分数，先统一为同一数值；“约占”得到的是相应估计，不自动成为精确人数或精确分位点。问阈值以上人数时，只处理已给阈值和比例，不凭它反推出某百分位数恰好等于阈值。",
+        "discrimination": "这个百分数以全体数量还是另一部分为基准？题目说约占时，结果应当作为估计还是精确观测？",
+        "hint": "用一条整体条标出全部数量，将已给份额换成分数或小数，再求这部分的量；结果除回整体核对比例。",
+        "criterion": "正确选择整体基准并乘已给比例，保留精确或估计语义，不增加题目没有给出的分位结论"
+      },
+      "family_id": "fraction.part-from-whole",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "statistics.arithmetic-mean",
+      "topic_id": "mh2.9.2.3",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.2.3-q101",
+          "independently_checked_result": "84",
+          "mathematical_reason": "总分420，平均数420÷5=84。",
+          "mathematical_content_sha256": "67c6b79dabe6e8525937a2a8fa1769648851547f7e9585b0ce49465129c3e2c1"
+        }
+      ],
+      "four_fields": {
+        "explanation": "算术平均数等于所有观测值的总和除以观测个数，每个重复值都按实际出现次数计入。它与排序中间的中位数、出现最多的众数是不同统计量；较大的值可能提高平均数，不能因此把平均数直接读成最常见的一个值。",
+        "discrimination": "相同分数出现两次时，你在总和和人数中都算了两次吗？所求是平均数还是中位数、众数？",
+        "hint": "把每个观测值各放一个格，先求全部格子的总和再除格数；用平均数乘人数还原总量检查。",
+        "criterion": "按全部观测及其重复次数求总和并除实际个数，区分均值与中位数、众数"
+      },
+      "family_id": "statistics.arithmetic-mean",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "statistics.mean-change.new-observation",
+      "topic_id": "mh2.9.2.3",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.2.3-q102",
+          "independently_checked_result": "88",
+          "mathematical_reason": "新总6×83=498，旧总5×82=410，新增88。",
+          "mathematical_content_sha256": "cfc3ced0ef92053af8ceba9dbc9dc25b3ca689cc779801f02492c4840d0ac95b"
+        }
+      ],
+      "four_fields": {
+        "explanation": "平均数乘人数可以还原总量。加入一个新观测后，新总量减原总量才是新增值；不能只把两个平均数相减，因为平均数变化也受到人数改变的影响。求出新增值后，把它与原总量合计并除新人数，应恢复新平均数。",
+        "discrimination": "平均分只提高1分，为什么不表示新同学得1分？比较前后平均数时人数是否相同？",
+        "hint": "分别列“原人数×原平均数”和“新人数×新平均数”，用后者减前者得到新增量，再回代新平均数。",
+        "criterion": "用各自人数还原前后总量再求差，新增值与新的总量及平均数一致"
+      },
+      "family_id": "statistics.mean-change.new-observation",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "statistics.descriptive-variance",
+      "topic_id": "mh2.9.2.4",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.2.4-q101",
+          "independently_checked_result": "5",
+          "mathematical_reason": "均值5，偏差平方9+1+1+9=20，除4得5。",
+          "mathematical_content_sha256": "5ba5af1c552b5fe3ca13fce6027b0800d0c838af22a81a082be3e48682551a10"
+        }
+      ],
+      "four_fields": {
+        "explanation": "本题采用“离差平方的平均数”定义方差：各数据减均值后分别平方，合计再除以数据个数n。不能把带正负的离差直接相加平均，也不能改成绝对值平均；这里使用题定分母n，不擅自换为另一种样本估计中的n−1。",
+        "discrimination": "你平方的是每个离差，还是先把离差相加再平方？题目定义要求除n还是n−1？",
+        "hint": "列三行：原数据、与均值的差、每个差的平方；最后一行合计后除观测个数，并检查结果非负。",
+        "criterion": "逐个离差平方后取题定平均，保留定义中的分母并区别方差与绝对偏差"
+      },
+      "family_id": "statistics.descriptive-variance",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "statistics.variance-scale-square",
+      "topic_id": "mh2.9.2.4",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.2.4-q102",
+          "independently_checked_result": "4",
+          "mathematical_reason": "数据乘2、离差乘2、方差乘4；原方差正明确比值4。",
+          "mathematical_content_sha256": "947c34d7a8e56b4f2afd78466cd3932e6565aeccd33a0c1f5e7c524dc9971da6"
+        }
+      ],
+      "four_fields": {
+        "explanation": "所有数据乘同一系数a，均值也乘a，离差随之乘a，离差平方乘a²，因此新方差为原方差的a²倍。标准差变化的是|a|倍。若问新旧方差的比值，原方差为正才可直接相除；方差为0时两者都为0，也仍满足缩放等式。",
+        "discrimination": "乘2之后改变的是离差还是离差平方？你是否把标准差的倍数当作方差的倍数？",
+        "hint": "把新离差写成axᵢ−a均值=a(xᵢ−均值)，平方后再平均；最后看题目求方差还是标准差。",
+        "criterion": "由离差乘系数推出方差乘系数平方，区分标准差并保留比值需要原方差非零的条件"
+      },
+      "family_id": "statistics.variance-scale-square",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "statistics.location-and-spread-summary",
+      "topic_id": "mh2.9.3",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.3-q2",
+          "independently_checked_result": "平均数与方差",
+          "mathematical_reason": "均值表位置，方差表离散；二者不是完整分析流程。",
+          "mathematical_content_sha256": "621886383d51992036ca39f88cfa5b3793a6b0e6b51dc999cffdbb9fce9562a3"
+        }
+      ],
+      "four_fields": {
+        "explanation": "定量数据的基本摘要需分别描述位置与离散程度：平均数说明平均水平，方差说明数据围绕均值的分散。只有平均数不能反映同均值数据的差异，只有样本量也不能描述数值分布；这两个量的组合仍不是完整数据分析，还需结合形状、异常值及来源。",
+        "discrimination": "两组均值相同但波动不同的数据，仅报告均值能区分它们吗？哪个量补充了离散信息？",
+        "hint": "把每个选项中的量分别标成位置、离散或样本规模，寻找同时包含前两类的一组。",
+        "criterion": "识别均值与方差分别描述位置和离散，并把基本摘要与完整统计分析区别"
+      },
+      "family_id": "statistics.location-and-spread-summary",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "statistics.mean-translation",
+      "topic_id": "mh2.9.3",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.3-q3",
+          "independently_checked_result": "8",
+          "mathematical_reason": "全体加3，平均5+3=8。",
+          "mathematical_content_sha256": "ef38838813129f0b1a720cca8bbb03078d780a91be147187a1391c4420bdd9b4"
+        }
+      ],
+      "four_fields": {
+        "explanation": "若n个数据每个都增加同一常数c，总和共增加nc，除以不变的个数n后，平均数增加c。不能只在原总和上加一次c；若只是一个数据改变，则需要另按总量变化计算，不属于全体同移。",
+        "discrimination": "是每个数据都增加同一数，还是只增加了一个数据？总和到底增加c还是n个c？",
+        "hint": "写新总和=原总和+n×c，再整体除以n，将结果拆成原平均数加c。",
+        "criterion": "在数据个数不变且全体同加常数条件下，平均数增加同一常数"
+      },
+      "family_id": "statistics.mean-translation",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "model.given-ratio-square.evaluate",
+      "topic_id": "mh2.9.3",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.3-q101",
+          "independently_checked_result": "25",
+          "mathematical_reason": "按纯数学公式64/1.6²=25。",
+          "mathematical_content_sha256": "01db688f67ebc6870c7986ba543a7695a890cf090e2a0200b2482440d6071929"
+        }
+      ],
+      "four_fields": {
+        "explanation": "给定I=m/h²时，先确认m、h采用题目规定的数值单位，再将h整体平方作为分母，用m除以它。h²不是2h，不能把除以平方写成只除以一次h。这里求的是给定数学记录的公式值，不由计算结果增加现实分类或调查结论。",
+        "discrimination": "h的平方是h×h还是h×2？题目要求h使用米还是厘米的数值？",
+        "hint": "单独先算h×h，再把m放在该结果上方作除法；所得I乘回h²应恢复m。",
+        "criterion": "按题定单位完整平方分母并求比值，结果只对应所给公式条件"
+      },
+      "family_id": "model.given-ratio-square.evaluate",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "model.given-ratio-square.inverse",
+      "topic_id": "mh2.9.3",
+      "task_checks": [
+        {
+          "task_id": "mh2.9.3-q102",
+          "independently_checked_result": "54",
+          "mathematical_reason": "由I=m/h²反解m=24×1.5²=54。",
+          "mathematical_content_sha256": "0d4b068d948140fa889acc42db406f68b73d336966c221102b242517de8661c1"
+        }
+      ],
+      "four_fields": {
+        "explanation": "由I=m/h²反求m，在题定h非零时两边同乘h²得到m=Ih²。应先计算h的平方再乘I，不能再除一次h²；所得m仍只是满足本题等式的量，现实解释不能超出所给条件。",
+        "discrimination": "把分母移到另一边时应乘还是除？你是否先完整计算了h²？",
+        "hint": "先保留字母写m=I×h²，再代入题给I与h；用求得m除回h²核对原I。",
+        "criterion": "按等价变形反求分子量，平方与单位一致且可回代恢复给定指标"
+      },
+      "family_id": "model.given-ratio-square.inverse",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.certain-event-probability-recall",
+      "topic_id": "mh2.10.1.1",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.1.1-q2",
+          "independently_checked_result": "1",
+          "mathematical_reason": "必然事件为全集，P1。",
+          "mathematical_content_sha256": "daa7af610f2edc7991337d167dbff53a164b650e98e58aa3c7fa951ca4dac530"
+        }
+      ],
+      "four_fields": {
+        "explanation": "必然事件包含当前试验中所有允许的样本点，在规定模型下每次试验都发生，概率为1。它不同于只是“很可能”发生的随机事件；概率值使用0到1的尺度，1也可以写作100%。",
+        "discrimination": "“一定发生”和“通常会发生”是否相同？概率1对应100%还是1%？",
+        "hint": "把必然事件画成整个样本空间，它占允许结果的全部，再对应概率的上限1。",
+        "criterion": "由必然事件为整个样本空间识别概率1，不把高可能性误当必然"
+      },
+      "family_id": "probability.certain-event-probability-recall",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.coin-sample-space-count",
+      "topic_id": "mh2.10.1.1",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.1.1-q101",
+          "independently_checked_result": "4",
+          "mathematical_reason": "标记甲乙、独立二元结果，2×2=4样本点。",
+          "mathematical_content_sha256": "3f2c256a4ad48255e0c555532511001578487cad6fbc05caa03d0fd5420adabc"
+        }
+      ],
+      "four_fields": {
+        "explanation": "两枚已标记硬币或先后两次抛掷可以区分，应把结果按固定次序记成有序对。第一个位置有正、反两种可能，每种都可配第二个位置的两种结果，共2×2个样本点；正反与反正不是同一个点。等可能条件用于随后按点数求概率，不能只按正面总数把四个点合成三个等可能点。",
+        "discrimination": "甲正乙反与甲反乙正是否记录相同？你数的是有序样本点还是正面个数这几个类别？",
+        "hint": "先固定第一个位置为正列两项，再固定为反列两项，用两个坐标分别标出两枚或两次。",
+        "criterion": "保留两个可区分位置并完整列出四个有序二元结果，不把结果类别误作等可能样本点"
+      },
+      "family_id": "probability.coin-sample-space-count",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.two-dice-sum-count",
+      "topic_id": "mh2.10.1.1",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.1.1-q102",
+          "independently_checked_result": "6",
+          "mathematical_reason": "有序对(1,6)…(6,1)，6种。",
+          "mathematical_content_sha256": "c823e18d6f23ac94359f22505b3a26d215935853916db894dbe8c9f438efcbc2"
+        }
+      ],
+      "four_fields": {
+        "explanation": "先后两次六面骰的结果按有序对记录，某一和所对应的事件由满足两点数相加条件的有序对组成。依次固定第一次点数，再用目标和减去它得到第二次点数，并检查第二次仍在1至6内。题目只问事件样本点数时，输出的是个数，尚未除以整个样本空间的个数。",
+        "discrimination": "当a与b不同时，把(a,b)和(b,a)合并了吗？目标和减去第一点数后，有没有落到1至6以外？",
+        "hint": "列第一点数1到6的六行，每行填目标和减该点数，只保留第二点数合法的行，最后数行数。",
+        "criterion": "按先后有序列举并筛选合法点对，正确给出事件样本点数而非直接提交概率"
+      },
+      "family_id": "probability.two-dice-sum-count",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.mutual-exclusive-complement-recall",
+      "topic_id": "mh2.10.1.2",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.1.2-q1",
+          "independently_checked_result": "A 与 B 不能同时发生",
+          "mathematical_reason": "互斥A∩B空，不同时发生。",
+          "mathematical_content_sha256": "30e4005825661faa808dc0b9fb5bf34691ddc30b53a8eefa6c7f1b39198ce521"
+        },
+        {
+          "task_id": "mh2.10.1.2-q2",
+          "independently_checked_result": "互斥且必有一个发生",
+          "mathematical_reason": "对立还需A∪B=Ω且交为空。",
+          "mathematical_content_sha256": "689323fe4101452c78c461b600fb5e28ae75c4063d22fbdd05e6afe466586284"
+        }
+      ],
+      "four_fields": {
+        "explanation": "互斥要求A与B不能同时发生，即交集为空；但允许两者都不发生。对立事件还要求它们的并集覆盖整个样本空间，所以每次恰有一个发生。不能把互斥、对立与独立混为一谈，独立是另一种概率乘法关系。",
+        "discrimination": "两个事件不能同时发生后，是否还可能同时不发生？若可以，它们一定对立吗？",
+        "hint": "画两个不重叠区域，再检查样本空间中有没有落在两区域之外的结果；没有外部结果才满足对立的第二条件。",
+        "criterion": "互斥对应交集空，对立同时要求并集为全集，不省略覆盖条件"
+      },
+      "family_id": "probability.mutual-exclusive-complement-recall",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.complement-sum-recall",
+      "topic_id": "mh2.10.1.2",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.1.2-q3",
+          "independently_checked_result": "1",
+          "mathematical_reason": "题给对立，P(A)+P(B)=1。",
+          "mathematical_content_sha256": "ebf670c9a646334e74bc2fc06051e6bf0e99f9693ff0509d78ee988cc110ea57"
+        }
+      ],
+      "four_fields": {
+        "explanation": "A与B已知互为对立事件时，它们不重叠且合起来覆盖整个样本空间。用互斥加法公式相加，得到P(A)+P(B)=P(Ω)=1；若只知道互斥而没有覆盖全部结果，概率和可能小于1。",
+        "discrimination": "题干给的是对立还是仅仅互斥？什么条件保证两个事件合起来没有漏掉其他结果？",
+        "hint": "先列A∩B为空与A∪B为全集两项，再把并事件的概率写成两概率相加。",
+        "criterion": "用对立的互斥与穷尽两条件得到概率和1，不把单独互斥当成穷尽"
+      },
+      "family_id": "probability.complement-sum-recall",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.disjoint-union-sum",
+      "topic_id": "mh2.10.1.2",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.1.2-q101",
+          "independently_checked_result": "7/10",
+          "mathematical_reason": "互斥已给，P并=.3+.4=.7。",
+          "mathematical_content_sha256": "7ad50a2556acd4d23b8e788728545c15eb0770700e2ca14befaf15e72bcfe6bc"
+        }
+      ],
+      "four_fields": {
+        "explanation": "题目明确A、B互斥时，“至少发生一个”对应并事件，两部分没有重复，概率可直接相加。若没有互斥条件，一般须减去交集的概率；相加公式本身不证明两个事件已经对立，也不要求概率和必为1。",
+        "discrimination": "“至少一个”对应并集还是交集？允许直接相加的互斥条件是否明确给出？",
+        "hint": "先把所求写成P(A∪B)，在交集项旁标明因互斥而为0，再合计两给定概率。",
+        "criterion": "在已给互斥条件下相加得到并事件概率，区分至少一个、同时发生与对立"
+      },
+      "family_id": "probability.disjoint-union-sum",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.intersection-from-union",
+      "topic_id": "mh2.10.1.2",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.1.2-q102",
+          "independently_checked_result": "3/10",
+          "mathematical_reason": "P交=.6+.5−.8=.3，概率约束合法。",
+          "mathematical_content_sha256": "924fd808f6b0f1bc314fd6647b6fc05b557a017d2776d791a041da7df9095841"
+        }
+      ],
+      "four_fields": {
+        "explanation": "一般加法公式为P(A∪B)=P(A)+P(B)−P(A∩B)。反求同时发生的概率时，把交集单独留下，得到P(A∩B)=P(A)+P(B)−P(A∪B)；交集被加了两次，所以要扣除一次重复。计算后检查它不大于任一单事件概率且不为负。",
+        "discrimination": "所求“同时发生”是交集还是并集？你是否把已经给出的并事件概率又加了一次？",
+        "hint": "画两个重叠区域，将单事件概率相加时把交叠处标两次，再与并事件总量比较，差即重复的一份。",
+        "criterion": "按容斥公式反求交集并检查0≤交集概率≤两单事件概率的较小者"
+      },
+      "family_id": "probability.intersection-from-union",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.disjoint-sum-formula-recall",
+      "topic_id": "mh2.10.1.4",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.1.4-q2",
+          "independently_checked_result": "P(A)+P(B)",
+          "mathematical_reason": "互斥交空，P(A∪B)=P(A)+P(B)。",
+          "mathematical_content_sha256": "406e57a9bbeb8e4e3eea2785b17423d0fb54298201af1bcd16dc90ffbef74f0a"
+        }
+      ],
+      "four_fields": {
+        "explanation": "互斥表示A∩B为空，在一般加法公式中交集概率为0，所以并事件公式化为P(A∪B)=P(A)+P(B)。这里是加法，独立交事件才对应乘法；若两互斥事件不穷尽样本空间，其和并不一定是1。",
+        "discrimination": "题目给的是互斥条件还是独立条件？你写的式子对应并集还是交集？",
+        "hint": "从一般并事件公式起步，把由于互斥而消失的交集项明确划去，剩下的就是应选公式。",
+        "criterion": "由互斥消去交集项，识别并概率的加法公式而不混用独立乘法"
+      },
+      "family_id": "probability.disjoint-sum-formula-recall",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.independence-definition",
+      "topic_id": "mh2.10.2",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.2-q1",
+          "independently_checked_result": "P(AB)=P(A)P(B)",
+          "mathematical_reason": "独立定义P(A∩B)=P(A)P(B)。",
+          "mathematical_content_sha256": "db9968a0810f5b8352958b7d155402cb6d4facb1c295029b38b33e8a9f74a2ce"
+        }
+      ],
+      "four_fields": {
+        "explanation": "两个事件相互独立的概率等式是P(A∩B)=P(A)P(B)，其中AB通常表示交事件。概率相等不表示独立，互斥也不是独立的定义；若两个事件概率均为正，互斥时交概率为0而乘积为正，反而不独立。用乘法等式表述不需要先除以可能为0的概率。",
+        "discrimination": "你比较的是交事件概率与两边际概率的乘积，还是只看到P(A)=P(B)就认定独立？",
+        "hint": "把同时发生记为A∩B，将它的概率与P(A)P(B)列在两边；注意AB不是并事件。",
+        "criterion": "识别独立性的交概率乘法等式，区别概率相等、互斥及并事件加法"
+      },
+      "family_id": "probability.independence-definition",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.independent-intersection",
+      "topic_id": "mh2.10.2",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.2-q2",
+          "independently_checked_result": "1/5",
+          "mathematical_reason": "独立已给，.5×.4=.2。",
+          "mathematical_content_sha256": "f6aa9485a80c81762e62d4b703542e3c9e40760f951892d3fd97eff07834392c"
+        },
+        {
+          "task_id": "mh2.10.2-q101",
+          "independently_checked_result": "14/25",
+          "mathematical_reason": "独立射击.8×.7=.56。",
+          "mathematical_content_sha256": "5d73cd4e00ff43e55395605c015753307e1fae72975488d2478c36a35f2228ec"
+        },
+        {
+          "task_id": "mh2.10.2-q201",
+          "independently_checked_result": "9/50",
+          "mathematical_reason": ".3×.6=.18。",
+          "mathematical_content_sha256": "f8259a5af8bf032b0e2e062bfd3e5cf3b9dab0511e6860b4855acc9e37378bc6"
+        }
+      ],
+      "four_fields": {
+        "explanation": "已知两个事件独立时，两者同时发生的概率等于两个给定概率的乘积。先确认题目明确独立，再把“都”或“同时”写成交事件；同一结构换成不同命中率仍是同一种乘法任务，不能凭两个主体不同就自行补上独立性。",
+        "discrimination": "两个人不同是否就自动独立？所问两人都命中应相乘还是按至少一人来计算？",
+        "hint": "在独立条件下写P(A∩B)=P(A)P(B)，代入题给两个概率；结果应不超过任一单事件概率。",
+        "criterion": "使用题给独立条件计算交概率，乘积及范围合理，不把已给前提当作学生完成的判断"
+      },
+      "family_id": "probability.independent-intersection",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.at-least-one-independent",
+      "topic_id": "mh2.10.2",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.2-q102",
+          "independently_checked_result": "47/50",
+          "mathematical_reason": "独立未中.2×.3=.06，至少一中1−.06=.94。",
+          "mathematical_content_sha256": "988b9ff14e04addcc0fa464bc7992bbad87f44c3f79b456d2ee4e18e6c4b6005"
+        }
+      ],
+      "four_fields": {
+        "explanation": "两个事件“至少一个发生”包括仅A、仅B以及两者都发生，其对立事件是“两者都不发生”。在独立条件下，两个不发生事件也独立，所以可用1−(1−P(A))(1−P(B))。直接相加会在交事件概率非零时重复计数，不能把“至少一个”误成“恰好一个”。",
+        "discrimination": "至少一人命中是否包含两人都命中？它的反面是无人命中，还是有人未命中？",
+        "hint": "先分别求两人的未命中概率，用独立性求都未命中，再从1扣去；用并事件容斥公式交叉检查。",
+        "criterion": "正确取对立事件为两者皆不发生，并在独立条件下相乘后取补"
+      },
+      "family_id": "probability.at-least-one-independent",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.enumerated-independence",
+      "topic_id": "mh2.10.2",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.2-q202",
+          "independently_checked_result": "1/6",
+          "mathematical_reason": "偶数与大于4交集仅6，P1/6；本题未要求独立判断。",
+          "mathematical_content_sha256": "914f5880cb2beeb139accd2cd999b640d6848f77d58030c520e67cd4c5cdac02"
+        }
+      ],
+      "four_fields": {
+        "explanation": "在已知等可能的有限样本空间中，先分别列出A和B包含的样本点，交集只保留同时满足两个条件的点，再用交集点数除以样本空间点数。不能把并集或只满足一个条件的结果计入。进一步比较交概率与边际概率乘积可以检验独立，但只提交交概率数值并未提交这个判断。",
+        "discrimination": "一个点必须同时满足两个条件，还是满足任一条件即可？是否未经检验就把两个概率相乘？",
+        "hint": "逐个列出全部合法点，给满足A和满足B的点分别打标记，只数同时有两种标记的点，再除等可能总点数。",
+        "criterion": "按等可能样本点枚举交集概率，不以结果正确自动认定已完成独立性检验"
+      },
+      "family_id": "probability.enumerated-independence",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.empirical-frequency",
+      "topic_id": "mh2.10.3.1",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.3.1-q101",
+          "independently_checked_result": "13/25",
+          "mathematical_reason": "本次频率520/1000=.52。",
+          "mathematical_content_sha256": "934a77799804435d3e49d09fb883e7eb517f8159fddead8defed9249830e7cd4"
+        }
+      ],
+      "four_fields": {
+        "explanation": "某次试验记录的事件频率等于该事件实际出现次数除以试验总次数。它是这份记录的比值，可能不同于模型概率；在条件稳定且符合相应随机模型时，可用大量重复试验频率估计概率，但不保证每追加一次试验就更接近真实概率。",
+        "discrimination": "你除的是实际事件次数还是理论预期次数？这次频率是否能直接宣布为固定不变的真实概率？",
+        "hint": "分别圈出实际发生次数和总次数，先求比值；在结果旁区分“本次观测频率”与“用来估计的概率”。",
+        "criterion": "按实际次数与总次数求频率，保留记录与概率估计的区别"
+      },
+      "family_id": "probability.empirical-frequency",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.frequency-predicted-mean-count",
+      "topic_id": "mh2.10.3.1",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.3.1-q102",
+          "independently_checked_result": "85/2",
+          "mathematical_reason": "估计概率170/200=.85，未来50次平均次数估值42.5，不是实际次数区间。",
+          "mathematical_content_sha256": "0c30178aa68569ca163ec8b109b5723704a8cc77096f6b2199fbbbdbf1a11958"
+        }
+      ],
+      "four_fields": {
+        "explanation": "题设允许在条件稳定下用既有频率估计事件概率时，先以过去发生次数除以过去总次数，再用未来次数乘这个估计概率，得到未来平均次数的估值。平均量可以是小数，即使一次实际计数必为整数；该估值不是保证会出现的次数，也不是预测区间的上下界。",
+        "discrimination": "题目求的是一次未来试验中的实际整数计数，还是模型下的平均次数估值？为什么平均量不必强行舍入为整数？",
+        "hint": "分开写过去频率估计与未来次数乘估计两步，保留小数结果；注明它表示平均量而非一次实现值。",
+        "criterion": "先由历史频率估计概率再求未来平均计数，条件稳定前提与小数平均量语义保留"
+      },
+      "family_id": "probability.frequency-predicted-mean-count",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.simulation-purpose-recall",
+      "topic_id": "mh2.10.3.2",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.3.2-q1",
+          "independently_checked_result": "估计概率",
+          "mathematical_reason": "从模拟观测频率估计概率是用途之一，不等于设计或运行。",
+          "mathematical_content_sha256": "ea97b2c538cf15eb279e2e3165fe263de916584858caf99ba1bb0335b6107d86"
+        }
+      ],
+      "four_fields": {
+        "explanation": "随机模拟按照指定随机机制反复产生结果，再用模拟中的事件频率估计模型概率。它保留随机波动，有限次模拟一般不保证得到精确概率；认识“估计概率”这一用途，与独立设计随机数方案、实际运行并分析结果是不同观察。",
+        "discrimination": "模拟后的频率会有随机波动吗？有限次结果可以当作精确概率公式的证明吗？",
+        "hint": "按“随机产生结果→统计事件次数→除以模拟次数→得到估计”写出用途链，检查哪个选项与这条链相符。",
+        "criterion": "识别模拟频率用于概率估计，区别用途认识、精确证明及实际模拟操作"
+      },
+      "family_id": "probability.simulation-purpose-recall",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "probability.given-model.expected-count",
+      "topic_id": "mh2.10.3.2",
+      "task_checks": [
+        {
+          "task_id": "mh2.10.3.2-q101",
+          "independently_checked_result": "25",
+          "mathematical_reason": "给定等可能1/4，100次理论均值25。",
+          "mathematical_content_sha256": "21e878acfb8815b7557af6bf257c7958e0e11f44f84ecda36583138af67eed50"
+        },
+        {
+          "task_id": "mh2.10.3.2-q102",
+          "independently_checked_result": "60",
+          "mathematical_reason": "给定均匀数字映射3/10，200次理论均值60。",
+          "mathematical_content_sha256": "57bfe592b0728737ba1bae34755df4c3796bc945005e901d78a981e04b258f53"
+        }
+      ],
+      "four_fields": {
+        "explanation": "随机机制和每次事件概率已经给定时，重复N次的理论平均事件次数为Np。若每次从m个选项等可能抽取而其中k个记为事件，则p=k/m；这里没有观测模拟记录，不能把理论平均次数称为从实际频率得到的估计。单次模拟计数可与该平均数不同。",
+        "discrimination": "每次的概率是由已给等可能规则算出，还是从模拟记录中估计？理论平均次数是否保证一次模拟恰好等于它？",
+        "hint": "先数等可能基本结果总数与记作事件的结果数，再求每次概率，最后乘重复次数并注明理论平均量。",
+        "criterion": "根据已给随机模型求每次概率再乘重复次数，区别理论平均、实际观测与自行设计方案"
+      },
+      "family_id": "probability.given-model.expected-count",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh2"
+    },
+    {
+      "proposal_key": "counting.permutation-count",
+      "topic_id": "mh5.6.2.1",
+      "task_checks": [
+        {
+          "task_id": "mh5.6.2.1-q2",
+          "independently_checked_result": "6",
+          "mathematical_reason": "3个取2个排，3×2=6。",
+          "mathematical_content_sha256": "56e2da5abb26f389900ba1ab5162e404ee134c8d788286f861ea675080be4837"
+        },
+        {
+          "task_id": "mh5.6.2.1-q101",
+          "independently_checked_result": "120",
+          "mathematical_reason": "五人全排5!=120。",
+          "mathematical_content_sha256": "3866f625df8fe9928f62a904e72fc56a811adedc92ee908881beb2ac26e36039"
+        },
+        {
+          "task_id": "mh5.6.2.1-q201",
+          "independently_checked_result": "6",
+          "mathematical_reason": "无零的三数字取两位，3×2=6。",
+          "mathematical_content_sha256": "a1727fe024906f28c702fb5e488cf431359ab3c0d60fa5be3b111cd714b60639"
+        },
+        {
+          "task_id": "mh5.6.2.1-q204",
+          "independently_checked_result": "6",
+          "mathematical_reason": "三人对应三个编号位，3!=6。",
+          "mathematical_content_sha256": "517a284b4b3cae9331f93c059229d71a7cd7eda7579ceb658440cda08ef756d7"
+        }
+      ],
+      "four_fields": {
+        "explanation": "从n个不同元素中不重复取m个填入可区分的位置，交换位置会产生新结果，应依次计数n、n−1直到n−m+1种选择并相乘。全部排入n个位置时就是全排列。用数字组成数还要先检查首位限制；本题数字不含0时各首位都可用，不能无条件推广到含0的题。",
+        "discrimination": "交换两个人的编号座位或两个数字的位置，是否得到新结果？选过的元素下一位还能重复使用吗？",
+        "hint": "画出题目要求的几个位置，从左到右写每格还剩多少合法元素；每一步选法依次配合，所以相乘。",
+        "criterion": "把可区分位置作为有序安排，不重复使用元素，并按实际位置数相乘"
+      },
+      "family_id": "counting.permutation-count",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "counting.restricted-person-position-permutation",
+      "topic_id": "mh5.6.2.1",
+      "task_checks": [
+        {
+          "task_id": "mh5.6.2.1-q102",
+          "independently_checked_result": "72",
+          "mathematical_reason": "甲在3个内部位置，余4人全排24，共72。",
+          "mathematical_content_sha256": "f4d6f5dcaa812a262935e264197c11486fd51adf01efe0e2de291e4ec9ff3a19"
+        }
+      ],
+      "four_fields": {
+        "explanation": "指定人不能占两端时，先列出他允许的内部位置，确定一个位置后再把其余不同的人全排列到余下位置。各个指定人位置对应的安排互不重复，因此用允许位置数乘剩余人数的阶乘。不能仍按所有位置给指定人选择，也不能忘记其他人之间的排列。",
+        "discrimination": "甲可选的位置是否已排除了左右两端？甲固定以后，其他人是只选出还是仍须排入不同位置？",
+        "hint": "先给内部位置做标记，把甲分别放入这些位置；对任意一种放法，依次安排所有其余的人，再合计各类。",
+        "criterion": "先满足指定人的位置限制，再完整排列其他人，各类不重不漏"
+      },
+      "family_id": "counting.restricted-person-position-permutation",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "counting.factorial-recall",
+      "topic_id": "mh5.6.2.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.6.2.2-q2",
+          "independently_checked_result": "n!",
+          "mathematical_reason": "n个不同元素的全排列A(n,n)=n!。",
+          "mathematical_content_sha256": "4aeb4944998e4a375c30d0468bf5a142b014de22f69dd3a0c71eeb2d99ac1e85"
+        }
+      ],
+      "four_fields": {
+        "explanation": "n个不同元素全部排入n个有序位置时，第一个位置有n种选择，第二个剩n−1种，一直乘到1，记为n!，也就是A(n,n)。阶乘不是n的平方，也不是只选择一个位置时的n种；通常约定0!=1，对应唯一的空排列。",
+        "discrimination": "A(n,n)表示全部元素都排入位置，还是只取一个？n!与n²表示的乘法是否相同？",
+        "hint": "把前几个位置的选择数写成n、n−1、n−2，再继续到最后1种，整体圈成阶乘记号。",
+        "criterion": "识别全排列的逐步递减选择数乘积为n!，不混成平方或单次选择"
+      },
+      "family_id": "counting.factorial-recall",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "counting.combination-count",
+      "topic_id": "mh5.6.2.3",
+      "task_checks": [
+        {
+          "task_id": "mh5.6.2.3-q101",
+          "independently_checked_result": "10",
+          "mathematical_reason": "5人无序取2，5×4/2=10。",
+          "mathematical_content_sha256": "7ee2efb683c384219fa54bd7b8c7ea9c6d0819a137d6ef1671bdcb1adde5d938"
+        }
+      ],
+      "four_fields": {
+        "explanation": "从不同元素中选固定个数组成无职务、无先后的小组，交换入组次序不产生新小组。先按有序选择计数会把每个m人小组重复算m!次，所以应除以这个重复数，得到组合数；若实际还需分职务，就不能直接这样消除顺序。",
+        "discrimination": "甲乙与乙甲是同一个无职务小组吗？需要除去的是所有小组数，还是每个小组内部的重复排列数？",
+        "hint": "先列某一固定小组能按多少种顺序被选出，再用有序总数除以这个统一的重复次数。",
+        "criterion": "根据无序组的含义消除组内重复排列，组合计数不带不存在的职务或先后"
+      },
+      "family_id": "counting.combination-count",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "counting.combination-at-least-one-complement",
+      "topic_id": "mh5.6.2.3",
+      "task_checks": [
+        {
+          "task_id": "mh5.6.2.3-q102",
+          "independently_checked_result": "46",
+          "mathematical_reason": "所有C8,3=56减全男C5,3=10，余46。",
+          "mathematical_content_sha256": "6622f5a8539ab8eb901f2da6bbd635359f96ced84018dc9c77fb1ede8e46e8f7"
+        }
+      ],
+      "four_fields": {
+        "explanation": "无序选组要求至少包含某类成员时，可以先数所有同样大小的小组，再减去该类成员一个也没有的小组。反面是零个，不是“少于一半”或“不是全为该类”。分子各部分都按无序组合计数，人数不足时应将不可能的类计为0。",
+        "discrimination": "“至少1名女生”的反面是全男生还是恰好1名男生？总选法和被减选法是否都按无序小组计算？",
+        "hint": "把所有小组分成“有该类成员”和“没有该类成员”两部分，先用全体人数选组，再只从其余类别中选同样人数。",
+        "criterion": "用全部无序小组数减零个指定类别的小组数，补集含义及组大小一致"
+      },
+      "family_id": "counting.combination-at-least-one-complement",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "counting.inverse-pair-combination",
+      "topic_id": "mh5.6.2.4",
+      "task_checks": [
+        {
+          "task_id": "mh5.6.2.4-q102",
+          "independently_checked_result": "8",
+          "mathematical_reason": "n(n−1)/2=28，根8与−7，人数取8。",
+          "mathematical_content_sha256": "c1c0ef7c6679aaed233f2b40313a13b1093251a6bb4e48a2607df47840ab2296"
+        }
+      ],
+      "four_fields": {
+        "explanation": "从n人中选2人且不分顺序，总数为n(n−1)/2。给定组合总数时，把它作为等式右端求n；人数须为至少2的整数，因此负根或非整数不能保留。最终用求得人数重新计算组合数，核对是否等于原给定总数。",
+        "discrimination": "有没有把无序两人组按n(n−1)重复计算？二次方程的两个代数根都能当人数吗？",
+        "hint": "写n(n−1)=给定组合数的2倍，整理求根后先筛人数范围，再代回n(n−1)/2。",
+        "criterion": "由无序对数量建立并解人数条件，筛选合法整数并回算组合数"
+      },
+      "family_id": "counting.inverse-pair-combination",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "binomial.formal-term-count",
+      "topic_id": "mh5.6.3.1",
+      "task_checks": [
+        {
+          "task_id": "mh5.6.3.1-q1",
+          "independently_checked_result": "4",
+          "mathematical_reason": "n3，形式展开从r0到3共4项。",
+          "mathematical_content_sha256": "1ccdbfaa3b459e9cbdb1c449ac03bde7add0bdb83cbb67c573257cc1d8a288de"
+        }
+      ],
+      "four_fields": {
+        "explanation": "二项式(a+b)ⁿ的形式展开按取b的次数r分类，r可取0、1一直到n，每类给出C(n,r)aⁿ⁻ʳbʳ，因此形式项数为n+1。这里两端都计入；若另将a、b代为特殊表达式并合并同类项，实际合并后项数可能变化，应与形式项数区别。",
+        "discrimination": "你从r=1开始而漏了r=0吗？问的是二项式定理的形式项，还是代入后合并的项？",
+        "hint": "列出b的次数0、1、…、n，每个次数对应一项，先数包括两端的这些整数。",
+        "criterion": "按r从0到n完整计数得到n+1个形式项，不遗漏首末项或误用特殊代入后的项数"
+      },
+      "family_id": "binomial.formal-term-count",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "binomial.central-maximum",
+      "topic_id": "mh5.6.3.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.6.3.2-q204",
+          "independently_checked_result": "C₈⁴",
+          "mathematical_reason": "n8，中间唯一最大C8,4=70。",
+          "mathematical_content_sha256": "dbcaf9bad8830341b5f4b2083aa914eaad2a0bc5a0f4f0ad05fd477cd7bc60a6"
+        }
+      ],
+      "four_fields": {
+        "explanation": "二项式系数C(n,r)关于r与n−r对称，从两端向中间增大。n为偶数时中央r=n/2处唯一最大；n为奇数时中央相邻两个位置并列最大。r是取第二项的次数，通常对应展开式第r+1项；不要把二项式系数与代入带权表达式后的实际代数系数混同。",
+        "discrimination": "n是奇数还是偶数，最大值是一处还是两处？C(n,r)中的r是否等于展开式项号？",
+        "hint": "先用对称性配对两端，再比较相邻系数比C(n,r+1)/C(n,r)=(n−r)/(r+1)，定位增长转为下降处。",
+        "criterion": "按奇偶性确定中央最大二项式系数的位置，并区别r与项号及实际展开系数"
+      },
+      "family_id": "binomial.central-maximum",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "probability.posterior-source-from-rates",
+      "topic_id": "mh5.7.1.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.7.1.2-q102",
+          "independently_checked_result": "3/4",
+          "mathematical_reason": "甲且次品.75×.02=.015，总次品.02，条件概率.015/.02=.75。",
+          "mathematical_content_sha256": "cb781604087d17823449431bb0b07a79362f77ee0ba86555a1c507527fb9b9a3"
+        }
+      ],
+      "four_fields": {
+        "explanation": "已知事件发生后反问来源，分母应是所有发生该事件的产品所占比例。先用各来源份额乘该来源事件率求联合份额，再用目标来源的联合份额除所有来源联合份额之和，且总事件概率须大于0。若各来源事件率相同且为正，更新后的来源比例恰好等于原来源份额；这是这一特殊条件的结果。",
+        "discrimination": "已知抽到次品后，比较的总体是所有产品还是所有次品？你只写甲厂次品占全部的比例就停止了吗？",
+        "hint": "画来源到次品的两级表，先算每条“来源份额×该来源次品率”，把所有次品份额相加作分母，甲且次品份额作分子。",
+        "criterion": "用联合来源事件份额在事件总份额内归一化，区分联合概率与给定事件后的来源条件概率"
+      },
+      "family_id": "probability.posterior-source-from-rates",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "probability.distribution-total-recall",
+      "topic_id": "mh5.7.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.7.2-q1",
+          "independently_checked_result": "1",
+          "mathematical_reason": "全部可能值概率总和1。",
+          "mathematical_content_sha256": "ca93dce6a97adcae120b24c5c8e35d6b2ccfa2d2fffb232ff3c24d4cd3d30051"
+        }
+      ],
+      "four_fields": {
+        "explanation": "离散随机变量的完整分布列要列出全部可能取值，并给每个取值非负的概率，所有这些概率合计为1。只列出部分取值的概率不必合计1；取值本身可以相加成任意数，不应与概率之和混淆。",
+        "discrimination": "表里列的是完整取值集合还是其中几项？应该相加的是取值还是每个取值的概率？",
+        "hint": "先确认所有可能取值已覆盖且互不重复，再沿概率一行求和，检查非负与总和1。",
+        "criterion": "在完整分布列中识别概率非负且总和1，区别部分列表与随机变量取值之和"
+      },
+      "family_id": "probability.distribution-total-recall",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "probability.discrete-support-recall",
+      "topic_id": "mh5.7.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.7.2-q2",
+          "independently_checked_result": "可以一一列出",
+          "mathematical_reason": "取值有限或可数，可逐一列举，不要求一定只有限。",
+          "mathematical_content_sha256": "2e13d07abc3e022ad08be66073e220a47bf20dd3f942bcbac00a599d5b421558"
+        }
+      ],
+      "four_fields": {
+        "explanation": "离散型随机变量的可能取值能够逐个列举，可以是有限多个，也可以是可数无限多个。离散不要求只取0和1，也不要求取值一定为整数；关键在于取值集合的可列举性，而不是一个连续区间内每个值都可取。",
+        "discrimination": "“可以一一列出”是否只允许有限个值？随机变量只能取0、1才叫离散吗？",
+        "hint": "比较有限名单、可按顺序继续列出的名单与整个连续区间，寻找离散取值的共同特点。",
+        "criterion": "识别离散取值有限或可数，不能缩成仅有限整数或仅0与1"
+      },
+      "family_id": "probability.discrete-support-recall",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "probability.success-count-support-cardinality",
+      "topic_id": "mh5.7.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.7.2-q101",
+          "independently_checked_result": "4",
+          "mathematical_reason": "三次独立且0<p<1保证0、1、2、3均可能，共4。",
+          "mathematical_content_sha256": "0cd255153c867bf986311c42d673367c763f7730589fbd39072d602254a96318"
+        }
+      ],
+      "four_fields": {
+        "explanation": "在n次独立重复的成功/失败试验中，若每次成功概率相同且严格在0与1之间，成功次数可以为0、1直到n，每个这样的次数都有正概率，所以有n+1个可能取值。成功次数的取值个数不同于按先后记录的成功失败序列个数；概率为0或1的退化情形需另看。",
+        "discrimination": "有没有漏掉一次也未成功的0次？你数的是成功次数的不同值，还是所有成功失败排列？",
+        "hint": "从全失败开始，逐次增加一个成功，列0到n的计数值；检查题设保证两种单次结果都有可能。",
+        "criterion": "在非退化独立试验条件下保留0至n共n+1种计数值，不混成序列数"
+      },
+      "family_id": "probability.success-count-support-cardinality",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "probability.distribution-missing-mass",
+      "topic_id": "mh5.7.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.7.2-q102",
+          "independently_checked_result": "3/10",
+          "mathematical_reason": "由完整概率和1求p=1−.2−.5=.3。",
+          "mathematical_content_sha256": "356f2c800b5b18233b7f0737057745c539735d767caf78cd6aa16b29c4b46773"
+        }
+      ],
+      "four_fields": {
+        "explanation": "若随机变量只取表中这些值且仅一个概率缺失，可由完整概率和1反求：缺失概率等于1减所有已知概率。还要检查每项非负且不超过1；若已知概率之和已大于1，不能把负数作为合法概率接受。",
+        "discrimination": "题目是否明确只有表中这些取值？你把已知取值本身相加，还是相加对应的概率？",
+        "hint": "沿概率行合计已知项，从1扣去它们；将缺数补回原行，核对总和和每项范围。",
+        "criterion": "在完整且唯一缺失的概率表中用总和1补数，并检查概率合法性"
+      },
+      "family_id": "probability.distribution-missing-mass",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "probability.given-distribution-tail-sum",
+      "topic_id": "mh5.7.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.7.2-q204",
+          "independently_checked_result": "4/5",
+          "mathematical_reason": "事件X1和X2互斥，.5+.3=.8。",
+          "mathematical_content_sha256": "a1c88a1997341f6fec6c957f508fd906c75ba6e385c308acf01f3eb439b7d13f"
+        }
+      ],
+      "four_fields": {
+        "explanation": "已给离散分布列时，先筛出满足事件条件的取值，再把它们对应的概率相加。同一次试验中随机变量不能同时等于两个不同值，因此这些取值事件互斥；大于等于包含边界，严格大于不包含。这里不用以取值乘概率，那是期望的计算。",
+        "discrimination": "X≥1应包含X=1吗？你在累加概率，还是误算成各取值乘概率？",
+        "hint": "在取值一行圈出满足不等式的格，只将这些格下方的概率相加；也可与互补范围的概率和核对为1。",
+        "criterion": "按指定范围正确选取含或不含边界的取值，并合计对应互斥概率"
+      },
+      "family_id": "probability.given-distribution-tail-sum",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "probability.binomial-mean",
+      "topic_id": "mh5.7.4.1",
+      "task_checks": [
+        {
+          "task_id": "mh5.7.4.1-q101",
+          "independently_checked_result": "3",
+          "mathematical_reason": "已给X~B(10,.3)，EX=np3，只收均值。",
+          "mathematical_content_sha256": "f54a2d329c6e4e9d8148ecd93228699e7e854d2d65b219602a3aa5e07d8402fd"
+        }
+      ],
+      "four_fields": {
+        "explanation": "若题目已给X服从二项分布B(n,p)，X表示n次试验中的成功次数，均值为np。它是分布的理论平均量，不保证一次观察恰好等于它，也不要求一定是整数；单次数值在0至n之间，均值也应在这个范围。",
+        "discrimination": "n是试验次数还是成功概率？题目要平均成功次数，还是恰好某个次数的概率？",
+        "hint": "先对照B(n,p)标出两个参数与X所数的事件，再计算n×p，最后用0到n的范围核对。",
+        "criterion": "用已给二项分布参数计算np，区别理论均值、实际计数与点概率"
+      },
+      "family_id": "probability.binomial-mean",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "probability.binomial-point-mass",
+      "topic_id": "mh5.7.4.1",
+      "task_checks": [
+        {
+          "task_id": "mh5.7.4.1-q102",
+          "independently_checked_result": "3/8",
+          "mathematical_reason": "四次恰两正面C4,2/2^4=6/16=.375。",
+          "mathematical_content_sha256": "1047f7c4148c9fa0d31ba7be8d06d6406957ef75ced329f9cc733dc8a079d71a"
+        },
+        {
+          "task_id": "mh5.7.4.1-q204",
+          "independently_checked_result": "3/8",
+          "mathematical_reason": "三次恰两正面C3,2/2^3=3/8=.375；公式结构相同，偶然同值不算新结构。",
+          "mathematical_content_sha256": "1a50288dfa7612921d67afb7e5ad67190a3d66ed43bb6a10be6c47fdbd348f64"
+        }
+      ],
+      "four_fields": {
+        "explanation": "独立重复n次且每次成功概率p不变时，恰好k次成功可出现在C(n,k)组位置中。每一固定位置序列的概率为pᵏ(1−p)ⁿ⁻ᵏ，故总概率为两者相乘；只计算一个序列会漏掉其他成功位置。不同n、k偶然得到同一概率，不说明任务结构有了新的独立类别。",
+        "discrimination": "你求的是一个特定成功顺序，还是所有恰好k次成功的顺序？失败次数是否为n−k？",
+        "hint": "先固定一组成功位置算该序列概率，再数可选择的成功位置组合，最后相乘；也可在次数较小时逐项列举核对。",
+        "criterion": "在独立同概率前提下同时使用成功位置组合数和单序列概率，完整保留成功与失败两种因子"
+      },
+      "family_id": "probability.binomial-point-mass",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "probability.hypergeometric-point-mass",
+      "topic_id": "mh5.7.4.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.7.4.2-q101",
+          "independently_checked_result": "3/5",
+          "mathematical_reason": "均匀无放回两件，C2,1 C3,1/C5,2=6/10=.6。",
+          "mathematical_content_sha256": "a18b5c4904fbb5528f2f9688fe67d8cc31a80c8f62d8d4cb31fe0be0d29eea52"
+        },
+        {
+          "task_id": "mh5.7.4.2-q102",
+          "independently_checked_result": "2/5",
+          "mathematical_reason": "只有一个次品，至少一件等价于恰好一件，C1,1 C4,1/C5,2=.4，或补集1−.6。",
+          "mathematical_content_sha256": "6c8c1772d0e14540a32026a9fb762f7975a2d77ba91c31e6c7dcc3134d9afb9d"
+        }
+      ],
+      "four_fields": {
+        "explanation": "从N件中不放回等可能选n件，若其中M件为目标类别，恰取k件目标的组合数为C(M,k)C(N−M,n−k)，总组合数为C(N,n)。两者相除得到概率，且k须让两类可选数量都合法。不放回改变后续组成，不能直接当作独立同概率二项试验；若总体目标件仅1件，至少1件与恰好1件才等价。",
+        "discrimination": "抽出一件后有没有放回？题目“至少一件”是否因总体只有一件而恰好等于“恰好一件”？",
+        "hint": "把样本分成目标类选k件和非目标类选n−k件，分子乘两类组合数，分母数全部无序n件组合；至少事件也可用零件的补集核对。",
+        "criterion": "使用等可能无放回组合模型，分子两类数量与分母样本大小一致，按实际条件处理至少或恰好"
+      },
+      "family_id": "probability.hypergeometric-point-mass",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "probability.normal-symmetric-tail",
+      "topic_id": "mh5.7.5",
+      "task_checks": [
+        {
+          "task_id": "mh5.7.5-q101",
+          "independently_checked_result": "1/2",
+          "mathematical_reason": "非退化正态模型连续且关于均值170对称，右侧概率.5。",
+          "mathematical_content_sha256": "017fc56c4d6d3777026710bf6ff69d9c6a4a3d47ae5aa0c59812caa346bfd14a"
+        }
+      ],
+      "four_fields": {
+        "explanation": "标准差大于0的正态分布连续且关于均值对称，均值左右各占总面积的一半，恰好等于均值的单点概率为0，因此超过均值的概率为1/2。这个结论针对给定正态模型，不说明现实有限样本恰好有一半观测超过样本均值，也不能用于标准差为0的退化情形。",
+        "discrimination": "题目给的是非退化正态模型还是一份有限观测表？为什么等于均值的单点不需要另扣一块概率？",
+        "hint": "用均值画一条竖直对称线，左右面积相等且总面积1，再使用连续分布单点概率0。",
+        "criterion": "在正态连续且标准差正的条件下由对称性得到均值右侧概率1/2"
+      },
+      "family_id": "probability.normal-symmetric-tail",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "probability.given-proportion-count-estimate",
+      "topic_id": "mh5.7.5",
+      "task_checks": [
+        {
+          "task_id": "mh5.7.5-q102",
+          "independently_checked_result": "683",
+          "mathematical_reason": "比例.6827已给，1000×.6827=682.7，按要求取整数683。",
+          "mathematical_content_sha256": "573606bd0cd5c5374b4c74d2f713157b95f3bc4c9d200b3fd8645939cd222bb3"
+        }
+      ],
+      "four_fields": {
+        "explanation": "题目已经给出某区间所占比例时，人数估计由总人数乘该比例得到，再按题目要求处理位数或取整。无需把给定比例当成自己从分布曲线计算的结果。取整后的人数是模型估计，不保证某个实际样本恰好出现该人数；不要在中途先把比例过度舍入。",
+        "discrimination": "区间概率是已给的还是需要你计算？最后要求四舍五入、保留小数，还是保持原精度？",
+        "hint": "先将百分数除以100转换为比例，乘总人数后保留未舍入结果，最后一步再按明确要求取整。",
+        "criterion": "使用已给比例估计人数并在最后按指定规则舍入，保留估计而非实际保证的含义"
+      },
+      "family_id": "probability.given-proportion-count-estimate",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "statistics.square-given-correlation",
+      "topic_id": "mh5.8.1.1",
+      "task_checks": [
+        {
+          "task_id": "mh5.8.1.1-q101",
+          "independently_checked_result": "81",
+          "mathematical_reason": "(−.9)²×100=81。",
+          "mathematical_content_sha256": "d780d1b9ace5caba183cbc952e7ebbfbaa927812007d8f3ea052e0fea3cddafb"
+        },
+        {
+          "task_id": "mh5.8.1.1-q102",
+          "independently_checked_result": "64",
+          "mathematical_reason": ".8²×100=64，不变性已给。",
+          "mathematical_content_sha256": "91e2c3dda80a7ea764f9d699851b7d02a10c2f17ef9b41be4758e628870325a1"
+        }
+      ],
+      "four_fields": {
+        "explanation": "题目给出r后，r²就是把这个带符号的数整体平方，结果非负；若另问平方乘100，须在平方后再乘100，直接问平方则不乘。平方丢失正负方向信息，不能把r²直接说成因果贡献或预测准确率。它与样本R²的相等还需同一非退化成对样本、含截距一元最小二乘等条件。",
+        "discrimination": "要求的是r²还是r²×100？负相关的负号在整体平方后应怎样变化，平方还能表示原来的相关方向吗？",
+        "hint": "先给r加括号并写成r×r，单独完成平方；再检查答案栏是否要求百分号前数值或额外乘100。",
+        "criterion": "带符号整体平方并按所问格式输出，不把纯算术结果扩为相关方向、因果或预测精度判断"
+      },
+      "family_id": "statistics.square-given-correlation",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "statistics.scatter-nonlinearity",
+      "topic_id": "mh5.8.1.1",
+      "task_checks": [
+        {
+          "task_id": "mh5.8.1.1-q202",
+          "independently_checked_result": "可能有非线性关系",
+          "mathematical_reason": "图丙五点先降后升，呈U形，选择非线性关系而非无关系。",
+          "mathematical_content_sha256": "7c480f99a4d4e98de3fb24fc0597f374f09acfbc682e68940b302e2796d915f7"
+        }
+      ],
+      "four_fields": {
+        "explanation": "观察散点关系应沿横轴查看整组点的形状，不能只看左右两个端点。图中点随x先下降再上升形成U形时，应初步考虑弯曲的非线性关系；没有明显单向直线趋势不等于完全没有关系。少数样本点的形状只是初步证据，不能自动确定总体函数或因果机制。",
+        "discrimination": "只比较两端点会漏掉中间的低点吗？先下降后上升能被一条固定方向的直线趋势描述吗？",
+        "hint": "按x从小到大追踪图中的五个点，分别标左段和右段变化，再把两段合起来描述整体弯曲形状。",
+        "criterion": "根据实际图中全部点识别U形弯曲趋势，不把非线性误写成无关系或确定线性方向"
+      },
+      "family_id": "statistics.scatter-nonlinearity",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "statistics.observational-causality",
+      "topic_id": "mh5.8.1.1",
+      "task_checks": [
+        {
+          "task_id": "mh5.8.1.1-q203",
+          "independently_checked_result": "样本有相关趋势，可能有气温等共同因素",
+          "mathematical_reason": "销量与溺水同增也可由气温等共同影响，不能只由关联推出因果。",
+          "mathematical_content_sha256": "65e73a28f8ddb7dbe1ec008799fc5b6fd825e3596f68008df50db2e5f4adf9f9"
+        }
+      ],
+      "four_fields": {
+        "explanation": "两类观察量同步变化可以提示样本关联，却不能单凭它确定一个量造成另一个量。共同影响因素、反向关系或其他解释仍可能存在；提出气温等共同因素是一种待检验解释，也不是已证明的原因。结论应停在数据实际支持的关联与不确定性上。",
+        "discrimination": "这些记录排除了共同的季节、气温等因素吗？同时上升是否已经证明了原因方向？",
+        "hint": "把“记录到一起变化”和“由谁引起谁”分成两句话，再寻找一个能同时影响两者、尚未被数据排除的因素。",
+        "criterion": "仅凭观察性关联不下因果结论，并把共同因素保持为可能解释而非已证实原因"
+      },
+      "family_id": "statistics.observational-causality",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "statistics.correlation-range",
+      "topic_id": "mh5.8.1.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.8.1.2-q2",
+          "independently_checked_result": "[-1,1]",
+          "mathematical_reason": "相关系数定义成立时−1≤r≤1。",
+          "mathematical_content_sha256": "ba05cde3c724cfaf6ac2cca150cc952dab58aa6786f04480aba3d50b95d372de"
+        }
+      ],
+      "four_fields": {
+        "explanation": "样本相关系数有定义时取值在−1到1之间，两端都可达到。负号表示负的线性方向，不是非法概率；绝对值描述线性关联程度。使用这个范围前须保证两变量的样本变异都非零，不能给分母为0的未定义结果强行赋0。",
+        "discrimination": "相关系数是必须非负的概率吗？完全负线性关系的−1是否包含在合法范围内？",
+        "hint": "在数轴标−1、0、1，将负方向与正方向放在两侧；再检查该样本是否满足相关系数的定义条件。",
+        "criterion": "识别有定义相关系数的闭区间[−1,1]，包括负值与两端并保留非退化条件"
+      },
+      "family_id": "statistics.correlation-range",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "statistics.square-given-correlation",
+      "topic_id": "mh5.8.1.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.8.1.2-q101",
+          "independently_checked_result": "81/100",
+          "mathematical_reason": ".9²=.81，只算平方不要求解释。",
+          "mathematical_content_sha256": "d2875c0899b8fa0e74e1c8f38c8706300096c8cd93911f29e53aeb18f8b0d452"
+        }
+      ],
+      "four_fields": {
+        "explanation": "题目给出r后，r²就是把这个带符号的数整体平方，结果非负；若另问平方乘100，须在平方后再乘100，直接问平方则不乘。平方丢失正负方向信息，不能把r²直接说成因果贡献或预测准确率。它与样本R²的相等还需同一非退化成对样本、含截距一元最小二乘等条件。",
+        "discrimination": "要求的是r²还是r²×100？负相关的负号在整体平方后应怎样变化，平方还能表示原来的相关方向吗？",
+        "hint": "先给r加括号并写成r×r，单独完成平方；再检查答案栏是否要求百分号前数值或额外乘100。",
+        "criterion": "带符号整体平方并按所问格式输出，不把纯算术结果扩为相关方向、因果或预测精度判断"
+      },
+      "family_id": "statistics.square-given-correlation",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "statistics.r-squared-interpretation",
+      "topic_id": "mh5.8.1.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.8.1.2-q102",
+          "independently_checked_result": "25",
+          "mathematical_reason": "同一非退化样本含截距一元OLS有R²=r²=.25，解释变异比例25%。",
+          "mathematical_content_sha256": "aead17e6e64436b165085da189a67571023274f18b755bd8c28ac17add7b8519"
+        }
+      ],
+      "four_fields": {
+        "explanation": "对同一组x、y都有非零变异的成对样本作含截距的一元最小二乘回归时，样本决定系数R²=r²。它表示相对样本均值的离差平方和中由该拟合解释的比例；换成百分数要再乘100。这个样本内比例不是个体预测命中率、未来准确率或已确认的因果贡献，也不能把剩余比例直接归因于其他因素。",
+        "discrimination": "题目是否给齐同一样本、含截距、一元最小二乘及非零变异条件？25%描述的是离差平方和比例还是预测正确率？",
+        "hint": "先核对可使用R²=r²的条件，再整体平方r；把所得比例换为百分数，并在解释中保留样本内变异基准。",
+        "criterion": "在题定适用条件下求r²的百分数，准确对应样本内解释变异而不作因果或预测准确率解释"
+      },
+      "family_id": "statistics.r-squared-interpretation",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "statistics.correlation-sign-and-domain",
+      "topic_id": "mh5.8.1.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.8.1.2-q203",
+          "independently_checked_result": "分母为0，r未定义",
+          "mathematical_reason": "所有x相同使x离差平方和为0，r分母0而未定义，非r0。",
+          "mathematical_content_sha256": "ef10f4eea0730ad03f3618a0025ecbd97d1add5b9b34c3929e51ce9ce2008329"
+        }
+      ],
+      "four_fields": {
+        "explanation": "样本相关系数的分母包含两个变量离差平方和乘积的平方根。若所有x相同，则每个x与其均值之差都为0，分母为0，相关系数未定义，不能把未定义填成0、1或−1。r=0是分母有效时算出的数值结论，与没有可用变异是两件事。",
+        "discrimination": "所有x相同后，x−均值是否全部为0？分母为0和分子为0是否可以按同一个规则处理？",
+        "hint": "先不算分子，写出x离差平方和；若它为0就标记公式不适用，停止给出数值相关系数。",
+        "criterion": "通过零变异导致零分母判断r未定义，不用0替代不存在的相关系数"
+      },
+      "family_id": "statistics.correlation-sign-and-domain",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "statistics.regression-parameter-interpretation",
+      "topic_id": "mh5.8.2.1",
+      "task_checks": [
+        {
+          "task_id": "mh5.8.2.1-q1",
+          "independently_checked_result": "斜率",
+          "mathematical_reason": "y=bx+a+ε中b是线性均值关系的斜率系数。",
+          "mathematical_content_sha256": "4f28c469d54390052febdcd01b3bddc01923300182900bb1023a2c51e71b93f6"
+        }
+      ],
+      "four_fields": {
+        "explanation": "在y=bx+a+ε中，b是线性部分bx+a的斜率，表示x增加一个单位时该线性部分变化b个y单位。a是截距，ε是随机误差，b也不等于一般的相关系数r。观测值受误差影响，不要求每次都恰好按b变化；斜率本身也不是因果效应证明。",
+        "discrimination": "哪个系数直接乘在x前？你是否把字母b当成截距、误差或相关系数？",
+        "hint": "先暂时只看bx+a，将x改成x+1并作差，变化量即为b；再把a和ε分别放回各自角色。",
+        "criterion": "按表达式中的作用识别b为线性部分斜率，与截距、随机误差及相关系数区别"
+      },
+      "family_id": "statistics.regression-parameter-interpretation",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "statistics.residual-definition",
+      "topic_id": "mh5.8.2.1",
+      "task_checks": [
+        {
+          "task_id": "mh5.8.2.1-q2",
+          "independently_checked_result": "同一x处的观测值减去拟合预测值",
+          "mathematical_reason": "样本残差为观测值减去该点拟合值。",
+          "mathematical_content_sha256": "230f0d7f3e2a5087b55875e1f4ead0f64ad0548f55abf307f052478f477a1acd"
+        },
+        {
+          "task_id": "mh5.8.2.1-q3",
+          "independently_checked_result": "预测值",
+          "mathematical_reason": "e=y−ŷ，所减的是模型预测或拟合值。",
+          "mathematical_content_sha256": "1497bec585bec66edd254c9f925e36b7517431dbdf8f51aff2108d34bc4adb66"
+        }
+      ],
+      "four_fields": {
+        "explanation": "对已有样本的同一x位置，残差定义为观测值y减去该点拟合值ŷ，即e=y−ŷ。正残差表示观测在拟合线上方，负残差表示在下方；顺序不能颠倒，也不先取绝对值或平方。它不是任意两个观测的差，更不是样本均值。",
+        "discrimination": "两个相减的值是否对应同一个x？观测高于拟合时，你的写法会给正数还是负数？",
+        "hint": "在同一竖线上标观测点和拟合点，按“实际−拟合”计算，先保留正负号再解释上下位置。",
+        "criterion": "识别同一输入处观测值减拟合预测值的有向残差，并保留减法次序"
+      },
+      "family_id": "statistics.residual-definition",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "statistics.prediction-substitution",
+      "topic_id": "mh5.8.2.1",
+      "task_checks": [
+        {
+          "task_id": "mh5.8.2.1-q101",
+          "independently_checked_result": "13",
+          "mathematical_reason": "已给样本范围内x5，ŷ2×5+3=13，不是观测保证。",
+          "mathematical_content_sha256": "d5650143b2ce3299ad3d482d3f305ba545aa8e7fe9972da85498a7185c9d4d7c"
+        }
+      ],
+      "four_fields": {
+        "explanation": "已给回归预测式和允许范围内的输入时，将该输入代入预测式求ŷ，并按纵变量的单位输出。得到的是模型预测，不保证新观测恰好等于它；模型可靠性、残差结构和范围检查是另外需要证据的工作，不能由一次代值完成自动认定。",
+        "discrimination": "题目要的是模型预测值还是已经观测到的销量？纵轴单位是件还是百件，是否需要再换单位？",
+        "hint": "给x的位置代入题目指定输入，先乘斜率再加截距，核对所问输出单位；用帽号ŷ保留预测身份。",
+        "criterion": "在给定模型及范围条件下准确代值并保持预测量与单位，不把它当实际保证"
+      },
+      "family_id": "statistics.prediction-substitution",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "statistics.ols-centre-property",
+      "topic_id": "mh5.8.2.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.8.2.2-q2",
+          "independently_checked_result": "样本中心点",
+          "mathematical_reason": "含截距一元OLS通过(x均值,y均值)。",
+          "mathematical_content_sha256": "dd9fe9fe4721c0aff4186162e6f7128eafb8cc19b35512e4a4f99337496b3941"
+        },
+        {
+          "task_id": "mh5.8.2.2-q3",
+          "independently_checked_result": "中心点",
+          "mathematical_reason": "a=ȳ−b x̄保证经过样本中心；单凭过中心不反推OLS最优。",
+          "mathematical_content_sha256": "2027a61d5e4796b26cb8e3fa39b9c4b46fb58f052eca3dd2e5de8aa73e5aa8e3"
+        }
+      ],
+      "four_fields": {
+        "explanation": "对x有非零变异的成对样本作含截距的一元最小二乘拟合，截距满足a=ȳ−b x̄，因此代入x̄得到拟合值ȳ，直线通过样本中心(x̄,ȳ)。强制截距为0时不能一般套用；反过来，任意通过中心的直线也不一定使残差平方和最小。",
+        "discrimination": "题目是否允许估计截距？通过样本中心是最小二乘的必要性质，还是足以证明任意直线最优？",
+        "hint": "把x̄代入ŷ=bx+a，再代入a=ȳ−b x̄，观察两项相消后只剩ȳ。",
+        "criterion": "在含截距一元最小二乘条件下识别样本中心性质，不把它无条件推广或逆推最优"
+      },
+      "family_id": "statistics.ols-centre-property",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "statistics.ols-centre-and-prediction",
+      "topic_id": "mh5.8.2.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.8.2.2-q102",
+          "independently_checked_result": "13",
+          "mathematical_reason": "由中心(4,9)和斜率2，x6预测9+2×(6−4)=13，不必求截距。",
+          "mathematical_content_sha256": "20c2877baa6c887e2218c14e5f674b4b617b4193ef1e01b61daa5739816e841b"
+        }
+      ],
+      "four_fields": {
+        "explanation": "含截距的一元最小二乘拟合经过样本中心，因此已知斜率b与中心(x̄,ȳ)时可直接写ŷ=ȳ+b(x−x̄)。它先以中心值为基准，再加输入变化带来的预测变化，无需必须另求截距；输入仍应处于题目允许的使用范围，预测不等于保证的观测。",
+        "discrimination": "已知的ȳ是在x̄处的值，还是在0处的截距？你把输入增量写成x还是x−x̄？",
+        "hint": "在中心位置先标ŷ=ȳ，再算目标输入与x̄的差；把这个差乘斜率后加回ȳ，并检查单位。",
+        "criterion": "用中心作起点和斜率乘输入增量求预测，区别中心纵坐标与截距"
+      },
+      "family_id": "statistics.ols-centre-and-prediction",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "statistics.contingency-cell-count",
+      "topic_id": "mh5.8.3.1",
+      "task_checks": [
+        {
+          "task_id": "mh5.8.3.1-q1",
+          "independently_checked_result": "4",
+          "mathematical_reason": "仅内部格，两行两列共2×2=4，不计边缘合计。",
+          "mathematical_content_sha256": "ee226c8c20fb1c4d2f2cda8ade190a628b4af90dcfe4fd3558d886c7c672b520"
+        }
+      ],
+      "four_fields": {
+        "explanation": "列联表的内部频数格由行类别和列类别两两对应形成，r行c列有r×c个内部格。行合计、列合计和总计是由内部格加总得到的边缘信息，题目要求不计这些合计时不能一并数入。格数与样本人数也不是同一个量。",
+        "discrimination": "你是否把行合计、列合计或右下角总计当成内部类别组合？问的是格数还是表内人数之和？",
+        "hint": "只圈行类别与列类别相交的内部区域，再按每行c格、共r行计数。",
+        "criterion": "以行列类别乘积计算内部频数格，按要求排除各类边缘合计"
+      },
+      "family_id": "statistics.contingency-cell-count",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "statistics.contingency-purpose-recall",
+      "topic_id": "mh5.8.3.1",
+      "task_checks": [
+        {
+          "task_id": "mh5.8.3.1-q2",
+          "independently_checked_result": "两个分类变量的关系",
+          "mathematical_reason": "列联表记录分类变量交叉类别的频数。",
+          "mathematical_content_sha256": "8afadc365ea021d7e86554de97abd12dfec2926cac3c8b712c1db3678fa4213b"
+        }
+      ],
+      "four_fields": {
+        "explanation": "列联表用行和列分别表示两个分类变量，把每种交叉类别中的观测频数填在对应格中，用于整理和考察两分类变量的关系。它不是直接画连续变量时间趋势或只求一个变量的均值；仅知道列联表的用途，也不表示已经做完独立性检验或证明因果。",
+        "discrimination": "行标题与列标题是否各代表一个分类变量？每个内部格记录的是交叉类别频数还是回归预测值？",
+        "hint": "给行变量和列变量各选一个类别，看两者交叉的一格收纳哪些观测，再对应“两个分类变量的关系”。",
+        "criterion": "识别列联表整理两个分类变量交叉频数的用途，不扩大为已完成统计检验"
+      },
+      "family_id": "statistics.contingency-purpose-recall",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    },
+    {
+      "proposal_key": "chi-square.cross-product-intermediate",
+      "topic_id": "mh5.8.3.2",
+      "task_checks": [
+        {
+          "task_id": "mh5.8.3.2-q101",
+          "independently_checked_result": "1000",
+          "mathematical_reason": "40×30−10×20=1000，仅交叉乘积差，不是χ²。",
+          "mathematical_content_sha256": "35c50deb8933f6f860a158c1b652041b486bb8878c9f64b7e741d81885ade16b"
+        }
+      ],
+      "four_fields": {
+        "explanation": "已给a、b、c、d并要求ad−bc时，先分别求a与d的积、b与c的积，再按指定次序相减，保留可能的负号。这个交叉乘积差只是某些2×2列联表检验公式中的中间量，不是完整χ²统计量；还需由四格计算样本量及行列合计，完成统计量公式并检查检验条件，不能单凭交叉差的大小宣布相关或显著。",
+        "discrimination": "你是否把ad−bc算成(a−b)(d−c)，或误把结果再平方？题目所求是中间差还是完整检验统计量？",
+        "hint": "分两行写ad和bc，核对各自因数，再把第一行结果减第二行；最后标记为交叉乘积差。",
+        "criterion": "按给定因数和次序求ad−bc，保持中间量身份而不据此作独立性或显著性结论"
+      },
+      "family_id": "chi-square.cross-product-intermediate",
+      "reviewer_kind": "ai",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "batch": "mh5"
+    }
+  ],
+  "asset_reviews": [
+    {
+      "path": "web/static/diagrams/senior-v6-scatter-assessment.svg",
+      "sha256": "2563122200548d2585f8ade5ec507540a0ffd230d0976a4b4ad897f23cda5c12",
+      "actual_right_panel_points": [
+        [
+          -2,
+          4
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "verification": "Decoded actual circle coordinates against the plotted axis scale; confirmed descending then ascending U shape and nonzero marginal variation despite zero linear covariance.",
+      "reviewer_kind": "ai"
+    }
+  ],
+  "corrections": [
+    {
+      "proposal_key": "chi-square.cross-product-intermediate",
+      "reason": "The four supplied cells already determine the sample size and row/column sums; the remaining work is to calculate them, complete the statistic and check test conditions, not to claim unavailable information.",
+      "current_instruction": "还需由四格计算样本量及行列合计，完成统计量公式并检查检验条件，不能单凭交叉差的大小宣布相关或显著。"
+    }
+  ],
+  "independent_methods": [
+    "Enumerate ordered arrangements, restricted positions and unordered groups from their finite populations.",
+    "Enumerate coin, dice, binomial and without-replacement event sets; exact Fraction probabilities never read author verify expressions.",
+    "Compute descriptive variance from pairwise differences and reconstruct changed totals; distinguish frequency, density and count.",
+    "For supplied independent repetition models, compute full binomial distribution means independently of the np shortcut.",
+    "Use an explicit 10000-item source/defect population for conditional source probability.",
+    "Use exact rational OLS data to verify centre, signed residuals, R-squared identity, unit scaling and excluded zero-variation/zero-intercept assumptions.",
+    "Compute Pearson statistic from all four cells to distinguish it from the ad−bc intermediate; no significance or causal conclusion is inferred."
+  ],
+  "validation": {
+    "command": "python -m unittest tests.test_statistics_task_semantics_v7 -v",
+    "status": "passed",
+    "tests": 14,
+    "actual_tasks_checked": 80,
+    "run_date": "2026-10-28"
+  },
+  "limits": [
+    "All semantic review identities are AI; no independent teacher review or real-student effect validation has occurred.",
+    "Numerical/source checks validate only the stated mathematical task. They do not credit an unsubmitted proof, model construction, sampling decision, simulation run, causal inference or forecast calibration.",
+    "The proposal family identities are retained; scenario/number changes and numeric-to-process self-checks do not create independent task structures.",
+    "The examples checking general properties accompany explicit mathematical reasons; finite numeric checks alone are not claimed as proofs of unrestricted theorems."
+  ]
+}

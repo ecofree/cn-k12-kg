@@ -306,9 +306,127 @@ class PortfolioWebTests(unittest.TestCase):
             {"draft": {"response": "旧版思路"}, "self_assessment": [], "status": "draft"}), 0, "legacy-save")
         restored = self.descriptor(resource_id=legacy["resource_id"])
         self.assertEqual(restored["resource_snapshot"], snapshot)
+        loaded = self.request("/api/work?" + urllib.parse.urlencode({"resource_id": legacy["resource_id"]}))[1]
+        self.assertEqual(loaded["current_content"]["status"], "legacy_unverified")
         code, _ = self.request("/api/work/reference", {"resource_id": legacy["resource_id"], "reference_key": "hint"})
         self.assertEqual(code, 400)
         self.assertEqual(self.request("/api/work", self.save_values(restored, 1, "legacy-edit", "继续原题"))[0], 200)
+
+    def test_partial_saved_reference_is_not_claimed_as_opened_or_replaced_by_current_content(self):
+        from cnkg import portfolio
+        resource = self.descriptor(kind="self_check", topic_id="m1a.1.1", criterion_index=0)
+        partial = copy.deepcopy(resource)
+        partial["resource_id"] = "self_check:partial-reference@" + "d" * 16
+        partial["resource_version"] = "d" * 64
+        partial["resource_snapshot"].pop("reference_answer")
+        partial["resource_snapshot"]["difficulty_support"].pop("hint")
+        owner = self.owner()
+        server.get_store().save_work(owner, partial["resource_id"], portfolio.learner_payload(partial,
+            {"draft": {"response": "原想法"}}), 0, "partial-reference-save")
+        before = server.get_store().events(owner)
+        for reference in ("hint", "answer"):
+            code, response = self.request("/api/work/reference", {"resource_id": partial["resource_id"], "reference_key": reference})
+            self.assertEqual(code, 400, response)
+        self.assertEqual(server.get_store().events(owner), before)
+        self.assertEqual(self.descriptor(resource_id=partial["resource_id"]), partial)
+
+    def test_support_draft_is_owner_scoped_revisable_and_keeps_its_pre_submission_snapshot(self):
+        unit = self.units["fraction_equivalence"]
+        support = unit["instructional_support"]["supports"][0]
+        code, started = self.request("/api/support/start", {"unit_id": unit["id"], "support_id": support["id"]})
+        self.assertEqual(code, 200, started)
+        sid, qid = started["session"]["id"], started["item"]["id"]
+        selector = {"kind": "session_task", "session_id": sid, "question_id": qid}
+        resource = self.descriptor(**selector)
+        self.assertTrue(resource["resource_snapshot"]["draft_only"])
+        self.assertEqual(resource["resource_snapshot"]["criteria"], [])
+        values = {**selector, "resource_id": resource["resource_id"], "expected_revision": 0,
+                  "request_id": "support-before-help", "draft": {"response": "我的原来想法"}}
+        self.assertEqual(self.request("/api/work", values)[0], 200)
+        stored_before = copy.deepcopy(server.get_store().load(sid, self.owner()))
+        plan = self.request("/api/plan")[1]
+        self.assertFalse(any(need.get("work_resource_id") == resource["resource_id"] for need in plan["learning_needs"]))
+        self.assertTrue(any(step.get("session_id") == sid and step.get("continuation") == "resume_support" for step in plan["next_steps"]))
+        self.assertEqual(stored_before["answers"], [])
+        self.assertEqual(self.request("/api/work?" + urllib.parse.urlencode(selector), client=self.new_client())[0], 404)
+        self.assertEqual(self.request("/api/work?resource_id=" + resource["resource_id"], client=self.new_client())[0], 404)
+        code, answered = self.request("/api/support/answer", {"session_id": sid, "question_id": qid,
+            "answer": support["diagnostic"]["answer"]})
+        self.assertEqual(code, 200, answered)
+        self.assertEqual(self.descriptor(**selector), resource)
+        raw_answer = answered["answers"][0]["raw_answer"]
+        values.update(expected_revision=1, request_id="support-after-help", draft={"response": "帮助后的修订"})
+        self.assertEqual(self.request("/api/work", values)[0], 200)
+        frozen = self.request("/api/session/" + sid)[1]
+        self.assertEqual(frozen["answers"][0]["raw_answer"], raw_answer)
+        revisions = self.request("/api/work/revisions?" + urllib.parse.urlencode({"resource_id": resource["resource_id"]}))[1]
+        self.assertEqual({row["payload"]["draft"]["response"] for row in revisions["revisions"]}, {"我的原来想法", "帮助后的修订"})
+
+    def test_support_answer_retry_recovers_saved_feedback_without_regrading_or_duplicate_answers(self):
+        unit = self.units["fraction_equivalence"]
+        support = unit["instructional_support"]["supports"][0]
+        started = self.request("/api/support/start", {"unit_id": unit["id"], "support_id": support["id"]})[1]
+        sid, qid = started["session"]["id"], started["item"]["id"]
+        values = {"session_id": sid, "question_id": qid, "answer": support["diagnostic"]["answer"]}
+        first = self.request("/api/support/answer", values)[1]
+        original = copy.deepcopy(server.get_store().load(sid, self.owner()))
+        with patch.object(server.instruction, "answer", side_effect=AssertionError("retry must not regrade")):
+            code, retry = self.request("/api/support/answer", values)
+            self.assertEqual(code, 200, retry)
+            self.assertTrue(retry["duplicate"])
+            self.assertEqual(retry["feedback"], first["feedback"])
+            self.assertEqual(retry["item"], first["item"])
+            self.assertEqual(self.request("/api/support/answer", {**values, "answer": "different"})[0], 409)
+        self.assertEqual(server.get_store().load(sid, self.owner()), original)
+        events = server.get_store().events(self.owner())
+        self.assertEqual(sum(event["event_type"] == "answer_submitted" and event.get("question_id") == qid for event in events), 1)
+
+    def test_completed_legacy_topic_without_graph_or_summary_is_readable_without_rejudgment(self):
+        self.request("/api/profile")
+        owner = self.owner()
+        record = {"id": "f" * 32, "owner_id": owner, "kind": "topic", "mode": "practice", "title": "原来的主题",
+            "created_at": "2026-01-01T00:00:00+00:00", "completed_at": "2026-01-01T00:00:05+00:00",
+            "content_sha256": "e" * 64, "context": {}, "feedback_policy": "immediate", "feedback_exposed": ["retired-q"],
+            "presentations": {"retired-q": {"presented_at": "2026-01-01T00:00:01+00:00"}},
+            "answers": [{"question_id": "retired-q", "prompt": "当时保存的题面", "raw_answer": "原回答", "status": "wrong"}],
+            "engine": {"mode": "practice", "targets": ["retired-original-topic"], "state": {"retired-original-topic": "weak"},
+                       "current": None, "queue": [], "log": [], "asked": {}, "limit": 5}}
+        server.get_store().save(record)
+        saved = copy.deepcopy(server.get_store().load(record["id"], owner))
+        with patch.object(server.engine, "summarize", side_effect=AssertionError("current rules used for historical record")):
+            code, loaded = self.request("/api/session/" + record["id"])
+            self.assertEqual(code, 200, loaded)
+            self.assertEqual(loaded["summary"]["history_status"], "summary_not_saved")
+            self.assertEqual(loaded["summary"]["answers"], record["answers"])
+            self.assertEqual(loaded["summary"]["saved_topic_states"], record["engine"]["state"])
+            exported = server.export_record(saved)
+            self.assertEqual(exported["presented_tasks"][0]["snapshot_status"], "partial_legacy_record")
+            self.assertEqual(exported["summary"], loaded["summary"])
+        self.assertEqual(server.get_store().load(record["id"], owner), saved)
+
+    def test_unfinished_legacy_record_with_missing_current_task_is_blocked_without_a_fabricated_result(self):
+        self.request("/api/profile")
+        owner = self.owner()
+        record = {"id": "9" * 32, "owner_id": owner, "kind": "topic", "mode": "diagnose", "title": "旧会话",
+            "created_at": "2026-01-01T00:00:00+00:00", "content_sha256": "b" * 64,
+            "context": {}, "feedback_policy": "deferred", "feedback_exposed": [], "presentations": {},
+            "answers": [{"question_id": "old-private-q", "prompt": "原来的题面", "raw_answer": "原回答",
+                         "status": "wrong", "answer": "尚未放出的旧参考", "explanation": "尚未放出的旧解释"}],
+            "engine": {"mode": "diagnose", "targets": ["retired-original-topic"], "state": {},
+                       "current": {"questionId": "missing-old-q"}, "queue": [], "log": [], "asked": {}, "limit": 5}}
+        server.get_store().save(record)
+        saved = copy.deepcopy(server.get_store().load(record["id"], owner))
+        with patch.object(server.engine, "summarize", side_effect=AssertionError("missing current task is not completion")):
+            code, response = self.request("/api/session/" + record["id"])
+        self.assertEqual(code, 200, response)
+        self.assertTrue(response["session"]["resume_blocked"])
+        self.assertFalse(response["done"])
+        self.assertIsNone(response["item"])
+        self.assertNotIn("summary", response)
+        self.assertEqual(response["saved_answers"][0]["raw_answer"], "原回答")
+        for key in ("status", "answer", "explanation"):
+            self.assertNotIn(key, response["saved_answers"][0])
+        self.assertEqual(server.get_store().load(record["id"], owner), saved)
 
     def test_deferred_work_plan_and_export_do_not_reveal_answer_or_correctness(self):
         started = self.start_transfer()

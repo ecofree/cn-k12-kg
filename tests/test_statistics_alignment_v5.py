@@ -25,6 +25,23 @@ TOPICS = ('m3b.5.1', 'm4a.6.1', 'm4b.6.1', 'm5b.5.1', 'm6b.2.1',
           'mh5.8.1.1', 'mh5.8.1.2', 'mh5.8.2.1', 'mh5.8.2.2')
 NS = {'s': 'http://www.w3.org/2000/svg'}
 
+# These tasks still cannot observe the two original, broader topic criteria.
+# V7 gives their actual component results explicit, separately reviewed goals.
+COMPONENT_GOALS = {
+    'm7b.12.1.1-q2': (2, 'statistics.census-error-boundary', '能识别全面调查仍可能存在非抽样误差'),
+    'mh5.8.1.2-q203': (5, 'statistics.correlation-sign-and-domain', '能判断一个样本变量没有变异时相关系数未定义'),
+    'm5b.5.1-q101': (3, 'statistics.mean-from-values', '能对已给的一组数值求算术平均数'),
+    'm8b.24.2-q1': (2, 'statistics.mean-from-values', '能计算已给数据的算术平均数'),
+    'mh5.8.1.1-q101': (2, 'statistics.square-given-correlation', '能计算已给样本相关系数的平方及其百分制数值'),
+    'mh5.8.1.1-q102': (2, 'statistics.square-given-correlation', '能计算已给样本相关系数的平方及其百分制数值'),
+    'mh5.8.1.1-q202': (3, 'statistics.scatter-nonlinearity', '能由实际散点图识别明显的弯曲趋势'),
+    'mh5.8.1.1-q203': (4, 'statistics.observational-causality', '能判断仅有观察性相关证据不足以推出因果结论'),
+    'mh5.8.1.2-q101': (3, 'statistics.square-given-correlation', '能计算已给样本相关系数的平方'),
+    'mh5.8.1.2-q102': (4, 'statistics.r-squared-interpretation', '能在给定含截距一元最小二乘条件下由样本相关系数求解释变异比例'),
+    'mh5.8.2.1-q101': (4, 'statistics.prediction-substitution', '能代入已给回归预测式求样本范围内指定输入的预测值'),
+    'mh5.8.2.2-q102': (3, 'statistics.ols-centre-and-prediction', '能由已给回归斜率和样本中心计算范围内的预测值'),
+}
+
 
 def svg(name):
     return ElementTree.parse(ROOT / 'web/static/diagrams' / name)
@@ -47,10 +64,30 @@ class StatisticsAlignmentV5Tests(unittest.TestCase):
         cls.topics = {t['id']: t for t in rows['topics.json']}
         cls.bindings = json.loads((DATA / 'skills/catalog-bindings.json').read_text())['tasks']
         cls.cards = {tid: json.loads((DATA / f'teach/{tid}.json').read_text()) for tid in TOPICS}
+        cls.catalog = json.loads((DATA / 'catalog.json').read_text())
+        review = json.loads((ROOT / 'docs/reviews/v7-observable-goal-review.json').read_text())
+        cls.component_reviews = {qid: row for row in review['goals'] for qid in row['bank_task_ids']}
 
     def task(self, qid):
         q = self.bank[qid]
         return {**q, 'answer_spec': q.get('answer_spec') or self.bindings['bank:' + qid]['answer_spec']}
+
+    def assert_only_reviewed_component(self, qid):
+        index, proposal, statement = COMPONENT_GOALS[qid]
+        q = self.bank[qid]
+        review = self.component_reviews[qid]
+        self.assertEqual((review['criterion_index'], review['proposal_key'], review['statement']),
+                         (index, proposal, statement), qid)
+        self.assertEqual(review['topic_id'], q['topicId'], qid)
+        self.assertEqual(q['tested_criterion_indices'], [index], qid)
+        self.assertEqual(self.topics[q['topicId']]['mastery_criteria'][index], statement, qid)
+        registered = self.catalog['tasks'][qid]
+        self.assertEqual(registered['skill_ids'], [review['skill']['id']], qid)
+        broad_ids = self.catalog['placements'][q['topicId']]['criterion_skill_ids'][:2]
+        self.assertTrue(set(broad_ids).isdisjoint(registered['skill_ids']), qid)
+        self.assertEqual(review['skill']['refines_skill_ids'], [], qid)
+        self.assertFalse(registered['policy']['may_confirm_mastery'], qid)
+        self.assertFalse(registered['policy']['may_judge_weak'], qid)
 
     def test_bar_self_checks_use_their_own_actual_scale_and_missing_bar(self):
         card = self.cards['m4a.6.1']
@@ -76,10 +113,16 @@ class StatisticsAlignmentV5Tests(unittest.TestCase):
         intervals = [actual[i+1][0] - actual[i][0] for i in range(3)]
         self.assertLess(max(intervals) - min(intervals), 0.002)
         self.assertEqual([b-a for a,b in zip([18,20,19], [20,19,23])], [2,-1,4])
-        checks = self.cards['m5b.5.1']['objective_coverage']
-        for row in checks:
+        checks = {row['criterion_index']: row for row in self.cards['m5b.5.1']['objective_coverage']}
+        self.assertEqual(checks[0]['title'], '能读懂折线统计图的变化趋势')
+        self.assertEqual(checks[1]['title'], '能在折线统计图上比较增减幅度')
+        for row in (checks[0], checks[1]):
             self.assertTrue(row['self_check']['diagram']['src'].endswith('line-self-check.svg'))
         self.assertIn('尺度', checks[1]['self_check']['reference_answer'])
+        # The appended arithmetic-mean task is verbal, not another graph-reading observation.
+        self.assert_only_reviewed_component('m5b.5.1-q101')
+        self.assertNotIn('diagram', checks[3]['self_check'])
+        self.assertEqual(checks[3]['self_check']['family_id'], 'statistics.mean-from-values')
 
     def test_sports_bar_total_requires_exclusive_and_exhaustive_categories(self):
         drawing = svg('statistics-v5-sports-bars.svg')
@@ -98,7 +141,7 @@ class StatisticsAlignmentV5Tests(unittest.TestCase):
         answer = next(c['text'] for c in q['choices'] if c['id'] == q['answer'])
         self.assertIn('仍须', answer)
         self.assertIn('测量', answer)
-        self.assertNotIn('tested_criterion_indices', q)
+        self.assert_only_reviewed_component(q['id'])
         self.assertFalse(q['diagnosis_eligible'])
         check = self.cards['m7b.12.1.2']['objective_coverage'][1]['self_check']
         self.assertIn('40人', check['reference_answer'])
@@ -133,7 +176,7 @@ class StatisticsAlignmentV5Tests(unittest.TestCase):
         self.assertEqual(variance([2,2,2]), 0)
         q = self.bank['mh5.8.1.2-q203']
         self.assertIn('未定义', next(c['text'] for c in q['choices'] if c['id'] == q['answer']))
-        self.assertNotIn('tested_criterion_indices', q)
+        self.assert_only_reviewed_component(q['id'])
         self.assertFalse(self.bank['mh5.8.1.2-q1']['diagnosis_eligible'])
         self.assertNotIn('诊断资格', self.bank['mh5.8.1.2-q1']['explanation'])
 
@@ -171,12 +214,13 @@ class StatisticsAlignmentV5Tests(unittest.TestCase):
                     'mh5.8.1.2-q101','mh5.8.1.2-q102','mh5.8.2.1-q101',
                     'mh5.8.2.2-q102']:
             q = self.bank[qid]
-            self.assertNotIn('tested_criterion_indices',q,qid)
+            self.assert_only_reviewed_component(qid)
             self.assertFalse(q['diagnosis_eligible'],qid)
             self.assertTrue(q['alignment_note'],qid)
         # This prediction can be obtained without finding a parameter.
         self.assertEqual(9+2*(6-4), 13)
-        self.assertIn('可选解法', self.bank['mh5.8.2.2-q102']['alignment_note'])
+        self.assertEqual(grade_answer(self.task('mh5.8.2.2-q102'), str(9+2*(6-4)))['status'], 'correct')
+        self.assertNotIn(1, self.bank['mh5.8.2.2-q102']['tested_criterion_indices'])
         self.assertIn('含截距', self.bank['mh5.8.1.2-q102']['prompt'])
 
     def test_compound_references_declare_the_real_component_families(self):

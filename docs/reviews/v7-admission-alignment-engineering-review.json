@@ -1,0 +1,778 @@
+{
+  "schema": "cnkg-v7-admission-alignment-engineering-review/1",
+  "baseline_commit": "de1244557d11a432f53bef00c9a3d094ab756bc8",
+  "reviewed_at_utc": "2026-10-28T03:12:51.124166+00:00",
+  "reviewer_kind": "ai",
+  "independent_teacher_review": false,
+  "student_effectiveness_evidence": false,
+  "status": "targeted_engineering_review_and_regressions_passed",
+  "scope": {
+    "implementation_paths": [
+      "cnkg/admissions.py",
+      "cnkg/alignment.py",
+      "tools/task_admissions.py",
+      "tools/check_alignment.py"
+    ],
+    "primary_test_paths": [
+      "tests/test_provisional_admissions_v7.py",
+      "tests/test_bank_alignment_v7.py"
+    ],
+    "compatibility_test_paths": [
+      "tests/test_alignment_v5.py",
+      "tests/test_instruction_v4.py"
+    ],
+    "methods": [
+      "逐行对照de124基线及当前实现，追踪runtime_policy→question_policy和显式登记入口。",
+      "用畸形快照、布尔伪值、篡改指纹、未知题族占位和非文字审查依据构造反例。",
+      "检查全范围bank错误进入CLI的--check失败退出，同时保留隔离题不进入活跃分母。",
+      "仅校验已生成两份审查记录的来源、材料、注册表、旧决策存档及准入指纹绑定；不重新签署908题数学审查。"
+    ]
+  },
+  "findings": [
+    {
+      "id": "basis_requires_actual_text",
+      "severity": "correctness",
+      "before": {
+        "reproduction": "basis={independent_review:false,method:[\"not-text\"],limitation:{unexpected:\"object\"}}在policies被接受；basis为null、[]或42触发AttributeError而不是题目级拒绝。",
+        "observed_result": "nontext_basis_accepted=True; null/list/integer basis raised AttributeError"
+      },
+      "fix": {
+        "path": "cnkg/admissions.py",
+        "behavior": "要求basis是对象，independent_review严格为false，method与limitation均为非空文字；否则抛出ValueError，由check输出带qid的拒绝理由。"
+      },
+      "after": {
+        "test": "test_malformed_review_basis_is_rejected_with_a_question_level_error",
+        "cases": 8,
+        "result": "全部拒绝；登记文件字节保持不变。"
+      }
+    },
+    {
+      "id": "placeholder_family_cannot_be_declared",
+      "severity": "correctness",
+      "before": {
+        "reproduction": "family_id=\"unclassified:outside\"且family_status=\"declared\"时，task_dimensions给known_family=true。",
+        "observed_result": "unknown placeholder could satisfy the all-bank known-family dimension"
+      },
+      "fix": {
+        "path": "cnkg/alignment.py",
+        "behavior": "已声明状态之外还要求实际非空文字身份，排除unknown、unclassified及unclassified:占位前缀，不修改原任务数据。"
+      },
+      "after": {
+        "test": "test_declared_status_cannot_turn_placeholder_identity_into_known_structure",
+        "cases": 7,
+        "result": "加强范围外的全部占位/畸形身份均产生known_family门禁错误。"
+      }
+    }
+  ],
+  "verified_contracts": [
+    {
+      "name": "malformed_runtime_admission_fails_closed",
+      "conclusion": "已出现_admission但为null、数组或文字时返回四用途全false；权限字段缺失/非严格bool、矛盾策略、无效版本、题面改变同样关闭用途。只有完全没有_admission的合成或旧兼容输入继续原legacy路径。",
+      "boundary": "历史合法版本1/2快照保持原决策，不把当前政策追溯改写旧记录。"
+    },
+    {
+      "name": "provisional_use_is_not_mastery_or_weakness",
+      "conclusion": "--record-id即使purpose=screening且evidence-level=verified并通过数值复算，may_confirm_mastery与may_judge_weak仍为false；依据注明非独立审核。显式provisional reason被伪改为可确认掌握/薄弱也被运行时拒绝。",
+      "boundary": "算式及作者答案检查只支持有限用途，不证明整目标、完整过程或教学效果。"
+    },
+    {
+      "name": "full_active_bank_gate",
+      "conclusion": "所有availability=active且source_kind=bank任务均检查明确目标、实际题族、表征、认知要求、观察说明；范围外任务不能绕过。quarantined任务保持原样且不计入活跃分母。",
+      "boundary": "结构性对齐检查仍依赖目录编译器的schema与引用完整性校验；标签存在不证明数学语义正确或任务结构充分多样。"
+    },
+    {
+      "name": "cli_enforcement",
+      "conclusion": "--check将all_bank_errors、all_goal_errors与focus_errors任一非空作为失败；专门反例保证只有bank缺口时也返回1。无--check的信息报告模式返回0且仍输出全部缺口。"
+    }
+  ],
+  "commands": [
+    {
+      "command": "python -m unittest tests.test_provisional_admissions_v7 tests.test_bank_alignment_v7 tests.test_alignment_v5 tests.test_instruction_v4.ExplicitAdmissionTest -v",
+      "exit_code": 0,
+      "tests_run": 17,
+      "elapsed_seconds_reported_by_unittest": 0.023,
+      "result": "OK",
+      "new_test_methods_in_this_review": 4
+    },
+    {
+      "command": "python tools/task_admissions.py --check",
+      "exit_code": 0,
+      "result": "显式准入：PASS；解析措辞不会自动扩大诊断用途"
+    },
+    {
+      "command": "python tools/check_alignment.py --check --output build/v7-engineering-alignment.json",
+      "exit_code": 0,
+      "result": {
+        "all_bank_errors": [],
+        "all_goal_errors": [],
+        "focus_errors": [],
+        "bank_inventory": {
+          "tasks": 3091,
+          "explicit_goals": 3091,
+          "known_family": 3091,
+          "known_representation": 3091,
+          "known_cognitive_demand": 3091,
+          "authored_alignment_note": 3091,
+          "unknown_family": 0,
+          "unknown_representation": 0,
+          "unmapped_goals": 0
+        },
+        "summary": {
+          "goals": 1778,
+          "focus_goals": 257,
+          "goal_specific_help": 1778,
+          "authored_observation_boundary": 1778,
+          "known_task_structure_and_representation": 1778,
+          "multiple_objective_task_families": 412,
+          "gap_counts": {
+            "multiple_objective_task_families": 1300
+          }
+        }
+      }
+    },
+    {
+      "command": "python -m unittest tests.test_app_items tests.test_content_regressions tests.test_bank_metadata_review_v7 -v",
+      "exit_code": 0,
+      "tests_run": 43,
+      "elapsed_seconds_reported_by_unittest": 1.853,
+      "result": "OK",
+      "new_test_methods_in_application_followup": 3,
+      "scope": "在root完成唯一源说明的有据重绑定后，以新进程导入运行。"
+    }
+  ],
+  "generated_review_binding_checks": {
+    "baseline_commit": "de1244557d11a432f53bef00c9a3d094ab756bc8",
+    "review_hashes": {
+      "v7-admission-continuation-review.json": "80bfde90cf9ceeeb1ff97cb9a706eeaa86f924426d95e89ba4801826b24e06de",
+      "v7-observable-goal-review.json": "60d00e50f2f3e89bd0b721dd90a687d496041857211c6d003480d37256c8a045",
+      "v7-bank-metadata-review.json": "a671bce6c2f988072a4556d53fa89318623714441b92862dbc6b89ae79aed668",
+      "v7-final-source-note-revision.json": "59c30b17d7a88ed039ef05991d47b6d5dc275e01843bdbdeea26e0f8d538e26c"
+    },
+    "admission": {
+      "registered_tasks": 3584,
+      "rebound_tasks": 908,
+      "exact_old_decisions_archived": 908,
+      "all_current_policies_equal_baseline": true,
+      "all_source_resolved_fingerprints_match": true,
+      "use_counts": {
+        "practice_eligible": 3091,
+        "diagnosis_eligible": 1731,
+        "may_confirm_mastery": 0,
+        "may_judge_weak": 0
+      }
+    },
+    "observable_goals": {
+      "goals": 642,
+      "bank_tasks": 760,
+      "teaching_files": 317,
+      "case_refreshes": 605,
+      "all_material_source_binding_skill_and_bank_hashes_match": true
+    },
+    "method_boundary": "在唯一difficulty_basis说明纠正及root有据重绑定后，只读重核来源、版本、明确映射、旧决策与用途；未重复908题数学审查，不新增教师或学生验证。"
+  },
+  "review_binding_check_artifact": {
+    "path": "build/v7-engineering-source-bindings.json",
+    "sha256": "24ee9c6724322fa5b668749c74af98530d053670fc7d94459817556dad8a65fb"
+  },
+  "code_and_test_hashes": [
+    {
+      "path": "cnkg/admissions.py",
+      "sha256": "4a0cef2e51cb10b5fc878a301f3bb4b9f6c951175a3d74a728d8df19c1fb700d",
+      "baseline_sha256": "193f90f96f5ac1fb473e2b14cd955a6b6702623d9b539a225504023cabe2e476",
+      "baseline_exists": true,
+      "role": "implementation"
+    },
+    {
+      "path": "cnkg/alignment.py",
+      "sha256": "1bc335b9b68451d46b58a15b7481c2bf4017d661325bc8acc765f39db57b7374",
+      "baseline_sha256": "b8a403655ea520a35f523729222c016c475562782c205e5581c2ed274b48079d",
+      "baseline_exists": true,
+      "role": "implementation"
+    },
+    {
+      "path": "tools/task_admissions.py",
+      "sha256": "c1f273d7cb0666cc63f845a591ca2b845c095f6521becc3368d50c20ad33a589",
+      "baseline_sha256": "c75dc8d7905e46a42bf169332715a8d1ab72684c7c183354621baf9fa5376d2a",
+      "baseline_exists": true,
+      "role": "implementation"
+    },
+    {
+      "path": "tools/check_alignment.py",
+      "sha256": "08657ca38526159e5b47bb736903001f86a2183b467dea9e61e7cf6f9844a7fc",
+      "baseline_sha256": "828b9a7c560537342dd6c0c6ef5d5b789dd74dfea5b625ef779c220db811cf87",
+      "baseline_exists": true,
+      "role": "implementation"
+    },
+    {
+      "path": "tests/test_provisional_admissions_v7.py",
+      "sha256": "cb22963ae623220c4a4a29c6d93d71c437451afe6df05eb83a577e3208ef53c9",
+      "baseline_sha256": null,
+      "baseline_exists": false,
+      "role": "test"
+    },
+    {
+      "path": "tests/test_bank_alignment_v7.py",
+      "sha256": "9b8fba0a5162653e68904ea9d829ccbdcba9cf3d322fd1a1e486fd023345c3e2",
+      "baseline_sha256": null,
+      "baseline_exists": false,
+      "role": "test"
+    },
+    {
+      "path": "tests/test_alignment_v5.py",
+      "sha256": "e9b9c053ca76bea050128cabaef7a624f2ba00c53233dc4937b87147af9816c8",
+      "baseline_sha256": "e9b9c053ca76bea050128cabaef7a624f2ba00c53233dc4937b87147af9816c8",
+      "baseline_exists": true,
+      "role": "test"
+    },
+    {
+      "path": "tests/test_instruction_v4.py",
+      "sha256": "604292dabec3894dbff486aee3d8fcc86d79d4447dd527542271353106db3180",
+      "baseline_sha256": "604292dabec3894dbff486aee3d8fcc86d79d4447dd527542271353106db3180",
+      "baseline_exists": true,
+      "role": "test"
+    },
+    {
+      "path": "tools/app_items/_declarative.py",
+      "sha256": "46c09aeffcfd297ed0b3b94cfb146ddb396465232fe4bbd5ae7d48da95367e69",
+      "baseline_sha256": "b465c7a7365946a2055b1e4e4edf1196b4b96ec14ca32ba96584b09bb7389e57",
+      "baseline_exists": true,
+      "role": "implementation"
+    },
+    {
+      "path": "tests/test_app_items.py",
+      "sha256": "625f798bdf140b729af217890b64d2606d4640d0b388fac5a21e118e1a571c99",
+      "baseline_sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089",
+      "baseline_exists": true,
+      "role": "test"
+    },
+    {
+      "path": "tests/test_content_regressions.py",
+      "sha256": "47c222218ede99a9a2353fbad627986262fd23f7e6dfd73b40c2badb0ac752f3",
+      "baseline_sha256": "0141facde73f830d6d70d7e9f3b9d0921e5eb1f8af5d511ac4357a3e42a128ce",
+      "baseline_exists": true,
+      "role": "test"
+    },
+    {
+      "path": "tests/test_bank_metadata_review_v7.py",
+      "sha256": "2078587bb4c59986f19296f892d0670322df59779201af77ab34672eb0495af5",
+      "baseline_sha256": null,
+      "baseline_exists": false,
+      "role": "test"
+    }
+  ],
+  "frozen_evidence_preserved": {
+    "path": "docs/reviews/v7-bank-metadata-review.json",
+    "sha256": "a671bce6c2f988072a4556d53fa89318623714441b92862dbc6b89ae79aed668",
+    "current_author_source_freeze_utc": "2026-10-28 03:15:34 UTC",
+    "authorized_change": "仅m8b.22.2-q102的difficulty_basis说明纠正及相应指纹、冻结时间更新；908题数学合同及624条历史曝光决定不变。",
+    "initial_snapshot_retained_in_verification_checkpoints": true
+  },
+  "limits": [
+    "这是限定准入/对齐工程模块、历史应用题兼容视图及相关回归的AI复核；分别运行17项与43项定向测试，不声称全套测试、浏览器旅程或发布门禁已通过。",
+    "未重复908道题的数学审查，不把来源指纹一致视为数学或教师审核。",
+    "独立教师审核、真实学生验证和实测难度校准继续暂缓。",
+    "全范围1778目标的必需结构关系均通过，但1300目标仍缺两个不同客观题族；这是单独报告的后续观察机会限制，不凭改ID或细目标数量消除。",
+    "临时审查维持所有3584道题原准入用途，当前3091可练、1731可有限筛查、0可确认整主题掌握、0可判整主题薄弱。"
+  ],
+  "verification_checkpoints": [
+    {
+      "phase": "initial_engineering_review_before_authorized_source_note_correction",
+      "reviewed_at_utc": "2026-10-28T03:12:51.124166+00:00",
+      "review_binding_checks": {
+        "baseline_commit": "de1244557d11a432f53bef00c9a3d094ab756bc8",
+        "review_hashes": {
+          "v7-admission-continuation-review.json": "5a38eba44314bb45ae28e43fd0420f693413962f9d625efe836682af776ef255",
+          "v7-observable-goal-review.json": "9032daa364daf88a85b2c73b18c0d33c0ac48a9652d70d78f03a40934063f2a6",
+          "v7-bank-metadata-review.json": "85f9c5f4ec87c4c91d1a4a7789f743d075a675d964518e9b76f3cae6f900062e"
+        },
+        "admission": {
+          "registered_tasks": 3584,
+          "rebound_tasks": 908,
+          "exact_old_decisions_archived": 908,
+          "all_current_policies_equal_baseline": true,
+          "all_source_resolved_fingerprints_match": true,
+          "use_counts": {
+            "practice_eligible": 3091,
+            "diagnosis_eligible": 1731,
+            "may_confirm_mastery": 0,
+            "may_judge_weak": 0
+          }
+        },
+        "observable_goals": {
+          "goals": 642,
+          "bank_tasks": 760,
+          "teaching_files": 317,
+          "case_refreshes": 605,
+          "all_material_source_binding_skill_and_bank_hashes_match": true
+        },
+        "method_boundary": "来源、版本、明确映射与既有用途的只读校验；未重复908题数学审查，不新增教师或学生验证。"
+      },
+      "original_frozen_evidence": {
+        "path": "docs/reviews/v7-bank-metadata-review.json",
+        "sha256": "85f9c5f4ec87c4c91d1a4a7789f743d075a675d964518e9b76f3cae6f900062e",
+        "unchanged_during_engineering_review": true
+      }
+    },
+    {
+      "phase": "after_single_difficulty_basis_correction_and_root_rebinding",
+      "reviewed_at_utc": "2026-10-28T03:18:43.640466+00:00",
+      "source_note_revision_evidence": {
+        "path": "docs/reviews/v7-final-source-note-revision.json",
+        "sha256": "59c30b17d7a88ed039ef05991d47b6d5dc275e01843bdbdeea26e0f8d538e26c"
+      },
+      "bank_review_mathematical_contracts_unchanged": true,
+      "history_exposure_decisions_unchanged": true
+    }
+  ],
+  "integration_followup": {
+    "reviewed_at_utc": "2026-10-28T03:18:43.640466+00:00",
+    "additional_implementation_path": "tools/app_items/_declarative.py",
+    "test_paths": [
+      "tests/test_app_items.py",
+      "tests/test_content_regressions.py"
+    ],
+    "findings": [
+      {
+        "id": "unprefixed_difficulty_reason_lost_in_compatibility_view",
+        "before": "item.get(difficulty_basis, \"\").partition(\"：\")[2]把完整、无历史标题前缀的作者理由读为空字符串；mh4.4.3.1-q102因此触发advanced缺理由。",
+        "fix": "只移除已知历史标题（自产应用题/设计难度复核/设计难点）；无该标题的完整理由原样成为why。canonical JSON不由兼容字段覆盖，writer往返验证原题相同。",
+        "result": "实际无前缀advanced及basic理由都保留，原有前缀版本的why兼容不变。"
+      },
+      {
+        "id": "stale_discount_difficulty_basis",
+        "before": "m8b.22.2-q102已要求按给定规则算实付19，difficulty_basis仍说直接读出差额3。",
+        "fix": "经root授权只纠正difficulty_basis。独立比较该题全部字段，只有这一字段变化，basic标签及完整作答合同不变。报告与624ledger引用同步，root另行更新准入/observable证据。",
+        "source_note_revision": "docs/reviews/v7-final-source-note-revision.json"
+      },
+      {
+        "id": "old_unmapped_assertions_after_reviewed_narrow_goals",
+        "before": "17道选修题旧宽目标映射被撤后，旧测试永久要求没有任何tested_criterion_indices。V7新增已审有限目标后该旧断言阻止真实、有限的映射。",
+        "fix": "只接受17个精确qid对应的已审源hash/合同/有限目标陈述，新增criterion须在旧范围之后、目标技能与旧宽目标无交集且不自动refines。189道补充题仍逐题保持仅练习、禁止诊断、掌握及薄弱判断。",
+        "boundary": "没有对整个completion批次自动放行新目标，未提交的完整模型、证明、区间或分布构造仍不获得观察证据。"
+      }
+    ],
+    "design_and_compatibility_cases": [
+      {
+        "id": "m7b.8.3-q102",
+        "current_source_task_sha256": "e2946d4502f735f8684960b8c2bb8d4efa8b8d54368cf7e6d2345e95e088dc0a",
+        "current_task_contract_sha256": "623d88a21a723c8e814e025a028abfde77747dc3441698b83a991161bdeac7d0",
+        "difficulty": "basic",
+        "difficulty_basis": "两个完全平方数先开方再相乘，使用本阶段已学平方根和面积计算；未实测校准。",
+        "goal_mapping": [
+          {
+            "criterion_index": 4,
+            "statement": "能先求完全平方数的算术平方根，再计算两个结果的乘积",
+            "skill_id": "sk_ec16dc260daf56c7b61c"
+          }
+        ],
+        "math_reason": "改为√9×√4=3×2=6平方厘米，不预用根式乘法规则。",
+        "observation_boundary": "具体完全平方数可直接开方；只观察本题数值，不观察实数分类或数轴作图。"
+      },
+      {
+        "id": "m7b.9.2.1-q102",
+        "current_source_task_sha256": "f14af67e7db69875c7ece3c1c00fb772d87039705dee184c8b6d0a72a52ca9d8",
+        "current_task_contract_sha256": "b6f63a4c4961a797ed4014f6adcc0e4294242003817d07ac00bf9ce7bfd54a43",
+        "difficulty": "standard",
+        "difficulty_basis": "先求水平与竖直坐标差再合计和换算比例；未实测校准，不以原超前勾股解法标为advanced。",
+        "goal_mapping": [
+          {
+            "criterion_index": 2,
+            "statement": "能按给定水平和竖直路线计算长度并作单位比例换算",
+            "skill_id": "sk_42f37e9f69035f8cb561"
+          }
+        ],
+        "math_reason": "改为轴向路线横差4纵差3，(4+3)×50=350米。",
+        "observation_boundary": "路线和坐标系已给；未观察选择坐标系或自主确定地点，不用超前勾股计算。"
+      },
+      {
+        "id": "m8b.22.2-q102",
+        "current_source_task_sha256": "d8ab527f12cfcfd1980b67bef9c5bf8d7672dcf6a36089391ffcf9a2a8c3e292",
+        "current_task_contract_sha256": "94e79dfd3f6cc62f9e80321b5c001dae5a7be8868a300e55cbd8ad8b47ba42a5",
+        "difficulty": "basic",
+        "difficulty_basis": "按已给起步价、超额里程单价和固定减免计算10+2.4×(8−3)−3=19；观察给定规则求值，不要求独立建立函数模型。basic为暂定设计标签，未实测校准。",
+        "goal_mapping": [
+          {
+            "criterion_index": 4,
+            "statement": "能按分段收费及固定减免规则计算实际费用",
+            "skill_id": "sk_d3017ab95b015aa38dd9"
+          }
+        ],
+        "math_reason": "改求实付，10+2.4(8−3)−3=19；不再抄减免额3。",
+        "observation_boundary": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。"
+      },
+      {
+        "id": "m9a.26.3-q102",
+        "current_source_task_sha256": "9d0b37654b54db4a73e2bca36128105f707b84f5354af807b4747f8be5705ae6",
+        "current_task_contract_sha256": "9ecbb8553c6b290458971365d8b4ed70dbcc21a10ac062cccaa33ca3a10c6f1c",
+        "difficulty": "basic",
+        "difficulty_basis": "与y轴交点的横坐标为0，只需代入已给解析式求常数项3；题面所给x轴交点不需重算。难度为设计标签，未实测校准。",
+        "goal_mapping": [
+          {
+            "criterion_index": 3,
+            "statement": "能由二次函数解析式求与y轴交点的纵坐标",
+            "skill_id": "sk_364f588393885149ad30"
+          }
+        ],
+        "math_reason": "代x0，y3，交点(0,3)。",
+        "observation_boundary": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。"
+      },
+      {
+        "id": "mh1.5.4.3-q102",
+        "current_source_task_sha256": "bd7c3e4f2214f9c9c2423cbae9746884ba73aa5b4206999f50dd91c3eefbdbf4",
+        "current_task_contract_sha256": "b5dbe7e4516c357863a96946e59c42517da7191ea0cf6c866317d46c5405ded8",
+        "difficulty": "standard",
+        "difficulty_basis": "已给正切值后应用一个周期保持不变；未实测校准。",
+        "goal_mapping": [
+          {
+            "criterion_index": 3,
+            "statement": "能用正切的180度周期求相差一个周期的函数值",
+            "skill_id": "sk_69ee182bdcb85898920c"
+          }
+        ],
+        "math_reason": "改用本节周期，tan(α+180°)=tanα=2。",
+        "observation_boundary": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。"
+      },
+      {
+        "id": "mh3.1.4.1-q102",
+        "current_source_task_sha256": "4bd992132219e708e27609243fd55da9b4c8cb6547bf4af234237f15960e7aed",
+        "current_task_contract_sha256": "c4f024de0b310a1eadc76c721998ff9b7039b873ae6cd0287f570f9d74bab19b",
+        "difficulty": "basic",
+        "difficulty_basis": "按给定三维坐标计算数量积，不要求独立证明线面位置关系；设计标签尚未由学生实测校准。",
+        "goal_mapping": [
+          {
+            "criterion_index": 3,
+            "statement": "能计算已给平面法向量与直线方向向量的数量积",
+            "skill_id": "sk_7b747d1565955a4d84f7"
+          }
+        ],
+        "math_reason": "1×1+1×(−1)+0×3=0；线可能在面内或严格平行，题只收点积。",
+        "observation_boundary": "只收数量积数值；点积0不能区分直线包含于平面和严格平行，点积非零也不单独证明线面垂直。"
+      },
+      {
+        "id": "mh4.4.3.1-q102",
+        "current_source_task_sha256": "fc7fbf9b6cf3c9b2ba6ebf1dac75e44c970be9865261aba46dae519ea0bb2121",
+        "current_task_contract_sha256": "a74cb19c98d680b072dba82dbf8d3934d6038d1c6d52fd705932f29e0886d9e4",
+        "difficulty": "advanced",
+        "difficulty_basis": "按已知首项和公比逐项计算五项并相加；不要求尚未学习的等比求和公式，设计标签尚未由学生实测校准。",
+        "goal_mapping": [
+          {
+            "criterion_index": 3,
+            "statement": "能按已给首项和公比逐项计算少量等比项并求和",
+            "skill_id": "sk_b15cdb8200ba53a4933d"
+          }
+        ],
+        "math_reason": "先逐项得3、6、12、24、48，和93，不提前要求求和公式。",
+        "observation_boundary": "在尚未教学求和公式的本主题，用逐项相乘与相加完成五项求和，不映射独立使用尚未学过的公式。"
+      },
+      {
+        "id": "mh4.5.3.1-q102",
+        "current_source_task_sha256": "98ad307bc5b6e707375a2d595ec07970522073057186ad06088f827146fac42e",
+        "current_task_contract_sha256": "8069ab569f993c5d7ef63bd62e55c16fc3b11d761e15a16e11da204f95e3ca35",
+        "difficulty": "basic",
+        "difficulty_basis": "设计难度复核（basic）：题干已给出极大值位置x=-1，只需代入(-1)^3-3×(-1)=2，并区分横坐标与函数值；不要求寻找驻点或检验导数变号。难度是作者设计标签，尚未经学生数据校准。",
+        "goal_mapping": [
+          {
+            "criterion_index": 3,
+            "statement": "能在已给极值点处代入求函数值",
+            "skill_id": "sk_023c16f2e3bf51b09dc5"
+          }
+        ],
+        "math_reason": "极大点x−1已给，f(−1)=−1+3=2。",
+        "observation_boundary": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。"
+      }
+    ],
+    "limited_elective_mapping_cases": [
+      {
+        "id": "mh3.1.4.1-q203",
+        "current_source_task_sha256": "419c85dab555606e1bb44156b7b7b2f87e66664a94857314c14d9e8d744fe2d0",
+        "current_task_contract_sha256": "75f2e04d4e59e809c8712d9d04c5f7494fa01fc7f6239be49cf86d7fcd21fc79",
+        "narrow_goal_statement": "能由已给法向量判断两个平面是否垂直",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 4,
+            "statement": "能由已给法向量判断两个平面是否垂直",
+            "skill_id": "sk_ed08692f7777539290bb"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh3.2.2.2-q201",
+        "current_source_task_sha256": "bd08f57cf656a044b00f4b5e1caa62caa6e393cd3ccd92862af29d4935a2c2c4",
+        "current_task_contract_sha256": "e84872833ee6bb314be4bcaa222a1e919d95a5cabbec487c2f57af7cbb6b9bb2",
+        "narrow_goal_statement": "能由两个已知点求直线上指定横坐标对应的纵坐标",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 3,
+            "statement": "能由两个已知点求直线上指定横坐标对应的纵坐标",
+            "skill_id": "sk_0ed67f18dc875722b122"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh3.2.2.2-q204",
+        "current_source_task_sha256": "6d76e7e0e9b4808eeb4b41bfe94b632deceb39fe99de5683a4dfb4388bcdb84e",
+        "current_task_contract_sha256": "7373f4bc9cd16a2e33ad58d6b397d51564f8e33001cd78343db018816e2fd672",
+        "narrow_goal_statement": "能由两个点的坐标求非竖直直线的纵截距",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 4,
+            "statement": "能由两个点的坐标求非竖直直线的纵截距",
+            "skill_id": "sk_e9505ca131b854b0a893"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh3.2.2.3-q203",
+        "current_source_task_sha256": "dd3bceef8ee9aab8b3cff0a450a3a6c9a50efe4f3f7cd41fc319be6e5dceaa56",
+        "current_task_contract_sha256": "3bf3c5cc27536edbd285655304dbc28f4da5393ad6e2c2d02474975b8380467f",
+        "narrow_goal_statement": "能识别直线一般式中一次项系数不全为零的条件",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 2,
+            "statement": "能识别直线一般式中一次项系数不全为零的条件",
+            "skill_id": "sk_25f302ff74865bc1a8a7"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh3.2.3.4-q204",
+        "current_source_task_sha256": "2fd1b35801620dfe126b99a6178c6f136484808bd0c82f8c46dbc324c8d524df",
+        "current_task_contract_sha256": "9ca775fdfe459d502610d7872cc30ede2b47cef86af2827f1b7ff83f6f66729a",
+        "narrow_goal_statement": "能识别成比例直线方程重合时距离为零",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 2,
+            "statement": "能识别成比例直线方程重合时距离为零",
+            "skill_id": "sk_01fd183b67f35c5daf9e"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh4.4.2.1-q202",
+        "current_source_task_sha256": "2bdd6bc6caae7eb7ea46ffb8ac3df7e4e056c0353edb4f6891ef70f2736bf21c",
+        "current_task_contract_sha256": "c12383e6aa098f8294be161bb71a42b96aaed4e2bb7c357572c0106a08b6e097",
+        "narrow_goal_statement": "能由等差数列中两个给定序号的项求公差",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 4,
+            "statement": "能由等差数列中两个给定序号的项求公差",
+            "skill_id": "sk_c0d75912870f511ebfd4"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh4.4.4-q203",
+        "current_source_task_sha256": "8fdb1678988cdef9a22824401eda11fefae742078c7baa25000eedfcb677f0a2",
+        "current_task_contract_sha256": "00175a49923195a9622e1b72277892133135ad258cf2c2ab56851b3bfd364582",
+        "narrow_goal_statement": "能计算归纳步骤中已给新增项表达式的具体值",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 4,
+            "statement": "能计算归纳步骤中已给新增项表达式的具体值",
+            "skill_id": "sk_7cffd6b73dc35592beeb"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh4.5.2.2-q204",
+        "current_source_task_sha256": "f949e20fbbfb1de530062f4230c9480d69d5d764ce6a8a2f8eeb4af1814d8062",
+        "current_task_contract_sha256": "80201260fd0e6df74317261d87ed2de5d454760335f21669bfce3f1cfc5be44d",
+        "narrow_goal_statement": "能识别两个可导函数的乘积求导公式",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 2,
+            "statement": "能识别两个可导函数的乘积求导公式",
+            "skill_id": "sk_d0c38d9cd5c25647aed6"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh4.5.3.1-q203",
+        "current_source_task_sha256": "e87b3751a6377007ba3e4b0f08b192fde83b772d047e1a003238128423422d0b",
+        "current_task_contract_sha256": "d38859081e3f3e5c1e92e513f9c1525a29934b2e5797bfc508c322809a75362d",
+        "narrow_goal_statement": "能求给定多项式导函数的指定范围零点",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 4,
+            "statement": "能求给定多项式导函数的指定范围零点",
+            "skill_id": "sk_218126ab7fd85bc6bf42"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh5.6.2.1-q201",
+        "current_source_task_sha256": "cd9f44ff64de59fac9e598b5f1b9d5eb407df48c03e4be3568f746c351d0e5c7",
+        "current_task_contract_sha256": "81c7e10096dbba7b86b48568b34bf84b929bfc1d2f0a96e7abfa201975a43a5f",
+        "narrow_goal_statement": "能计算从不同元素中选取若干个作有序安排的总数",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 2,
+            "statement": "能计算从不同元素中选取若干个作有序安排的总数",
+            "skill_id": "sk_293f910f6a7152b78ccd"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh5.6.2.1-q204",
+        "current_source_task_sha256": "7e59f2f776955714723ae685976f52f59dcaada0eb54412780581d71cc2fa2b3",
+        "current_task_contract_sha256": "4a2323e29f8789d04fd08c76ad0761778330502ed94dc4539b2c891cf59d8183",
+        "narrow_goal_statement": "能计算从不同元素中选取若干个作有序安排的总数",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 2,
+            "statement": "能计算从不同元素中选取若干个作有序安排的总数",
+            "skill_id": "sk_293f910f6a7152b78ccd"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh5.6.3.2-q204",
+        "current_source_task_sha256": "39d0d85de9790f95ea88697951355bb4106bb9a87569757eb07b6116bfe233bb",
+        "current_task_contract_sha256": "64c86c1570337615fea7d08e56e4cd246138c886810462b64bc72aad12b6e4d3",
+        "narrow_goal_statement": "能识别二项式系数中最大系数的位置",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 2,
+            "statement": "能识别二项式系数中最大系数的位置",
+            "skill_id": "sk_5964224c826256aea3b1"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh5.7.2-q204",
+        "current_source_task_sha256": "f5917803906662f4801f66ceed24d92068cda0d23cdfdf0d0ec0b1fdc3857ced",
+        "current_task_contract_sha256": "4fd748f80420083aa72bcbbb28644c91d3997d8002006551778868bf79f2fc30",
+        "narrow_goal_statement": "能按已给有限分布列计算指定取值范围的概率",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 6,
+            "statement": "能按已给有限分布列计算指定取值范围的概率",
+            "skill_id": "sk_46b536efef685f899f4f"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh5.7.4.1-q204",
+        "current_source_task_sha256": "b8743eb8b7bfffb66db2fbc9bc4db4bb23dccceaabe2197e164a6e8530af44dc",
+        "current_task_contract_sha256": "1485c36c0dbe07c5c3b37690fb1cea860473660c065473adc8c5aa553e0517de",
+        "narrow_goal_statement": "能计算独立重复伯努利试验中恰好指定成功次数的概率",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 3,
+            "statement": "能计算独立重复伯努利试验中恰好指定成功次数的概率",
+            "skill_id": "sk_05c6b6c9835659529ed6"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh5.8.1.1-q202",
+        "current_source_task_sha256": "faf2923770e1bfc5b524806666f2430ba0b68cfe2e7ca819dbd744dcaf019374",
+        "current_task_contract_sha256": "9101b49512b420eb03368f466e0b3b6b709c46962a9d5cb1b8c2a8ac837391e5",
+        "narrow_goal_statement": "能由实际散点图识别明显的弯曲趋势",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 3,
+            "statement": "能由实际散点图识别明显的弯曲趋势",
+            "skill_id": "sk_b3e5e1ad029a51ef8549"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh5.8.1.1-q203",
+        "current_source_task_sha256": "2de10dda8f3842224785bd82486eff1aa0db0912d193ad361aa0c9368576bffd",
+        "current_task_contract_sha256": "db59d23d8a9815527302be9987022ba80953de0bfa0696f988debd33837eb614",
+        "narrow_goal_statement": "能判断仅有观察性相关证据不足以推出因果结论",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 4,
+            "statement": "能判断仅有观察性相关证据不足以推出因果结论",
+            "skill_id": "sk_c836d131dbba53f4855e"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      },
+      {
+        "id": "mh5.8.1.2-q203",
+        "current_source_task_sha256": "8986c5ccb9c0801d00e28ccdb952dc2c0ab8b1dee9f868a5b9f9498c31f289f4",
+        "current_task_contract_sha256": "95bc82a58cee3f43cfa1a7a2fa49e03ec38b7a0e6c3a31273e353910583765e1",
+        "narrow_goal_statement": "能判断一个样本变量没有变异时相关系数未定义",
+        "current_goal_mapping": [
+          {
+            "criterion_index": 5,
+            "statement": "能判断一个样本变量没有变异时相关系数未定义",
+            "skill_id": "sk_7d6a12992f0e59d495f8"
+          }
+        ],
+        "original_broad_goal_mapping_rejected": true,
+        "diagnosis_eligible": false,
+        "may_confirm_mastery": false,
+        "may_judge_weak": false
+      }
+    ],
+    "design_level_boundary": "5个明确章节的advanced设计标签缺口按具体任务与审查保留，不把basic或standard升级凑配额；所有标签仍待真实学生校准。"
+  },
+  "finalized_at_utc": "2026-10-28T03:18:43.640466+00:00"
+}

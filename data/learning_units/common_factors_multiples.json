@@ -702,22 +702,30 @@
           "family_id": "number.gcd-maximality-error",
           "representation": "symbolic",
           "cognitive_demand": "explain",
-          "reference_family_ids": [
-            "number.gcd-enumerate"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "先说清“候选数能整除两个原数”。"
+            "text": "先说清“候选数能整除两个原数”。",
+            "reference_family_ids": [
+              "number.divisor-multiple-direction"
+            ]
           },
           {
             "level": 2,
-            "text": "分别列因数，找交集，再比较所有公因数大小。"
+            "text": "分别列因数，找交集，再比较所有公因数大小。",
+            "reference_family_ids": [
+              "number.gcd-enumerate"
+            ]
           },
           {
             "level": 3,
-            "text": "8与12的共同因数为1、2、4，最大4。只验证2同时整除，只能证明2公有，不能证明最大。"
+            "text": "8与12的共同因数为1、2、4，最大4。只验证2同时整除，只能证明2公有，不能证明最大。",
+            "reference_family_ids": [
+              "number.gcd-enumerate",
+              "number.gcd-maximality-error"
+            ]
           }
         ],
         "guided_task": {
@@ -745,15 +753,175 @@
           "family_id": "number.gcd-enumerate",
           "representation": "symbolic",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "number.gcd-enumerate"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "common_factors_multiples:practice-1",
           "common_factors_multiples:transfer-1",
           "common_factors_multiples:delayed-1"
-        ]
+        ],
+        "default_route": {
+          "title": "继续检查：先找公有，再证明已经最大",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "复合目标短题检查公因数与最大公因数的区别；列举完整性仍需后续说明。"
+        },
+        "guided_branches": [
+          {
+            "id": "seek_larger_common_divisor",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "用更大公因数检验最大性",
+            "rationale": "只证实2能整除两数，却把“公有”升级为“最大”。",
+            "observation_note": "观察能否用反例否定最大性；完整求最大公因数还需列全或有排除依据。",
+            "guided_task": {
+              "prompt": "小林说“18与30都能被3整除，所以最大公因数是3”。哪项足以反驳这个结论？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "6同时整除18和30，而且6大于3"
+                },
+                {
+                  "id": "B",
+                  "text": "3是奇数，所以不能是公因数"
+                },
+                {
+                  "id": "C",
+                  "text": "18比30小，所以最大公因数只能是18"
+                }
+              ],
+              "answer": "A",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "18÷6=3、30÷6=5，故6是更大的公因数；一个这样的反例就否定“3最大”。",
+              "family_id": "number.gcd-maximality-error",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "common_factors_multiples:support:o1:seek_larger_common_divisor"
+            }
+          },
+          {
+            "id": "verify_common_divisor",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "分别检验两个整除关系",
+            "rationale": "否认2是公因数，可能把不是最大误认为不公有。",
+            "observation_note": "这里只确认共同整除，不把它误记为求出最大者。",
+            "guided_task": {
+              "prompt": "判断4是不是12与20的公因数，应核对哪一组计算？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "12+20=32，只看总和能否除以4"
+                },
+                {
+                  "id": "B",
+                  "text": "20÷12不是整数，所以4不是公因数"
+                },
+                {
+                  "id": "C",
+                  "text": "12÷4=3且20÷4=5，两个商都是整数"
+                }
+              ],
+              "answer": "C",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "公因数d要求每个原数除以d均无余数；这里12和20分别含3个4与5个4。",
+              "family_id": "number.divisor-multiple-direction",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "common_factors_multiples:support:o1:verify_common_divisor"
+            }
+          }
+        ],
+        "branch_hints": {
+          "A": [
+            {
+              "level": 1,
+              "text": "要反驳最大，寻找一个更大的合格候选。",
+              "reference_family_ids": [
+                "number.gcd-maximality-error"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "对6分别做18÷6和30÷6，再比较6与3。",
+              "reference_family_ids": [
+                "number.gcd-maximality-error"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "18÷6=3、30÷6=5，故6是更大的公因数；一个这样的反例就否定“3最大”。",
+              "reference_family_ids": [
+                "number.gcd-maximality-error"
+              ]
+            }
+          ],
+          "C": [
+            {
+              "level": 1,
+              "text": "圈出候选因数4，再圈两个要被它整除的原数。",
+              "reference_family_ids": [
+                "number.divisor-multiple-direction"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "分别算原数÷候选；不要把两个原数相除。",
+              "reference_family_ids": [
+                "number.divisor-multiple-direction"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "公因数d要求每个原数除以d均无余数；这里12和20分别含3个4与5个4。",
+              "reference_family_ids": [
+                "number.divisor-multiple-direction"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先识别整除",
+          "rationale": "暂时不会时先判断单个数的因数。",
+          "observation_note": "只检查一个整除关系，还没有处理共同或最大。",
+          "guided_task": {
+            "prompt": "12支笔每盒装3支，能正好装4盒且不剩。由此可知什么？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "A",
+                "text": "3一定是12与任意数的最大公因数"
+              },
+              {
+                "id": "B",
+                "text": "3是12的一个因数"
+              },
+              {
+                "id": "C",
+                "text": "12是3的因数"
+              }
+            ],
+            "answer": "B",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "12=3×4，所以3能整除12；没有给第二个数，不能说共同或最大。",
+            "family_id": "number.divisor-multiple-direction",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "reference_family_ids": [],
+            "variant_id": "common_factors_multiples:support:o1:skip"
+          }
+        }
       },
       {
         "id": "common_factors_multiples:support:o2",
@@ -795,22 +963,29 @@
           "family_id": "number.lcm-minimality-error",
           "representation": "symbolic",
           "cognitive_demand": "choose_strategy",
-          "reference_family_ids": [
-            "number.lcm-positive-direct"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "把倍数从第一正倍数开始列，不从0选答案。"
+            "text": "把倍数从第一正倍数开始列，不从0选答案。",
+            "reference_family_ids": [
+              "number.lcm-positive-direct"
+            ]
           },
           {
             "level": 2,
-            "text": "找两列第一个共同数，并检查它被两原数都整除。"
+            "text": "找两列第一个共同数，并检查它被两原数都整除。",
+            "reference_family_ids": [
+              "number.lcm-positive-direct"
+            ]
           },
           {
             "level": 3,
-            "text": "4与10的乘积40是公倍数，但20也是并且更小；列4、8、12、16、20和10、20可确认最小20。"
+            "text": "4与10的乘积40是公倍数，但20也是并且更小；列4、8、12、16、20和10、20可确认最小20。",
+            "reference_family_ids": [
+              "number.lcm-minimality-error"
+            ]
           }
         ],
         "guided_task": {
@@ -827,15 +1002,175 @@
           "family_id": "number.divisibility-shortcut",
           "representation": "symbolic",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "number.lcm-positive-direct"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "common_factors_multiples:practice-2",
           "common_factors_multiples:transfer-2",
           "common_factors_multiples:delayed-2"
-        ]
+        ],
+        "default_route": {
+          "title": "继续检查：在正公倍数中找第一个",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "复合目标先检查排除0和最小性；倍数捷径与应用条件仍需后续任务。"
+        },
+        "guided_branches": [
+          {
+            "id": "exclude_zero_from_next_time",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "区分起点0与之后的正时刻",
+            "rationale": "选择0忽略最小公倍数的正数约定或“下一次”的限制。",
+            "observation_note": "只观察排除0与读共同正时刻；错峰周期还需单独检查。",
+            "guided_task": {
+              "prompt": "两灯在0秒同时亮，之后分别每2秒、3秒亮。表中共同亮的时刻有0、6、12秒。问“0秒之后首次”，应选哪个及理由？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "6秒，因为0是起点，6是表中首个正的共同亮灯时刻"
+                },
+                {
+                  "id": "B",
+                  "text": "0秒，因为它最小"
+                },
+                {
+                  "id": "C",
+                  "text": "12秒，因为共同亮灯必须等到两个周期各出现两次"
+                }
+              ],
+              "answer": "A",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "0不满足“之后”；正共同倍数6、12中首个是6。两灯确实从同一时刻开始。",
+              "family_id": "number.lcm-synchronized-cycles",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "common_factors_multiples:support:o2:exclude_zero_from_next_time"
+            }
+          },
+          {
+            "id": "separate_product_and_minimum",
+            "choice_ids": [
+              "B"
+            ],
+            "title": "找出小于乘积的公倍数",
+            "rationale": "把乘积是公倍数误作乘积必是最小公倍数。",
+            "observation_note": "观察一个较小公倍数推翻“乘积最小”，仍需另证所选数最小。",
+            "guided_task": {
+              "prompt": "8×12=96。要否定“96必是8与12的最小公倍数”，哪条证据足够？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "96能被8与12整除，所以没有更小公倍数"
+                },
+                {
+                  "id": "B",
+                  "text": "24÷8=3且24÷12=2，24小于96"
+                },
+                {
+                  "id": "C",
+                  "text": "8+12=20，所以20一定是公倍数"
+                }
+              ],
+              "answer": "B",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "24是两数的公倍数且24<96，已足以反驳96最小。20不能被8或12整除。",
+              "family_id": "number.lcm-minimality-error",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "common_factors_multiples:support:o2:separate_product_and_minimum"
+            }
+          }
+        ],
+        "branch_hints": {
+          "A": [
+            {
+              "level": 1,
+              "text": "在题目中标出“之后”。",
+              "reference_family_ids": [
+                "number.lcm-synchronized-cycles"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "先剔除起点0，再从小到大检查同时出现的时刻。",
+              "reference_family_ids": [
+                "number.lcm-synchronized-cycles"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "0不满足“之后”；正共同倍数6、12中首个是6。两灯确实从同一时刻开始。",
+              "reference_family_ids": [
+                "number.lcm-synchronized-cycles"
+              ]
+            }
+          ],
+          "B": [
+            {
+              "level": 1,
+              "text": "只证明96合格，不等于证明更小者都不合格。",
+              "reference_family_ids": [
+                "number.lcm-minimality-error"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "检查24是否同时在8和12的倍数表中。",
+              "reference_family_ids": [
+                "number.lcm-minimality-error"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "24是两数的公倍数且24<96，已足以反驳96最小。20不能被8或12整除。",
+              "reference_family_ids": [
+                "number.lcm-minimality-error"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先写正倍数列",
+          "rationale": "暂时不会时从一个数的正倍数开始。",
+          "observation_note": "只观察倍数与正数约定，尚未找两列交集。",
+          "guided_task": {
+            "prompt": "4的正倍数从小到大开始应怎样列？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "A",
+                "text": "1、2、4"
+              },
+              {
+                "id": "B",
+                "text": "4、8、12、16"
+              },
+              {
+                "id": "C",
+                "text": "0、1、2、3"
+              }
+            ],
+            "answer": "B",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "正倍数由4×1、4×2、4×3、4×4得到；1、2、4是因数，0不属正数。",
+            "family_id": "number.lcm-positive-direct",
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy",
+            "reference_family_ids": [],
+            "variant_id": "common_factors_multiples:support:o2:skip"
+          }
+        }
       },
       {
         "id": "common_factors_multiples:support:o3",
@@ -877,24 +1212,32 @@
           "family_id": "number.gcd-equal-cuts",
           "representation": "verbal",
           "cognitive_demand": "model",
-          "reference_family_ids": [
-            "number.gcd-equal-cuts",
-            "number.lcm-synchronized-cycles",
-            "number.offset-cycle-condition"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "把候选量放进句子：原数÷候选是整数，还是候选÷原数是整数？"
+            "text": "把候选量放进句子：原数÷候选是整数，还是候选÷原数是整数？",
+            "reference_family_ids": [
+              "number.divisor-multiple-direction"
+            ]
           },
           {
             "level": 2,
-            "text": "整分单位对应公因数；从共同起点按固定周期同时发生对应公倍数。"
+            "text": "整分单位对应公因数；从共同起点按固定周期同时发生对应公倍数。",
+            "reference_family_ids": [
+              "number.gcd-equal-cuts",
+              "number.lcm-synchronized-cycles"
+            ]
           },
           {
             "level": 3,
-            "text": "12与18厘米剪等长段找最大公因数6；每4、6分钟从同刻开始鸣响，下次同响找最小公倍数12。若开始时刻不同，必须重新检查时间表。"
+            "text": "12与18厘米剪等长段找最大公因数6；每4、6分钟从同刻开始鸣响，下次同响找最小公倍数12。若开始时刻不同，必须重新检查时间表。",
+            "reference_family_ids": [
+              "number.gcd-equal-cuts",
+              "number.lcm-synchronized-cycles",
+              "number.offset-cycle-condition"
+            ]
           }
         ],
         "guided_task": {
@@ -922,17 +1265,176 @@
           "family_id": "number.lcm-synchronized-cycles",
           "representation": "verbal",
           "cognitive_demand": "model",
-          "reference_family_ids": [
-            "number.gcd-equal-cuts",
-            "number.lcm-synchronized-cycles",
-            "number.offset-cycle-condition"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "common_factors_multiples:practice-3",
           "common_factors_multiples:transfer-1",
+          "common_factors_multiples:transfer-2",
           "common_factors_multiples:delayed-3"
-        ]
+        ],
+        "default_route": {
+          "title": "继续检查：整分单位和同步周期用相反的整除方向",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "复合目标短题区分模型；约分、通分和周期起点条件仍需后续确认。"
+        },
+        "guided_branches": [
+          {
+            "id": "test_cut_length_as_divisor",
+            "choice_ids": [
+              "B"
+            ],
+            "title": "把段长放回每根绳",
+            "rationale": "选择公倍数可能颠倒“原长度除以段长”的方向。",
+            "observation_note": "观察整分单位的方向，未单凭可行长度确认最长。",
+            "guided_task": {
+              "prompt": "12厘米和18厘米的绳不能拼接，想都剪成6厘米一段。应检查哪一对式子？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "12÷6=2，18÷6=3，均整除"
+                },
+                {
+                  "id": "B",
+                  "text": "6÷12和6÷18均小于1，所以不行"
+                },
+                {
+                  "id": "C",
+                  "text": "只检查6是不是12与18的公倍数"
+                }
+              ],
+              "answer": "A",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "段数=原长度÷段长，两个商是整数才不会余；6是公因数，公倍数方向相反。",
+              "family_id": "number.divisor-multiple-direction",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "common_factors_multiples:support:o3:test_cut_length_as_divisor"
+            }
+          },
+          {
+            "id": "respect_separate_rope_constraints",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "不把不能拼接的绳看成一根",
+            "rationale": "12+20只给总长度，不能保证每根绳都按同一段长无余。",
+            "observation_note": "观察每根原物各自的整除约束，不从总量守恒推出可分。",
+            "guided_task": {
+              "prompt": "两根绳分别12厘米、20厘米，不许拼接。总长32厘米，小青说可剪成4段8厘米。哪项检查找出问题？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "32÷8=4，所以一定可行"
+                },
+                {
+                  "id": "B",
+                  "text": "8是偶数，所以任何偶数长绳都能整分"
+                },
+                {
+                  "id": "C",
+                  "text": "12÷8有余数，20÷8也有余数；总长可分不代表每根可分"
+                }
+              ],
+              "answer": "C",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "每根绳必须独立整分。12=8+4，20=8+8+4，两个4厘米余段不能拼接成8厘米。",
+              "family_id": "number.gcd-equal-cuts",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "common_factors_multiples:support:o3:respect_separate_rope_constraints"
+            }
+          }
+        ],
+        "branch_hints": {
+          "B": [
+            {
+              "level": 1,
+              "text": "给除法结果写上单位“段”。",
+              "reference_family_ids": [
+                "number.divisor-multiple-direction"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "每根原绳分别除以候选段长，不让段长除以原绳。",
+              "reference_family_ids": [
+                "number.divisor-multiple-direction"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "段数=原长度÷段长，两个商是整数才不会余；6是公因数，公倍数方向相反。",
+              "reference_family_ids": [
+                "number.divisor-multiple-direction"
+              ]
+            }
+          ],
+          "C": [
+            {
+              "level": 1,
+              "text": "题中“不许拼接”意味着两根绳要分别检查。",
+              "reference_family_ids": [
+                "number.gcd-equal-cuts"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "先在12厘米绳上试切8厘米，再检查余段。",
+              "reference_family_ids": [
+                "number.gcd-equal-cuts"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "每根绳必须独立整分。12=8+4，20=8+8+4，两个4厘米余段不能拼接成8厘米。",
+              "reference_family_ids": [
+                "number.gcd-equal-cuts"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先辨认候选量的单位",
+          "rationale": "暂时不会时先识别要找的是每段长度。",
+          "observation_note": "只确认问题中未知量，不证明已会选择最优公因数。",
+          "guided_task": {
+            "prompt": "一根15厘米绳剪成等长小段，写15÷d=段数。d表示什么？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "A",
+                "text": "每段的长度（厘米）"
+              },
+              {
+                "id": "B",
+                "text": "总共的段数"
+              },
+              {
+                "id": "C",
+                "text": "剪后所有绳段总长"
+              }
+            ],
+            "answer": "A",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "总长度÷每段长度才得到段数，d是分段单位。",
+            "family_id": "number.divisor-multiple-direction",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "reference_family_ids": [],
+            "variant_id": "common_factors_multiples:support:o3:skip"
+          }
+        }
       },
       {
         "id": "common_factors_multiples:support:gcd",
@@ -974,23 +1476,29 @@
           "family_id": "number.gcd-enumerate",
           "representation": "symbolic",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "number.factor-pair",
-            "number.factors-enumerate"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "用乘积配对列因数，如16=1×16=2×8=4×4。"
+            "text": "用乘积配对列因数，如16=1×16=2×8=4×4。",
+            "reference_family_ids": [
+              "number.gcd-enumerate"
+            ]
           },
           {
             "level": 2,
-            "text": "两数各自列全后，圈出共同出现者，再按从小到大排列。"
+            "text": "两数各自列全后，圈出共同出现者，再按从小到大排列。",
+            "reference_family_ids": [
+              "number.gcd-enumerate"
+            ]
           },
           {
             "level": 3,
-            "text": "18=1×18=2×9=3×6，30=1×30=2×15=3×10=5×6，共同为1、2、3、6，最大6。"
+            "text": "18=1×18=2×9=3×6，30=1×30=2×15=3×10=5×6，共同为1、2、3、6，最大6。",
+            "reference_family_ids": [
+              "number.gcd-enumerate"
+            ]
           }
         ],
         "guided_task": {
@@ -1007,16 +1515,164 @@
           "family_id": "number.gcd-enumerate",
           "representation": "symbolic",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "number.factor-pair",
-            "number.factors-enumerate"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "common_factors_multiples:practice-1",
           "common_factors_multiples:transfer-1",
           "common_factors_multiples:delayed-1"
-        ]
+        ],
+        "default_route": {
+          "title": "继续检查：成对列因数，避免漏项",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "观察完整列公因数；最大性的解释由列表完整性支持。"
+        },
+        "guided_branches": [
+          {
+            "id": "intersect_not_union",
+            "choice_ids": [
+              "B"
+            ],
+            "title": "公有必须在两张因数表中",
+            "rationale": "把只属于24的因数3也列入，可能把并集当交集。",
+            "observation_note": "观察候选是否同时合格，不凭一项就确认列表已完整。",
+            "guided_task": {
+              "prompt": "判断3能否列入16与24的公因数，哪条检查正确？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "24÷3=8，但16÷3有余数，所以3不公有"
+                },
+                {
+                  "id": "B",
+                  "text": "只要24÷3为整数就可以列入"
+                },
+                {
+                  "id": "C",
+                  "text": "3比16小，所以一定是16的因数"
+                }
+              ],
+              "answer": "A",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "公有要求两边都出现；3虽整除24，却不整除16。",
+              "family_id": "number.gcd-enumerate",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "common_factors_multiples:support:gcd:intersect_not_union"
+            }
+          },
+          {
+            "id": "recover_factor_pairs",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "用乘积配对找遗漏候选",
+            "rationale": "遗漏8可能因为只找了较小因数，没有利用乘积的另一因子。",
+            "observation_note": "观察发现被遗漏的公因数；完整性仍须覆盖所有因数对。",
+            "guided_task": {
+              "prompt": "24=3×8，40=5×8。小青只写出公因数1、2、4。根据给出的两个乘积，至少漏掉了哪个大于4的公因数？",
+              "type": "numeric",
+              "answer": "8",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "explanation": "8同时是24与40的因数，又不在1、2、4中，所以必须补入8。",
+              "family_id": "number.gcd-enumerate",
+              "representation": "symbolic",
+              "cognitive_demand": "execute",
+              "reference_family_ids": [],
+              "verify": "24/3",
+              "variant_id": "common_factors_multiples:support:gcd:recover_factor_pairs"
+            }
+          }
+        ],
+        "branch_hints": {
+          "B": [
+            {
+              "level": 1,
+              "text": "给候选3在两个因数表各找一次。",
+              "reference_family_ids": [
+                "number.gcd-enumerate"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "一张表有、另一张没有时，不能放进交集。",
+              "reference_family_ids": [
+                "number.gcd-enumerate"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "公有要求两边都出现；3虽整除24，却不整除16。",
+              "reference_family_ids": [
+                "number.gcd-enumerate"
+              ]
+            }
+          ],
+          "C": [
+            {
+              "level": 1,
+              "text": "乘积等式中的两个乘数都是原数的因数。",
+              "reference_family_ids": [
+                "number.gcd-enumerate"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "在3×8与5×8中圈出相同的乘数。",
+              "reference_family_ids": [
+                "number.gcd-enumerate"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "8同时是24与40的因数，又不在1、2、4中，所以必须补入8。",
+              "reference_family_ids": [
+                "number.gcd-enumerate"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "在两份清单找共同项",
+          "rationale": "暂时不会时先做有限集合交集。",
+          "observation_note": "只检查公有概念，尚未检验两份因数表是否列全。",
+          "guided_task": {
+            "prompt": "甲表为1、2、3、6，乙表为1、2、4、8。两表都出现的数是哪组？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "A",
+                "text": "6、8"
+              },
+              {
+                "id": "B",
+                "text": "1、2"
+              },
+              {
+                "id": "C",
+                "text": "1、2、3、4"
+              }
+            ],
+            "answer": "B",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "1与2在两表中都有；3和4各只在一表，6和8也不是共同项。",
+            "family_id": "number.gcd-enumerate",
+            "representation": "table",
+            "cognitive_demand": "choose_strategy",
+            "reference_family_ids": [],
+            "variant_id": "common_factors_multiples:support:gcd:skip"
+          }
+        }
       },
       {
         "id": "common_factors_multiples:support:lcm",
@@ -1058,22 +1714,30 @@
           "family_id": "number.divisibility-shortcut",
           "representation": "symbolic",
           "cognitive_demand": "explain",
-          "reference_family_ids": [
-            "number.divisibility-shortcut"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "先检查较大数能否被较小数整除。"
+            "text": "先检查较大数能否被较小数整除。",
+            "reference_family_ids": [
+              "number.divisibility-shortcut"
+            ]
           },
           {
             "level": 2,
-            "text": "若能，它已是首个公共正倍数；若不能，就继续列举或分解。"
+            "text": "若能，它已是首个公共正倍数；若不能，就继续列举或分解。",
+            "reference_family_ids": [
+              "number.divisibility-shortcut"
+            ]
           },
           {
             "level": 3,
-            "text": "3与9选9，因为9是3的倍数；6与9不能选9，首个公共正倍数为18。"
+            "text": "3与9选9，因为9是3的倍数；6与9不能选9，首个公共正倍数为18。",
+            "reference_family_ids": [
+              "number.divisibility-shortcut",
+              "number.lcm-positive-direct"
+            ]
           }
         ],
         "guided_task": {
@@ -1090,15 +1754,164 @@
           "family_id": "number.lcm-positive-direct",
           "representation": "symbolic",
           "cognitive_demand": "execute",
-          "reference_family_ids": [
-            "number.divisibility-shortcut"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "common_factors_multiples:practice-2",
           "common_factors_multiples:transfer-2",
           "common_factors_multiples:delayed-2"
-        ]
+        ],
+        "default_route": {
+          "title": "继续检查：整除关系可缩短列举，但仍要给理由",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "观察一个数为另一个倍数时的捷径；不能把这条规则用于任意数对。"
+        },
+        "guided_branches": [
+          {
+            "id": "check_larger_is_multiple",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "较大数仍要通过整除检查",
+            "rationale": "误把整除特例扩大为任意两数都取较大者。",
+            "observation_note": "只观察快捷法的适用条件，不把一个反例当成所有最小公倍数的算法。",
+            "guided_task": {
+              "prompt": "有人给4和6直接取较大数6作最小公倍数。应怎样核对？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "6大于4，所以无需检查"
+                },
+                {
+                  "id": "B",
+                  "text": "4与6都是偶数，所以较大者必可整除较小者"
+                },
+                {
+                  "id": "C",
+                  "text": "6÷4不是整数，6连公倍数都不是"
+                }
+              ],
+              "answer": "C",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "较大数只有同时是较小数的倍数时才能这样取；6÷4=1.5，条件不满足。",
+              "family_id": "number.divisibility-shortcut",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "common_factors_multiples:support:lcm:check_larger_is_multiple"
+            }
+          },
+          {
+            "id": "test_difference_as_candidate",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "差值不能代替倍数条件",
+            "rationale": "用两数之差作理由，没有检查候选是否同时被两数整除。",
+            "observation_note": "观察公倍数的必要条件，未说明找到首个公共正值。",
+            "guided_task": {
+              "prompt": "小林用12−4=8作4与12的最小公倍数。哪个算式直接表明8不合格？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "8÷4=2"
+                },
+                {
+                  "id": "B",
+                  "text": "12−4=8"
+                },
+                {
+                  "id": "C",
+                  "text": "8÷12不是整数"
+                }
+              ],
+              "answer": "C",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "公倍数要是每个原数的整数倍；8虽为4的倍数，却不是12的倍数。",
+              "family_id": "number.divisor-multiple-direction",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "common_factors_multiples:support:lcm:test_difference_as_candidate"
+            }
+          }
+        ],
+        "branch_hints": {
+          "A": [
+            {
+              "level": 1,
+              "text": "把“较大”与“较小数的倍数”分别检查。",
+              "reference_family_ids": [
+                "number.divisibility-shortcut"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "试算6÷4，看是否有整数倍关系。",
+              "reference_family_ids": [
+                "number.divisibility-shortcut"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "较大数只有同时是较小数的倍数时才能这样取；6÷4=1.5，条件不满足。",
+              "reference_family_ids": [
+                "number.divisibility-shortcut"
+              ]
+            }
+          ],
+          "C": [
+            {
+              "level": 1,
+              "text": "候选是8，要被4和12分别整除。",
+              "reference_family_ids": [
+                "number.divisor-multiple-direction"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "检查不能被其中一个数整除，就可否定公倍数资格。",
+              "reference_family_ids": [
+                "number.divisor-multiple-direction"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "公倍数要是每个原数的整数倍；8虽为4的倍数，却不是12的倍数。",
+              "reference_family_ids": [
+                "number.divisor-multiple-direction"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先确认一个数的首个正倍数",
+          "rationale": "暂时不会时把正倍数列从乘1开始。",
+          "observation_note": "只观察正倍数起点，还没有证明共同性。",
+          "guided_task": {
+            "prompt": "9的正倍数依次是9、18、27……，其中最小的正数是多少？",
+            "type": "numeric",
+            "answer": "9",
+            "answer_spec": {
+              "kind": "number",
+              "comparison": "exact",
+              "representation": "any"
+            },
+            "explanation": "9×1=9，后续乘2、3等都更大；0不属正数。",
+            "family_id": "number.lcm-positive-direct",
+            "representation": "symbolic",
+            "cognitive_demand": "execute",
+            "reference_family_ids": [],
+            "verify": "9*1",
+            "variant_id": "common_factors_multiples:support:lcm:skip"
+          }
+        }
       },
       {
         "id": "common_factors_multiples:support:choose_model",
@@ -1140,23 +1953,30 @@
           "family_id": "number.offset-cycle-condition",
           "representation": "verbal",
           "cognitive_demand": "model",
-          "reference_family_ids": [
-            "number.offset-cycle-condition",
-            "number.gcd-equal-cuts"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "写出每个量的实际规则，特别标起点和步长。"
+            "text": "写出每个量的实际规则，特别标起点和步长。",
+            "reference_family_ids": [
+              "number.offset-cycle-condition"
+            ]
           },
           {
             "level": 2,
-            "text": "同步且同起点才直接用周期的公倍数；错峰先列表或按相应时间式求交集。"
+            "text": "同步且同起点才直接用周期的公倍数；错峰先列表或按相应时间式求交集。",
+            "reference_family_ids": [
+              "number.offset-cycle-condition",
+              "number.lcm-synchronized-cycles"
+            ]
           },
           {
             "level": 3,
-            "text": "甲从0起每3秒，乙从1起每4秒，时刻列为0、3、6、9…和1、5、9…，首次同闪9秒，而不是周期最小公倍数12秒。"
+            "text": "甲从0起每3秒，乙从1起每4秒，时刻列为0、3、6、9…和1、5、9…，首次同闪9秒，而不是周期最小公倍数12秒。",
+            "reference_family_ids": [
+              "number.offset-cycle-condition"
+            ]
           }
         ],
         "guided_task": {
@@ -1184,16 +2004,177 @@
           "family_id": "number.divisor-multiple-direction",
           "representation": "verbal",
           "cognitive_demand": "choose_strategy",
-          "reference_family_ids": [
-            "number.offset-cycle-condition",
-            "number.gcd-equal-cuts"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "common_factors_multiples:practice-3",
           "common_factors_multiples:transfer-1",
+          "common_factors_multiples:transfer-2",
+          "common_factors_multiples:transfer-4",
           "common_factors_multiples:delayed-3"
-        ]
+        ],
+        "default_route": {
+          "title": "继续检查：周期模型先检查是否同一起跑",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "观察错峰周期不能直接套最小公倍数；整分单位模型仍需另题确认。"
+        },
+        "guided_branches": [
+          {
+            "id": "include_starting_offset",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "把起始偏移写进时间规则",
+            "rationale": "直接用周期最小公倍数，忽略两灯不是同一起点。",
+            "observation_note": "观察起点条件；这里只计算给定两条时间规则，不推广到任意错峰公式。",
+            "guided_task": {
+              "prompt": "甲从0秒起每6秒亮；乙从2秒起每4秒亮。若n=0、1、2……表示乙从第一次起的次数，乙亮灯时刻应写成哪式？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "2+4n"
+                },
+                {
+                  "id": "B",
+                  "text": "4n"
+                },
+                {
+                  "id": "C",
+                  "text": "6n"
+                }
+              ],
+              "answer": "A",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "乙的序列是2、6、10……，起始2秒须保留；4n会变成0、4、8……另一张时间表。",
+              "family_id": "number.offset-cycle-condition",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "common_factors_multiples:support:choose_model:include_starting_offset"
+            }
+          },
+          {
+            "id": "check_both_schedules",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "同时发生要求两边都满足",
+            "rationale": "只挑乙第一次出现的2秒，未核对甲是否也在此时亮。",
+            "observation_note": "观察候选时刻的交集条件，不把一方出现当同步。",
+            "guided_task": {
+              "prompt": "甲在0、5、10、15秒亮，乙在2、6、10、14秒亮。检查候选14秒时，下列判断正确的是？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "14比10大，所以两灯必都亮"
+                },
+                {
+                  "id": "B",
+                  "text": "乙亮但甲不亮，所以14秒不是同时亮"
+                },
+                {
+                  "id": "C",
+                  "text": "乙在14秒亮，已经足够算同时亮"
+                }
+              ],
+              "answer": "B",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "“同时”要求同一时刻属于两张表。14只在乙表中；表中10才同时出现。",
+              "family_id": "number.offset-cycle-condition",
+              "representation": "table",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "common_factors_multiples:support:choose_model:check_both_schedules"
+            }
+          }
+        ],
+        "branch_hints": {
+          "A": [
+            {
+              "level": 1,
+              "text": "把第一次亮灯时刻与之后的间隔分开写。",
+              "reference_family_ids": [
+                "number.offset-cycle-condition"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "从2开始，每增加一次就再加4。",
+              "reference_family_ids": [
+                "number.offset-cycle-condition"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "乙的序列是2、6、10……，起始2秒须保留；4n会变成0、4、8……另一张时间表。",
+              "reference_family_ids": [
+                "number.offset-cycle-condition"
+              ]
+            }
+          ],
+          "C": [
+            {
+              "level": 1,
+              "text": "把14在两张表中分别查找。",
+              "reference_family_ids": [
+                "number.offset-cycle-condition"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "为甲、乙各设一个“该时刻亮吗”的检查格，两格都满足才合格。",
+              "reference_family_ids": [
+                "number.offset-cycle-condition"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "“同时”要求同一时刻属于两张表。14只在乙表中；表中10才同时出现。",
+              "reference_family_ids": [
+                "number.offset-cycle-condition"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先分辨长度单位与等待时间",
+          "rationale": "暂时不会时先把问题中的量和方向对应起来。",
+          "observation_note": "只观察因数/倍数的数量方向，未处理最优性与错峰。",
+          "guided_task": {
+            "prompt": "哪句描述要求候选d“整除每个原数”？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "A",
+                "text": "把12厘米和18厘米绳各自剪成d厘米小段，均不剩"
+              },
+              {
+                "id": "B",
+                "text": "两灯同起点，等到d秒时分别走过整数个周期"
+              },
+              {
+                "id": "C",
+                "text": "两个长度直接相加得到d"
+              }
+            ],
+            "answer": "A",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "整分时原长÷d是整数；等待时间是d÷周期为整数，除法方向相反。",
+            "family_id": "number.divisor-multiple-direction",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "reference_family_ids": [],
+            "variant_id": "common_factors_multiples:support:choose_model:skip"
+          }
+        }
       },
       {
         "id": "common_factors_multiples:support:justify_optimum",
@@ -1235,22 +2216,31 @@
           "family_id": "number.lcm-minimality-error",
           "representation": "symbolic",
           "cognitive_demand": "explain",
-          "reference_family_ids": [
-            "number.gcd-maximality-error"
-          ]
+          "reference_family_ids": []
         },
         "hints": [
           {
             "level": 1,
-            "text": "先核对候选是否同时满足两个要求。"
+            "text": "先核对候选是否同时满足两个要求。",
+            "reference_family_ids": [
+              "number.divisor-multiple-direction"
+            ]
           },
           {
             "level": 2,
-            "text": "再问还有没有更小的正公倍数或更大的公因数，列全相关候选给出排除依据。"
+            "text": "再问还有没有更小的正公倍数或更大的公因数，列全相关候选给出排除依据。",
+            "reference_family_ids": [
+              "number.gcd-maximality-error",
+              "number.lcm-minimality-error"
+            ]
           },
           {
             "level": 3,
-            "text": "12与16都是偶数只能说明2是公因数；共同因数1、2、4列全后，才可确认最大为4。"
+            "text": "12与16都是偶数只能说明2是公因数；共同因数1、2、4列全后，才可确认最大为4。",
+            "reference_family_ids": [
+              "number.gcd-enumerate",
+              "number.gcd-maximality-error"
+            ]
           }
         ],
         "guided_task": {
@@ -1278,15 +2268,180 @@
           "family_id": "number.gcd-enumerate",
           "representation": "symbolic",
           "cognitive_demand": "explain",
-          "reference_family_ids": [
-            "number.gcd-maximality-error"
-          ]
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "common_factors_multiples:practice-1",
           "common_factors_multiples:transfer-1",
           "common_factors_multiples:delayed-2"
-        ]
+        ],
+        "default_route": {
+          "title": "继续检查：找到可用值，还要排除更好的值",
+          "rationale": "这次辨别题选中了符合条件的理由；接着完成原有的指导任务，核对能否实际运用。",
+          "observation_note": "观察最小公分母与一般公分母的区别；最大公因数同样需要完整候选依据。"
+        },
+        "guided_branches": [
+          {
+            "id": "require_extremum_evidence",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "合格之外还要排除更优候选",
+            "rationale": "等值通分只证明分母可用，未给“最小”的证据。",
+            "observation_note": "观察反例可推翻最小性，若要确认最小还须排除更小正候选。",
+            "guided_task": {
+              "prompt": "证明12是4和6的最小正公倍数，哪组说明完整？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "4×6=24，所以12一定最小"
+                },
+                {
+                  "id": "B",
+                  "text": "12能被4和6整除；小于12的4的正倍数4、8都不能被6整除"
+                },
+                {
+                  "id": "C",
+                  "text": "12=4×3，所以一定最小"
+                }
+              ],
+              "answer": "B",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "先证12公有，再检查所有小于12的4的正倍数4、8，均不被6整除，故没有更小合格正数。",
+              "family_id": "number.lcm-minimality-error",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [],
+              "variant_id": "common_factors_multiples:support:justify_optimum:require_extremum_evidence"
+            }
+          },
+          {
+            "id": "separate_valid_from_optimal",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "不最小仍可能是有效公分母",
+            "rationale": "因24不是最小就否定通分本身，混淆有效性与最优性。",
+            "observation_note": "观察两个不同判断，不从一个有效分母推断已求得最小。",
+            "guided_task": {
+              "prompt": "1/3=8/24，1/4=6/24；还可以分别写成4/12、3/12。如何评价用24通分？",
+              "type": "choice",
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "12更小，所以24不是3和4的公倍数"
+                },
+                {
+                  "id": "B",
+                  "text": "等值且可用，但24不是最小正公分母"
+                },
+                {
+                  "id": "C",
+                  "text": "24不最小，所以8/24不等于1/3"
+                }
+              ],
+              "answer": "B",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "explanation": "两次改写都同乘非零整数，值保持；24同时为3、4的倍数，但12也是更小的公倍数。",
+              "family_id": "number.lcm-minimality-error",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [
+                "fraction.partition-refinement"
+              ],
+              "variant_id": "common_factors_multiples:support:justify_optimum:separate_valid_from_optimal"
+            }
+          }
+        ],
+        "branch_hints": {
+          "A": [
+            {
+              "level": 1,
+              "text": "把“12合格”和“更小者都不合格”写成两项。",
+              "reference_family_ids": [
+                "number.lcm-minimality-error"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "较小公倍数必须先在4的正倍数中，因此只需检查4、8。",
+              "reference_family_ids": [
+                "number.lcm-minimality-error"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "先证12公有，再检查所有小于12的4的正倍数4、8，均不被6整除，故没有更小合格正数。",
+              "reference_family_ids": [
+                "number.lcm-minimality-error"
+              ]
+            }
+          ],
+          "C": [
+            {
+              "level": 1,
+              "text": "先独立核对每个分数是否等值，再比较分母。",
+              "reference_family_ids": [
+                "number.lcm-minimality-error",
+                "fraction.partition-refinement"
+              ]
+            },
+            {
+              "level": 2,
+              "text": "24能用与24最小是两句话；12更小只否定后一句。",
+              "reference_family_ids": [
+                "number.lcm-minimality-error",
+                "fraction.partition-refinement"
+              ]
+            },
+            {
+              "level": 3,
+              "text": "两次改写都同乘非零整数，值保持；24同时为3、4的倍数，但12也是更小的公倍数。",
+              "reference_family_ids": [
+                "number.lcm-minimality-error",
+                "fraction.partition-refinement"
+              ]
+            }
+          ]
+        },
+        "skip_route": {
+          "title": "先比较一个合格候选与全部候选",
+          "rationale": "暂时不会时从已完整给出的有限集合识别最大者。",
+          "observation_note": "这里只在题目保证清单完整时比较大小，不证明自己能列全。",
+          "guided_task": {
+            "prompt": "已知两个正整数的全部公因数恰好是1、2、4。哪句可确定最大公因数？",
+            "type": "choice",
+            "choices": [
+              {
+                "id": "A",
+                "text": "4是这份完整清单中最大的数"
+              },
+              {
+                "id": "B",
+                "text": "2是偶数，所以最大"
+              },
+              {
+                "id": "C",
+                "text": "有3个公因数，所以最大是3"
+              }
+            ],
+            "answer": "A",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "explanation": "完整公因数集合只有1、2、4，最大元素4，数量3不是其中最大值。",
+            "family_id": "number.gcd-enumerate",
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy",
+            "reference_family_ids": [],
+            "variant_id": "common_factors_multiples:support:justify_optimum:skip"
+          }
+        }
       }
     ]
   }

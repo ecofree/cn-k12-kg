@@ -13,7 +13,7 @@ from .review_timing import (indexed_scope_activity, qualified_review, review_sch
 from .learning_needs import (derive_needs, observation_metadata, skill_evidence,
                              support_routes, task_options)
 
-RULE_VERSION = "activity-plan-v6"
+RULE_VERSION = "activity-plan-v6.1"
 REVIEW_INTERVAL_DAYS = (1, 3, 7)
 _PHASES = {"practice", "transfer", "delayed"}
 
@@ -289,6 +289,27 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None, need_sta
             "task_options": task_options(catalog, target_skills, records, exposures),
             "reason": "已完成的知识点学习仍有答错或跳过的项目。先回看相应讲解并练习，再保存后续确认；开始新会话不会清除原事项。",
             "evidence_basis": "specific_unresolved_observations", "rule_version": RULE_VERSION}))
+
+    # Starting a support activity is itself a saved continuation point. A
+    # learner may leave before the probe, or after a correct probe, when no
+    # error-based need exists yet. Do not make recovery depend on a tab's URL.
+    recommended_sessions = {item.get("session_id") for _, item in candidates}
+    support_scopes = {}
+    for record in records:
+        if record.get("kind") == "support" and not record.get("completed_at") and not record.get("resume_blocked"):
+            scope = record.get("scope_id") or record.get("resource_id") or record["id"]
+            support_scopes.setdefault(scope, []).append(record)
+    for history in support_scopes.values():
+        record = max(history, key=_stamp)
+        unit_id = record.get("source_origin", {}).get("unit_id") or record.get("unit_id")
+        record_stage = record.get("stage") or units.get(unit_id, {}).get("stage")
+        if record["id"] in recommended_sessions or (stage is not None and record_stage != stage):
+            continue
+        candidates.append((90, {"action": "continue", "kind": "support", "continuation": "resume_support",
+            "session_id": record["id"], "unit_id": unit_id, "title": record.get("title", "继续指导活动"),
+            "resource_version": _record_version(record), "phase": "support", "ready": True,
+            "reason": "这次指导活动尚未完成，可以恢复原来的分支、已提交作答和单独保存的草稿；未作答不表示答错。",
+            "evidence_basis": "recorded_activity", "rule_version": RULE_VERSION}))
 
     # Topic sessions also live in SQLite. Restoring a page must not depend on a
     # session ID surviving in sessionStorage. Their frozen graph, rather than

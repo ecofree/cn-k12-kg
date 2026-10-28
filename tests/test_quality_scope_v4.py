@@ -28,11 +28,11 @@ class QualityScopeTests(unittest.TestCase):
 
     def test_full_registered_denominator_and_distinct_completion_roles(self):
         summary = self.report["summary"]
-        self.assertEqual((summary["topic_count"], summary["volume_count"], summary["topic_goals"]), (477, 23, 966))
+        self.assertEqual((summary["topic_count"], summary["volume_count"], summary["topic_goals"]), (477, 23, 1608))
         self.assertEqual((summary["core_topics"], summary["foundation_topics"]), (342, 135))
-        self.assertEqual((summary["unit_goals"], summary["project_goals"], summary["total_goals"]), (104, 66, 1136))
+        self.assertEqual((summary["unit_goals"], summary["project_goals"], summary["total_goals"]), (104, 66, 1778))
         topics = [row for row in self.report["goals"] if row["resource_kind"] == "topic"]
-        self.assertEqual(Counter(row["role"] for row in topics), {"core": 692, "foundation_support": 274})
+        self.assertEqual(Counter(row["role"] for row in topics), {"core": 1311, "foundation_support": 297})
         self.assertTrue(self.report["manifest_valid"])
         self.assertTrue(all(row.get("optional_participation") for row in self.report["goals"] if row["resource_kind"] == "project"))
 
@@ -70,7 +70,7 @@ class QualityScopeTests(unittest.TestCase):
         self.assertTrue(all(row["status"] == "incomplete" for row in goals))
         self.assertTrue(all(any(gap["code"] == "explicit_goal_material_and_task" for gap in row["gaps"]) for row in goals))
         self.assertTrue(all(row["auxiliary_reference_refs"] for row in goals))
-        self.assertEqual(report["summary"]["total_goals"], 1136)
+        self.assertEqual(report["summary"]["total_goals"], 1778)
 
     def test_role_downgrade_or_goal_removal_in_manifest_is_rejected(self):
         manifest = copy.deepcopy(quality_scope.scope_manifest())
@@ -255,7 +255,9 @@ class SecondaryFoundationContentTests(unittest.TestCase):
             with self.subTest(topic=tid):
                 self.assertEqual(card["tier"], "tool")
                 self.assertEqual(check_card(card, topics, bank), [])
-                self.assertEqual(len(card["objective_coverage"]), 2)
+                expected_count = {"m7a.1.2.4": 3, "m7b.12.1.2": 3,
+                                  "m9b.33.2.1": 3, "mh5.8.3.1": 4}.get(tid, 2)
+                self.assertEqual(len(card["objective_coverage"]), expected_count)
                 self.assertTrue(card["conditions"])
                 for index, goal in enumerate(card["objective_coverage"]):
                     self.assertEqual(goal["title"], topics[tid]["mastery_criteria"][index])

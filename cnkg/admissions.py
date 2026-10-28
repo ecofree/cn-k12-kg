@@ -18,6 +18,37 @@ ALIGNMENT_FIELDS = ("tested_criterion_indices", "alignment_note", "target_alignm
                     "representation", "cognitive_demand", "reference_family_ids")
 
 
+def _policy_error(value, *, exact=True):
+    """Validate an archived use contract without coercing strings into consent.
+
+    Old valid snapshots retain their original meaning. A malformed snapshot
+    cannot fall back to today's permissive legacy heuristics or turn the text
+    ``"false"`` into an enabled diagnostic permission.
+    """
+    if (not isinstance(value, dict) or not POLICY_FIELDS.issubset(value)
+            or exact and set(value) != POLICY_FIELDS):
+        return "准入用途字段不完整"
+    for key in ("diagnosis_eligible", "practice_eligible", "may_confirm_mastery", "may_judge_weak", "reviewer_pending"):
+        if type(value[key]) is not bool:
+            return "准入用途必须为布尔值"
+    for key in ("evidence_level", "confidence", "reason"):
+        if not isinstance(value[key], str) or not value[key].strip():
+            return "准入依据必须为非空文字"
+    if (value["diagnosis_eligible"] and not value["practice_eligible"]
+            or (value["may_confirm_mastery"] or value["may_judge_weak"]) and not value["diagnosis_eligible"]):
+        return "准入用途互相矛盾"
+    if (value["reason"] == "explicit_provisional_use_decision"
+            and (value["may_confirm_mastery"] or value["may_judge_weak"])):
+        return "暂定观察用途不能确认整主题掌握或薄弱"
+    return None
+
+
+def _closed_policy(reason):
+    return {"diagnosis_eligible": False, "practice_eligible": False, "may_confirm_mastery": False,
+            "may_judge_weak": False, "evidence_level": "bare", "reviewer_pending": True,
+            "confidence": "screening", "reason": reason}
+
+
 def fingerprint(question, version=2):
     from .evidence import question_content_sha256
     content = {"content": question_content_sha256(question), "admission_flags": {key: question.get(key) for key in FLAGS}}
@@ -54,16 +85,13 @@ def policies(question, resolved, row):
         raise ValueError("题义、解析、答案契约或用途已改变，须先核对并更新显式准入记录")
     for field in ("source_policy", "policy"):
         value = row.get(field)
-        if not isinstance(value, dict) or set(value) != POLICY_FIELDS:
-            raise ValueError("准入用途字段不完整")
-        for key in ("diagnosis_eligible", "practice_eligible", "may_confirm_mastery", "may_judge_weak", "reviewer_pending"):
-            if type(value.get(key)) is not bool:
-                raise ValueError("准入用途必须为布尔值")
-        if (value["diagnosis_eligible"] and not value["practice_eligible"]
-                or (value["may_confirm_mastery"] or value["may_judge_weak"]) and not value["diagnosis_eligible"]):
-            raise ValueError("准入用途互相矛盾")
+        error = _policy_error(value)
+        if error:
+            raise ValueError(error)
     basis = row.get("basis", {})
-    if (basis.get("independent_review") is not False or not basis.get("method") or not basis.get("limitation")):
+    if (not isinstance(basis, dict) or basis.get("independent_review") is not False
+            or any(not isinstance(basis.get(key), str) or not basis[key].strip()
+                   for key in ("method", "limitation"))):
         raise ValueError("准入依据须明确其检查方法及尚未独立审核的边界")
     if (row["policy"]["diagnosis_eligible"] and
             (resolved.get("diagnosis_eligible") is False or resolved.get("for_diagnosis") is False)):
@@ -81,17 +109,15 @@ def policies(question, resolved, row):
 
 
 def runtime_policy(question):
+    if "_admission" not in question:
+        return None
     snapshot = question.get("_admission")
     if not isinstance(snapshot, dict):
-        return None
+        return _closed_policy("admission_contract_incomplete")
     version = snapshot.get("fingerprint_version", 1)
     if type(version) is not int or version not in (1, 2) or snapshot.get("content_sha256") != fingerprint(question, version):
-        return {"diagnosis_eligible": False, "practice_eligible": False, "may_confirm_mastery": False,
-                "may_judge_weak": False, "evidence_level": "bare", "reviewer_pending": True,
-                "confidence": "screening", "reason": "admission_version_mismatch"}
+        return _closed_policy("admission_version_mismatch")
     value = snapshot.get("policy", {})
-    if not POLICY_FIELDS.issubset(value):
-        return {"diagnosis_eligible": False, "practice_eligible": False, "may_confirm_mastery": False,
-                "may_judge_weak": False, "evidence_level": "bare", "reviewer_pending": True,
-                "confidence": "screening", "reason": "admission_contract_incomplete"}
+    if _policy_error(value, exact=False):
+        return _closed_policy("admission_contract_incomplete")
     return {key: copy.deepcopy(value[key]) for key in POLICY_FIELDS}

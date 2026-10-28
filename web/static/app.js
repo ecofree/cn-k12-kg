@@ -4,7 +4,7 @@ const state = { session: null, item: null, nextItem: null, done: false, selected
 const $ = (id) => document.getElementById(id);
 const PHASE = { diagnose: "知识点检查", screen: "整册抽查", practice: "练习", transfer: "迁移任务", delayed: "复测题", support: "辨别与指导练习" };
 const STATUS = { correct: "答对了", wrong: "还需练习", invalid: "请检查格式", needs_review: "过程已记录，可按量规自查",
-  not_attempted: "暂未作答", demonstrated: "本组题已展示该能力", practice_needed: "建议再练习", not_observed: "本组未观察到该目标" };
+  not_attempted: "暂未作答", demonstrated: "本组已作答任务答对，目标仍需继续观察", practice_needed: "建议再练习", not_observed: "本组未观察到该目标" };
 async function api(path, body) {
   const res = await fetch(path, { method: body ? "POST" : "GET", headers: body ? { "Content-Type": "application/json" } : {}, body: body ? JSON.stringify(body) : undefined });
   const data = await res.json().catch(() => ({}));
@@ -175,8 +175,14 @@ async function openGoal(skillId, unitId = null, routeMode = "push") {
     if (goal.pending_need_ids.length) root.append(node("p", `这个目标还有 ${goal.pending_need_ids.length} 项待处理或暂缓事项。`), button("查看未解决事项", () => openNeeds()));
     if (goal.refined_by.length) {
       const children = node("div", null, "actions");
-      for (const child of goal.refined_by) children.append(button(child.statement, () => openGoal(child.skill_id, unitId)));
+      for (const child of goal.refined_by) children.append(button(child.statement, () => openGoal(child.skill_id)));
       root.append(section("分开观察这些具体表现", children));
+      root.append(node("p", "具体目标分别观察；完成其中一项不会自动完成这个宽目标或其他具体目标。", "muted"));
+    }
+    if (goal.broader_goals?.length) {
+      const parents = node("div", null, "actions");
+      for (const parent of goal.broader_goals) parents.append(button(parent.statement, () => openGoal(parent.skill_id)));
+      root.append(section("这项目标细化了哪些宽目标", parents), node("p", "这里的任务只观察当前具体目标，不代替整个宽目标。", "muted"));
     }
     for (const role of ["target", "prerequisite"]) {
       const routes = goal.routes.filter(route => route.role === role);
@@ -197,6 +203,12 @@ async function openGoal(skillId, unitId = null, routeMode = "push") {
       root.append(section(role === "target" ? "当前目标的材料与帮助" : "需要时检查这些基础", group));
     }
     const options = node("div");
+    if (goal.observation_opportunities) {
+      const opportunity = goal.observation_opportunities;
+      options.append(node("p", opportunity.notice, "goal-opportunity-notice"),
+        node("p", `已核对的客观题族：${opportunity.known_objective_family_count}；当前满足未呈现及参考记录条件的题族：${opportunity.available_followup_family_count}。`, "muted"),
+        node("p", opportunity.availability_notice, "muted"));
+    }
     for (const [index, task] of goal.task_options.entries()) {
       const row = node("article", null, "card goal-task");
       row.append(node("h4", `后续任务 ${index + 1}`), node("p", task.selection_reason), node("p", task.eligible_for_followup ? "具有安排后续观察的条件；实际间隔和帮助仍在开始时核对。" : "用于练习或过程观察；不能自动当作新的独立确认。", "muted"));
@@ -204,7 +216,7 @@ async function openGoal(skillId, unitId = null, routeMode = "push") {
       const detail = node("details"); detail.append(node("summary", "这道任务的安排依据"), node("p", `是否出现过：${task.repeated_question ? "是" : "否"}；是否见过同类方法：${task.repeated_family ? "是" : "否"}；有无参考或反馈记录：${task.help_exposed ? "有" : "无"}。`), node("p", task.representation_known ? (task.new_representation ? "使用了此前未观察过的已核对表征。" : "表征已有观察记录，可以继续比较表现。") : "表征还未核对，继续保留这个限制。"));
       row.append(detail); options.append(row);
     }
-    if (!options.children.length) options.append(node("p", "还没有明确绑定到这个目标的可用任务。这个缺口会继续保留。"));
+    if (!goal.task_options.length) options.append(node("p", "还没有明确绑定到这个目标的可用任务。这个缺口会继续保留。"));
     root.append(section("接下来可以做什么", options)); return true;
   } catch (error) { notice(error.message); return false; }
 }
@@ -619,7 +631,12 @@ async function openSavedWork(resourceId, routeMode = "push") {
   show("work"); rememberRoute({ work: resourceId }, routeMode); $("work-title").textContent = "正在恢复作品…";
   const root = $("work-content"); root.replaceChildren();
   try { await window.CNKGWork.mount(root, { resource_id: resourceId }, { onReady: editor => {
-    if (token === state.navigation) { $("work-title").textContent = editor.descriptor.resource_snapshot.title; document.title = `${$("work-title").textContent} · K12 数学`; }
+    if (token === state.navigation) {
+      $("work-title").textContent = editor.descriptor.resource_snapshot.title; document.title = `${$("work-title").textContent} · K12 数学`;
+      if (editor.descriptor.kind === "session_task" && editor.descriptor.source_ref?.session_id) {
+        root.append(button("查看原活动与已提交作答", () => resumeSession(editor.descriptor.source_ref.session_id)));
+      }
+    }
   } }); }
   catch (error) { $("work-title").textContent = "暂时无法恢复作品"; }
   return true;
@@ -677,7 +694,17 @@ function renderItem() {
     }
     if (!state.savedAnswers.length) saved.append(node("p", "本次尚无已保存的作答。", "muted"));
   }
-  if (!item) { $("submit").disabled = true; $("skip").disabled = true; return; }
+  if (!item) {
+    $("submit").disabled = $("skip").disabled = true; $("feedback").hidden = true;
+    $("quiz-topic").textContent = "原学习记录"; $("quiz-progress").textContent = `已保存 ${state.session.answered_count} 条作答`;
+    $("quiz-meta").textContent = "原题面未完整保存";
+    $("quiz-hint").textContent = "请查看已保存的原作答；这里不会用当前题目替代缺失内容。";
+    $("quiz-prompt").textContent = "这份记录没有可恢复的当前题面。";
+    $("quiz-diagram").replaceChildren(); $("quiz-rubric").replaceChildren();
+    $("choices").replaceChildren(); $("choices").hidden = $("numeric").hidden = $("process-answer").hidden = true;
+    $("quiz-used-help").checked = false; $("quiz-used-help").disabled = true;
+    return;
+  }
   state.shownAt = performance.now(); state.selected = null;
   $("quiz-used-help").checked = false; $("quiz-used-help").disabled = blocked;
   $("feedback").hidden = true; $("submit").disabled = false; $("submit").hidden = false; $("skip").disabled = false; $("skip").hidden = false;
@@ -771,8 +798,11 @@ function showResult() {
   $("result-title").textContent = summary.title || "本次结果"; $("verdict").textContent = state.verdictText || "";
   $("result-context").textContent = contextText(summary.context || state.session.context, state.session.mode);
   const isUnit = state.session.kind === "unit";
-  $("diagnostic-result").hidden = isUnit; $("objective-result").hidden = !isUnit;
-  if (isUnit) {
+  const missingSummary = summary.history_status === "summary_not_saved";
+  $("diagnostic-result").hidden = isUnit || missingSummary; $("objective-result").hidden = !isUnit || missingSummary;
+  if (missingSummary) {
+    $("verdict").textContent = summary.history_notice + (summary.saved_verdict ? ` 当时保存的文字结论：${summary.saved_verdict}` : "");
+  } else if (isUnit) {
     $("objective-list").textContent = "";
     for (const goal of summary.objective_results) { const row = node("div", null, "objective-row"); row.append(node("p", goal.statement), node("span", STATUS[goal.status], "muted")); $("objective-list").append(row); }
   } else {

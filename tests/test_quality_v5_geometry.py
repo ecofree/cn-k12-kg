@@ -70,7 +70,10 @@ class QualityV5GeometryTests(unittest.TestCase):
         self.assertAlmostEqual(math.dist(drawn[0], drawn[1]), 240)
         self.assertAlmostEqual(math.dist(drawn[0], drawn[3]), 80, places=2)
         self.assertAlmostEqual(polygon_area(drawn) / polygon_area(original), math.sqrt(2) / 4, places=5)
-        self.assertNotIn('tested_criterion_indices', q)
+        self.assertEqual(q['tested_criterion_indices'], [2])
+        self.assertEqual(self.topics['mh2.8.2']['mastery_criteria'][2],
+                         '能按给定斜二测轴向变换规则计算水平正方形直观图的面积估值')
+        self.assertNotIn(0, q['tested_criterion_indices'])  # Full drawing is unobserved.
 
     def test_multiview_counterexamples_actually_have_identical_projections(self):
         def projections(flat):
@@ -93,16 +96,29 @@ class QualityV5GeometryTests(unittest.TestCase):
         self.assertIn('直径', q['prompt'])
         self.assertEqual(grade_answer(q, '24')['status'], 'correct')
         self.assertEqual(grade_answer(q, '96')['status'], 'wrong')
-        self.assertNotIn('tested_criterion_indices', q)
+        self.assertEqual(q['tested_criterion_indices'], [3])
+        self.assertEqual(self.topics['m9b.33.2.2']['mastery_criteria'][3],
+                         '能由文字给定的直立圆柱主视尺寸求体积中π的系数')
+        self.assertTrue({0, 1}.isdisjoint(q['tested_criterion_indices']))
         q = self.bank['m9b.33.2.2-q4']
         self.assertEqual({x['text'] for x in q['choices']}, {'球', '圆柱', '圆锥', '正方体'})
 
     def test_complex_perimeter_or_area_tasks_are_not_forced_into_recognition_goals(self):
-        for qid in ('m8a.13.1-q101', 'm8a.13.1-q102', 'm8a.13.2-q102',
-                    'm9b.33.2.2-q101', 'm9b.33.2.2-q102', 'mh2.8.2-q102'):
-            self.assertNotIn('tested_criterion_indices', self.bank[qid])
-            self.assertFalse(self.bank[qid]['diagnosis_eligible'])
-            self.assertTrue(self.bank[qid]['alignment_note'])
+        expected = {
+            'm8a.13.1-q101': (2, '能由等腰三角形腰长与底边长计算周长'),
+            'm8a.13.1-q102': (3, '能由三角形周长与三边比求指定边长'),
+            'm8a.13.2-q102': (5, '能由中线分成的一半面积求原三角形面积'),
+            'm9b.33.2.2-q101': (2, '能由文字给定的长方体视图尺寸计算体积'),
+            'm9b.33.2.2-q102': (3, '能由文字给定的直立圆柱主视尺寸求体积中π的系数'),
+            'mh2.8.2-q102': (2, '能按给定斜二测轴向变换规则计算水平正方形直观图的面积估值'),
+        }
+        for qid, (index, statement) in expected.items():
+            q = self.bank[qid]
+            self.assertEqual(q['tested_criterion_indices'], [index])
+            self.assertEqual(self.topics[q['topicId']]['mastery_criteria'][index], statement)
+            self.assertFalse(q['diagnosis_eligible'])
+            self.assertEqual(q['target_alignment'], 'component_practice_only')
+            self.assertTrue(q['alignment_note'])
 
     def test_the_special_line_diagram_distinguishes_three_different_definitions(self):
         svg = ElementTree.parse(ROOT / 'web/static/diagrams/triangle-special-lines-v5.svg')
@@ -134,7 +150,7 @@ class QualityV5GeometryTests(unittest.TestCase):
         self.assertFalse(q['diagnosis_eligible'])
         self.assertIn('未实际连接顶点作中线', q['alignment_note'])
         c = self.cards['m8a.13.2']
-        self.assertEqual(len(c['objective_coverage']), 5)
+        self.assertEqual(len(c['objective_coverage']), 6)
         self.assertEqual(c['objective_coverage'][0]['title'], '能画出三角形的高、中线与角平分线')
         self.assertIn('外部高', c['objective_coverage'][2]['title'])
 

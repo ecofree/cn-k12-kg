@@ -1,8 +1,8 @@
 """Inspect alignment dimensions without converting metadata into quality scores.
 
-All promised goals remain in the report. The named focus is an additional
-release requirement, not a smaller curriculum denominator. Unknowns outside
-that focus remain visible and never count as teaching or independent evidence.
+All promised goals and all active bank tasks remain in the report. The named
+focus is an additional requirement, never a smaller curriculum denominator.
+Unknown metadata cannot silently enter the published bank outside that focus.
 """
 from __future__ import annotations
 
@@ -22,10 +22,18 @@ def _section(catalog, name):
 
 
 def task_dimensions(task):
-    declared = task.get("family_status") == "declared" and bool(task.get("family_id"))
+    identity = task.get("family_id")
+    # A status label cannot classify an unknown placeholder. Keep this gate
+    # conservative even when a caller supplies a catalog-shaped fixture or a
+    # migration accidentally retains its old unclassified identity.
+    declared = (task.get("family_status") == "declared" and isinstance(identity, str)
+                and bool(identity.strip()) and identity.strip().casefold() not in {"unknown", "unclassified"}
+                and not identity.strip().casefold().startswith("unclassified:"))
     known = known_representations(task.get("representation"))
     return {"explicit_goals": bool(task.get("skill_ids")), "known_family": bool(declared),
             "known_representation": bool(known), "representations": sorted(known),
+            "known_cognitive_demand": task.get("cognitive_demand") in {"recall", "execute", "explain", "choose_strategy", "prove", "model"},
+            "authored_alignment_note": isinstance(task.get("alignment_note"), str) and bool(task["alignment_note"].strip()),
             "automatic_result": task.get("type") in {"numeric", "choice", "short"},
             "independent_mastery_evidence": False}
 
@@ -103,16 +111,20 @@ def build_alignment_report(data=None, *, catalog=None, scope_report=None):
         for sid in task.get("skill_ids", []):
             by_skill[sid].append(task)
     authored = {}
-    goals, inventory, global_errors = [], defaultdict(Counter), []
+    goals, inventory, global_errors, bank_errors = [], defaultdict(Counter), [], []
     for task in active:
         kind = task["source_kind"]
         dims = task_dimensions(task)
         inventory[kind]["tasks"] += 1
-        for key in ("explicit_goals", "known_family", "known_representation"):
+        for key in ("explicit_goals", "known_family", "known_representation", "known_cognitive_demand", "authored_alignment_note"):
             inventory[kind][key] += int(dims[key])
         inventory[kind]["unknown_family"] += int(not dims["known_family"])
         inventory[kind]["unknown_representation"] += int(not dims["known_representation"])
         inventory[kind]["unmapped_goals"] += int(not dims["explicit_goals"])
+        if kind == "bank":
+            for key in ("explicit_goals", "known_family", "known_representation", "known_cognitive_demand", "authored_alignment_note"):
+                if not dims[key]:
+                    bank_errors.append(f"{task['id']}: 全范围活跃题缺 {key}")
         if kind == "bank" and set(task.get("topic_ids", [])) & focus_topics:
             for key in ("known_family", "known_representation"):
                 if not dims[key]:
@@ -155,7 +167,7 @@ def build_alignment_report(data=None, *, catalog=None, scope_report=None):
     gap_counts = Counter(gap for goal in goals for gap in goal["gaps"])
     return {"schema": 1, "subject": "mathematics", "catalog_version": getattr(catalog, "version", None),
         "focus": {"topic_ids": sorted(focus_topics), "unit_ids": sorted(focus_units),
-                  "notice": "全部承诺目标均检查专属帮助、观察边界与实际任务结构；原加强范围还保留题库逐题审查要求。客观题族的丰富程度单独报告，不替代过程任务。"},
+                  "notice": "全部承诺目标均检查专属帮助、观察边界与实际任务结构；全部活跃题均须有明确目标、题族、实际表征、认知要求和观察说明。原加强范围继续保留。客观题族的丰富程度单独报告，不替代过程任务。"},
         "summary": {"goals": len(goals), "focus_goals": sum(g["focus_requirement"] for g in goals),
             "goal_specific_help": sum(g["goal_specific_help"] for g in goals),
             "authored_observation_boundary": sum(g["authored_observation_boundary"] for g in goals),
@@ -163,6 +175,8 @@ def build_alignment_report(data=None, *, catalog=None, scope_report=None):
             "multiple_objective_task_families": sum(g["multiple_objective_task_families"] for g in goals),
             "gap_counts": dict(gap_counts)},
         "task_inventory": {kind: dict(counts) for kind, counts in sorted(inventory.items())},
+        "all_bank_errors": bank_errors, "all_bank_requirements_met": not bank_errors,
+        "all_bank_requirements": ["explicit_goals", "known_family", "known_representation", "known_cognitive_demand", "authored_alignment_note"],
         "all_goal_errors": global_errors, "all_goal_requirements_met": not global_errors,
         "all_goal_requirements": ["goal_specific_help", "authored_observation_boundary", "known_task_structure_and_representation"],
         "focus_errors": errors, "focus_requirements_met": not errors, "goals": goals,

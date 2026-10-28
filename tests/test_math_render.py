@@ -1,13 +1,17 @@
-"""公式渲染与外部题预览页的静态契约。
+"""公式资源契约，以及真实渲染函数对已保存数学内容的路由。
 
-这里不测浏览器行为（没有 DOM），测的是"页面需要的资源都在、路径都对"。
-真正的公式渲染由 tools/check_formulas.js 用 KaTeX 本体验证。
+轻量元素替身只核对实际app函数使用的数据与富文本入口，不声明浏览器排版通过。
+真正的公式渲染仍由 tools/check_formulas.js 用 KaTeX 本体验证。
 """
+import copy
 import json
 import pathlib
 import re
+import shutil
+import subprocess
 import sys
 import unittest
+from unittest.mock import patch
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
@@ -42,9 +46,111 @@ class PageWiringTest(unittest.TestCase):
 
     def test_app_uses_rich_text(self):
         js = (STATIC / "app.js").read_text(encoding="utf-8")
-        self.assertIn("setRichText", js)
-        # 题干如果还走 textContent，公式就会显示成源码
-        self.assertNotIn('$("quiz-prompt").textContent', js)
+        self.assertIn('window.setRichText($("quiz-prompt"), item.question.prompt)', js)
+        # Only the fixed notice for an unavailable historical prompt is plain
+        # text. An actual task prompt must still enter the math-aware renderer.
+        plain_assignments = re.findall(r'\$\("quiz-prompt"\)\.textContent\s*=\s*([^;]+);', js)
+        self.assertEqual(['"这份记录没有可恢复的当前题面。"'], plain_assignments)
+
+    @unittest.skipUnless(shutil.which('node'), 'Node.js 未安装；静态富文本契约仍执行')
+    def test_real_render_functions_use_saved_answers_and_saved_summary_data(self):
+        from web import server
+        answers = [{'question_id': 'old-math', 'status': 'correct',
+                    'prompt': '旧题：$\\frac{1}{2}+\\frac{1}{2}$', 'raw_answer': '1',
+                    'answer': '1', 'explanation': '旧解析：$\\frac{2}{2}=1$',
+                    'answered_at': '2026-01-01T00:00:00+00:00'}]
+        saved = {'kind': 'topic', 'title': '保存时的总结', 'weak': [], 'shaky': [], 'roots': [],
+                 'answers': copy.deepcopy(answers), 'context': {}}
+        record = {'id': 'old-session', 'kind': 'topic', 'mode': 'practice',
+                  'created_at': '2026-01-01T00:00:00+00:00',
+                  'completed_at': '2026-01-01T00:01:00+00:00',
+                  'content_sha256': 'old-version', 'answers': answers,
+                  'summary_snapshot': saved, 'verdict_snapshot': '当时保存的文字结论',
+                  'engine': {'state': {'old-topic': 'weak'}}, 'context': {}}
+        original = copy.deepcopy(record)
+        # Both completed-history paths must use saved data, even if today's
+        # interpretation would fail or produce a different result.
+        with patch.object(server, '_build_session_summary', side_effect=AssertionError('must not recompute history')):
+            stored_summary = server.session_summary(record)
+            missing_summary = server.session_summary({key: value for key, value in record.items()
+                                                      if key != 'summary_snapshot'})
+        self.assertEqual(saved, stored_summary)
+        self.assertEqual('summary_not_saved', missing_summary['history_status'])
+        self.assertEqual(answers, missing_summary['answers'])
+        self.assertEqual(original, record)
+        payload = {'current_prompt': '新题：$x^2=9$', 'saved_answers': answers,
+                   'saved_summary': stored_summary, 'missing_summary': missing_summary,
+                   'saved_verdict': record['verdict_snapshot']}
+        script = r'''
+const fs = require('fs'), vm = require('vm'), assert = require('assert/strict');
+const source = fs.readFileSync(process.argv[1], 'utf8');
+const input = JSON.parse(fs.readFileSync(0, 'utf8'));
+const elements = new Map(), richCalls = [], promptCalls = [];
+class Element {
+  constructor(id) { this.id = id; this.children = []; this.textContent = ''; }
+  set textContent(value) { this.text = String(value); this.children = []; }
+  get textContent() { return this.text; }
+  append(...items) { this.children.push(...items); }
+  replaceChildren(...items) { this.children = [...items]; }
+  querySelectorAll() { return []; }
+  focus() {}
+}
+function element(id) { if (!elements.has(id)) elements.set(id, new Element(id)); return elements.get(id); }
+function node(tag, text='') { const value = new Element(tag); value.textContent = text; return value; }
+function rich(tag, value) { richCalls.push(value); return node(tag, value); }
+const state = {session: {id: 'old-session', kind: 'topic', mode: 'practice', answered_count: 1,
+  targets: [], context: {}, feedback_policy: 'immediate', resume_blocked: false},
+  item: {topicName: '当前任务', question: {id: 'new-math', type: 'numeric', prompt: input.current_prompt}},
+  savedAnswers: [], verdictText: input.saved_verdict};
+const context = vm.createContext({state, $: element, node, rich, performance: {now: () => 0},
+  PHASE: {practice: '练习'}, STATUS: {correct: '答对了'}, formatTime: value => value,
+  renderSessionContentUpdate: () => {}, renderRubric: () => {}, show: () => {},
+  contextText: () => '保存的上下文', nameOf: value => value,
+  window: {setRichText: (target, value) => promptCalls.push({id: target.id, value})}});
+function loadFunction(name, nextMarker) {
+  const start = source.indexOf('function ' + name + '(');
+  const end = source.indexOf(nextMarker, start);
+  assert.ok(start >= 0 && end > start, name);
+  vm.runInContext(source.slice(start, end), context);
+}
+loadFunction('renderItem', '\nfunction renderRubric(');
+loadFunction('showResult', '\n$("search").addEventListener(');
+vm.runInContext('renderItem()', context);
+assert.deepEqual(promptCalls, [{id: 'quiz-prompt', value: input.current_prompt}]);
+state.item = null; state.session.resume_blocked = true; state.savedAnswers = input.saved_answers;
+richCalls.length = 0; vm.runInContext('renderItem()', context);
+assert.ok(richCalls.includes(input.saved_answers[0].prompt));
+assert.ok(richCalls.includes('你的答案：' + input.saved_answers[0].raw_answer));
+assert.equal(element('quiz-prompt').textContent, '这份记录没有可恢复的当前题面。');
+assert.equal(element('submit').disabled, true);
+assert.equal(element('skip').disabled, true);
+// A current task exists in state again, but both history result paths must
+// render the saved answers rather than substituting that current task.
+state.item = {question: {prompt: input.current_prompt}};
+state.summary = input.saved_summary; richCalls.length = 0;
+vm.runInContext('showResult()', context);
+assert.equal(element('result-title').textContent, input.saved_summary.title);
+assert.ok(richCalls.includes(input.saved_answers[0].prompt));
+assert.ok(richCalls.includes(input.saved_answers[0].explanation));
+assert.ok(!richCalls.includes(input.current_prompt));
+state.summary = input.missing_summary; richCalls.length = 0;
+vm.runInContext('showResult()', context);
+assert.equal(element('diagnostic-result').hidden, true);
+assert.equal(element('objective-result').hidden, true);
+assert.ok(element('verdict').textContent.includes(input.missing_summary.history_notice));
+assert.ok(element('verdict').textContent.includes(input.saved_verdict));
+assert.ok(richCalls.includes(input.saved_answers[0].prompt));
+assert.ok(!richCalls.includes(input.current_prompt));
+process.stdout.write(JSON.stringify({current_prompt_rich: true, saved_answers_rich: true,
+  saved_summary_used: true, missing_summary_not_reconstructed: true}));
+'''
+        result = subprocess.run([shutil.which('node'), '-e', script, str(STATIC / 'app.js')],
+                                input=json.dumps(payload, ensure_ascii=False), text=True,
+                                capture_output=True, timeout=20)
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertEqual({'current_prompt_rich': True, 'saved_answers_rich': True,
+                          'saved_summary_used': True, 'missing_summary_not_reconstructed': True},
+                         json.loads(result.stdout))
 
 
 class ServerAllowlistTest(unittest.TestCase):

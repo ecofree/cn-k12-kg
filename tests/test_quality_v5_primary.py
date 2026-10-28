@@ -46,13 +46,27 @@ class QualityV5PrimaryTests(unittest.TestCase):
         self.assertIn('不能', self.bank['m1a.5.1-q93']['alignment_note'])
 
     def test_numeric_answers_do_not_claim_reading_writing_or_drawn_locations(self):
-        for qid in ['m1a.1.1-q1', 'm1a.1.1-q2', 'm6a.1.1-q3', 'm6a.1.2-q101']:
-            self.assertNotIn('tested_criterion_indices', self.bank[qid])
-            self.assertEqual(self.bank[qid]['target_alignment'], 'topic_only')
+        expected = {
+            'm1a.1.1-q1': (0, '能一个一个地数出 5 以内物体的个数'),
+            'm1a.1.1-q2': (5, '能确定1至4各数在1至5数序中的后继数'),
+            'm6a.1.1-q3': (3, '能求同列两个给定格点之间的单位间隔数'),
+            'm6a.1.2-q101': (2, '能按已给比例尺把图上距离换算为实际距离'),
+        }
+        for qid, (index, statement) in expected.items():
+            q = self.bank[qid]
+            self.assertEqual(q['tested_criterion_indices'], [index])
+            self.assertEqual(self.topics[q['topicId']]['mastery_criteria'][index], statement)
+            self.assertEqual(q['target_alignment'], 'component_practice_only')
+            self.assertFalse(q['diagnosis_eligible'])
+        # The repaired first question now actually presents three discrete
+        # marks; neither that result nor the successor observes speech/writing.
+        self.assertEqual(self.bank['m1a.1.1-q1']['prompt'].count('●'), 3)
+        for qid in ('m1a.1.1-q1', 'm1a.1.1-q2'):
+            self.assertTrue({1, 3, 4}.isdisjoint(self.bank[qid]['tested_criterion_indices']))
         self.assertEqual(self.bank['m1a.1.1-q301']['tested_criterion_indices'], [0, 2])
         self.assertNotIn(3, self.bank['m1a.1.1-q301']['tested_criterion_indices'])
         self.assertNotIn(4, self.bank['m1a.1.1-q301']['tested_criterion_indices'])
-        self.assertEqual(len(self.cards['m1a.1.1']['objective_coverage']), 5)
+        self.assertEqual(len(self.cards['m1a.1.1']['objective_coverage']), 6)
 
     def test_numerical_variants_share_the_actual_structure(self):
         units = json.loads((DATA / 'learning_units/ten_frame_place_value.json').read_text())
@@ -161,10 +175,15 @@ class QualityV5PrimaryTests(unittest.TestCase):
         self.assertIn('距离', answer_text)
 
     def test_ratio_modelling_support_does_not_claim_narrower_card_objectives(self):
-        for qid in ['m6b.1.1-q101', 'm6b.1.1-q102', 'm6b.1.1-q103']:
-            self.assertNotIn('tested_criterion_indices', self.bank[qid])
-            self.assertFalse(self.bank[qid]['diagnosis_eligible'])
-            self.assertIn('ratio_models', self.bank[qid]['alignment_note'])
+        for qid, index in [('m6b.1.1-q101', 2), ('m6b.1.1-q102', 2), ('m6b.1.1-q103', 3)]:
+            q = self.bank[qid]
+            self.assertEqual(q['tested_criterion_indices'], [index])
+            self.assertTrue({0, 1}.isdisjoint(q['tested_criterion_indices']))
+            self.assertFalse(q['diagnosis_eligible'])
+            self.assertEqual(q['target_alignment'], 'component_practice_only')
+        self.assertEqual(self.topics['m6b.1.1']['mastery_criteria'][2:], [
+            '能将给定总量按已给的两项或多项比确定某部分量',
+            '能统一长度单位后按给定比例尺求图上距离'])
         check = self.cards['m6b.1.1']['objective_coverage'][0]['self_check']
         # The current reference also reduces 18/24 to 3/4. Its actual method
         # must remain exposed, alongside the quotient interpretation.
@@ -174,7 +193,7 @@ class QualityV5PrimaryTests(unittest.TestCase):
     def test_all_cards_and_actual_source_tasks_satisfy_contracts_without_inflated_goals(self):
         tasks = [q for q in self.bank.values() if q['topicId'] in TOPICS and not q['id'].endswith('-q9')]
         self.assertEqual(len(tasks), 69)
-        self.assertEqual(sum(len(c['objective_coverage']) for c in self.cards.values()), 29)
+        self.assertEqual(sum(len(c['objective_coverage']) for c in self.cards.values()), 36)
         for t, card in self.cards.items():
             self.assertEqual(validate_resource('teaching-card', card), [], t)
             self.assertEqual(check_card(card, self.topics, self.bank), [], t)

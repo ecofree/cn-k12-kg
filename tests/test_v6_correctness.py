@@ -93,7 +93,12 @@ class ContentCounterexampleTests(unittest.TestCase):
         task = self.catalog.task('m1a.5.5-q95')
         self.assertEqual(grade_answer(task, str(len(stock)))['status'], 'correct')
         self.assertEqual(grade_answer(task, '11')['status'], 'wrong')
-        self.assertEqual(task['skill_ids'], [])
+        ids = self.catalog.placement('m1a.5.5')['criterion_skill_ids']
+        self.assertEqual(task['skill_ids'], [ids[3]])
+        self.assertEqual(self.catalog.skill(ids[3])['statement'],
+                         '能区分历史变化与当前数量，并由当前数量计算后续变化')
+        self.assertEqual(self.catalog.skill(ids[3])['refines_skill_ids'], [])
+        self.assertTrue(set(ids[:3]).isdisjoint(task['skill_ids']))
 
     def test_repaired_and_new_items_never_confirm_whole_topic(self):
         ids = ['m1a.5.5-q95', 'mh5.7.1.1-q91', 'm8b.24.4-q101', 'mh1.5.2.1-q101',
@@ -124,7 +129,7 @@ class ContentCounterexampleTests(unittest.TestCase):
         registry = read('data/skills/registry.json')
         ids = registry['placements']['m1a.5.5']['criterion_skill_ids']
         self.assertEqual(ids[:2], ['sk_6823add8ae974742ad3c', 'sk_07cd5f98e7c94c3a8eaa'])
-        self.assertEqual(len(ids), 3)
+        self.assertEqual(len(ids), 4)
         for taskid in ['m1a.5.5-q401', 'm1a.5.5-q403', 'm1a.5.5-q404']:
             self.assertIn(ids[2], self.catalog.task(taskid)['skill_ids'])
         first, second = (self.catalog.task(i) for i in ['m1a.5.5-q401', 'm1a.5.5-q404'])
