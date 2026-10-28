@@ -1,0 +1,419 @@
+{
+  "schema": 1,
+  "reviewer_kind": "ai",
+  "reviewer": "root independent AI cross-read of author output",
+  "independent_teacher_review": false,
+  "student_validation": false,
+  "baseline_commit": "b3e9fa9e49c1e52e7d19ca5c5ba29d87ec164d9b",
+  "source": "data/assessments/senior.json",
+  "source_sha256": "2e4bd9332943bfd7f6635d7364b0274f927f3d4c5b0332029dcea9576adee3cc",
+  "method": "逐项阅读47道新客观题和30个新过程任务的题面、选项、答案/量规、解释、边界与题族依据；另实际查看四张SVG的渲染图。独立按题设计算关键有理数、最值与方程，不以作者校验字符串代替数学检查。",
+  "resolved_findings": [
+    "有限墙长与初中相同关系统一复用受限定义域极值规范族，保留原围栏模型曝光。",
+    "图例A/B、表头英文含义写入可见中文题干，并核对实际图与替代文本一致。",
+    "文字模型的输入表示改为verbal；不把题目要求作图误标为已提供图。"
+  ],
+  "limits": [
+    "AI交叉核对不代表教师独立审核。",
+    "未观察真实学生作品或效果；量规作品和选择正确都不自动认定独立掌握。",
+    "原题沿用版本绑定的历史审读，本文件只报告本轮新任务。"
+  ],
+  "tasks": [
+    {
+      "task_id": "v9s_equivalence_divisible_three",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "da22ca65fff29a324755377de10764100377b57a7dc14148c10e53bad4dc5a70",
+      "asset_sha256": {},
+      "mathematical_reason": "正向n=3k推出平方可整除；反向穷尽余数0、1、2，其平方余数0、1、1，只有原余数0可行，覆盖负整数的欧几里得余数。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "logic.prove-equivalence",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_reciprocal_graph_branches",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "9915e17101f3e73a17820e00e9f2402430e3c5f4f698a15cd4d3820323b2ed17",
+      "asset_sha256": {},
+      "mathematical_reason": "六点倒数值逐一正确，第一第三象限两支断开；x=0无定义，y=0无解，图稿与域、轴交点说明均须实际提交。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "function.reciprocal-two-branch-graph",
+      "reference_family_ids": [
+        "inverse-function.evaluate",
+        "inverse-function.sign-quadrants"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_odd_extension_graph",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "bd99dbbe7111760cb3947635ea5900b5a21e71b33a546c0f7b3056d3c46393bd",
+      "asset_sha256": {},
+      "mathematical_reason": "负输入先用−x>0，f(−x)=x²−x再整体取负得−x²+x；五点−6、−2、0、2、6关于原点对称，0符合奇性。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "function.parity-values",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_radical_power_conversion",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "5d252b46bdc2dcab777a658df377f24db08fbb0e0ce4c8bc44ee3db7764e2d3b",
+      "asset_sha256": {},
+      "mathematical_reason": "a>0下指数分别−3/2、3/4；a^(−5/3)=1/³√(a⁵)。倒数非零和偶次根条件真实检查，双向步骤不能只报三个结果。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "power.radical-rational-exponent",
+      "reference_family_ids": [
+        "power.negative-exponent.reciprocal-law"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_transformed_sine_fivepoint",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "88924cf09b903800293e96dbcff6d91dc2d8c7ca029c4b5e00d252405e67aaeb",
+      "asset_sha256": {},
+      "mathematical_reason": "相位0至2π反解x=π/4、π/2、3π/4、π、5π/4，输出1、3、1、−1、1；周期π，中线1，幅2，需实际表与图。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "trig.sine-five-point-graph",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_vector_sum_oblique_construction",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "f2c53913917e01f79d6601fe9fca632d1138a45f0a3fcc8079366d20160bed39",
+      "asset_sha256": {},
+      "mathematical_reason": "a=(3,1)、b=(−1,2)相加(2,3)；A到C保持b、B到C保持a，四边形OACB对应正确，两种法的和箭头都O至C。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "vector.add-head-to-tail",
+      "reference_family_ids": [
+        "vector.coordinate-addition"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_vector_difference_equal_case",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "1fdf6ecd14a64a8a75121d8a4274109a155ca316ba77d92681b4e3f7c70e39c1",
+      "asset_sha256": {},
+      "mathematical_reason": "a−b=(3,−2)=BA，反次序AB为相反向量；OB+BA=OA验证，相等向量差为重合首尾，不能画非零箭头。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "vector.subtract-opposite",
+      "reference_family_ids": [
+        "vector.coordinate-difference"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_collinearity_affine_origin",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "ccfc5da00aa9551ca4b226dac12a19e1e45db5be89ab9059d1ec9ca6f864e9f4",
+      "asset_sha256": {},
+      "mathematical_reason": "从OP=2OA−OB减OA得AP=−AB；AB非零，P在A背离B方向且等距，顺序P-A-B，A为中点。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "vector.collinearity-position",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_vector_midpoint_theorem_proof",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "c1ce8c0ba2f4f2e5e9e9fc6dc7c1ad1453c8e09b61250526d5cd43aa0937051b",
+      "asset_sha256": {},
+      "mathematical_reason": "MN=AN−AM=(AC−AB)/2=BC/2为向量式；非退化给非零方向及M不在BC上，才推出不同两直线严格平行与半长。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "vector.geometry-midsegment-proof",
+      "reference_family_ids": [
+        "vector.collinearity-position"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_complex_plane_axis_points",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "bcd9e2d2a2c6db8cc1309f874cbe19a9594d5e5dd0559d3a36e2e049dac9831f",
+      "asset_sha256": {},
+      "mathematical_reason": "坐标(0,−3)、(2,0)、(0,0)、(−2,3)前三在轴/原点而非象限，第四第二象限；纵坐标为虚部系数不带i。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "complex.plane-coordinate",
+      "reference_family_ids": [
+        "complex.point-quadrant"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_oblique_nonaxis_triangle",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "0718d3d2a30d7edca14b6ddcea173f2fb4114ec4517432c8e4b022585b16e761",
+      "asset_sha256": {},
+      "mathematical_reason": "B映为图纸坐标(2+√2,√2)，A映(4,0)，边长平方8−4√2，不等于原边平方20的四分之一5；按轴分量缩放的论证成立。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "projection.oblique.construct-axis-polygon",
+      "reference_family_ids": [
+        "coordinate.two-point-distance-squared"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_line_plane_parallel_section_construction",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "d81873df41d1b6fddd04a0a0970188ab3b6b88051edf050b0763b2fa55ff0ee5",
+      "asset_sha256": {},
+      "mathematical_reason": "截平面AA₁C₁C与底面交于AC，包含已知面外平行线A₁C₁，线面平行性质的三个条件齐全，可推出线线平行。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "space.parallel-plane-intersection-line",
+      "reference_family_ids": [],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_parallel_faces_common_cut",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "554c6beaba89da6bb4c23b83632a59bdb0d19c4cc1b237dd6be9b31fd910b6f5",
+      "asset_sha256": {},
+      "mathematical_reason": "交线AC、A₁C₁均在共同截面，排除异面；若相交则两个已知平行面有公共点，矛盾，故平行。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "space.parallel-planes-section",
+      "reference_family_ids": [],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_normal_from_two_isosceles_triangles",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "a5d2ff1ab12da78662a540e2f31731a1404099765eace273ef645ce313ae1d98",
+      "asset_sha256": {},
+      "mathematical_reason": "两对等距和O为两个底边中点给PO分别垂AC、BD；面内两线交于O，P在面外保证非退化，线面垂直判定完整。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "space.line-plane-perpendicular-condition",
+      "reference_family_ids": [
+        "triangle.isosceles.three-lines.sas-proof"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_perpendicular_planes_cube_proof",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "e141be4a62decbc146368e048f0be11b1a8da3d1d974c3ca65fb710d8843978d",
+      "asset_sha256": {},
+      "mathematical_reason": "正方体棱DD₁垂底面内相交DA、DC，先推出线面垂直；DD₁又在BDD₁B₁面内，可推出两面垂直，公共BD本身不够。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "space.plane-perpendicular-contained-line",
+      "reference_family_ids": [
+        "space.line-plane-perpendicular-criterion"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_normals_from_two_directions",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "e4e066fb844d97518681990a1d8e5ecd585e70151e409565d6cfec1660a4744e",
+      "asset_sha256": {},
+      "mathematical_reason": "nα=(1,−1,0)、nβ=(1,1,0)分别与各自两个独立方向点积零；两法向量非零且彼此点积零，足证面垂直。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "space.normal-vectors-plane-perpendicular",
+      "reference_family_ids": [
+        "vector.coordinate-dot"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_induction_telescoping_identity",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "1ae77854f144ea9ce90fbf9cc0348b4b38769ed5a6e4968def37740242127e6b",
+      "asset_sha256": {},
+      "mathematical_reason": "基础n=1得1/2；前k项k/(k+1)加正确新增项后分子k(k+2)+1=(k+1)²，通分约得(k+1)/(k+2)，正整数分母均非零。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "induction.sum-identity",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_nested_power_set_portfolio",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "cc578a1787510195a75234b38de14eb2b675ca7c150be73288aada5636b559d2",
+      "asset_sha256": {},
+      "mathematical_reason": "S有两个元素∅和{1}，选取四种组合得到∅、{∅}、{{1}}、{∅,{1}}；元素层次不混，清单无重复。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "sets.enumerate-subsets",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_directed_radian_conversion",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "d74c6b5bd99a42aed985392269cd428af41d6779e8be2e447635211903cd8f96",
+      "asset_sha256": {},
+      "mathematical_reason": "−11π/6乘180°/π为−330°，逆换恢复；加360°成为30°仅保持终边，不是同一个有向转角或单位换算。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "angle.degree-radian-conversion",
+      "reference_family_ids": [
+        "angle.coterminal-integer-turns"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_quadrant_sign_reconstruction",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "a1263e1326b1418f349203321c48f71ab54c9cf73c3f6a2c1ee4e0ba638f0bfb",
+      "asset_sha256": {},
+      "mathematical_reason": "r正，sin随y、cos随x、tan随比值，四行(+,+,+)、(+,−,−)、(−,−,+)、(−,+,−)正确；选点须非轴，tan分母非零。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "trig.quadrant-signs",
+      "reference_family_ids": [
+        "trig.terminal-point-ratios"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_distance_displacement_record",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "2a980948f3f93692361e5365e4b9c396d6e635b101c9c15a1b77ac7b6fdbcae9",
+      "asset_sha256": {},
+      "mathematical_reason": "东3北4西3总路10，净水平0、竖直4，位移向北4；标量路程与向量位移的图、方向信息均需提交。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "vector.scalar-or-directed",
+      "reference_family_ids": [],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_line_plane_unique_intersection_symbols",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "d2544d2295e755c1689ec3042cb2cdb2d578faee074a70c51dc0366cdbd3b067",
+      "asset_sha256": {},
+      "mathematical_reason": "l∩α={P}是单点集合；另有Q∈α且Q≠P，则Q∈l会产生第二公共点，故Q∉l，点元素与线集合层次正确。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "space.point-line-plane-symbols",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_event_types_without_replacement",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "9a8d8b6a4727a0e4a26d27ab35c1034d84f2a352f720553b40263414a28c129c",
+      "asset_sha256": {},
+      "mathematical_reason": "仅一红一蓝无放回取完，两合法有序结果红蓝、蓝红；异色为全集、首红为非空真子集、双红为空，分别必然随机不可能。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "probability.event-type-subset",
+      "reference_family_ids": [],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_coordinate_origin_membership",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "cde2a6984b5d04ba3ab0388c87f82e962831692b0304dfcfbdca4112a8f6fd64",
+      "asset_sha256": {},
+      "mathematical_reason": "原点同时在三轴三面；(0,2,3)仅yz面且不在轴；(2,3,4)不在任何轴面。零坐标的必要条件逐点适用。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "space.coordinate-axis-plane-location",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_two_points_axis_parallel_guard",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "b18842f7154634b237bef8e55fbd5cf02ac11d9514faf20d8249e6182ade0361",
+      "asset_sha256": {},
+      "mathematical_reason": "AB共享x=2给竖直线，CD共享y=5给水平线；常见对称分式分母分别零，可用共享坐标或交叉乘形式，代回端点成立。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "line.two-point-equation",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_distance_normal_negative_scaling",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "41f5db4db659d8770108a1ebe03dfcb7ea3c428caabc2fe8d5d1264933fd7106",
+      "asset_sha256": {},
+      "mathematical_reason": "原分子8、法向量模5，乘−2后分子16、模10，两距同8/5；绝对值抵消符号，分母归一化抵消尺度。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "distance.line-equation-scaling",
+      "reference_family_ids": [
+        "geometry.normal-length-distance-normalization",
+        "geometry.point-line-distance"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_circle_completion_degenerate_sets",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "46f498803f7c876218e26aff2d46dbc5f752ef17aa8170b23298a84a08977481",
+      "asset_sha256": {},
+      "mathematical_reason": "配方补1与4后右端依次1、0、−1，分别非退化圆、单点、空集，中心(1,−2)，半径1仅适用于第一式。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "circle.complete-squares",
+      "reference_family_ids": [
+        "circle.general-form-degeneracy"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_composition_three_layers",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "01211b1f5b95e71d634ec5e7d2c2d87bdc2d9e7e5fb1d88b7c77a49fcf8a4cee",
+      "asset_sha256": {},
+      "mathematical_reason": "线性→平方→sin的三层和完整平方→sin的两层都还原原函数，分组非唯一；不能把平方移到sin外。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "derivative.identify-composition-nonlinear",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_residual_plot_positive_negative_zero",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "9e5046f399841d38c8b4be59450b6228a58d5ba2f60cc5833c459113fe943f63",
+      "asset_sha256": {},
+      "mathematical_reason": "预测1、3、5，观测3、2、5，残差2、−1、0，对应同x的上、下、重合。该线明确是给定模型而非当前三点OLS；图稿与符号差分开核对。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "statistics.signed-residual",
+      "reference_family_ids": [
+        "statistics.prediction-substitution"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_growth_graph_explanation_portfolio",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "909ada0d42dee284da63bcc505dcacee58da4058bd35e90fd0f4c305473b38b2",
+      "asset_sha256": {
+        "web/static/diagrams/v9-senior-growth-increments.svg": "abf189e06f336aa9fd5a2676dd538cb161911a93da670a2f2ad9e5682aa0dc3f"
+      },
+      "mathematical_reason": "与实际A/B图一致，两组增量2、2、2及1、2、4；x=2甲5>4，x=3乙8>7，有限点无法唯一保证以后模型，需实际重画及解释。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只按各项实际提交的图稿、算式或文字推理查看；上传、自评和看到参考后的修订不自动认定目标已掌握。未提交的分项仍未观察。",
+      "family_id": "growth.compare-table-and-graph",
+      "reference_family_ids": [
+        "growth.local-vs-eventual"
+      ],
+      "representation": "graph"
+    }
+  ]
+}

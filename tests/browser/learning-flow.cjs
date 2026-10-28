@@ -1319,6 +1319,36 @@ const journeys = {
     claim("Goal components launch their exact authored tasks; one correct objective result leaves other components unobserved.");
     claim("Real PNG and WAV bytes remain bound to a named process component after reload at mobile width.");
     claim("Removing a file from a later revision preserves the original attachment and the unchanged needs_review grade.");
+
+    // Exercise the appended authors' real task contracts as well as the V8
+    // preservation pilot. These remain synthetic answers, not student evidence.
+    result.observations.v9_task_paths = [];
+    for (const [stage, prefix] of [["primary", "v9p_"], ["junior", "v9j_"], ["senior", "v9s_"]]) {
+      const candidates = Object.values(authoredCatalog.tasks).filter(task => task.id.startsWith(prefix)
+        && ["numeric", "choice", "short"].includes(task.type));
+      const task = stage === "junior" ? candidates.find(task => task.id === "v9j_table_formula_points")
+        : candidates.find(task => task.diagram) || candidates[0];
+      assert.ok(task, "No reviewed V9 objective task for " + stage);
+      const target = task.skill_ids[0];
+      assert.equal(authoredCatalog.skills[target].stage, stage);
+      await goto("?goal=" + target); await visible("#view-goal");
+      const opened = await startFrom(page.locator(`.observation-component button[data-task-id="${task.id}"]`).first(), task.phase);
+      assert.equal(opened.session.assessment_goal_id, target);
+      assert.equal(opened.item.question.id, task.id);
+      assert.equal(opened.item.question.answer, undefined, "Navigation must not expose the new answer");
+      if (task.diagram) {
+        await page.waitForFunction(() => { const image = document.querySelector("#quiz-diagram img");
+          return image?.complete && image.naturalWidth > 0; });
+        assert.equal(await page.locator("#quiz-diagram img").getAttribute("alt"), task.diagram.alt);
+      }
+      await noHorizontalOverflow("v9_" + stage + "_authored_task_390");
+      const answered = await completeSession(opened);
+      assert.ok(answered.summary.answers.length > 0 && answered.summary.answers.every(answer => answer.status === "correct"));
+      assert.ok(answered.summary.component_results.every(component => component.independent_mastery_evidence === false));
+      result.observations.v9_task_paths.push({ stage, task_id: task.id, goal_id: target, phase: task.phase,
+        diagram: task.diagram?.src || null, evidence_type: "synthetic_browser_test" });
+    }
+    claim("Appended tasks from all three stages start from their exact goal and phase, render real frozen assets, and retain observation-only results at 390px.");
   },
 
   async self_check_autosave() {
