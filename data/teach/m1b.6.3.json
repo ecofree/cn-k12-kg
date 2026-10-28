@@ -21,7 +21,11 @@
       "乙：8+3=11（本）。",
       "两人共：8+11=19（本）；3只是差，不能作为乙的本数。"
     ],
-    "answer": "乙11本，共19本"
+    "answer": "乙11本，共19本",
+    "family_id": "primary.compare.quantity-then-total",
+    "variant_id": "m1b.6.3:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "第二问用8+3求总数，会漏掉乙与甲同样多的8本。",
@@ -32,7 +36,7 @@
   "name": "含相差数量关系的连续两问的问题",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -46,8 +50,22 @@
         "criteria": [
           "先求黄花",
           "说明第二问依赖黄花数量"
+        ],
+        "family_id": "primary.compare.quantity-then-total",
+        "variant_id": "m1b.6.3:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "comparison.additive-unknown-quantity",
+          "primary.add.combine-parts"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "第二问要红花数和黄花数；2朵是黄花数，还是两种花的差？",
+        "hint": "在每个数旁写含义，先补出黄花的框，再让这个框连向总数。",
+        "revision_prompt": "红花8朵、黄花少3朵，先只写两步关系，说明第二步为什么不能直接8+3。"
+      },
+      "observation_note": "观察两问依赖及中间量含义；两步题还需分别核对计算。"
     },
     {
       "criterion_index": 1,
@@ -59,8 +77,22 @@
         "criteria": [
           "第一问11",
           "第二问使用11得到20"
+        ],
+        "family_id": "primary.compare.quantity-then-total",
+        "variant_id": "m1b.6.3:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "comparison.additive-unknown-quantity",
+          "primary.add.combine-parts"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "9+2求出的11应写“乙有”还是“两人共”？第二问还需加谁的9？",
+        "hint": "画甲9、乙9再添2；先圈乙，再用大圈圈甲乙，避免把差2当成乙。",
+        "revision_prompt": "甲有7枚、乙比甲多4枚，分两行求乙和总数，写明每一行结果代表谁。"
+      },
+      "observation_note": "观察第一问结果进入第二问且意义保留；一次两步结果不能证明所有比较题迁移。"
     }
   ],
   "practice": [

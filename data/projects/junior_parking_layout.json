@@ -43,7 +43,12 @@
         "junior_parking_layout:o1"
       ],
       "instructions": "设车位长边与通道边夹角θ。车位深度d=5sinθ+2.5cosθ；相邻车位沿通道平移间距p=2.5/sinθ；单个矩形沿通道投影宽e=5cosθ+2.5sinθ。一排N个的总跨度为e+(N−1)p，画线说明三量各指哪里。",
-      "deliverable": "带方向标记的尺寸推导图。"
+      "deliverable": "带方向标记的尺寸推导图。",
+      "family_id": "parking.rotated-rectangle.projections-spacing",
+      "variant_id": "junior_parking_layout:step-0-v6",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "观察d、p、e三种不同几何量及一排跨度e+(N−1)p，不混末端外伸。"
     },
     {
       "title": "算整数容量",
@@ -51,7 +56,12 @@
         "junior_parking_layout:o2"
       ],
       "instructions": "分别代θ=90°、60°，找满足e+(N−1)p≤24的最大整数N，并检查2d+6≤18。近似计算至少保留3位小数，最后向下取整数。",
-      "deliverable": "两个方案的尺寸和容量表。"
+      "deliverable": "两个方案的尺寸和容量表。",
+      "family_id": "parking.integer-capacity.depth-constraints",
+      "variant_id": "junior_parking_layout:step-1-v6",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "观察最大整数N与2d+6≤18同时成立，保留足够计算精度。"
     },
     {
       "title": "画完整两排",
@@ -61,7 +71,12 @@
         "junior_parking_layout:o3"
       ],
       "instructions": "按1:200画场地、两排和中央通道，标明斜列的最左最右角，检查末端是否越界。不得把每个车位简化成只占p宽的竖条。",
-      "deliverable": "含首末车位轮廓的比例图。"
+      "deliverable": "含首末车位轮廓的比例图。",
+      "family_id": "parking.full-outline.scale-feasibility",
+      "variant_id": "junior_parking_layout:step-2-v6",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "观察完整首末车位外轮廓、双排通道及比例图边界。"
     },
     {
       "title": "说明评价边界",
@@ -69,7 +84,12 @@
         "junior_parking_layout:o3"
       ],
       "instructions": "比较容纳数量和余量，写出本模型中较多的方案；另列出实际出入口、转弯或场地障碍等还需补充的信息，不把未建模因素写成已经验证。",
-      "deliverable": "数量结论与模型限制说明。"
+      "deliverable": "数量结论与模型限制说明。",
+      "family_id": "parking.model-capacity-versus-manoeuvrability",
+      "variant_id": "junior_parking_layout:step-3-v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "alignment_note": "观察纸面数量结论与未建模转弯、出入口的区分。"
     }
   ],
   "deliverables": [
@@ -115,9 +135,12 @@
   },
   "teacher_notes": [
     "各车位沿通道方向平移p时，其在宽边法向的间距为p sinθ=2.5，保证矩形内部不重叠。",
-    "若学生采用另一种端部安排，允许不同方案，但须画全角点并重新核算外轮廓，不能混用公式。"
+    "若学生采用另一种端部安排，允许不同方案，但须画全角点并重新核算外轮廓，不能混用公式。",
+    "目标o1：若用24/p直接取位数，先在单车位矩形标最左最右角，投影宽为e不是p；排第二位只新增p，故总长e+(N−1)p。",
+    "目标o2：60°时分别算d≈5.580、p≈2.887、e≈4.665，检验N7跨度≈21.986、N8≈24.872越界；同时检查两排加通道≈17.160。不要先把尺寸取整。",
+    "目标o3：若图只画等宽条，补首末完整倾斜矩形及实际外伸；结论可说本模型18比14多，但车辆转弯和出入口未模拟，需另有资料。"
   ],
-  "assessment_note": "每项目标依据相应作品独立评分：0分为未展示或关键结论错误，1分为部分正确但缺条件、依据或核对，2分为完整正确且可复核。共6分；反馈指出具体证据，不把参加活动或排版漂亮当作目标达成。",
+  "assessment_note": "每项目标依据相应作品独立评分：0分为未展示或关键结论错误，1分为部分正确但缺条件、依据或核对，2分为完整正确且可复核。共6分；反馈指出具体证据，不把参加活动或排版漂亮当作目标达成。 本活动观察明确的矩形排布几何约束和整数容量，不据此确认真实车辆通行、转弯或工程规范。斜列端部外伸必须在图与公式中同时核验。",
   "review_status": "draft",
   "author_type": "ai",
   "teacher_review": {

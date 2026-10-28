@@ -1,78 +1,110 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh4.5.2.2",
- "name": "导数的四则运算法则",
- "tier": "core",
- "hook": "矩形两条边都在变化，面积的变化要同时计入两条边；因此乘积求导不能只把两个导数相乘。",
- "definition": "u、v在某点可导时，(u±v)′=u′±v′，(cu)′=cu′，(uv)′=u′v+uv′；若还满足v≠0，则(u/v)′=(u′v-uv′)/v²。乘积法则保留另一因子，商法则分子顺序固定、分母平方。",
- "why": "乘积增量可拆为[u(x+h)-u(x)]v(x+h)+u(x)[v(x+h)-v(x)]，除以h再取极限得到两项。商法则可由u=(u/v)v的乘积求导后解出。分母非零既保证原函数有定义，也保证推导中的除法合法。",
- "when_to_use": [
-  "多个函数相加、相乘或相除，不能直接视作单个基本函数",
-  "求导中需保留定义域或检查分母不能为0"
- ],
- "steps": [
-  "先标出和差、积、商的外层结构，并检查原函数定义域。",
-  "分别求各部分导数，按对应法则写完整表达式。",
-  "再整理同类项，商函数保留原来的禁值，最后代点核对。"
- ],
- "worked_example": {
-  "prompt": "f(x)=(x²+1)/x（x≠0），求f′(2)。",
-  "steps": [
-   "商法则得f′(x)=[2x·x-(x²+1)·1]/x²=(x²-1)/x²。",
-   "代x=2，f′(2)=(4-1)/4=3/4=0.75。",
-   "也可先化为x+1/x，求导1-1/x²核对。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh4.5.2.2",
+  "name": "导数的四则运算法则",
+  "tier": "core",
+  "hook": "矩形两条边都在变化，面积的变化要同时计入两条边；因此乘积求导不能只把两个导数相乘。",
+  "definition": "u、v在某点可导时，(u±v)′=u′±v′，(cu)′=cu′，(uv)′=u′v+uv′；若还满足v≠0，则(u/v)′=(u′v-uv′)/v²。乘积法则保留另一因子，商法则分子顺序固定、分母平方。",
+  "why": "乘积增量可拆为[u(x+h)-u(x)]v(x+h)+u(x)[v(x+h)-v(x)]，除以h再取极限得到两项。商法则可由u=(u/v)v的乘积求导后解出。分母非零既保证原函数有定义，也保证推导中的除法合法。",
+  "when_to_use": [
+    "多个函数相加、相乘或相除，不能直接视作单个基本函数",
+    "求导中需保留定义域或检查分母不能为0"
   ],
-  "answer": "0.75",
-  "verify": "(2**2-1)/2**2"
- },
- "pitfalls": [
-  "(uv)′通常不等于u′v′，例如(x·x)′=2x而不是1。",
-  "商法则分子是上导下不导减上不导下导，颠倒会整体反号。"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能用和差法则求导",
-   "explanation": "和差和常数倍可逐项求导，不改变项间正负号。",
-   "self_check": {
-    "prompt": "求f(x)=3x³-2x+7的导函数。",
-    "reference_answer": "f′(x)=9x²-2，常数7导数为0。",
-    "criteria": [
-     "三次项得到9x²",
-     "常数项消失且保留-2"
-    ]
-   }
+  "steps": [
+    "先标出和差、积、商的外层结构，并检查原函数定义域。",
+    "分别求各部分导数，按对应法则写完整表达式。",
+    "再整理同类项，商函数保留原来的禁值，最后代点核对。"
+  ],
+  "worked_example": {
+    "prompt": "f(x)=(x²+1)/x（x≠0），求f′(2)。",
+    "steps": [
+      "商法则得f′(x)=[2x·x-(x²+1)·1]/x²=(x²-1)/x²。",
+      "代x=2，f′(2)=(4-1)/4=3/4=0.75。",
+      "也可先化为x+1/x，求导1-1/x²核对。"
+    ],
+    "answer": "0.75",
+    "verify": "(2**2-1)/2**2",
+    "family_id": "derivative.quotient-cross-check",
+    "variant_id": "mh4.5.2.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能用积与商法则求导",
-   "explanation": "乘积与商有不同结构，能选择法则并保留因子才算完成。",
-   "self_check": {
-    "prompt": "分别求x²eˣ与(x+1)/(x-1)的导函数。",
-    "reference_answer": "前者为2xeˣ+x²eˣ；后者为[(x-1)-(x+1)]/(x-1)²=-2/(x-1)²，x≠1。",
-    "criteria": [
-     "乘积有两项",
-     "商分子-2且分母平方",
-     "注明x≠1"
-    ]
-   }
+  "pitfalls": [
+    "(uv)′通常不等于u′v′，例如(x·x)′=2x而不是1。",
+    "商法则分子是上导下不导减上不导下导，颠倒会整体反号。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用和差法则求导",
+      "explanation": "和差和常数倍可逐项求导，不改变项间正负号。",
+      "self_check": {
+        "prompt": "求f(x)=3x³-2x+7的导函数。",
+        "reference_answer": "f′(x)=9x²-2，常数7导数为0。",
+        "criteria": [
+          "三次项得到9x²",
+          "常数项消失且保留-2"
+        ],
+        "family_id": "derivative.sum-linear-combination",
+        "variant_id": "mh4.5.2.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "常数7的导数是7还是0？系数3会消失吗？",
+        "hint": "常数的变化率0；常数倍保留在导数前。",
+        "revision_prompt": "求5x⁴-3x²+8的导数20x³-6x，逐项核查。"
+      },
+      "observation_note": "观察线性组合规则；不能推广为乘积的逐项相乘。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用积与商法则求导",
+      "explanation": "乘积与商有不同结构，能选择法则并保留因子才算完成。",
+      "self_check": {
+        "prompt": "分别求x²eˣ与(x+1)/(x-1)的导函数。",
+        "reference_answer": "前者为2xeˣ+x²eˣ；后者为[(x-1)-(x+1)]/(x-1)²=-2/(x-1)²，x≠1。",
+        "criteria": [
+          "乘积有两项",
+          "商分子-2且分母平方",
+          "注明x≠1"
+        ],
+        "family_id": "derivative.product-quotient",
+        "variant_id": "mh4.5.2.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "(uv)′能写u′v′吗？商法则为何保留两项？",
+        "hint": "一次只让一个因子求导，另一个保留；商分母平方。",
+        "revision_prompt": "x·x的导数2x与错误1对照；(x-1)/(x+1)导数2/(x+1)²，x≠-1。"
+      },
+      "observation_note": "观察积商规则与定义域；题给形式不同需选择合适规则。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh4.5.2.2-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：f(x)=2x³-5x+4，求f′(2)。"
+    },
+    {
+      "id": "mh4.5.2.2-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：f(x)=x²(x+1)，求f′(1)。"
+    },
+    {
+      "id": "mh4.5.2.2-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：f(x)=(x+2)/(x-1)，求f′(2)。"
+    }
+  ],
+  "check": "独立完成并写出依据：求f(x)=3x³-2x+7的导函数。；分别求x²eˣ与(x+1)/(x-1)的导函数。",
+  "conditions": [
+    "u、v可导，商的v非零；约分不恢复原函数禁值。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "mh4.5.2.2-q201",
-   "note": "完成后对照解析检查条件、步骤和结果：f(x)=2x³-5x+4，求f′(2)。"
-  },
-  {
-   "id": "mh4.5.2.2-q202",
-   "note": "完成后对照解析检查条件、步骤和结果：f(x)=x²(x+1)，求f′(1)。"
-  },
-  {
-   "id": "mh4.5.2.2-q203",
-   "note": "完成后对照解析检查条件、步骤和结果：f(x)=(x+2)/(x-1)，求f′(2)。"
-  }
- ],
- "check": "独立完成并写出依据：求f(x)=3x³-2x+7的导函数。；分别求x²eˣ与(x+1)/(x-1)的导函数。"
 }

@@ -1,76 +1,111 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m7b.8.1",
- "name": "平方根",
- "tier": "core",
- "hook": "面积为49的正方形边长为7，为什么“49的平方根”却有两个？",
- "definition": "若 x²=a（a≥0），则 x 叫 a 的平方根；正数有两个互为相反数的平方根，算术平方根取其中非负的一个，0 的平方根是 0，负数没有平方根。",
- "why": "平方会消去正负差别：7与−7的平方都为49，因此正数有两个平方根；长度只能非负，所以根号√49规定取非负的算术平方根7。0只有一个平方根0，负数没有实数平方根。",
- "when_to_use": [
-  "由平方结果反求原数",
-  "看到根号或要求区别平方根与算术平方根"
- ],
- "steps": [
-  "先判断被开方数是否非负",
-  "求平方等于该数的非负数",
-  "按题目要求选择非负根或正负两根"
- ],
- "worked_example": {
-  "prompt": "求36的平方根，并计算√36。",
-  "answer": "平方根为±6；√36=6",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.8.1",
+  "name": "平方根",
+  "tier": "core",
+  "hook": "面积为49的正方形边长为7，为什么“49的平方根”却有两个？",
+  "definition": "在实数范围内，若x²=a（a≥0），则x叫a的平方根。正数有两个互为相反数的平方根；算术平方根取其中非负的一个，记√a。0的平方根及算术平方根都是0，负数没有实数平方根。",
+  "why": "平方会消去正负差别：7与−7的平方都为49，因此正数有两个平方根；长度只能非负，所以根号√49规定取非负的算术平方根7。0只有一个平方根0，负数没有实数平方根。",
+  "when_to_use": [
+    "由平方结果反求原数",
+    "看到根号或要求区别平方根与算术平方根"
+  ],
   "steps": [
-   "因为6²=36且(−6)²=36，所以36有两个平方根6、−6。",
-   "根号表示算术平方根，必须非负，因此√36=6。"
-  ]
- },
- "pitfalls": [
-  "√36不能写成±6，根号已经限定非负。",
-  "负数在实数范围内没有平方根，不能照抄正数开方。"
- ],
- "check": "独立完成并解释：一个正数的算术平方根是5，这个数的两个平方根是什么？按从小到大写，用逗号分隔。 请写出判断或计算依据。；求√144−√25的值。这里√表示算术平方根。 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能求非负数的平方根与算术平方根",
-   "explanation": "求平方根是求x²=a的所有实数解；正数有一正一负两个根。",
-   "self_check": {
-    "prompt": "一个正数的算术平方根是5，这个数的两个平方根是什么？按从小到大写，用逗号分隔。 请写出判断或计算依据。",
-    "reference_answer": "该数为25；(−5)²=25、5²=25，因此两个平方根是−5和5。",
-    "criteria": [
-     "先由5²求原数25",
-     "给出−5和5"
-    ]
-   }
+    "先判断被开方数是否非负",
+    "求平方等于该数的非负数",
+    "按题目要求选择非负根或正负两根"
+  ],
+  "worked_example": {
+    "prompt": "求36的平方根，并计算√36。",
+    "answer": "平方根为±6；√36=6",
+    "steps": [
+      "因为6²=36且(−6)²=36，所以36有两个平方根6、−6。",
+      "根号表示算术平方根，必须非负，因此√36=6。"
+    ],
+    "family_id": "root.square.inverse-pair",
+    "variant_id": "m7b.8.1:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能区分平方根与算术平方根",
-   "explanation": "算术平方根只取非负值，参与后续运算时不要多添正负号。",
-   "self_check": {
-    "prompt": "求√144−√25的值。这里√表示算术平方根。 请写出判断或计算依据。",
-    "reference_answer": "√144=12、√25=5，均取非负值，故12−5=7。",
-    "criteria": [
-     "两个根号均取非负",
-     "结果7"
-    ]
-   }
+  "pitfalls": [
+    "√36不能写成±6，根号已经限定非负。",
+    "负数在实数范围内没有平方根，不能照抄正数开方。"
+  ],
+  "check": "独立完成并解释：一个正数的算术平方根是5，这个数的两个平方根是什么？按从小到大写，用逗号分隔。 请写出判断或计算依据。；求√144−√25的值。这里√表示算术平方根。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能求非负数的平方根与算术平方根",
+      "explanation": "求平方根是求x²=a的所有实数解；正数有一正一负两个根。",
+      "self_check": {
+        "prompt": "一个正数的算术平方根是5，这个数的两个平方根是什么？按从小到大写，用逗号分隔。 请写出判断或计算依据。",
+        "reference_answer": "该数为25；(−5)²=25、5²=25，因此两个平方根是−5和5。",
+        "criteria": [
+          "先由5²求原数25",
+          "给出−5和5"
+        ],
+        "family_id": "root.square.inverse-pair",
+        "variant_id": "m7b.8.1:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "root.principal-square.nonnegative"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "算术平方根为5说明原数是5还是25？−5平方后等于多少？",
+        "hint": "先平方还原原数，再求全部使x²=25成立的x。",
+        "revision_prompt": "分别写0、9的平方根与算术平方根，核对0只有一个，正数有互为相反的两个。"
+      },
+      "observation_note": "观察原数与根的角色及零边界；平方根两值不可混入根号的单一值。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能区分平方根与算术平方根",
+      "explanation": "算术平方根只取非负值，参与后续运算时不要多添正负号。",
+      "self_check": {
+        "prompt": "求√144−√25的值。这里√表示算术平方根。 请写出判断或计算依据。",
+        "reference_answer": "√144=12、√25=5，均取非负值，故12−5=7。",
+        "criteria": [
+          "两个根号均取非负",
+          "结果7"
+        ],
+        "family_id": "root.principal-square.nonnegative",
+        "variant_id": "m7b.8.1:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "reference_family_ids": [
+          "root.square.inverse-pair"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "√144能写成±12再任选一个吗？",
+        "hint": "√a专指非负算术平方根；“a的平方根”才要求列出全部候选。",
+        "revision_prompt": "计算√81+√16=13，再单独列81的两个平方根±9，对照术语。"
+      },
+      "observation_note": "观察根号表示的非负约定；本题不意味着已会化简含字母的√(x²)。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.8.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.8.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.8.1-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m7b.8.1-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m7b.8.1-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m7b.8.1-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

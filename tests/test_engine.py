@@ -17,7 +17,8 @@ from cnkg.admissions import fingerprint  # noqa: E402
 
 def synthetic_diagnostic_graph():
     """Explicit complete evidence for state-machine contracts, never production admission."""
-    topics = [{"id": tid, "name": tid, "grade": 7, "volume": "七上", "chapter": "合成状态机夹具"}
+    topics = [{"id": tid, "name": tid, "grade": 7, "volume": "七上", "chapter": "合成状态机夹具",
+               "mastery_criteria": ["能完成这组基础加减计算"]}
               for tid in ("base", "near", "related", "target")]
     edges = [{"topicId": "target", "prerequisiteId": parent, "strength": strength}
              for parent, strength in (("base", "hard"), ("near", "hard"), ("related", "soft"))]
@@ -30,6 +31,7 @@ def synthetic_diagnostic_graph():
             question = {"id": f"{topic['id']}-q{i}", "topicId": topic["id"], "type": "numeric",
                         "difficulty": "basic", "prompt": f"计算 {expression}。", "answer": value, "verify": expression,
                         "family_id": "synthetic." + family, "representation": "symbolic",
+                        "tested_criterion_indices": [0],
                         "source": "synthetic-state-machine-fixture"}
             question["_admission"] = {"fingerprint_version": 2, "content_sha256": fingerprint(question),
                                       "policy": copy.deepcopy(policy)}
@@ -120,16 +122,20 @@ class EngineTest(unittest.TestCase):
         return item
 
     def test_first_correct_needs_confirmation(self):
-        """第 1 题答对不立即判掌握，要再问一题确认（防猜对导致漏诊）。"""
-        session = engine.create_session(self.graph, ["m7a.1.2.5"])
-        item = self._answer(session, "correct")
-        self.assertEqual(item["topicId"], "m7a.1.2.5")
-        self.assertNotIn("m7a.1.2.5", session["state"], "第 1 题对后不应立即判定")
-        second = self._answer(session, "correct")
-        self.assertEqual(second["topicId"], "m7a.1.2.5")
-        self.assertEqual(session["state"]["m7a.1.2.5"], "mastered")
-        self.assertEqual(session["state"]["m7a.1.2.4"], "assumed")
-        summary = engine.summarize(self.graph, session)
+        """明确观察范围内仍需确认；不能推断未作答的先修。"""
+        graph = synthetic_diagnostic_graph()
+        session = engine.create_session(graph, ["target"])
+        item = self._answer(session, "correct", graph)
+        self.assertEqual(item["topicId"], "target")
+        self.assertNotIn("target", session["state"], "第 1 题对后不应立即判定")
+        second = self._answer(session, "correct", graph)
+        self.assertEqual(second["topicId"], "target")
+        self.assertEqual(session["state"]["target"], "mastered")
+        self.assertNotIn("base", session["state"])
+        summary = engine.summarize(graph, session)
+        self.assertIn("base", summary["untested"])
+        self.assertEqual(summary["assumed"], [])
+        self.assertFalse(summary["independent_mastery_evidence"])
         self.assertEqual(summary["weak"], [])
         self.assertEqual(summary["asked_count"], 2)
 
@@ -142,10 +148,11 @@ class EngineTest(unittest.TestCase):
         self.assertEqual(session["state"]["target"], "shaky")
 
     def test_screen_mode_still_one_shot(self):
-        """整册筛查每点只问 1 题，不走确认题，保证覆盖广度。"""
+        """整册筛查每点只问1题，保留正确但不能据此判整个主题。"""
         session = engine.create_session(self.graph, ["m7a.1.2.5"], mode="screen")
         self._answer(session, "correct")
-        self.assertEqual(session["state"]["m7a.1.2.5"], "mastered")
+        self.assertEqual(session["state"]["m7a.1.2.5"], "insufficient_evidence")
+        self.assertEqual(session["log"][0]["verdict"], "correct")
 
     def test_wrong_then_correct_is_shaky_and_descends(self):
         """判为不稳时仍要往上确认，否则一次猜对就把真正的根因截断在中途。"""
@@ -206,7 +213,7 @@ class EngineTest(unittest.TestCase):
             self.assertTrue(policy["diagnosis_eligible"])
             self.assertFalse(policy["may_confirm_mastery"])
             self.assertFalse(policy["may_judge_weak"])
-            self.assertEqual(policy["reason"], "reviewed_component_not_complete_topic")
+            self.assertEqual(policy["reason"], "bounded_component_observation_not_whole_topic")
         for verdicts in (("correct", "correct"), ("correct", "wrong"), ("wrong", "correct"), ("wrong", "wrong")):
             with self.subTest(verdicts=verdicts):
                 session = engine.create_session(self.graph, [tid])

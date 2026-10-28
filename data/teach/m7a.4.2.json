@@ -1,82 +1,111 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m7a.4.2",
- "name": "整式的加法与减法",
- "tier": "core",
- "hook": "3a-(2a-1) 去括号后变成 3a-2a+1。减号凭什么让括号里每一项都翻符号？",
- "definition": "所含字母相同、相同字母的指数也相同的项叫同类项。合并同类项时系数相加减，字母与指数不变。去括号：括号前是「+」，各项不变号；括号前是「-」，各项都变号。",
- "why": "减去一个整体，等于把整体里每一项都减掉。(2a-1) 是「2a 与 -1 的和」，减去它就是先减 2a、再减 -1，而减去 -1 等于加上 1。所以括号前是减号时，每一项都要变号——漏掉一项，就等于少减了一块。",
- "when_to_use": [
-  "式子里有括号，尤其是括号前是减号",
-  "出现「合并同类项」「化简」的要求",
-  "要先化简再代值，能少算一大截",
-  "整式加减的实际问题：周长、总价、两班人数"
- ],
- "steps": [
-  "先去括号：前面是「-」，括号内每一项都变号",
-  "找同类项：字母相同、相同字母的指数也相同才算",
-  "合并：系数相加减，字母部分照抄不变",
-  "需要求值时，先化简再代入"
- ],
- "worked_example": {
-  "prompt": "化简 3a-(2a-1)，结果中 a 的系数是多少？",
-  "verify": "3-2",
-  "answer": "1",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "hand",
+  "topicId": "m7a.4.2",
+  "name": "整式的加法与减法",
+  "tier": "core",
+  "hook": "3a-(2a-1) 去括号后变成 3a-2a+1。减号凭什么让括号里每一项都翻符号？",
+  "definition": "所含字母相同、相同字母的指数也相同的项叫同类项。合并同类项时系数相加减，字母与指数不变。去括号：括号前是「+」，各项不变号；括号前是「-」，各项都变号。",
+  "why": "减去一个整体，等于把整体里每一项都减掉。(2a-1) 是「2a 与 -1 的和」，减去它就是先减 2a、再减 -1，而减去 -1 等于加上 1。所以括号前是减号时，每一项都要变号——漏掉一项，就等于少减了一块。",
+  "when_to_use": [
+    "式子里有括号，尤其是括号前是减号",
+    "出现「合并同类项」「化简」的要求",
+    "要先化简再代值，能少算一大截",
+    "整式加减的实际问题：周长、总价、两班人数"
+  ],
   "steps": [
-   "去括号：括号前是减号，2a 变 -2a，-1 变 +1。",
-   "得到 3a-2a+1。",
-   "合并同类项：3a-2a=a，所以 a 的系数是 1，常数项也是 1。"
-  ]
- },
- "pitfalls": [
-  "括号前是减号只改了第一项，-1 没变成 +1。",
-  "把 2a 与 2a² 当同类项，指数不同不能合并。",
-  "合并时把字母也相加，写成 5a。",
-  "代值题不先化简，硬算容易错。"
- ],
- "practice": [
-  {
-   "id": "m7a.4.2-q101",
-   "note": "独立作答后，按解析检查关键条件和推理。"
+    "先去括号：前面是「-」，括号内每一项都变号",
+    "找同类项：字母相同、相同字母的指数也相同才算",
+    "合并：系数相加减，字母部分照抄不变",
+    "需要求值时，先化简再代入"
+  ],
+  "worked_example": {
+    "prompt": "化简 3a-(2a-1)，结果中 a 的系数是多少？",
+    "verify": "3-2",
+    "answer": "1",
+    "steps": [
+      "去括号：括号前是减号，2a 变 -2a，-1 变 +1。",
+      "得到 3a-2a+1。",
+      "合并同类项：3a-2a=a，所以 a 的系数是 1，常数项也是 1。"
+    ],
+    "family_id": "polynomial.distribute-negative",
+    "variant_id": "m7a.4.2:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "id": "m7a.4.2-q102",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m7a.4.2-q3",
-   "note": "独立作答后，按解析检查关键条件和推理。"
+  "pitfalls": [
+    "括号前是减号却只给第一项变号，漏掉其他项。",
+    "把2a与2a²当同类项；同字母的指数不同，不能合并。",
+    "把2a+3a误写为5a²；合并只加系数，字母部分仍为a。",
+    "代值时负数不加括号，导致平方或外层负号处理错误。"
+  ],
+  "practice": [
+    {
+      "id": "m7a.4.2-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7a.4.2-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7a.4.2-q3",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "check": "能正确去掉「括号前是减号」的括号，并说清为什么每一项都要变号。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能识别同类项并合并",
+      "explanation": "同类项的字母及各字母指数完全相同，合并只加减系数，不改变字母部分。",
+      "self_check": {
+        "prompt": "化简3a²b−5ab²+2a²b。",
+        "reference_answer": "5a²b−5ab²。",
+        "criteria": [
+          "合并第一与第三项",
+          "ab²和a²b不能合并"
+        ],
+        "family_id": "polynomial.collect-like-terms",
+        "variant_id": "m7a.4.2:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "a²b与ab²的总次数都为3，是否就能合并？",
+        "hint": "逐个字母对齐比较指数：a的2与1不同、b的1与2不同，不能合并。",
+        "revision_prompt": "化简4xy²−xy²+2x²y，给同类项同色圈记，结果3xy²+2x²y。"
+      },
+      "observation_note": "观察同字母同指数的严格条件；总次数相等并不是同类项的充分条件。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能正确去括号（括号前是负号时各项变号）",
+      "explanation": "括号前减号等于整体乘−1，分配到括号内每一项都要变号。",
+      "self_check": {
+        "prompt": "化简2x−(3x−4)，并说明去括号依据。",
+        "reference_answer": "2x−3x+4=−x+4；依据−1的分配律。",
+        "criteria": [
+          "括号内两项都变号",
+          "合并得−x+4"
+        ],
+        "family_id": "polynomial.distribute-negative",
+        "variant_id": "m7a.4.2:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "−(3x−4)中，−1要乘几项？−1×(−4)是多少？",
+        "hint": "把去括号写为(−1)×3x+(−1)×(−4)，每项都参与。",
+        "revision_prompt": "化简5x−(2x+7)，再代x=1核对原式和3x−7均为−4。"
+      },
+      "observation_note": "观察括号前负号分配到每项；仅修正最终答案不能定位漏变号的位置。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "能正确去掉「括号前是减号」的括号，并说清为什么每一项都要变号。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能识别同类项并合并",
-   "explanation": "同类项的字母及各字母指数完全相同，合并只加减系数，不改变字母部分。",
-   "self_check": {
-    "prompt": "化简3a²b−5ab²+2a²b。",
-    "reference_answer": "5a²b−5ab²。",
-    "criteria": [
-     "合并第一与第三项",
-     "ab²和a²b不能合并"
-    ]
-   }
-  },
-  {
-   "criterion_index": 1,
-   "title": "能正确去括号（括号前是负号时各项变号）",
-   "explanation": "括号前减号等于整体乘−1，分配到括号内每一项都要变号。",
-   "self_check": {
-    "prompt": "化简2x−(3x−4)，并说明去括号依据。",
-    "reference_answer": "2x−3x+4=−x+4；依据−1的分配律。",
-    "criteria": [
-     "括号内两项都变号",
-     "合并得−x+4"
-    ]
-   }
-  }
- ]
 }

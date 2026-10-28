@@ -1,76 +1,105 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m9a.25.1",
- "name": "一元二次方程的概念",
- "tier": "core",
- "hook": "原方程看见x²就一定是二次方程吗？若两边的x²抵消呢？",
- "definition": "只含一个未知数、未知数的最高次数是 2 的整式方程叫一元二次方程，一般形式为 ax²+bx+c=0（a≠0），其中 a、b、c 分别是二次项、一次项系数和常数项。",
- "why": "方程类别取决于化简后真实的最高次数。移项合并后写成ax²+bx+c=0且a≠0，才保留二次项；若a为0，二次结构消失，后续二次公式也不能使用。",
- "when_to_use": [
-  "需要判断方程次数或读系数",
-  "含参数可能使二次项系数变成0"
- ],
- "steps": [
-  "展开移项并合并同类项",
-  "确认只有一个未知数且为整式方程",
-  "按a、b、c读取系数并检查a≠0"
- ],
- "worked_example": {
-  "prompt": "把3x(x−2)=x+4化为一般形式并指出系数。",
-  "answer": "3x²−7x−4=0；a=3，b=−7，c=−4",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m9a.25.1",
+  "name": "一元二次方程的概念",
+  "tier": "core",
+  "hook": "原方程看见x²就一定是二次方程吗？若两边的x²抵消呢？",
+  "definition": "只含一个未知数、未知数的最高次数是 2 的整式方程叫一元二次方程，一般形式为 ax²+bx+c=0（a≠0），其中 a、b、c 分别是二次项、一次项系数和常数项。",
+  "why": "方程类别取决于化简后真实的最高次数。移项合并后写成ax²+bx+c=0且a≠0，才保留二次项；若a为0，二次结构消失，后续二次公式也不能使用。",
+  "when_to_use": [
+    "需要判断方程次数或读系数",
+    "含参数可能使二次项系数变成0"
+  ],
   "steps": [
-   "展开左边为3x²−6x，将右边移到左侧得3x²−7x−4=0。",
-   "按次数比较，a=3、b=−7、c=−4，a非零，所以是一元二次方程。"
-  ]
- },
- "pitfalls": [
-  "系数包括前面的正负号，b不一定是正数。",
-  "看见原式有平方项不能替代化简后的次数检查。"
- ],
- "check": "独立完成并解释：方程(x+1)²=x²+5化简后属于哪一类方程？ 备选：A. 一元二次方程；B. 一元一次方程；C. 恒等式 请写出判断或计算依据。；把方程2x²+3=5x化为ax²+bx+c=0的一般形式，求一次项系数b。 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能判断一个方程是否为一元二次方程",
-   "explanation": "先合并再看最高次数，不能只凭某处出现x²判断。",
-   "self_check": {
-    "prompt": "方程(x+1)²=x²+5化简后属于哪一类方程？ 备选：A. 一元二次方程；B. 一元一次方程；C. 恒等式 请写出判断或计算依据。",
-    "reference_answer": "展开得x²+2x+1=x²+5，消去两边x²后为2x−4=0，最高次数为1，因此是一元一次方程。 正确选项内容：一元一次方程。",
-    "criteria": [
-     "两边平方项抵消",
-     "得到一次方程"
-    ]
-   }
+    "展开移项并合并同类项",
+    "确认只有一个未知数且为整式方程",
+    "按a、b、c读取系数并检查a≠0"
+  ],
+  "worked_example": {
+    "prompt": "把3x(x−2)=x+4化为一般形式并指出系数。",
+    "answer": "3x²−7x−4=0；a=3，b=−7，c=−4",
+    "steps": [
+      "展开左边为3x²−6x，将右边移到左侧得3x²−7x−4=0。",
+      "按次数比较，a=3、b=−7、c=−4，a非零，所以是一元二次方程。"
+    ],
+    "family_id": "quadratic-equation.standard-form.coefficients",
+    "variant_id": "m9a.25.1:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
   },
-  {
-   "criterion_index": 1,
-   "title": "能把方程化为一般形式并指出各项系数",
-   "explanation": "一般形式右边为0，三类系数按项对应。",
-   "self_check": {
-    "prompt": "把方程2x²+3=5x化为ax²+bx+c=0的一般形式，求一次项系数b。 请写出判断或计算依据。",
-    "reference_answer": "移项得2x²−5x+3=0，与一般形式比较，a=2、b=−5、c=3，一次项系数包含负号。",
-    "criteria": [
-     "正确移项为−5x",
-     "b=−5"
-    ]
-   }
+  "pitfalls": [
+    "系数包括前面的正负号，b不一定是正数。",
+    "看见原式有平方项不能替代化简后的次数检查。"
+  ],
+  "check": "独立完成并解释：方程(x+1)²=x²+5化简后属于哪一类方程？ 备选：A. 一元二次方程；B. 一元一次方程；C. 恒等式 请写出判断或计算依据。；把方程2x²+3=5x化为ax²+bx+c=0的一般形式，求一次项系数b。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断一个方程是否为一元二次方程",
+      "explanation": "先合并再看最高次数，不能只凭某处出现x²判断。",
+      "self_check": {
+        "prompt": "方程(x+1)²=x²+5化简后属于哪一类方程？ 备选：A. 一元二次方程；B. 一元一次方程；C. 恒等式 请写出判断或计算依据。",
+        "reference_answer": "展开得x²+2x+1=x²+5，消去两边x²后为2x−4=0，最高次数为1，因此是一元一次方程。 正确选项内容：一元一次方程。",
+        "criteria": [
+          "两边平方项抵消",
+          "得到一次方程"
+        ],
+        "family_id": "quadratic-equation.classify-after-cancellation",
+        "variant_id": "m9a.25.1:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "原式出现x²就一定是二次方程吗？移到同一边后二次项剩多少？",
+        "hint": "先展开并合并，分类看化简后的最高非零次数。",
+        "revision_prompt": "比较(x+1)²=x²+5与(x+1)²=5，说明前者一次、后者二次的原因。"
+      },
+      "observation_note": "观察消项后分类与二次系数非零；不能按原式外观定次数。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能把方程化为一般形式并指出各项系数",
+      "explanation": "一般形式右边为0，三类系数按项对应。",
+      "self_check": {
+        "prompt": "把方程2x²+3=5x化为ax²+bx+c=0的一般形式，求一次项系数b。 请写出判断或计算依据。",
+        "reference_answer": "移项得2x²−5x+3=0，与一般形式比较，a=2、b=−5、c=3，一次项系数包含负号。",
+        "criteria": [
+          "正确移项为−5x",
+          "b=−5"
+        ],
+        "family_id": "quadratic-equation.standard-form.coefficients",
+        "variant_id": "m9a.25.1:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "右边的5x移到左边后，b是5还是−5？",
+        "hint": "把右边化为0，再按x²、x、常数三列读取带符号系数。",
+        "revision_prompt": "将3x²=2−x写3x²+x−2=0，读a=3、b=1、c=−2，并说明省略x项时b=0。"
+      },
+      "observation_note": "观察一般式与带符号系数；只说b不能代替完整标准化过程。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m9a.25.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.25.1-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.25.1-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m9a.25.1-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m9a.25.1-q101",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m9a.25.1-q102",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

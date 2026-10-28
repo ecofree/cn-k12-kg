@@ -14,10 +14,10 @@
     "要求「你发现了什么」「照样子写一组」"
   ],
   "steps": [
-    "先算 2～3 组同类算式",
-    "比较因数和积各变了几倍",
-    "用一句话或一个式子写出规律",
-    "用新的一组数验证，确认不是巧合"
+    "计算几组同结构算式，记录因数与积的变化。",
+    "提出猜想，并列出保持不变的因数和变化倍数。",
+    "用新的数寻找反例；一次或有限次符合只支持猜想。",
+    "再用相同份数分组或乘法结合律解释为何在所述条件下保持。"
   ],
   "worked_example": {
     "prompt": "已知 25×4=100，那么 25×8 是多少？",
@@ -26,8 +26,12 @@
     "steps": [
       "先看关系：8 是 4 的 2 倍。",
       "25 没变，另一个因数变成 2 倍，积也变成 2 倍。",
-      "100×2=200，用 25×8 直接算也确实是 200，规律成立。"
-    ]
+      "100×2=200；数量理由是8个25可分为两组4个25。直接计算也得到200，核对了本例，但不是仅凭这一例证明所有情形。"
+    ],
+    "family_id": "arithmetic.product-factor-scaling",
+    "variant_id": "m4a.3.4:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "只算一组就下结论，把巧合当规律。",
@@ -51,7 +55,7 @@
   "check": "能自己举一组例子，验证「一个因数乘 10，积也乘 10」确实成立。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,22 @@
         "criteria": [
           "计算与猜想正确",
           "说明一般数量关系"
+        ],
+        "family_id": "arithmetic.product-factor-scaling",
+        "variant_id": "m4a.3.4:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "model.finite-data-limit",
+          "primary.multiply.equal-groups"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "三组结果符合后，能说所有数字一定如此吗？还有什么数量理由？",
+        "hint": "将24份5看成两组12份5，将36份5看成三组，说明共同结构而不是只报数字。",
+        "revision_prompt": "用8×6、16×6、24×6提出同样猜想，再以相同6的份数解释可推广的条件。"
+      },
+      "observation_note": "观察从算例提出规律并解释依据；有限例子不能独自证明一般结论。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +96,19 @@
         "criteria": [
           "拆分28为4×7",
           "结合律与结果正确"
-        ]
-      }
+        ],
+        "family_id": "arithmetic.associative-multiplication",
+        "variant_id": "m4a.3.4:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "28=4×7还是4+7？改写时有没有把乘法变成加法？",
+        "hint": "把28份25分成7组，每组4份25；一组100，7组700。",
+        "revision_prompt": "用125×8=1000求125×24，写出24=8×3和结合律改写，核对原式与改写式等值。"
+      },
+      "observation_note": "观察分组规律用于新计算；换数字本身不构成另一种独立数学结构。"
     }
   ]
 }

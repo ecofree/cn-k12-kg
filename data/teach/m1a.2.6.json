@@ -22,7 +22,11 @@
       "9−4=5；5+4=9，符合原来的9支。"
     ],
     "answer": "5",
-    "verify": "9-4"
+    "verify": "9-4",
+    "family_id": "primary.change.remove-part",
+    "variant_id": "m1a.2.6:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "拿走数不能大于原来数；条件不合理时先检查题意。",
@@ -33,7 +37,7 @@
   "name": "用减法解决问题",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -47,8 +51,19 @@
         "criteria": [
           "识别整体8和部分3",
           "说明去掉而非合并"
-        ]
-      }
+        ],
+        "family_id": "primary.change.remove-part",
+        "variant_id": "m1a.2.6:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "8块中用去3块，留下的属于原来8块吗？把8和3再合起来会多算哪部分？",
+        "hint": "摆8块，圈住其中3块并移开，只数没移开的；用去与剩下合起来才是8。",
+        "revision_prompt": "画6个点，划去2个，分别标“原有、去掉、留下”，再说明为什么列减法。"
+      },
+      "observation_note": "观察整体中去掉已知部分的关系；看到“用去”就选减法还不能证明会分析未知量。"
     },
     {
       "criterion_index": 1,
@@ -60,8 +75,22 @@
         "criteria": [
           "正确列减法",
           "结果4且加法验算正确"
+        ],
+        "family_id": "arithmetic.subtraction-addition-inverse",
+        "variant_id": "m1a.2.6:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.add.combine-parts",
+          "primary.change.remove-part"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "10−6写成6−10，能表示从10张中拿走6张吗？",
+        "hint": "被减数先写原有10张，拿走6张；把剩下与用去的合回去检查总数。",
+        "revision_prompt": "7张纸用掉4张后求剩余，保留减法及对应加法检查，并写“张”。"
+      },
+      "observation_note": "观察减法方向、差与情境单位；正确答案不能说明实际纸张是否数漏。"
     }
   ],
   "practice": [

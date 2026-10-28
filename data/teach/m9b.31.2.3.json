@@ -24,7 +24,11 @@
     "steps": [
       "长度放大5/2倍，所以周长14×5/2=35。",
       "面积放大(5/2)²倍，所以面积8×25/4=50。"
-    ]
+    ],
+    "family_id": "similarity.linear-versus-area-scaling",
+    "variant_id": "m9b.31.2.3:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "面积比不是相似比，必须平方。",
@@ -42,8 +46,18 @@
         "criteria": [
           "线段周长同用4倍",
           "面积采用16倍"
-        ]
-      }
+        ],
+        "family_id": "similarity.linear-versus-area-scaling",
+        "variant_id": "m9b.31.2.3:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "长度放大4倍，面积会只放大4倍吗？高也放大了多少？",
+        "hint": "面积=底×高/2，两条长度各乘4，所以面积乘16。",
+        "revision_prompt": "以底2高3的小三角形与底8高12的大图核验面积3和48，周长仍按4倍。"
+      },
+      "observation_note": "观察长度、周长和面积的不同缩放幂次；对应高需由相似关系确定。"
     },
     {
       "criterion_index": 1,
@@ -55,8 +69,18 @@
         "criteria": [
           "面积比9:25转3:5",
           "周长30"
-        ]
-      }
+        ],
+        "family_id": "similarity.area-ratio.to-perimeter",
+        "variant_id": "m9b.31.2.3:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "9:25是面积比，能直接拿18乘25/9求周长吗？",
+        "hint": "先对正面积比开方得到长度比3:5，再用于周长。",
+        "revision_prompt": "用小周长18求大30，再反算(18/30)²=9/25检验。"
+      },
+      "observation_note": "观察平方关系的逆向使用；面积比例必须为正且图形确实相似。"
     }
   ],
   "practice": [
@@ -79,7 +103,7 @@
   },
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   }
 }

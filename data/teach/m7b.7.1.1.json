@@ -1,76 +1,105 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m7b.7.1.1",
- "name": "两条直线相交",
- "tier": "core",
- "hook": "两条直线相交时，一个角确定后，另外三个角为什么都能确定？",
- "definition": "两条直线相交只有一个交点，形成四个角：相邻两角互补（邻补角），不相邻两角相等（对顶角）。",
- "why": "相邻两角共有一边，其余两边组成平角，所以和为180°；对顶角都等于180°减去同一个邻角，因此相等。角的位置关系提供依据，不能只凭看起来大小相近。",
- "when_to_use": [
-  "题中两条直线明确相交",
-  "已知一个交角要求其余角"
- ],
- "steps": [
-  "先找交点及两对反向射线",
-  "将角配成对顶角或邻补角",
-  "写相等或和为180°的关系再求值"
- ],
- "worked_example": {
-  "prompt": "直线AB与CD交于O，A、O、B及C、O、D分别共线。∠AOC=52°，求∠BOC和∠BOD。",
-  "answer": "∠BOC=128°，∠BOD=52°",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.7.1.1",
+  "name": "两条直线相交",
+  "tier": "core",
+  "hook": "两条直线相交时，一个角确定后，另外三个角为什么都能确定？",
+  "definition": "两条直线相交只有一个交点，形成四个角：相邻两角互补（邻补角），不相邻两角相等（对顶角）。",
+  "why": "相邻两角共有一边，其余两边组成平角，所以和为180°；对顶角都等于180°减去同一个邻角，因此相等。角的位置关系提供依据，不能只凭看起来大小相近。",
+  "when_to_use": [
+    "题中两条直线明确相交",
+    "已知一个交角要求其余角"
+  ],
   "steps": [
-   "OA、OB反向，所以∠BOC=180°−52°=128°。",
-   "∠BOD与∠AOC是对顶角，所以∠BOD=52°。"
-  ]
- },
- "pitfalls": [
-  "共用顶点不一定构成对顶角，要检查两边是否分别反向。",
-  "邻补角必须相邻，和为180°的任意两角不一定是邻补角。"
- ],
- "check": "独立完成并解释：直线AB与CD交于O，A、O、B及C、O、D分别依次共线。写出∠AOC的对顶角和两邻补角，并解释。；直线AB与CD相交于O，A、O、B依次共线，C、O、D依次共线。若∠AOC=47°，求∠BOC的度数。 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能在图中指出对顶角与邻补角",
-   "explanation": "对顶角两边分别互为反向射线；邻补角共有一边且另两边反向。",
-   "self_check": {
-    "prompt": "直线AB与CD交于O，A、O、B及C、O、D分别依次共线。写出∠AOC的对顶角和两邻补角，并解释。",
-    "reference_answer": "对顶角为∠BOD；邻补角为∠AOD与∠BOC。前者两对边分别反向；后两者各共用一边，另外两边组成直线。",
-    "criteria": [
-     "对顶角判断有反向射线依据",
-     "两个邻补角都找出且说明公共边"
-    ]
-   }
+    "先找交点及两对反向射线",
+    "将角配成对顶角或邻补角",
+    "写相等或和为180°的关系再求值"
+  ],
+  "worked_example": {
+    "prompt": "直线AB与CD交于O，A、O、B及C、O、D分别共线。∠AOC=52°，求∠BOC和∠BOD。",
+    "answer": "∠BOC=128°，∠BOD=52°",
+    "steps": [
+      "OA、OB反向，所以∠BOC=180°−52°=128°。",
+      "∠BOD与∠AOC是对顶角，所以∠BOD=52°。"
+    ],
+    "family_id": "angle.intersecting-lines.supplement",
+    "variant_id": "m7b.7.1.1:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能用对顶角相等、邻补角互补求角度",
-   "explanation": "先识别位置，再使用对顶角相等或邻补角互补。",
-   "self_check": {
-    "prompt": "直线AB与CD相交于O，A、O、B依次共线，C、O、D依次共线。若∠AOC=47°，求∠BOC的度数。 请写出判断或计算依据。",
-    "reference_answer": "OA与OB是反向射线，∠AOC与∠BOC为邻补角，和为180°，故∠BOC=180°−47°=133°。",
-    "criteria": [
-     "说明邻补角关系",
-     "列180−47并得133"
-    ]
-   }
+  "pitfalls": [
+    "共用顶点不一定构成对顶角，要检查两边是否分别反向。",
+    "邻补角必须相邻，和为180°的任意两角不一定是邻补角。"
+  ],
+  "check": "独立完成并解释：直线AB与CD交于O，A、O、B及C、O、D分别依次共线。写出∠AOC的对顶角和两邻补角，并解释。；直线AB与CD相交于O，A、O、B依次共线，C、O、D依次共线。若∠AOC=47°，求∠BOC的度数。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能在图中指出对顶角与邻补角",
+      "explanation": "对顶角两边分别互为反向射线；邻补角共有一边且另两边反向。",
+      "self_check": {
+        "prompt": "直线AB与CD交于O，A、O、B及C、O、D分别依次共线。写出∠AOC的对顶角和两邻补角，并解释。",
+        "reference_answer": "对顶角为∠BOD；邻补角为∠AOD与∠BOC。前者两对边分别反向；后两者各共用一边，另外两边组成直线。",
+        "criteria": [
+          "对顶角判断有反向射线依据",
+          "两个邻补角都找出且说明公共边"
+        ],
+        "family_id": "angle.intersecting-lines.identify",
+        "variant_id": "m7b.7.1.1:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "只有共同顶点、大小相等就一定是对顶角吗？两对边是否分别为反向射线？",
+        "hint": "先在图上找OA与OB、OC与OD两对反向射线；邻补角另需一条公共边。",
+        "revision_prompt": "画两条相交直线，给四角编号，列两对对顶角和四对邻补角并逐项指边。"
+      },
+      "observation_note": "观察角的边位置关系；只凭角度相等不能判定对顶角，仍需实际指图。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用对顶角相等、邻补角互补求角度",
+      "explanation": "先识别位置，再使用对顶角相等或邻补角互补。",
+      "self_check": {
+        "prompt": "直线AB与CD相交于O，A、O、B依次共线，C、O、D依次共线。若∠AOC=47°，求∠BOC的度数。 请写出判断或计算依据。",
+        "reference_answer": "OA与OB是反向射线，∠AOC与∠BOC为邻补角，和为180°，故∠BOC=180°−47°=133°。",
+        "criteria": [
+          "说明邻补角关系",
+          "列180−47并得133"
+        ],
+        "family_id": "angle.intersecting-lines.supplement",
+        "variant_id": "m7b.7.1.1:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "∠AOC与∠BOC共有OC，它们是对顶角还是邻补角？",
+        "hint": "另两边OA、OB反向，所以两角拼成平角，不能直接取相等。",
+        "revision_prompt": "在原图求另外两个角并核对四角总和360°；角度依次47°、133°交替。"
+      },
+      "observation_note": "观察先判位置后计算；本题不能用来确认其他截线角的识别。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.7.1.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.7.1.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.7.1.1-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m7b.7.1.1-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m7b.7.1.1-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m7b.7.1.1-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

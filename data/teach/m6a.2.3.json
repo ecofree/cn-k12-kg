@@ -15,7 +15,7 @@
   ],
   "steps": [
     "先看哪个形式更好算：能约分选分数，能凑整选小数",
-    "把所有数统一成同一种形式",
+    "需要合并同单位时选精确的等值形式；能直接用运算律凑整时，可以保留分数小数混合形式。",
     "能用运算律简算就用",
     "最后按题目要求的形式写出结果"
   ],
@@ -27,6 +27,13 @@
       "0.25 就是 1/4，换成 1/4 后可以和 4/5 直接乘。",
       "1/4×4/5，4 和 4 约掉，得 1/5。",
       "1/5=0.2。"
+    ],
+    "family_id": "fraction.decimal-exact-representation",
+    "variant_id": "m6a.2.3:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "fraction.multiply-fractions"
     ]
   },
   "pitfalls": [
@@ -51,7 +58,7 @@
   "check": "能对同一道题用两种统一方式算，结果一致。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +72,23 @@
         "criteria": [
           "精确7/12",
           "区别近似与相等"
+        ],
+        "family_id": "fraction.decimal-exact-representation",
+        "variant_id": "m6a.2.3:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "decimal.multiply-integer-place-value",
+          "fraction.add-common-unit",
+          "fraction.common-unit-equivalence-check"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "1/3与0.33真的相等吗？把3个0.33相加能得到1吗？",
+        "hint": "3×0.33=0.99，与1有差；精确计算把0.25写1/4，保持两个数等值。",
+        "revision_prompt": "精确计算0.2+1/6，说明为何选1/5+1/6；若给近似值，另写近似号和保留位数。"
+      },
+      "observation_note": "观察等值表示与近似值的区分；形式统一只是选择，不是每题必须步骤。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +100,21 @@
         "criteria": [
           "提取共同因数",
           "结果4/7"
+        ],
+        "family_id": "arithmetic.distributive-multiplication",
+        "variant_id": "m6a.2.3:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.decimal-exact-representation"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "两项都含4/7，合并时是把0.75与0.25相加，还是把两个4/7也相加？",
+        "hint": "按分配律把公共的4/7提出，一份0.75倍加一份0.25倍合为1倍。",
+        "revision_prompt": "简算0.6×5/9+0.4×5/9，再展开回两项检查没有遗漏，也不必先把所有数写同一形式。"
+      },
+      "observation_note": "观察分配律保持两个原乘积；算得4/7本身不能说明所用等价关系。"
     }
   ]
 }

@@ -1,76 +1,105 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m8b.21.1",
- "name": "四边形及多边形",
- "tier": "core",
- "hook": "五边形从一个顶点能分成几个三角形？为什么不是五个？",
- "definition": "四边形内角和为 360°；n 边形内角和为 (n-2)×180°，外角和恒为 360°；从 n 边形一个顶点可引 (n-3) 条对角线。",
- "why": "从一个顶点向不相邻顶点连对角线，可把凸n边形恰分成n−2个互不重叠三角形，内角总和因此为(n−2)×180°。数所有对角线时每条有两个端点，逐点计数会重复两次。",
- "when_to_use": [
-  "凸多边形内角和与边数互求",
-  "需要统计凸多边形对角线条数"
- ],
- "steps": [
-  "注明讨论的是凸多边形并确定边数n",
-  "角度用(n−2)×180°或反解n",
-  "对角线用n(n−3)/2并解释去重"
- ],
- "worked_example": {
-  "prompt": "求凸六边形的内角和与对角线条数。",
-  "answer": "720°；9条",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8b.21.1",
+  "name": "四边形及多边形",
+  "tier": "core",
+  "hook": "五边形从一个顶点能分成几个三角形？为什么不是五个？",
+  "definition": "本卡讨论简单凸多边形。n边形（n≥3）内角和为(n−2)×180°；沿边界同一方向每顶点取一个转向外角，其和为360°。从一个顶点连到非相邻顶点有n−3条对角线，总数n(n−3)/2，除2是消去双端点重复。",
+  "why": "从一个顶点向不相邻顶点连对角线，可把凸n边形恰分成n−2个互不重叠三角形，内角总和因此为(n−2)×180°。数所有对角线时每条有两个端点，逐点计数会重复两次。",
+  "when_to_use": [
+    "凸多边形内角和与边数互求",
+    "需要统计凸多边形对角线条数"
+  ],
   "steps": [
-   "内角和=(6−2)×180°=720°。",
-   "每点连3条对角线，共6×3÷2=9条，除2消去双端点重复。"
-  ]
- },
- "pitfalls": [
-  "从一个顶点引出n−3条对角线，却分成n−2个三角形。",
-  "对角线计数忘除以2会重复计算。"
- ],
- "check": "独立完成并解释：一个凸多边形的内角和为1260°，它有几条边？ 请写出判断或计算依据。；一个凸八边形共有多少条对角线？ 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能用公式求多边形的内角和与边数",
-   "explanation": "内角和与边数关系来自三角剖分，可以反向解出n。",
-   "self_check": {
-    "prompt": "一个凸多边形的内角和为1260°，它有几条边？ 请写出判断或计算依据。",
-    "reference_answer": "凸n边形可分成n−2个三角形，内角和(n−2)×180°=1260°，所以n−2=7，n=9。",
-    "criteria": [
-     "建立(n−2)180=1260",
-     "求n=9"
-    ]
-   }
+    "注明讨论的是凸多边形并确定边数n",
+    "角度用(n−2)×180°或反解n",
+    "对角线用n(n−3)/2并解释去重"
+  ],
+  "worked_example": {
+    "prompt": "求凸六边形的内角和与对角线条数。",
+    "answer": "720°；9条",
+    "steps": [
+      "内角和=(6−2)×180°=720°。",
+      "每点连3条对角线，共6×3÷2=9条，除2消去双端点重复。"
+    ],
+    "family_id": "polygon.angle-sum-and-diagonals",
+    "variant_id": "m8b.21.1:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能求多边形对角线条数",
-   "explanation": "逐顶点数对角线需排除自身和两邻点，再除2去重。",
-   "self_check": {
-    "prompt": "一个凸八边形共有多少条对角线？ 请写出判断或计算依据。",
-    "reference_answer": "从每个顶点可连到除自身和相邻两点以外的5个顶点，得8×5条计数；每条对角线重复算两次，所以共20条。",
-    "criteria": [
-     "每顶点5条",
-     "总数20"
-    ]
-   }
+  "pitfalls": [
+    "从一个顶点引出n−3条对角线，却分成n−2个三角形。",
+    "对角线计数忘除以2会重复计算。"
+  ],
+  "check": "独立完成并解释：一个凸多边形的内角和为1260°，它有几条边？ 请写出判断或计算依据。；一个凸八边形共有多少条对角线？ 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用公式求多边形的内角和与边数",
+      "explanation": "内角和与边数关系来自三角剖分，可以反向解出n。",
+      "self_check": {
+        "prompt": "一个凸多边形的内角和为1260°，它有几条边？ 请写出判断或计算依据。",
+        "reference_answer": "凸n边形可分成n−2个三角形，内角和(n−2)×180°=1260°，所以n−2=7，n=9。",
+        "criteria": [
+          "建立(n−2)180=1260",
+          "求n=9"
+        ],
+        "family_id": "polygon.interior-angle-sum.inverse",
+        "variant_id": "m8b.21.1:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "1260÷180得到7，是边数还是分成的三角形数？",
+        "hint": "公式是(n−2)×180°，先得到n−2=7，再加2。",
+        "revision_prompt": "画凸五边形从一顶点分成3个三角形，说明n−2来源，再求内角和540°。"
+      },
+      "observation_note": "观察公式反求与三角剖分依据；边数必须为不小于3的整数。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能求多边形对角线条数",
+      "explanation": "逐顶点数对角线需排除自身和两邻点，再除2去重。",
+      "self_check": {
+        "prompt": "一个凸八边形共有多少条对角线？ 请写出判断或计算依据。",
+        "reference_answer": "从每个顶点可连到除自身和相邻两点以外的5个顶点，得8×5条计数；每条对角线重复算两次，所以共20条。",
+        "criteria": [
+          "每顶点5条",
+          "总数20"
+        ],
+        "family_id": "polygon.diagonal.count-double-count",
+        "variant_id": "m8b.21.1:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "每顶点为何减去自身和两个邻点？AB与BA算两条不同对角线吗？",
+        "hint": "连接自身不是线段，邻边不是对角线；每条对角线在两个端点各计一次。",
+        "revision_prompt": "用五边形画出5条核对5×2÷2，再说明八边形8×5÷2=20。"
+      },
+      "observation_note": "观察排除边与双计数；从一个顶点的数量和全图总数不可混同。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8b.21.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.21.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.21.1-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m8b.21.1-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8b.21.1-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8b.21.1-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

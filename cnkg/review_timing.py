@@ -8,6 +8,7 @@ Legacy records remain readable, but missing timing evidence is not invented.
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+from .task_families import matching_exposures
 
 TIMING_POLICY = "latest_scope_activity_v1"
 MINIMUM_INTERVAL_SECONDS = 86400
@@ -64,14 +65,16 @@ def indexed_scope_activity(scope, exposures):
     candidates = []
     for kind, identities in (("questions", scope["question_ids"]), ("families", scope["family_ids"])):
         for identity in identities:
-            row = (exposures or {}).get(kind, {}).get(identity, {})
-            value = row.get("last_seen_at")
-            if not value:
-                continue
-            event = ("reference_opened" if row.get("last_reference_at") == value else
-                     "material_provided" if row.get("last_material_at") == value else kind + "_exposure")
-            candidates.append({"occurred_at": value, "event_type": event,
-                               "seq": row.get("last_event_seq", 0)})
+            index = (exposures or {}).get(kind, {})
+            rows = matching_exposures(index, identity) if kind == "families" else [index.get(identity, {})]
+            for row in rows:
+                value = row.get("last_seen_at")
+                if not value:
+                    continue
+                event = ("reference_opened" if row.get("last_reference_at") == value else
+                         "material_provided" if row.get("last_material_at") == value else kind + "_exposure")
+                candidates.append({"occurred_at": value, "event_type": event,
+                                   "seq": row.get("last_event_seq", 0)})
     if not candidates:
         return None
     last_written = max(candidates, key=lambda item: item["seq"])

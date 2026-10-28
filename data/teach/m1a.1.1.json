@@ -29,7 +29,7 @@
     "verify": "2+1",
     "family_id": "primary.add.combine-parts",
     "variant_id": "m1a.1.1:worked-example-v5",
-    "representation": "manipulative",
+    "representation": "verbal",
     "cognitive_demand": "execute",
     "reference_family_ids": [
       "primary.count.distinct-objects"
@@ -77,7 +77,7 @@
         ],
         "family_id": "count.arrangement-invariance",
         "variant_id": "m1a.1.1:self-check:0:v5",
-        "representation": "manipulative",
+        "representation": "verbal",
         "cognitive_demand": "explain",
         "reference_family_ids": [
           "primary.count.distinct-objects"
@@ -103,12 +103,12 @@
         ],
         "family_id": "primary.symbol.read-write-match",
         "variant_id": "m1a.1.1:self-check:1:v5",
-        "representation": "mixed",
+        "representation": "verbal",
         "cognitive_demand": "execute",
         "reference_family_ids": [
           "primary.match.symbol-to-collection",
-          "primary.symbol.oral-reading",
-          "primary.symbol.handwriting-match"
+          "primary.symbol.handwriting-match",
+          "primary.symbol.oral-reading"
         ]
       },
       "observation_note": "逐项记录1至5的认、读、写和数量对应；未完成的数字继续保留。文字输入不能直接证明口头读音或手写笔形，实际口头和书写表现仍需另行观察确认。 这是保留的综合目标，下面数量配对、口头读数、纸上书写分别留下记录；其中一项完成不会自动完成三项。",
@@ -132,8 +132,11 @@
         ],
         "family_id": "primary.match.symbol-to-collection",
         "variant_id": "m1a.1.1:self-check:2:v5",
-        "representation": "manipulative",
-        "cognitive_demand": "execute"
+        "representation": "verbal",
+        "cognitive_demand": "execute",
+        "reference_family_ids": [
+          "primary.count.distinct-objects"
+        ]
       },
       "observation_note": "数字选择能观察数量与符号匹配；只记录答案仍不能确认点数路线。成人提示、读题与代数要分别记录，不计为独立表现。",
       "difficulty_support": {
@@ -157,7 +160,10 @@
         "family_id": "primary.symbol.oral-reading",
         "variant_id": "m1a.1.1:self-check:3:v5",
         "representation": "verbal",
-        "cognitive_demand": "execute"
+        "cognitive_demand": "execute",
+        "reference_family_ids": [
+          "primary.match.symbol-to-collection"
+        ]
       },
       "observation_note": "文本答题不采集实际读音，系统只保存观察记录；没有真实口头表现时保持待确认。",
       "difficulty_support": {
@@ -181,8 +187,12 @@
         ],
         "family_id": "primary.symbol.handwriting-match",
         "variant_id": "m1a.1.1:self-check:4:v5",
-        "representation": "mixed",
-        "cognitive_demand": "execute"
+        "representation": "verbal",
+        "cognitive_demand": "execute",
+        "reference_family_ids": [
+          "primary.count.distinct-objects",
+          "primary.match.symbol-to-collection"
+        ]
       },
       "observation_note": "系统文字框不能验证手写笔形；本项需纸上作品和观察说明。尚未留下实际作品时继续待确认，不由数值判分关闭。",
       "difficulty_support": {

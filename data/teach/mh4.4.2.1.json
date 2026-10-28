@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh4.4.2.1",
- "name": "等差数列的概念",
- "tier": "core",
- "hook": "楼梯每升一层都增加同样高度；等差数列强调每相邻两项的差固定，而不是所有项大小相同。",
- "definition": "从第2项起，若aₙ-aₙ₋₁恒等于同一个常数d，则为等差数列，d为公差，aₙ=a₁+(n-1)d。d可正、零、负。验证无限数列必须证明对所有合法项号差都相等，不能只验前几项。",
- "why": "把a₂-a₁=d、a₃-a₂=d直到aₙ-aₙ₋₁=d相加，中间项消去，得aₙ-a₁=(n-1)d。共有n-1次变化，因此公式乘n-1。反过来，若通项是a₁+(n-1)d，相邻两项相减恒为d。",
- "when_to_use": [
-  "每过一步固定增加或减少同一个数量",
-  "由两项求公差、首项，再求指定项"
- ],
- "steps": [
-  "通过相邻差或递推关系确认等差，而非仅凭视觉规律。",
-  "用aₘ-aₙ=(m-n)d求公差，必要时反求首项。",
-  "代入通项，检查项号间隔和公差符号。"
- ],
- "worked_example": {
-  "prompt": "等差数列a₃=7、a₈=22，求a₁₀。",
-  "steps": [
-   "从第3项到第8项有5次公差，d=(22-7)/(8-3)=3。",
-   "从第8项到第10项有2次公差，a₁₀=22+2×3=28。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh4.4.2.1",
+  "name": "等差数列的概念",
+  "tier": "core",
+  "hook": "楼梯每升一层都增加同样高度；等差数列强调每相邻两项的差固定，而不是所有项大小相同。",
+  "definition": "从第2项起，若aₙ-aₙ₋₁恒等于同一个常数d，则为等差数列，d为公差，aₙ=a₁+(n-1)d。d可正、零、负。验证无限数列必须证明对所有合法项号差都相等，不能只验前几项。",
+  "why": "把a₂-a₁=d、a₃-a₂=d直到aₙ-aₙ₋₁=d相加，中间项消去，得aₙ-a₁=(n-1)d。共有n-1次变化，因此公式乘n-1。反过来，若通项是a₁+(n-1)d，相邻两项相减恒为d。",
+  "when_to_use": [
+    "每过一步固定增加或减少同一个数量",
+    "由两项求公差、首项，再求指定项"
   ],
-  "answer": "28",
-  "verify": "22+(10-8)*(22-7)/(8-3)"
- },
- "pitfalls": [
-  "项号差是8-3=5，不是数出两端共6项就乘6。",
-  "2、4、6的前三项不能保证后续仍等差，须有数列规则。"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能判断一个数列是否为等差数列",
-   "explanation": "相邻差恒定是判断依据，非零公差不是定义要求。",
-   "self_check": {
-    "prompt": "aₙ=5-2n是否等差？aₙ=n²呢？写相邻差。",
-    "reference_answer": "前者aₙ₊₁-aₙ=-2恒定，是等差；后者为2n+1随n变化，不是等差。",
-    "criteria": [
-     "两个相邻差正确",
-     "据恒定与否作结论"
-    ]
-   }
+  "steps": [
+    "通过相邻差或递推关系确认等差，而非仅凭视觉规律。",
+    "用aₘ-aₙ=(m-n)d求公差，必要时反求首项。",
+    "代入通项，检查项号间隔和公差符号。"
+  ],
+  "worked_example": {
+    "prompt": "等差数列a₃=7、a₈=22，求a₁₀。",
+    "steps": [
+      "从第3项到第8项有5次公差，d=(22-7)/(8-3)=3。",
+      "从第8项到第10项有2次公差，a₁₀=22+2×3=28。"
+    ],
+    "answer": "28",
+    "verify": "22+(10-8)*(22-7)/(8-3)",
+    "family_id": "sequence.arithmetic-index-gap",
+    "variant_id": "mh4.4.2.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能用通项公式求指定项",
-   "explanation": "通项需经历n-1次公差，可从任一已知项计算。",
-   "self_check": {
-    "prompt": "a₁=12、d=-3，求a₆。",
-    "reference_answer": "a₆=12+(6-1)(-3)=-3。",
-    "criteria": [
-     "乘5而非6",
-     "负公差运算正确"
-    ]
-   }
+  "pitfalls": [
+    "项号差是8-3=5，不是数出两端共6项就乘6。",
+    "2、4、6的前三项不能保证后续仍等差，须有数列规则。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断一个数列是否为等差数列",
+      "explanation": "相邻差恒定是判断依据，非零公差不是定义要求。",
+      "self_check": {
+        "prompt": "aₙ=5-2n是否等差？aₙ=n²呢？写相邻差。",
+        "reference_answer": "前者aₙ₊₁-aₙ=-2恒定，是等差；后者为2n+1随n变化，不是等差。",
+        "criteria": [
+          "两个相邻差正确",
+          "据恒定与否作结论"
+        ],
+        "family_id": "sequence.arithmetic-constant-difference",
+        "variant_id": "mh4.4.2.1:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "前3项相邻差相同，足以证明无限数列等差吗？",
+        "hint": "对任意n求aₙ₊₁-aₙ，检查是否与n无关。",
+        "revision_prompt": "aₙ=3n+1给差3；aₙ=n²给差2n+1，分别判定。"
+      },
+      "observation_note": "观察一般相邻差；有限观察不能证明无限规律。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用通项公式求指定项",
+      "explanation": "通项需经历n-1次公差，可从任一已知项计算。",
+      "self_check": {
+        "prompt": "a₁=12、d=-3，求a₆。",
+        "reference_answer": "a₆=12+(6-1)(-3)=-3。",
+        "criteria": [
+          "乘5而非6",
+          "负公差运算正确"
+        ],
+        "family_id": "sequence.arithmetic-index-gap",
+        "variant_id": "mh4.4.2.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "第1项到第6项经过几次公差？",
+        "hint": "列1→2→3→4→5→6，共5步。",
+        "revision_prompt": "a₃=8,d=-2，求a₇=8+(7-3)(-2)=0，核对4次变化。"
+      },
+      "observation_note": "观察项号差和符号；不把第n项当作乘n次公差。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh4.4.2.1-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：等差数列首项为-4、公差3，求第9项。"
+    },
+    {
+      "id": "mh4.4.2.1-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：等差数列a₂=5、a₇=20，求公差。"
+    },
+    {
+      "id": "mh4.4.2.1-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：下列通项定义的无限数列中，哪一个为等差数列？"
+    }
+  ],
+  "check": "独立完成并写出依据：aₙ=5-2n是否等差？aₙ=n²呢？写相邻差。；a₁=12、d=-3，求a₆。",
+  "conditions": [
+    "公差可正、零、负；相邻差定义在所有合法项号。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "mh4.4.2.1-q201",
-   "note": "完成后对照解析检查条件、步骤和结果：等差数列首项为-4、公差3，求第9项。"
-  },
-  {
-   "id": "mh4.4.2.1-q202",
-   "note": "完成后对照解析检查条件、步骤和结果：等差数列a₂=5、a₇=20，求公差。"
-  },
-  {
-   "id": "mh4.4.2.1-q203",
-   "note": "完成后对照解析检查条件、步骤和结果：下列通项定义的无限数列中，哪一个为等差数列？"
-  }
- ],
- "check": "独立完成并写出依据：aₙ=5-2n是否等差？aₙ=n²呢？写相邻差。；a₁=12、d=-3，求a₆。"
 }

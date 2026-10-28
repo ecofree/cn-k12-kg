@@ -87,7 +87,29 @@ def stage_of(topic: dict) -> str:
     return "primary" if g <= 6 else ("junior" if g <= 9 else "senior")
 
 
-def check_card(card: dict, topics: dict, bank: dict) -> list[str]:
+def current_practice_ids(data_dir: pathlib.Path) -> set[str]:
+    """Read current practice admission; archived existence is not availability.
+
+    The admission gate checks content fingerprints separately. This gate keeps
+    the lesson's live links out of both explicitly retired sources and any task
+    with no positive practice admission, including newly added unreviewed tasks.
+    Neither archived questions nor their historical learner snapshots change.
+    """
+    data_dir = pathlib.Path(data_dir)
+    admissions = json.loads((data_dir / "task_admissions.json").read_text(encoding="utf-8"))
+    if admissions.get("schema") != 1 or not isinstance(admissions.get("tasks"), dict):
+        raise ValueError("讲解练习验收需要当前显式题目准入清单")
+    allowed = {qid for qid, row in admissions["tasks"].items()
+               if row.get("policy", {}).get("practice_eligible") is True}
+    sources = json.loads((data_dir / "content_sources.json").read_text(encoding="utf-8"))
+    for source in sources.get("question_sources", []):
+        if source.get("status") == "retired":
+            archive = json.loads((data_dir / source["path"]).read_text(encoding="utf-8"))
+            allowed.difference_update(question["id"] for question in archive.get("questions", []))
+    return allowed
+
+
+def check_card(card: dict, topics: dict, bank: dict, *, practice_ids: set[str] | None = None) -> list[str]:
     errs = []
     tid = card.get("topicId")
     if tid not in topics:
@@ -147,6 +169,8 @@ def check_card(card: dict, topics: dict, bank: dict) -> list[str]:
         if q is None:
             errs.append(f"练习题不存在：{pid}")
             continue
+        if practice_ids is not None and pid not in practice_ids:
+            errs.append(f"练习题未获当前练习准入或已退役：{pid}")
         if tid not in (q.get("topicIds") or [q.get("topicId")]):
             errs.append(f"练习题 {pid} 不属于 {tid}")
         types.add(q.get("type"))
@@ -156,7 +180,7 @@ def check_card(card: dict, topics: dict, bank: dict) -> list[str]:
 
 
 def check_brief(card: dict, topics: dict, tier_data: dict,
-                bank: dict | None = None) -> list[str]:
+                bank: dict | None = None, *, practice_ids: set[str] | None = None) -> list[str]:
     """校验同簇同册的辅助参考卡；core 可以引用，但不能冒充完整讲解。
 
 `covers` 只表示本卡的参考范围，不证明全部目标已经被讲清或测量。
@@ -215,6 +239,8 @@ def check_brief(card: dict, topics: dict, tier_data: dict,
             if q is None:
                 errs.append(f"练习题不存在：{qid}")
                 continue
+            if practice_ids is not None and qid not in practice_ids:
+                errs.append(f"练习题未获当前练习准入或已退役：{qid}")
             ids = set(q.get("topicIds") or [q.get("topicId")])
             if not ids & set(covers):
                 errs.append(f"练习题 {qid} 不在本卡覆盖的知识点里")
@@ -229,6 +255,7 @@ def main() -> int:
 
     topics = {t["id"]: t for t in json.loads((DATA / "topics.json").read_text(encoding="utf-8"))}
     bank = {q["id"]: q for q in json.loads((DATA / "questions.json").read_text(encoding="utf-8"))}
+    practice_ids = current_practice_ids(DATA)
     cards = {}
     for path in sorted(TEACH.glob("*.json")) if TEACH.exists() else []:
         card = json.loads(path.read_text(encoding="utf-8"))
@@ -236,7 +263,7 @@ def main() -> int:
 
     problems = []
     for tid, card in cards.items():
-        for e in check_card(card, topics, bank):
+        for e in check_card(card, topics, bank, practice_ids=practice_ids):
             problems.append({"topicId": tid, "error": e})
 
     # 速查卡（工具点合并卡）：data/teach/clusters/<cluster>@<volume>.json
@@ -250,7 +277,7 @@ def main() -> int:
         card = json.loads(path.read_text(encoding="utf-8"))
         brief_cards[path.stem] = card
     for key, card in brief_cards.items():
-        for e in check_brief(card, topics, tier_data, bank):
+        for e in check_brief(card, topics, tier_data, bank, practice_ids=practice_ids):
             problems.append({"topicId": key, "error": e, "kind": "brief"})
 
     referenced = {tid for c in brief_cards.values() for tid in (c.get("covers") or [])}

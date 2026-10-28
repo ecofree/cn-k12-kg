@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh2.7.2.2",
- "name": "复数乘、除运算",
- "tier": "core",
- "hook": "复数分母含i时，为什么乘共轭就能把分母变成实数？",
- "definition": "乘法按多项式展开并用 i²=-1 化简；除法通过分子分母同乘分母的共轭复数实现分母实数化。乘法先展开并用i²=-1；除以c+di须c²+d²≠0，分子分母同乘c-di，分母化为c²+d²。",
- "why": "共轭乘积(c+di)(c-di)=c²-(di)²=c²+d²，是非零复数的模平方，因而可作实数分母。分子分母同乘同一非零数保持商不变，同时给出标准a+bi形式。",
- "when_to_use": [
-  "计算复数乘积需处理i的平方",
-  "复数除法需要化成实部加虚部形式"
- ],
- "steps": [
-  "展开乘法并合并i²项",
-  "除法先确认分母复数不为0，再乘共轭",
-  "分别除实部虚部并用乘回分母检验"
- ],
- "worked_example": {
-  "prompt": "计算(3+i)/(1-i)。",
-  "steps": [
-   "分子分母同乘1+i。",
-   "分母为2，分子(3+i)(1+i)=2+4i。",
-   "相除得1+2i；(1+2i)(1-i)=3+i验证。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh2.7.2.2",
+  "name": "复数乘、除运算",
+  "tier": "core",
+  "hook": "复数分母含i时，为什么乘共轭就能把分母变成实数？",
+  "definition": "复数乘法按分配律展开，再用i²=-1合并。除以c+di要求c²+d²≠0，分子分母同乘共轭c-di，使分母成为c²+d²，最后写成a+bi并可乘回检验。",
+  "why": "共轭乘积(c+di)(c-di)=c²-(di)²=c²+d²，是非零复数的模平方，因而可作实数分母。分子分母同乘同一非零数保持商不变，同时给出标准a+bi形式。",
+  "when_to_use": [
+    "计算复数乘积需处理i的平方",
+    "复数除法需要化成实部加虚部形式"
   ],
-  "answer": "1+2i"
- },
- "pitfalls": [
-  "把i²写成1",
-  "乘共轭时只乘分母或漏乘分子"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能进行复数的乘法运算",
-   "explanation": "乘法服从分配律，但i²产生负实数项。",
-   "self_check": {
-    "prompt": "计算(2+3i)(1-2i)。",
-    "reference_answer": "2-4i+3i-6i²=8-i。",
-    "criteria": [
-     "四项展开完整",
-     "i²=-1使实部为8"
-    ]
-   }
+  "steps": [
+    "展开乘法并合并i²项",
+    "除法先确认分母复数不为0，再乘共轭",
+    "分别除实部虚部并用乘回分母检验"
+  ],
+  "worked_example": {
+    "prompt": "计算(3+i)/(1-i)。",
+    "steps": [
+      "分子分母同乘1+i。",
+      "分母为2，分子(3+i)(1+i)=2+4i。",
+      "相除得1+2i；(1+2i)(1-i)=3+i验证。"
+    ],
+    "answer": "1+2i",
+    "family_id": "complex.divide-conjugate",
+    "variant_id": "mh2.7.2.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能把复数除法化为 a+bi 的形式",
-   "explanation": "除数非零时乘共轭合法，分母模平方严格正。",
-   "self_check": {
-    "prompt": "把(1+3i)/(2-i)化成a+bi，并乘回检验。",
-    "reference_answer": "同乘2+i，分子-1+7i、分母5，得-1/5+(7/5)i；乘(2-i)恢复1+3i。",
-    "criteria": [
-     "共轭与分母5正确",
-     "标准形式及乘回检验正确"
-    ]
-   }
+  "pitfalls": [
+    "把i²写成1",
+    "乘共轭时只乘分母或漏乘分子"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能进行复数的乘法运算",
+      "explanation": "乘法服从分配律，但i²产生负实数项。",
+      "self_check": {
+        "prompt": "计算(2+3i)(1-2i)。",
+        "reference_answer": "2-4i+3i-6i²=8-i。",
+        "criteria": [
+          "四项展开完整",
+          "i²=-1使实部为8"
+        ],
+        "family_id": "complex.multiply-expand",
+        "variant_id": "mh2.7.2.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "-6i²变成-6还是+6？",
+        "hint": "先保留四项，再代i²=-1，注意两个负号相乘。",
+        "revision_prompt": "(1+2i)(3-i)=5+5i；逐项3-i+6i-2i²核对。"
+      },
+      "observation_note": "观察展开和i²替换；不能由实部虚部分别相乘代替复数乘法。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能把复数除法化为 a+bi 的形式",
+      "explanation": "除数非零时乘共轭合法，分母模平方严格正。",
+      "self_check": {
+        "prompt": "把(1+3i)/(2-i)化成a+bi，并乘回检验。",
+        "reference_answer": "同乘2+i，分子-1+7i、分母5，得-1/5+(7/5)i；乘(2-i)恢复1+3i。",
+        "criteria": [
+          "共轭与分母5正确",
+          "标准形式及乘回检验正确"
+        ],
+        "family_id": "complex.divide-conjugate",
+        "variant_id": "mh2.7.2.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "分母乘共轭时分子也要乘吗？分母能为0吗？",
+        "hint": "同乘非零共轭保持比值，分母成为c²+d²。",
+        "revision_prompt": "(2+i)/(1+i)=(3-i)/2，乘(1+i)还原2+i。"
+      },
+      "observation_note": "观察分母实数化、标准形式和乘回；零除数必须先排除。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：四项展开完整；共轭与分母5正确。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh2.7.2.2-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.7.2.2-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.7.2.2-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "除数非零；实数化时分子分母同乘共轭。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：四项展开完整；共轭与分母5正确。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh2.7.2.2-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh2.7.2.2-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh2.7.2.2-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

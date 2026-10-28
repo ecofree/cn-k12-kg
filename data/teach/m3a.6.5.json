@@ -14,10 +14,10 @@
     "结果需要约分时，先看题目要不要求最简"
   ],
   "steps": [
-    "确认两个分数的分母相同",
-    "分母照抄，不参与运算",
-    "分子相加减",
-    "看题目要求：要约分就约，说好不约分就保留原分母"
+    "确认两个分数的分母相同，并表示同样大小的单位份。",
+    "分子相加减，保留原分母以表示每份大小未变。",
+    "用等分图核对所取份数和剩余份数。",
+    "本课以同分母运算为目标；6/9已正确表达结果，等值约分可在后续学过后再讨论。"
   ],
   "worked_example": {
     "prompt": "计算 2/7+3/7，所得结果的分子是多少？",
@@ -27,12 +27,16 @@
       "两个分数都是七分之几，每份一样大，可以直接数份数。",
       "2 份加 3 份是 5 份，分母仍是 7，结果是 5/7。",
       "题目问分子，所以填 5。"
-    ]
+    ],
+    "family_id": "fraction.add-common-unit",
+    "variant_id": "m3a.6.5:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
-    "分母也相加，算成 5/14。",
-    "5/9-2/9 算成 3/0——分母相同就直接照抄，不会出现 0。",
-    "题目说「不约分」却约成了 1/3，或题目要最简却留着 3/9。"
+    "分母也相加会改变每份大小，例如2/7+3/7不能写5/14。",
+    "同分母相减只减份数，分母不会相减成0。",
+    "没有要求最简且尚未学过约分时，不把6/9判成错误；仍须核对分子运算。"
   ],
   "practice": [
     {
@@ -51,7 +55,7 @@
   "check": "能说出「分母不变」的理由（份的大小没变），并正确算出 5/9-2/9 在「不约分」和「约成最简」两种要求下的答案。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -61,12 +65,25 @@
       "explanation": "同分母分数加减是在数相同分数单位的个数，分子运算、分母保持。",
       "self_check": {
         "prompt": "计算2/9+4/9及7/9−2/9。",
-        "reference_answer": "6/9=2/3；5/9。先分别求6个和5个1/9。",
+        "reference_answer": "6/9；5/9。先分别求6个和5个1/9。6/9与2/3等值，但本项目此处不把提前掌握约分作为完成条件。",
         "criteria": [
           "两结果正确",
           "分母不相加减"
+        ],
+        "family_id": "fraction.add-common-unit",
+        "variant_id": "m3a.6.5:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.subtract-common-unit"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2/9+4/9是在合并几个1/9，还是把每份重新切成1/18？",
+        "hint": "画一条九等分纸条，先涂2份再涂不同4份，格子总划分仍是9份。",
+        "revision_prompt": "计算1/8+5/8及7/8−3/8，画对应单位份数；允许先保留同分母结果再讨论等值简写。"
+      },
+      "observation_note": "观察同单位份数相加减；约分若尚未学习可保留6/9，不因此判定本目标未达成。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +95,21 @@
         "criteria": [
           "指出单位1/7",
           "解释错误式改变份大小"
+        ],
+        "family_id": "fraction.add-common-unit",
+        "variant_id": "m3a.6.5:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.additive-equivalence-error"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "若2/7+3/7写成5/14，原来的每小份由1/7变成了什么？",
+        "hint": "用一张七等分图把2份和3份合成5份；只合并涂色份数，没有重新平均分整个。",
+        "revision_prompt": "指出1/6+2/6=3/12错在哪里，画六等分条修正，并解释分母为何保持6。"
+      },
+      "observation_note": "观察分母代表单位大小而非待相加份数；记忆“分母不变”还需用图或语言说明。"
     }
   ]
 }

@@ -15,6 +15,7 @@ from pathlib import Path
 import sqlite3
 
 from .review_timing import timestamp, qualified_review
+from .task_families import equivalent_names
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_VERSION = 4
@@ -131,6 +132,8 @@ def _work_summary(result):
     summary.update(_revision=result["revision"], kind=payload["kind"], source_ref=source,
                    title=(snapshot.get("title") or snapshot.get("prompt")
                           or (source if isinstance(source, str) else source["question_id"])),
+                   skill_ids=list(snapshot.get("skill_ids", [])), task_ids=list(snapshot.get("task_ids", [])),
+                   family_ids=list(snapshot.get("family_ids", [])),
                    has_draft=any(isinstance(value, str) and value.strip() for value in draft_values),
                    has_reflection=isinstance(reflection, str) and bool(reflection.strip()),
                    self_assessment_reported=bool(assessed),
@@ -596,6 +599,8 @@ class LearningStore:
                 if ids is not None:
                     for identity in ids:
                         _identifier(identity, "exposure ID")
+                    if kind == "family":
+                        ids = equivalent_names(ids)
                 chunks = [None] if ids is None else [ids[i:i + 900] for i in range(0, len(ids), 900)]
                 for chunk in chunks:
                     query = "SELECT * FROM exposures WHERE owner_id=? AND entity_kind=?"

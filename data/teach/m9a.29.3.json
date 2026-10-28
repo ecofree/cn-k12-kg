@@ -1,76 +1,109 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m9a.29.3",
- "name": "弧长和扇形面积",
- "tier": "core",
- "hook": "圆锥侧面剪开摊平后，扇形的半径和弧长分别来自圆锥哪里？",
- "definition": "半径 r、圆心角 n° 的弧长 l=nπr/180；扇形面积 S=nπr²/360=lr/2；圆锥的侧面展开图是扇形，底面圆的周长等于扇形的弧长。",
- "why": "扇形占整圆的比例由圆心角n/360决定，故弧长和面积都乘这个比例。圆锥侧面展开时母线成为扇形半径，底面周长成为扇形弧长；于是侧面积等于弧长乘母线再除2。",
- "when_to_use": [
-  "已知圆心角与半径求弧长面积",
-  "圆锥侧面展开需要关联底面与母线"
- ],
- "steps": [
-  "区分弧长单位和面积单位",
-  "按n/360分别乘整圆周长与面积",
-  "圆锥中先对应母线与扇形半径、底面周长与弧长"
- ],
- "worked_example": {
-  "prompt": "半径9、圆心角120°的扇形，求弧长与面积，结果保留π。",
-  "answer": "弧长6π，面积27π",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m9a.29.3",
+  "name": "弧长和扇形面积",
+  "tier": "core",
+  "hook": "圆锥侧面剪开摊平后，扇形的半径和弧长分别来自圆锥哪里？",
+  "definition": "半径 r、圆心角 n° 的弧长 l=nπr/180；扇形面积 S=nπr²/360=lr/2；圆锥的侧面展开图是扇形，底面圆的周长等于扇形的弧长。",
+  "why": "扇形占整圆的比例由圆心角n/360决定，故弧长和面积都乘这个比例。圆锥侧面展开时母线成为扇形半径，底面周长成为扇形弧长；于是侧面积等于弧长乘母线再除2。",
+  "when_to_use": [
+    "已知圆心角与半径求弧长面积",
+    "圆锥侧面展开需要关联底面与母线"
+  ],
   "steps": [
-   "占整圆120/360=1/3，所以弧长=(1/3)·2π·9=6π。",
-   "面积=(1/3)·π·9²=27π，也可由弧长×半径/2计算。"
-  ]
- },
- "pitfalls": [
-  "圆锥母线不是底面半径，也不一定是圆锥高度。",
-  "侧面积不含底面，求表面积才加底面积。"
- ],
- "check": "独立完成并解释：半径4、圆心角90°的扇形，求弧长和面积，保留π。；圆锥底面半径3厘米、母线长5厘米，求侧面积（平方厘米）。本题取π=3.14。 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能计算弧长与扇形面积",
-   "explanation": "弧长与面积都按圆心角占比缩放，但各自对应周长和圆面积。",
-   "self_check": {
-    "prompt": "半径4、圆心角90°的扇形，求弧长和面积，保留π。",
-    "reference_answer": "占整圆1/4，弧长2π，面积4π；单位分别为长度和平方长度。",
-    "criteria": [
-     "两个公式区分",
-     "单位维度正确"
-    ]
-   }
+    "区分弧长单位和面积单位",
+    "按n/360分别乘整圆周长与面积",
+    "圆锥中先对应母线与扇形半径、底面周长与弧长"
+  ],
+  "worked_example": {
+    "prompt": "半径9、圆心角120°的扇形，求弧长与面积，结果保留π。",
+    "answer": "弧长6π，面积27π",
+    "steps": [
+      "占整圆120/360=1/3，所以弧长=(1/3)·2π·9=6π。",
+      "面积=(1/3)·π·9²=27π，也可由弧长×半径/2计算。"
+    ],
+    "family_id": "sector.arc-versus-area.fraction-of-circle",
+    "variant_id": "m9a.29.3:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "execute"
   },
-  {
-   "criterion_index": 1,
-   "title": "能由圆锥的底面周长与母线求侧面积",
-   "explanation": "圆锥展开扇形的弧长等于底面周长，半径等于母线。",
-   "self_check": {
-    "prompt": "圆锥底面半径3厘米、母线长5厘米，求侧面积（平方厘米）。本题取π=3.14。 请写出判断或计算依据。",
-    "reference_answer": "展开后扇形半径为母线5，弧长为底面周长2π×3；扇形面积=弧长×半径/2=πrl=15π=47.1平方厘米。",
-    "criteria": [
-     "建立弧长2πr",
-     "推出πrl并得47.1"
-    ]
-   }
+  "pitfalls": [
+    "圆锥母线不是底面半径，也不一定是圆锥高度。",
+    "侧面积不含底面，求表面积才加底面积。"
+  ],
+  "check": "独立完成并解释：半径4、圆心角90°的扇形，求弧长和面积，保留π。；圆锥底面半径3厘米、母线长5厘米，求侧面积（平方厘米）。本题取π=3.14。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能计算弧长与扇形面积",
+      "explanation": "弧长与面积都按圆心角占比缩放，但各自对应周长和圆面积。",
+      "self_check": {
+        "prompt": "半径4、圆心角90°的扇形，求弧长和面积，保留π。",
+        "reference_answer": "占整圆1/4，弧长2π，面积4π；单位分别为长度和平方长度。",
+        "criteria": [
+          "两个公式区分",
+          "单位维度正确"
+        ],
+        "family_id": "sector.arc-versus-area.fraction-of-circle",
+        "variant_id": "m9a.29.3:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "弧长用r还是r²？周长与面积的单位分别是什么？",
+        "hint": "先求角占整圆1/4，再分别乘2πr与πr²，保留不同量纲。",
+        "revision_prompt": "对半径6、角60°求弧长2π、面积6π，再用S=lr/2核验。"
+      },
+      "observation_note": "观察弧长与扇形面积的对象和单位；不能把弧长当扇形周长，后者还含两半径。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能由圆锥的底面周长与母线求侧面积",
+      "explanation": "圆锥展开扇形的弧长等于底面周长，半径等于母线。",
+      "self_check": {
+        "prompt": "圆锥底面半径3厘米、母线长5厘米，求侧面积（平方厘米）。本题取π=3.14。 请写出判断或计算依据。",
+        "reference_answer": "展开后扇形半径为母线5，弧长为底面周长2π×3；扇形面积=弧长×半径/2=πrl=15π=47.1平方厘米。",
+        "criteria": [
+          "建立弧长2πr",
+          "推出πrl并得47.1"
+        ],
+        "family_id": "cone.lateral-area.unfold-sector",
+        "variant_id": "m9a.29.3:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "model",
+        "reference_family_ids": [
+          "cone.total-area",
+          "sector.arc-versus-area.fraction-of-circle"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "展开扇形的半径是底面半径3，还是母线5？弧长等于哪条周长？",
+        "hint": "贴着圆锥底边的一圈展开成扇形弧，长度2π·3；扇形半径沿母线为5。",
+        "revision_prompt": "用S=弧长×母线/2得15π，再比较底面积9π与总表面积24π，注明本题只求侧面。"
+      },
+      "observation_note": "观察展开对应、侧面积与底面积区别；默认直圆锥且忽略接缝。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m9a.29.3-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.29.3-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.29.3-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m9a.29.3-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m9a.29.3-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m9a.29.3-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

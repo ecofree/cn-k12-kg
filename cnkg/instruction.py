@@ -14,6 +14,7 @@ import uuid
 from .answers import grade_answer, option_id
 from . import learning, session_content
 from .runtime_version import freeze_grader
+from .task_families import family_exposure
 
 # Capture after the grading dependencies have been imported, before the first
 # request. Later edits on disk must not relabel these already loaded functions.
@@ -73,6 +74,11 @@ def check_supports(unit):
         if (not isinstance(hints, list) or [h.get("level") for h in hints if isinstance(h, dict)] != [1, 2, 3]
                 or not all(isinstance(h, dict) and learning._text(h.get("text")) for h in hints)):
             errors.append(f"{label}: 提示须按 1、2、3 级提供具体内容")
+        for hint in hints if isinstance(hints, list) else []:
+            if isinstance(hint, dict) and "reference_family_ids" in hint:
+                refs = hint["reference_family_ids"]
+                if not learning._string_list(refs) or len(refs) != len(set(refs)):
+                    errors.append(f"{label}: 提示题族必须为不重复的明确身份列表")
         branch_rows = support.get("guided_branches", [])
         if not isinstance(branch_rows, list):
             errors.append(f"{label}: guided_branches 必须为列表")
@@ -301,7 +307,7 @@ def create(unit, support_id, owner, catalog, exposures, needs, when, *, assets=N
     # Use the actual exposure index. Unknown families never count as novel.
     def score(task):
         question = exposures.get("questions", {}).get(task["id"], {})
-        family = exposures.get("families", {}).get(task.get("family_id"), {})
+        family = family_exposure(exposures.get("families", {}), task.get("family_id"))
         old_representations = {n.get("representation") for n in needs}
         return (bool(question), task.get("type") == "rubric",
                 task.get("family_status") != "declared" or bool(family),
@@ -371,7 +377,7 @@ def create(unit, support_id, owner, catalog, exposures, needs, when, *, assets=N
         "presentations": {}, "feedback_exposed": [], "hints_opened": [], "route_selection": None,
         "feedback_policy": "immediate", "context": {"independent_evidence": False, "help_used": True},
         "selection_basis": {"candidate_ids": [t["id"] for t in options],
-            "selected_id": followup["id"], "same_family_exposed": bool(exposures.get("families", {}).get(followup["family_id"])),
+            "selected_id": followup["id"], "same_family_exposed": bool(family_exposure(exposures.get("families", {}), followup["family_id"])),
             "notice": "先避免已呈现题；有未呈现且可客观判分的对应任务时，优先用于这次有限确认，再比较已知题族和表征。帮助后的确认不作为独立检查或间隔复测。"}}
     return record, [_event(record, "support_started", when), *_present(record, when)]
 
@@ -491,24 +497,38 @@ def hint(record, level, when):
         raise ValueError(version_problem(record))
     support = record["support_snapshot"]["support"]
     value = copy.deepcopy(support["hints"][level - 1])
+    authored_families = "reference_family_ids" in value
+    families = set(value.get("reference_family_ids", []))
     branches = support.get("branch_hints", {}).get(record.get("diagnostic_choice"), [])
     if len(branches) >= level:
         branch = branches[level - 1]
         value["branch_text"] = branch.get("text") if isinstance(branch, dict) else branch
+        if isinstance(branch, dict) and "reference_family_ids" in branch:
+            families.update(branch["reference_family_ids"])
+        else:
+            # A legacy branch hint has no exact family declaration. Keep the
+            # old conservative scope rather than pretending its text is covered
+            # by the new common hint's narrower declaration.
+            authored_families = False
     if not any(h["level"] == level for h in record["hints_opened"]):
         record["hints_opened"].append({**value, "opened_at": when})
-    # Count only the selected guide plus the bounded confirmation method.
-    # Merely freezing alternative branches must never count as seeing them.
-    exposed = [record["task_ids"][-1]]
-    if record.get("route_selection"):
-        exposed.append(record["route_selection"]["guided_task_id"])
-    families = set()
-    for qid in exposed:
-        metadata = record["task_metadata"][qid]
-        if metadata.get("family_status") == "declared":
-            families.add(metadata["family_id"])
-        families.update(metadata.get("reference_family_ids", []))
-    return value, [_event(record, "reference_opened", when, record["task_ids"][-1],
+    if not authored_families:
+        # Historical snapshots keep their original bounded attribution. Do not
+        # consult current author files or add frozen but unselected branches.
+        exposed = [record["task_ids"][-1]]
+        if record.get("route_selection"):
+            exposed.append(record["route_selection"]["guided_task_id"])
+        for qid in exposed:
+            metadata = record["task_metadata"][qid]
+            if metadata.get("family_status") == "declared":
+                families.add(metadata["family_id"])
+            families.update(metadata.get("reference_family_ids", []))
+    # A declared hint exposes the mathematical structures actually delivered at
+    # this level, not the unseen confirmation's text, later hints, or other
+    # branches. Preserve the old question attribution only for legacy snapshots.
+    question_id = None if authored_families else record["task_ids"][-1]
+    return value, [_event(record, "reference_opened", when, question_id,
                          hint_level=level, help_used=True, family_ids=sorted(families),
+                         family_attribution="authored_hint" if authored_families else "legacy_selected_tasks",
                          route_id=record.get("route_selection", {}).get("route_id") if record.get("route_selection") else None,
                          evidence="hint_delivered_not_proof_of_reading")]

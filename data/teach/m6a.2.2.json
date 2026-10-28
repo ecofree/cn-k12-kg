@@ -14,7 +14,7 @@
     "连续取两次几分之几"
   ],
   "steps": [
-    "把「的」翻译成乘号",
+    "先找整体与要取的几分之几，说明平均分成几份、取几份，再写乘法；不凭“的”字单独选运算。",
     "整数与分母能约分先约",
     "分子乘分子、分母乘分母",
     "先估一下结果该比原数大还是小，再对照"
@@ -27,7 +27,11 @@
       "12×2/3 表示求 12 的 2/3。",
       "先把 12 和分母 3 约分，得 4。",
       "4×2=8，结果比 12 小，符合「取一部分」的预期。"
-    ]
+    ],
+    "family_id": "fraction.part-of-quantity",
+    "variant_id": "m6a.2.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "求一个数的几分之几应按分份、取份理解，不是把“的”机械换成除号。",
@@ -51,7 +55,7 @@
   "check": "能说出 12×2/3 表示「12 的 2/3」，并先判断结果应小于 12。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,22 @@
         "criteria": [
           "乘法规则正确",
           "最简2/5"
+        ],
+        "family_id": "fraction.multiply-fractions",
+        "variant_id": "m6a.2.2:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.partition-refinement",
+          "fraction.reduce-direct"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2/3×3/5若把分母相加，得到的单位份数是什么？能对应两向细分吗？",
+        "hint": "把同一矩形三等分与五等分形成15小份，其中交叠占6份，得到6/15。",
+        "revision_prompt": "用2/5×3/4画两向细分图，数交叠份数与总份数，再约分核对。"
+      },
+      "observation_note": "观察分数乘法的两向分份与约分；图示要保持同一整体，文字算对仍不能证明图能对应。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +96,22 @@
         "criteria": [
           "数量12米",
           "分份取份解释"
+        ],
+        "family_id": "fraction.part-of-quantity",
+        "variant_id": "m6a.2.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.multiply-integer-common-unit",
+          "primary.divide.share-size"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "18米的2/3里，18是整体还是一份？18×3÷2会取到什么？",
+        "hint": "把18米先平均分3份得每份6米，取2份共12米；分母管等分，分子管取份。",
+        "revision_prompt": "20米绳取3/4，先分份再取份并写乘法，检查正数乘小于1的正数应得到一部分。"
+      },
+      "observation_note": "观察“整体的几分之几”模型；若问已知部分求整体，不能直接相乘。"
     }
   ]
 }

@@ -27,6 +27,13 @@
       "先按整数算：8×3=24。",
       "0.8 有 1 位小数，积就要有 1 位小数。",
       "从右边数 1 位点上小数点，得 2.4。"
+    ],
+    "family_id": "decimal.multiply-integer-place-value",
+    "variant_id": "m5a.2.1:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "decimal.digit-place-value"
     ]
   },
   "pitfalls": [
@@ -51,7 +58,7 @@
   "check": "能解释「0.8×3 是 24 个 0.1」，并正确算出 8.1×7=56.7。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +72,22 @@
         "criteria": [
           "整数积500",
           "还原单位得5"
+        ],
+        "family_id": "decimal.multiply-integer-place-value",
+        "variant_id": "m5a.2.1:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "decimal.add-subtract-alignment",
+          "decimal.digit-place-value"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "1.25的125表示125个一，还是125个百分之一？乘4后单位变了吗？",
+        "hint": "125个0.01乘4是500个0.01，每100个0.01为1，所以是5。",
+        "revision_prompt": "计算0.75×4，用75个0.01重复4次解释，再用四个0.75相加检查。"
+      },
+      "observation_note": "观察小数乘整数的计数单位与运算；单个结果不能说明会处理乘数含小数。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +99,22 @@
         "criteria": [
           "识别两位小数",
           "对应缩小100倍"
+        ],
+        "family_id": "decimal.multiply-integer-place-value",
+        "variant_id": "m5a.2.1:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.column-multiply-by-digit",
+          "decimal.place-shift-times-ten"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把0.36当成36算，原数被扩大了多少倍？积252也应怎样还原？",
+        "hint": "0.36×100=36，整数积同样扩大100倍；252÷100=2.52。",
+        "revision_prompt": "计算0.48×6，先写扩大倍数再放回小数点，用0.5×6=3作附近估计。"
+      },
+      "observation_note": "观察整数积恢复原计数单位；末尾0的书写不应改变数值正确性。"
     }
   ]
 }

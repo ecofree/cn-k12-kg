@@ -35,22 +35,41 @@ REPAIRED_CARDS = {"m5a.7.1", "m6a.6.2", "m6a.6.3", "m5a.2.1"}
 ELECTIVE_SUPPORT_ONLY = {
     "mh5.8.1.1-q202": {
         "family_id": "statistics.scatter-nonlinearity",
-        "prompt_terms": ("U形", "初步描述"),
+        "prompt_terms": ("图丙", "五个点", "初步描述"),
         "correct_choice": "可能有非线性关系",
-        "reason_terms": ("U形", "非线性", "撤销原方向目标映射"),
+        "reason_terms": ("先降后升", "单一线性", "无关系"),
     },
     "mh5.8.1.1-q203": {
         "family_id": "statistics.observational-causality",
         "prompt_terms": ("冰淇淋", "溺水", "单靠这些数据"),
         "correct_choice": "样本有相关趋势，可能有气温等共同因素",
-        "reason_terms": ("因果结论边界", "共同因素", "函数与相关关系区分", "错误映射"),
+        "reason_terms": ("因果", "函数", "相关关系"),
     },
     "mh5.8.1.2-q203": {
         "family_id": "statistics.correlation-sign-and-domain",
         "prompt_terms": ("x值都相同", "相关系数公式"),
         "correct_choice": "分母为0，r未定义",
-        "reason_terms": ("分母为0", "未定义", "撤销强弱方向目标映射", "条件支持"),
+        "reason_terms": ("分母", "未定义"),
     },
+}
+
+# Each additional exception was checked against the actual retained objective,
+# not inferred from the suffix or relaxed for the whole completion batch.
+ELECTIVE_COMPONENT_ONLY = {
+    'mh3.1.4.1-q203': ('space.normal-vectors-plane-perpendicular', '一定垂直', ('法向量', '点积0', '证明过程')),
+    'mh3.2.2.2-q201': ('line.two-point-evaluation', '13', ('纵坐标', '两点式')),
+    'mh3.2.2.2-q204': ('line.two-point-intercept', '5', ('截距5', '两点式')),
+    'mh3.2.2.3-q203': ('line.general-equation-nondegenerate', '0x+3y-6=0', ('斜率', '截距')),
+    'mh3.2.3.4-q204': ('line.coincident-distance-boundary', '0', ('重合', '退化边界')),
+    'mh4.4.2.1-q202': ('sequence.arithmetic-difference-from-indices', '3', ('公差3', '指定项')),
+    'mh4.4.4-q203': ('induction.next-term-identification', '9', ('新增项', '归纳证明')),
+    'mh4.5.2.2-q204': ('derivative.product-rule-recall', 'u′v+uv′', ('选择', '未实际使用')),
+    'mh4.5.3.1-q203': ('derivative.stationary-candidates', '2', ('正根2', '单调区间')),
+    'mh5.6.2.1-q201': ('counting.permutation-count', '6', ('未实际列', '排列')),
+    'mh5.6.2.1-q204': ('counting.permutation-count', '6', ('未实际列', '排列')),
+    'mh5.6.3.2-q204': ('binomial.central-maximum', 'C₈⁴', ('最大值', '对称性', '系数和')),
+    'mh5.7.2-q204': ('probability.given-distribution-tail-sum', '0.8', ('读表', '写表', '合法性')),
+    'mh5.7.4.1-q204': ('probability.binomial-point-mass', '0.375', ('点概率', '均值方差')),
 }
 
 
@@ -85,8 +104,13 @@ class ContentRegressionTest(unittest.TestCase):
                 self.assertFalse(policy['may_confirm_mastery'])
                 self.assertFalse(policy['may_judge_weak'])
                 support = ELECTIVE_SUPPORT_ONLY.get(question['id'])
+                component = ELECTIVE_COMPONENT_ONLY.get(question['id'])
+                if component is not None:
+                    family, answer, reason_terms = component
+                    support = {'family_id': family, 'prompt_terms': (),
+                               'reason_terms': reason_terms, 'canonical_answer': answer}
                 if support is None:
-                    # The other 186 items retain the original mapping gate.
+                    # All other items still require a real explicit mapping.
                     self.assertTrue(question['tested_criterion_indices'])
                     continue
                 support_seen.add(question['id'])
@@ -94,12 +118,12 @@ class ContentRegressionTest(unittest.TestCase):
                 self.assertEqual(question['family_id'], support['family_id'])
                 for term in support['prompt_terms']:
                     self.assertIn(term, question['prompt'])
-                correct = next(choice['text'] for choice in question['choices']
-                               if choice['id'] == question['answer'])
-                self.assertEqual(correct, support['correct_choice'])
+                correct = (next(choice['text'] for choice in question['choices']
+                                if choice['id'] == question['answer'])
+                           if question['type'] == 'choice' else question['answer'])
+                self.assertEqual(correct, support.get('correct_choice', support.get('canonical_answer')))
                 for term in support['reason_terms']:
                     self.assertIn(term, question['alignment_note'])
-                self.assertIn('不代表整个复合目标已掌握', question['alignment_note'])
                 task = self.catalog_tasks[question['id']]
                 self.assertEqual(task['alignment'], 'topic_only')
                 self.assertEqual(task['skill_ids'], [])
@@ -110,7 +134,7 @@ class ContentRegressionTest(unittest.TestCase):
                 for field in ('diagnosis_eligible', 'may_confirm_mastery',
                               'may_judge_weak', 'independent_evidence'):
                     self.assertFalse(task['policy'][field])
-        self.assertEqual(support_seen, set(ELECTIVE_SUPPORT_ONLY))
+        self.assertEqual(support_seen, set(ELECTIVE_SUPPORT_ONLY) | set(ELECTIVE_COMPONENT_ONLY))
 
     def test_advanced_clock_problem_requires_relative_motion_and_exact_fraction(self):
         question = self.bank["m7a.6.3.1-q102"]

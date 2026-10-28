@@ -1,77 +1,109 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh4.5.2.1",
- "name": "基本初等函数的导数",
- "tier": "core",
- "hook": "导数定义能逐次计算，但常见函数的差商规律固定，把这些规律整理成公式就能高效求局部变化率。",
- "definition": "在相应可导定义域内：(C)′=0，(xᵅ)′=αxᵅ⁻¹，(sinx)′=cosx，(cosx)′=-sinx，(eˣ)′=eˣ，(aˣ)′=aˣlna（a>0），(lnx)′=1/x，(logₐx)′=1/(xlna)（a>0、a≠1、x>0）。一般实指数幂在x>0可用公式，整数幂等还可按自身定义域扩展。三角函数以弧度为单位。",
- "why": "这些公式是差商极限的结果。例如x³的差商为3x²+3xh+h²，h→0得3x²；常数函数输出无变化，导数为0。对数需正自变量，三角导数公式依赖弧度制，忽略定义域或角单位会改变公式能否使用。",
- "when_to_use": [
-  "函数由一个基本初等函数构成，需要直接求导",
-  "先求导函数，再代入指定自变量求导数值"
- ],
- "steps": [
-  "识别函数类型并写定义域、参数条件。",
-  "调用对应公式，注意幂的指数减1、余弦导数的负号。",
-  "求具体点导数时先得到导函数，再代入该点并确认点在可导域。"
- ],
- "worked_example": {
-  "prompt": "f(x)=x⁴，求f′(2)。",
-  "steps": [
-   "幂函数公式给f′(x)=4x³，不是x³。",
-   "代入x=2，f′(2)=4×8=32。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh4.5.2.1",
+  "name": "基本初等函数的导数",
+  "tier": "core",
+  "hook": "导数定义能逐次计算，但常见函数的差商规律固定，把这些规律整理成公式就能高效求局部变化率。",
+  "definition": "在相应可导定义域内：(C)′=0，(xᵅ)′=αxᵅ⁻¹，(sinx)′=cosx，(cosx)′=-sinx，(eˣ)′=eˣ，(aˣ)′=aˣlna（a>0），(lnx)′=1/x，(logₐx)′=1/(xlna)（a>0、a≠1、x>0）。一般实指数幂在x>0可用公式，整数幂等还可按自身定义域扩展。三角函数以弧度为单位。",
+  "why": "这些公式是差商极限的结果。例如x³的差商为3x²+3xh+h²，h→0得3x²；常数函数输出无变化，导数为0。对数需正自变量，三角导数公式依赖弧度制，忽略定义域或角单位会改变公式能否使用。",
+  "when_to_use": [
+    "函数由一个基本初等函数构成，需要直接求导",
+    "先求导函数，再代入指定自变量求导数值"
   ],
-  "answer": "32",
-  "verify": "4*2**3"
- },
- "pitfalls": [
-  "(cosx)′=-sinx，负号不可丢。",
-  "lnx不能在x≤0处直接套1/x作为原函数导数。",
-  "sinx以角度数为输入时需单位换算，不能原样用弧度制公式。"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能写出基本初等函数的导数",
-   "explanation": "每类公式都带函数的适用域，不能只记符号。",
-   "self_check": {
-    "prompt": "写出x⁻²、cosx、lnx的导函数并说明定义域。",
-    "reference_answer": "x⁻²的导数-2x⁻³，x≠0；cosx的导数-sinx，x为实数且用弧度；lnx的导数1/x，x>0。",
-    "criteria": [
-     "三个导数正确",
-     "非零、正数和弧度条件明确"
-    ]
-   }
+  "steps": [
+    "识别函数类型并写定义域、参数条件。",
+    "调用对应公式，注意幂的指数减1、余弦导数的负号。",
+    "求具体点导数时先得到导函数，再代入该点并确认点在可导域。"
+  ],
+  "worked_example": {
+    "prompt": "f(x)=x⁴，求f′(2)。",
+    "steps": [
+      "幂函数公式给f′(x)=4x³，不是x³。",
+      "代入x=2，f′(2)=4×8=32。"
+    ],
+    "answer": "32",
+    "verify": "4*2**3",
+    "family_id": "derivative.power-at-point",
+    "variant_id": "mh4.5.2.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能代入具体点求导数值",
-   "explanation": "先求导再代值，函数值与导数值代表不同量。",
-   "self_check": {
-    "prompt": "f(x)=√x，求f′(4)。",
-    "reference_answer": "x>0时f′(x)=1/(2√x)，故f′(4)=1/4。",
-    "criteria": [
-     "导函数1/(2√x)",
-     "代4得1/4"
-    ]
-   }
+  "pitfalls": [
+    "(cosx)′=-sinx，负号不可丢。",
+    "lnx不能在x≤0处直接套1/x作为原函数导数。",
+    "sinx以角度数为输入时需单位换算，不能原样用弧度制公式。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能写出基本初等函数的导数",
+      "explanation": "每类公式都带函数的适用域，不能只记符号。",
+      "self_check": {
+        "prompt": "写出x⁻²、cosx、lnx的导函数并说明定义域。",
+        "reference_answer": "x⁻²的导数-2x⁻³，x≠0；cosx的导数-sinx，x为实数且用弧度；lnx的导数1/x，x>0。",
+        "criteria": [
+          "三个导数正确",
+          "非零、正数和弧度条件明确"
+        ],
+        "family_id": "derivative.basic-functions-domain",
+        "variant_id": "mh4.5.2.1:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "cosx求导会漏负号吗？lnx能在x=-1使用公式吗？",
+        "hint": "记对应导数同时保留原定义域；三角角度用弧度。",
+        "revision_prompt": "列sinx→cosx、eˣ→eˣ、x^(-1)→-x^(-2)(x≠0)，逐项说明。"
+      },
+      "observation_note": "观察基本公式与条件；未观察复合、积商等组合规则。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能代入具体点求导数值",
+      "explanation": "先求导再代值，函数值与导数值代表不同量。",
+      "self_check": {
+        "prompt": "f(x)=√x，求f′(4)。",
+        "reference_answer": "x>0时f′(x)=1/(2√x)，故f′(4)=1/4。",
+        "criteria": [
+          "导函数1/(2√x)",
+          "代4得1/4"
+        ],
+        "family_id": "derivative.evaluate-at-point",
+        "variant_id": "mh4.5.2.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "√x在0处也能用1/(2√x)得到有限导数吗？",
+        "hint": "公式要求x>0；0处分母为0，不能直接求有限值。",
+        "revision_prompt": "求√x在x=9导数1/6，区别函数值3与导数值1/6。"
+      },
+      "observation_note": "观察先求导再代点及边界；原函数有值不必可导。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh4.5.2.1-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：f(x)=x⁵，求f′(2)。"
+    },
+    {
+      "id": "mh4.5.2.1-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：f(x)=lnx，求f′(4)。"
+    },
+    {
+      "id": "mh4.5.2.1-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：采用弧度制时，cosx的导函数是哪一个？"
+    }
+  ],
+  "check": "独立完成并写出依据：写出x⁻²、cosx、lnx的导函数并说明定义域。；f(x)=√x，求f′(4)。",
+  "conditions": [
+    "幂公式在相应可导定义域；三角函数以弧度计。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "mh4.5.2.1-q201",
-   "note": "完成后对照解析检查条件、步骤和结果：f(x)=x⁵，求f′(2)。"
-  },
-  {
-   "id": "mh4.5.2.1-q202",
-   "note": "完成后对照解析检查条件、步骤和结果：f(x)=lnx，求f′(4)。"
-  },
-  {
-   "id": "mh4.5.2.1-q203",
-   "note": "完成后对照解析检查条件、步骤和结果：采用弧度制时，cosx的导函数是哪一个？"
-  }
- ],
- "check": "独立完成并写出依据：写出x⁻²、cosx、lnx的导函数并说明定义域。；f(x)=√x，求f′(4)。"
 }

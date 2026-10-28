@@ -1228,16 +1228,24 @@
         "mh5.6.1"
       ],
       "primaryTopicId": "mh5.6.1",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "counting.independent-choices-product",
+      "variant_id": "mh5.6.1-q1",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "每一步都要完成、每种首选都有同数后选，3×4=12；同结构三种情境不增加独立族。"
     },
     {
       "id": "mh5.6.1-q2",
       "topicId": "mh5.6.1",
       "difficulty": "basic",
       "type": "choice",
-      "prompt": "完成一件事有几类互不干扰的办法，应使用哪个原理？",
+      "prompt": "完成一件事的方法被分为若干互不重叠的类别，每类中的一种方法都能单独完成整件事。求总方法数应使用哪个原理？",
       "answer": "o2",
-      "explanation": "分类用加法，分步用乘法。",
+      "explanation": "各类彼此互斥且覆盖全部方法，每类都完成同一任务，故用分类加法。若一个结果属于两类会重复计数；若必须连续做完几步才能完成，应另考虑分步乘法。",
       "choices": [
         {
           "id": "o1",
@@ -1260,7 +1268,15 @@
         "mh5.6.1"
       ],
       "primaryTopicId": "mh5.6.1",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "counting.disjoint-categories-sum-choice",
+      "variant_id": "mh5.6.1-q2",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "把原“互不干扰”改成互不重叠且每类都完成整件事，才确保分类可直接相加。"
     },
     {
       "id": "mh5.6.2.1-q1",
@@ -1292,7 +1308,15 @@
         "mh5.6.2.1"
       ],
       "primaryTopicId": "mh5.6.2.1",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "counting.order-vs-membership",
+      "variant_id": "mh5.6.2.1-q1",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "排列看顺序或角色，组合只看成员；单纯是否可重复不是根本区别。"
     },
     {
       "id": "mh5.6.2.1-q2",
@@ -1307,7 +1331,14 @@
         "mh5.6.2.1"
       ],
       "primaryTopicId": "mh5.6.2.1",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "counting.permutation-count",
+      "variant_id": "mh5.6.2.1-q2",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "只计算6种，未实际列排列结果，也未提交任务是否排列的理由，作为列举准备。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh5.6.2.2-q1",
@@ -1322,7 +1353,15 @@
         "mh5.6.2.2"
       ],
       "primaryTopicId": "mh5.6.2.2",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "counting.permutation-count",
+      "variant_id": "mh5.6.2.2-q1",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "A5,2=5×4=20，不分职务才会除2；这里角色不同不可除。"
     },
     {
       "id": "mh5.6.2.2-q2",
@@ -1354,7 +1393,14 @@
         "mh5.6.2.2"
       ],
       "primaryTopicId": "mh5.6.2.2",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "counting.factorial-recall",
+      "variant_id": "mh5.6.2.2-q2",
+      "representation": "symbolic",
+      "cognitive_demand": "recall",
+      "alignment_note": "只回忆A(n,n)=n!，未进行具体排列数计算。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh5.6.2.2-q90",
@@ -1367,13 +1413,21 @@
         "24"
       ],
       "verify": "4*3*2*1",
-      "explanation": "本题考查排列数。排列数 A(n,m)=n(n-1)…(n-m+1)=n!/(n-m)!，表示所有不同排列的个数。",
+      "explanation": "第一至第四名是不同位置，分别有4、3、2、1人可选，结果数A(4,4)=4×3×2×1=24。",
       "difficulty": "advanced",
       "difficulty_basis": "自产计算题：3 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
-      "source": "self-generated-calc"
+      "source": "self-generated-calc",
+      "family_id": "counting.full-permutation",
+      "variant_id": "mh5.6.2.2-q90",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "四名次各1人且不重复，4!24；补具体连乘。"
     },
     {
       "id": "mh5.6.2.2-q91",
@@ -1386,32 +1440,48 @@
         "336"
       ],
       "verify": "8*7*6",
-      "explanation": "本题考查排列数。排列数 A(n,m)=n(n-1)…(n-m+1)=n!/(n-m)!，表示所有不同排列的个数。",
+      "explanation": "三个名次有顺序，第一名8种、第二名剩7种、第三名剩6种，A(8,3)=8×7×6=336。",
       "difficulty": "standard",
       "difficulty_basis": "自产计算题：2 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
-      "source": "self-generated-calc"
+      "source": "self-generated-calc",
+      "family_id": "counting.permutation-count",
+      "variant_id": "mh5.6.2.2-q91",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "8人分别第一二三，无并列且一人一位，8×7×6=336。"
     },
     {
       "id": "mh5.6.2.2-q92",
       "topicId": "mh5.6.2.2",
       "type": "numeric",
-      "prompt": "从 7 名同学中选出 2 名分别获得一等奖和二等奖，有多少种不同的结果？（只填数字）",
+      "prompt": "从7名同学中选出不同的两人，分别获得一个一等奖和一个二等奖，每奖一人，共有多少种结果？",
       "choices": [],
       "answer": "42",
       "accept": [
         "42"
       ],
       "verify": "7*6",
-      "explanation": "本题考查排列数。排列数 A(n,m)=n(n-1)…(n-m+1)=n!/(n-m)!，表示所有不同排列的个数。",
+      "explanation": "一等奖可选7人，二等奖再从其余6人中选，A(7,2)=7×6=42。交换两个获奖人所获奖项会改变结果。",
       "difficulty": "basic",
       "difficulty_basis": "自产计算题：1 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
-      "source": "self-generated-calc"
+      "source": "self-generated-calc",
+      "family_id": "counting.permutation-count",
+      "variant_id": "mh5.6.2.2-q92",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "两不同奖项各1人，7×6=42，补奖项人数限制。"
     },
     {
       "id": "mh5.6.2.2-q93",
@@ -1424,13 +1494,21 @@
         "24"
       ],
       "verify": "4*3*2*1",
-      "explanation": "本题考查排列数。排列数 A(n,m)=n(n-1)…(n-m+1)=n!/(n-m)!，表示所有不同排列的个数。",
+      "explanation": "四本不同的书全部按书架从左到右排列，共4×3×2×1=24种。书的位置改变即视为不同结果。",
       "difficulty": "advanced",
       "difficulty_basis": "自产计算题：3 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
-      "source": "self-generated-calc"
+      "source": "self-generated-calc",
+      "family_id": "counting.full-permutation",
+      "variant_id": "mh5.6.2.2-q93",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "四本不同书按位置排列4!24，补实际连乘。"
     },
     {
       "id": "mh5.6.2.3-q1",
@@ -1445,7 +1523,15 @@
         "mh5.6.2.3"
       ],
       "primaryTopicId": "mh5.6.2.3",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "counting.combination-count",
+      "variant_id": "mh5.6.2.3-q1",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "小组无角色顺序，C4,2=6与C5,2=10；数值只部分观察不计顺序的选择。"
     },
     {
       "id": "mh5.6.2.3-q2",
@@ -1477,7 +1563,15 @@
         "mh5.6.2.3"
       ],
       "primaryTopicId": "mh5.6.2.3",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "counting.permutation-combination-quotient",
+      "variant_id": "mh5.6.2.3-q2",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "每个m人组合有m!种排列，C=A/m!；需n≥m≥0整数，不能反向乘。"
     },
     {
       "id": "mh5.6.2.3-q90",
@@ -1490,13 +1584,21 @@
         "20"
       ],
       "verify": "(6*5*4)/(1*2*3)",
-      "explanation": "本题考查组合。从 n 个不同元素中取出 m 个合成一组，不考虑顺序，叫组合。",
+      "explanation": "只看入选的3人，不区分顺序，同一组的3!=6种内部排列算同一结果。所以C(6,3)=6×5×4/6=20。",
       "difficulty": "basic",
       "difficulty_basis": "自产计算题：1 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
-      "source": "self-generated-calc"
+      "source": "self-generated-calc",
+      "family_id": "counting.combination-count",
+      "variant_id": "mh5.6.2.3-q90",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "6人选3不分角色，6×5×4/3!=20；补具体去重计数。"
     },
     {
       "id": "mh5.6.2.3-q91",
@@ -1509,13 +1611,21 @@
         "21"
       ],
       "verify": "(7*6)/(1*2)",
-      "explanation": "本题考查组合。从 n 个不同元素中取出 m 个合成一组，不考虑顺序，叫组合。",
+      "explanation": "选出的两人不分先后，每组在有序选法中被算2次，C(7,2)=7×6/2=21。",
       "difficulty": "basic",
       "difficulty_basis": "自产计算题：1 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
-      "source": "self-generated-calc"
+      "source": "self-generated-calc",
+      "family_id": "counting.combination-count",
+      "variant_id": "mh5.6.2.3-q91",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "7人选2不分角色，7×6/2=21。"
     },
     {
       "id": "mh5.6.2.3-q92",
@@ -1528,13 +1638,21 @@
         "35"
       ],
       "verify": "(7*6*5)/(1*2*3)",
-      "explanation": "本题考查组合。从 n 个不同元素中取出 m 个合成一组，不考虑顺序，叫组合。",
+      "explanation": "进入决赛的3支球队只看成员，不在此题排决赛名次。因此C(7,3)=7×6×5/(3×2×1)=35。",
       "difficulty": "basic",
       "difficulty_basis": "自产计算题：1 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
-      "source": "self-generated-calc"
+      "source": "self-generated-calc",
+      "family_id": "counting.combination-count",
+      "variant_id": "mh5.6.2.3-q92",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "7队选3只看入围名单，7×6×5/6=35。"
     },
     {
       "id": "mh5.6.2.3-q93",
@@ -1547,13 +1665,21 @@
         "15"
       ],
       "verify": "(6*5)/(1*2)",
-      "explanation": "本题考查组合。从 n 个不同元素中取出 m 个合成一组，不考虑顺序，叫组合。",
+      "explanation": "两支入围队不区分先后，C(6,2)=6×5/2=15；交换名单顺序不产生新结果。",
       "difficulty": "basic",
       "difficulty_basis": "自产计算题：1 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
-      "source": "self-generated-calc"
+      "source": "self-generated-calc",
+      "family_id": "counting.combination-count",
+      "variant_id": "mh5.6.2.3-q93",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "6队选2只看成员，6×5/2=15。"
     },
     {
       "id": "mh5.6.2.4-q1",
@@ -1568,7 +1694,15 @@
         "mh5.6.2.4"
       ],
       "primaryTopicId": "mh5.6.2.4",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "counting.combination-count",
+      "variant_id": "mh5.6.2.4-q1",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "用n!/[m!(n−m)!]或连乘除m!，结果10、45、56；同结构不同样本数保留同族。"
     },
     {
       "id": "mh5.6.2.4-q2",
@@ -1600,7 +1734,15 @@
         "mh5.6.2.4"
       ],
       "primaryTopicId": "mh5.6.2.4",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "counting.combination-complement-symmetry",
+      "variant_id": "mh5.6.2.4-q2",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "选m等价决定不选n−m，C10,3=C10,7，C11,9=55，C9,7=C9,2。"
     },
     {
       "id": "mh5.6.3.1-q1",
@@ -1615,7 +1757,14 @@
         "mh5.6.3.1"
       ],
       "primaryTopicId": "mh5.6.3.1",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "binomial.formal-term-count",
+      "variant_id": "mh5.6.3.1-q1",
+      "representation": "symbolic",
+      "cognitive_demand": "recall",
+      "alignment_note": "形式展开n+1项，n3为4，只数项不写通项或指定系数。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh5.6.3.1-q2",
@@ -1647,22 +1796,38 @@
         "mh5.6.3.1"
       ],
       "primaryTopicId": "mh5.6.3.1",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "binomial.general-term-factor",
+      "variant_id": "mh5.6.3.1-q2",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "通项Tₖ₊₁=C(n,k)aⁿ⁻ᵏbᵏ，其中组合数部分C(n,k)，只观察通项一个因子。"
     },
     {
       "id": "mh5.6.3.2-q1",
       "topicId": "mh5.6.3.2",
       "difficulty": "basic",
       "type": "numeric",
-      "prompt": "(1+1)⁵ 展开后各项系数之和是多少？",
+      "prompt": "二项式(a+b)⁵展开式中，所有二项式系数之和是多少？",
       "answer": "32",
       "verify": "2**5",
-      "explanation": "系数和为 2^n=32。",
+      "explanation": "令a=b=1，二项式系数之和为(1+1)⁵=2⁵=32。这里相加的是组合系数C(5,k)，不是给a、b其他数值后的各项。",
       "topicIds": [
         "mh5.6.3.2"
       ],
       "primaryTopicId": "mh5.6.3.2",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "binomial.coefficient-sum",
+      "variant_id": "mh5.6.3.2-q1",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "原无变量(1+1)^5容易混同展开系数记号，改(a+b)^5二项式系数和2⁵32。"
     },
     {
       "id": "mh5.6.3.2-q2",
@@ -1694,7 +1859,15 @@
         "mh5.6.3.2"
       ],
       "primaryTopicId": "mh5.6.3.2",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "binomial.coefficient-symmetry",
+      "variant_id": "mh5.6.3.2-q2",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "C(n,k)=C(n,n−k)，两端等距离系数相同，不是单调一直增加。"
     },
     {
       "id": "mh5.7.1.1-q1",
@@ -1890,32 +2063,40 @@
       "topicId": "mh5.7.1.2",
       "difficulty": "basic",
       "type": "choice",
-      "prompt": "全概率公式把复杂事件分解成什么？",
+      "prompt": "应用全概率公式时，通常先怎样划分样本空间？",
       "answer": "o2",
-      "explanation": "按完备事件组拆分，再逐项加权求和。",
+      "explanation": "用互斥且完备的事件组划分样本空间，对每个正概率情形计算其发生概率乘该情形下的目标条件概率，再相加。零概率情形不贡献总概率，不能强行使用以它为分母的条件概率。",
       "choices": [
         {
           "id": "o1",
-          "text": "它的补集"
+          "text": "只看目标事件的补集，不需其他信息"
         },
         {
           "id": "o2",
-          "text": "若干互斥情形之和"
+          "text": "划分为互斥且覆盖全部结果的情形"
         },
         {
           "id": "o3",
-          "text": "若干独立事件之积"
+          "text": "任取若干独立事件，直接相乘"
         },
         {
           "id": "o4",
-          "text": "它的对立事件"
+          "text": "仅分出一个可能情形，忽略其余"
         }
       ],
       "topicIds": [
         "mh5.7.1.2"
       ],
       "primaryTopicId": "mh5.7.1.2",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "probability.exhaustive-disjoint-partition",
+      "variant_id": "mh5.7.1.2-q1",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "全概率分解需互斥且完备，不是任意若干互斥事件；选项补完备条件。"
     },
     {
       "id": "mh5.7.1.2-q2",
@@ -1930,7 +2111,15 @@
         "mh5.7.1.2"
       ],
       "primaryTopicId": "mh5.7.1.2",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "probability.total-probability-two-strata",
+      "variant_id": "mh5.7.1.2-q2",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "按A与补A或两产线加权，分别0.6×0.5+0.4×0.2=0.38、0.6×0.01+0.4×0.02=0.014。"
     },
     {
       "id": "mh5.7.1.2-q90",
@@ -1943,13 +2132,21 @@
         "0.875"
       ],
       "verify": "0.5*0.9+0.5*0.85",
-      "explanation": "本题考查全概率公式。把样本空间按一组互斥且完备的事件分解，用全概率公式求复杂事件的概率。",
+      "explanation": "按来源甲、乙两类划分，二者互斥且覆盖全部产品。随机均匀抽一件合格的概率为0.5×0.90+0.5×0.85=0.45+0.425=0.875。",
       "difficulty": "advanced",
       "difficulty_basis": "自产计算题：3 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
-      "source": "self-generated-calc"
+      "source": "self-generated-calc",
+      "family_id": "probability.total-probability-two-strata",
+      "variant_id": "mh5.7.1.2-q90",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "两条来源互斥完备，0.5×0.9+0.5×0.85=0.875，补各分支贡献。"
     },
     {
       "id": "mh5.7.1.2-q91",
@@ -1962,13 +2159,21 @@
         "0.85"
       ],
       "verify": "0.5*0.9+0.5*0.8",
-      "explanation": "本题考查全概率公式。把样本空间按一组互斥且完备的事件分解，用全概率公式求复杂事件的概率。",
+      "explanation": "按生产线来源加权，P(合格)=0.5×0.90+0.5×0.80=0.45+0.40=0.85。本题恰好等权；产量占比不同不能直接平均两合格率。",
       "difficulty": "advanced",
       "difficulty_basis": "自产计算题：3 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
-      "source": "self-generated-calc"
+      "source": "self-generated-calc",
+      "family_id": "probability.total-probability-two-strata",
+      "variant_id": "mh5.7.1.2-q91",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "0.5×0.9+0.5×0.8=0.85，等权平均只是本题两产量同占比特例。"
     },
     {
       "id": "mh5.7.1.2-q92",
@@ -1981,13 +2186,21 @@
         "0.93"
       ],
       "verify": "0.4*0.9+0.6*0.95",
-      "explanation": "本题考查全概率公式。把样本空间按一组互斥且完备的事件分解，用全概率公式求复杂事件的概率。",
+      "explanation": "甲来源且合格概率0.4×0.90=0.36，乙来源且合格概率0.6×0.95=0.57。两情形互斥，相加得0.93。",
       "difficulty": "advanced",
       "difficulty_basis": "自产计算题：3 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
-      "source": "self-generated-calc"
+      "source": "self-generated-calc",
+      "family_id": "probability.total-probability-two-strata",
+      "variant_id": "mh5.7.1.2-q92",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "0.4×0.9+0.6×0.95=0.93，非等权平均。"
     },
     {
       "id": "mh5.7.1.2-q93",
@@ -2000,13 +2213,21 @@
         "0.9"
       ],
       "verify": "0.5*0.95+0.5*0.85",
-      "explanation": "本题考查全概率公式。把样本空间按一组互斥且完备的事件分解，用全概率公式求复杂事件的概率。",
+      "explanation": "按产量占比加权，0.5×0.95+0.5×0.85=0.475+0.425=0.90。两来源互斥且完备，故可相加。",
       "difficulty": "advanced",
       "difficulty_basis": "自产计算题：3 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
-      "source": "self-generated-calc"
+      "source": "self-generated-calc",
+      "family_id": "probability.total-probability-two-strata",
+      "variant_id": "mh5.7.1.2-q93",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "0.5×0.95+0.5×0.85=0.90。"
     },
     {
       "id": "mh5.7.1.2-q94",
@@ -2019,13 +2240,21 @@
         "0.885"
       ],
       "verify": "0.7*0.9+0.3*0.85",
-      "explanation": "本题考查全概率公式。把样本空间按一组互斥且完备的事件分解，用全概率公式求复杂事件的概率。",
+      "explanation": "P(合格)=0.7×0.90+0.3×0.85=0.63+0.255=0.885。使用来源比例0.7、0.3，不能直接平均0.90和0.85。",
       "difficulty": "advanced",
       "difficulty_basis": "自产计算题：3 步运算",
       "drill_kind": "word",
       "generated": true,
       "review_status": "ai-generated",
-      "source": "self-generated-calc"
+      "source": "self-generated-calc",
+      "family_id": "probability.total-probability-two-strata",
+      "variant_id": "mh5.7.1.2-q94",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "0.7×0.9+0.3×0.85=0.885，补权重和贡献。"
     },
     {
       "id": "mh5.7.2-q1",
@@ -2040,7 +2269,14 @@
         "mh5.7.2"
       ],
       "primaryTopicId": "mh5.7.2",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "probability.distribution-total-recall",
+      "variant_id": "mh5.7.2-q1",
+      "representation": "symbolic",
+      "cognitive_demand": "recall",
+      "alignment_note": "仅回忆概率和1，未写分布或检查具体非负性。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh5.7.2-q2",
@@ -2072,7 +2308,14 @@
         "mh5.7.2"
       ],
       "primaryTopicId": "mh5.7.2",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "probability.discrete-support-recall",
+      "variant_id": "mh5.7.2-q2",
+      "representation": "symbolic",
+      "cognitive_demand": "recall",
+      "alignment_note": "只识别可列取值定义，未完成具体分布列。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh5.7.3.1-q1",
@@ -2087,7 +2330,15 @@
         "mh5.7.3.1"
       ],
       "primaryTopicId": "mh5.7.3.1",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "probability.discrete-expectation",
+      "variant_id": "mh5.7.3.1-q1",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "按x_i p_i加权求0.5、1.7、2，均值不必属于取值集合。"
     },
     {
       "id": "mh5.7.3.1-q2",
@@ -2119,7 +2370,15 @@
         "mh5.7.3.1"
       ],
       "primaryTopicId": "mh5.7.3.1",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "probability.expectation-average-meaning",
+      "variant_id": "mh5.7.3.1-q2",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "期望描述概率加权平均水平，不是每次结果或最大值；选择是意义识别。"
     },
     {
       "id": "mh5.7.3.2-q1",
@@ -2134,7 +2393,15 @@
         "mh5.7.3.2"
       ],
       "primaryTopicId": "mh5.7.3.2",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "probability.discrete-variance",
+      "variant_id": "mh5.7.3.2-q1",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "用E[(X−μ)²]或E(X²)−μ²核算0、0.24、0.25、4、3；二阶矩不能误作均值平方。"
     },
     {
       "id": "mh5.7.3.2-q2",
@@ -2149,7 +2416,15 @@
         "mh5.7.3.2"
       ],
       "primaryTopicId": "mh5.7.3.2",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "probability.discrete-variance",
+      "variant_id": "mh5.7.3.2-q2",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "用E[(X−μ)²]或E(X²)−μ²核算0、0.24、0.25、4、3；二阶矩不能误作均值平方。"
     },
     {
       "id": "mh5.7.4.1-q1",
@@ -2164,71 +2439,95 @@
         "mh5.7.4.1"
       ],
       "primaryTopicId": "mh5.7.4.1",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "probability.binomial-mean",
+      "variant_id": "mh5.7.4.1-q1",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "n,p已给且机制符合二项，均值np为3、3、2；没有由均值结果反推已会判分布。"
     },
     {
       "id": "mh5.7.4.1-q2",
       "topicId": "mh5.7.4.1",
       "difficulty": "basic",
       "type": "choice",
-      "prompt": "二项分布适用于什么情形？",
+      "prompt": "哪组条件一般能保证成功总次数X服从二项分布B(n,p)？",
       "answer": "o3",
-      "explanation": "独立重复试验中成功次数服从二项分布。",
+      "explanation": "二项机制要求固定次数、每次二分类、各次独立、同一成功概率，并且随机变量统计成功次数。复制上次结果会依赖，不放回会更新候选，长度变量不是成功次数。",
       "choices": [
         {
           "id": "o1",
-          "text": "只做一次试验"
+          "text": "固定做n≥2次，但每次复制第一次的结果"
         },
         {
           "id": "o2",
-          "text": "连续取值"
+          "text": "X是连续测量的长度"
         },
         {
           "id": "o3",
-          "text": "n 次独立重复试验"
+          "text": "固定n次，每次成功/失败两类，彼此独立且成功概率均为p，X计成功次数"
         },
         {
           "id": "o4",
-          "text": "不放回抽样"
+          "text": "从2红1白中不放回抽2球，X计红球数"
         }
       ],
       "topicIds": [
         "mh5.7.4.1"
       ],
       "primaryTopicId": "mh5.7.4.1",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "probability.binomial-mechanism-conditions",
+      "variant_id": "mh5.7.4.1-q2",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "补固定n、成功失败两类、独立、同p以及计成功次数；仅“独立重复”措辞不足以界定所统计变量。"
     },
     {
       "id": "mh5.7.4.2-q1",
       "topicId": "mh5.7.4.2",
       "difficulty": "basic",
       "type": "choice",
-      "prompt": "超几何分布对应哪种抽样方式？",
+      "prompt": "有限总体中含固定数量的目标类和非目标类，X统计抽样中目标类的个数。哪种机制对应超几何分布？",
       "answer": "o4",
-      "explanation": "不放回时各次抽取不独立，服从超几何分布。",
+      "explanation": "超几何模型的分母C(N,n)要求全部n件子集等可能，且总体目标类数量固定、抽取不放回。只说不放回还不够；若有偏地偏选某些对象，通常不再符合这一分布。",
       "choices": [
         {
           "id": "o1",
-          "text": "有放回抽样"
+          "text": "每次放回并独立抽取"
         },
         {
           "id": "o2",
-          "text": "独立重复试验"
+          "text": "独立重复固定成功概率试验"
         },
         {
           "id": "o3",
-          "text": "连续分布"
+          "text": "记录连续测量值"
         },
         {
           "id": "o4",
-          "text": "不放回抽样"
+          "text": "固定抽n件、不放回，且每个n件子集等可能"
         }
       ],
       "topicIds": [
         "mh5.7.4.2"
       ],
       "primaryTopicId": "mh5.7.4.2",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "probability.hypergeometric-uniform-subsets",
+      "variant_id": "mh5.7.4.2-q1",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "不放回本身不充分，还需有限两类总体、固定n、每个n件子集等可能；修原泛断。"
     },
     {
       "id": "mh5.7.4.2-q2",
@@ -2243,7 +2542,15 @@
         "mh5.7.4.2"
       ],
       "primaryTopicId": "mh5.7.4.2",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "probability.hypergeometric-support-bound",
+      "variant_id": "mh5.7.4.2-q2",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "10件2次品抽3，最大min(2,3)=2，只检查取值上界，不是完整分布。"
     },
     {
       "id": "mh5.7.5-q1",
@@ -2275,7 +2582,15 @@
         "mh5.7.5"
       ],
       "primaryTopicId": "mh5.7.5",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "probability.normal-symmetry-parameter",
+      "variant_id": "mh5.7.5-q1",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy",
+      "tested_criterion_indices": [
+        0
+      ],
+      "alignment_note": "正态对称轴xμ，并非一律y轴；σ正控制扩散。"
     },
     {
       "id": "mh5.7.5-q2",
@@ -2307,7 +2622,15 @@
         "mh5.7.5"
       ],
       "primaryTopicId": "mh5.7.5",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "probability.normal-sigma-interval",
+      "variant_id": "mh5.7.5-q2",
+      "representation": "symbolic",
+      "cognitive_demand": "recall",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "模型为正态且σ>0时约68.27%、99.73%，选择/回忆只检验常用区间值。"
     },
     {
       "id": "mh5.7.5-q3",
@@ -2324,16 +2647,24 @@
         "mh5.7.5"
       ],
       "primaryTopicId": "mh5.7.5",
-      "difficulty_basis": "手写说理题（第 3 问）：单知识点、无干扰项，猜测率低"
+      "difficulty_basis": "手写说理题（第 3 问）：单知识点、无干扰项，猜测率低",
+      "family_id": "probability.normal-sigma-interval",
+      "variant_id": "mh5.7.5-q3",
+      "representation": "symbolic",
+      "cognitive_demand": "recall",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "模型为正态且σ>0时约68.27%、99.73%，选择/回忆只检验常用区间值。"
     },
     {
       "id": "mh5.8.1.1-q1",
       "topicId": "mh5.8.1.1",
       "difficulty": "basic",
       "type": "choice",
-      "prompt": "散点图中的点大致从左下方向右上方分布，说明两个变量是什么关系？",
+      "prompt": "读附图左侧“图甲”的散点分布，这组样本整体呈什么方向？",
       "answer": "o2",
-      "explanation": "一个增大另一个也增大，为正相关。",
+      "explanation": "图甲中随着x由1增至4，y总体从2升至6，呈上升趋势，所以该样本为正相关。这里描述给定样本方向，不自动证明总体规律或因果。",
       "choices": [
         {
           "id": "o1",
@@ -2358,13 +2689,17 @@
       "primaryTopicId": "mh5.8.1.1",
       "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
       "family_id": "statistics.scatter-direction",
-      "variant_id": "mh5.8.1.1-q1:v5",
-      "representation": "verbal",
-      "cognitive_demand": "recall",
-      "alignment_note": "由文字描述的左下至右上辨认正方向；只观察方向术语，未实际读取点云。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "variant_id": "mh5.8.1.1-q1",
+      "representation": "graph",
+      "cognitive_demand": "choose_strategy",
+      "alignment_note": "改读真正提供的散点图甲，原题仅文字直接描述方向；图中标题改甲乙丙，不在图题写答案。",
       "tested_criterion_indices": [
         0
-      ]
+      ],
+      "diagram": {
+        "src": "/static/diagrams/senior-v6-scatter-assessment.svg",
+        "alt": "三幅散点图。图甲数据(1,2)、(2,3)、(3,5)、(4,6)；图乙数据(1,8)、(2,6)、(3,5)、(4,2)；图丙数据(-2,4)、(-1,1)、(0,0)、(1,1)、(2,4)。"
+      }
     },
     {
       "id": "mh5.8.1.1-q2",
@@ -2400,8 +2735,8 @@
       "family_id": "statistics.function-versus-statistical-association",
       "variant_id": "mh5.8.1.1-q2:v5",
       "representation": "verbal",
-      "cognitive_demand": "recall",
-      "alignment_note": "辨认给定函数规则的确定性与统计关系的波动性；不据此完成因果判断。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "cognitive_demand": "choose_strategy",
+      "alignment_note": "确定函数规则给输入唯一输出，统计相关允许围绕趋势波动；正确选项仍需具体例子解释。",
       "tested_criterion_indices": [
         1
       ]
@@ -2411,23 +2746,27 @@
       "topicId": "mh5.8.1.1",
       "difficulty": "basic",
       "type": "short",
-      "prompt": "散点图中的点大致从左上方向右下方分布，说明两个变量是什么关系？",
+      "prompt": "读附图中间“图乙”，只填“正相关”或“负相关”描述这组样本的总体方向。",
       "answer": "负相关",
       "accept": [],
-      "explanation": "一个变量增大时另一个减小，是负相关。",
+      "explanation": "沿x从小到大看，图乙的y为8、6、5、2，总体下降，故为负相关。不要仅由这一组散点推出因果或总体结论。",
       "topicIds": [
         "mh5.8.1.1"
       ],
       "primaryTopicId": "mh5.8.1.1",
       "difficulty_basis": "手写说理题（第 3 问）：单知识点、无干扰项，猜测率低",
       "family_id": "statistics.scatter-direction",
-      "variant_id": "mh5.8.1.1-q3:v5",
-      "representation": "verbal",
-      "cognitive_demand": "recall",
-      "alignment_note": "由文字方向描述答负相关，和正方向题同族，未观察自行画散点图。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "variant_id": "mh5.8.1.1-q3",
+      "representation": "graph",
+      "cognitive_demand": "choose_strategy",
+      "alignment_note": "附图乙实际点由(1,8)到(4,2)总体下降，要求读图而非复述文字方向。",
       "tested_criterion_indices": [
         0
-      ]
+      ],
+      "diagram": {
+        "src": "/static/diagrams/senior-v6-scatter-assessment.svg",
+        "alt": "三幅散点图。图甲数据(1,2)、(2,3)、(3,5)、(4,6)；图乙数据(1,8)、(2,6)、(3,5)、(4,2)；图丙数据(-2,4)、(-1,1)、(0,0)、(1,1)、(2,4)。"
+      }
     },
     {
       "id": "mh5.8.1.2-q1",
@@ -2447,7 +2786,7 @@
       "variant_id": "mh5.8.1.2-q1:v5",
       "representation": "symbolic",
       "cognitive_demand": "execute",
-      "alignment_note": "改为比较-0.7与0.4的线性强弱，需按绝对值判断；原题直接给1让填1，本次修订不自动恢复诊断用途。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "alignment_note": "比较|r|，−0.7比0.4更强、−0.92比0.46更强；负号是方向不是弱度。",
       "tested_criterion_indices": [
         0
       ],
@@ -2488,8 +2827,9 @@
       "variant_id": "mh5.8.1.2-q2:v5",
       "representation": "symbolic",
       "cognitive_demand": "recall",
-      "alignment_note": "只识别[-1,1]的取值范围，属于解释r的先修知识，并未判断具体方向强弱或构造r=0反例。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
-      "diagnosis_eligible": false
+      "alignment_note": "只记忆非退化样本r∈[-1,1]，未按给定r解释强弱或非线性。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh5.8.2.1-q1",
@@ -2526,10 +2866,9 @@
       "variant_id": "mh5.8.2.1-q1:v5",
       "representation": "symbolic",
       "cognitive_demand": "recall",
-      "alignment_note": "识别b是斜率这一术语；未解释单位、平均变化或因果边界。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
-      "tested_criterion_indices": [
-        0
-      ]
+      "alignment_note": "仅把b命名为斜率，未解释单位、平均变化、截距或误差含义。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh5.8.2.1-q2",
@@ -2564,10 +2903,11 @@
       "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
       "family_id": "statistics.residual-definition",
       "variant_id": "mh5.8.2.1-q2:v5",
-      "representation": "verbal",
+      "representation": "symbolic",
       "cognitive_demand": "recall",
-      "alignment_note": "回忆残差是观测减预测，不直接观察把数代入并计算带符号残差。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
-      "diagnosis_eligible": false
+      "alignment_note": "只回忆观测减拟合，未计算具体残差及符号。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh5.8.2.1-q3",
@@ -2588,10 +2928,11 @@
       "difficulty_basis": "手写说理题（第 3 问）：单知识点、无干扰项，猜测率低",
       "family_id": "statistics.residual-definition",
       "variant_id": "mh5.8.2.1-q3:v5",
-      "representation": "verbal",
+      "representation": "symbolic",
       "cognitive_demand": "recall",
-      "alignment_note": "回忆被减去的是预测值，和定义选择题同族；不把一词回忆映射为残差计算。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
-      "diagnosis_eligible": false
+      "alignment_note": "只回忆观测减拟合，未计算具体残差及符号。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh5.8.2.2-q1",
@@ -2626,9 +2967,9 @@
       "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
       "family_id": "statistics.least-squares-loss",
       "variant_id": "mh5.8.2.2-q1:v5",
-      "representation": "verbal",
-      "cognitive_demand": "recall",
-      "alignment_note": "识别最小化竖直残差平方和；单选正确尚需说明为什么残差和会抵消。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy",
+      "alignment_note": "最小化同一组成对样本竖直残差平方和，不是会抵消的残差和，也非到直线最短距离平方。",
       "tested_criterion_indices": [
         0
       ]
@@ -2666,10 +3007,11 @@
       "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
       "family_id": "statistics.ols-centre-property",
       "variant_id": "mh5.8.2.2-q2:v5",
-      "representation": "verbal",
+      "representation": "symbolic",
       "cognitive_demand": "recall",
-      "alignment_note": "补明含截距及x非零变异，只回忆过样本中心性质；不直接观察利用中心求参数。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
-      "diagnosis_eligible": false
+      "alignment_note": "只回忆含截距OLS过样本中心，还未用它求参数；条件x有变异已保留。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh5.8.2.2-q3",
@@ -2690,10 +3032,11 @@
       "difficulty_basis": "手写说理题（第 3 问）：单知识点、无干扰项，猜测率低",
       "family_id": "statistics.ols-centre-property",
       "variant_id": "mh5.8.2.2-q3:v5",
-      "representation": "verbal",
+      "representation": "symbolic",
       "cognitive_demand": "recall",
-      "alignment_note": "补明含截距及x非零变异，短答中心点与性质选择题同族；参数计算仍未观察。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
-      "diagnosis_eligible": false
+      "alignment_note": "只回忆含截距OLS过样本中心，还未用它求参数；条件x有变异已保留。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh5.8.3.1-q1",
@@ -2708,7 +3051,14 @@
         "mh5.8.3.1"
       ],
       "primaryTopicId": "mh5.8.3.1",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "statistics.contingency-cell-count",
+      "variant_id": "mh5.8.3.1-q1",
+      "representation": "symbolic",
+      "cognitive_demand": "recall",
+      "alignment_note": "2×2内部频数格4，仅数结构格数，未根据记录建表或读条件比例。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh5.8.3.1-q2",
@@ -2740,16 +3090,23 @@
         "mh5.8.3.1"
       ],
       "primaryTopicId": "mh5.8.3.1",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "statistics.contingency-purpose-recall",
+      "variant_id": "mh5.8.3.1-q2",
+      "representation": "symbolic",
+      "cognitive_demand": "recall",
+      "alignment_note": "只识别交叉两个分类变量用途，未建表或确定分母。",
+      "diagnosis_eligible": false,
+      "for_diagnosis": false
     },
     {
       "id": "mh5.8.3.2-q1",
       "topicId": "mh5.8.3.2",
       "difficulty": "basic",
       "type": "choice",
-      "prompt": "独立性检验中，χ² 的值越大说明什么？",
+      "prompt": "在独立性检验的适用条件满足、自由度相同的情况下，χ²统计量更大通常说明什么？",
       "answer": "o3",
-      "explanation": "χ² 越大，越倾向于拒绝独立性假设。",
+      "explanation": "在相同自由度的独立性检验中，较大的χ²对应独立假设下更极端的偏离，反对独立的统计证据较强。但χ²也受样本量影响，不能直接当作关联强度，更不能推出因果。",
       "choices": [
         {
           "id": "o1",
@@ -2772,7 +3129,15 @@
         "mh5.8.3.2"
       ],
       "primaryTopicId": "mh5.8.3.2",
-      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "chi-square.statistic-evidence-direction",
+      "variant_id": "mh5.8.3.2-q1",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "限定同自由度和适用条件下更大统计量提供更强反独立证据，不能当关联效应量。"
     },
     {
       "id": "mh5.8.3.2-q2",
@@ -2804,25 +3169,41 @@
         "mh5.8.3.2"
       ],
       "primaryTopicId": "mh5.8.3.2",
-      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算"
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "chi-square.inference-not-certainty",
+      "variant_id": "mh5.8.3.2-q2",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "统计检验结论受抽样波动和预定错误控制影响，不是确定事实或因果证明；未给本次假设后验概率。"
     },
     {
       "id": "mh5.8.3.2-q3",
       "topicId": "mh5.8.3.2",
       "difficulty": "basic",
       "type": "short",
-      "prompt": "χ² 的值越大，说明两个分类变量有关系的证据越强还是越弱？",
+      "prompt": "在适用条件满足且自由度相同的独立性检验中，χ²统计量越大，反对独立假设的证据通常越强还是越弱？",
       "answer": "越强",
       "accept": [
         "强",
         "更强"
       ],
-      "explanation": "χ² 越大，偏离“无关”假设越远，认为两变量有关的证据越强。",
+      "explanation": "同自由度下，χ²越大通常说明观测与独立假设的偏离更极端，反对独立的证据越强。此处比较证据强弱，不把χ²大小解释为关联效应量或因果强弱。",
       "topicIds": [
         "mh5.8.3.2"
       ],
       "primaryTopicId": "mh5.8.3.2",
-      "difficulty_basis": "手写说理题（第 3 问）：单知识点、无干扰项，猜测率低"
+      "difficulty_basis": "手写说理题（第 3 问）：单知识点、无干扰项，猜测率低",
+      "family_id": "chi-square.statistic-evidence-direction",
+      "variant_id": "mh5.8.3.2-q3",
+      "representation": "symbolic",
+      "cognitive_demand": "recall",
+      "tested_criterion_indices": [
+        1
+      ],
+      "alignment_note": "补相同自由度和适用条件，较大χ²反独立证据更强；只观察方向记忆。"
     },
     {
       "id": "mh5.6.1-q201",
@@ -2838,9 +3219,9 @@
       "review_status": "draft",
       "author": "ai",
       "tested_criterion_indices": [
-        0
+        1
       ],
-      "alignment_note": "本题具体检验“能区分分类与分步”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "只买一支，钢笔4与铅笔3是互斥整件选择，共7。",
       "type": "numeric",
       "prompt": "文具店有4种钢笔和3种铅笔，只买其中一支笔，共有多少种选择？",
       "answer": "7",
@@ -2848,7 +3229,11 @@
       "explanation": "买钢笔或铅笔都独立完成任务，两类互斥，用加法4+3=7。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "counting.disjoint-categories-sum",
+      "variant_id": "mh5.6.1-q201",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.6.1-q202",
@@ -2866,7 +3251,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能用两个计数原理解决简单计数问题”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "每一步都要完成、每种首选都有同数后选，3×4=12；同结构三种情境不增加独立族。",
       "type": "numeric",
       "prompt": "3种上衣与4种裤子各选一件搭成一套，且每件可搭任意另一件，共多少套？",
       "answer": "12",
@@ -2874,7 +3259,11 @@
       "explanation": "选上衣和选裤子都必须完成，且每种上衣均有4条裤子可选，乘法得12。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "counting.independent-choices-product",
+      "variant_id": "mh5.6.1-q202",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.6.1-q203",
@@ -2890,9 +3279,10 @@
       "review_status": "draft",
       "author": "ai",
       "tested_criterion_indices": [
+        0,
         1
       ],
-      "alignment_note": "本题具体检验“能用两个计数原理解决简单计数问题”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "直达和经B互斥两类，经B需2×5两步，总3+10=13；观察嵌套分类分步。",
       "type": "numeric",
       "prompt": "从A到C有3条直达线路，也可先从A到B选2条之一，再从B到C选5条之一，共多少条走法？",
       "answer": "13",
@@ -2900,7 +3290,11 @@
       "explanation": "分直达与经B两类；经B需两步，有2×5种，合计3+10=13。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "counting.sum-of-products",
+      "variant_id": "mh5.6.1-q203",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.6.1-q204",
@@ -2918,7 +3312,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "本题具体检验“能区分分类与分步”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "共同结果会被相加两次，需去重或重新划分互斥类别。",
       "type": "choice",
       "prompt": "两类方法有共同结果时，直接把两类数量相加会有什么问题？",
       "choices": [
@@ -2943,7 +3337,11 @@
       "explanation": "分类加法要求互斥；交集中的同一完整结果会被两类各算一次，应去重或重新划分。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "counting.overlap-double-count",
+      "variant_id": "mh5.6.1-q204",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.6.2.1-q201",
@@ -2958,10 +3356,7 @@
       "completion_batch": "senior-elective-2026-10",
       "review_status": "draft",
       "author": "ai",
-      "tested_criterion_indices": [
-        1
-      ],
-      "alignment_note": "本题具体检验“能列出简单的排列结果”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "只计算6种，未实际列排列结果，也未提交任务是否排列的理由，作为列举准备。",
       "type": "numeric",
       "prompt": "用2、4、6组成没有重复数字的两位数，能组成多少个？",
       "answer": "6",
@@ -2969,7 +3364,11 @@
       "explanation": "首位三种选择，尾位只剩两种，共6；交换两数字会改变数，所以计顺序。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "counting.permutation-count",
+      "variant_id": "mh5.6.2.1-q201",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.6.2.1-q202",
@@ -2987,7 +3386,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "本题具体检验“能判断一个问题是否为排列问题”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "班长副班长不同角色，交换人改变安排，所以排列；其余只选成员。",
       "type": "choice",
       "prompt": "哪项任务需要区分成员先后或角色，属于排列？",
       "choices": [
@@ -3012,7 +3411,11 @@
       "explanation": "班长、副班长是不同角色，交换两人产生不同分工，属于排列；其余未区分次序。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "counting.role-order-classification",
+      "variant_id": "mh5.6.2.1-q202",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.6.2.1-q203",
@@ -3030,7 +3433,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能列出简单的排列结果”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "按第一角色分组补漏(丙,乙)，直接观察列举的完整性；仍需确认没有重复。",
       "type": "short",
       "prompt": "从甲、乙、丙中选两人担任不同职位，用“前者为班长、后者为副班长”的有序对表示。若已列(甲,乙)、(甲,丙)、(乙,甲)、(乙,丙)、(丙,甲)，唯一漏掉哪个有序对？只填(人名,人名)。",
       "answer": "(丙,乙)",
@@ -3041,7 +3444,11 @@
       "explanation": "按班长分组，每人各有两位副班长可选；丙为班长时还应有(丙,乙)。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "counting.complete-ordered-enumeration",
+      "variant_id": "mh5.6.2.1-q203",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.6.2.1-q204",
@@ -3056,10 +3463,7 @@
       "completion_batch": "senior-elective-2026-10",
       "review_status": "draft",
       "author": "ai",
-      "tested_criterion_indices": [
-        1
-      ],
-      "alignment_note": "本题具体检验“能列出简单的排列结果”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "只计算6种，未实际列排列结果，也未提交任务是否排列的理由，作为列举准备。",
       "type": "numeric",
       "prompt": "甲、乙、丙3人全部坐入有编号1、2、3的三个座位，共多少种安排？",
       "answer": "6",
@@ -3067,7 +3471,11 @@
       "explanation": "座位不同，依次有3、2、1种选择，共6，和只选三人组成小组不同。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "counting.permutation-count",
+      "variant_id": "mh5.6.2.1-q204",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.6.2.4-q201",
@@ -3085,7 +3493,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "本题具体检验“能用公式计算组合数”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "用n!/[m!(n−m)!]或连乘除m!，结果10、45、56；同结构不同样本数保留同族。",
       "type": "numeric",
       "prompt": "计算组合数C₈³。",
       "answer": "56",
@@ -3093,7 +3501,11 @@
       "explanation": "选3人不计顺序，排列数8×7×6除内部3!=6，得到56。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "counting.combination-count",
+      "variant_id": "mh5.6.2.4-q201",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.6.2.4-q202",
@@ -3111,7 +3523,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能用对称性化简组合数”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "选m等价决定不选n−m，C10,3=C10,7，C11,9=55，C9,7=C9,2。",
       "type": "numeric",
       "prompt": "利用对称性计算C₁₁⁹。",
       "answer": "55",
@@ -3119,7 +3531,11 @@
       "explanation": "C₁₁⁹=C₁₁²，等于11×10/2=55。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "counting.combination-complement-symmetry",
+      "variant_id": "mh5.6.2.4-q202",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.6.2.4-q203",
@@ -3137,7 +3553,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "本题具体检验“能用公式计算组合数”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "从6选0只有空集一种，C6,0=1，端点不能错记0。",
       "type": "numeric",
       "prompt": "从6个不同元素中选0个，组合数C₆⁰是多少？",
       "answer": "1",
@@ -3145,7 +3561,11 @@
       "explanation": "选空集有且仅有一种方式，所以C₆⁰=1。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "counting.empty-selection",
+      "variant_id": "mh5.6.2.4-q203",
+      "representation": "symbolic",
+      "cognitive_demand": "recall"
     },
     {
       "id": "mh5.6.2.4-q204",
@@ -3163,7 +3583,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能用对称性化简组合数”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "选m等价决定不选n−m，C10,3=C10,7，C11,9=55，C9,7=C9,2。",
       "type": "choice",
       "prompt": "C₉⁷与哪个组合数相等且最方便直接计算？",
       "choices": [
@@ -3188,7 +3608,11 @@
       "explanation": "选中7个等价于决定不选哪2个，故C₉⁷=C₉²。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "counting.combination-complement-symmetry",
+      "variant_id": "mh5.6.2.4-q204",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.6.3.1-q201",
@@ -3206,7 +3630,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能求指定项的系数”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "匹配指数后乘组合数和常系数幂，结果10、32、40、−8；不能只答二项式系数。",
       "type": "numeric",
       "prompt": "求(1+2x)⁵展开式中x²的系数。",
       "answer": "40",
@@ -3214,7 +3638,11 @@
       "explanation": "通项C₅ᵏ(2x)ᵏ，x²对应k=2，系数10×4=40。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "binomial.target-coefficient",
+      "variant_id": "mh5.6.3.1-q201",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.6.3.1-q202",
@@ -3232,7 +3660,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能求指定项的系数”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "匹配指数后乘组合数和常系数幂，结果10、32、40、−8；不能只答二项式系数。",
       "type": "numeric",
       "prompt": "求(x-2)⁴展开式中x³的系数。",
       "answer": "-8",
@@ -3240,7 +3668,11 @@
       "explanation": "通项C₄ᵏx⁴⁻ᵏ(-2)ᵏ，4-k=3得k=1，系数4×(-2)=-8。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "binomial.target-coefficient",
+      "variant_id": "mh5.6.3.1-q202",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.6.3.1-q203",
@@ -3258,7 +3690,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "本题具体检验“能写出二项展开式的通项”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "第4项对应k3，T4=C6,3a³b³，明确项号比k多1。",
       "type": "choice",
       "prompt": "(a+b)⁶展开式的第4项是哪一项？",
       "choices": [
@@ -3283,7 +3715,11 @@
       "explanation": "第k+1项对应k=3，通项C₆³a⁶⁻³b³=C₆³a³b³。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "binomial.term-index-offset",
+      "variant_id": "mh5.6.3.1-q203",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.6.3.1-q204",
@@ -3301,7 +3737,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能求指定项的系数”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "x≠0通项指数4−2k，令0得k2，常数6；保留负幂的定义域。",
       "type": "numeric",
       "prompt": "求(x+1/x)⁴展开式中的常数项（x≠0）。",
       "answer": "6",
@@ -3309,7 +3745,11 @@
       "explanation": "通项C₄ᵏx⁴⁻ᵏx⁻ᵏ=C₄ᵏx⁴⁻²ᵏ，指数0给k=2，常数C₄²=6。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "binomial.laurent-constant-term",
+      "variant_id": "mh5.6.3.1-q204",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.6.3.2-q201",
@@ -3327,7 +3767,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能用系数和公式求值”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "赋a=b1或x1得64与128，所求明确为二项式系数。",
       "type": "numeric",
       "prompt": "(a+b)⁷的所有二项式系数之和是多少？",
       "answer": "128",
@@ -3335,7 +3775,11 @@
       "explanation": "令a=b=1，组合系数总和为(1+1)⁷=128。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "binomial.coefficient-sum",
+      "variant_id": "mh5.6.3.2-q201",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.6.3.2-q202",
@@ -3353,7 +3797,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能用系数和公式求值”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "(1+x)^5取x±1，奇次幂和为2⁴16，与奇数项号概念不同但同一奇偶系数和结构。",
       "type": "numeric",
       "prompt": "(1+x)⁵中x的奇数次幂项的系数之和是多少？",
       "answer": "16",
@@ -3361,7 +3805,11 @@
       "explanation": "n≥1时奇次和与偶次和相等，总和2⁵，所以各为2⁴=16。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "binomial.parity-sums",
+      "variant_id": "mh5.6.3.2-q202",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.6.3.2-q203",
@@ -3379,15 +3827,19 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能用系数和公式求值”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "旧(3x−1)^4实际系数和恰与2⁴同为16，无法区分混用。改(3x−2)^4后实际和1、二项式系数和16，版本化更新答案用于真实辨别。",
       "type": "numeric",
-      "prompt": "求(3x-1)⁴展开后全部实际系数之和。",
-      "answer": "16",
-      "verify": "(3*1-1)**4",
-      "explanation": "实际系数和令x=1得到(3-1)⁴=16；此处碰巧与2⁴同值，但推导应是赋值而非混用公式。",
+      "prompt": "求(3x−2)⁴展开为x的多项式后，全部实际系数之和。",
+      "answer": "1",
+      "verify": "(3-2)**4",
+      "explanation": "把展开多项式中的x都取1，各项留下各自的实际系数，所以系数和为(3−2)⁴=1。二项式系数C(4,k)之和为16，但实际系数还含3和−2的幂，不能把两类系数混用。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "polynomial.actual-coefficient-sum",
+      "variant_id": "mh5.6.3.2-q203",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.6.3.2-q204",
@@ -3402,10 +3854,7 @@
       "completion_batch": "senior-elective-2026-10",
       "review_status": "draft",
       "author": "ai",
-      "tested_criterion_indices": [
-        0
-      ],
-      "alignment_note": "本题具体检验“能说出二项式系数的对称性”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "辨认n8中间C8,4最大，是系数最大值支持，未直接说明对称性或求系数和。",
       "type": "choice",
       "prompt": "(a+b)⁸展开式中最大的二项式系数是哪一个？",
       "choices": [
@@ -3430,7 +3879,11 @@
       "explanation": "n=8为偶数，中间唯一最大系数为C₈⁴；两侧系数关于它对称。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "binomial.central-maximum",
+      "variant_id": "mh5.6.3.2-q204",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.7.2-q201",
@@ -3448,7 +3901,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能检验分布列是否合法”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "以总和1反解0.3、0.5，并检查非负；只检查一组待定质量，不覆盖全部分布构造。",
       "type": "numeric",
       "prompt": "X的三个取值概率依次为0.15、p、0.35，若它们构成分布列，p是多少？",
       "answer": "0.5",
@@ -3456,7 +3909,11 @@
       "explanation": "概率总和1，p=1-0.15-0.35=0.5，且各概率非负。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.distribution-missing-mass",
+      "variant_id": "mh5.7.2-q201",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.2-q202",
@@ -3474,7 +3931,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能检验分布列是否合法”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "所有概率均非负且和1，只有0.1、0.3、0.6合法；两个条件都要查。",
       "type": "choice",
       "prompt": "哪一组三个数可以作为一个离散分布列的全部概率？",
       "choices": [
@@ -3499,7 +3956,11 @@
       "explanation": "0.1、0.3、0.6均非负且和为1。0.2、0.4、0.5之和为1.1；-0.1、0.5、0.6含负数；0.3、0.3、0.3之和为0.9，均不合法。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.distribution-validity",
+      "variant_id": "mh5.7.2-q202",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.7.2-q203",
@@ -3517,7 +3978,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "本题具体检验“能写出离散型随机变量的分布列”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "X=|骰点−3|，X1合并点数2、4概率1/3；只求一格，不等于写全分布。",
       "type": "numeric",
       "prompt": "掷均匀骰子，X=点数与3之差的绝对值，求P(X=1)。",
       "answer": "1/3",
@@ -3525,7 +3986,11 @@
       "explanation": "X=1对应点数2或4，六个等可能结果中有两个，概率1/3。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.transformed-discrete-mass",
+      "variant_id": "mh5.7.2-q203",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.2-q204",
@@ -3540,10 +4005,7 @@
       "completion_batch": "senior-elective-2026-10",
       "review_status": "draft",
       "author": "ai",
-      "tested_criterion_indices": [
-        0
-      ],
-      "alignment_note": "本题具体检验“能写出离散型随机变量的分布列”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "已给完整分布，P(X≥1)=0.8是读表求事件概率，不观察写表或合法性检查。",
       "type": "numeric",
       "prompt": "X取0、1、2，对应概率0.2、0.5、0.3，求P(X≥1)。",
       "answer": "0.8",
@@ -3551,7 +4013,11 @@
       "explanation": "事件X=1与X=2互斥，概率相加0.5+0.3=0.8。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.given-distribution-tail-sum",
+      "variant_id": "mh5.7.2-q204",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.3.1-q201",
@@ -3569,7 +4035,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "本题具体检验“能计算离散型随机变量的均值”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "按x_i p_i加权求0.5、1.7、2，均值不必属于取值集合。",
       "type": "numeric",
       "prompt": "X取1、5，概率分别0.75、0.25，求E(X)。",
       "answer": "2",
@@ -3577,7 +4043,11 @@
       "explanation": "按概率加权，0.75+1.25=2。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.discrete-expectation",
+      "variant_id": "mh5.7.3.1-q201",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.3.1-q202",
@@ -3593,17 +4063,22 @@
       "review_status": "draft",
       "author": "ai",
       "tested_criterion_indices": [
-        0
+        0,
+        1
       ],
-      "alignment_note": "本题具体检验“能计算离散型随机变量的均值”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "奖金期望2扣费用3为−1，长期平均解释须相同稳定机制；不承诺每局一定亏1。",
       "type": "numeric",
       "prompt": "某游戏奖金X以0.9概率为0、0.1概率为20元，每局费用3元。求单局净收益X-3的期望（元）。",
       "answer": "-1",
       "verify": "0*0.9+20*0.1-3",
-      "explanation": "奖金期望2元，扣固定成本3元，净期望-1元，表示长期平均每局损失1元。",
+      "explanation": "E(X)=0×0.9+20×0.1=2元，净收益期望E(X−3)=2−3=−1元。若按同一机制独立重复很多局，平均每局净收益趋向−1元；单局可能亏3元或赚17元，并不是每局恰亏1元。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.net-payoff-expectation",
+      "variant_id": "mh5.7.3.1-q202",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.3.1-q203",
@@ -3621,7 +4096,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能解释均值的实际意义”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "大量同机制独立重复的均值倾向3.5，不要求骰子能出现3.5，也不保证每两次和7。",
       "type": "choice",
       "prompt": "均匀骰子的点数期望为3.5，哪种解释正确？",
       "choices": [
@@ -3646,7 +4121,11 @@
       "explanation": "期望描述长期平均，不要求某次出现该数值，也不对任意短段作确定保证。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.expectation-long-run-not-guarantee",
+      "variant_id": "mh5.7.3.1-q203",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.7.3.1-q204",
@@ -3664,7 +4143,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "本题具体检验“能计算离散型随机变量的均值”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "E(aX+b)=aE(X)+b分别7、10，常数项不遗漏。",
       "type": "numeric",
       "prompt": "已知E(X)=4，求E(3X-2)。",
       "answer": "10",
@@ -3672,7 +4151,11 @@
       "explanation": "期望对常数倍和平移线性：E(3X-2)=3E(X)-2=10。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.expectation-linear-transform",
+      "variant_id": "mh5.7.3.1-q204",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.3.2-q201",
@@ -3690,7 +4173,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "本题具体检验“能计算离散型随机变量的方差”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "用E[(X−μ)²]或E(X²)−μ²核算0、0.24、0.25、4、3；二阶矩不能误作均值平方。",
       "type": "numeric",
       "prompt": "X以相同概率取2和6，求D(X)。",
       "answer": "4",
@@ -3698,7 +4181,11 @@
       "explanation": "均值4，两偏差平方均为4，加权后方差4。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.discrete-variance",
+      "variant_id": "mh5.7.3.2-q201",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.3.2-q202",
@@ -3716,7 +4203,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "本题具体检验“能计算离散型随机变量的方差”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "D(aX+b)=a²D(X)得16、12，常数平移不改变离散。",
       "type": "numeric",
       "prompt": "已知D(X)=3，求D(2X+5)。",
       "answer": "12",
@@ -3724,7 +4211,11 @@
       "explanation": "平移5不影响方差，乘2令方差乘2²，得到12。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.variance-linear-transform",
+      "variant_id": "mh5.7.3.2-q202",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.3.2-q203",
@@ -3742,7 +4233,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能比较两组数据的稳定性”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "同指标同单位均值相同，方差1者平方波动较小；不等于每次误差或所有风险都小。",
       "type": "choice",
       "prompt": "甲乙测量同一量且均值相同、单位相同，方差分别1与4。可直接得到哪个结论？",
       "choices": [
@@ -3767,7 +4258,11 @@
       "explanation": "同量纲同均值下方差小表示总体平方偏离较小，不能保证每次误差或所有风险都更低。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "statistics.comparable-sample-stability",
+      "variant_id": "mh5.7.3.2-q203",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.7.3.2-q204",
@@ -3785,7 +4280,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "本题具体检验“能计算离散型随机变量的方差”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "用E[(X−μ)²]或E(X²)−μ²核算0、0.24、0.25、4、3；二阶矩不能误作均值平方。",
       "type": "numeric",
       "prompt": "X取0、4，概率分别0.75、0.25，求方差。",
       "answer": "3",
@@ -3793,7 +4288,11 @@
       "explanation": "均值1，二阶矩4，所以D=4-1²=3。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.discrete-variance",
+      "variant_id": "mh5.7.3.2-q204",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.4.1-q201",
@@ -3811,7 +4310,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能求二项分布的均值与方差”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "n,p已给且机制符合二项，均值np为3、3、2；没有由均值结果反推已会判分布。",
       "type": "numeric",
       "prompt": "独立重复8次试验，每次成功概率0.25，X为成功次数，求E(X)。",
       "answer": "2",
@@ -3819,7 +4318,11 @@
       "explanation": "四条件满足，X~B(8,0.25)，均值np=2。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.binomial-mean",
+      "variant_id": "mh5.7.4.1-q201",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.4.1-q202",
@@ -3837,7 +4340,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能求二项分布的均值与方差”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "np(1−p)=8×1/4×3/4=1.5，只观察方差分支。",
       "type": "numeric",
       "prompt": "X~B(8,0.25)，求D(X)。",
       "answer": "1.5",
@@ -3845,7 +4348,11 @@
       "explanation": "二项方差np(1-p)=8×0.25×0.75=1.5。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.binomial-variance",
+      "variant_id": "mh5.7.4.1-q202",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.4.1-q203",
@@ -3863,7 +4370,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "本题具体检验“能判断一个问题是否服从二项分布”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "实际机制逐项核查四条件，独立两枚公平硬币成功次数可用，另三项有依赖或随机停止。",
       "type": "choice",
       "prompt": "哪一种机制能直接使用二项分布描述两次试验中成功的总次数？",
       "choices": [
@@ -3888,7 +4395,11 @@
       "explanation": "独立抛2枚均匀硬币的试验固定2次，每次两类结果，独立且成功概率同为1/2。不放回抽球及复制上次结果会产生依赖，直到成功才停止则试验次数不固定。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.binomial-mechanism-conditions",
+      "variant_id": "mh5.7.4.1-q203",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.7.4.1-q204",
@@ -3903,10 +4414,7 @@
       "completion_batch": "senior-elective-2026-10",
       "review_status": "draft",
       "author": "ai",
-      "tested_criterion_indices": [
-        0
-      ],
-      "alignment_note": "本题具体检验“能判断一个问题是否服从二项分布”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "C3,2(1/2)^3=3/8，是点概率而非分布均值方差；与4抛题同公式结构，碰巧同值不代表同情境。",
       "type": "numeric",
       "prompt": "独立抛3枚均匀硬币，求恰有2枚正面的概率。",
       "answer": "0.375",
@@ -3914,7 +4422,11 @@
       "explanation": "成功位置有C₃²=3种，每种序列概率(1/2)³，所以总概率3/8。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.binomial-point-mass",
+      "variant_id": "mh5.7.4.1-q204",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.4.2-q201",
@@ -3932,7 +4444,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能用组合数写出分布列”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "组合数分子分别2×4与C4,3，分母C6,2与C7,3，得8/15、4/35；只提交一格，完整分布另查。",
       "type": "numeric",
       "prompt": "6球中2红4白，不放回任取2球，恰取1红的概率是多少？",
       "answer": "8/15",
@@ -3940,7 +4452,11 @@
       "explanation": "分子C₂¹C₄¹=8，分母C₆²=15，概率8/15。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.hypergeometric-point-mass",
+      "variant_id": "mh5.7.4.2-q201",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.4.2-q202",
@@ -3958,7 +4474,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能用组合数写出分布列”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "组合数分子分别2×4与C4,3，分母C6,2与C7,3，得8/15、4/35；只提交一格，完整分布另查。",
       "type": "numeric",
       "prompt": "7件中3件次品、4件正品，不放回任取3件，恰无次品的概率是多少？",
       "answer": "4/35",
@@ -3966,7 +4482,11 @@
       "explanation": "三件都从4正品中选，C₄³/C₇³=4/35。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.hypergeometric-point-mass",
+      "variant_id": "mh5.7.4.2-q202",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.4.2-q203",
@@ -3984,9 +4504,9 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能用组合数写出分布列”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "白最多2、抽4，所以红取2至4，边界为max(0,n−非目标数)与min(n,M)。",
       "type": "choice",
-      "prompt": "5红2白中任取4球，红球数X所有可能取值是哪一组？",
+      "prompt": "袋中5红2白共7球，不放回取4球，红球数X的所有可能取值是哪组？",
       "choices": [
         {
           "id": "o1",
@@ -4009,7 +4529,11 @@
       "explanation": "白球最多2个，抽4球至少2红；最多4红，所以X=2、3、4。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.hypergeometric-support-bound",
+      "variant_id": "mh5.7.4.2-q203",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.7.4.2-q204",
@@ -4027,7 +4551,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "本题具体检验“能判断超几何分布的适用场景”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "分母C(N,n)来自均匀n件子集，不是任意不放回机制都可套。",
       "type": "choice",
       "prompt": "超几何分布公式P(X=k)=C_M^k C_(N-M)^(n-k)/C_N^n所对应的抽样机制是什么？",
       "choices": [
@@ -4052,7 +4576,11 @@
       "explanation": "分母C_N^n代表所有等可能的n件子集；不放回有限抽样正对应此计数模型。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.hypergeometric-uniform-subsets",
+      "variant_id": "mh5.7.4.2-q204",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.7.5-q201",
@@ -4070,15 +4598,19 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "本题具体检验“能说出正态曲线的对称轴与参数意义”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "明确N(μ,σ²)第二参数为方差25，标准差5。",
       "type": "numeric",
-      "prompt": "X~N(80,25)，其标准差是多少？",
+      "prompt": "采用N(μ,σ²)记法，若X~N(80,25)，其标准差是多少？",
       "answer": "5",
       "verify": "sqrt(25)",
       "explanation": "N(μ,σ²)第二参数是方差25，所以标准差σ=5。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.normal-variance-notation",
+      "variant_id": "mh5.7.5-q201",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.5-q202",
@@ -4096,7 +4628,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能用 3σ 原则估计概率”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "三σ之外双尾0.0027，对称各半右尾0.00135，是近似概率。",
       "type": "numeric",
       "prompt": "已知正态变量落在均值±3个标准差内的概率约0.9973，求右侧超过μ+3σ的近似概率。",
       "answer": "0.00135",
@@ -4104,7 +4636,11 @@
       "explanation": "双侧尾概率约0.0027，由正态对称性各占一半，右侧约0.00135。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.normal-symmetric-tail",
+      "variant_id": "mh5.7.5-q202",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.7.5-q203",
@@ -4122,7 +4658,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能用 3σ 原则估计概率”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "3σ比例来自正态依据，样本均值标准差是估计且有不确定性，不能保证所有分布皆99.73%。",
       "type": "choice",
       "prompt": "由一份样本算出均值和标准差后，哪种使用3σ原则的说法正确？",
       "choices": [
@@ -4147,7 +4683,11 @@
       "explanation": "0.9973来自正态模型，样本统计量仅估计参数；不能跳过分布依据或把估计当真值。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "probability.normal-model-adequacy",
+      "variant_id": "mh5.7.5-q203",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.8.1.1-q201",
@@ -4165,7 +4705,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "按四组成对坐标辨认整体下降，观察给定样本方向，不推出因果或总体。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "alignment_note": "从成对坐标(1,9)至(4,2)判断总体下降；实际提供坐标文本而非图像，表征symbolic。",
       "type": "short",
       "prompt": "散点依次为(1,9)、(2,7)、(3,4)、(4,2)，请只用“正相关”或“负相关”描述样本总体方向。",
       "answer": "负相关",
@@ -4177,7 +4717,7 @@
       "family_id": "statistics.scatter-direction",
       "variant_id": "mh5.8.1.1-q201:v5",
       "representation": "symbolic",
-      "cognitive_demand": "execute"
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.8.1.1-q202",
@@ -4192,9 +4732,9 @@
       "completion_batch": "senior-elective-2026-10",
       "review_status": "draft",
       "author": "ai",
-      "alignment_note": "U形提示非线性而非单一正/负方向；撤销原方向目标映射，保留非线性辨别支持。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "alignment_note": "实际图丙先降后升，不能用单一线性正负方向或“无关系”概括；图题不直接泄漏结论。",
       "type": "choice",
-      "prompt": "散点大致沿一条U形曲线排列，最适当的初步描述是哪一项？",
+      "prompt": "读附图右侧“图丙”的五个点，最恰当的初步描述是哪项？",
       "choices": [
         {
           "id": "o1",
@@ -4219,9 +4759,13 @@
       "for_diagnosis": false,
       "target_alignment": "component_practice_only",
       "family_id": "statistics.scatter-nonlinearity",
-      "variant_id": "mh5.8.1.1-q202:v5",
-      "representation": "verbal",
-      "cognitive_demand": "explain"
+      "variant_id": "mh5.8.1.1-q202",
+      "representation": "graph",
+      "cognitive_demand": "choose_strategy",
+      "diagram": {
+        "src": "/static/diagrams/senior-v6-scatter-assessment.svg",
+        "alt": "三幅散点图。图甲数据(1,2)、(2,3)、(3,5)、(4,6)；图乙数据(1,8)、(2,6)、(3,5)、(4,2)；图丙数据(-2,4)、(-1,1)、(0,0)、(1,1)、(2,4)。"
+      }
     },
     {
       "id": "mh5.8.1.1-q203",
@@ -4236,7 +4780,7 @@
       "completion_batch": "senior-elective-2026-10",
       "review_status": "draft",
       "author": "ai",
-      "alignment_note": "观察相关与因果结论边界及共同因素，撤销“函数与相关关系区分”的错误映射。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "alignment_note": "统计关联不能推因果，属于重要证据边界支持，但未对确定函数与相关关系做比较。",
       "type": "choice",
       "prompt": "观察到冰淇淋销量与溺水人数同步增加，单靠这些数据能作哪一结论？",
       "choices": [
@@ -4265,7 +4809,7 @@
       "family_id": "statistics.observational-causality",
       "variant_id": "mh5.8.1.1-q203:v5",
       "representation": "verbal",
-      "cognitive_demand": "explain"
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.8.1.2-q201",
@@ -4283,7 +4827,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "按绝对值比较-0.92和0.46，给出0.92；仅填绝对值还需另外核对方向语言。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "alignment_note": "比较|r|，−0.7比0.4更强、−0.92比0.46更强；负号是方向不是弱度。",
       "type": "numeric",
       "prompt": "两组数据的样本相关系数为-0.92与0.46。较强线性相关那组的|r|是多少？",
       "answer": "0.92",
@@ -4313,7 +4857,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "r接近0时只可说线性相关弱，不排除非线性；观察结论边界，未自行构造或计算零相关反例。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "alignment_note": "r0.03线性关系弱，仍可能非线性/混杂，不能说独立或无因果影响。",
       "type": "choice",
       "prompt": "样本r=0.03应怎样解释？",
       "choices": [
@@ -4341,8 +4885,8 @@
       "target_alignment": "component_practice_only",
       "family_id": "statistics.zero-correlation-nonlinearity",
       "variant_id": "mh5.8.1.2-q202:v5",
-      "representation": "verbal",
-      "cognitive_demand": "explain"
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.8.1.2-q203",
@@ -4357,7 +4901,7 @@
       "completion_batch": "senior-elective-2026-10",
       "review_status": "draft",
       "author": "ai",
-      "alignment_note": "x常数使分母为0而未定义，是r适用条件；撤销强弱方向目标映射，保留条件支持。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "alignment_note": "x无变异令分母0，r未定义，不能填0后解释强弱。",
       "type": "choice",
       "prompt": "若所有样本的x值都相同，相关系数公式应如何处理？",
       "choices": [
@@ -4385,8 +4929,8 @@
       "target_alignment": "component_practice_only",
       "family_id": "statistics.correlation-sign-and-domain",
       "variant_id": "mh5.8.1.2-q203:v5",
-      "representation": "verbal",
-      "cognitive_demand": "explain"
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.8.1.2-q204",
@@ -4404,7 +4948,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "对(-2,4)、(0,0)、(2,4)算交叉离差和0与非零分母；填0只是计算部分，y=x²关系解释仍需确认。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "alignment_note": "x均值0、y8/3，中心化交叉项抵消得r0，但y=x²；只交r数值还需解释反例关系。",
       "type": "numeric",
       "prompt": "样本为(-2,4)、(0,0)、(2,4)，两变量方差均非零。它们的相关系数r是多少？",
       "answer": "0",
@@ -4434,7 +4978,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "先算ŷ=10，再用12−10=2；同一有符号残差结构。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "alignment_note": "同x预测分别10、14，观测减拟合残差2、−3，正负对应点在线上/下。",
       "type": "numeric",
       "prompt": "拟合直线ŷ=4+2x，观测x=3、y=12，残差y-ŷ是多少？",
       "answer": "2",
@@ -4464,7 +5008,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "先算ŷ=14，再用11−14=−3；符号变化是同族变体，不算独立新结构。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "alignment_note": "同x预测分别10、14，观测减拟合残差2、−3，正负对应点在线上/下。",
       "type": "numeric",
       "prompt": "拟合直线ŷ=10+0.5x，观测x=8、y=11，残差是多少？",
       "answer": "-3",
@@ -4494,7 +5038,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "解释斜率为拟合平均变化并排除个体必然与因果承诺；未观察截距解释。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "alignment_note": "斜率2是模型中平均y的变化，不是个体必然增量或观察数据的因果效应。",
       "type": "choice",
       "prompt": "由观察数据拟合ŷ=5+2x，斜率2最恰当的解释是什么？",
       "choices": [
@@ -4522,8 +5066,8 @@
       "target_alignment": "component_practice_only",
       "family_id": "statistics.regression-parameter-interpretation",
       "variant_id": "mh5.8.2.1-q203:v5",
-      "representation": "verbal",
-      "cognitive_demand": "explain"
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.8.2.2-q201",
@@ -4541,7 +5085,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "用9−1.5×4=3求截距；数字改变不产生新题族。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "alignment_note": "含截距OLS有a=ȳ−bx̄，分别−1与3，固定过原点模型不可套用。",
       "type": "numeric",
       "prompt": "对x有非零变异的成对数据作含截距最小二乘拟合，斜率b=1.5、样本中心(4,9)，求截距a。",
       "answer": "3",
@@ -4571,7 +5115,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "算1²+(-2)²+1²=6，观察平方损失计算分项；单个损失值不证明已找到最优线。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "alignment_note": "残差1,-2,1平方和6而残差和0；观察损失数值，尚未比较候选模型或解释最优化。",
       "type": "numeric",
       "prompt": "候选拟合直线在三个样本点上的残差是1、-2、1，它的残差平方和是多少？",
       "answer": "6",
@@ -4601,7 +5145,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "明确含截距一元最小二乘最小化竖直残差平方和；与目标性质识别题同族。 单题仅提供所述分项观察，不代表整个复合目标已掌握。",
+      "alignment_note": "最小化同一组成对样本竖直残差平方和，不是会抵消的残差和，也非到直线最短距离平方。",
       "type": "choice",
       "prompt": "含截距的一元最小二乘法选择直线时，最小化哪一个量？",
       "choices": [
@@ -4629,8 +5173,8 @@
       "target_alignment": "component_practice_only",
       "family_id": "statistics.least-squares-loss",
       "variant_id": "mh5.8.2.2-q203:v5",
-      "representation": "verbal",
-      "cognitive_demand": "recall"
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.8.3.2-q201",
@@ -4648,7 +5192,7 @@
       "tested_criterion_indices": [
         0
       ],
-      "alignment_note": "本题具体检验“能计算 χ² 统计量”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "四格各(20−15)²/15或(10−15)²/15，总20/3；期望已给，未独立完成全部边际步骤。",
       "type": "numeric",
       "prompt": "2×2列联表观测数为20、10；10、20。四格独立期望数均为15，求χ²统计量。",
       "answer": "20/3",
@@ -4656,7 +5200,11 @@
       "explanation": "每格偏差绝对值5，共4项25/15，χ²=100/15=20/3。只完成统计量计算，检验解释还需临界值和条件。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "chi-square.expected-count-statistic",
+      "variant_id": "mh5.8.3.2-q201",
+      "representation": "symbolic",
+      "cognitive_demand": "execute"
     },
     {
       "id": "mh5.8.3.2-q202",
@@ -4674,7 +5222,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能根据临界值作出判断并说明含义”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "预定5%阈值3.841且近似条件满足，6.8超阈值拒绝独立，仅关联证据非95%因果概率。",
       "type": "choice",
       "prompt": "χ²=6.8，预先选定5%水平的临界值为3.841，且近似条件满足。应作哪个结论？",
       "choices": [
@@ -4699,7 +5247,11 @@
       "explanation": "6.8>3.841，拒绝H₀；这表示给定水平下有关联证据，不给本次因果概率或个体必然关系。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "chi-square.rejection-threshold",
+      "variant_id": "mh5.8.3.2-q202",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy"
     },
     {
       "id": "mh5.8.3.2-q203",
@@ -4717,7 +5269,7 @@
       "tested_criterion_indices": [
         1
       ],
-      "alignment_note": "本题具体检验“能根据临界值作出判断并说明含义”中的题干所述任务；单题结果不代表整个目标已掌握。",
+      "alignment_note": "不拒绝表示当前样本与水平证据不足，不等于证明独立或独立概率95%。",
       "type": "choice",
       "prompt": "检验未拒绝总体独立假设时，正确的解释是什么？",
       "choices": [
@@ -4742,7 +5294,11 @@
       "explanation": "不拒绝不是接受为真，可能关联小或样本不足；结论限于本次检验的证据强度。",
       "diagnosis_eligible": false,
       "for_diagnosis": false,
-      "target_alignment": "component_practice_only"
+      "target_alignment": "component_practice_only",
+      "family_id": "chi-square.nonrejection-meaning",
+      "variant_id": "mh5.8.3.2-q203",
+      "representation": "symbolic",
+      "cognitive_demand": "choose_strategy"
     }
   ]
 }

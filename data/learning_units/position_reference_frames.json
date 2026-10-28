@@ -124,7 +124,7 @@
       "answer": "先向东300米，再向北200米；路程500米。",
       "family_id": "position.route-length-versus-distance",
       "variant_id": "position_reference_frames:example-2",
-      "representation": "mixed",
+      "representation": "symbolic",
       "cognitive_demand": "explain",
       "reference_family_ids": [
         "position.grid-translation"
@@ -512,7 +512,7 @@
       },
       "family_id": "position.route-detour-comparison",
       "variant_id": "position_reference_frames:practice-5",
-      "representation": "mixed",
+      "representation": "geometry",
       "cognitive_demand": "model",
       "answer_spec": {
         "kind": "rubric"
@@ -528,7 +528,11 @@
           "points": 2,
           "example": "乙有多余往返，位移终点相同但走过的总长度不同。"
         }
-      ]
+      ],
+      "diagram": {
+        "src": "/static/diagrams/primary-v6-route-detour.svg",
+        "alt": "列向右、行向上编号的网格，每格100米，A在(1,1)，B在(4,3)。甲路线从A先向右到(4,1)再向上到B；乙先向上到(1,4)，再向右到(4,4)，最后向下到B。"
+      }
     },
     {
       "id": "position_reference_frames:transfer-4",
@@ -771,7 +775,10 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "身体左右由面对的方向决定，东南西北由指定北向决定。"
+          "explanation": "身体左右由面对的方向决定，东南西北由指定北向决定。",
+          "family_id": "position.body-turn",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy"
         },
         "hints": [
           {
@@ -808,7 +815,10 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "面南时左侧对应东，地理位置没有改变。"
+          "explanation": "面南时左侧对应东，地理位置没有改变。",
+          "family_id": "position.body-turn",
+          "representation": "verbal",
+          "cognitive_demand": "execute"
         },
         "followup_task_ids": [
           "position_reference_frames:practice-1",
@@ -852,7 +862,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "完整描述是“目标在某参照点的某方向、距离多少”。"
+          "explanation": "完整描述是“目标在某参照点的某方向、距离多少”。",
+          "family_id": "position.insufficient-reference",
+          "representation": "verbal",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "position.bearing-read"
+          ]
         },
         "hints": [
           {
@@ -889,7 +905,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "东北象限的北与东夹90°，另一个角为90−20=70°，距离仍300米。"
+          "explanation": "东北象限的北与东夹90°，另一个角为90−20=70°，距离仍300米。",
+          "family_id": "position.complementary-bearing",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "position.bearing-read"
+          ]
         },
         "followup_task_ids": [
           "position_reference_frames:practice-2",
@@ -933,7 +955,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "先列后行的约定决定每个数对应哪一方向。"
+          "explanation": "先列后行的约定决定每个数对应哪一方向。",
+          "family_id": "position.grid-translation",
+          "representation": "symbolic",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "position.grid-translation",
+            "position.route-detour-comparison"
+          ]
         },
         "hints": [
           {
@@ -970,7 +999,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "实际走4格为40米；位置差为右2格，是不同的量。"
+          "explanation": "实际走4格为40米；位置差为右2格，是不同的量。",
+          "family_id": "position.route-detour-comparison",
+          "representation": "verbal",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "position.grid-translation",
+            "position.route-detour-comparison"
+          ]
         },
         "followup_task_ids": [
           "position_reference_frames:practice-3",
@@ -988,7 +1024,7 @@
           "可能把纸页方向当成地理方向。"
         ],
         "diagnostic": {
-          "prompt": "地图北向箭头指向页面右侧，学校上方画着公园。公园在学校哪个地理方向？",
+          "prompt": "看配图：北向箭头指向页面右侧，学校上方画着图书馆。图书馆在学校哪个地理方向？",
           "type": "choice",
           "choices": [
             {
@@ -1014,7 +1050,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "先从已标北向顺时针确定东、南、西，纸面位置才有地理含义。"
+          "explanation": "先从已标北向顺时针确定东、南、西，纸面位置才有地理含义。",
+          "diagram": {
+            "src": "/static/diagrams/position-rotated-north.svg",
+            "alt": "北向箭头水平向右；学校S在下、图书馆L在其正上方，两地点在页面同一竖线上。"
+          },
+          "family_id": "position.rotated-map-frame",
+          "representation": "geometry",
+          "cognitive_demand": "execute"
         },
         "hints": [
           {
@@ -1051,7 +1094,10 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "地理关系未变，应随纸一起读取旋转后的北向。"
+          "explanation": "地理关系未变，应随纸一起读取旋转后的北向。",
+          "family_id": "position.rotated-map-frame",
+          "representation": "verbal",
+          "cognitive_demand": "explain"
         },
         "followup_task_ids": [
           "position_reference_frames:practice-1",
@@ -1095,7 +1141,10 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "北与西夹直角，改用另一边量同一射线时取余角。"
+          "explanation": "北与西夹直角，改用另一边量同一射线时取余角。",
+          "family_id": "position.complementary-bearing",
+          "representation": "verbal",
+          "cognitive_demand": "execute"
         },
         "hints": [
           {
@@ -1121,7 +1170,10 @@
           },
           "answer": "50",
           "verify": "90-40",
-          "explanation": "东与南间为90°，所需角50°。"
+          "explanation": "东与南间为90°，所需角50°。",
+          "family_id": "position.complementary-bearing",
+          "representation": "verbal",
+          "cognitive_demand": "execute"
         },
         "followup_task_ids": [
           "position_reference_frames:practice-2",
@@ -1165,7 +1217,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "相反射线的南北、东西同时互换；两点距离对称。"
+          "explanation": "相反射线的南北、东西同时互换；两点距离对称。",
+          "family_id": "position.reverse-bearing",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "position.complementary-bearing"
+          ]
         },
         "hints": [
           {
@@ -1202,7 +1260,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "反方向为西偏南40°，同一对点距离不加倍。"
+          "explanation": "反方向为西偏南40°，同一对点距离不加倍。",
+          "family_id": "position.reverse-bearing",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "position.complementary-bearing"
+          ]
         },
         "followup_task_ids": [
           "position_reference_frames:practice-4",
@@ -1246,7 +1310,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "新列号=总列数+1−旧列号；行未改则保持。"
+          "explanation": "新列号=总列数+1−旧列号；行未改则保持。",
+          "family_id": "position.renumber-grid",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "position.renumber-grid"
+          ]
         },
         "hints": [
           {
@@ -1283,7 +1353,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "列5−2=3，行2+3=5。"
+          "explanation": "列5−2=3，行2+3=5。",
+          "family_id": "position.grid-translation",
+          "representation": "symbolic",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "position.renumber-grid"
+          ]
         },
         "followup_task_ids": [
           "position_reference_frames:practice-3",
@@ -1327,7 +1403,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "路程是各段长度之和，方向相反也不会抹去已走过的路。"
+          "explanation": "路程是各段长度之和，方向相反也不会抹去已走过的路。",
+          "family_id": "position.route-detour-comparison",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "position.route-length-versus-distance"
+          ]
         },
         "hints": [
           {
@@ -1353,7 +1435,13 @@
           },
           "answer": "210",
           "verify": "(2+4+1)*30",
-          "explanation": "共走7格，路程210米。"
+          "explanation": "共走7格，路程210米。",
+          "family_id": "position.route-detour-comparison",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "position.route-length-versus-distance"
+          ]
         },
         "followup_task_ids": [
           "position_reference_frames:practice-5",

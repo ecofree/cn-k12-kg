@@ -21,7 +21,11 @@
       "共有一个接缝，接缝不算外轮廓。",
       "外轮廓长4厘米、宽2厘米，四个角都是直角，是长方形。"
     ],
-    "answer": "长方形，长4厘米、宽2厘米"
+    "answer": "长方形，长4厘米、宽2厘米",
+    "family_id": "geometry.square-tiling-boundary",
+    "variant_id": "m1b.1.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "只在一个顶点相接，不会自动拼成一个长方形。",
@@ -32,7 +36,7 @@
   "name": "图形的拼组",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -46,8 +50,22 @@
         "criteria": [
           "2行2列",
           "完整接边无空隙"
+        ],
+        "family_id": "geometry.square-tiling-boundary",
+        "variant_id": "m1b.1.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.join-squares-rectangle",
+          "geometry.square-array-count"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "四个正方形只把四个角碰在一起，外面会成为一个大正方形吗？",
+        "hint": "把整条边对齐，先摆两块一行，再在下方摆同样一行，描外轮廓。",
+        "revision_prompt": "将四块先排一行再排成两行，比较外轮廓的长和宽，说明哪一种是正方形。"
+      },
+      "observation_note": "观察真实接边、无空隙和外轮廓；只说“两行两列”不能证明已完成拼组。"
     },
     {
       "criterion_index": 1,
@@ -59,8 +77,22 @@
         "criteria": [
           "判断为长方形",
           "说明外边和角的特征"
+        ],
+        "family_id": "geometry.square-tiling-boundary",
+        "variant_id": "m1b.1.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.join-squares-outer-boundary",
+          "geometry.join-squares-rectangle"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "拼好后内部两条接缝算新图形的外边吗？",
+        "hint": "用手指只沿最外圈走一周，忽略里面的接缝；四个转角均为直角。",
+        "revision_prompt": "把两个同样正方形沿整边拼好，描外轮廓，再说名称与长、宽各含几个小边。"
+      },
+      "observation_note": "观察按外轮廓命名；不同大小的纸片是否仍能拼成该形状需重新检查。"
     }
   ],
   "practice": [

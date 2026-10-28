@@ -1,76 +1,105 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m8a.17.2",
- "name": "用公式法分解因式",
- "tier": "core",
- "hook": "看到三项式首尾都是平方数，是否就一定能写成一个平方？",
- "definition": "逆用乘法公式分解因式：a²-b²=(a+b)(a-b)，a²±2ab+b²=(a±b)²；分解必须彻底，直到每个因式都不能再分解为止。",
- "why": "公式法把乘法公式倒着使用，但必须匹配所有项：平方差要求两项且是减法；完全平方除了首尾为平方，还要求中间项恰为正负两倍乘积。分解的终点取决于指定数域。",
- "when_to_use": [
-  "两项分别为平方且相减",
-  "三项式首尾可平方且中项可能为两倍乘积"
- ],
- "steps": [
-  "先提公共因式再辨公式结构",
-  "检查首尾平方及中间项系数符号",
-  "继续分解每个因式并展开验算"
- ],
- "worked_example": {
-  "prompt": "在整数系数范围内分解x⁴−16。",
-  "answer": "(x−2)(x+2)(x²+4)",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.17.2",
+  "name": "用公式法分解因式",
+  "tier": "core",
+  "hook": "看到三项式首尾都是平方数，是否就一定能写成一个平方？",
+  "definition": "逆用乘法公式可分解因式：a²−b²=(a+b)(a−b)，a²±2ab+b²=(a±b)²。先检查公因式，再检查各因式是否还能在题目规定的系数范围内分解；本卡默认整数系数范围，不能脱离范围说绝对不能再分。",
+  "why": "公式法把乘法公式倒着使用，但必须匹配所有项：平方差要求两项且是减法；完全平方除了首尾为平方，还要求中间项恰为正负两倍乘积。分解的终点取决于指定数域。",
+  "when_to_use": [
+    "两项分别为平方且相减",
+    "三项式首尾可平方且中项可能为两倍乘积"
+  ],
   "steps": [
-   "先作平方差：x⁴−16=(x²−4)(x²+4)。",
-   "x²−4仍为平方差，得(x−2)(x+2)(x²+4)；x²+4在整数系数范围内不能再分解。"
-  ]
- },
- "pitfalls": [
-  "a²+b²不能按平方差分解成(a+b)(a−b)。",
-  "x²+4x+4才是(x+2)²，中间系数必须核对。"
- ],
- "check": "独立完成并解释：在整数系数范围内分解9x²−25。用^表示乘方。 请写出判断或计算依据。；在整数系数范围内分解x²−6x+9。用^表示乘方。 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能识别平方差与完全平方式的结构",
-   "explanation": "平方差与完全平方的项数、符号和中间项各有必要条件。",
-   "self_check": {
-    "prompt": "在整数系数范围内分解9x²−25。用^表示乘方。 请写出判断或计算依据。",
-    "reference_answer": "9x²=(3x)²、25=5²，是平方差，所以9x²−25=(3x−5)(3x+5)。",
-    "criteria": [
-     "把9x²写作(3x)²",
-     "正负两因式正确"
-    ]
-   }
+    "先提公共因式再辨公式结构",
+    "检查首尾平方及中间项系数符号",
+    "继续分解每个因式并展开验算"
+  ],
+  "worked_example": {
+    "prompt": "在整数系数范围内分解x⁴−16。",
+    "answer": "(x−2)(x+2)(x²+4)",
+    "steps": [
+      "先作平方差：x⁴−16=(x²−4)(x²+4)。",
+      "x²−4仍为平方差，得(x−2)(x+2)(x²+4)；x²+4在整数系数范围内不能再分解。"
+    ],
+    "family_id": "factor.repeated-difference-squares",
+    "variant_id": "m8a.17.2:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
   },
-  {
-   "criterion_index": 1,
-   "title": "能把分解进行到不能再分解为止",
-   "explanation": "检查每个因式能否继续拆分，并说明所用系数范围。",
-   "self_check": {
-    "prompt": "在整数系数范围内分解x²−6x+9。用^表示乘方。 请写出判断或计算依据。",
-    "reference_answer": "首尾为x²和3²，中间项−6x=−2·x·3，符合完全平方，故为(x−3)²。",
-    "criteria": [
-     "核对−6x=−2·x·3",
-     "结果完全平方形式正确"
-    ]
-   }
+  "pitfalls": [
+    "a²+b²不能按平方差分解成(a+b)(a−b)。",
+    "x²+4x+4才是(x+2)²，中间系数必须核对。"
+  ],
+  "check": "独立完成并解释：在整数系数范围内分解9x²−25。用^表示乘方。 请写出判断或计算依据。；在整数系数范围内分解x²−6x+9。用^表示乘方。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能识别平方差与完全平方式的结构",
+      "explanation": "平方差与完全平方的项数、符号和中间项各有必要条件。",
+      "self_check": {
+        "prompt": "在整数系数范围内分解9x²−25。用^表示乘方。 请写出判断或计算依据。",
+        "reference_answer": "9x²=(3x)²、25=5²，是平方差，所以9x²−25=(3x−5)(3x+5)。",
+        "criteria": [
+          "把9x²写作(3x)²",
+          "正负两因式正确"
+        ],
+        "family_id": "factor.difference-squares",
+        "variant_id": "m8a.17.2:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "9x²的平方底数是9x还是3x？两个平方之间是减号吗？",
+        "hint": "把原式写成(3x)²−5²，然后一和一差相乘。",
+        "revision_prompt": "分解16y²−1=(4y−1)(4y+1)，再对比16y²+1不能套同一实数平方差。"
+      },
+      "observation_note": "观察两个平方与减号三项结构；不把平方和直接写成一和一差。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能把分解进行到不能再分解为止",
+      "explanation": "检查每个因式能否继续拆分，并说明所用系数范围。",
+      "self_check": {
+        "prompt": "在整数系数范围内分解x²−6x+9。用^表示乘方。 请写出判断或计算依据。",
+        "reference_answer": "首尾为x²和3²，中间项−6x=−2·x·3，符合完全平方，故为(x−3)²。",
+        "criteria": [
+          "核对−6x=−2·x·3",
+          "结果完全平方形式正确"
+        ],
+        "family_id": "factor.perfect-square.verify-cross-term",
+        "variant_id": "m8a.17.2:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "首尾是平方就足够吗？x²−5x+9能否也写(x−3)²？",
+        "hint": "需核对中项恰是±2ab，本题−6x=−2·x·3。",
+        "revision_prompt": "对比x²−6x+9与x²−5x+9，只给前者用完全平方公式，并展开核验。"
+      },
+      "observation_note": "观察三项同时匹配；分解范围需明示，不把不能用本公式误作绝对不能分解。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.17.2-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.17.2-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.17.2-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m8a.17.2-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.17.2-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.17.2-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

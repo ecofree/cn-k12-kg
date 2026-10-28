@@ -132,7 +132,7 @@ class QualityV5GeometryTests(unittest.TestCase):
         q = self.task('m8a.13.2-q202')
         self.assertEqual(q['tested_criterion_indices'], [3])
         self.assertFalse(q['diagnosis_eligible'])
-        self.assertIn('不证明', q['alignment_note'])
+        self.assertIn('未实际连接顶点作中线', q['alignment_note'])
         c = self.cards['m8a.13.2']
         self.assertEqual(len(c['objective_coverage']), 5)
         self.assertEqual(c['objective_coverage'][0]['title'], '能画出三角形的高、中线与角平分线')

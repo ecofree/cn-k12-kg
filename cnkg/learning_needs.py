@@ -11,6 +11,7 @@ import hashlib
 import json
 
 from .review_timing import qualified_review, timestamp
+from .task_families import canonical_family, family_exposure
 
 _UNKNOWN_REPRESENTATIONS = {"", "unknown", "unclassified", "unspecified", "未知", "未分类"}
 
@@ -308,7 +309,7 @@ def derive_needs(catalog, records, works=(), states=()):
                       "kind": "work_revision", "status": "open", "source_ref": source, "source_refs": [source],
                       "resource_version": work.get("resource_version"), "work_resource_id": resource_id,
                       "title": work.get("title", "已保存作品"), "stages": [work["stage"]] if work.get("stage") else [],
-                      "skill_ids": [], "objective_ids": [], "targets": [], "source_kind": work.get("kind"),
+                      "skill_ids": list(work.get("skill_ids", [])), "objective_ids": [], "targets": [], "source_kind": work.get("kind"),
                       "source_completed": work.get("status") == "submitted", "work_status": work.get("status", "draft"),
                       "revision_basis": revision_basis, "observed_at": work.get("updated_at"),
                       "criterion_outcomes": work.get("criterion_outcomes", []),
@@ -341,8 +342,8 @@ def derive_needs(catalog, records, works=(), states=()):
                     or answer.get("status") != "correct" or answer.get("skipped")
                     or answer.get("help_used") is not False or basis.get("eligible") is not True
                     or basis.get("family_status") != "declared" or not basis.get("family_id")
-                    or basis.get("family_id") == original.get("family_id")
-                    or basis.get("family_id") != answer.get("family_id")
+                    or canonical_family(basis.get("family_id")) == canonical_family(original.get("family_id"))
+                    or canonical_family(basis.get("family_id")) != canonical_family(answer.get("family_id"))
                     or not known_representations(basis.get("representation"))):
                 continue
             matched = required & set(answer.get("skill_ids", []))
@@ -403,7 +404,7 @@ def skill_evidence(catalog, records, needs):
                 "review_interval_qualified": record.get("context", {}).get("review_interval_qualified", False),
                 "actual_quiet_seconds": record.get("context", {}).get("actual_quiet_seconds")})
             if answer.get("family_status") == "declared" and answer.get("family_id"):
-                row["family_ids"].append(answer["family_id"])
+                row["family_ids"].append(canonical_family(answer["family_id"]))
             row["representations"].extend(known_representations(answer.get("representation")))
     for need in needs:
         if need["status"] not in {"open", "deferred"}:
@@ -540,7 +541,7 @@ def task_options(catalog, skill_ids, records, exposures=None, *, allowed_task_id
         return []
     observations = list(_observations(records, include_pending=True))
     seen_questions = {answer["question_id"] for _, answer in observations}
-    seen_families = {answer["family_id"] for _, answer in observations
+    seen_families = {canonical_family(answer["family_id"]) for _, answer in observations
                      if answer.get("family_status") == "declared" and answer.get("family_id")}
     seen_representations = set()
     for _, answer in observations:
@@ -557,13 +558,13 @@ def task_options(catalog, skill_ids, records, exposures=None, *, allowed_task_id
         family = task.get("family_id")
         declared = task.get("family_status") == "declared"
         qex = question_exposures.get(tid, {})
-        fex = family_exposures.get(family, {}) if declared else {}
+        fex = family_exposure(family_exposures, family) if declared else {}
         exposure_rows = [qex, fex]
         helped = any(row.get("material_count", 0) or row.get("reference_count", 0) or row.get("feedback_count", 0)
                      for row in exposure_rows)
         repeat = tid in seen_questions or any(qex.get(field, 0) for field in
                                              ("presentation_count", "answer_count", "material_count", "reference_count", "feedback_count"))
-        family_repeat = declared and (family in seen_families or any(fex.get(field, 0) for field in
+        family_repeat = declared and (canonical_family(family) in seen_families or any(fex.get(field, 0) for field in
                                              ("presentation_count", "answer_count", "material_count", "reference_count", "feedback_count")))
         representations = known_representations(task.get("representation"))
         known = bool(representations)

@@ -7,7 +7,7 @@
   "tier": "core",
   "hook": "同一张图里，直条的高矮到底在说什么？为什么不能只看「看起来高很多」？",
   "definition": "单式条形统计图用直条长短表示一类数据的多少，一格可以表示 1 个或多个单位，便于直观比较数量。",
-  "why": "条形图把「数量」映射成「长度」，人眼对长度差别最敏感，所以比较快。但读图必须先看纵轴一格代表多少、是不是从 0 开始——否则「看起来高」可能只是刻度被截断造成的错觉。",
+  "why": "条形图用共同刻度上的长度表示数量，使同一坐标系中各组更容易比较。读图先查纵轴单位、每格数值及是否从0开始；截断起点会改变条长比例的视觉含义，结论仍应根据刻度读数。",
   "when_to_use": [
     "只需要比较同类数据的多少",
     "数据是几个并列的类别（班级、月份、项目）",
@@ -31,7 +31,14 @@
     "family_id": "statistics.bar-axis-reading",
     "variant_id": "m4a.6.1:worked-v5",
     "representation": "graph",
-    "cognitive_demand": "execute"
+    "cognitive_demand": "execute",
+    "diagram": {
+      "src": "/static/diagrams/primary-single-bar-scale.svg",
+      "alt": "单式条形统计图纵轴从0开始，以人计，每格5人；A班条高25人，B班30人。横轴分别标两班，不在条顶额外写出比较结果。"
+    },
+    "reference_family_ids": [
+      "primary.compare.difference"
+    ]
   },
   "pitfalls": [
     "一格代表2人却按1人读，会把数据读错一倍。",
@@ -73,7 +80,10 @@
         "diagram": {
           "src": "/static/diagrams/statistics-v5-bar-self-check.svg",
           "alt": "自检图：纵轴从0到14人，每格2人；A班8人、B班12人，C班位置留空待按10人补画。"
-        }
+        },
+        "reference_family_ids": [
+          "primary.compare.difference"
+        ]
       },
       "observation_note": "观察是否按单位和刻度把条高转为数量；单次读对两个数还不能确认会识别截断轴，也不能确认会作图。",
       "difficulty_support": {
@@ -100,7 +110,10 @@
         "diagram": {
           "src": "/static/diagrams/statistics-v5-bar-self-check.svg",
           "alt": "自检图：纵轴从0到14人，每格2人；A班8人、B班12人，C班位置留空待按10人补画。"
-        }
+        },
+        "reference_family_ids": [
+          "statistics.bar-axis-reading"
+        ]
       },
       "observation_note": "观察所画条形是否共用0基准、每格2人的刻度及类别标签；只写“5格”还需查看实际补图的高度和位置。",
       "difficulty_support": {

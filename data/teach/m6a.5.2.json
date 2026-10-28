@@ -16,7 +16,7 @@
   "steps": [
     "分清题目给的是半径还是直径",
     "给半径用 C=2πr，给直径用 C=πd",
-    "代入计算（题目一般取 π=3.14）",
+    "按题目规定取π的近似值（例如π≈3.14），所得周长写为近似值；也可保留π表示精确式。",
     "单位是长度单位，不是平方单位"
   ],
   "worked_example": {
@@ -27,6 +27,13 @@
       "半径 r=2，用 C=2πr。",
       "C=2×3.14×2。",
       "=12.56 厘米。"
+    ],
+    "family_id": "geometry.circle-circumference",
+    "variant_id": "m6a.5.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "geometry.radius-diameter"
     ]
   },
   "pitfalls": [
@@ -51,7 +58,7 @@
   "check": "能说出 π 是「周长÷直径」，并分清 C=πd 与 S=πr²。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +72,22 @@
         "criteria": [
           "比值方向正确",
           "近似符号或表述"
+        ],
+        "family_id": "geometry.pi-circumference-diameter-ratio",
+        "variant_id": "m6a.5.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.radius-diameter",
+          "ratio.table-unit-rate"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "31.4÷5若用的是半径，得到6.28还是圆周率？π的分母应是哪条长度？",
+        "hint": "直径是10厘米，周长与直径比才约3.14；与半径比约6.28，是2π。",
+        "revision_prompt": "测另一圆周长约18.84厘米、直径6厘米，估计比值并说明测量误差与π近似的区别。"
+      },
+      "observation_note": "观察圆周率比值对象与近似性；测一次得3.14不能作为精确数学常数证明。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +99,21 @@
         "criteria": [
           "半径乘2",
           "长度单位"
+        ],
+        "family_id": "geometry.circle-circumference",
+        "variant_id": "m6a.5.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.radius-diameter"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "给半径5厘米直接3.14×5，算的是整个周长还是半周长？",
+        "hint": "先求直径10厘米，再乘π；也可把2×π×r写完整，单位为厘米。",
+        "revision_prompt": "直径8厘米的圆求周长近似值，先辨别已知是直径无需再乘2，比较两种公式对应。"
+      },
+      "observation_note": "观察半径直径辨认、长度单位与近似号；面积关系需另行观察。"
     }
   ]
 }

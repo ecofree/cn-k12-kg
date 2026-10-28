@@ -21,7 +21,14 @@
       "只有一组对边平行，是梯形。",
       "过D向直线AB作垂线，垂足H，DH为高；必要时延长AB。"
     ],
-    "answer": "梯形；DH⊥AB，DH为高"
+    "answer": "梯形；DH⊥AB，DH为高",
+    "family_id": "geometry.parallel-sides-classification",
+    "variant_id": "m4a.5.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "geometry.construct-corresponding-height"
+    ]
   },
   "pitfalls": [
     "高可能落在底边延长线上，不能强行画在内部。",
@@ -32,7 +39,7 @@
   "name": "平行四边形和梯形",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "diagram": {
@@ -50,8 +57,19 @@
         "criteria": [
           "两类名称正确",
           "说明平行边组数"
-        ]
-      }
+        ],
+        "family_id": "geometry.parallel-sides-classification",
+        "variant_id": "m4a.5.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把图旋转后对边的平行关系改变了吗？“看起来上窄下宽”能替代检查平行吗？",
+        "hint": "分别标两组对边，只数有几组平行；按本教材“只有一组”界定梯形。",
+        "revision_prompt": "画一个转斜的长方形和一个仅一组对边平行的四边形，标平行关系后分类。"
+      },
+      "observation_note": "观察定义条件而非摆放外观；采用其他梯形定义时须先说明约定。"
     },
     {
       "criterion_index": 1,
@@ -63,8 +81,21 @@
         "criteria": [
           "对应底为AB",
           "垂直与直角标记正确"
+        ],
+        "family_id": "geometry.construct-corresponding-height",
+        "variant_id": "m4a.5.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.construct-parallel-perpendicular"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "D到AB的斜线段都是高吗？垂足落在AB延长线上就无效吗？",
+        "hint": "用三角尺直角边贴AB所在直线，平移到另一条直角边过D，画垂线并标90°。",
+        "revision_prompt": "将同一平行四边形改用AD为底，重新作对应高，比较两条高为何不必同长。"
+      },
+      "observation_note": "观察所选底与对应垂直高度；文字步骤不能代替纸上作图和直角核查。"
     }
   ],
   "practice": [

@@ -1,76 +1,113 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh2.8.5.3",
- "name": "平面与平面平行",
- "tier": "core",
- "hook": "两个平面各有一条线平行，能证明两平面平行吗？为什么通常需要两条相交线？",
- "definition": "面面平行判定：一个平面内两条相交直线都平行于另一个平面；性质：两平行平面被第三个平面所截，交线平行。若一平面内两条相交直线都平行于另一平面，则两平面平行；平行平面被第三平面所截，交线平行。",
- "why": "平面有两个独立方向，只控制一个方向仍允许绕该方向倾斜。面内两条相交线提供两个方向，能排除两平面有交线；截平面中的两交线同面且不相交，故平行。",
- "when_to_use": [
-  "要证明两个平面没有公共点",
-  "已有平行平面并通过截面求线线平行"
- ],
- "steps": [
-  "在一个面内找两条相交线",
-  "分别证明它们与另一个面平行",
-  "用截面性质时注明第三平面及两条交线"
- ],
- "worked_example": {
-  "prompt": "在正方体ABCD-A₁B₁C₁D₁中，ABCD为依次排列的底面，A₁、B₁、C₁、D₁分别在对应底点正上方。证明顶面A₁B₁C₁D₁与底面ABCD平行。",
-  "steps": [
-   "顶面内相交线A₁B₁、A₁D₁分别平行底面内AB、AD。",
-   "两顶面直线均不在底面，故均平行底面。",
-   "顶面有两条相交直线平行底面，所以两面平行。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh2.8.5.3",
+  "name": "平面与平面平行",
+  "tier": "core",
+  "hook": "两个平面各有一条线平行，能证明两平面平行吗？为什么通常需要两条相交线？",
+  "definition": "若一个平面内两条相交直线都平行于另一平面，则这两个平面平行；“相交”提供两个独立方向，不能换成两条平行线。两平行平面被第三平面所截，所得两条交线平行。",
+  "why": "平面有两个独立方向，只控制一个方向仍允许绕该方向倾斜。面内两条相交线提供两个方向，能排除两平面有交线；截平面中的两交线同面且不相交，故平行。",
+  "when_to_use": [
+    "要证明两个平面没有公共点",
+    "已有平行平面并通过截面求线线平行"
   ],
-  "answer": "顶面∥底面"
- },
- "pitfalls": [
-  "只凭一对平行线就证明两个面平行",
-  "所选两条直线平行而不相交，未提供第二方向"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能证明两个平面平行",
-   "explanation": "判定使用同一面内两条相交直线，不可用两个平行方向替代。",
-   "self_check": {
-    "prompt": "α内两平行直线a、b都平行β，是否足以推出α∥β？给反例构造。",
-    "reference_answer": "不足；可让α、β相交于m，在α内取两条都平行m且不同于m的线a、b，它们均与β无公共点，但两面仍相交。",
-    "criteria": [
-     "反例满足两线平行β",
-     "指出缺少相交的第二方向"
-    ]
-   }
+  "steps": [
+    "在一个面内找两条相交线",
+    "分别证明它们与另一个面平行",
+    "用截面性质时注明第三平面及两条交线"
+  ],
+  "worked_example": {
+    "prompt": "在正方体ABCD-A₁B₁C₁D₁中，ABCD为依次排列的底面，A₁、B₁、C₁、D₁分别在对应底点正上方。证明顶面A₁B₁C₁D₁与底面ABCD平行。",
+    "steps": [
+      "顶面内相交线A₁B₁、A₁D₁分别平行底面内AB、AD。",
+      "两顶面直线均不在底面，故均平行底面。",
+      "顶面有两条相交直线平行底面，所以两面平行。"
+    ],
+    "answer": "顶面∥底面",
+    "family_id": "space.plane-parallel-two-directions",
+    "variant_id": "mh2.8.5.3:example",
+    "representation": "verbal",
+    "cognitive_demand": "prove"
   },
-  {
-   "criterion_index": 1,
-   "title": "能用面面平行推出线线平行",
-   "explanation": "两个平行平面无公共点，故截出的两条共面交线也无公共点。",
-   "self_check": {
-    "prompt": "α∥β，γ∩α=a，γ∩β=b，证明a∥b。",
-    "reference_answer": "a、b同在γ；若相交则交点同时属于α、β，矛盾，因此同面不交而平行。",
-    "criteria": [
-     "明确两线共面",
-     "用两面无公共点排除交点"
-    ]
-   }
-  }
- ],
- "check": "独立完成两项自检并保留推导或作图：反例满足两线平行β；明确两线共面。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh2.8.5.3-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+  "pitfalls": [
+    "只凭一对平行线就证明两个面平行",
+    "所选两条直线平行而不相交，未提供第二方向"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能证明两个平面平行",
+      "explanation": "判定使用同一面内两条相交直线，不可用两个平行方向替代。",
+      "self_check": {
+        "prompt": "α内两平行直线a、b都平行β，是否足以推出α∥β？给反例构造。",
+        "reference_answer": "不足；可让α、β相交于m，在α内取两条都平行m且不同于m的线a、b，它们均与β无公共点，但两面仍相交。",
+        "criteria": [
+          "反例满足两线平行β",
+          "指出缺少相交的第二方向"
+        ],
+        "family_id": "space.plane-parallel-two-directions",
+        "variant_id": "mh2.8.5.3:criterion-0",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "平面内两条平行线能提供两个不同方向吗？",
+        "hint": "它们只限制一个方向，两平面仍可能绕该方向相交。",
+        "revision_prompt": "构造α∩β=m，在α内取两条平行m的不同线；说明它们都平行β但α不平行β。"
+      },
+      "observation_note": "观察“相交两线”不可删除；成功画一幅平行情形不证明判定。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用面面平行推出线线平行",
+      "explanation": "两个平行平面无公共点，故截出的两条共面交线也无公共点。",
+      "self_check": {
+        "prompt": "α∥β，γ∩α=a，γ∩β=b，证明a∥b。",
+        "reference_answer": "a、b同在γ；若相交则交点同时属于α、β，矛盾，因此同面不交而平行。",
+        "criteria": [
+          "明确两线共面",
+          "用两面无公共点排除交点"
+        ],
+        "family_id": "space.parallel-planes-section",
+        "variant_id": "mh2.8.5.3:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "prove"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "两条截线为何不是异面？",
+        "hint": "它们都在第三平面γ内，再排除相交。",
+        "revision_prompt": "若截线a,b交于P，则P同时属于两个平行平面，写出矛盾并得a∥b。"
+      },
+      "observation_note": "观察共同截面与无公共点；条件缺任一项不能照搬。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：反例满足两线平行β；明确两线共面。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh2.8.5.3-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.8.5.3-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.8.5.3-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "面面平行判定用一平面内两条相交线。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   },
-  {
-   "id": "mh2.8.5.3-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+  "diagram": {
+    "src": "/static/diagrams/senior-v6-cube-directions.svg",
+    "alt": "正方体下底面ABCD依次排列，A₁B₁C₁D₁分别在对应点正上方；虚线为遮挡棱，投影不保持长度和角度。"
   },
-  {
-   "id": "mh2.8.5.3-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
+  "representation_note": "用同一套正方体标号核对位置关系；虚线表示遮挡，不能直接量投影角度或长度。"
 }

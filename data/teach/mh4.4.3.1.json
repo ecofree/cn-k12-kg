@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh4.4.3.1",
- "name": "等比数列的概念",
- "tier": "core",
- "hook": "细胞每轮数量翻倍，增加量越来越大，但后一轮与前一轮的比始终为2；这就是等比变化。",
- "definition": "从第2项起，每一项与前一项的比等于同一非零常数q的非零数列，叫等比数列。公比q可为正或负，通项aₙ=a₁qⁿ⁻¹，其中a₁≠0、q≠0。负公比使相邻项符号交替，q=1时为非零常数列。",
- "why": "从a₂=a₁q开始逐项代入，a₃=a₁q²，直到aₙ=a₁qⁿ⁻¹；从首项到第n项共乘n-1次q。相邻比要求分母非零，因此含0的数列不能直接按该定义当作等比数列。固定百分比增长乘同一倍数，不是加同一数。",
- "when_to_use": [
-  "每步乘相同倍数或按相同百分比增长、减少",
-  "由非零相邻项的比判断等比并求指定项"
- ],
- "steps": [
-  "检查各项非零，并验证相邻比恒定。",
-  "确定a₁、q，涉及增长率r时用q=1+r。",
-  "按n-1次幂求指定项，负公比注意奇偶。"
- ],
- "worked_example": {
-  "prompt": "a₁=3、q=-2，求第5项。",
-  "steps": [
-   "从首项到第5项乘4次公比，所以a₅=3(-2)⁴。",
-   "偶次幂为16，得到a₅=48。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh4.4.3.1",
+  "name": "等比数列的概念",
+  "tier": "core",
+  "hook": "细胞每轮数量翻倍，增加量越来越大，但后一轮与前一轮的比始终为2；这就是等比变化。",
+  "definition": "从第2项起，每一项与前一项的比等于同一非零常数q的非零数列，叫等比数列。公比q可为正或负，通项aₙ=a₁qⁿ⁻¹，其中a₁≠0、q≠0。负公比使相邻项符号交替，q=1时为非零常数列。",
+  "why": "从a₂=a₁q开始逐项代入，a₃=a₁q²，直到aₙ=a₁qⁿ⁻¹；从首项到第n项共乘n-1次q。相邻比要求分母非零，因此含0的数列不能直接按该定义当作等比数列。固定百分比增长乘同一倍数，不是加同一数。",
+  "when_to_use": [
+    "每步乘相同倍数或按相同百分比增长、减少",
+    "由非零相邻项的比判断等比并求指定项"
   ],
-  "answer": "48",
-  "verify": "3*(-2)**4"
- },
- "pitfalls": [
-  "增加20%是乘1.2，减少20%是乘0.8，不能把公比写成±0.2。",
-  "1,0,0,⋯相邻比后面出现0/0，不符合通常等比定义。"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能判断一个数列是否为等比数列",
-   "explanation": "判断要检验比而不是差，且相邻项须非零。",
-   "self_check": {
-    "prompt": "aₙ=2×3ⁿ⁻¹与bₙ=n+1哪一个是等比？说明依据。",
-    "reference_answer": "aₙ₊₁/aₙ=3恒定，是等比；bₙ₊₁/bₙ=(n+2)/(n+1)随n变化，不是。",
-    "criteria": [
-     "算相邻比",
-     "根据是否恒定判断"
-    ]
-   }
+  "steps": [
+    "检查各项非零，并验证相邻比恒定。",
+    "确定a₁、q，涉及增长率r时用q=1+r。",
+    "按n-1次幂求指定项，负公比注意奇偶。"
+  ],
+  "worked_example": {
+    "prompt": "a₁=3、q=-2，求第5项。",
+    "steps": [
+      "从首项到第5项乘4次公比，所以a₅=3(-2)⁴。",
+      "偶次幂为16，得到a₅=48。"
+    ],
+    "answer": "48",
+    "verify": "3*(-2)**4",
+    "family_id": "sequence.geometric-index-gap",
+    "variant_id": "mh4.4.3.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能用通项公式求指定项",
-   "explanation": "通项中指数是到目标项的变化次数。",
-   "self_check": {
-    "prompt": "a₁=16、q=1/2，求a₅。",
-    "reference_answer": "a₅=16(1/2)⁴=1。",
-    "criteria": [
-     "指数4",
-     "结果1"
-    ]
-   }
+  "pitfalls": [
+    "增加20%是乘1.2，减少20%是乘0.8，不能把公比写成±0.2。",
+    "1,0,0,⋯相邻比后面出现0/0，不符合通常等比定义。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断一个数列是否为等比数列",
+      "explanation": "判断要检验比而不是差，且相邻项须非零。",
+      "self_check": {
+        "prompt": "aₙ=2×3ⁿ⁻¹与bₙ=n+1哪一个是等比？说明依据。",
+        "reference_answer": "aₙ₊₁/aₙ=3恒定，是等比；bₙ₊₁/bₙ=(n+2)/(n+1)随n变化，不是。",
+        "criteria": [
+          "算相邻比",
+          "根据是否恒定判断"
+        ],
+        "family_id": "sequence.geometric-constant-ratio",
+        "variant_id": "mh4.4.3.1:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "有零项时相邻比还一定有定义吗？",
+        "hint": "本卡等比数列各项非零，公比也非零。",
+        "revision_prompt": "aₙ=3(-2)ⁿ⁻¹比恒-2；序列1,0,0不能按本定义称等比。"
+      },
+      "observation_note": "观察恒比及非零条件；负公比不妨碍等比。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用通项公式求指定项",
+      "explanation": "通项中指数是到目标项的变化次数。",
+      "self_check": {
+        "prompt": "a₁=16、q=1/2，求a₅。",
+        "reference_answer": "a₅=16(1/2)⁴=1。",
+        "criteria": [
+          "指数4",
+          "结果1"
+        ],
+        "family_id": "sequence.geometric-index-gap",
+        "variant_id": "mh4.4.3.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "a₅相对a₁应乘q⁵还是q⁴？",
+        "hint": "项号差是乘公比的次数。",
+        "revision_prompt": "a₂=12,q=-1/2，a₅=12(-1/2)³=-3/2；用三次相乘核对符号。"
+      },
+      "observation_note": "观察指数与负公比奇偶；不把所有负公比项都判负。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh4.4.3.1-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：等比数列a₁=5、公比2，求a₆。"
+    },
+    {
+      "id": "mh4.4.3.1-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：等比数列a₁=8、公比-1/2，求a₄。"
+    },
+    {
+      "id": "mh4.4.3.1-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：按高中等比数列定义，下列哪个无限数列是等比数列？"
+    }
+  ],
+  "check": "独立完成并写出依据：aₙ=2×3ⁿ⁻¹与bₙ=n+1哪一个是等比？说明依据。；a₁=16、q=1/2，求a₅。",
+  "conditions": [
+    "a₁、q非零；负公比按幂指数奇偶决定符号。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "mh4.4.3.1-q201",
-   "note": "完成后对照解析检查条件、步骤和结果：等比数列a₁=5、公比2，求a₆。"
-  },
-  {
-   "id": "mh4.4.3.1-q202",
-   "note": "完成后对照解析检查条件、步骤和结果：等比数列a₁=8、公比-1/2，求a₄。"
-  },
-  {
-   "id": "mh4.4.3.1-q203",
-   "note": "完成后对照解析检查条件、步骤和结果：按高中等比数列定义，下列哪个无限数列是等比数列？"
-  }
- ],
- "check": "独立完成并写出依据：aₙ=2×3ⁿ⁻¹与bₙ=n+1哪一个是等比？说明依据。；a₁=16、q=1/2，求a₅。"
 }

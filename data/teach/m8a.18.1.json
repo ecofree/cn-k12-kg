@@ -1,76 +1,105 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m8a.18.1",
- "name": "分式及其基本性质",
- "tier": "core",
- "hook": "约分后x−2消失了，原来不能取的x=2为什么仍不能补回来？",
- "definition": "形如 A/B 且分母含字母的式子叫分式，分母不为 0；分式的分子与分母同乘（除以）同一个不等于 0 的整式，分式的值不变；分子分母没有公因式时叫最简分式。",
- "why": "分式有意义要求原分母非零；约分依据分子分母同除以同一个非零因式。得到的简式在原定义域内等值，但不能把原式没有定义的输入自动纳入，因而限制必须保留。",
- "when_to_use": [
-  "分母含字母需要确定允许取值",
-  "分子分母有共同因式可约分"
- ],
- "steps": [
-  "先写原分母不等于0的限制",
-  "将分子分母分别分解为因式的积",
-  "约去非零公因式并保留原限制"
- ],
- "worked_example": {
-  "prompt": "化简(x²−9)/(x−3)，并写取值限制。",
-  "answer": "x+3，且x≠3",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.18.1",
+  "name": "分式及其基本性质",
+  "tier": "core",
+  "hook": "约分后x−2消失了，原来不能取的x=2为什么仍不能补回来？",
+  "definition": "形如 A/B 且分母含字母的式子叫分式，分母不为 0；分式的分子与分母同乘（除以）同一个不等于 0 的整式，分式的值不变；分子分母没有公因式时叫最简分式。",
+  "why": "分式有意义要求原分母非零；约分依据分子分母同除以同一个非零因式。得到的简式在原定义域内等值，但不能把原式没有定义的输入自动纳入，因而限制必须保留。",
+  "when_to_use": [
+    "分母含字母需要确定允许取值",
+    "分子分母有共同因式可约分"
+  ],
   "steps": [
-   "原分母x−3≠0，所以x≠3。",
-   "分子=(x−3)(x+3)，约去非零x−3，得到x+3，仍要求x≠3。"
-  ]
- },
- "pitfalls": [
-  "约分只能约公共因式，不能把加减式里的单项直接删掉。",
-  "化简后分母消失不表示原限制消失。"
- ],
- "check": "独立完成并解释：分式(x+1)/(x−2)有意义的条件是什么？ 请写出判断或计算依据。；化简(x²−4)/(x−2)，已知x≠2。只写化简后的式子。 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能判断一个式子是否为分式并指出有意义的条件",
-   "explanation": "分母有字母的式子须检查原分母非零，分子允许为0。",
-   "self_check": {
-    "prompt": "分式(x+1)/(x−2)有意义的条件是什么？ 请写出判断或计算依据。",
-    "reference_answer": "分母不能为0，x−2≠0，所以x≠2；分子为0不影响分式有意义。",
-    "criteria": [
-     "列x−2≠0",
-     "得到x≠2"
-    ]
-   }
+    "先写原分母不等于0的限制",
+    "将分子分母分别分解为因式的积",
+    "约去非零公因式并保留原限制"
+  ],
+  "worked_example": {
+    "prompt": "化简(x²−9)/(x−3)，并写取值限制。",
+    "answer": "x+3，且x≠3",
+    "steps": [
+      "原分母x−3≠0，所以x≠3。",
+      "分子=(x−3)(x+3)，约去非零x−3，得到x+3，仍要求x≠3。"
+    ],
+    "family_id": "rational-expression.cancel-factors-retain-domain",
+    "variant_id": "m8a.18.1:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能约分化为最简分式",
-   "explanation": "约分建立在因式分解和非零条件上，最后应为最简分式或整式。",
-   "self_check": {
-    "prompt": "化简(x²−4)/(x−2)，已知x≠2。只写化简后的式子。 请写出判断或计算依据。",
-    "reference_answer": "先分解x²−4=(x−2)(x+2)，约去非零公共因式x−2，得x+2；原限制x≠2仍保留。",
-    "criteria": [
-     "先分解平方差",
-     "约因式而非约项并保留x≠2"
-    ]
-   }
+  "pitfalls": [
+    "约分只能约公共因式，不能把加减式里的单项直接删掉。",
+    "化简后分母消失不表示原限制消失。"
+  ],
+  "check": "独立完成并解释：分式(x+1)/(x−2)有意义的条件是什么？ 请写出判断或计算依据。；化简(x²−4)/(x−2)，已知x≠2。只写化简后的式子。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断一个式子是否为分式并指出有意义的条件",
+      "explanation": "分母有字母的式子须检查原分母非零，分子允许为0。",
+      "self_check": {
+        "prompt": "分式(x+1)/(x−2)有意义的条件是什么？ 请写出判断或计算依据。",
+        "reference_answer": "分母不能为0，x−2≠0，所以x≠2；分子为0不影响分式有意义。",
+        "criteria": [
+          "列x−2≠0",
+          "得到x≠2"
+        ],
+        "family_id": "rational-expression.domain-denominator",
+        "variant_id": "m8a.18.1:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "x=−1使分子0，是否导致式子无意义？真正不能为0的是哪一部分？",
+        "hint": "先算分母x−2，只有x=2必须排除；分子0且分母非0时值为0。",
+        "revision_prompt": "检验x=−1与x=2，分别得到0与无定义，并说明x/2虽含字母但分母不含字母。"
+      },
+      "observation_note": "观察分式身份与定义域；分子含字母或分子0都不是无意义条件。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能约分化为最简分式",
+      "explanation": "约分建立在因式分解和非零条件上，最后应为最简分式或整式。",
+      "self_check": {
+        "prompt": "化简(x²−4)/(x−2)，已知x≠2。只写化简后的式子。 请写出判断或计算依据。",
+        "reference_answer": "先分解x²−4=(x−2)(x+2)，约去非零公共因式x−2，得x+2；原限制x≠2仍保留。",
+        "criteria": [
+          "先分解平方差",
+          "约因式而非约项并保留x≠2"
+        ],
+        "family_id": "rational-expression.cancel-factors-retain-domain",
+        "variant_id": "m8a.18.1:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "约去x−2后，x=2是否突然变成原分式的合法输入？",
+        "hint": "化简只在原定义域内等值，先记录x≠2再把分子分解成乘积。",
+        "revision_prompt": "比较x=3时两式都为5，而x=2时原式无定义；保留限制写x+2（x≠2）。"
+      },
+      "observation_note": "观察因式约分与定义域保留；不能约加法项，也不能因约掉分母就补回原禁值。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.18.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.18.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.18.1-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m8a.18.1-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.18.1-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.18.1-q101",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

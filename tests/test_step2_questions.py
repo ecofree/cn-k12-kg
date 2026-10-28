@@ -1,9 +1,9 @@
 """历史两步题与正式作者改写的回归。
 
 保留57个旧生成器的算式、数值和身份检查；正式发布由作者JSON决定。
-稳定的-q95后缀不承诺题目永远保持复合运算。V5逐题审查将三条低年级
-任务改为十与一或凑十的适龄基础练习，须绑定实际改写内容和观察范围。
-其余题仍须满足原来的复合算式与非basic设计要求，不能泛化放行。
+稳定的-q95后缀不承诺题目永远保持复合运算。V5/V6逐题审查按实际
+目标修正任务；本轮30条例外须同时命中固定名单、完整作者对象指纹与
+已审查合同。未入名单的题保留旧复合要求，不能因审查文件存在就放行。
 
 运算符数量只是历史算式结构检查，不是实测学生难度。旧生成器继续保持
 整数/小数输出约定；这不表示现行精确判分不支持分数。
@@ -11,6 +11,7 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
 import json
 import random
 import sys
@@ -29,6 +30,30 @@ REVIEWED_SINGLE_OPERATION = {
     "m1a.5.1-q95": {"verify": "9+3", "answer": "12", "family_id": "addition.make-ten", "criterion_indices": [0]},
     "m1a.5.2-q95": {"verify": "8+8", "answer": "16", "family_id": "addition.make-ten", "criterion_indices": [0]},
 }
+
+# This list is a reviewed decision, not inferred from filenames or operation
+# counts at test time. Adding a review row does not grant another exception.
+V6_EXACT_CONTENT_OVERRIDES = frozenset({
+    "m1a.1.4-q95", "m1a.2.4-q95", "m1a.2.5-q95", "m1a.2.6-q95",
+    "m1a.2.7-q95", "m1a.3.2-q95", "m1a.4.1-q95", "m1a.5.1-q95",
+    "m1a.5.2-q95", "m1a.5.3-q95", "m1a.5.4-q95", "m1b.2.1-q95",
+    "m1b.2.2-q95", "m1b.2.3-q95", "m1b.2.4-q95", "m1b.4.2-q95",
+    "m2a.4.1-q95", "m2b.3.1-q95", "m2b.3.2-q95", "m2b.3.5-q95",
+    "m3a.2.6-q95", "m3a.4.1-q95", "m3a.4.2-q95", "m3a.4.3-q95",
+    "m3a.4.4-q95", "m3a.6.4-q95", "m3a.6.6-q95", "m3b.2.1-q95",
+    "m3b.2.2-q95", "m4a.3.1-q95",
+})
+PUBLISHED_REVIEW_FIELDS = (
+    "prompt", "answer", "verify", "difficulty", "difficulty_basis",
+    "family_id", "variant_id", "representation", "cognitive_demand",
+    "tested_criterion_indices", "target_alignment", "alignment_note",
+)
+
+
+def _matches_reviewed_source(question, decision):
+    payload = json.dumps(question, ensure_ascii=False, sort_keys=True,
+                         separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest() == decision["current_source_task_sha256"]
 
 
 def _load_count_steps():
@@ -49,6 +74,16 @@ class TestStep2Questions(unittest.TestCase):
         cls.step2 = G.STEP2_GENERATORS
         cls.questions = json.loads(
             (ROOT / "data" / "questions.json").read_text(encoding="utf-8"))
+        cls.v6_review = json.loads((ROOT / "docs/reviews/v6-step-task-review.json").read_text(encoding="utf-8"))
+        cls.v6_decisions = {row["id"]: row for row in cls.v6_review["tasks"]}
+        cls.author_questions = {}
+        for source in {row["source"] for row in cls.v6_review["tasks"]}:
+            path = Path(source)
+            if path.is_absolute() or ".." in path.parts or path.parts[:2] != ("data", "content"):
+                raise ValueError("两步题审查必须指向正式册次作者源")
+            authored = json.loads((ROOT / path).read_text(encoding="utf-8"))
+            for question in authored["questions"]:
+                cls.author_questions[question["id"]] = (source, question)
 
     def test_topic_ids_are_real(self):
         """STEP2_GENERATORS 的每个 key 都必须是真实知识点 id。"""
@@ -100,7 +135,7 @@ class TestStep2Questions(unittest.TestCase):
         self.assertFalse(frac, f"答案写成了分数：{frac[:5]}")
 
     def test_published_structure_and_design_level_follow_explicit_content_review(self):
-        """只放行有逐题语义核对的四条基础任务，其余仍保留复合要求。"""
+        """精确作者指纹与固定例外名单共同约束现行改写，不全局取消两步要求。"""
         applied = [q for q in self.questions if q["id"].endswith("-q95")]
         expected_ids = {tid + "-q95" for tid in self.step2}
         self.assertEqual(expected_ids, {q["id"] for q in applied})
@@ -112,6 +147,21 @@ class TestStep2Questions(unittest.TestCase):
         for question in applied:
             qid = question["id"]
             with self.subTest(question=qid):
+                decision = self.v6_decisions[qid]
+                source, author_question = self.author_questions[qid]
+                self.assertEqual(source, decision["source"])
+                self.assertTrue(_matches_reviewed_source(author_question, decision),
+                                "作者对象已变，必须重新逐题审查，不能沿用旧例外")
+                self.assertEqual(decision["current_contract"],
+                                 {key: question.get(key) for key in PUBLISHED_REVIEW_FIELDS},
+                                 "发布题目必须仍与已审查的实际作者合同一致")
+                if qid in V6_EXACT_CONTENT_OVERRIDES:
+                    self.assertTrue(decision["allow_exact_content_override"])
+                    self.assertEqual(decision["legacy_counter_value"],
+                                     self.count_steps(question["verify"]))
+                    self.assertFalse(decision["student_difficulty_calibrated"])
+                    continue
+                self.assertFalse(decision["allow_exact_content_override"])
                 if qid not in REVIEWED_SINGLE_OPERATION:
                     self.assertGreaterEqual(self.count_steps(question["verify"]), 2)
                     self.assertIn(question["difficulty"], ("standard", "advanced"))
@@ -131,6 +181,47 @@ class TestStep2Questions(unittest.TestCase):
                 self.assertEqual("basic", question["difficulty"])
                 self.assertEqual("component_practice_only", question["target_alignment"])
                 self.assertFalse(question["diagnosis_eligible"])
+
+    def test_v6_review_scope_and_fixed_exceptions_are_explicit(self):
+        expected_ids = {tid + "-q95" for tid in self.step2}
+        rows = self.v6_review["tasks"]
+        self.assertEqual(57, len(rows))
+        self.assertEqual(expected_ids, set(self.v6_decisions))
+        self.assertEqual(len(rows), len(self.v6_decisions), "不允许重复ID掩盖漏审")
+        self.assertEqual(1, self.v6_review["schema"])
+        self.assertEqual("ai", self.v6_review["reviewer_kind"])
+        self.assertFalse(self.v6_review["independent_teacher_review"])
+        self.assertEqual(V6_EXACT_CONTENT_OVERRIDES,
+                         set(self.v6_review["approved_exact_overrides"]))
+        self.assertEqual(len(V6_EXACT_CONTENT_OVERRIDES),
+                         len(self.v6_review["approved_exact_overrides"]))
+        self.assertEqual(V6_EXACT_CONTENT_OVERRIDES,
+                         {row["id"] for row in rows if row["allow_exact_content_override"]})
+        for row in rows:
+            with self.subTest(question=row["id"]):
+                self.assertEqual("reviewed", row["result"])
+                for field in ("independent_expression", "mathematical_reason",
+                              "age_and_target_reason", "observation_boundary",
+                              "design_difficulty_reason"):
+                    self.assertIsInstance(row[field], str)
+                    self.assertTrue(row[field].strip(), f"缺少逐题审查依据：{field}")
+                    self.assertNotIn(row[field].strip().lower(),
+                                     ("todo", "tbd", "待补", "略"))
+                self.assertFalse(row["legacy_counter_is_cognitive_steps"])
+                self.assertFalse(row["student_difficulty_calibrated"])
+
+    def test_reviewed_exception_does_not_survive_unreviewed_content_changes(self):
+        decision = self.v6_decisions["m3a.6.4-q95"]
+        source = self.author_questions[decision["id"]][1]
+        self.assertTrue(_matches_reviewed_source(source, decision))
+        for field, replacement in (("prompt", source["prompt"] + "另改整体。"),
+                                   ("answer", "3"), ("verify", "8-3"),
+                                   ("difficulty", "advanced"),
+                                   ("family_id", "unreviewed-new-structure"),
+                                   ("tested_criterion_indices", [0, 1])):
+            with self.subTest(field=field):
+                changed = {**source, field: replacement}
+                self.assertFalse(_matches_reviewed_source(changed, decision))
 
     def test_prompts_are_unique(self):
         """同一批内题干不得重复——重复题会让「不同问法」的要求失效。"""

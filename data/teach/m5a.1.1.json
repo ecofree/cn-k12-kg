@@ -21,7 +21,14 @@
       "前面三列高度为1、2、1；上面是一行3格。",
       "从右面看三列重叠，只有一列，高度为最大值2。"
     ],
-    "answer": "前：1、2、1；右：一列2格；上：一行3格"
+    "answer": "前：1、2、1；右：一列2格；上：一行3格",
+    "family_id": "geometry.cube-view-occlusion",
+    "variant_id": "m5a.1.1:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "geometry.cube-stack-max-height"
+    ]
   },
   "pitfalls": [
     "侧视高度是该方向的最高层，不是把各列高度相加。",
@@ -32,7 +39,7 @@
   "name": "观察简单组合体",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "diagram": {
@@ -50,8 +57,21 @@
         "criteria": [
           "三个方向形状全对",
           "右视取最大高度"
+        ],
+        "family_id": "geometry.cube-view-occlusion",
+        "variant_id": "m5a.1.1:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.cube-stack-max-height"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "从右侧看，较近的一列高1，较远的一列高2。它们的投影是一前一后重叠，还是左右并排？高度应相加吗？",
+        "hint": "较近低列遮住较远高列的下部，但远处上层仍可见；正对右侧的外轮廓高2，不是2+1。上面视图则只记录哪些地面格有方块。",
+        "revision_prompt": "摆一行三列高度1、3、2的模型，逐个方向观察并画格图，说明右面为何是高3而不是高6。"
+      },
+      "observation_note": "观察同一模型不同方向的遮挡和轮廓；此处语言摆法不能替代真实图像阅读表现。"
     },
     {
       "criterion_index": 1,
@@ -63,8 +83,22 @@
         "criteria": [
           "两个模型不同",
           "正面确实相同"
+        ],
+        "family_id": "geometry.single-view-nonuniqueness",
+        "variant_id": "m5a.1.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.cube-view-occlusion",
+          "geometry.views-select-compatible-model"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "正面两格是否告诉你后面还有几排？多放一排能不能保持正面不变？",
+        "hint": "在第一排后面加同高同宽的一排，正面会重叠遮住，但上面占地增加。",
+        "revision_prompt": "构造正面宽3高1的两个不同模型，分别记录块数和上视图，用实际反例说明正面信息不足。"
+      },
+      "observation_note": "观察构造反例与视图信息边界；两个候选可区分不表示任意三视图都唯一。"
     }
   ],
   "practice": [

@@ -1,77 +1,109 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh1.4.3.2",
- "name": "对数的运算",
- "tier": "core",
- "hook": "乘法变成对数的加法，为什么真数相加却不能直接拆开？",
- "definition": "积、商、幂的对数运算法则，以及换底公式 log_a b=log_c b / log_c a。a>0且a≠1，M,N>0时logₐ(MN)=logₐM+logₐN；商为差，正真数的幂可提出指数。",
- "why": "若M=a^u、N=a^v，则MN=a^(u+v)，所以积的对数是指数和；M+N一般不能写成a^(u+v)。换底来自把同一个指数等式在另一底数下取对数。",
- "when_to_use": [
-  "同底对数相加减需要合并",
-  "底数不同但可换成共同底数计算"
- ],
- "steps": [
-  "先检查所有真数为正和底数合法",
-  "按乘除与乘方法则合并或展开",
-  "必要时用logₐb=log_cb/log_ca，检查分母不为0"
- ],
- "worked_example": {
-  "prompt": "计算log₂12-log₂3。",
-  "steps": [
-   "12与3均为正，且底数2合法。",
-   "对数差合并为log₂(12/3)=log₂4。",
-   "2²=4，所以结果为2。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.4.3.2",
+  "name": "对数的运算",
+  "tier": "core",
+  "hook": "乘法变成对数的加法，为什么真数相加却不能直接拆开？",
+  "definition": "a>0、a≠1且M,N>0时，logₐ(MN)=logₐM+logₐN，logₐ(M/N)=logₐM-logₐN，logₐ(M^r)=rlogₐM。换底公式logₐb=log_cb/log_ca要求a,b,c为正且a,c不为1；对数不具有把真数的和拆成两个对数和的法则。",
+  "why": "若M=a^u、N=a^v，则MN=a^(u+v)，所以积的对数是指数和；M+N一般不能写成a^(u+v)。换底来自把同一个指数等式在另一底数下取对数。",
+  "when_to_use": [
+    "同底对数相加减需要合并",
+    "底数不同但可换成共同底数计算"
   ],
-  "answer": "2",
-  "verify": "2"
- },
- "pitfalls": [
-  "把log(M+N)拆成logM+logN",
-  "换底公式分子分母写反，或忽略展开前真数条件"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能用法则化简对数式",
-   "explanation": "运算法则处理乘积、商和幂，不能处理加法中的真数。",
-   "self_check": {
-    "prompt": "对x>0，化简log₂(8x)-log₂x，并判断log₂(x+1)=log₂x是否恒真。",
-    "reference_answer": "前式为log₂8=3；后式不恒真，例如x=1时左为1右为0。",
-    "criteria": [
-     "按商的法则得到3",
-     "给出合法反例否定错误拆分"
-    ]
-   }
+  "steps": [
+    "先检查所有真数为正和底数合法",
+    "按乘除与乘方法则合并或展开",
+    "必要时用logₐb=log_cb/log_ca，检查分母不为0"
+  ],
+  "worked_example": {
+    "prompt": "计算log₂12-log₂3。",
+    "steps": [
+      "12与3均为正，且底数2合法。",
+      "对数差合并为log₂(12/3)=log₂4。",
+      "2²=4，所以结果为2。"
+    ],
+    "answer": "2",
+    "verify": "2",
+    "family_id": "logarithm.product-quotient-laws",
+    "variant_id": "mh1.4.3.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能用换底公式求值",
-   "explanation": "换底后分母是原底数的对数，且非零。",
-   "self_check": {
-    "prompt": "用换底公式求log₄8及log₉3。",
-    "reference_answer": "log₂8/log₂4=3/2；log₃3/log₃9=1/2。",
-    "criteria": [
-     "两个换底比值正确",
-     "结果为3/2及1/2"
-    ]
-   }
+  "pitfalls": [
+    "把log(M+N)拆成logM+logN",
+    "换底公式分子分母写反，或忽略展开前真数条件"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用法则化简对数式",
+      "explanation": "运算法则处理乘积、商和幂，不能处理加法中的真数。",
+      "self_check": {
+        "prompt": "对x>0，化简log₂(8x)-log₂x，并判断log₂(x+1)=log₂x是否恒真。",
+        "reference_answer": "前式为log₂8=3；后式不恒真，例如x=1时左为1右为0。",
+        "criteria": [
+          "按商的法则得到3",
+          "给出合法反例否定错误拆分"
+        ],
+        "family_id": "logarithm.product-quotient-laws",
+        "variant_id": "mh1.4.3.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "log₂(1+1)能拆成log₂1+log₂1吗？",
+        "hint": "直接算左为1、右为0；乘积法则不能搬到和。",
+        "revision_prompt": "化简log₃(9x)-log₃x=2(x>0)，再写一个反例反驳对数拆和。"
+      },
+      "observation_note": "观察正真数下的积商法则及反例；不由合法约分扩大原定义域。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用换底公式求值",
+      "explanation": "换底后分母是原底数的对数，且非零。",
+      "self_check": {
+        "prompt": "用换底公式求log₄8及log₉3。",
+        "reference_answer": "log₂8/log₂4=3/2；log₃3/log₃9=1/2。",
+        "criteria": [
+          "两个换底比值正确",
+          "结果为3/2及1/2"
+        ],
+        "family_id": "logarithm.change-base",
+        "variant_id": "mh1.4.3.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "log₄8的换底分母是log₂4还是log₂8？",
+        "hint": "设4^y=8，换成2的幂得2y=3可检查方向。",
+        "revision_prompt": "用底数2算log₈4=2/3，与log₄8=3/2相乘为1核查。"
+      },
+      "observation_note": "观察换底位置与分母非零；不能把所有对数式都当倒数关系。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：按商的法则得到3；两个换底比值正确。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.4.3.2-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.4.3.2-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.4.3.2-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "积商法则中各真数分别为正；换底的新旧底数均合法。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：按商的法则得到3；两个换底比值正确。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh1.4.3.2-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.4.3.2-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.4.3.2-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

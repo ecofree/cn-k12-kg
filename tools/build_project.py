@@ -32,6 +32,7 @@ def commands(mode, *, with_browser=False):
               ["tools/quality_scope.py", "--check", "--require-complete", "--json", "build/quality-scope.json"],
               ["tools/check_alignment.py", "--check"],
               ["tools/validate.py"], ["tools/verify_questions.py"],
+              ["tools/check_math_statements.py", "--check"],
               ["tools/check_learning_units.py"], ["tools/check_projects.py"],
               ["tools/teach_cards.py", "--check"]]
     if mode == "write":

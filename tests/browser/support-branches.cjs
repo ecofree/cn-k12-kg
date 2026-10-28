@@ -88,10 +88,45 @@ module.exports = async function supportBranchesJourney({page, goto, actionRespon
   assert.equal(plan.learning_needs.find(need => need.need_id === followup.need_id).status, "open");
   await page.setViewportSize({width: 390, height: 844});
   await noHorizontalOverflow("support_branches_390");
+  const expandedRoutes = [];
+  for (const [unitId, goal, wrongChoice, expectedRoute] of [
+    ["independent_events", "conditional", "B", "condition_on_subset"],
+    ["sampling_and_variation", "population", "B", "zero_chance_outside_frame"],
+    ["correlation_and_regression", "r_squared", "A", "variation_not_case_accuracy"],
+    ["data_reading_and_mean", "combine", "A", "expand_group_weights"],
+  ]) {
+    const current = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../data/learning_units/" + unitId + ".json"), "utf8"));
+    const support = current.instructional_support.supports.find(row => row.objective_id === unitId + ":" + goal);
+    const branch = support.guided_branches.find(row => row.id === expectedRoute);
+    data = await start(unitId, support);
+    data = await submit(data, wrongChoice);
+    assert.equal(data.support.route.route_id, expectedRoute);
+    assert.equal(data.item.prompt, branch.guided_task.prompt);
+    assert.equal(await root.locator(".support-route").getAttribute("data-route-id"), expectedRoute);
+    for (const alternative of support.guided_branches) {
+      if (alternative.id !== expectedRoute) assert.ok(!JSON.stringify(data).includes(alternative.guided_task.prompt));
+    }
+    const hinted = await actionResponse(() => root.getByRole("button", {name: "提示2 · 分步引导", exact: true}).click(), "/api/support/hint");
+    assert.deepEqual(hinted.feedback.reference_family_ids, support.hints[1].reference_family_ids);
+    assert.equal(hinted.support.hints_opened.length, 1);
+    await noHorizontalOverflow("support_" + unitId + "_390");
+    data = await submit(data, branch.guided_task.answer);
+    const confirmation = current.tasks.find(task => task.id === data.item.id);
+    assert.ok(confirmation.objective_ids.includes(support.objective_id));
+    const value = confirmation.answer || confirmation.rubric.map(row => row.example).join("；");
+    data = await submit(data, value);
+    assert.equal(data.done, true);
+    assert.equal(data.answers.at(-1).confirmation_eligible, confirmation.type !== "rubric");
+    assert.equal(data.session.context.independent_evidence, false);
+    expandedRoutes.push({unit_id: unitId, objective_id: support.objective_id,
+      route: expectedRoute, confirmation: confirmation.id, help_preserved: true});
+  }
   result.observations.support_branches = {different_wrong_choices_changed_real_tasks: true, firstGuide,
     retry_route: "restore_axis_origin", original_need_id: original.need_id, followup_need_id: followup.need_id,
-    failed_guide_preserved: true, skipped_diagnostic_preserved: true, reload_kept_selected_route: true};
+    failed_guide_preserved: true, skipped_diagnostic_preserved: true, reload_kept_selected_route: true,
+    probability_statistics_routes: expandedRoutes};
   claim("Two actual diagnostic choices lead to different frozen guide questions and real session SVGs; unselected branch content is not returned.");
   claim("A final correct answer cannot erase an incorrect guide or skipped diagnostic. The retry button names the original need and updates the actual session URL.");
   claim("Successful linked retry retains the original failure and creates a separate open follow-up obligation; reload keeps the selected route.");
+  claim("Four probability/statistics units render their authored error route, only the opened hint level, matching confirmation, and bounded help provenance at mobile width.");
 };

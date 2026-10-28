@@ -27,6 +27,13 @@
       "八折 = 原价的 80%，单位「1」是原价 200 元。",
       "求 200 的 80%，用乘法：200×0.8。",
       "=160 元。"
+    ],
+    "family_id": "ratio.discount-retained-part",
+    "variant_id": "m6a.6.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "ratio.part-from-percentage"
     ]
   },
   "pitfalls": [
@@ -51,7 +58,7 @@
   "check": "能指出单位“1”，算出40人中25人及格的及格率62.5%，并解释150是100的150%为什么合理。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +72,22 @@
         "criteria": [
           "以原价为基准",
           "160元"
+        ],
+        "family_id": "ratio.discount-retained-part",
+        "variant_id": "m6a.6.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.remainder-of-quantity",
+          "ratio.part-from-percentage"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "八折保留原价的80%还是减少原价的80%？200×20%算的是哪一部分？",
+        "hint": "将原价100份分为付款80份和优惠20份，两项相加还应为原价200元。",
+        "revision_prompt": "原价150元打九折，分别求现价和便宜的钱，再核对两部分合为150。"
+      },
+      "observation_note": "观察折扣的基准量与保留部分；先涨后降不能只把百分比直接相加。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +99,21 @@
         "criteria": [
           "两基准分别正确",
           "25%与20%"
+        ],
+        "family_id": "ratio.percentage-change-base",
+        "variant_id": "m6a.6.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "ratio.part-to-reference-percentage"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "涨与降虽然都差20元，分别以80还是100为基准？为何分母不同？",
+        "hint": "在“比原价增加”与“比现价减少”旁标原来的量，分别写20/80和20/100。",
+        "revision_prompt": "价格由60涨到75再回60，计算两个变化率，说明同样15元差为何不是同一百分数。"
+      },
+      "observation_note": "观察变化率的比较基准；均值或总百分比不能替代每段基准。"
     }
   ]
 }

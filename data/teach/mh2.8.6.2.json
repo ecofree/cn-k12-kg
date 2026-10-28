@@ -1,76 +1,113 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh2.8.6.2",
- "name": "直线与平面垂直",
- "tier": "core",
- "hook": "一根杆垂直地面内一条线，还可能斜着吗？为什么要检查两条相交线？",
- "definition": "线面垂直判定：直线垂直于平面内两条相交直线；线面所成角的范围是 [0°,90°]。若l垂直平面α内两条相交直线，则l⊥α；线面角为斜线与其在平面上正射影所成的锐角，平行为0°、垂直为90°。",
- "why": "面内两相交线给出两个独立方向，垂直这两方向便垂直面内任意方向；只垂直一个方向仍可在另一方向倾斜。正射影分离垂直与平面内分量，使线面角在一个直角三角形中计算。",
- "when_to_use": [
-  "用已知线线垂直证明线面垂直",
-  "由长度求斜线与平面的夹角"
- ],
- "steps": [
-  "在目标面内找两条相交线并逐一证垂直",
-  "注明交点与包含关系，再用判定",
-  "求线面角时作垂足、找正射影，再在直角三角形中求角"
- ],
- "worked_example": {
-  "prompt": "在正方体ABCD-A₁B₁C₁D₁中，ABCD为依次排列的底面，A₁、B₁、C₁、D₁分别在对应底点正上方。证明AA₁⊥底面，并求AC₁与底面的夹角的正切。",
-  "steps": [
-   "AA₁⊥AB、AA₁⊥AD，AB与AD交于A且在底面，所以AA₁⊥底面。",
-   "C₁的底面垂足为C，AC₁的正射影是AC。",
-   "设棱长s，tan∠C₁AC=CC₁/AC=s/(s√2)=1/√2。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh2.8.6.2",
+  "name": "直线与平面垂直",
+  "tier": "core",
+  "hook": "一根杆垂直地面内一条线，还可能斜着吗？为什么要检查两条相交线？",
+  "definition": "若直线l垂直于平面α内两条相交直线，则l⊥α。斜线与平面的角是斜线和其在平面上正射影所成的锐角；直线平行或包含于平面时约定角0°，垂直时为90°。不能以垂直两条平行的面内线替代判定条件。",
+  "why": "面内两相交线给出两个独立方向，垂直这两方向便垂直面内任意方向；只垂直一个方向仍可在另一方向倾斜。正射影分离垂直与平面内分量，使线面角在一个直角三角形中计算。",
+  "when_to_use": [
+    "用已知线线垂直证明线面垂直",
+    "由长度求斜线与平面的夹角"
   ],
-  "answer": "AA₁⊥底面；夹角正切1/√2"
- },
- "pitfalls": [
-  "判定中的两条面内线取成平行线",
-  "把斜线与面内任意线的角当成线面角"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能用判定定理证明线面垂直",
-   "explanation": "两线必须相交且同在目标平面，缺少任一条件都不能套判定。",
-   "self_check": {
-    "prompt": "l垂直α内平行线a、b是否能推出l⊥α？用水平面内的直线作反例。",
-    "reference_answer": "不能；在水平面α内取a、b为两条东西向直线，l为南北向直线，l垂直二者却包含在α内。",
-    "criteria": [
-     "反例满足两次垂直",
-     "指出缺少相交条件"
-    ]
-   }
+  "steps": [
+    "在目标面内找两条相交线并逐一证垂直",
+    "注明交点与包含关系，再用判定",
+    "求线面角时作垂足、找正射影，再在直角三角形中求角"
+  ],
+  "worked_example": {
+    "prompt": "在正方体ABCD-A₁B₁C₁D₁中，ABCD为依次排列的底面，A₁、B₁、C₁、D₁分别在对应底点正上方。证明AA₁⊥底面，并求AC₁与底面的夹角的正切。",
+    "steps": [
+      "AA₁⊥AB、AA₁⊥AD，AB与AD交于A且在底面，所以AA₁⊥底面。",
+      "C₁的底面垂足为C，AC₁的正射影是AC。",
+      "设棱长s，tan∠C₁AC=CC₁/AC=s/(s√2)=1/√2。"
+    ],
+    "answer": "AA₁⊥底面；夹角正切1/√2",
+    "family_id": "space.line-plane-perpendicular-condition",
+    "variant_id": "mh2.8.6.2:example",
+    "representation": "verbal",
+    "cognitive_demand": "prove"
   },
-  {
-   "criterion_index": 1,
-   "title": "能求直线与平面所成的角",
-   "explanation": "斜线与正射影组成线面角；垂直高除斜线长给正弦。",
-   "self_check": {
-    "prompt": "P在平面α外，PH⊥α，A∈α，PH=3、AH=4，求PA与α夹角的正弦。",
-    "reference_answer": "正射影为AH，PA=5，夹角为∠PAH，sin=PH/PA=3/5。",
-    "criteria": [
-     "找出正确射影与角",
-     "勾股和正弦比正确"
-    ]
-   }
-  }
- ],
- "check": "独立完成两项自检并保留推导或作图：反例满足两次垂直；找出正确射影与角。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh2.8.6.2-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+  "pitfalls": [
+    "判定中的两条面内线取成平行线",
+    "把斜线与面内任意线的角当成线面角"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用判定定理证明线面垂直",
+      "explanation": "两线必须相交且同在目标平面，缺少任一条件都不能套判定。",
+      "self_check": {
+        "prompt": "l垂直α内平行线a、b是否能推出l⊥α？用水平面内的直线作反例。",
+        "reference_answer": "不能；在水平面α内取a、b为两条东西向直线，l为南北向直线，l垂直二者却包含在α内。",
+        "criteria": [
+          "反例满足两次垂直",
+          "指出缺少相交条件"
+        ],
+        "family_id": "space.line-plane-perpendicular-condition",
+        "variant_id": "mh2.8.6.2:criterion-0",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "垂直平面内两条平行线为何还不够？",
+        "hint": "两平行线提供同一个方向，未限制另一个面内方向。",
+        "revision_prompt": "在水平面画东西向平行线与南北向横线，后者垂直两线却在面内，形成反例。"
+      },
+      "observation_note": "观察相交要求和反例条件；不能靠垂直符号数量证明。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能求直线与平面所成的角",
+      "explanation": "斜线与正射影组成线面角；垂直高除斜线长给正弦。",
+      "self_check": {
+        "prompt": "P在平面α外，PH⊥α，A∈α，PH=3、AH=4，求PA与α夹角的正弦。",
+        "reference_answer": "正射影为AH，PA=5，夹角为∠PAH，sin=PH/PA=3/5。",
+        "criteria": [
+          "找出正确射影与角",
+          "勾股和正弦比正确"
+        ],
+        "family_id": "space.line-plane-projection-angle",
+        "variant_id": "mh2.8.6.2:criterion-1",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "线面角取PA与PH还是PA与AH？",
+        "hint": "AH是正射影，PA与垂线PH的角是余角。",
+        "revision_prompt": "PH=5,AH=12，则PA=13，线面角正弦5/13、余弦12/13，标出所取角。"
+      },
+      "observation_note": "观察射影、直角三角形与比值；不接受任意面内线与斜线的角。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：反例满足两次垂直；找出正确射影与角。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh2.8.6.2-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.8.6.2-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.8.6.2-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "面内两条线相交；线面角以正射影为参照，垂直情形单列。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   },
-  {
-   "id": "mh2.8.6.2-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+  "diagram": {
+    "src": "/static/diagrams/senior-v6-cube-directions.svg",
+    "alt": "正方体下底面ABCD依次排列，A₁B₁C₁D₁分别在对应点正上方；虚线为遮挡棱，投影不保持长度和角度。"
   },
-  {
-   "id": "mh2.8.6.2-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
+  "representation_note": "用同一套正方体标号核对位置关系；虚线表示遮挡，不能直接量投影角度或长度。"
 }

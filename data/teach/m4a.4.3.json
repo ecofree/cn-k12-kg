@@ -27,6 +27,14 @@
       "速度 80 千米/时，意思是每 1 小时走 80 千米。",
       "走 3 小时，就是 3 个 80 千米：80×3。",
       "80×3=240 千米。"
+    ],
+    "family_id": "ratio.unit-rate-projection",
+    "variant_id": "m4a.4.3:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "ratio.inverse-unit-rate-query",
+      "ratio.table-unit-rate"
     ]
   },
   "pitfalls": [
@@ -51,7 +59,7 @@
   "check": "能由「240 千米、3 小时」说出速度 80 千米/时，并正确写出单位。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +73,22 @@
         "criteria": [
           "换算时间",
           "路程6千米"
+        ],
+        "family_id": "ratio.unit-rate-projection",
+        "variant_id": "m4a.4.3:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.part-of-quantity",
+          "time.sexagesimal-decimal-conversion"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "12千米/时的1时与30分能直接相乘吗？30分钟是1小时的几分之几？",
+        "hint": "先把30分钟改成半小时；匀速每小时12千米，半小时就是12的一半。",
+        "revision_prompt": "每小时18千米匀速骑20分钟，先把一小时分3段再求一段距离，写清单位。"
+      },
+      "observation_note": "观察速度与时间单位配套及匀速条件；仅起点时刻与终点时刻不能说明中途速度恒定。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +100,22 @@
         "criteria": [
           "平均速度30",
           "时间3小时且保持速度假设"
+        ],
+        "family_id": "ratio.unit-rate-projection",
+        "variant_id": "m4a.4.3:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "ratio.inverse-unit-rate-query",
+          "ratio.table-unit-rate"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "60÷2得到30是路程还是每小时的路程？平均30是否表示每小时实际都走30？",
+        "hint": "把全程60千米按2小时平均分，只得到全程平均速度；求新行程须明确仍按该平均速度。",
+        "revision_prompt": "48千米用3小时，求平均速度；若新行程平均速度仍相同，80千米需多久，注明假设。"
+      },
+      "observation_note": "观察平均速度和逆求时间；不从平均值反推每一时段速度都一样。"
     }
   ]
 }

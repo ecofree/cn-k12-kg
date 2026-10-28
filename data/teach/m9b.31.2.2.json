@@ -1,76 +1,113 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m9b.31.2.2",
- "name": "三角形相似的判定",
- "tier": "core",
- "hook": "全等判定用“边相等”，相似判定怎样把它改成“同一比例”？",
- "definition": "三角形相似的判定：两角分别相等、三边成比例、两边成比例且夹角相等；两边成比例且其中一边的对角相等不能判定相似。",
- "why": "相似允许整体缩放，因此固定形状可用两角对应相等、三边对应成比例，或两边成比例且夹角相等。SSA缺少夹角控制，可能有两种不同形状，不能因为看起来接近就认定相似。",
- "when_to_use": [
-  "需要从有限边角条件证明两三角形相似",
-  "给出的角要核查是否为两边夹角"
- ],
- "steps": [
-  "先按角或边确定对应顶点",
-  "整理AA、SSS或SAS所需条件",
-  "逐条写条件并以正确顺序给相似结论"
- ],
- "worked_example": {
-  "prompt": "△ABC中D在AB上、E在AC上，DE∥BC。证明△ADE∽△ABC。",
-  "answer": "△ADE∽△ABC（AA）",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m9b.31.2.2",
+  "name": "三角形相似的判定",
+  "tier": "core",
+  "hook": "全等判定用“边相等”，相似判定怎样把它改成“同一比例”？",
+  "definition": "三角形相似的判定：两角分别相等、三边成比例、两边成比例且夹角相等；两边成比例且其中一边的对角相等不能判定相似。",
+  "why": "相似允许整体缩放，因此固定形状可用两角对应相等、三边对应成比例，或两边成比例且夹角相等。SSA缺少夹角控制，可能有两种不同形状，不能因为看起来接近就认定相似。",
+  "when_to_use": [
+    "需要从有限边角条件证明两三角形相似",
+    "给出的角要核查是否为两边夹角"
+  ],
   "steps": [
-   "D、E在对应边上，∠DAE=∠BAC；DE∥BC，故∠ADE=∠ABC。",
-   "两角对应相等，由AA得△ADE∽△ABC。"
-  ]
- },
- "pitfalls": [
-  "边比须保持同一三角形在同一侧，不能一组取倒数一组不取。",
-  "SSA中的角若不是夹角，一般不能据此判相似。"
- ],
- "check": "独立完成并解释：在△ABC与△DEF中，∠A=∠D=40°、∠B=∠E=65°，证明相似并指出AC对应哪条边。；取A(0,0)、C(4,3)、B₁(2,0)、B₂(6,0)。用△AB₁C和△AB₂C说明SSA不能判相似。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能选择合适的判定方法证明三角形相似",
-   "explanation": "证明相似要说明每个相等角或比例边的来源，并遵守对应顺序。",
-   "self_check": {
-    "prompt": "在△ABC与△DEF中，∠A=∠D=40°、∠B=∠E=65°，证明相似并指出AC对应哪条边。",
-    "reference_answer": "由两角对应相等得△ABC∽△DEF（AA）；A↔D、C↔F，所以AC对应DF。",
-    "criteria": [
-     "明确两组角条件",
-     "相似次序及对应边一致"
-    ]
-   }
+    "先按角或边确定对应顶点",
+    "整理AA、SSS或SAS所需条件",
+    "逐条写条件并以正确顺序给相似结论"
+  ],
+  "worked_example": {
+    "prompt": "△ABC中D在AB上、E在AC上，DE∥BC。证明△ADE∽△ABC。",
+    "answer": "△ADE∽△ABC（AA）",
+    "steps": [
+      "D、E在对应边上，∠DAE=∠BAC；DE∥BC，故∠ADE=∠ABC。",
+      "两角对应相等，由AA得△ADE∽△ABC。"
+    ],
+    "family_id": "similarity.aa.ordered-correspondence",
+    "variant_id": "m9b.31.2.2:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "prove"
   },
-  {
-   "criterion_index": 1,
-   "title": "能说明 SSA 为什么不能判定相似",
-   "explanation": "SSA可出现两个具有同一给定角和两边比的不同三角形，因此不充分。",
-   "self_check": {
-    "prompt": "取A(0,0)、C(4,3)、B₁(2,0)、B₂(6,0)。用△AB₁C和△AB₂C说明SSA不能判相似。",
-    "reference_answer": "两三角形的AC相同；CB₁=CB₂=√13，由横差均为2、纵差为3用勾股可得。AB₁与AB₂是同一射线，所以A角相同，满足SSA。若按A↔A、C↔C相似，相似比由AC为1，但AB₁=2、AB₂=6，矛盾；若改作其他对应，两者最大边/最小边分别为5/2与6/√13，也不相等，因此仍不相似。",
-    "criteria": [
-     "坐标给出两三角形且CB₁=CB₂",
-     "两边一非夹角相同但第三边不同"
-    ]
-   }
+  "pitfalls": [
+    "边比须保持同一三角形在同一侧，不能一组取倒数一组不取。",
+    "SSA中的角若不是夹角，一般不能据此判相似。"
+  ],
+  "check": "独立完成并解释：在△ABC与△DEF中，∠A=∠D=40°、∠B=∠E=65°，证明相似并指出AC对应哪条边。；取A(0,0)、C(4,3)、B₁(2,0)、B₂(6,0)。用△AB₁C和△AB₂C说明SSA不能判相似。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能选择合适的判定方法证明三角形相似",
+      "explanation": "证明相似要说明每个相等角或比例边的来源，并遵守对应顺序。",
+      "self_check": {
+        "prompt": "三道独立小题：①△ABC与△DEF有∠A=∠D=40°、∠B=∠E=65°，证明相似并写AC的对应边。②两三角形对应三边为3、4、5与6、8、10，证明相似。③已知AB/DE=AC/DF=2/3且∠A=∠D，证明△ABC∽△DEF并指出为何该角必须为夹角。",
+        "reference_answer": "①AA得△ABC∽△DEF，AC对应DF。②三组边比3/6=4/8=5/10=1/2，由SSS相似判定。③∠A夹在AB、AC之间，∠D夹在DE、DF之间，两边成比例且夹角相等，由SAS得相似；非夹角一般不足。",
+        "criteria": [
+          "AA两组角与对应顺序完整",
+          "SSS三组比例同向且相等",
+          "SAS两组比例及夹角位置说明完整"
+        ],
+        "family_id": "similarity.aa.ordered-correspondence",
+        "variant_id": "m9b.31.2.2:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "prove",
+        "reference_family_ids": [
+          "similarity.sss.proportional-sides",
+          "similarity.sas.included-angle"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "两角分别相等后，A与D、B与E已固定，C应对应谁？",
+        "hint": "由角和可知剩余角也相等，按已确定顶点顺序写相似式。",
+        "revision_prompt": "写AA的两条已知及△ABC∽△DEF，再列AC/DF=AB/DE检验边端点。"
+      },
+      "observation_note": "三种相似判定均有实际条件核对；每题需说明条件来源及对应顺序，不能用其中一种的成功覆盖全部判据。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能说明 SSA 为什么不能判定相似",
+      "explanation": "SSA可出现两个具有同一给定角和两边比的不同三角形，因此不充分。",
+      "self_check": {
+        "prompt": "取A(0,0)、C(4,3)、B₁(2,0)、B₂(6,0)。用△AB₁C和△AB₂C说明SSA不能判相似。",
+        "reference_answer": "两三角形的AC相同；CB₁=CB₂=√13，由横差均为2、纵差为3用勾股可得。AB₁与AB₂是同一射线，所以A角相同，满足SSA。若按A↔A、C↔C相似，相似比由AC为1，但AB₁=2、AB₂=6，矛盾；若改作其他对应，两者最大边/最小边分别为5/2与6/√13，也不相等，因此仍不相似。",
+        "criteria": [
+          "坐标给出两三角形且CB₁=CB₂",
+          "两边一非夹角相同但第三边不同"
+        ],
+        "family_id": "similarity.ssa.counterexample",
+        "variant_id": "m9b.31.2.2:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "pythagoras.find-hypotenuse"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "AC、CB相等且A角相同，是否固定了夹角？两种B在同射线上但距离A相同吗？",
+        "hint": "先算CB₁=CB₂=√13、AC=5；A角由同一射线AB和AC确定，AB却为2和6。",
+        "revision_prompt": "画坐标图并比较两组三边{2,√13,5}与{√13,5,6}，用最大/最小比排除改对应后的相似。"
+      },
+      "observation_note": "观察反例满足SSA且各种对应均不能相似；只否定某一种对应不足以否定任意相似。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m9b.31.2.2-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9b.31.2.2-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9b.31.2.2-q3",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m9b.31.2.2-q101",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m9b.31.2.2-q102",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m9b.31.2.2-q3",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

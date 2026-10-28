@@ -16,12 +16,24 @@
     "检查六个位置各占一次，再找相对而不相邻的面。"
   ],
   "worked_example": {
-    "prompt": "六个相同方格A、B、C、D横排相邻，在B的正上方接E、正下方接F。能折成正方体吗？相对面有哪些？",
+    "prompt": "看配图长3厘米、宽2厘米、高1厘米的长方体展开图。A、B、C、D横排，E和F接B上下。能折成封闭长方体吗？相对面怎样配对？",
     "steps": [
-      "以B为前面折起，A、C成为左右面，D绕到后面。",
-      "E、F成为上下面；六位置无重叠，相对面为A与C、B与D、E与F。"
+      "B为3×1的前面，A和C为2×1的左右面；每条相接的高都是1厘米。",
+      "D绕到后面，与B同为3×1；E、F是3×2的上下面，分别与长3和宽2的边相接。",
+      "六个空间位置各占一次且无重叠，相对面A—C、B—D、E—F尺寸分别相同。"
     ],
-    "answer": "能；A—C、B—D、E—F相对"
+    "answer": "能；A—C、B—D、E—F相对。",
+    "family_id": "geometry.net-fold-and-opposite-faces",
+    "variant_id": "m3a.1.3:worked_example:v6",
+    "representation": "geometry",
+    "cognitive_demand": "explain",
+    "diagram": {
+      "src": "/static/diagrams/primary-v6-cuboid-net.svg",
+      "alt": "3×2×1厘米的长方体展开图；A、B、C、D横排，E、F在B上下；矩形尺寸标注。"
+    },
+    "reference_family_ids": [
+      "geometry.net-fold-validity"
+    ]
   },
   "pitfalls": [
     "平面图里隔得远不一定就是相对面，要追踪折叠。",
@@ -32,39 +44,74 @@
   "name": "长方体纸盒的展开",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "diagram": {
-    "src": "/static/diagrams/primary-cube-net.svg",
-    "alt": "A、B、C、D横排，E在B上、F在B下。折叠时逐面追踪位置。"
+    "src": "/static/diagrams/primary-v6-cuboid-net.svg",
+    "alt": "3×2×1厘米的长方体展开图；A、B、C、D横排，E、F在B上下；矩形尺寸标注。"
   },
   "objective_coverage": [
     {
       "criterion_index": 0,
       "title": "能认出长方体的展开图",
-      "explanation": "合法展开图需要连边相容、折后无重叠并封闭六个面。",
+      "explanation": "一般长方体相对的矩形大小相同，相接边长度相容；折回后须六面无重叠且封闭。正方体是六面均为同大正方形的特例。",
       "self_check": {
-        "prompt": "六个相同方格排成2行3列的完整矩形，是正方体展开图吗？说明怎样检查。",
-        "reference_answer": "不是。可剪纸沿格边尝试折叠，2×2相邻方格块在同一顶点围了四个面，折成正方体会重合或无法闭合；不能只凭有6格判断。",
+        "prompt": "先检查本课顶部3×2×1厘米长方体图能否折回：列出六面尺寸并逐一追踪前后左右上下。再看自检图乙2×3完整六方格矩形，它能折成正方体吗？分别说明。",
+        "reference_answer": "顶部图能：A/C各2×1，B/D各3×1，E/F各3×2，相接边长一致，六位置各一次。图乙不能：平面2×2小块的共同顶点周围有四个面，正方体顶点只会有三个面相遇，折时不能无重叠封成正方体。",
         "criteria": [
-          "判断不是",
-          "给出折叠或顶点重叠理由"
+          "核对一般长方体三对矩形及相接边",
+          "六空间位置无重叠",
+          "说明六方格数目充分条件不足，图乙不可折"
+        ],
+        "family_id": "geometry.net-fold-validity",
+        "variant_id": "m3a.1.3:criterion:0:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-net-checks.svg",
+          "alt": "图甲A、B、C、D横排，E在B上方，F在B下方；图乙是两行三列的六格矩形。各格相同，颜色不表示相对面。"
+        },
+        "reference_family_ids": [
+          "geometry.cuboid-face-edge-vertex-count",
+          "geometry.net-fold-and-opposite-faces"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "有6个方格就一定能合成盒子吗？四格围同一平面顶点折起会怎样？",
+        "hint": "给六格编号，沿连接边折起，记录每格占上、下、前、后、左、右哪个位置，检查重叠。",
+        "revision_prompt": "先用顶部带尺寸的一般长方体图，成人协助剪折并标六个空间位置；再与正方体图甲和图乙比较，记录哪些边相接、哪里不能无重叠封闭。"
+      },
+      "observation_note": "同一自检实际包含非正方体的3×2×1长方体与正方体反例，检查尺寸和折后位置；只背六面或记某幅网格外形不足以覆盖。"
     },
     {
       "criterion_index": 1,
       "title": "能指出展开图中的相对面",
       "explanation": "给面编号再沿边折叠，是确定相对面的可靠方法。",
       "self_check": {
-        "prompt": "A、B、C、D横排，E在B上、F在B下。B与哪个面相对？E与哪个面相对？",
-        "reference_answer": "B与D相对；E与F相对。",
+        "prompt": "先看顶部3×2×1长方体图，固定B为前面，指出另外五面的空间位置和三对相对面。再看自检图甲正方体，B和E各与谁相对？",
+        "reference_answer": "一般长方体：A左、C右、D后、E上、F下，相对面A/C、B/D、E/F。图甲正方体中B对D，E对F；是否相对依据折后位置，不由面在平面上看似远近决定。",
         "criteria": [
-          "B对D",
-          "E对F"
-        ]
-      }
+          "一般长方体五面位置与三对相对面正确",
+          "正方体B对D、E对F",
+          "比较依据是折后空间位置"
+        ],
+        "family_id": "geometry.net-fold-and-opposite-faces",
+        "variant_id": "m3a.1.3:criterion:1:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-net-checks.svg",
+          "alt": "图甲A、B、C、D横排，E在B上方，F在B下方；图乙是两行三列的六格矩形。各格相同，颜色不表示相对面。"
+        },
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "平面上B旁边的A折起后与B相邻，能是相对面吗？",
+        "hint": "先固定B为前面，沿A、C向两侧折，追踪D到后面，E和F到上、下。",
+        "revision_prompt": "给同一展开图换颜色标相对面，折成盒子后核对三对没有公共棱；保留平面与立体对应。"
+      },
+      "observation_note": "观察面位置的追踪；记住字母B—D不等于对换标号的新图也能推断。"
     }
   ],
   "practice": [

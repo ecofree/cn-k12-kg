@@ -27,7 +27,11 @@
       "题目已给出本次活动的规则，不是所有活动都必须用平均数定线。",
       "先求总和：60+70+80+90=300。",
       "300÷4=75，因此按这条规则，本次达标线是75分。"
-    ]
+    ],
+    "family_id": "statistics.mean-from-values",
+    "variant_id": "m6a.6.3:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "把平均数自动当成所有活动的达标线。",
@@ -51,7 +55,7 @@
   "check": "能按题目给定规则计算达标线，说明平均数会受极端值影响，并区分统计指标与活动要求。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,19 @@
         "criteria": [
           "平均数8",
           "限定规则范围"
-        ]
-      }
+        ],
+        "family_id": "statistics.mean-from-values",
+        "variant_id": "m6a.6.3:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "算出平均8分是数据描述，还是已经证明8分满足某项知识目标？题目给了什么定线约定？",
+        "hint": "先分开写“平均数为8”和“本次约定采用平均数作讨论线”；后者来自规则，不是平均数自动带来的含义。",
+        "revision_prompt": "对5、7、9、11分计算平均并按相同约定写讨论线，再补一句不能由此确认什么学习表现。"
+      },
+      "observation_note": "观察统计计算与给定决策规则分开；不把群体平均当作普遍合格标准。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +93,23 @@
         "criteria": [
           "指出数据影响",
           "区分描述统计与目标要求"
+        ],
+        "family_id": "statistics.threshold-versus-descriptive-data",
+        "variant_id": "m6a.6.3:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "statistics.mean-from-values",
+          "statistics.mean-outlier-change",
+          "statistics.threshold-justification"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把0分换成8分，平均线会变多少？任务的知识要求有没有因此变化？",
+        "hint": "比较两组平均数6与8，看见个别得分影响均值；达标标准仍要对应任务应完成的行为。",
+        "revision_prompt": "写出一道题应具备的两个具体步骤作为标准，再说明为什么不能只因全班平均低就删去其中一步。"
+      },
+      "observation_note": "观察标准需要目标依据和数据局限；提出规则本身不证明规则已被真实教学验证。"
     }
   ]
 }

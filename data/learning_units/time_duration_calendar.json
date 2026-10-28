@@ -83,11 +83,12 @@
   ],
   "prerequisites": [
     "能读写100以内的数，进行简单加减法。",
-    "知道一天有上午、下午和夜间，能按顺序说出12个月。"
+    "知道一天有上午、下午和夜间，能按顺序说出12个月。",
+    "小数小时对比任务还需理解0.5表示一半，会把简单分数与小数对应；钟面与整分钟任务可以先学。"
   ],
   "explanation": {
     "intuition": "时刻是时间线上的一个点，例如8:20；经过时间是两个点之间的一段，例如20分钟。钟面上的分针走一大格是5分钟，走一圈是60分钟；小时不是满100分进1。",
-    "reasoning": "钟面先看分针，再看时针位于哪两个数之间；8:20时分针在4，时针已离开8向9移动。计算经过时间，可以沿时间线分段相加，也可以把同一天的时刻换成从0:00起累计的分钟数再相减。跨日必须加入完整的一天。跨月先核对各月天数与年份，再数两个日期之间实际经过的整天数。",
+    "reasoning": "钟面先看分针，再看时针位于哪两个数之间；8:20时分针在4，时针已离开8向9移动。计算经过时间，可以沿时间线分段相加，也可以把同一天的时刻换成从0:00起累计的分钟数再相减。跨日必须加入完整的一天。跨月先核对各月天数与年份，再数两个日期之间实际经过的整天数。 中午12时记12:00，午夜是新一天的00:00，不能给所有带“12”的钟面都再加12。要同时记录日期，次日00:00与前一日24:00表示同一个交界时刻。",
     "conditions": [
       "1小时=60分钟，1分钟=60秒；本单元的日期与钟表计算采用题设中的同一时区与普通24小时日，不涉及夏令时等校时问题。",
       "24时计时法中，下午1时记13:00；当天结束的24:00与次日开始的00:00是同一时刻，必须连同日期解释。",
@@ -156,7 +157,24 @@
       "cognitive_demand": "explain",
       "reference_family_ids": [
         "time.calendar-ordinary-leap"
-      ]
+      ],
+      "diagram": {
+        "src": "/static/diagrams/primary-v6-leap-intervals.svg",
+        "alt": "2028年2月28日中午、2月29日中午、3月1日中午在同一时间线上等距标出，相邻两点表示1天；没有标出总间隔数。"
+      }
+    },
+    {
+      "prompt": "公历6月4日中午12时与当天结束的24:00分别怎样写清？后一个时刻属于次日的什么时间？",
+      "steps": [
+        "中午12时是6月4日12:00，不加12。",
+        "6月4日24:00是这一天结束的边界，也就是6月5日00:00。",
+        "午夜要写日期；省略日期只看00:00和24:00，会混淆当天开始与结束。"
+      ],
+      "answer": "6月4日12:00；6月4日24:00等同6月5日00:00。",
+      "family_id": "time.noon-midnight-boundary",
+      "variant_id": "time_duration_calendar:example-5",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     }
   ],
   "tasks": [
@@ -525,7 +543,11 @@
           "points": 2,
           "example": "4个时刻之间只有3段完整的24小时间隔。"
         }
-      ]
+      ],
+      "diagram": {
+        "src": "/static/diagrams/primary-v6-week-intervals.svg",
+        "alt": "同一周周一、周二、周三、周四的上午8:00在时间线上等距标出，首尾均有点；每个相邻间隔为1天，不预填总天数和签到次数。"
+      }
     },
     {
       "id": "time_duration_calendar:transfer-4",
@@ -639,6 +661,40 @@
           "example": "分别2天和1天，不把日期名称个数当时长。"
         }
       ]
+    },
+    {
+      "id": "time_duration_calendar:transfer-5",
+      "objective_ids": [
+        "time_duration_calendar:o1",
+        "time_duration_calendar:read_time"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "把“5月6日中午12时整”和“5月7日午夜刚过10分钟”写成带日期的24时记法。再判断“5月6日24:00”和“5月7日00:00”是否同一时刻，说明为什么不能看到钟面12就加12。",
+      "explanation": "中午是5月6日12:00；第二个时刻是5月7日00:10。5月6日24:00与5月7日00:00是同一个日期交界时刻。中午12:00不加12；午夜为新一天的00:00，需要日期区分。",
+      "feedback": {
+        "correct": "逐项核对中午、午夜与日期边界，保留说明；自评不自动确认目标完成。",
+        "incorrect": "先判断是正午还是新一天开始，再写日期与时分；把24:00和次日00:00放到同一个交界点。"
+      },
+      "family_id": "time.noon-midnight-boundary",
+      "variant_id": "time_duration_calendar:transfer-5",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "正确转换中午与午夜后的时刻",
+          "points": 2,
+          "example": "5月6日12:00；5月7日00:10，日期均保留。"
+        },
+        {
+          "criterion": "说明日期交界与加12的适用范围",
+          "points": 2,
+          "example": "前一日24:00等同次日00:00；下午1至11时可加12，中午12和午夜不能机械套用。"
+        }
+      ]
     }
   ],
   "teacher_review": {
@@ -703,7 +759,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "时刻回答“什么时候”，时长回答“经过多久”。"
+          "explanation": "时刻回答“什么时候”，时长回答“经过多久”。",
+          "family_id": "time.instant-versus-duration",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "time.duration-to-finish",
+            "time.sexagesimal-decimal-conversion"
+          ]
         },
         "hints": [
           {
@@ -740,12 +803,20 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "45分钟是两时刻之间的长度。"
+          "explanation": "45分钟是两时刻之间的长度。",
+          "family_id": "time.instant-versus-duration",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "time.duration-to-finish",
+            "time.sexagesimal-decimal-conversion"
+          ]
         },
         "followup_task_ids": [
           "time_duration_calendar:practice-1",
           "time_duration_calendar:transfer-1",
-          "time_duration_calendar:delayed-1"
+          "time_duration_calendar:delayed-1",
+          "time_duration_calendar:transfer-5"
         ]
       },
       {
@@ -784,7 +855,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "时分是60进制组合，不能按小数位直接处理。"
+          "explanation": "时分是60进制组合，不能按小数位直接处理。",
+          "family_id": "time.hours-minutes-to-minutes",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "time.elapsed-cross-midnight",
+            "time.missing-date-information"
+          ]
         },
         "hints": [
           {
@@ -810,7 +888,14 @@
           },
           "answer": "85",
           "verify": "12*60+15-(10*60+50)",
-          "explanation": "到11:00是10分钟，再到12:00是60分钟，再到12:15是15分钟，共85。"
+          "explanation": "到11:00是10分钟，再到12:00是60分钟，再到12:15是15分钟，共85。",
+          "family_id": "time.elapsed-sameday",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "time.elapsed-cross-midnight",
+            "time.missing-date-information"
+          ]
         },
         "followup_task_ids": [
           "time_duration_calendar:practice-2",
@@ -854,7 +939,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "固定同一时刻跨日期，数相邻日期之间的24小时间隔。"
+          "explanation": "固定同一时刻跨日期，数相邻日期之间的24小时间隔。",
+          "family_id": "time.calendar-ordinary-leap",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "time.date-points-vs-intervals",
+            "time.calendar-ordinary-leap"
+          ]
         },
         "hints": [
           {
@@ -891,7 +983,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "4月30→5月1→5月2共两个整天间隔。"
+          "explanation": "4月30→5月1→5月2共两个整天间隔。",
+          "family_id": "time.month-length-error",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "time.date-points-vs-intervals",
+            "time.calendar-ordinary-leap"
+          ]
         },
         "followup_task_ids": [
           "time_duration_calendar:practice-3",
@@ -935,7 +1034,15 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "先读已过的整小时，再读分针分钟，并结合上午下午。"
+          "explanation": "先读已过的整小时，再读分针分钟，并结合上午下午。",
+          "family_id": "time.clock-read",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "time.clock-read",
+            "time.twelve-to-twentyfour-hour",
+            "time.noon-midnight-boundary"
+          ]
         },
         "hints": [
           {
@@ -944,7 +1051,7 @@
           },
           {
             "level": 2,
-            "text": "时针在两个小时数字之间时，先读刚经过的那个小时；下午1至11时加12转换。"
+            "text": "时针在两个小时数字之间时，先读刚经过的那个小时；下午1至11时加12转换。中午12时仍是12:00，午夜是新一天00:00，必须写清日期。"
           },
           {
             "level": 3,
@@ -972,12 +1079,21 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "下午3时为15时，5分钟应记05，不是50。"
+          "explanation": "下午3时为15时，5分钟应记05，不是50。",
+          "family_id": "time.twelve-to-twentyfour-hour",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "time.clock-read",
+            "time.twelve-to-twentyfour-hour",
+            "time.noon-midnight-boundary"
+          ]
         },
         "followup_task_ids": [
           "time_duration_calendar:practice-1",
           "time_duration_calendar:transfer-1",
-          "time_duration_calendar:delayed-1"
+          "time_duration_calendar:delayed-1",
+          "time_duration_calendar:transfer-5"
         ]
       },
       {
@@ -1016,7 +1132,10 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "小时小数=整小时+分钟数÷60。"
+          "explanation": "小时小数=整小时+分钟数÷60。",
+          "family_id": "time.sexagesimal-decimal-conversion",
+          "representation": "symbolic",
+          "cognitive_demand": "execute"
         },
         "hints": [
           {
@@ -1042,7 +1161,10 @@
           },
           "answer": "1.75",
           "verify": "1+45/60",
-          "explanation": "45分钟是3/4小时，因此为1.75小时。"
+          "explanation": "45分钟是3/4小时，因此为1.75小时。",
+          "family_id": "time.sexagesimal-decimal-conversion",
+          "representation": "symbolic",
+          "cognitive_demand": "execute"
         },
         "followup_task_ids": [
           "time_duration_calendar:practice-2",
@@ -1086,7 +1208,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "需要日期或明确的跨日约束才能唯一确定。"
+          "explanation": "需要日期或明确的跨日约束才能唯一确定。",
+          "family_id": "time.missing-date-information",
+          "representation": "verbal",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "time.elapsed-cross-midnight"
+          ]
         },
         "hints": [
           {
@@ -1112,7 +1240,13 @@
           },
           "answer": "45",
           "verify": "(24*60-(23*60+35))+20",
-          "explanation": "午夜前25分钟，午夜后20分钟，合计45。"
+          "explanation": "午夜前25分钟，午夜后20分钟，合计45。",
+          "family_id": "time.elapsed-cross-midnight",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "time.elapsed-cross-midnight"
+          ]
         },
         "followup_task_ids": [
           "time_duration_calendar:practice-2",
@@ -1156,7 +1290,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "2000能被400整除是闰年；2100不能，因此不是。"
+          "explanation": "2000能被400整除是闰年；2100不能，因此不是。",
+          "family_id": "time.century-leap-boundary",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "time.century-leap-boundary"
+          ]
         },
         "hints": [
           {
@@ -1193,7 +1333,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "按给定规则2032是闰年，2月有29天。"
+          "explanation": "按给定规则2032是闰年，2月有29天。",
+          "family_id": "time.calendar-ordinary-leap",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "time.century-leap-boundary"
+          ]
         },
         "followup_task_ids": [
           "time_duration_calendar:practice-3",
@@ -1237,7 +1383,10 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "等间隔的4个点之间有3段；若四天同刻都签到则是4次。"
+          "explanation": "等间隔的4个点之间有3段；若四天同刻都签到则是4次。",
+          "family_id": "time.date-points-vs-intervals",
+          "representation": "verbal",
+          "cognitive_demand": "execute"
         },
         "hints": [
           {
@@ -1274,7 +1423,10 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "三次签到位于三个点，两个整天是点之间的两个间隔。"
+          "explanation": "三次签到位于三个点，两个整天是点之间的两个间隔。",
+          "family_id": "time.date-points-vs-intervals",
+          "representation": "verbal",
+          "cognitive_demand": "execute"
         },
         "followup_task_ids": [
           "time_duration_calendar:practice-3",
@@ -1283,5 +1435,6 @@
         ]
       }
     ]
-  }
+  },
+  "coverage_note": "这是贯通小学阶段的主题单元，不要求低年级一次完成全部任务。先学习钟面和整分钟间隔；已学习简单小数与分数后再做小数小时对比。跨月任务提供公历规则，整百年份按给定条件判断。"
 }

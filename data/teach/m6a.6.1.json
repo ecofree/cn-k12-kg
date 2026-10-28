@@ -27,7 +27,11 @@
       "小数化百分数：小数点右移两位。",
       "0.75 → 75。",
       "再加百分号，得 75%，题目只要数字，填 75。"
-    ]
+    ],
+    "family_id": "ratio.percentage-decimal-conversion",
+    "variant_id": "m6a.6.1:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "百分数后面带单位（如「25% 人」）。",
@@ -47,7 +51,7 @@
   "check": "先完成本卡“百分数表示倍比关系”的目标自检，指出两个百分数各自以什么为整体；再完成百分数与小数互化自检。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -61,8 +65,21 @@
         "criteria": [
           "不混淆比例与数量",
           "指出缺少总量"
+        ],
+        "family_id": "ratio.percent-versus-absolute-amount",
+        "variant_id": "m6a.6.1:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "ratio.part-from-percentage"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "甲80%到场但全班20人，乙75%到场且全班40人，谁人数多？",
+        "hint": "先各自找基准总人数，甲16人乙30人；百分比高只说明占自己全班的比例高。",
+        "revision_prompt": "另给甲班50%、乙班40%而不说人数，列出还缺的信息，再构造人数多寡相反的两组总人数。"
+      },
+      "observation_note": "观察百分比相对基准及信息不足；仅比80与75不能确定实际数量。"
     },
     {
       "criterion_index": 1,
@@ -74,8 +91,19 @@
         "criteria": [
           "两结果正确",
           "百分号与百倍关系"
-        ]
-      }
+        ],
+        "family_id": "ratio.percentage-decimal-conversion",
+        "variant_id": "m6a.6.1:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "37.5%里的%是再乘100，还是已经表示每100份？0.08添%后还等值吗？",
+        "hint": "37.5%=37.5÷100；把0.08写成8/100才对应8%，数值必须保持相等。",
+        "revision_prompt": "把12.5%化小数、0.006化百分数，再分别反向换回，检查小数点移动与百分号同时变化。"
+      },
+      "observation_note": "观察百分号含义与双向等值转换；生活百分率的分子分母仍需情境判断。"
     }
   ]
 }

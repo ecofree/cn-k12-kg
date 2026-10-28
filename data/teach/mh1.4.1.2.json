@@ -1,77 +1,109 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh1.4.1.2",
- "name": "无理指数幂及其运算性质",
- "tier": "core",
- "hook": "2^√2虽然指数不是分数，为什么同底相乘仍能相加指数？",
- "definition": "指数幂运算性质：a^r·a^s=a^(r+s)、(a^r)^s=a^(rs)、(ab)^r=a^r b^r（a>0，b>0，r、s 为实数）。正底数的指数幂扩展到实数指数，保持a^u a^v=a^(u+v)、(a^u)^v=a^(uv)；a^(-u)=1/a^u。",
- "why": "正底数的有理指数幂可以由根式定义，再通过有理数逼近无理指数得到连续延伸；保持同底相乘与乘方规律，才能让这些逼近值与已有运算相容。",
- "when_to_use": [
-  "同底幂相乘相除或幂的乘方需要化简",
-  "指数含负数、分数或无理数"
- ],
- "steps": [
-  "确认底数为正并统一底数",
-  "乘除同底幂分别加减指数，乘方则指数相乘",
-  "把负指数化为倒数，并核对结果大小"
- ],
- "worked_example": {
-  "prompt": "化简2^(√2+1)÷2^(√2-1)。",
-  "steps": [
-   "底数2为正，可用同底相除法则。",
-   "指数相减为(√2+1)-(√2-1)=2。",
-   "原式=2²=4。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.4.1.2",
+  "name": "无理指数幂及其运算性质",
+  "tier": "core",
+  "hook": "2^√2虽然指数不是分数，为什么同底相乘仍能相加指数？",
+  "definition": "正底数的指数幂扩展到实数指数后，保持a^u·a^v=a^(u+v)、a^u/a^v=a^(u-v)、(a^u)^v=a^(uv)。当a,b>0时(ab)^u=a^u b^u；a^(-u)=1/a^u。同底相加没有把指数相加的法则。",
+  "why": "正底数的有理指数幂可以由根式定义，再通过有理数逼近无理指数得到连续延伸；保持同底相乘与乘方规律，才能让这些逼近值与已有运算相容。",
+  "when_to_use": [
+    "同底幂相乘相除或幂的乘方需要化简",
+    "指数含负数、分数或无理数"
   ],
-  "answer": "4",
-  "verify": "2**2"
- },
- "pitfalls": [
-  "把(a^u)^v错写成a^(u+v)",
-  "把a^(-u)误当作-a^u"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能运用运算性质化简指数式",
-   "explanation": "只在同底乘除时加减指数，幂的乘方使用指数乘积。",
-   "self_check": {
-    "prompt": "对a>0，化简a^(√3+2)a^(1-√3)/a。",
-    "reference_answer": "指数相加再减1，得a^((√3+2)+(1-√3)-1)=a²。",
-    "criteria": [
-     "使用正确的三次指数运算",
-     "化简后指数为2"
-    ]
-   }
+  "steps": [
+    "确认底数为正并统一底数",
+    "乘除同底幂分别加减指数，乘方则指数相乘",
+    "把负指数化为倒数，并核对结果大小"
+  ],
+  "worked_example": {
+    "prompt": "化简2^(√2+1)÷2^(√2-1)。",
+    "steps": [
+      "底数2为正，可用同底相除法则。",
+      "指数相减为(√2+1)-(√2-1)=2。",
+      "原式=2²=4。"
+    ],
+    "answer": "4",
+    "verify": "2**2",
+    "family_id": "power.same-base-laws",
+    "variant_id": "mh1.4.1.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能处理负指数与分数指数",
-   "explanation": "负指数表示倒数，分数指数表示根式；底数正可统一规则。",
-   "self_check": {
-    "prompt": "计算81^(-1/2)与(16^(1/4))³。",
-    "reference_answer": "分别为1/√81=1/9，以及2³=8。",
-    "criteria": [
-     "倒数和四次根均正确",
-     "结果为1/9与8"
-    ]
-   }
+  "pitfalls": [
+    "把(a^u)^v错写成a^(u+v)",
+    "把a^(-u)误当作-a^u"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能运用运算性质化简指数式",
+      "explanation": "只在同底乘除时加减指数，幂的乘方使用指数乘积。",
+      "self_check": {
+        "prompt": "对a>0，化简a^(√3+2)a^(1-√3)/a。",
+        "reference_answer": "指数相加再减1，得a^((√3+2)+(1-√3)-1)=a²。",
+        "criteria": [
+          "使用正确的三次指数运算",
+          "化简后指数为2"
+        ],
+        "family_id": "power.same-base-laws",
+        "variant_id": "mh1.4.1.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "a^u+a^v能像a^u·a^v一样写a^(u+v)吗？",
+        "hint": "运算符决定法则，先区分加法和乘法。",
+        "revision_prompt": "取a=2,u=v=1比较加法4与乘法4，再取u=v=2得8与16，说明单次巧合不成法则。"
+      },
+      "observation_note": "观察同底乘除与幂乘方；不能据特殊数值建立恒等式。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能处理负指数与分数指数",
+      "explanation": "负指数表示倒数，分数指数表示根式；底数正可统一规则。",
+      "self_check": {
+        "prompt": "计算81^(-1/2)与(16^(1/4))³。",
+        "reference_answer": "分别为1/√81=1/9，以及2³=8。",
+        "criteria": [
+          "倒数和四次根均正确",
+          "结果为1/9与8"
+        ],
+        "family_id": "power.negative-rational-evaluation",
+        "variant_id": "mh1.4.1.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "81^(-1/2)是-9还是1/9？",
+        "hint": "先算正根9，再由负指数取倒数。",
+        "revision_prompt": "计算32^(-2/5)：五次根2，平方4，再倒数得1/4。"
+      },
+      "observation_note": "观察根、幂与倒数的顺序；只报答案不能定位是哪一步困难。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：使用正确的三次指数运算；倒数和四次根均正确。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.4.1.2-q1",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.4.1.2-q2",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.4.1.2-q90",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "实指数运算法则在本卡使用正底数。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：使用正确的三次指数运算；倒数和四次根均正确。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh1.4.1.2-q1",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.4.1.2-q2",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.4.1.2-q90",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

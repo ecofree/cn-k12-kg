@@ -28,7 +28,9 @@
     "answer": "0.1",
     "verify": "16/40-18/60",
     "family_id": "v4.foundation.mh5.8.3.1.example",
-    "variant_id": "mh5.8.3.1:worked-example-v4"
+    "variant_id": "mh5.8.3.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "将条件比例的分母错用为全体100人。",
@@ -51,7 +53,7 @@
       "criterion_index": 0,
       "title": "能根据数据列出列联表",
       "explanation": "四个内部格记录交叉类别，而行列总数是边缘合计，不是新增个体。例如A参加16、不参加24；B参加18、不参加42，总数为100。",
-      "observation_note": "观察由已给汇总数构表；只答“四格”并不能替代此证据，真实原始数据清洗还需另查。",
+      "observation_note": "观察互斥类别、四格和边际核对；不把行列合计重复加入总人数。",
       "self_check": {
         "prompt": "A组40人有16人参加；B组60人有18人参加。以组别为行、参加与否为列，列出2×2频数表及全部合计。",
         "reference_answer": "A行：16、24、合计40；B行：18、42、合计60。参加列34、不参加列66，总计100。",
@@ -59,19 +61,23 @@
           "四个内部频数格正确",
           "行列合计与总数一致",
           "类别互斥且每人只计一次"
-        ]
+        ],
+        "family_id": "statistics.two-way-frequency-table",
+        "variant_id": "mh5.8.3.1:criterion-0",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
       },
       "difficulty_support": {
-        "discriminating_prompt": "40−16应放在哪个格？它与列合计是什么关系？",
-        "hint": "先用行总数减已知格补齐，再计算列合计。",
-        "revision_prompt": "重画带行列标签的表，并用行总与列总各算一次100。"
+        "discriminating_prompt": "A行16人参加，另24人怎么得？行合计和列合计都核对了吗？",
+        "hint": "每行总数减参加数得未参加，各人只入一个内格。",
+        "revision_prompt": "A组30中12参加，B组20中5参加，表为12/18与5/15；列合计17/33，总50。"
       }
     },
     {
       "criterion_index": 1,
       "title": "能由列联表读出条件比例",
       "explanation": "P(参加|A组)的分母是A组40人；P(A组|参加)的分母是全部参加者34人。交换条件会改变分母，这两个条件比例通常不同。",
-      "observation_note": "观察条件方向与联合比例的辨别；没有完成独立性检验，也没有提供因果证据。",
+      "observation_note": "观察三个分母与语义；列联表差异不能证明身份导致参加。",
       "self_check": {
         "prompt": "使用上述表计算A组内参加比例、参加者中A组比例、全体中“A且参加”的比例；指出能否据此认定A身份导致参加。",
         "reference_answer": "分别为16/40=2/5、16/34=8/17、16/100=4/25。仅有样本列联表不能建立因果，还需考虑选择、混杂及研究设计。",
@@ -79,22 +85,26 @@
           "三个条件及分母对应正确",
           "分数计算正确",
           "不从描述差异推出因果"
-        ]
+        ],
+        "family_id": "probability.conditional-versus-joint-table",
+        "variant_id": "mh5.8.3.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
       },
       "difficulty_support": {
-        "discriminating_prompt": "“在参加者中”限定的是哪一列，合计多少？",
-        "hint": "把条件词下划线，只在被限定的人群中数分母。",
-        "revision_prompt": "为每个分式加一句“分母包含哪些人”，再修订结论。"
+        "discriminating_prompt": "A组内参加与参加者中A组，分母为什么不同？",
+        "hint": "先圈条件限定的行或列；联合比例才用总人数。",
+        "revision_prompt": "用30/20人的表求12/30、12/17、12/50，对应A内参加、参加内A及联合比例。"
       }
     }
   ],
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "conditions": [
-    "相同观察单位同时有两个分类变量；各类互斥且范围完整，缺失值另行记录。"
+    "每个个体一组配对类别；条件比例由给定条件确定分母。"
   ],
   "representation_note": "使用带行列标题及边缘合计的2×2表；文字记录也须逐格列出。"
 }

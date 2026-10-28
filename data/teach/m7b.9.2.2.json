@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m7b.9.2.2",
- "name": "用坐标表示平移",
- "tier": "core",
- "hook": "若一个顶点的坐标变化为(+3,−2)，其他顶点为什么必须同样变化？",
- "definition": "点向右（左）平移 a 个单位，横坐标加（减）a；向上（下）平移 b 个单位，纵坐标加（减）b。图形的平移即所有顶点同向同距平移。",
- "why": "平移让所有点的位移完全相同，坐标差记录了横、纵方向的位移。若不同顶点的增量不同，边长或形状通常会变化，不能代表同一次平移。",
- "when_to_use": [
-  "图形平移前后给出顶点坐标",
-  "从一对对应点反推整幅图形移动"
- ],
- "steps": [
-  "先求或读出横纵坐标的改变量",
-  "把同一改变量加到每个点上",
-  "以另一对应点检查变化是否一致"
- ],
- "worked_example": {
-  "prompt": "A(1,2)平移到A′(4,1)，B(−2,0)同样平移到何处？",
-  "answer": "B′(1,−1)",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.9.2.2",
+  "name": "用坐标表示平移",
+  "tier": "core",
+  "hook": "若一个顶点的坐标变化为(+3,−2)，其他顶点为什么必须同样变化？",
+  "definition": "点向右（左）平移 a 个单位，横坐标加（减）a；向上（下）平移 b 个单位，纵坐标加（减）b。图形的平移即所有顶点同向同距平移。",
+  "why": "平移让所有点的位移完全相同，坐标差记录了横、纵方向的位移。若不同顶点的增量不同，边长或形状通常会变化，不能代表同一次平移。",
+  "when_to_use": [
+    "图形平移前后给出顶点坐标",
+    "从一对对应点反推整幅图形移动"
+  ],
   "steps": [
-   "A的横坐标增3，纵坐标减1，所以整图向右3、向下1。",
-   "B也作同样变化，B′=(−2+3,0−1)=(1,−1)。"
-  ]
- },
- "pitfalls": [
-  "向左、向下是减去正的距离，不是给坐标一律变号。",
-  "反推位移应用新坐标减原坐标，次序颠倒会反向。"
- ],
- "check": "独立完成并解释：点P(−2,5)向右平移4个单位、向下平移3个单位，写出P′的坐标。 请写出判断或计算依据。；图形平移时A(−1,4)对应A′(2,−2)。按“右a，下b”的格式写出平移方式。 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能写出平移后点的坐标",
-   "explanation": "横纵变化互不混淆，右加左减、上加下减。",
-   "self_check": {
-    "prompt": "点P(−2,5)向右平移4个单位、向下平移3个单位，写出P′的坐标。 请写出判断或计算依据。",
-    "reference_answer": "向右使横坐标加4，向下使纵坐标减3，所以P′=(−2+4,5−3)=(2,2)。",
-    "criteria": [
-     "x加4",
-     "y减3"
-    ]
-   }
+    "先求或读出横纵坐标的改变量",
+    "把同一改变量加到每个点上",
+    "以另一对应点检查变化是否一致"
+  ],
+  "worked_example": {
+    "prompt": "A(1,2)平移到A′(4,1)，B(−2,0)同样平移到何处？",
+    "answer": "B′(1,−1)",
+    "steps": [
+      "A的横坐标增3，纵坐标减1，所以整图向右3、向下1。",
+      "B也作同样变化，B′=(−2+3,0−1)=(1,−1)。"
+    ],
+    "family_id": "coordinate.translation.infer-vector",
+    "variant_id": "m7b.9.2.2:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能由坐标变化反推平移方向与距离",
-   "explanation": "坐标差描述同一次平移，方向由差的正负决定。",
-   "self_check": {
-    "prompt": "图形平移时A(−1,4)对应A′(2,−2)。按“右a，下b”的格式写出平移方式。 请写出判断或计算依据。",
-    "reference_answer": "横坐标增加2−(−1)=3，纵坐标减少4−(−2)=6，所以向右3、向下6。",
-    "criteria": [
-     "新减旧分别得3和−6",
-     "翻译成右3下6"
-    ]
-   }
+  "pitfalls": [
+    "向左、向下是减去正的距离，不是给坐标一律变号。",
+    "反推位移应用新坐标减原坐标，次序颠倒会反向。"
+  ],
+  "check": "独立完成并解释：点P(−2,5)向右平移4个单位、向下平移3个单位，写出P′的坐标。 请写出判断或计算依据。；图形平移时A(−1,4)对应A′(2,−2)。按“右a，下b”的格式写出平移方式。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能写出平移后点的坐标",
+      "explanation": "横纵变化互不混淆，右加左减、上加下减。",
+      "self_check": {
+        "prompt": "点P(−2,5)向右平移4个单位、向下平移3个单位，写出P′的坐标。 请写出判断或计算依据。",
+        "reference_answer": "向右使横坐标加4，向下使纵坐标减3，所以P′=(−2+4,5−3)=(2,2)。",
+        "criteria": [
+          "x加4",
+          "y减3"
+        ],
+        "family_id": "coordinate.translation.apply-vector",
+        "variant_id": "m7b.9.2.2:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "右4、下3分别改变哪个坐标？负横坐标加4是否仍负？",
+        "hint": "横纵分开写−2+4和5−3，再合成有序数对。",
+        "revision_prompt": "把Q(3,−1)作同样平移得到(7,−4)，比较两点坐标变化完全一致。"
+      },
+      "observation_note": "观察固定平移量在不同点上的一致作用；单点正确仍需多点核对整图平移。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能由坐标变化反推平移方向与距离",
+      "explanation": "坐标差描述同一次平移，方向由差的正负决定。",
+      "self_check": {
+        "prompt": "图形平移时A(−1,4)对应A′(2,−2)。按“右a，下b”的格式写出平移方式。 请写出判断或计算依据。",
+        "reference_answer": "横坐标增加2−(−1)=3，纵坐标减少4−(−2)=6，所以向右3、向下6。",
+        "criteria": [
+          "新减旧分别得3和−6",
+          "翻译成右3下6"
+        ],
+        "family_id": "coordinate.translation.infer-vector",
+        "variant_id": "m7b.9.2.2:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "coordinate.translation.apply-vector"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "用旧坐标减新坐标会得到哪一个方向？",
+        "hint": "从起点到终点的变化始终是新减旧，负号再译为左或下。",
+        "revision_prompt": "用所得右3下6移动B(0,1)到(3,−5)，再逆移返回验证。"
+      },
+      "observation_note": "观察位移方向、分量与逆检验；“右3下6”描述分量，不把路径长9当直线位移长度。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.9.2.2-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.9.2.2-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.9.2.2-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m7b.9.2.2-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m7b.9.2.2-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m7b.9.2.2-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

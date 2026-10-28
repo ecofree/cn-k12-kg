@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh1.1.5.2",
- "name": "全称量词命题和存在量词命题的否定",
- "tier": "core",
- "hook": "‘所有人都通过’的否定是‘所有人都没通过’，还是‘有人没通过’？",
- "definition": "全称量词命题的否定是存在量词命题，存在量词命题的否定是全称量词命题；量词互换、结论取反。否定时交换∀与∃并否定谓词，论域不变；≥的否定是<，不是≤。",
- "why": "‘全部成立’只要一个失败就被否定，而‘至少一个成立’的否定必须让每个对象都失败。因此量词与谓词需要同时改变，原命题与其否定恰有一个为真。",
- "when_to_use": [
-  "要求否定含一个量词的语句",
-  "比较原命题与否定命题的真假关系"
- ],
- "steps": [
-  "保留变量与论域",
-  "把全称换存在或把存在换全称",
-  "否定等号不等号与逻辑关系，再检查真假互补"
- ],
- "worked_example": {
-  "prompt": "写出‘∀x∈R，x²≥1’的否定并判断真假。",
-  "steps": [
-   "∀换为∃，x²≥1变为x²<1。",
-   "否定为∃x∈R，x²<1。",
-   "取x=0验证否定真，故原命题假。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.1.5.2",
+  "name": "全称量词命题和存在量词命题的否定",
+  "tier": "core",
+  "hook": "‘所有人都通过’的否定是‘所有人都没通过’，还是‘有人没通过’？",
+  "definition": "否定含一个量词的命题时，交换∀与∃，同时把谓词取逻辑否定，论域保持不变。例如≥的否定是<，不是≤；等于的否定是不等于。",
+  "why": "‘全部成立’只要一个失败就被否定，而‘至少一个成立’的否定必须让每个对象都失败。因此量词与谓词需要同时改变，原命题与其否定恰有一个为真。",
+  "when_to_use": [
+    "要求否定含一个量词的语句",
+    "比较原命题与否定命题的真假关系"
   ],
-  "answer": "∃x∈R，x²<1；原假否定真"
- },
- "pitfalls": [
-  "只改量词或只改不等号",
-  "把‘不大于’误写成‘大于等于’"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能写出含一个量词命题的否定",
-   "explanation": "量词与谓词成对改变，变量范围保留。",
-   "self_check": {
-    "prompt": "分别否定‘∀n∈Z，n²≥n’与‘∃x∈R，x²+1=0’。",
-    "reference_answer": "∃n∈Z，n²<n；∀x∈R，x²+1≠0。",
-    "criteria": [
-     "两个量词均正确交换",
-     "严格不等号和不等号准确"
-    ]
-   }
+  "steps": [
+    "保留变量与论域",
+    "把全称换存在或把存在换全称",
+    "否定等号不等号与逻辑关系，再检查真假互补"
+  ],
+  "worked_example": {
+    "prompt": "写出‘∀x∈R，x²≥1’的否定并判断真假。",
+    "steps": [
+      "∀换为∃，x²≥1变为x²<1。",
+      "否定为∃x∈R，x²<1。",
+      "取x=0验证否定真，故原命题假。"
+    ],
+    "answer": "∃x∈R，x²<1；原假否定真",
+    "family_id": "logic.negate-quantifier",
+    "variant_id": "mh1.1.5.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能判断原命题与否定的真假关系",
-   "explanation": "原命题与逻辑否定不能同真或同假，但与逆命题没有这种必然关系。",
-   "self_check": {
-    "prompt": "判断‘∃x∈R，x²<0’及其否定的真假，写出理由。",
-    "reference_answer": "原命题假，否定∀x∈R，x²≥0为真，因为实数平方总非负。",
-    "criteria": [
-     "写出完整否定",
-     "用实数平方性质解释真假互补"
-    ]
-   }
+  "pitfalls": [
+    "只改量词或只改不等号",
+    "把‘不大于’误写成‘大于等于’"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能写出含一个量词命题的否定",
+      "explanation": "量词与谓词成对改变，变量范围保留。",
+      "self_check": {
+        "prompt": "分别否定‘∀n∈Z，n²≥n’与‘∃x∈R，x²+1=0’。",
+        "reference_answer": "∃n∈Z，n²<n；∀x∈R，x²+1≠0。",
+        "criteria": [
+          "两个量词均正确交换",
+          "严格不等号和不等号准确"
+        ],
+        "family_id": "logic.negate-quantifier",
+        "variant_id": "mh1.1.5.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“并非所有x≥0”的否定对象是x<0还是x≤0？",
+        "hint": "先交换∀、∃，再取谓词的精确补集，等号归属也改变。",
+        "revision_prompt": "否定∃x∈R，x²>4，得∀x∈R，x²≤4；用x=3核对否定为假。"
+      },
+      "observation_note": "观察量词和谓词同步取反；未涉及多重量词的次序。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能判断原命题与否定的真假关系",
+      "explanation": "原命题与逻辑否定不能同真或同假，但与逆命题没有这种必然关系。",
+      "self_check": {
+        "prompt": "判断‘∃x∈R，x²<0’及其否定的真假，写出理由。",
+        "reference_answer": "原命题假，否定∀x∈R，x²≥0为真，因为实数平方总非负。",
+        "criteria": [
+          "写出完整否定",
+          "用实数平方性质解释真假互补"
+        ],
+        "family_id": "logic.negation-truth",
+        "variant_id": "mh1.1.5.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "原命题为假时，其逆命题一定为真吗？逻辑否定呢？",
+        "hint": "逆命题交换前后件，逻辑否定断言原句不成立，二者不同。",
+        "revision_prompt": "比较∀x∈R，x²>0及其否定；x=0使原假、∃x使x²≤0为真。"
+      },
+      "observation_note": "观察原命题与否定真假互补；不能移用到逆命题。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：两个量词均正确交换；写出完整否定。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.1.5.2-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.1.5.2-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.1.5.2-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "否定保留论域；严格与非严格不等号互补。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：两个量词均正确交换；写出完整否定。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh1.1.5.2-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.1.5.2-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.1.5.2-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

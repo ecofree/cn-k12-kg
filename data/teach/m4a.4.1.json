@@ -27,7 +27,11 @@
       "三个班是并列关系，没有重复的人。",
       "把三部分合起来：35+38+37。",
       "按顺序加：35+38=73，73+37=110 人。"
-    ]
+    ],
+    "family_id": "primary.add.combine-parts",
+    "variant_id": "m4a.4.1:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "各部分有重叠时直接相加，把同一批人算了两次。",
@@ -51,7 +55,7 @@
   "check": "能区分「一共多少人」和「甲比乙多多少人」分别用哪种运算，并说明理由。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,19 @@
         "criteria": [
           "合并互不重复两部分",
           "总量43"
-        ]
-      }
+        ],
+        "family_id": "primary.add.combine-parts",
+        "variant_id": "m4a.4.1:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "上午借出与下午借出的是否是互不重复的两批？同一本下午再次借出要按本数还是借阅次数计？",
+        "hint": "先明确统计口径；本题按没有重复借还的书本数量统计，两个部分可以直接合并。",
+        "revision_prompt": "一批红花24朵和另一批黄花17朵，解释为什么可相加；再说若分类有重叠应先补什么信息。"
+      },
+      "observation_note": "观察互不重叠的合并条件；同一本多次借出时总次数与不同书本数不能混用。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +93,22 @@
         "criteria": [
           "整体与部分对应",
           "答案58棵"
+        ],
+        "family_id": "number.missing-part-story",
+        "variant_id": "m4a.4.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.subtraction-addition-inverse",
+          "primary.add.combine-parts"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "96棵是松树加柏树总数，还是只数了松树？求柏树为何不能96+38？",
+        "hint": "总条标96，从中划去松树38，剩余条全部是柏树。",
+        "revision_prompt": "84棵中杨树29棵其余柳树，求柳树后检查两类之和是否回到84，并保留种类条件。"
+      },
+      "observation_note": "观察完整分类下由整体求部分；若还有第三类树，不能把余下全归给柏树。"
     }
   ]
 }

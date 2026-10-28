@@ -282,11 +282,22 @@ async function openContentPreview(task, first) {
       if (kind === "teach") {
         const taskId = authoredCatalog.source_index[`self_check:${id}:${source.criterion_index}`], task = authoredCatalog.tasks[taskId];
         assert.ok(task && task.id === taskId);
-        expectedVersion = previewHash({ task: task.resource_version, source: checks[index] });
+        const presentationFamilies = task.family_status === "declared" ? [task.family_id] : [];
+        expectedVersion = previewHash({ task: task.resource_version, source: checks[index], work_schema: 2,
+          presentation_family_ids: presentationFamilies });
         expectedResource = `self_check:${taskId}`;
         assert.deepEqual(descriptor.resource_snapshot.task_ids, [taskId]);
-        assert.deepEqual(descriptor.resource_snapshot.fields.map(field => ({ id: field.id, prompt: field.prompt })),
-          [{ id: "response", prompt: checks[index].self_check.prompt }]);
+        assert.deepEqual(descriptor.resource_snapshot.presentation_family_ids, presentationFamilies);
+        const expectedFields = [{ id: "response", prompt: checks[index].self_check.prompt }];
+        const help = checks[index].difficulty_support;
+        if (help) expectedFields.push({ id: "discrimination", prompt: help.discriminating_prompt },
+          { id: "revision", prompt: help.revision_prompt });
+        assert.deepEqual(descriptor.resource_snapshot.fields.map(field => ({ id: field.id, prompt: field.prompt })), expectedFields);
+        assert.equal(descriptor.resource_snapshot.reference_answer, checks[index].self_check.reference_answer);
+        assert.deepEqual(descriptor.resource_snapshot.difficulty_support, help || null);
+        assert.deepEqual(descriptor.resource_snapshot.skill_ids, task.skill_ids);
+        assert.deepEqual(descriptor.resource_snapshot.family_ids,
+          [...new Set(authoredCatalog.materials[`topic:${id}`].reference_families_by_key[`self_check:${source.criterion_index}`])].sort());
         assert.deepEqual(descriptor.resource_snapshot.criteria, checks[index].self_check.criteria);
       } else if (kind === "unit") {
         expectedVersion = authoredCatalog.units[id].resource_version;
@@ -379,6 +390,9 @@ async function openContentPreview(task, first) {
         goals: goals ? [...goals.querySelectorAll(kind === "unit" ? ":scope > div > article.goal-summary > p" : ":scope > ul > li")].map(sourceText) : [],
         unitGoalRows: unitGoalRows.map(row => ({ paragraphs: row.querySelectorAll(":scope > p").length,
           buttons: [...row.querySelectorAll(":scope > button")].map(button => ({ name: button.textContent, disabled: button.disabled })) })),
+        exampleDiagrams: [...view.querySelectorAll(".worked-example")].map(example => {
+          const img = example.querySelector(".lesson-diagram img"); return img ? { src: img.getAttribute("src"), alt: img.alt } : null;
+        }),
         prompts: text(".self-check-prompt"), indices: [...view.querySelectorAll('textarea[id^="self-check-"]')].map(input => input.id),
         editors: [...view.querySelectorAll(".work-editor")].map(editor => ({ prompts: [...editor.querySelectorAll(".work-prompt")].map(sourceText),
           criteria: [...editor.querySelectorAll(".self-assessment-row > label")].map(label => label.textContent),
@@ -398,6 +412,8 @@ async function openContentPreview(task, first) {
       assert.ok(Array.isArray(goals) && goals.length, "The material must provide actual goals");
       assert.deepEqual(canonical(dom.goals), canonical(goals), "Displayed goals differ from this material: " + task.path);
       if (kind === "unit") {
+        assert.deepEqual(dom.exampleDiagrams, body.worked_examples.map(example => example.diagram || null),
+          "Each worked example must render its own authored diagram");
         assert.deepEqual(dom.unitGoalRows, goals.map(() => ({ paragraphs: 1,
           buttons: [{ name: "查看这项目标的基础、帮助与任务", disabled: false }] })),
         "Every displayed unit goal must retain its own available pathway control");
@@ -409,8 +425,9 @@ async function openContentPreview(task, first) {
       for (const [index, loaded] of works.entries()) {
         const snapshot = loaded.descriptor.resource_snapshot, editor = dom.editors[index];
         assert.deepEqual(editor.criteria, snapshot.criteria);
-        assert.equal(editor.fields, kind === "teach" ? 0 : snapshot.fields.length);
-        assert.deepEqual(canonical(editor.prompts), kind === "teach" ? [] : canonical(snapshot.fields.map(field => field.prompt)));
+        const displayedFields = kind === "teach" ? snapshot.fields.filter(field => field.phase) : snapshot.fields;
+        assert.equal(editor.fields, displayedFields.length);
+        assert.deepEqual(canonical(editor.prompts), canonical(displayedFields.map(field => field.prompt)));
       }
     } else if (kind === "scope") {
       assert.ok(Array.isArray(body.goals) && body.goals.length);
@@ -449,6 +466,9 @@ const journeys = {
   },
   async equation_steps() {
     await require("./step-practice.cjs")({ page, goto, actionResponse, apiRead, claim, result, noHorizontalOverflow });
+  },
+  async prerequisite_plan() {
+    await require("./prerequisite-plan.cjs")({ page, goto, actionResponse, apiRead, startFrom, completeSession, claim, result, noHorizontalOverflow });
   },
   async goal_alignment() {
     const registry = read("data/skills/registry.json");
@@ -968,6 +988,177 @@ const journeys = {
     claim("View changes focus their heading; question changes focus the prompt before answer controls.");
     claim("Choice and numeric answers submit through keyboard controls with stable answer IDs and visible labels.");
     claim("A keyboard skip link reaches the main learning content; this is a scoped functional check, not complete WCAG conformance.");
+  },
+
+  async goal_support_revision() {
+    async function holdRequest(pattern) {
+      let signal, release;
+      const arrived = new Promise(resolve => { signal = resolve; });
+      const gate = new Promise(resolve => { release = resolve; });
+      const handler = async route => { signal(); await gate; await route.continue(); };
+      await page.route(pattern, handler);
+      return { arrived, release, remove: () => page.unroute(pattern, handler) };
+    }
+    await goto("?teach=m1a.1.1"); await visible("#view-teach");
+    const initial = "合成验收：逐个数时可能遗漏右边的物体，保留第一次的想法。";
+    let input = page.locator("#self-check-0");
+    let card = page.locator("#teach-content > .card").filter({ has: input });
+    let editor = card.locator(".work-editor"), support = editor.locator(".goal-support");
+    await page.waitForFunction(() => !document.querySelector("#self-check-0").disabled);
+    await input.fill(initial);
+    await actionResponse(() => support.locator(":scope > summary").click(), "/api/work/reference");
+    assert.equal(await support.getAttribute("open"), "");
+    const resourceId = await editor.getAttribute("data-resource-id");
+    assert.ok(resourceId, "The independent draft must be saved before help opens");
+    let history = await apiRead("/api/work/revisions?resource_id=" + encodeURIComponent(resourceId));
+    assert.equal(history.revisions.at(-1).payload.draft.response, initial);
+    let discriminating = "合成验收：我给每个物体配一个记号，查找重复与遗漏。";
+    await saveText(editor, editor.getByLabel("我怎样辨别这处困难", { exact: true }), discriminating);
+    const hint = support.locator(".goal-support-hint");
+    const failReference = route => route.abort("failed");
+    await page.route("**/api/work/reference", failReference);
+    const failed = page.waitForEvent("requestfailed", request => new URL(request.url()).pathname === "/api/work/reference");
+    await hint.locator(":scope > summary").click(); await failed;
+    await page.waitForFunction(() => {
+      const status = document.querySelector(".work-reference-status");
+      return status?.textContent && !status.textContent.includes("正在保存");
+    });
+    assert.equal(await hint.getAttribute("open"), null, "A failed help record must not reveal the hint");
+    assert.equal(await editor.getByLabel("我怎样辨别这处困难", { exact: true }).inputValue(), discriminating);
+    await page.unroute("**/api/work/reference", failReference);
+
+    // Keep editing after the first flush but before the reference request
+    // finishes. A failed later save must still prevent the actual reveal.
+    const heldHint = await holdRequest("**/api/work/reference");
+    await hint.locator(":scope > summary").click(); await heldHint.arrived;
+    const failedWrite = route => route.abort("failed");
+    await page.route("**/api/work", failedWrite);
+    discriminating += " 等待提示记录时，我又发现左侧还有一个物体需要核对。";
+    await editor.getByLabel("我怎样辨别这处困难", { exact: true }).fill(discriminating);
+    await editor.locator(".work-status").filter({ hasText: "尚未保存" }).waitFor();
+    const hintRecorded = page.waitForResponse(response => isResponse(response, "/api/work/reference", "POST"));
+    heldHint.release(); assert.equal((await hintRecorded).status(), 200);
+    await editor.locator(".work-reference-status").filter({ hasText: "当前过程还未保存" }).waitFor();
+    assert.equal(await hint.getAttribute("open"), null, "A later draft failure must keep an otherwise successful reference closed");
+    assert.equal(await editor.getByLabel("我怎样辨别这处困难", { exact: true }).inputValue(), discriminating);
+    const beforeRetry = await apiRead("/api/work?resource_id=" + encodeURIComponent(resourceId));
+    assert.notEqual(beforeRetry.work.payload.draft.discrimination, discriminating);
+    await heldHint.remove(); await page.unroute("**/api/work", failedWrite);
+    await actionResponse(() => editor.getByRole("button", { name: "保存记录", exact: true }).click(), "/api/work");
+    await actionResponse(() => hint.locator(":scope > summary").click(), "/api/work/reference");
+    let revision = "合成验收：换一种排列再数，每个物体都只有一个记号，总数不变。";
+    await saveText(editor, editor.getByLabel("我重新尝试的过程", { exact: true }), revision);
+
+    // The material reference uses a separate handler. Create a real competing
+    // revision while that handler waits, so the local autosave receives 409.
+    const heldAnswer = await holdRequest("**/api/exposure");
+    const answerPanel = card.locator(".self-check-answer");
+    await answerPanel.locator(":scope > summary").click(); await heldAnswer.arrived;
+    const beforeConflict = await apiRead("/api/work?resource_id=" + encodeURIComponent(resourceId));
+    const competing = await context.request.post(args["base-url"] + "/api/work", { data: {
+      resource_id: resourceId, expected_revision: beforeConflict.work.revision,
+      request_id: "reference-race-conflict-" + Date.now(), ...beforeConflict.work.payload,
+      reflection: "合成验收另一处先保存的反思，必须留在历史中。",
+    } });
+    assert.equal(competing.status(), 200);
+    const conflictResponse = page.waitForResponse(response => isResponse(response, "/api/work", "POST") && response.status() === 409);
+    revision += " 等待参考记录时补充：我改变方向后仍逐个对应。";
+    await editor.getByLabel("我重新尝试的过程", { exact: true }).fill(revision); await conflictResponse;
+    const conflictControl = editor.getByRole("button", { name: "保留两版并保存本页内容", exact: true });
+    await conflictControl.waitFor();
+    const answerRecorded = page.waitForResponse(response => isResponse(response, "/api/exposure", "POST"));
+    heldAnswer.release(); assert.equal((await answerRecorded).status(), 200);
+    await card.locator(".reference-status").filter({ hasText: "当前过程尚未保存" }).waitFor();
+    assert.equal(await answerPanel.getAttribute("open"), null, "A conflict created during the reference request must prevent the answer reveal");
+    assert.equal(await editor.getByLabel("我重新尝试的过程", { exact: true }).inputValue(), revision);
+    await heldAnswer.remove();
+    await actionResponse(() => conflictControl.click(), "/api/work");
+    await actionResponse(() => answerPanel.locator(":scope > summary").click(), "/api/exposure");
+    const conflictHistory = await apiRead("/api/work/revisions?resource_id=" + encodeURIComponent(resourceId));
+    assert.ok(conflictHistory.revisions.some(row => row.payload.reflection.includes("另一处先保存")));
+    assert.equal(conflictHistory.revisions[0].payload.draft.revision, revision);
+    await page.reload({ waitUntil: "domcontentloaded" }); await valueEquals("#self-check-0", initial);
+    card = page.locator("#teach-content > .card").filter({ has: page.locator("#self-check-0") });
+    editor = card.locator(".work-editor");
+    assert.equal(await editor.getByLabel("我怎样辨别这处困难", { exact: true }).inputValue(), discriminating);
+    assert.equal(await editor.getByLabel("我重新尝试的过程", { exact: true }).inputValue(), revision);
+    await goto("?work=" + encodeURIComponent(resourceId)); await visible("#view-work");
+    editor = page.locator("#work-content.work-editor");
+    await editor.locator(".work-frozen-reference > summary").waitFor();
+    await actionResponse(() => editor.locator(".work-frozen-reference > summary").click(), "/api/work/reference");
+    const restored = await apiRead("/api/work?resource_id=" + encodeURIComponent(resourceId));
+    assert.equal(restored.work.payload.draft.response, initial);
+    assert.equal(restored.work.payload.draft.discrimination, discriminating);
+    assert.equal(restored.work.payload.draft.revision, revision);
+    assert.ok(await editor.locator(".work-frozen-reference").textContent());
+    const exported = await apiRead("/api/export"), references = exported.events.filter(event =>
+      event.event_type === "reference_opened" && event.resource_id === resourceId);
+    // A reference recorded while a later save fails remains a conservative
+    // exposure record, even though the UI correctly leaves its panel closed.
+    assert.deepEqual(references.map(event => event.payload.reference_key), ["difficulty", "hint", "hint", "answer"]);
+    assert.ok(references.every(event => event.content_sha256 === restored.descriptor.resource_version));
+    const savedIndex = exported.events.findIndex(event => event.event_type === "work_saved" && event.resource_id === resourceId);
+    const helpIndex = exported.events.findIndex(event => event.event_type === "reference_opened" && event.resource_id === resourceId);
+    assert.ok(savedIndex >= 0 && savedIndex < helpIndex, "The original work must precede the help event");
+    await page.setViewportSize({ width: 390, height: 844 });
+    await actionResponse(() => editor.locator(".goal-support > summary").click(), "/api/work/reference");
+    await noHorizontalOverflow("goal support and original reference");
+    // The HTTP regression separately exercises real content-version changes.
+    // This response fixture checks the visible notice without editing release
+    // files while the frozen browser acceptance is running.
+    await goto("?unit=ten_frame_place_value"); await visible("#view-unit");
+    const session = await startFrom(page.locator("#unit-actions").getByRole("button", { name: "练习", exact: true }), "practice");
+    const sessionURL = `**/api/session/${session.session.id}`;
+    const changedNotice = async route => {
+      const response = await route.fetch(); const payload = await response.json();
+      payload.session.current_content = { status: "updated", changes: [{ task_id: session.item.question.id,
+        status: "updated", url: "/?unit=ten_frame_place_value" }] };
+      await route.fulfill({ response, json: payload });
+    };
+    await page.route(sessionURL, changedNotice);
+    await goto("?session=" + session.session.id); await visible("#view-quiz");
+    await page.locator("#quiz-content-update").waitFor();
+    assert.ok((await page.locator("#quiz-content-update").textContent()).includes("旧答案未被重新判分"));
+    assert.equal(await page.locator("#quiz-content-update a").getAttribute("href"), "/?unit=ten_frame_place_value");
+    await noHorizontalOverflow("saved session update notice");
+    await page.unroute(sessionURL, changedNotice);
+    const legacyNotice = async route => {
+      const response = await route.fetch(); const payload = await response.json();
+      payload.session.current_content = { status: "updated", changes: [{ task_id: session.item.question.id,
+        status: "legacy_unverified", url: "/?unit=ten_frame_place_value" }] };
+      await route.fulfill({ response, json: payload });
+    };
+    await page.route(sessionURL, legacyNotice);
+    await goto("?session=" + session.session.id); await visible("#view-quiz");
+    const legacySessionText = await page.locator("#quiz-content-update").textContent();
+    assert.ok(legacySessionText.includes("缺少可核对的逐题版本信息"));
+    assert.ok(legacySessionText.includes("无法确认"));
+    assert.ok(!legacySessionText.includes("已有新版"));
+    await page.unroute(sessionURL, legacyNotice);
+    const legacyWorkNotice = async route => {
+      if (new URL(route.request().url()).searchParams.get("resource_id") !== resourceId) return route.continue();
+      const response = await route.fetch(); const payload = await response.json();
+      payload.current_content = { status: "legacy_unverified", url: "/?teach=m1a.1.1" };
+      await route.fulfill({ response, json: payload });
+    };
+    await page.route("**/api/work?**", legacyWorkNotice);
+    await goto("?work=" + encodeURIComponent(resourceId)); await visible("#view-work");
+    const legacyWorkText = await page.locator("#work-content .work-version-notice").textContent();
+    assert.ok(legacyWorkText.includes("缺少可核对的逐题版本信息"));
+    assert.ok(legacyWorkText.includes("无法确认"));
+    assert.ok(!legacyWorkText.includes("已有新版"));
+    await page.unroute("**/api/work?**", legacyWorkNotice);
+    result.observations.resource_id = resourceId;
+    result.observations.injected_failures = ["reference_record_network_failure", "draft_write_failure_during_reference_request",
+      "real_revision_conflict_during_material_reference_request"];
+    result.observations.simulated_ui_states = ["updated_content_notice_response_fixture; actual lookup covered by HTTP regression",
+      "legacy_unverified_session_and_work_notices_response_fixtures"];
+    claim("Original response, difficulty discrimination and guided revision save independently and restore after reload.");
+    claim("Help records bind the original work version; failed recording leaves the hint closed and preserves input.");
+    claim("Edits remain possible while reference recording waits; a later failed save or actual revision conflict keeps help closed and preserves the latest input until recovery.");
+    claim("A restored work shows its frozen reference and preserves actual help order at mobile width.");
+    claim("A saved session displays its content-update notice and current-material link without replacing the original task.");
+    claim("A missing historical version is described as unverifiable in both session and work views, without claiming that current material changed.");
   },
 
   async self_check_autosave() {

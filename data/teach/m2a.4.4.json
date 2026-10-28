@@ -22,7 +22,11 @@
       "20×4=80（厘米），桌边约80厘米。"
     ],
     "answer": "80",
-    "verify": "20*4"
+    "verify": "20*4",
+    "family_id": "measure.reference-length-estimate",
+    "variant_id": "m2a.4.4:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "估长桌用1毫米作参照太细，误差会累积。",
@@ -33,7 +37,7 @@
   "name": "用估量解决问题",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -47,8 +51,21 @@
         "criteria": [
           "参照20厘米明确",
           "估计约100厘米"
+        ],
+        "family_id": "measure.reference-length-estimate",
+        "variant_id": "m2a.4.4:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "measure.ruler-offset-length"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "5本书是重叠着量、留空隙量，还是边接边量？哪一种更接近桌边长度？",
+        "hint": "用一本已量为20厘米的书连续平移作参照，每次对齐前一段的终点。",
+        "revision_prompt": "先估另一条桌边约几本20厘米书长，写“大约”，再用尺测量并记录差多少。"
+      },
+      "observation_note": "观察有依据的估长及与实测比较；估算值不当作精确测量结果。"
     },
     {
       "criterion_index": 1,
@@ -60,8 +77,22 @@
         "criteria": [
           "选择1米",
           "引用参照而非无依据判断"
+        ],
+        "family_id": "measure.estimate-order-of-magnitude",
+        "variant_id": "m2a.4.4:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "measure.metres-centimetres",
+          "measure.reference-length-estimate"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "10米要摆多少本20厘米的书？与眼前约5本长的桌边相符吗？",
+        "hint": "1米是100厘米，约含5本；10米是1000厘米，约含50本，先比较数量级。",
+        "revision_prompt": "面对约4本20厘米长的柜边，比较80厘米与8米两个估计，说明哪一个与参照一致。"
+      },
+      "observation_note": "观察用参照和单位辨别数量级；不能只说“看起来像”而没有尺度依据。"
     }
   ],
   "practice": [

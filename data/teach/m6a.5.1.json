@@ -24,17 +24,21 @@
     "在扇形中标两半径、弧和圆心角。"
   ],
   "worked_example": {
-    "prompt": "同一圆半径4厘米，直径是多少厘米？",
+    "prompt": "读附图，O为圆心且A、B为圆上点。若OA=4厘米，AB是多少厘米？为什么DE不能仅凭外观看作直径？",
     "steps": [
-      "一条直径由圆心两侧的两条半径组成。",
-      "4+4=8厘米。"
+      "AB经过圆心O，两端在圆上；OA和OB都是同圆半径，各4厘米。",
+      "AB=4+4=8厘米；DE不经过O，不能用直径关系。"
     ],
     "answer": "8",
     "family_id": "geometry.radius-diameter",
     "variant_id": "m6a.5.1:worked-v4",
     "representation": "geometry",
     "cognitive_demand": "explain",
-    "verify": "2*4"
+    "verify": "2*4",
+    "diagram": {
+      "src": "/static/diagrams/primary-v6-circle-sector.svg",
+      "alt": "圆心O，AB过O且两端在圆上，OB、OC和弧BC围成阴影扇形，DE是不经过圆心的弦。"
+    }
   },
   "pitfalls": [
     "不经过圆心的弦不是直径。",
@@ -61,7 +65,16 @@
         "criteria": [
           "正确使用d=2r",
           "保留同圆条件"
-        ]
+        ],
+        "family_id": "geometry.radius-diameter",
+        "variant_id": "m6a.5.1:criterion:0:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-circle-sector.svg",
+          "alt": "圆心O，AB过O且两端在圆上，OB、OC和弧BC围成阴影扇形，DE是不经过圆心的弦。"
+        },
+        "reference_family_ids": []
       },
       "difficulty_support": {
         "discriminating_prompt": "线段长14厘米但没经过圆心，能直接推出半径7吗？",
@@ -75,16 +88,25 @@
       "explanation": "扇形圆心角的顶点就是圆心，两边是半径。圆上的三个点围成的三角形即使像切片，也没有圆弧边界。",
       "observation_note": "观察组成与边界，不要求本卡计算扇形面积。",
       "self_check": {
-        "prompt": "画圆O及半径OA、OB，以弧AB围成扇形，标出圆心角；再说明弦AB替代圆弧后得到的图为什么不同。",
-        "reference_answer": "圆心角∠AOB，OA、OB为半径；替换成弦后边界全是线段，成为三角形。",
+        "prompt": "读附图阴影扇形，指出两条半径、圆心角和圆弧。另画弦BC代替弧BC，得到哪种图形？用不同颜色描出两种边界。",
+        "reference_answer": "半径OB、OC，圆心角∠BOC，圆弧BC；用弦BC替换圆弧后，边界是OB、OC、BC三条线段，成为三角形OBC。",
         "criteria": [
           "标出圆心角与两半径",
           "区分弧与弦"
-        ]
+        ],
+        "family_id": "geometry.sector-boundary",
+        "variant_id": "m6a.5.1:criterion:1:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-circle-sector.svg",
+          "alt": "圆心O，AB过O且两端在圆上，OB、OC和弧BC围成阴影扇形，DE是不经过圆心的弦。"
+        },
+        "reference_family_ids": []
       },
       "difficulty_support": {
         "discriminating_prompt": "扇形的第三条边界是直线段还是圆弧？",
-        "hint": "沿圆周从A到B走，与直接连接A、B比较。",
+        "hint": "沿圆周从B到C走，与直接连接B、C比较。",
         "revision_prompt": "用不同颜色标弧和弦，把误画三角形改为扇形。"
       },
       "criterion_index": 1,
@@ -93,7 +115,11 @@
   ],
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
+  },
+  "diagram": {
+    "src": "/static/diagrams/primary-v6-circle-sector.svg",
+    "alt": "圆心O，AB过O且两端在圆上，OB、OC和弧BC围成阴影扇形，DE是不经过圆心的弦。"
   }
 }

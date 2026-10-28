@@ -21,7 +21,11 @@
       "每层摆2行，每行2个，共4个。",
       "摆相同的2层，4+4=8个；长宽高都为2个小块边长。"
     ],
-    "answer": "能，按2行、每行2个、2层摆"
+    "answer": "能，按2行、每行2个、2层摆",
+    "family_id": "geometry.cubes.build-solid-cube",
+    "variant_id": "m1a.3.3:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "4个摆成2×2一层得到的是长方体，不是大正方体。",
@@ -32,7 +36,7 @@
   "name": "拼一拼",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -46,8 +50,21 @@
         "criteria": [
           "两种不同排列",
           "说明各用了6个"
+        ],
+        "family_id": "geometry.cubes.rectangular-arrangements",
+        "variant_id": "m1a.3.3:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.cube-layer-count"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "6块摆成一行与摆成2行每行3块，是否都用了6块？有空洞或重叠吗？",
+        "hint": "每摆一块就在清单划掉一个；先数每行，再数共有几行和几层。",
+        "revision_prompt": "把6块重新拼成三行每行2块的一层，转动后与原来两行三块比较，说明哪些只是换摆方向。"
+      },
+      "observation_note": "观察按行层说明完整拼法；旋转同一个长方体不能冒充一种尺寸不同的新形状。"
     },
     {
       "criterion_index": 1,
@@ -59,8 +76,21 @@
         "criteria": [
           "比较三个方向",
           "给出8个的两层摆法"
+        ],
+        "family_id": "geometry.cubes.build-solid-cube",
+        "variant_id": "m1a.3.3:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.cube-layer-count"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2行2列只摆一层时，高方向有几块？与长、宽相同吗？",
+        "hint": "从正面、侧面、上面各看一次，三条相邻棱都要有同样多的小块。",
+        "revision_prompt": "在4块的一层上再放同样4块，数三方向各有几块；拿掉一块后再说明为何不是实心正方体。"
+      },
+      "observation_note": "观察长宽高同时相同和实心条件；只看一个正方形正面不能确认大正方体。"
     }
   ],
   "practice": [

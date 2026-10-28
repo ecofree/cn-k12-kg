@@ -10,9 +10,10 @@ from datetime import datetime, timedelta, timezone
 
 from .review_timing import (indexed_scope_activity, qualified_review, review_schedule,
                             timestamp, unit_activity_scope)
-from .learning_needs import derive_needs, skill_evidence, support_routes, task_options
+from .learning_needs import (derive_needs, observation_metadata, skill_evidence,
+                             support_routes, task_options)
 
-RULE_VERSION = "activity-plan-v5"
+RULE_VERSION = "activity-plan-v6"
 REVIEW_INTERVAL_DAYS = (1, 3, 7)
 _PHASES = {"practice", "transfer", "delayed"}
 
@@ -87,6 +88,30 @@ def _observed_completion(record):
             and record.get("mode") in _PHASES)
 
 
+def _answered_skills(records, units):
+    """Direct, public attempts at frozen skill IDs, never unit-wide mastery.
+
+    A skipped task or an enclosing unit's completion cannot stand in for an
+    actual response to this skill. Old unit-version observations remain in
+    history but do not remove a current-version prerequisite check. Helped
+    attempts are still attempts; they never establish independent mastery.
+    """
+    observed = set()
+    for record in records:
+        unit = units.get(record.get("unit_id"))
+        if (record.get("kind") == "unit" and unit and _version(unit)
+                and _record_version(record) != _version(unit)):
+            continue
+        for answer in record.get("answers", []):
+            metadata = observation_metadata(record, answer)
+            if (not answer.get("question_id") or metadata.get("_feedback_pending")
+                    or metadata.get("skipped")
+                    or metadata.get("status") not in {"correct", "wrong", "needs_review"}):
+                continue
+            observed.update(metadata.get("skill_ids", []))
+    return observed
+
+
 def _work_continuation(work, need=None):
     """Rank saved activity separately from reported difficulty and missing checks."""
     need = need or {}
@@ -148,6 +173,7 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None, need_sta
                        if any(_observed_completion(record)
                               and (not _version(units[identity]) or _record_version(record) == _version(units[identity]))
                               for record in history)}
+    observed_skills = _answered_skills(records, units)
     candidates = []
 
     def activity_for(unit):
@@ -356,42 +382,35 @@ def plan(catalog, records, works=(), *, now=None, limit=12, stage=None, need_sta
                 continue
         if "practice" not in phases:
             continue
-        prerequisites = list(unit.get("prerequisite_unit_ids", []))
+        unobserved_units = set(unit.get("prerequisite_unit_ids", [])) - completed_units
         declared_skills = sorted({sid for sid in unit.get("skill_ids", [])} |
                                  {objective.get("skill_id") for objective in unit.get("objectives", [])
                                   if isinstance(objective, dict) and objective.get("skill_id")})
         skill_prerequisites, routes = support_routes(catalog, declared_skills, preferred_unit=identity)
-        observed_skills = {answer_sid for item in evidence for answer_sid in [item["skill_id"]]
-                           if item["observations"]}
-        unobserved_skills = []
-        for skill in unit.get("prerequisite_skill_ids", []):
+        prerequisite_skills = set(unit.get("prerequisite_skill_ids", [])) | set(skill_prerequisites)
+        unobserved_skills = sorted(prerequisite_skills - observed_skills)
+        # A completed container can still hold an unattempted prerequisite.
+        # Keep one concrete route to inspect that skill, not a requirement to
+        # repeat every prerequisite unit. Intra-unit routes stay in routes.
+        skill_routes = set()
+        for skill in unobserved_skills:
             sources = skills_to_units.get(skill, set()) - {identity}
-            if sources & completed_units:
-                continue
-            unobserved_skills.append(skill)
             if sources:
-                # Any containing unit is a route to inspect this prerequisite;
-                # the UI need not suggest completing every alternative unit.
-                prerequisites.append(sorted(sources)[0])
-        # Explicit skill relations remain visible even when their support route
-        # is inside this very unit. They do not manufacture unit-level cycles.
-        for skill in skill_prerequisites:
-            if skill not in observed_skills and skill not in unobserved_skills:
-                unobserved_skills.append(skill)
-                sources = skills_to_units.get(skill, set()) - {identity}
-                if sources and not sources & completed_units:
-                    prerequisites.append(sorted(sources)[0])
-        unobserved = sorted(set(prerequisites) - completed_units)
+                skill_routes.add(sorted(sources)[0])
+        unobserved = sorted(unobserved_units | skill_routes)
         reason = "还没有这个内容版本的练习完成记录，可先阅读讲解并开始练习。"
         if history and version and not matching:
             reason = "这个单元的内容已更新。原版本记录仍保留，可从新版本讲解与练习开始。"
-        if unobserved:
+        if unobserved_units:
             reason += " 尚未看到部分前置单元的完成记录，可先回看这些基础。"
+        if unobserved_skills:
+            reason += " 部分前置目标还没有具体作答记录，可从对应入口检查；完成所在单元不代替这些目标的作答。"
         add("practice", unit, reason, 15 if unobserved else 20, phase="practice",
             review_material=True, prerequisite_unit_ids=unobserved,
             prerequisite_skill_ids=unobserved_skills,
+            observed_prerequisite_skill_ids=sorted(prerequisite_skills & observed_skills),
             support_routes=routes,
-            prerequisite_evidence="completed_activity_only_not_mastery")
+            prerequisite_evidence="direct_skill_attempts_and_unit_activity_not_mastery")
 
     recommended_work_keys = {item.get("work_resource_id") for _, item in candidates}
     deferred_work_keys = {need["work_resource_id"] for need in needs

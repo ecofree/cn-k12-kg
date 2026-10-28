@@ -28,7 +28,9 @@
     "answer": "734",
     "verify": "(5+2)*100+3*10+4",
     "family_id": "v4.foundation.m2b.3.2.example",
-    "variant_id": "m2b.3.2:worked-example-v4"
+    "variant_id": "m2b.3.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "把任何档的一颗上珠都说成总量5，而不看本位单位。",
@@ -56,7 +58,12 @@
         "criteria": [
           "相邻进率正确",
           "跨两个数位按两次乘10"
-        ]
+        ],
+        "family_id": "placevalue.ten-adjacent-units",
+        "variant_id": "m2b.3.2:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
       },
       "observation_note": "观察指定单位的进率，不能把“进率10”误扩为任意两单位。",
       "difficulty_support": {
@@ -68,15 +75,24 @@
     {
       "criterion_index": 1,
       "title": "能用算盘表示万以内的数",
-      "explanation": "算盘必须明确位档与靠梁状态。同一数可以用标准拨法或数位文字表记录，但文字说明不是实际拨珠动作的证明。",
+      "explanation": "算盘必须明确位档与靠梁状态。同一数可以用标准拨法或数位文字表记录，但文字说明不是实际拨珠动作的证明。 配图示范3057：先以个位档为基准标档，千档3个下珠、百档全离梁、十档1个上珠、个档1上2下。",
       "self_check": {
-        "prompt": "在约定算盘上表示3057；没有算盘时画四档并记录每档靠梁的上珠、下珠数。",
-        "reference_answer": "千位上0下3；百位上0下0；十位上1下0；个位上1下2。其余珠离梁，表示3000+0+50+7。",
+        "prompt": "先用配图说明3057每一档为什么这样拨；随后清盘，在同样约定的算盘上表示4068。没有算盘时画四档，并记录靠梁的上、下珠数。",
+        "reference_answer": "图中3057为千位0上3下、百位全离梁、十位1上0下、个位1上2下。新数4068为千位0上4下、百位0上0下、十位1上1下、个位1上3下；其余珠离梁。",
         "criteria": [
           "位档标定正确",
           "0档不计珠",
           "5和7用上珠的规则正确"
-        ]
+        ],
+        "family_id": "placevalue.abacus-five-and-one",
+        "variant_id": "m2b.3.2:criterion:1:v6",
+        "representation": "manipulative",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-abacus.svg",
+          "alt": "千、百、十、个位从左到右。靠梁珠依次为：千位0上3下，百位全离梁，十位1上0下，个位1上2下；每上珠为该档5个单位，每下珠1个单位。"
+        },
+        "reference_family_ids": []
       },
       "observation_note": "需实际拨珠或留下逐档图；填3057本身不能证明会用算盘。",
       "difficulty_support": {
@@ -92,7 +108,11 @@
   "representation_note": "算盘或带梁的逐档纸图；上珠、下珠与数位展开表对照。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
+  },
+  "diagram": {
+    "src": "/static/diagrams/primary-v6-abacus.svg",
+    "alt": "千、百、十、个位从左到右。靠梁珠依次为：千位0上3下，百位全离梁，十位1上0下，个位1上2下；每上珠为该档5个单位，每下珠1个单位。"
   }
 }

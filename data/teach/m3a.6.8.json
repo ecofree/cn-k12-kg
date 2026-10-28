@@ -27,12 +27,19 @@
       "整体是 12 块，每块是 1/12。",
       "姐姐 1 块是 1/12，妹妹 7 块是 7/12。",
       "一共 8/12，题目只要分子，填 8。"
+    ],
+    "family_id": "fraction.add-common-unit",
+    "variant_id": "m3a.6.8:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "fraction.part-count-over-equal-whole"
     ]
   },
   "pitfalls": [
-    "分子相加后分母也相加，算成 8/24。",
-    "把块数当成分子，却把分母换成「剩下的块数」。",
-    "算出 8/12 就停手，没看题目要不要约成 2/3。"
+    "同一整体的同分母部分相加时，分母不相加，例如1/12+7/12=8/12。",
+    "分母仍是原来整块的总等份数，不能换成剩余块数。",
+    "本课先完整写所用分数再按问题取所求量；是否约分另按已经学过的知识与任务要求说明。"
   ],
   "practice": [
     {
@@ -51,7 +58,7 @@
   "check": "能把「3 块、6 块，一共分成 11 块」正确写成 9/11，并说明分母 11 是「一共分成 11 份」，不是「剩下的份数」。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +72,22 @@
         "criteria": [
           "整体明确",
           "单位分数与部分分数正确"
+        ],
+        "family_id": "fraction.part-count-over-equal-whole",
+        "variant_id": "m3a.6.8:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.equal-partition-condition",
+          "fraction.unit-fraction-partition"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "甲用的3段与全绳10段中，哪一个决定分母？每段是否一样长？",
+        "hint": "先圈完整原绳作整体，再标10个等长段，每段1/10，甲选其中3份。",
+        "revision_prompt": "同一绳八等分，乙取5段，标整体、单位分数与乙取的分数，并说明不等长段不能直接数段当分数。"
+      },
+      "observation_note": "观察整体、等分和取份角色；缺少等分条件时数出3段不能直接断言3/10。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +99,23 @@
         "criteria": [
           "合并同一整体已吃部分",
           "剩余3/8"
+        ],
+        "family_id": "fraction.remainder-from-original",
+        "variant_id": "m3a.6.8:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.add-common-unit",
+          "fraction.all-parts-make-whole",
+          "fraction.subtract-common-unit"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "上午和下午吃的是同一个蛋糕的八分之一，还是不同大小蛋糕的八分之一？",
+        "hint": "同一八等分图中，先标上午2份再标未重复的下午3份，余下3份。",
+        "revision_prompt": "同一饼六等分，先吃1/6再吃2/6，画去掉和剩余部分并用它们合成1检验。"
+      },
+      "observation_note": "观察同整体、无重复的连续取份与剩余；不同整体需要先重新确定分数意义。"
     }
   ]
 }

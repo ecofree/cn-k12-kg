@@ -32,7 +32,13 @@ class ContentCounterexampleTests(unittest.TestCase):
         additions = set(audit['added_question_ids'])
         self.assertEqual(len(additions), 6)
         self.assertFalse(audit['deleted_question_ids'])
-        baseline_ids = set(self.questions) - additions
+        restoration = read('docs/reviews/v6-bank-restoration-review.json')
+        restored_additions = {row['id'] for row in restoration['tasks'] if row['new_task']}
+        self.assertEqual(restored_additions, {f'm8a.18.{section}-q{number}'
+                                           for section in (2, 3) for number in (301, 302, 303)})
+        self.assertFalse(additions & restored_additions)
+        self.assertTrue((additions | restored_additions) <= set(self.questions))
+        baseline_ids = set(self.questions) - additions - restored_additions
         self.assertEqual(len(baseline_ids), audit['baseline_question_count'])
         digest = hashlib.sha256('\n'.join(sorted(baseline_ids)).encode()).hexdigest()
         self.assertEqual(digest, audit['baseline_question_id_sha256'])

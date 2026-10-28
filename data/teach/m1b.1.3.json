@@ -21,7 +21,11 @@
       "对角线贯穿整张纸，把长方形分成两部分。",
       "每部分有三条边，得到2片三角形。"
     ],
-    "answer": "2片三角形"
+    "answer": "2片三角形",
+    "family_id": "geometry.diagonal-cut-pieces",
+    "variant_id": "m1b.1.3:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "4根小棒围成四边形，不一定是正方形。",
@@ -32,7 +36,7 @@
   "name": "解决问题",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -46,8 +50,22 @@
         "criteria": [
           "三角形判断正确",
           "说明4边等长不保证直角"
+        ],
+        "family_id": "geometry.closed-sticks-and-right-angle",
+        "variant_id": "m1b.1.3:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.angle-classify-benchmark",
+          "geometry.sticks-closed-triangle"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "四根一样长的小棒围好后，把一个角轻轻推斜，边长变了吗？还是正方形吗？",
+        "hint": "边数与边长没变，但直角可能消失；用纸角比一比四个角。",
+        "revision_prompt": "用4根等长棒先围正方形再围斜四边形，分别描述边与角，保留两种摆法。"
+      },
+      "observation_note": "观察边数和直角条件分开判断；不能由“四根等长”直接确认正方形。"
     },
     {
       "criterion_index": 1,
@@ -59,8 +77,21 @@
         "criteria": [
           "片数2",
           "形状三角形"
+        ],
+        "family_id": "geometry.diagonal-cut-pieces",
+        "variant_id": "m1b.1.3:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.plane-side-count"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "从一个顶点剪到对角顶点，剪线有没有贯穿纸片？剪开后能拿起几片？",
+        "hint": "先在纸上画对角线，再由成人协助剪开；逐片沿边界数三条边。",
+        "revision_prompt": "用另一张正方形沿另一条对角线剪一次，记录实际片数和每片形状，不把画线前就算作两张。"
+      },
+      "observation_note": "观察实际分片与每片边界；剪刀使用需成人协助，文字回答不能代替操作。"
     }
   ],
   "practice": [

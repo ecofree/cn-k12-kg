@@ -11,6 +11,7 @@ import json
 from pathlib import Path
 
 from .learning_needs import known_representations
+from .task_families import canonical_family
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -50,9 +51,9 @@ def goal_dimensions(goal, skill, tasks, authored):
     classified = [task for task in tasks if task_dimensions(task)["known_family"]
                   and task_dimensions(task)["known_representation"]]
     objective = [task for task in classified if task_dimensions(task)["automatic_result"]]
-    families = sorted({task["family_id"] for task in classified})
+    families = sorted({canonical_family(task["family_id"]) for task in classified})
     reps = sorted({rep for task in classified for rep in known_representations(task.get("representation"))})
-    objective_families = sorted({task["family_id"] for task in objective})
+    objective_families = sorted({canonical_family(task["family_id"]) for task in objective})
     gaps = []
     if not specific_help:
         gaps.append("goal_specific_help")
@@ -102,7 +103,7 @@ def build_alignment_report(data=None, *, catalog=None, scope_report=None):
         for sid in task.get("skill_ids", []):
             by_skill[sid].append(task)
     authored = {}
-    goals, inventory = [], defaultdict(Counter)
+    goals, inventory, global_errors = [], defaultdict(Counter), []
     for task in active:
         kind = task["source_kind"]
         dims = task_dimensions(task)
@@ -128,6 +129,9 @@ def build_alignment_report(data=None, *, catalog=None, scope_report=None):
             path = data / folder / (rid + ".json")
             authored[key] = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
         dims = goal_dimensions(goal, skills.get(goal["goal_id"], {}), by_skill[goal["goal_id"]], authored[key])
+        for requirement in ("goal_specific_help", "authored_observation_boundary", "known_task_structure_and_representation"):
+            if requirement in dims["gaps"]:
+                global_errors.append(f"{goal['goal_id']}: 全范围目标缺 {requirement}")
         in_focus = kind == "topic" and rid in focus_topics or kind == "unit" and rid in focus_units
         if in_focus:
             for requirement in ("goal_specific_help", "authored_observation_boundary"):
@@ -151,7 +155,7 @@ def build_alignment_report(data=None, *, catalog=None, scope_report=None):
     gap_counts = Counter(gap for goal in goals for gap in goal["gaps"])
     return {"schema": 1, "subject": "mathematics", "catalog_version": getattr(catalog, "version", None),
         "focus": {"topic_ids": sorted(focus_topics), "unit_ids": sorted(focus_units),
-                  "notice": "加强验收范围是本轮深入建设的学习链。下方仍展示全部承诺目标；范围以外的缺口没有被删除或降格。"},
+                  "notice": "全部承诺目标均检查专属帮助、观察边界与实际任务结构；原加强范围还保留题库逐题审查要求。客观题族的丰富程度单独报告，不替代过程任务。"},
         "summary": {"goals": len(goals), "focus_goals": sum(g["focus_requirement"] for g in goals),
             "goal_specific_help": sum(g["goal_specific_help"] for g in goals),
             "authored_observation_boundary": sum(g["authored_observation_boundary"] for g in goals),
@@ -159,6 +163,8 @@ def build_alignment_report(data=None, *, catalog=None, scope_report=None):
             "multiple_objective_task_families": sum(g["multiple_objective_task_families"] for g in goals),
             "gap_counts": dict(gap_counts)},
         "task_inventory": {kind: dict(counts) for kind, counts in sorted(inventory.items())},
+        "all_goal_errors": global_errors, "all_goal_requirements_met": not global_errors,
+        "all_goal_requirements": ["goal_specific_help", "authored_observation_boundary", "known_task_structure_and_representation"],
         "focus_errors": errors, "focus_requirements_met": not errors, "goals": goals,
         "limits": ["这些是可重算的资源与关系检查，不是综合质量分、课标完整覆盖率或学习效果。",
                    "两种题族只表示作者声明了不同数学结构；仍须结合真实帮助、曝光、时间和具体表现安排后续。",

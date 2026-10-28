@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh1.2.1",
- "name": "等式性质与不等式性质",
- "tier": "core",
- "hook": "a>b时，为什么乘-2要变号，而乘一个未知数不能直接决定方向？",
- "definition": "不等式的传递性、可加性、可乘性（乘负数变号）；比较两个代数式大小常用作差法。乘除负数反向，乘除正数同向；零不能作除数，未知符号须分类。",
- "why": "比较A、B等价于比较差A-B与0。乘正数保持数轴方向，乘负数把数轴关于原点翻转，因此方向反转；乘零把不同数压成相同数，严格大小丢失。",
- "when_to_use": [
-  "两个代数式大小难以直接看出",
-  "不等式需要乘除含参数的式子"
- ],
- "steps": [
-  "作差并因式分解或配方",
-  "利用已知条件确定每个因子的符号",
-  "乘除前检查符号与是否为零，再写方向"
- ],
- "worked_example": {
-  "prompt": "比较(x+1)²与x²+2x，其中x为实数。",
-  "steps": [
-   "作差：(x+1)²-(x²+2x)。",
-   "展开并合并，差恒为1。",
-   "因为1>0，前式对所有实数x都大于后式。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.2.1",
+  "name": "等式性质与不等式性质",
+  "tier": "core",
+  "hook": "a>b时，为什么乘-2要变号，而乘一个未知数不能直接决定方向？",
+  "definition": "比较实数式A、B可考察差A-B的符号。等式两边可作保持等价的同一运算；不等式两边同加同减同一实数保持方向，同乘除正数保持方向，同乘除负数反向。零不能作除数，乘0则两边都变0；未知符号必须分类。",
+  "why": "比较A、B等价于比较差A-B与0。乘正数保持数轴方向，乘负数把数轴关于原点翻转，因此方向反转；乘零把不同数压成相同数，严格大小丢失。",
+  "when_to_use": [
+    "两个代数式大小难以直接看出",
+    "不等式需要乘除含参数的式子"
   ],
-  "answer": "(x+1)²>x²+2x"
- },
- "pitfalls": [
-  "给不等式同乘未知符号的量仍保留原方向",
-  "由a>b直接平方，忽略负数的情况"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能用作差法比较两个代数式的大小",
-   "explanation": "作差不改变比较对象；差为正、零、负分别对应大于、等于、小于。",
-   "self_check": {
-    "prompt": "比较a²+b²与2ab，说明何时相等。",
-    "reference_answer": "差为(a-b)²≥0，因此a²+b²≥2ab；等号当且仅当a=b。",
-    "criteria": [
-     "写出平方差表达式",
-     "说明大小关系和取等条件"
-    ]
-   }
+  "steps": [
+    "作差并因式分解或配方",
+    "利用已知条件确定每个因子的符号",
+    "乘除前检查符号与是否为零，再写方向"
+  ],
+  "worked_example": {
+    "prompt": "比较(x+1)²与x²+2x，其中x为实数。",
+    "steps": [
+      "作差：(x+1)²-(x²+2x)。",
+      "展开并合并，差恒为1。",
+      "因为1>0，前式对所有实数x都大于后式。"
+    ],
+    "answer": "(x+1)²>x²+2x",
+    "family_id": "inequality.constant-difference",
+    "variant_id": "mh1.2.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能正确运用可乘性判断不等号方向",
-   "explanation": "可乘性依赖乘数符号；无法确定符号时给出分类结论。",
-   "self_check": {
-    "prompt": "已知a>b，分别讨论c>0、c=0、c<0时ac与bc的关系。",
-    "reference_answer": "c>0时ac>bc；c=0时ac=bc=0；c<0时ac<bc。",
-    "criteria": [
-     "三种符号情况完整",
-     "负数反向及零情形正确"
-    ]
-   }
+  "pitfalls": [
+    "给不等式同乘未知符号的量仍保留原方向",
+    "由a>b直接平方，忽略负数的情况"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用作差法比较两个代数式的大小",
+      "explanation": "作差不改变比较对象；差为正、零、负分别对应大于、等于、小于。",
+      "self_check": {
+        "prompt": "比较a²+b²与2ab，说明何时相等。",
+        "reference_answer": "差为(a-b)²≥0，因此a²+b²≥2ab；等号当且仅当a=b。",
+        "criteria": [
+          "写出平方差表达式",
+          "说明大小关系和取等条件"
+        ],
+        "family_id": "inequality.difference-square",
+        "variant_id": "mh1.2.1:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "prove"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "由(a-b)²≥0，何时可以写成严格大于？",
+        "hint": "平方为0只在a=b；作差后仍要区分等号情形。",
+        "revision_prompt": "比较(x+1)²与4x：差(x-1)²≥0，x=1相等；其余严格大于。"
+      },
+      "observation_note": "观察差的恒定符号与取等条件；数值代入不能替代任意实数证明。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能正确运用可乘性判断不等号方向",
+      "explanation": "可乘性依赖乘数符号；无法确定符号时给出分类结论。",
+      "self_check": {
+        "prompt": "已知a>b，分别讨论c>0、c=0、c<0时ac与bc的关系。",
+        "reference_answer": "c>0时ac>bc；c=0时ac=bc=0；c<0时ac<bc。",
+        "criteria": [
+          "三种符号情况完整",
+          "负数反向及零情形正确"
+        ],
+        "family_id": "inequality.multiply-sign-cases",
+        "variant_id": "mh1.2.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "a>b时能无条件同乘c保留>吗？",
+        "hint": "分别取c=2、0、-2，注意0让差变0，负数改变符号。",
+        "revision_prompt": "已知2<5，分别乘-3与0，得到-6>-15与0=0；再写一般分类。"
+      },
+      "observation_note": "观察符号分类；未给c符号时不能据一次乘法确定方向。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：写出平方差表达式；三种符号情况完整。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.2.1-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.2.1-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.2.1-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "除数非零；乘除未知符号量必须分类。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：写出平方差表达式；三种符号情况完整。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh1.2.1-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.2.1-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.2.1-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

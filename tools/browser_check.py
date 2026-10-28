@@ -29,7 +29,7 @@ SCRIPT = ROOT / "tests/browser/learning-flow.cjs"
 JOURNEYS = ("self_check_autosave", "rubric_revision", "unit_phases",
             "project_history", "mobile_stage", "pool_exhaustion",
             "navigation_recovery", "keyboard_accessibility", "learning_needs_support",
-            "profile_backup_recovery", "scope_and_manipulatives", "goal_alignment", "equation_steps", "support_branches", "changed_content_preview")
+            "profile_backup_recovery", "scope_and_manipulatives", "goal_alignment", "goal_support_revision", "prerequisite_plan", "equation_steps", "support_branches", "changed_content_preview")
 ARTIFACT_NAMES = ("result.json", "browser.log", "http.log", "final.png",
                   "desktop-unit.png", "desktop-home.png", "desktop-project.png", "primary-entry.png", "profile-health.png", "counting-prediction.png",
                   "steps-desktop.png", "steps-mobile.png")
@@ -38,9 +38,10 @@ INPUTS = ("web/server.py", "web/static/index.html", "web/static/app.js", "web/st
           "web/static/style.css", "cnkg/portfolio.py", "cnkg/planner.py", "cnkg/learning_store.py",
           "cnkg/session_content.py", "cnkg/instruction.py", "cnkg/profile_recovery.py", "cnkg/learning_needs.py",
           "cnkg/content_repository.py", "cnkg/quality_scope.py", "cnkg/manipulatives.py", "cnkg/runtime_version.py",
+          "cnkg/task_families.py", "data/task_family_aliases.json",
           "cnkg/alignment.py", "data/alignment_targets.json", "data/curriculum_scope.json", "data/catalog.json", "package-lock.json",
           "cnkg/step_practice.py", "web/static/steps.js", "tests/browser/step-practice.cjs", "tests/browser/support-branches.cjs",
-          "tools/browser_check.py", "tests/browser/learning-flow.cjs")
+          "tools/browser_check.py", "tests/browser/learning-flow.cjs", "tests/browser/prerequisite-plan.cjs")
 
 
 def fingerprints():

@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh1.1.4.2",
- "name": "充要条件",
- "tier": "core",
- "hook": "‘x²=0’与‘x=0’能互相推出，这与只证明一边有什么不同？",
- "definition": "p⇔q 时称 p 是 q 的充要条件；证明时要分别证充分性与必要性。p⇔q须同时证明p⇒q与q⇒p。求参数使充要成立时，要保证两个解集完全相同。",
- "why": "充要条件意味着两种描述挑出的对象完全一致，故既不能多收对象，也不能漏掉对象。两个方向分别排除了这两种差异，才构成等价证明。",
- "when_to_use": [
-  "题干出现‘当且仅当’或‘充要条件’",
-  "需要判断两种描述是否选出相同对象"
- ],
- "steps": [
-  "写出待证的两个明确命题",
-  "证明从条件到结论的充分性",
-  "另证从结论到条件的必要性，再合并为等价"
- ],
- "worked_example": {
-  "prompt": "证明：实数x满足x²=0的充要条件是x=0。",
-  "steps": [
-   "若x²=0，则实数的平方仅在x=0时为零，得x=0。",
-   "若x=0，则代入得x²=0。",
-   "两个方向均成立，所以二者互为充要条件。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.1.4.2",
+  "name": "充要条件",
+  "tier": "core",
+  "hook": "‘x²=0’与‘x=0’能互相推出，这与只证明一边有什么不同？",
+  "definition": "在同一论域中，p⇔q表示p是q的充要条件，必须同时成立p⇒q与q⇒p。证明时两个方向分别从相应假设出发；用解集判断时要求两个集合完全相同。",
+  "why": "充要条件意味着两种描述挑出的对象完全一致，故既不能多收对象，也不能漏掉对象。两个方向分别排除了这两种差异，才构成等价证明。",
+  "when_to_use": [
+    "题干出现‘当且仅当’或‘充要条件’",
+    "需要判断两种描述是否选出相同对象"
   ],
-  "answer": "x²=0⇔x=0"
- },
- "pitfalls": [
-  "只证明充分性就写‘充要’",
-  "两边平方时忽略可能新增的解"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能判断两个命题是否互为充要条件",
-   "explanation": "等价要在同一论域中比较，反例可直接否定充要。",
-   "self_check": {
-    "prompt": "在R中判断‘x=1’与‘x²=1’是否互为充要；再给出一个与x²=1等价的条件。",
-    "reference_answer": "不是，x=-1是反向反例；等价条件为x=1或x=-1，也可写|x|=1。",
-    "criteria": [
-     "给出反例而非只下结论",
-     "写出包含两根的等价条件"
-    ]
-   }
+  "steps": [
+    "写出待证的两个明确命题",
+    "证明从条件到结论的充分性",
+    "另证从结论到条件的必要性，再合并为等价"
+  ],
+  "worked_example": {
+    "prompt": "证明：实数x满足x²=0的充要条件是x=0。",
+    "steps": [
+      "若x²=0，则实数的平方仅在x=0时为零，得x=0。",
+      "若x=0，则代入得x²=0。",
+      "两个方向均成立，所以二者互为充要条件。"
+    ],
+    "answer": "x²=0⇔x=0",
+    "family_id": "logic.prove-equivalence",
+    "variant_id": "mh1.1.4.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "prove"
   },
-  {
-   "criterion_index": 1,
-   "title": "能分两步证明充要条件",
-   "explanation": "充分性与必要性要分别从不同假设出发。",
-   "self_check": {
-    "prompt": "证明：对实数a、b，a=b是(a-b)²=0的充要条件。",
-    "reference_answer": "a=b⇒a-b=0⇒(a-b)²=0；反向若(a-b)²=0，则a-b=0，故a=b。",
-    "criteria": [
-     "两个方向各有推导",
-     "用实数平方为零的条件"
-    ]
-   }
+  "pitfalls": [
+    "只证明充分性就写‘充要’",
+    "两边平方时忽略可能新增的解"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断两个命题是否互为充要条件",
+      "explanation": "等价要在同一论域中比较，反例可直接否定充要。",
+      "self_check": {
+        "prompt": "在R中判断‘x=1’与‘x²=1’是否互为充要；再给出一个与x²=1等价的条件。",
+        "reference_answer": "不是，x=-1是反向反例；等价条件为x=1或x=-1，也可写|x|=1。",
+        "criteria": [
+          "给出反例而非只下结论",
+          "写出包含两根的等价条件"
+        ],
+        "family_id": "logic.equivalence-counterexample",
+        "variant_id": "mh1.1.4.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "平方相等是否总能推出原数相等？试x=-1。",
+        "hint": "区分x²=1的全部解与只取一个根。",
+        "revision_prompt": "比较x²=4与|x|=2，写出双方同为{-2,2}，再说明为何与x=2不等价。"
+      },
+      "observation_note": "观察解集等价及反例；一次特例不构成一般充要证明。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能分两步证明充要条件",
+      "explanation": "充分性与必要性要分别从不同假设出发。",
+      "self_check": {
+        "prompt": "证明：对实数a、b，a=b是(a-b)²=0的充要条件。",
+        "reference_answer": "a=b⇒a-b=0⇒(a-b)²=0；反向若(a-b)²=0，则a-b=0，故a=b。",
+        "criteria": [
+          "两个方向各有推导",
+          "用实数平方为零的条件"
+        ],
+        "family_id": "logic.prove-equivalence",
+        "variant_id": "mh1.1.4.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "prove"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "证明充要条件时，第二段能继续假设a=b吗？",
+        "hint": "两段的假设必须交换；必要性从平方为0开始。",
+        "revision_prompt": "证明实数x=0⇔x⁴=0，两方向分别写出理由；反向用非零实数四次方为正。"
+      },
+      "observation_note": "观察两个独立方向的论证；仅代入验证不能完成必要性。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：给出反例而非只下结论；两个方向各有推导。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.1.4.2-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.1.4.2-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.1.4.2-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "固定实数论域；充分性和必要性分别证明。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：给出反例而非只下结论；两个方向各有推导。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh1.1.4.2-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.1.4.2-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.1.4.2-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

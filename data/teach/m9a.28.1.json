@@ -1,76 +1,105 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m9a.28.1",
- "name": "图形的旋转",
- "tier": "core",
- "hook": "旋转时每个点移动的路程可能不同，为什么图形的大小仍保持不变？",
- "definition": "把一个图形绕某一点按某方向转动一个角度叫旋转，这一点叫旋转中心，转过的角叫旋转角；旋转不改变图形的形状和大小，对应点到旋转中心的距离相等，对应点与旋转中心连线所成的角等于旋转角。",
- "why": "旋转让所有点绕同一中心转过相同角度，各点到中心的距离不变。两点间的相对夹角及半径同时保留，因而对应边角和图形大小不变；半径不同会使走过的弧长不同，这不违背刚性运动。",
- "when_to_use": [
-  "图形绕固定点转动",
-  "已知旋转前后的对应点求长度或角度"
- ],
- "steps": [
-  "明确中心、顺逆方向及旋转角",
-  "连接中心与对应点，使用等半径与等转角",
-  "找对应边角，必要时结合三角形关系求值"
- ],
- "worked_example": {
-  "prompt": "A绕O顺时针转60°到A′，OA=5。求OA′及小于180°的∠AOA′。",
-  "answer": "OA′=5，∠AOA′=60°",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m9a.28.1",
+  "name": "图形的旋转",
+  "tier": "core",
+  "hook": "旋转时每个点移动的路程可能不同，为什么图形的大小仍保持不变？",
+  "definition": "旋转由固定中心、指定方向和转过角度共同确定，保持图形的形状与大小。非中心的对应点到中心距离相等，两条半径的有向转角按约定记录；若只看0°到180°的较小夹角，它未必等于超过半周的旋转角。中心自身不移动。",
+  "why": "旋转让所有点绕同一中心转过相同角度，各点到中心的距离不变。两点间的相对夹角及半径同时保留，因而对应边角和图形大小不变；半径不同会使走过的弧长不同，这不违背刚性运动。",
+  "when_to_use": [
+    "图形绕固定点转动",
+    "已知旋转前后的对应点求长度或角度"
+  ],
   "steps": [
-   "旋转保持点到中心的距离，故OA′=OA=5。",
-   "本次转角60°小于180°，对应的∠AOA′就是60°。"
-  ]
- },
- "pitfalls": [
-  "旋转方向与角度都必须明确，只有角度可能有两个位置。",
-  "对应点到中心距离相等，不表示不同顶点到中心的距离相等。"
- ],
- "check": "独立完成并解释：点A位于O的正东方向，绕O逆时针旋转90°到A′，A′位于O的哪个方向？ 备选：A. 正北；B. 正南；C. 正西 请写出判断或计算依据。；△ABC旋转成△A′B′C′，AB=4，∠ABC=70°。求A′B′、∠A′B′C′并说明理由。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能指出旋转中心、旋转方向与旋转角",
-   "explanation": "旋转的三要素是中心、方向和角度，改变任一项会改变位置。",
-   "self_check": {
-    "prompt": "点A位于O的正东方向，绕O逆时针旋转90°到A′，A′位于O的哪个方向？ 备选：A. 正北；B. 正南；C. 正西 请写出判断或计算依据。",
-    "reference_answer": "从正东朝逆时针转90°指向正北；旋转中心为O，OA′=OA。 正确选项内容：正北。",
-    "criteria": [
-     "中心O不移动",
-     "东向逆时针90°为北"
-    ]
-   }
+    "明确中心、顺逆方向及旋转角",
+    "连接中心与对应点，使用等半径与等转角",
+    "找对应边角，必要时结合三角形关系求值"
+  ],
+  "worked_example": {
+    "prompt": "A绕O顺时针转60°到A′，OA=5。求OA′及小于180°的∠AOA′。",
+    "answer": "OA′=5，∠AOA′=60°",
+    "steps": [
+      "旋转保持点到中心的距离，故OA′=OA=5。",
+      "本次转角60°小于180°，对应的∠AOA′就是60°。"
+    ],
+    "family_id": "rotation.centre-direction-angle",
+    "variant_id": "m9a.28.1:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能用旋转的性质求线段长或角度",
-   "explanation": "旋转保持对应线段长度和对应角，不应凭图上方位寻找对应。",
-   "self_check": {
-    "prompt": "△ABC旋转成△A′B′C′，AB=4，∠ABC=70°。求A′B′、∠A′B′C′并说明理由。",
-    "reference_answer": "对应边A′B′=AB=4，对应角∠A′B′C′=∠ABC=70°，依据旋转保距保角。",
-    "criteria": [
-     "边角对应顺序正确",
-     "分别注明旋转性质"
-    ]
-   }
+  "pitfalls": [
+    "旋转方向与角度都必须明确，只有角度可能有两个位置。",
+    "对应点到中心距离相等，不表示不同顶点到中心的距离相等。"
+  ],
+  "check": "独立完成并解释：点A位于O的正东方向，绕O逆时针旋转90°到A′，A′位于O的哪个方向？ 备选：A. 正北；B. 正南；C. 正西 请写出判断或计算依据。；△ABC旋转成△A′B′C′，AB=4，∠ABC=70°。求A′B′、∠A′B′C′并说明理由。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能指出旋转中心、旋转方向与旋转角",
+      "explanation": "旋转的三要素是中心、方向和角度，改变任一项会改变位置。",
+      "self_check": {
+        "prompt": "点A位于O的正东方向，绕O逆时针旋转90°到A′，A′位于O的哪个方向？ 备选：A. 正北；B. 正南；C. 正西 请写出判断或计算依据。",
+        "reference_answer": "从正东朝逆时针转90°指向正北；旋转中心为O，OA′=OA。 正确选项内容：正北。",
+        "criteria": [
+          "中心O不移动",
+          "东向逆时针90°为北"
+        ],
+        "family_id": "rotation.centre-direction-angle",
+        "variant_id": "m9a.28.1:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "从东方向逆时针转90°与顺时针转90°分别到哪边？",
+        "hint": "把O固定，先在纸上标东南西北，再沿指定方向走四分之一周。",
+        "revision_prompt": "同一起点分别画两个方向的90°像，标北与南以及相同的OA长度。"
+      },
+      "observation_note": "观察中心、方向和转角三要素；只报北不显示是否正确理解旋转中心。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用旋转的性质求线段长或角度",
+      "explanation": "旋转保持对应线段长度和对应角，不应凭图上方位寻找对应。",
+      "self_check": {
+        "prompt": "△ABC旋转成△A′B′C′，AB=4，∠ABC=70°。求A′B′、∠A′B′C′并说明理由。",
+        "reference_answer": "对应边A′B′=AB=4，对应角∠A′B′C′=∠ABC=70°，依据旋转保距保角。",
+        "criteria": [
+          "边角对应顺序正确",
+          "分别注明旋转性质"
+        ],
+        "family_id": "rotation.corresponding-length-angle",
+        "variant_id": "m9a.28.1:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "∠ABC的顶点B对应哪个点？它不是绕中心转过的旋转角。",
+        "hint": "按A→A′、B→B′、C→C′配对，旋转保留图形内部角和对应边。",
+        "revision_prompt": "列A′B′=4、∠A′B′C′=70°，另说明旋转角需由中心与一对对应点确定，不能据70°猜。"
+      },
+      "observation_note": "观察保距保角与角的身份；图形内角不等于旋转角。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m9a.28.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.28.1-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.28.1-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m9a.28.1-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m9a.28.1-q101",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m9a.28.1-q102",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

@@ -1,76 +1,113 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m9a.25.2",
- "name": "降次——解一元二次方程",
- "tier": "core",
- "hook": "x²−5x=0若直接除以x，会把哪个合法的解丢掉？",
- "definition": "解一元二次方程可用直接开平方法、因式分解法、配方法和公式法。一般式ax²+bx+c=0中a≠0；Δ=b²−4ac，Δ≥0时x=(−b±√Δ)/(2a)，Δ<0时无实数根。先辨结构选择方法，再保留并检验全部实根。",
- "why": "降次把二次关系转成一次或平方关系。因式分解利用积为0至少一个因子为0，直接除以未知因子可能删去使它为0的根；配方显示实根来自非负平方，判别式则概括根式内的符号条件。",
- "when_to_use": [
-  "二次方程可直接开方或明显因式分解",
-  "需要选择解法并判断是否有实数根"
- ],
- "steps": [
-  "先化一般形式并观察结构选方法",
-  "用因式分解、配方或求根公式求全部候选根",
-  "用Δ判断根况并代回检验不遗漏"
- ],
- "worked_example": {
-  "prompt": "解x²−6x+5=0。",
-  "answer": "x=1或x=5",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m9a.25.2",
+  "name": "降次——解一元二次方程",
+  "tier": "core",
+  "hook": "x²−5x=0若直接除以x，会把哪个合法的解丢掉？",
+  "definition": "解一元二次方程可用直接开平方法、因式分解法、配方法和公式法。一般式ax²+bx+c=0中a≠0；Δ=b²−4ac，Δ≥0时x=(−b±√Δ)/(2a)，Δ<0时无实数根。先辨结构选择方法，再保留并检验全部实根。",
+  "why": "降次把二次关系转成一次或平方关系。因式分解利用积为0至少一个因子为0，直接除以未知因子可能删去使它为0的根；配方显示实根来自非负平方，判别式则概括根式内的符号条件。",
+  "when_to_use": [
+    "二次方程可直接开方或明显因式分解",
+    "需要选择解法并判断是否有实数根"
+  ],
   "steps": [
-   "找乘积5、和−6的两数−1、−5，分解为(x−1)(x−5)=0。",
-   "积为0，所以x−1=0或x−5=0，得到两根1、5，代入均成立。"
-  ]
- },
- "pitfalls": [
-  "不能随意除以x或含x因式，可能漏掉零因子的根。",
-  "Δ=0时是两个相等实根，而不是无实根。"
- ],
- "check": "独立完成并解释：为三题选择方便方法并完整求解：①(2x−1)²=9；②x²−5x=0；③x²−6x+1=0。；方程x²−4x+7=0的判别式Δ是多少？ 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能根据方程特点选择合适解法",
-   "explanation": "纯平方结构可直接开方；有明显公因式可因式分解；易配整平方的式子可配方；一般式可用x=(−b±√Δ)/(2a)，其中a≠0且Δ≥0。各法都要保留全部实根。",
-   "self_check": {
-    "prompt": "为三题选择方便方法并完整求解：①(2x−1)²=9；②x²−5x=0；③x²−6x+1=0。",
-    "reference_answer": "①直接开方：2x−1=±3，得x=2或−1。②分解x(x−5)=0，得0或5。③配方(x−3)²=8，得x=3±2√2；也可用公式法得到同样两根。",
-    "criteria": [
-     "说明三题结构与方法的对应",
-     "每题两根齐全且配方常数正确"
-    ]
-   }
+    "先化一般形式并观察结构选方法",
+    "用因式分解、配方或求根公式求全部候选根",
+    "用Δ判断根况并代回检验不遗漏"
+  ],
+  "worked_example": {
+    "prompt": "解x²−6x+5=0。",
+    "answer": "x=1或x=5",
+    "steps": [
+      "找乘积5、和−6的两数−1、−5，分解为(x−1)(x−5)=0。",
+      "积为0，所以x−1=0或x−5=0，得到两根1、5，代入均成立。"
+    ],
+    "family_id": "quadratic-equation.factor-zero-product",
+    "variant_id": "m9a.25.2:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
   },
-  {
-   "criterion_index": 1,
-   "title": "能用判别式判断根的情况",
-   "explanation": "Δ>0有两不同实根，Δ=0两相等实根，Δ<0无实根。",
-   "self_check": {
-    "prompt": "方程x²−4x+7=0的判别式Δ是多少？ 请写出判断或计算依据。",
-    "reference_answer": "a=1、b=−4、c=7，Δ=b²−4ac=16−28=−12<0，所以原方程无实数根。",
-    "criteria": [
-     "算出−12",
-     "由负号判无实数根"
-    ]
-   }
+  "pitfalls": [
+    "不能随意除以x或含x因式，可能漏掉零因子的根。",
+    "Δ=0时是两个相等实根，而不是无实根。"
+  ],
+  "check": "独立完成并解释：为三题选择方便方法并完整求解：①(2x−1)²=9；②x²−5x=0；③x²−6x+1=0。；方程x²−4x+7=0的判别式Δ是多少？ 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能根据方程特点选择合适解法",
+      "explanation": "纯平方结构可直接开方；有明显公因式可因式分解；易配整平方的式子可配方；一般式可用x=(−b±√Δ)/(2a)，其中a≠0且Δ≥0。各法都要保留全部实根。",
+      "self_check": {
+        "prompt": "为四题选择方便方法并完整求解：①(2x−1)²=9；②x²−5x=0；③x²−6x+1=0；④2x²−3x−1=0。至少在④写出a、b、c、Δ和求根公式代入过程。",
+        "reference_answer": "①直接开方2x−1=±3，x=2或−1。②分解x(x−5)=0，x=0或5，不能直接除x漏0。③配方(x−3)²=8，x=3±2√2。④a=2、b=−3、c=−1，Δ=(−3)²−4×2×(−1)=17，x=[−(−3)±√17]/(2×2)=(3±√17)/4。其他合法等价方法也可，但需显示四种方法的结构与条件。",
+        "criteria": [
+          "开方与零积两题全部根齐全",
+          "配方保持等价且常数正确",
+          "公式法记录带符号系数、Δ=17和分母2a=4",
+          "说明方法适合的结构并核对候选不遗漏"
+        ],
+        "family_id": "quadratic-equation.method-choice.complete-roots",
+        "variant_id": "m9a.25.2:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "choose_strategy",
+        "reference_family_ids": [
+          "quadratic-equation.direct-square-root",
+          "quadratic-equation.factor-zero-product",
+          "quadratic-equation.complete-square",
+          "quadratic-equation.formula-discriminant"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "开平方为何有±？x²−5x=0若两边除x会漏哪一个根？",
+        "hint": "平方结构直接开方，乘积结构用零积；配方需两边同补9。",
+        "revision_prompt": "逐题代回全部候选：2、−1；0、5；3±2√2，并标明不用除可能为0的x。"
+      },
+      "observation_note": "四个实例分别展示开方、分解、配方和公式法；逐项观察完整解及必要条件，综合一题正确不替代其他结构。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用判别式判断根的情况",
+      "explanation": "Δ>0有两不同实根，Δ=0两相等实根，Δ<0无实根。",
+      "self_check": {
+        "prompt": "方程x²−4x+7=0的判别式Δ是多少？ 请写出判断或计算依据。",
+        "reference_answer": "a=1、b=−4、c=7，Δ=b²−4ac=16−28=−12<0，所以原方程无实数根。",
+        "criteria": [
+          "算出−12",
+          "由负号判无实数根"
+        ],
+        "family_id": "quadratic-equation.discriminant.real-root-cases",
+        "variant_id": "m9a.25.2:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "b=−4时b²是−16还是16？Δ为负意味着方程完全没根还是没有实数根？",
+        "hint": "系数整体加括号平方；本课在实数范围，负数不能作实数平方根。",
+        "revision_prompt": "对x²−4x+4与x²−4x+3分别算Δ=0、4，比较一重根位置与两个不同实根。"
+      },
+      "observation_note": "观察正确系数代入及Δ三种情形；结论范围限定实数。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m9a.25.2-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.25.2-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.25.2-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m9a.25.2-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m9a.25.2-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m9a.25.2-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

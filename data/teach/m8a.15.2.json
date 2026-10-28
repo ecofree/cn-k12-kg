@@ -1,76 +1,109 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m8a.15.2",
- "name": "画轴对称的图形",
- "tier": "core",
- "hook": "作一个顶点的对称点时，怎样保证既在另一侧，又恰好一样远？",
- "definition": "画轴对称图形的步骤：找出关键点，过每个点作对称轴的垂线并延长等距得到对称点，再按原图顺序连接各对称点。",
- "why": "对称轴是对应点连线的垂直平分线，因此沿垂线穿过轴，在另一侧截取同长线段就确定了唯一对称点。多边形由顶点和连接顺序决定，逐点对称后按原顺序连线即可。",
- "when_to_use": [
-  "给定对称轴要求补全另一半图形",
-  "要求点关于坐标轴对称后的坐标"
- ],
- "steps": [
-  "从每个顶点向轴作垂线并记垂足",
-  "在轴另一侧截取与原距离相等的线段",
-  "按原顶点顺序连线并核对轴上点不动"
- ],
- "worked_example": {
-  "prompt": "三角形顶点A(1,1)、B(3,1)、C(1,2)，写出关于y轴的对称图形顶点。",
-  "answer": "A′(−1,1)、B′(−3,1)、C′(−1,2)",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.15.2",
+  "name": "画轴对称的图形",
+  "tier": "core",
+  "hook": "作一个顶点的对称点时，怎样保证既在另一侧，又恰好一样远？",
+  "definition": "画轴对称图形的步骤：找出关键点，过每个点作对称轴的垂线并延长等距得到对称点，再按原图顺序连接各对称点。",
+  "why": "对称轴是对应点连线的垂直平分线，因此沿垂线穿过轴，在另一侧截取同长线段就确定了唯一对称点。多边形由顶点和连接顺序决定，逐点对称后按原顺序连线即可。",
+  "when_to_use": [
+    "给定对称轴要求补全另一半图形",
+    "要求点关于坐标轴对称后的坐标"
+  ],
   "steps": [
-   "关于y轴对称保持纵坐标，横坐标取相反数。",
-   "逐点得到A′、B′、C′，按A′B′C′次序连接就是对称三角形。"
-  ]
- },
- "pitfalls": [
-  "关于哪个轴对称，该轴方向的坐标就保持不变。",
-  "轴上点与自身重合，不应移到另一侧。"
- ],
- "check": "独立完成并解释：给定三角形ABC和直线l，写出作其关于l对称图形的完整方法。；点P(−3,2)关于x轴对称的点坐标是什么？ 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能按步骤画出简单图形的轴对称图形",
-   "explanation": "实际作图需垂直、等距和正确连点，不只是目测另一半。",
-   "self_check": {
-    "prompt": "给定三角形ABC和直线l，写出作其关于l对称图形的完整方法。",
-    "reference_answer": "分别作AA′、BB′、CC′垂直l，使l平分各连线且对应点在两侧；再连接A′B′、B′C′、C′A′。若顶点在l上，其对应点不变。",
-    "criteria": [
-     "每个点均垂直等距",
-     "保留原连接次序和轴上不动点"
-    ]
-   }
+    "从每个顶点向轴作垂线并记垂足",
+    "在轴另一侧截取与原距离相等的线段",
+    "按原顶点顺序连线并核对轴上点不动"
+  ],
+  "worked_example": {
+    "prompt": "三角形顶点A(1,1)、B(3,1)、C(1,2)，写出关于y轴的对称图形顶点。",
+    "answer": "A′(−1,1)、B′(−3,1)、C′(−1,2)",
+    "steps": [
+      "关于y轴对称保持纵坐标，横坐标取相反数。",
+      "逐点得到A′、B′、C′，按A′B′C′次序连接就是对称三角形。"
+    ],
+    "family_id": "coordinate.reflection.y-axis",
+    "variant_id": "m8a.15.2:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能写出点关于坐标轴对称后坐标的变化规律",
-   "explanation": "关于x轴为(x,−y)，关于y轴为(−x,y)，符号变化来自到轴等距。",
-   "self_check": {
-    "prompt": "点P(−3,2)关于x轴对称的点坐标是什么？ 请写出判断或计算依据。",
-    "reference_answer": "关于x轴对称时横坐标保持−3，纵坐标变为相反数−2，所以P′=(−3,−2)。",
-    "criteria": [
-     "横坐标不变",
-     "纵坐标2改为−2"
-    ]
-   }
+  "pitfalls": [
+    "关于哪个轴对称，该轴方向的坐标就保持不变。",
+    "轴上点与自身重合，不应移到另一侧。"
+  ],
+  "check": "独立完成并解释：给定三角形ABC和直线l，写出作其关于l对称图形的完整方法。；点P(−3,2)关于x轴对称的点坐标是什么？ 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能按步骤画出简单图形的轴对称图形",
+      "explanation": "实际作图需垂直、等距和正确连点，不只是目测另一半。",
+      "self_check": {
+        "prompt": "在纸上画一个三角形ABC及直线l，使A在l上，B、C不在l上；实际作出它关于l的对称像，保留作图痕迹并写完整方法。",
+        "reference_answer": "A在轴上所以A′=A；分别作BB′、CC′垂直l，使垂足平分两段且对应点在轴两侧，保持到轴等距。按原边的连接关系连接A′B′、B′C′、C′A′。图中保留垂线和等长标记；选择的其他三角形位置只要条件一致也可。",
+        "criteria": [
+          "留下原图、对称像及作图痕迹",
+          "轴上A不动，另两点垂直等距且在两侧",
+          "连接次序与原图一致并说明构造依据"
+        ],
+        "family_id": "construction.reflection.each-vertex",
+        "variant_id": "m8a.15.2:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "只让A与A′距轴相等，但连线不垂直轴，够不够？",
+        "hint": "每个点都需要垂线、两侧等距；轴上点保留原位，最后按原边连接。",
+        "revision_prompt": "实际画一个有顶点在轴上的三角形及其对称像，逐顶点标垂直等距并核对连接。"
+      },
+      "observation_note": "观察完整作图与特殊不动点；书面步骤不能代替真实图形检验。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能写出点关于坐标轴对称后坐标的变化规律",
+      "explanation": "关于x轴为(x,−y)，关于y轴为(−x,y)，符号变化来自到轴等距。",
+      "self_check": {
+        "prompt": "点P(−3,2)关于x轴对称的点坐标是什么？ 请写出判断或计算依据。",
+        "reference_answer": "关于x轴对称时横坐标保持−3，纵坐标变为相反数−2，所以P′=(−3,−2)。",
+        "criteria": [
+          "横坐标不变",
+          "纵坐标2改为−2"
+        ],
+        "family_id": "coordinate.reflection.x-axis",
+        "variant_id": "m8a.15.2:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "coordinate.reflection.y-axis"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "关于x轴反射时，到x轴的距离来自横坐标还是纵坐标？",
+        "hint": "沿垂直x轴的方向上下对换；横向位置不动，纵坐标取相反数。",
+        "revision_prompt": "求(−3,2)关于y轴的像(3,2)，与关于x轴的像(−3,−2)画在同一图上比较。"
+      },
+      "observation_note": "观察反射轴与改变坐标的对应；不可把两轴同时变号当任一轴的反射。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.15.2-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.15.2-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.15.2-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m8a.15.2-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.15.2-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.15.2-q101",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

@@ -1,76 +1,105 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m8a.18.2",
- "name": "分式的乘法与除法",
- "tier": "core",
- "hook": "分式除法翻转的是哪一个分式？如果除式等于0会怎样？",
- "definition": "分式乘分式，分子乘分子、分母乘分母；除以一个分式等于乘它的倒数；运算前先因式分解并约分，结果要化成最简分式。",
- "why": "分式乘法把分子相乘、分母相乘，公因式可先约以减少计算。除法转乘倒数是乘除互逆的体现，但除式必须非零，故除了各原分母限制，还要排除除式分子为0的情况。",
- "when_to_use": [
-  "分式相乘可先约公因式",
-  "出现分式除法需要取除式的倒数"
- ],
- "steps": [
-  "列出所有原分母非零及除式非零限制",
-  "除法变乘法，只把除式分子分母互换",
-  "先分解约分再相乘，保留原限制"
- ],
- "worked_example": {
-  "prompt": "化简(x²−1)/x ÷ (x+1)/x，并写限制。",
-  "answer": "x−1，x≠0且x≠−1",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.18.2",
+  "name": "分式的乘法与除法",
+  "tier": "core",
+  "hook": "分式除法翻转的是哪一个分式？如果除式等于0会怎样？",
+  "definition": "分式乘分式，分子乘分子、分母乘分母；除以一个分式等于乘它的倒数；运算前先因式分解并约分，结果要化成最简分式。",
+  "why": "分式乘法把分子相乘、分母相乘，公因式可先约以减少计算。除法转乘倒数是乘除互逆的体现，但除式必须非零，故除了各原分母限制，还要排除除式分子为0的情况。",
+  "when_to_use": [
+    "分式相乘可先约公因式",
+    "出现分式除法需要取除式的倒数"
+  ],
   "steps": [
-   "原分母要求x≠0，除式(x+1)/x非零还要求x≠−1。",
-   "转为[(x−1)(x+1)/x]·[x/(x+1)]，约分得x−1。"
-  ]
- },
- "pitfalls": [
-  "把被除式翻转而不是除式翻转会改变运算。",
-  "除式分子为0时除法无意义，不能只看分母。"
- ],
- "check": "独立完成并解释：化简[2x/(x+1)]÷[4x/(x−1)]，并写限制。；化简[(x²−4)/(x+1)]·[(x+1)/(x−2)]并说明约去哪些因式。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能进行分式的乘除运算",
-   "explanation": "乘除前先确定原式定义域，再按倒数和约分规则操作。",
-   "self_check": {
-    "prompt": "化简[2x/(x+1)]÷[4x/(x−1)]，并写限制。",
-    "reference_answer": "限制x≠−1、1、0。转为[2x/(x+1)]·[(x−1)/(4x)]，得(x−1)/[2(x+1)]。",
-    "criteria": [
-     "除式非零补充x≠0",
-     "只翻转除式且结果正确"
-    ]
-   }
+    "列出所有原分母非零及除式非零限制",
+    "除法变乘法，只把除式分子分母互换",
+    "先分解约分再相乘，保留原限制"
+  ],
+  "worked_example": {
+    "prompt": "化简(x²−1)/x ÷ (x+1)/x，并写限制。",
+    "answer": "x−1，x≠0且x≠−1",
+    "steps": [
+      "原分母要求x≠0，除式(x+1)/x非零还要求x≠−1。",
+      "转为[(x−1)(x+1)/x]·[x/(x+1)]，约分得x−1。"
+    ],
+    "family_id": "rational-expression.divide-nonzero-divisor",
+    "variant_id": "m8a.18.2:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
   },
-  {
-   "criterion_index": 1,
-   "title": "能在乘除前先约分简化计算",
-   "explanation": "先分解公因式再约分能减少展开，也更便于检查非零限制。",
-   "self_check": {
-    "prompt": "化简[(x²−4)/(x+1)]·[(x+1)/(x−2)]并说明约去哪些因式。",
-    "reference_answer": "限制x≠−1、2；分解x²−4=(x−2)(x+2)，约去x+1与x−2，得x+2。",
-    "criteria": [
-     "先分解而非直接删项",
-     "列出被约因式和原限制"
-    ]
-   }
+  "pitfalls": [
+    "把被除式翻转而不是除式翻转会改变运算。",
+    "除式分子为0时除法无意义，不能只看分母。"
+  ],
+  "check": "独立完成并解释：化简[2x/(x+1)]÷[4x/(x−1)]，并写限制。；化简[(x²−4)/(x+1)]·[(x+1)/(x−2)]并说明约去哪些因式。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能进行分式的乘除运算",
+      "explanation": "乘除前先确定原式定义域，再按倒数和约分规则操作。",
+      "self_check": {
+        "prompt": "化简[2x/(x+1)]÷[4x/(x−1)]，并写限制。",
+        "reference_answer": "限制x≠−1、1、0。转为[2x/(x+1)]·[(x−1)/(4x)]，得(x−1)/[2(x+1)]。",
+        "criteria": [
+          "除式非零补充x≠0",
+          "只翻转除式且结果正确"
+        ],
+        "family_id": "rational-expression.divide-nonzero-divisor",
+        "variant_id": "m8a.18.2:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "除了分母x±1，除式的分子4x为0时还能执行除法吗？",
+        "hint": "原分式都须有意义，且除式还须非0，故另排x=0；只翻转整个除式。",
+        "revision_prompt": "将x=2代回原运算与结果，核对1/6；列清−1、1、0三禁值来自哪里。"
+      },
+      "observation_note": "观察除式非零的额外条件及倒数转换；化简结果的定义域可能较大，仍保留原限制。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能在乘除前先约分简化计算",
+      "explanation": "先分解公因式再约分能减少展开，也更便于检查非零限制。",
+      "self_check": {
+        "prompt": "化简[(x²−4)/(x+1)]·[(x+1)/(x−2)]并说明约去哪些因式。",
+        "reference_answer": "限制x≠−1、2；分解x²−4=(x−2)(x+2)，约去x+1与x−2，得x+2。",
+        "criteria": [
+          "先分解而非直接删项",
+          "列出被约因式和原限制"
+        ],
+        "family_id": "rational-expression.multiply-factor-before-cancel",
+        "variant_id": "m8a.18.2:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "x²−4里的x能与x+1里的x直接删掉吗？",
+        "hint": "只能约乘积中的公共因子，先写(x−2)(x+2)，再对齐上下因子。",
+        "revision_prompt": "用不同标记圈x+1与x−2，写x+2并保留x≠−1、2，展开确认分解无误。"
+      },
+      "observation_note": "观察先因式分解再约分；结果形式简单不消除原表达式的禁值。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.18.2-q301",
+      "note": "自动答案只观察倒数转换与化简结果，不把草稿未提交的定义域当成已验证。"
+    },
+    {
+      "id": "m8a.18.2-q302",
+      "note": "观察原分母与除式非零两个条件；未观察实际乘除化简，和q301属于同一结构题族，不作为两种独立结构。"
+    },
+    {
+      "id": "m8a.18.2-q303",
+      "note": "观察给定乘积的因式分解约分结果；过程与原定义域仍需对照草稿，不能仅凭结果确认。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m8a.18.2-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.18.2-q101",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.18.2-q102",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

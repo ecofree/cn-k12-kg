@@ -44,7 +44,12 @@
         "junior_train_models:o2"
       ],
       "instructions": "第一段用120/200小时计算，再换分钟；第二段用180/240小时计算。把12分钟停靠单列，不能混入某一段速度。",
-      "deliverable": "三个阶段耗时及累计时刻表。"
+      "deliverable": "三个阶段耗时及累计时刻表。",
+      "family_id": "motion.segment-time.unit-conversion",
+      "variant_id": "junior_train_models:step-0-v6",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "观察两段路程/速度求时间及单列停靠12分钟。"
     },
     {
       "title": "绘制累计路程图",
@@ -52,7 +57,12 @@
         "junior_train_models:o2"
       ],
       "instructions": "横轴用从出发起的分钟，纵轴用累计千米，依次描出出发、到站、停靠结束和终点四点。解释每段线的斜率对应什么。",
-      "deliverable": "四点和三线段图，附单位解释。"
+      "deliverable": "四点和三线段图，附单位解释。",
+      "family_id": "motion.cumulative-distance.piecewise-graph",
+      "variant_id": "junior_train_models:step-1-v6",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "观察四个累计点、横轴分钟与停靠水平段，斜率单位为千米/分钟。"
     },
     {
       "title": "比较平均速度",
@@ -61,7 +71,12 @@
         "junior_train_models:o2"
       ],
       "instructions": "用300除以包含停靠的总小时数，与(200+240)/2比较。说明为何两个行驶速度直接平均既忽略权重也忽略停靠。",
-      "deliverable": "平均速度计算与错误方法分析。"
+      "deliverable": "平均速度计算与错误方法分析。",
+      "family_id": "motion.average-speed.total-distance-total-time",
+      "variant_id": "junior_train_models:step-2-v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "alignment_note": "观察全部时间作分母，不把两速度简单平均。"
     },
     {
       "title": "变式建模",
@@ -69,7 +84,12 @@
         "junior_train_models:o3"
       ],
       "instructions": "固定300千米且不停靠，分别取v=150、200、250，计算t=300/v；再加固定0.2小时停靠，写T=300/v+0.2，检验vT是否恒定。",
-      "deliverable": "两模型对照表及适用条件。"
+      "deliverable": "两模型对照表及适用条件。",
+      "family_id": "inverse-function.fixed-distance-plus-overhead",
+      "variant_id": "junior_train_models:step-3-v6",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "观察纯行驶反比与增加固定停靠后乘积变化的区别。"
     }
   ],
   "deliverables": [
@@ -114,9 +134,12 @@
   },
   "teacher_notes": [
     "图中以分钟为横轴时，斜率数值单位为千米/分钟，换算到千米/小时需乘60。",
-    "真实列车有加减速，本任务明确用分段匀速作为简化，不能用模拟值查证现实班次。"
+    "真实列车有加减速，本任务明确用分段匀速作为简化，不能用模拟值查证现实班次。",
+    "目标o1：若0.6小时写60分钟，用0.6×60=36纠正；后段0.75×60=45，停靠12另列，累计36、48、93。",
+    "目标o2：若停靠段继续上升，回看这12分钟路程增量为0，图从(36,120)到(48,120)水平；全程均速300/(93/60)=6000/31，不是220。",
+    "目标o3：加入0.2小时时写T=300/v+0.2，乘v得300+0.2v，举v150与200产生330与340的不同乘积，说明不再反比。"
   ],
-  "assessment_note": "每项目标依据相应作品独立评分：0分为未展示或关键结论错误，1分为部分正确但缺条件、依据或核对，2分为完整正确且可复核。共6分；反馈指出具体证据，不把参加活动或排版漂亮当作目标达成。",
+  "assessment_note": "每项目标依据相应作品独立评分：0分为未展示或关键结论错误，1分为部分正确但缺条件、依据或核对，2分为完整正确且可复核。共6分；反馈指出具体证据，不把参加活动或排版漂亮当作目标达成。 图与计算仅描述模拟分段匀速行程；累计量和停靠口径需一致。不把假定时刻当真实列车资料或由两段均速推出全程瞬时速度。",
   "review_status": "draft",
   "author_type": "ai",
   "teacher_review": {

@@ -1,76 +1,105 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m8a.14.1",
- "name": "全等三角形及其性质",
- "tier": "core",
- "hook": "两幅三角形图即使一个倒着放，怎样可靠地找到对应边？",
- "definition": "能够完全重合的两个三角形叫全等三角形，全等三角形的对应边相等、对应角相等；用“≌”表示时字母顺序必须与对应顶点一致。",
- "why": "全等表示图形能够完全重合，重合后的对应边长与对应角大小保持。命名顺序记录顶点对应，而不是纸面上的左、右、上、下；先配顶点能避免旋转或翻面造成误认。",
- "when_to_use": [
-  "题中已经给出三角形全等",
-  "要把一幅图的边角信息转移到另一幅"
- ],
- "steps": [
-  "按全等式逐位列顶点对应",
-  "用端点对应确定边，用顶点对应确定角",
-  "写出相等量再代入数值或代数式"
- ],
- "worked_example": {
-  "prompt": "△ABC≌△DEF，AB=5、∠C=42°，求DE与∠F。",
-  "answer": "DE=5，∠F=42°",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.14.1",
+  "name": "全等三角形及其性质",
+  "tier": "core",
+  "hook": "两幅三角形图即使一个倒着放，怎样可靠地找到对应边？",
+  "definition": "能够完全重合的两个三角形叫全等三角形，全等三角形的对应边相等、对应角相等；用“≌”表示时字母顺序必须与对应顶点一致。",
+  "why": "全等表示图形能够完全重合，重合后的对应边长与对应角大小保持。命名顺序记录顶点对应，而不是纸面上的左、右、上、下；先配顶点能避免旋转或翻面造成误认。",
+  "when_to_use": [
+    "题中已经给出三角形全等",
+    "要把一幅图的边角信息转移到另一幅"
+  ],
   "steps": [
-   "全等式按顺序给出A↔D、B↔E、C↔F。",
-   "AB对应DE，所以DE=5；∠C对应∠F，所以∠F=42°。"
-  ]
- },
- "pitfalls": [
-  "旋转后的最长边位置可能改变，不能按图上方位认对应。",
-  "只有全等已经成立时才能直接使用对应边角相等。"
- ],
- "check": "独立完成并解释：已知△ABC≌△DEF，字母顺序表示对应关系。边AC的对应边是哪一条？ 请写出判断或计算依据。；△ABC≌△DEF，BC=2x+1、EF=9、∠A=56°，求x与∠D。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能找出全等三角形的对应边与对应角",
-   "explanation": "全等式的字母排列必须遵循顶点一一对应。",
-   "self_check": {
-    "prompt": "已知△ABC≌△DEF，字母顺序表示对应关系。边AC的对应边是哪一条？ 请写出判断或计算依据。",
-    "reference_answer": "对应顶点为A↔D、B↔E、C↔F，因此AC对应DF。",
-    "criteria": [
-     "A对应D、C对应F",
-     "得AC对应DF"
-    ]
-   }
+    "按全等式逐位列顶点对应",
+    "用端点对应确定边，用顶点对应确定角",
+    "写出相等量再代入数值或代数式"
+  ],
+  "worked_example": {
+    "prompt": "△ABC≌△DEF，AB=5、∠C=42°，求DE与∠F。",
+    "answer": "DE=5，∠F=42°",
+    "steps": [
+      "全等式按顺序给出A↔D、B↔E、C↔F。",
+      "AB对应DE，所以DE=5；∠C对应∠F，所以∠F=42°。"
+    ],
+    "family_id": "congruence.ordered-correspondence",
+    "variant_id": "m8a.14.1:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能用全等性质求线段长或角度",
-   "explanation": "全等性质把对应边和角连接起来，是求值和证明的桥梁。",
-   "self_check": {
-    "prompt": "△ABC≌△DEF，BC=2x+1、EF=9、∠A=56°，求x与∠D。",
-    "reference_answer": "BC对应EF，所以2x+1=9，x=4；∠A对应∠D，所以∠D=56°。",
-    "criteria": [
-     "正确对应BC与EF",
-     "边求x=4，角求56°"
-    ]
-   }
+  "pitfalls": [
+    "旋转后的最长边位置可能改变，不能按图上方位认对应。",
+    "只有全等已经成立时才能直接使用对应边角相等。"
+  ],
+  "check": "独立完成并解释：已知△ABC≌△DEF，字母顺序表示对应关系。边AC的对应边是哪一条？ 请写出判断或计算依据。；△ABC≌△DEF，BC=2x+1、EF=9、∠A=56°，求x与∠D。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能找出全等三角形的对应边与对应角",
+      "explanation": "全等式的字母排列必须遵循顶点一一对应。",
+      "self_check": {
+        "prompt": "已知△ABC≌△DEF，字母顺序表示对应关系。边AC的对应边是哪一条？ 请写出判断或计算依据。",
+        "reference_answer": "对应顶点为A↔D、B↔E、C↔F，因此AC对应DF。",
+        "criteria": [
+          "A对应D、C对应F",
+          "得AC对应DF"
+        ],
+        "family_id": "congruence.ordered-correspondence",
+        "variant_id": "m8a.14.1:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "△ABC≌△DEF中，C对应E还是F？不能按图上左右位置猜。",
+        "hint": "把三对字母竖排对齐，先找边的两个端点，再连它们的对应点。",
+        "revision_prompt": "列AB↔DE、BC↔EF、AC↔DF及三对角；将第二三角形旋转画出后重新核对。"
+      },
+      "observation_note": "观察全等式顺序给出的对应；识别一条边不能代表全部边角对应都稳定。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用全等性质求线段长或角度",
+      "explanation": "全等性质把对应边和角连接起来，是求值和证明的桥梁。",
+      "self_check": {
+        "prompt": "△ABC≌△DEF，BC=2x+1、EF=9、∠A=56°，求x与∠D。",
+        "reference_answer": "BC对应EF，所以2x+1=9，x=4；∠A对应∠D，所以∠D=56°。",
+        "criteria": [
+          "正确对应BC与EF",
+          "边求x=4，角求56°"
+        ],
+        "family_id": "congruence.properties.linear-value",
+        "variant_id": "m8a.14.1:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "BC=2x+1应等于DE还是EF？求角与求边是否用同一对应关系？",
+        "hint": "先分别写BC=EF、∠A=∠D，再列方程2x+1=9。",
+        "revision_prompt": "求得x=4后核对边长9，同时列∠D=56°的对应角依据。"
+      },
+      "observation_note": "观察正确对应到边角等式的应用；全等已给定，本题不观察全等判定。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.14.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.14.1-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.14.1-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m8a.14.1-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.14.1-q101",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.14.1-q102",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

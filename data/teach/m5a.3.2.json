@@ -27,7 +27,11 @@
       "除数 0.8 有 1 位小数，要变成 8，小数点右移 1 位。",
       "被除数 7.2 同时右移 1 位，变成 72。",
       "72÷8=9，商不变。"
-    ]
+    ],
+    "family_id": "decimal.divide-common-scaling",
+    "variant_id": "m5a.3.2:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "只把除数变成整数，被除数没动。",
@@ -51,22 +55,36 @@
   "check": "能说出「同时扩大 100 倍，商不变」，并正确算出 4.5÷0.15=30。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
     {
       "criterion_index": 0,
-      "title": "能把除数是小数的除法转化为整数除法",
-      "explanation": "除数非零时，被除数和除数同时乘相同的10、100等，商不变。",
+      "title": "能把除数是小数的除法转化为除数是整数的除法",
+      "explanation": "除数非零时，被除数和除数同时乘相同的10、100等，商不变。 注意只保证除数变成整数；如0.036÷0.3转成0.36÷3，被除数仍可能是小数。",
       "self_check": {
         "prompt": "把4.5÷0.15转成整数除法并计算。",
         "reference_answer": "两数同时乘100，得450÷15=30。",
         "criteria": [
           "两数同倍变化",
           "结果30"
+        ],
+        "family_id": "decimal.divide-common-scaling",
+        "variant_id": "m5a.3.2:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "decimal.multiply-place-value",
+          "decimal.place-shift-times-ten"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "0.15乘100变15，4.5只乘10变45，两个量比例还相同吗？",
+        "hint": "在被除数与除数上都画“×100”，4.5变450，商不变才成立。",
+        "revision_prompt": "把6.3÷0.21转成整数除法，写两边同倍变化，再用结果乘0.21检查原数。"
+      },
+      "observation_note": "观察非零除数与两数同倍扩大；只移除数小数点会改变商。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +96,22 @@
         "criteria": [
           "判断100倍",
           "被除数3变300"
+        ],
+        "family_id": "decimal.divide-common-scaling",
+        "variant_id": "m5a.3.2:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "decimal.place-shift-times-ten",
+          "decimal.trailing-zero-equivalence"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "3没有小数点可见，就不用改变吗？3扩大100倍应写30还是300？",
+        "hint": "将3写作3.00，两数同步右移两位；3.00变300，0.25变25。",
+        "revision_prompt": "比较1.2÷0.03与1.2÷0.3需要的扩大倍数，各写等值整数除式并说明不同。"
+      },
+      "observation_note": "观察扩大倍数由除数单位决定；尾部补0用于表示同倍变化，不是任意改数。"
     }
   ]
 }

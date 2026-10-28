@@ -113,7 +113,7 @@
       "约分时，除数必须是分子和分母的公因数；通分要同时改变分子，保持原值。",
       "比较实际长度、面积等部分量前，先核对所指的整体是否相同；不同大小物体的分率不能直接代表实际量的大小。"
     ],
-    "counterexample": "3/5的分子分母都加2得到5/7。交叉相乘有3×7=21、5×5=25，所以它们不相等。“同加同减”不能代替“同乘同除”。"
+    "counterexample": "3/5的分子分母都加2得到5/7。通分到35后，3/5=21/35而5/7=25/35，表示同样大小的份时份数不同，所以不相等。这里比较3×7与5×5，是把两分数统一到相同分母后比较分子的简写；“同加同减”不能代替“同乘同除”。"
   },
   "worked_examples": [
     {
@@ -190,8 +190,8 @@
     {
       "prompt": "为什么不能把3/5的分子、分母同时加2后说5/7与它等值？",
       "steps": [
-        "等值分数的交叉乘积应相等。",
-        "3×7=21，但5×5=25，二者不同。",
+        "先把两个分数通分到35：3/5=21/35，5/7=25/35。",
+        "相同单位下21份与25份不同，所以两个分数不等；比较3×7与5×5正是上述通分后分子的比较。",
         "同加2没有同步改变份单位与份数的倍数，不能替代同乘同除规则。"
       ],
       "answer": "3/5≠5/7；分子分母同时加同一个数不保证等值。",
@@ -608,7 +608,11 @@
           "points": 1,
           "example": "2和3没有大于1的公因数，所以2/3最简。"
         }
-      ]
+      ],
+      "diagram": {
+        "src": "/static/diagrams/primary-v6-bead-regroup.svg",
+        "alt": "同一个方框内有12颗大小相同的珠子，两排共8颗蓝色，另一排4颗未着色；尚未圈成小组，学生需按每4颗一组重新分组。"
+      }
     },
     {
       "id": "fraction_equivalence:transfer-3",
@@ -627,7 +631,7 @@
       },
       "family_id": "fraction.reunitize-fixed-quantity",
       "variant_id": "fraction_equivalence:transfer-3",
-      "representation": "mixed",
+      "representation": "geometry",
       "cognitive_demand": "model",
       "answer_spec": {
         "kind": "rubric"
@@ -643,7 +647,11 @@
           "points": 2,
           "example": "分母基准由18厘米变为24厘米，红线仍为12厘米。"
         }
-      ]
+      ],
+      "diagram": {
+        "src": "/static/diagrams/primary-v6-change-whole.svg",
+        "alt": "两行用相同比例画线段，第一行整体18厘米、第二行整体24厘米；每行从同一起点突出12厘米红线，红线长度不变。"
+      }
     },
     {
       "id": "fraction_equivalence:transfer-4",
@@ -967,7 +975,10 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "分母6表示把同一整体平均分成6份；不等大的6块不满足这个条件。"
+          "explanation": "分母6表示把同一整体平均分成6份；不等大的6块不满足这个条件。",
+          "family_id": "fraction.equal-partition-condition",
+          "representation": "verbal",
+          "cognitive_demand": "explain"
         },
         "hints": [
           {
@@ -1004,7 +1015,10 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "两个蛋糕原面积不同，各取1/2，相当于两面积同乘正数1/2，大小关系保持，因此取出的实际面积不同。"
+          "explanation": "两个蛋糕原面积不同，各取1/2，相当于两面积同乘正数1/2，大小关系保持，因此取出的实际面积不同。",
+          "family_id": "fraction.unequal-wholes-counterexample",
+          "representation": "verbal",
+          "cognitive_demand": "explain"
         },
         "followup_task_ids": [
           "fraction_equivalence:practice-1",
@@ -1048,7 +1062,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "等值变形将分子分母同乘或同除以同一个非零数；分母始终非零。"
+          "explanation": "等值变形将分子分母同乘或同除以同一个非零数；分母始终非零。",
+          "family_id": "fraction.partition-refinement",
+          "representation": "symbolic",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "fraction.reduce-direct",
+            "fraction.common-unit-equivalence-check"
+          ]
         },
         "hints": [
           {
@@ -1074,7 +1095,14 @@
           },
           "answer": "3/5",
           "verify": "15/25",
-          "explanation": "两者同除以5得3/5，3与5没有大于1的公因数。"
+          "explanation": "两者同除以5得3/5，3与5没有大于1的公因数。",
+          "family_id": "fraction.reduce-direct",
+          "representation": "symbolic",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "fraction.reduce-direct",
+            "fraction.common-unit-equivalence-check"
+          ]
         },
         "followup_task_ids": [
           "fraction_equivalence:practice-2",
@@ -1118,7 +1146,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "先把同一整体分成六等份，二份加一份是三份，值为1/2。"
+          "explanation": "先把同一整体分成六等份，二份加一份是三份，值为1/2。",
+          "family_id": "fraction.add-common-unit",
+          "representation": "symbolic",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "fraction.common-unit-equivalence-check",
+            "fraction.unequal-wholes-counterexample"
+          ]
         },
         "hints": [
           {
@@ -1144,7 +1179,14 @@
           },
           "answer": "5/8",
           "verify": "1-1/4-1/8",
-          "explanation": "1/4=2/8，共剪去3/8，还剩5/8；第二次基准是原全长。"
+          "explanation": "1/4=2/8，共剪去3/8，还剩5/8；第二次基准是原全长。",
+          "family_id": "fraction.remainder-from-original",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "fraction.common-unit-equivalence-check",
+            "fraction.unequal-wholes-counterexample"
+          ]
         },
         "followup_task_ids": [
           "fraction_equivalence:practice-3",
@@ -1191,7 +1233,10 @@
           "explanation": "6/12=1/2，6/18=1/3，两个表示的参照整体不同。",
           "family_id": "fraction.reunitize-fixed-quantity",
           "representation": "verbal",
-          "cognitive_demand": "choose_strategy"
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "fraction.reunitize-fixed-quantity"
+          ]
         },
         "hints": [
           {
@@ -1220,7 +1265,10 @@
           "explanation": "2份是18颗，1份9颗，3份27颗。",
           "family_id": "fraction.reconstruct-whole",
           "representation": "verbal",
-          "cognitive_demand": "execute"
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "fraction.reunitize-fixed-quantity"
+          ]
         },
         "followup_task_ids": [
           "fraction_equivalence:delayed-5",
@@ -1254,7 +1302,10 @@
               "explanation": "原蓝线长12×1/3=4厘米。单位“1”变为20厘米后，蓝线实际仍是4厘米，只是分数表示变为4/20。",
               "family_id": "fraction.reunitize-fixed-quantity",
               "representation": "verbal",
-              "cognitive_demand": "execute"
+              "cognitive_demand": "execute",
+              "reference_family_ids": [
+                "fraction.reunitize-fixed-quantity"
+              ]
             }
           },
           {
@@ -1289,7 +1340,10 @@
               "explanation": "表示一个部分占整体的几分之几，要用部分长度除以整体长度。6/24=1/4，红线仍长6厘米。",
               "family_id": "fraction.reunitize-fixed-quantity",
               "representation": "verbal",
-              "cognitive_demand": "choose_strategy"
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [
+                "fraction.reunitize-fixed-quantity"
+              ]
             }
           }
         ],
@@ -1310,7 +1364,10 @@
             "explanation": "整体明确为12颗，红色部分3颗，占3/12=1/4。分母表示整体被看成多少等份。",
             "family_id": "fraction.part-whole-set",
             "representation": "verbal",
-            "cognitive_demand": "execute"
+            "cognitive_demand": "execute",
+            "reference_family_ids": [
+              "fraction.reunitize-fixed-quantity"
+            ]
           }
         }
       },
@@ -1350,7 +1407,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "分母由一个单位的等分段数决定，分子数从0起累计的份数。"
+          "explanation": "分母由一个单位的等分段数决定，分子数从0起累计的份数。",
+          "family_id": "fraction.number-line-read",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "fraction.number-line-read",
+            "fraction.regroup-set"
+          ]
         },
         "hints": [
           {
@@ -1387,7 +1451,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "蓝珠9颗、总数12颗；每3颗分一组，蓝珠3组、全盒4组。"
+          "explanation": "蓝珠9颗、总数12颗；每3颗分一组，蓝珠3组、全盒4组。",
+          "family_id": "fraction.regroup-set",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "fraction.number-line-read",
+            "fraction.regroup-set"
+          ]
         },
         "followup_task_ids": [
           "fraction_equivalence:practice-1",
@@ -1434,7 +1505,12 @@
           "explanation": "1/2同乘2是2/4，分子分母同加2却是3/4。",
           "family_id": "fraction.additive-equivalence-error",
           "representation": "symbolic",
-          "cognitive_demand": "choose_strategy"
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "fraction.additive-equivalence-error",
+            "fraction.partition-refinement",
+            "fraction.reduce-direct"
+          ]
         },
         "hints": [
           {
@@ -1463,7 +1539,12 @@
           "explanation": "分母乘3，分子也乘3，得到12/27。",
           "family_id": "fraction.partition-refinement",
           "representation": "symbolic",
-          "cognitive_demand": "execute"
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "fraction.additive-equivalence-error",
+            "fraction.partition-refinement",
+            "fraction.reduce-direct"
+          ]
         },
         "followup_task_ids": [
           "fraction_equivalence:practice-1",
@@ -1508,7 +1589,12 @@
               "explanation": "把原来的每一份再分成3等份，分子和分母都乘3，涂色部分仍是一半；3/4比一半大，同加2改变了值。",
               "family_id": "fraction.additive-equivalence-error",
               "representation": "symbolic",
-              "cognitive_demand": "choose_strategy"
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [
+                "fraction.additive-equivalence-error",
+                "fraction.partition-refinement",
+                "fraction.reduce-direct"
+              ]
             }
           },
           {
@@ -1543,7 +1629,12 @@
               "explanation": "3到6乘2，5到10也乘2，因此6/10等值；5到15乘3，与分子的乘2不同，所以6/15不等值。",
               "family_id": "fraction.mismatched-scaling",
               "representation": "symbolic",
-              "cognitive_demand": "choose_strategy"
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [
+                "fraction.additive-equivalence-error",
+                "fraction.partition-refinement",
+                "fraction.reduce-direct"
+              ]
             }
           }
         ],
@@ -1564,7 +1655,12 @@
             "explanation": "每个三分之一细分成2份，总份数3×2=6，原来的2份也细分为2×2=4份，所以是4/6。",
             "family_id": "fraction.partition-refinement",
             "representation": "symbolic",
-            "cognitive_demand": "execute"
+            "cognitive_demand": "execute",
+            "reference_family_ids": [
+              "fraction.additive-equivalence-error",
+              "fraction.partition-refinement",
+              "fraction.reduce-direct"
+            ]
           }
         }
       },
@@ -1604,7 +1700,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "最简要求分子与分母没有大于1的公因数。"
+          "explanation": "最简要求分子与分母没有大于1的公因数。",
+          "family_id": "fraction.simplest-criterion-counterexample",
+          "representation": "symbolic",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "fraction.reduce-direct"
+          ]
         },
         "hints": [
           {
@@ -1630,7 +1732,13 @@
           },
           "answer": "3/5",
           "verify": "27/45",
-          "explanation": "同时除以9得3/5，3与5互质。"
+          "explanation": "同时除以9得3/5，3与5互质。",
+          "family_id": "fraction.reduce-direct",
+          "representation": "symbolic",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "fraction.reduce-direct"
+          ]
         },
         "followup_task_ids": [
           "fraction_equivalence:practice-2",
@@ -1677,7 +1785,11 @@
           "explanation": "共同分母取原分母的正公倍数；每个分数分别等值变形。",
           "family_id": "fraction.common-unit-equivalence-check",
           "representation": "symbolic",
-          "cognitive_demand": "choose_strategy"
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "fraction.common-unit-equivalence-check",
+            "number.lcm-positive-direct"
+          ]
         },
         "hints": [
           {
@@ -1717,7 +1829,11 @@
           "explanation": "6到12乘2，5也乘2；4到12乘3，1也乘3。",
           "family_id": "fraction.common-unit-equivalence-check",
           "representation": "symbolic",
-          "cognitive_demand": "execute"
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "fraction.common-unit-equivalence-check",
+            "number.lcm-positive-direct"
+          ]
         },
         "followup_task_ids": [
           "fraction_equivalence:practice-7",
@@ -1762,7 +1878,11 @@
               "explanation": "12和24都是3与4的正公倍数。可分别写成4/12与3/12，或8/24与6/24；使用12通常更简便，但24也合法。",
               "family_id": "fraction.common-denominator-nonminimal",
               "representation": "symbolic",
-              "cognitive_demand": "choose_strategy"
+              "cognitive_demand": "choose_strategy",
+              "reference_family_ids": [
+                "fraction.common-unit-equivalence-check",
+                "number.lcm-positive-direct"
+              ]
             }
           },
           {
@@ -1786,7 +1906,11 @@
               "explanation": "原来每一份变成3小份，原有3份变成9小份，故3/4=9/12；写成3/12会使涂色量变少。",
               "family_id": "fraction.partition-refinement",
               "representation": "verbal",
-              "cognitive_demand": "execute"
+              "cognitive_demand": "execute",
+              "reference_family_ids": [
+                "fraction.common-unit-equivalence-check",
+                "number.lcm-positive-direct"
+              ]
             }
           }
         ],
@@ -1807,7 +1931,11 @@
             "explanation": "同一个整体的一半包含6份中的3份，因此1/2=3/6；改变表示时要保持原来的量。",
             "family_id": "fraction.partition-refinement",
             "representation": "verbal",
-            "cognitive_demand": "execute"
+            "cognitive_demand": "execute",
+            "reference_family_ids": [
+              "fraction.common-unit-equivalence-check",
+              "number.lcm-positive-direct"
+            ]
           }
         }
       },
@@ -1847,7 +1975,10 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "同分母时相减的是份数，每份仍是1/10。"
+          "explanation": "同分母时相减的是份数，每份仍是1/10。",
+          "family_id": "fraction.subtract-common-unit",
+          "representation": "symbolic",
+          "cognitive_demand": "explain"
         },
         "hints": [
           {
@@ -1873,7 +2004,10 @@
           },
           "answer": "1/2",
           "verify": "5/6-1/3",
-          "explanation": "1/3=2/6，差为3/6=1/2，大小符合预期。"
+          "explanation": "1/3=2/6，差为3/6=1/2，大小符合预期。",
+          "family_id": "fraction.subtract-common-unit",
+          "representation": "symbolic",
+          "cognitive_demand": "execute"
         },
         "followup_task_ids": [
           "fraction_equivalence:practice-3",

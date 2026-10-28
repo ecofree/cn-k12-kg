@@ -28,7 +28,9 @@
     "answer": "60",
     "verify": "50+10",
     "family_id": "v4.foundation.m1b.3.4.example",
-    "variant_id": "m1b.3.4:worked-example-v4"
+    "variant_id": "m1b.3.4:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "把相邻数答成前后各差10。",
@@ -56,6 +58,14 @@
         "criteria": [
           "两组相邻数正确",
           "跨整十解释正确"
+        ],
+        "family_id": "placevalue.neighbour-numbers",
+        "variant_id": "m1b.3.4:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.order.predecessor",
+          "primary.order.successor"
         ]
       },
       "observation_note": "观察两个边界附近的相邻数；其他范围需相应证据。",
@@ -75,6 +85,13 @@
         "criteria": [
           "整十与非整十起点都加10",
           "个位保持对应"
+        ],
+        "family_id": "placevalue.skip-count-tens",
+        "variant_id": "m1b.3.4:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "placevalue.compose.from-units"
         ]
       },
       "observation_note": "观察固定步长10；不会因此推断所有等差规律都已理解。",
@@ -91,7 +108,7 @@
   "representation_note": "百数表上的横向一步和纵向十步对照。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   }
 }

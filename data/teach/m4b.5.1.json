@@ -27,7 +27,11 @@
       "小数点对齐：3.75 的 5 对着 2.4 补出来的 0。",
       "2.4 补成 2.40，再按整数加法算 375+240=615。",
       "点上小数点，得 6.15。"
-    ]
+    ],
+    "family_id": "decimal.add-subtract-alignment",
+    "variant_id": "m4b.5.1:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "按末位对齐，把 3.75 和 2.4 摆成 3.75+2.40 之外的样子，数位全错。",
@@ -51,7 +55,7 @@
   "check": "能正确列竖式算 8-3.6，并说出「把 8 看成 8.0 才好对齐」。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,22 @@
         "criteria": [
           "数位对齐",
           "结果6.15"
+        ],
+        "family_id": "decimal.add-subtract-alignment",
+        "variant_id": "m4b.5.1:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "decimal.digit-place-value",
+          "decimal.trailing-zero-equivalence"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2.4中的4是十分之一，能与3.75中的5个百分之一直接对齐吗？",
+        "hint": "先画个位、十分位、百分位栏，2.4补成2.40后，4与7同属十分位。",
+        "revision_prompt": "列式算4.28+1.6，标每列单位与进位，最后用估计5至6之间检查小数点。"
+      },
+      "observation_note": "观察按计数单位对齐和进位；只写结果6.15不能证明竖式排列正确。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +96,22 @@
         "criteria": [
           "补0理由正确",
           "退位结果4.35"
+        ],
+        "family_id": "decimal.add-subtract-alignment",
+        "variant_id": "m4b.5.1:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.subtraction-addition-inverse",
+          "decimal.trailing-zero-equivalence"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "8写成8.00为什么仍是8，而写成0.08却变小？从零位退位时怎样逐级换单位？",
+        "hint": "8个一先换1个一成10个十分之一，再换1个十分之一成10个百分之一，剩7、9、10三栏。",
+        "revision_prompt": "计算6−2.47，画退位后的个位、十分位、百分位，最后用差加减数检查6。"
+      },
+      "observation_note": "观察末尾补0和跨0退位；未留下竖式时不能定位是位值还是减法错误。"
     }
   ]
 }

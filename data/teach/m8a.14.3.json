@@ -1,76 +1,105 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m8a.14.3",
- "name": "角的平分线",
- "tier": "core",
- "hook": "“到角两边距离相等”中的距离，为什么必须画垂线段？",
- "definition": "角平分线上的点到角两边的距离相等；反过来，到角两边距离相等的点在这个角的平分线上。",
- "why": "距离按点到直线的垂线段长度定义。对角平分线上的点作两条垂线，得到共用斜边、一个锐角相等的直角三角形，可证明全等；反过来垂线段相等配合公共斜边可用HL推出两角相等。",
- "when_to_use": [
-  "角平分线上的点向两边作垂线",
-  "角内部一点到两边的垂直距离相等"
- ],
- "steps": [
-  "先确认点位于角内部且两条线段确实垂直",
-  "由角平分线推出距离相等，或反过来用距离判定",
-  "需要证明时比较两直角三角形并写对应关系"
- ],
- "worked_example": {
-  "prompt": "P在∠AOB内部，PM⊥OA、PN⊥OB，PM=PN。证明OP平分∠AOB。",
-  "answer": "OP平分∠AOB",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.14.3",
+  "name": "角的平分线",
+  "tier": "core",
+  "hook": "“到角两边距离相等”中的距离，为什么必须画垂线段？",
+  "definition": "角的内部平分线上的点到角两边所在直线的垂直距离相等。反过来，位于角内部且到两边所在直线的垂直距离相等的点，在这个角的内部平分线上。位置与垂直条件都不能省略；角外的等距点可能在外角平分线上。",
+  "why": "距离按点到直线的垂线段长度定义。对角平分线上的点作两条垂线，得到共用斜边、一个锐角相等的直角三角形，可证明全等；反过来垂线段相等配合公共斜边可用HL推出两角相等。",
+  "when_to_use": [
+    "角平分线上的点向两边作垂线",
+    "角内部一点到两边的垂直距离相等"
+  ],
   "steps": [
-   "在Rt△OMP和Rt△ONP中，斜边OP公共，直角边PM=PN。",
-   "由HL两三角形全等，∠MOP=∠PON，所以OP为内部角平分线。"
-  ]
- },
- "pitfalls": [
-  "等长斜线段不表示到两边距离相等。",
-  "逆向判定需点在角内部，否则可能落在外角平分线上。"
- ],
- "check": "独立完成并解释：P在∠AOB的内部角平分线上，PM⊥OA于M、PN⊥OB于N。若PM=7厘米，PN长多少厘米？ 请写出判断或计算依据。；P在∠AOB内，PM⊥OA、PN⊥OB且PM=PN，请证明OP平分该角。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能用角平分线性质求距离",
-   "explanation": "角平分线上的点到两边的垂线段等长。",
-   "self_check": {
-    "prompt": "P在∠AOB的内部角平分线上，PM⊥OA于M、PN⊥OB于N。若PM=7厘米，PN长多少厘米？ 请写出判断或计算依据。",
-    "reference_answer": "角平分线上的点到角两边的距离相等；PM、PN均为垂线段，所以PN=PM=7厘米。",
-    "criteria": [
-     "核查两条垂线",
-     "得PN=7"
-    ]
-   }
+    "先确认点位于角内部且两条线段确实垂直",
+    "由角平分线推出距离相等，或反过来用距离判定",
+    "需要证明时比较两直角三角形并写对应关系"
+  ],
+  "worked_example": {
+    "prompt": "P在∠AOB内部，PM⊥OA、PN⊥OB，PM=PN。证明OP平分∠AOB。",
+    "answer": "OP平分∠AOB",
+    "steps": [
+      "在Rt△OMP和Rt△ONP中，斜边OP公共，直角边PM=PN。",
+      "由HL两三角形全等，∠MOP=∠PON，所以OP为内部角平分线。"
+    ],
+    "family_id": "angle-bisector.converse-hl",
+    "variant_id": "m8a.14.3:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "prove"
   },
-  {
-   "criterion_index": 1,
-   "title": "能由距离相等判定点在角平分线上",
-   "explanation": "角内部一点到两边距离相等，借HL得到它位于角平分线上。",
-   "self_check": {
-    "prompt": "P在∠AOB内，PM⊥OA、PN⊥OB且PM=PN，请证明OP平分该角。",
-    "reference_answer": "两直角三角形OMP、ONP的斜边OP公共、PM=PN，由HL全等，故∠MOP=∠PON，OP平分∠AOB。",
-    "criteria": [
-     "写公共斜边与直角条件",
-     "由HL再转对应角相等"
-    ]
-   }
+  "pitfalls": [
+    "等长斜线段不表示到两边距离相等。",
+    "逆向判定需点在角内部，否则可能落在外角平分线上。"
+  ],
+  "check": "独立完成并解释：P在∠AOB的内部角平分线上，PM⊥OA于M、PN⊥OB于N。若PM=7厘米，PN长多少厘米？ 请写出判断或计算依据。；P在∠AOB内，PM⊥OA、PN⊥OB且PM=PN，请证明OP平分该角。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用角平分线性质求距离",
+      "explanation": "角平分线上的点到两边的垂线段等长。",
+      "self_check": {
+        "prompt": "P在∠AOB的内部角平分线上，PM⊥OA于M、PN⊥OB于N。若PM=7厘米，PN长多少厘米？ 请写出判断或计算依据。",
+        "reference_answer": "角平分线上的点到角两边的距离相等；PM、PN均为垂线段，所以PN=PM=7厘米。",
+        "criteria": [
+          "核查两条垂线",
+          "得PN=7"
+        ],
+        "family_id": "angle-bisector.equal-perpendicular-distance",
+        "variant_id": "m8a.14.3:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "P到两边任意取点的连线都算距离吗？PM、PN为何需要直角标记？",
+        "hint": "点到直线的距离取垂线段，角平分线性质比较的是这两个垂直长度。",
+        "revision_prompt": "保留PM⊥OA、PN⊥OB和OP平分的条件，求PN=7；另画一条斜线段说明不能替代。"
+      },
+      "observation_note": "观察角平分线与垂直距离条件匹配；任意线段等长不具有相同结论。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能由距离相等判定点在角平分线上",
+      "explanation": "角内部一点到两边距离相等，借HL得到它位于角平分线上。",
+      "self_check": {
+        "prompt": "P在∠AOB内，PM⊥OA、PN⊥OB且PM=PN，请证明OP平分该角。",
+        "reference_answer": "两直角三角形OMP、ONP的斜边OP公共、PM=PN，由HL全等，故∠MOP=∠PON，OP平分∠AOB。",
+        "criteria": [
+          "写公共斜边与直角条件",
+          "由HL再转对应角相等"
+        ],
+        "family_id": "angle-bisector.converse-hl",
+        "variant_id": "m8a.14.3:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "prove"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "P若在角外，到两边所在直线也可能等距吗？能否仍断言内部平分线？",
+        "hint": "先用P在角内限定分支；再在两直角三角形写公共斜边OP与等直角边PM=PN。",
+        "revision_prompt": "完成HL全等到∠MOP=∠PON的证明，并明确P在内部、垂足位于两边所在线上的使用。"
+      },
+      "observation_note": "观察内部条件、垂距与HL证明；省略角内位置会混入外角平分线。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.14.3-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.14.3-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.14.3-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m8a.14.3-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.14.3-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.14.3-q101",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

@@ -96,6 +96,30 @@ class PortfolioWebTests(unittest.TestCase):
         self.assertEqual(code, 200, result)
         return result
 
+    def test_old_session_reports_updated_or_removed_tasks_without_leaking_new_answers_or_rewriting_history(self):
+        response = self.start_transfer()
+        sid, qid = response["session"]["id"], response["item"]["question"]["id"]
+        self.assertEqual(response["session"]["current_content"]["status"], "current")
+        original = copy.deepcopy(response["item"]["question"])
+        changed_tasks = copy.deepcopy(server.get_catalog().tasks)
+        changed_tasks[qid]["resource_version"] = "f" * 64
+        changed_tasks[qid]["answer"] = "CURRENT_ANSWER_MUST_STAY_HIDDEN"
+        with patch.object(server.get_catalog(), "tasks", changed_tasks):
+            code, restored = self.request("/api/session/" + sid)
+            self.assertEqual(code, 200)
+            self.assertEqual(restored["item"]["question"], original)
+            self.assertEqual(restored["session"]["current_content"], {"status": "updated", "changes": [{
+                "task_id": qid, "status": "updated", "url": "/?unit=independent_events"}]})
+            self.assertNotIn("CURRENT_ANSWER_MUST_STAY_HIDDEN", json.dumps(restored))
+            query = urllib.parse.urlencode({"kind": "session_task", "session_id": sid, "question_id": qid})
+            work = self.request("/api/work?" + query)[1]
+            self.assertEqual(work["current_content"]["status"], "updated")
+            self.assertNotIn("CURRENT_ANSWER_MUST_STAY_HIDDEN", json.dumps(work))
+            del changed_tasks[qid]
+            missing = self.request("/api/session/" + sid)[1]
+            self.assertEqual(missing["session"]["current_content"]["changes"], [{"task_id": qid, "status": "unavailable"}])
+            self.assertEqual(missing["item"]["question"], original)
+
     def answer(self, response, raw):
         return self.request("/api/answer", {"session_id": response["session"]["id"],
             "question_id": response["item"]["question"]["id"], "answer": raw})
@@ -195,12 +219,96 @@ class PortfolioWebTests(unittest.TestCase):
         self.assertNotEqual(current["resource_id"], resource["resource_id"])
         restored = self.descriptor(resource_id=resource["resource_id"])
         self.assertEqual(restored["resource_snapshot"], old_snapshot)
+        currency = self.request("/api/work?" + urllib.parse.urlencode({"resource_id": resource["resource_id"]}))[1]["current_content"]
+        self.assertEqual(currency, {"status": "updated", "resource_version": "b" * 64, "url": "/?unit=fraction_equivalence"})
         code, saved = self.request("/api/work", self.save_values(restored, 1, "old-revision-2", "继续修改原版"))
         self.assertEqual(code, 200, saved)
         self.assertEqual(saved["work"]["resource_version"], resource["resource_version"])
         self.assertEqual(saved["work"]["payload"]["resource_snapshot"], old_snapshot)
         old = self.request("/api/work/revisions?" + urllib.parse.urlencode({"resource_id": restored["resource_id"]}))[1]
         self.assertEqual(old["revisions"][1]["payload"]["draft"]["notes"], "我的过程")
+
+    def test_goal_support_preserves_initial_discrimination_and_revision_separately(self):
+        selector = {"kind": "self_check", "topic_id": "m1a.1.1", "criterion_index": 0}
+        resource = self.descriptor(**selector)
+        snapshot = resource["resource_snapshot"]
+        self.assertEqual([field["id"] for field in snapshot["fields"]], ["response", "discrimination", "revision"])
+        self.assertTrue(snapshot["difficulty_support"]["hint"])
+        self.assertTrue(snapshot["skill_ids"])
+        first = {**self.save_values(resource), **selector, "draft": {"response": "第一次逐个数，可能漏了一个。"}}
+        self.assertEqual(self.request("/api/work", first)[0], 200)
+        for reference in ("difficulty", "hint", "answer"):
+            code, opened = self.request("/api/work/reference", {"resource_id": resource["resource_id"], "reference_key": reference})
+            self.assertEqual(code, 200, opened)
+            self.assertEqual(opened["resource_version"], resource["resource_version"])
+        next_values = {**first, "expected_revision": 1, "request_id": "guided-revision",
+                       "draft": {"response": first["draft"]["response"], "discrimination": "给每个物体做一次标记，发现漏数。",
+                                 "revision": "改变排列后重新逐个对应，总数相同。"}}
+        code, saved = self.request("/api/work", next_values)
+        self.assertEqual(code, 200, saved)
+        records = self.request("/api/work/revisions?" + urllib.parse.urlencode({"resource_id": resource["resource_id"]}))[1]["revisions"]
+        self.assertEqual(records[1]["payload"]["draft"], first["draft"])
+        self.assertEqual(records[0]["payload"]["draft"], next_values["draft"])
+        needs = self.request("/api/plan")[1]["learning_needs"]
+        need = next(row for row in needs if row.get("work_resource_id") == resource["resource_id"])
+        self.assertEqual(need["skill_ids"], snapshot["skill_ids"])
+        self.assertEqual(need["status"], "open")
+        references = [event for event in server.get_store().events(self.owner()) if event["event_type"] == "reference_opened"]
+        self.assertEqual([row["payload"]["reference_key"] for row in references], ["difficulty", "hint", "answer"])
+        self.assertTrue(all(row["content_sha256"] == resource["resource_version"] for row in references))
+
+    def test_restored_goal_support_uses_frozen_answers_families_and_ownership(self):
+        selector = {"kind": "self_check", "topic_id": "m1a.1.1", "criterion_index": 0}
+        resource = self.descriptor(**selector)
+        self.assertEqual(self.request("/api/work", {**self.save_values(resource), **selector})[0], 200)
+        changed = server.build_teach("m1a.1.1")
+        changed["objective_coverage"][0]["difficulty_support"]["hint"] = "新版提示，不得改写旧作品。"
+        changed["objective_coverage"][0]["self_check"]["reference_answer"] = "新版参考。"
+        with patch.object(server, "build_teach", return_value=changed):
+            current = self.descriptor(**selector)
+            self.assertNotEqual(current["resource_id"], resource["resource_id"])
+            restored = self.descriptor(resource_id=resource["resource_id"])
+            self.assertEqual(restored["resource_snapshot"], resource["resource_snapshot"])
+            info = self.request("/api/work?" + urllib.parse.urlencode({"resource_id": resource["resource_id"]}))[1]
+            self.assertEqual(info["current_content"]["status"], "updated")
+            self.assertEqual(info["current_content"]["url"], "/?teach=m1a.1.1")
+            self.assertEqual(info["current_content"]["resource_version"], current["resource_version"])
+            values = {"resource_id": restored["resource_id"], "reference_key": "hint"}
+            self.assertEqual(self.request("/api/work/reference", values, client=self.new_client())[0], 404)
+            code, result = self.request("/api/work/reference", values)
+            self.assertEqual(code, 200, result)
+            last = [event for event in server.get_store().events(self.owner()) if event["event_type"] == "reference_opened"][-1]
+            self.assertEqual(last["payload"]["family_ids"], resource["resource_snapshot"]["family_ids"])
+            self.assertEqual(last["content_sha256"], resource["resource_version"])
+        self.assertNotIn("新版", json.dumps(restored, ensure_ascii=False))
+
+    def test_missing_current_material_does_not_hide_or_rewrite_saved_work(self):
+        resource, _, _ = self.create_unit_work()
+        del server._UNIT_CACHE["fraction_equivalence"]
+        code, loaded = self.request("/api/work?" + urllib.parse.urlencode({"resource_id": resource["resource_id"]}))
+        self.assertEqual(code, 200, loaded)
+        self.assertEqual(loaded["current_content"], {"status": "unavailable"})
+        self.assertEqual(loaded["descriptor"], resource)
+        self.assertEqual(loaded["work"]["payload"]["draft"]["notes"], "我的过程")
+
+    def test_old_one_field_work_is_not_silently_upgraded_to_current_support(self):
+        selector = {"kind": "self_check", "topic_id": "m1a.1.1", "criterion_index": 0}
+        resource = self.descriptor(**selector)
+        legacy = copy.deepcopy(resource)
+        legacy["resource_id"] = "self_check:legacy-fixture@" + "a" * 16
+        legacy["resource_version"] = "a" * 64
+        snapshot = legacy["resource_snapshot"]
+        snapshot["fields"] = snapshot["fields"][:1]
+        for key in ("work_schema", "reference_answer", "difficulty_support", "skill_ids", "presentation_family_ids"):
+            snapshot.pop(key, None)
+        from cnkg import portfolio
+        server.get_store().save_work(self.owner(), legacy["resource_id"], portfolio.learner_payload(legacy,
+            {"draft": {"response": "旧版思路"}, "self_assessment": [], "status": "draft"}), 0, "legacy-save")
+        restored = self.descriptor(resource_id=legacy["resource_id"])
+        self.assertEqual(restored["resource_snapshot"], snapshot)
+        code, _ = self.request("/api/work/reference", {"resource_id": legacy["resource_id"], "reference_key": "hint"})
+        self.assertEqual(code, 400)
+        self.assertEqual(self.request("/api/work", self.save_values(restored, 1, "legacy-edit", "继续原题"))[0], 200)
 
     def test_deferred_work_plan_and_export_do_not_reveal_answer_or_correctness(self):
         started = self.start_transfer()
@@ -433,16 +541,28 @@ class PortfolioWebTests(unittest.TestCase):
     def test_opening_self_check_editor_records_exact_task_and_declared_family_exposure(self):
         resource = self.descriptor(kind="self_check", topic_id="m5b.4.1", criterion_index=1)
         task = server.get_catalog().self_check("m5b.4.1", 1)
-        owner = next(cookie.value for cookie in self.cookies if cookie.name == server._OWNER_COOKIE)
+        owner = self.owner()
+        snapshot = resource["resource_snapshot"]
+        self.assertEqual(snapshot["presentation_family_ids"], [task["family_id"]])
+        reference_only = set(snapshot["family_ids"]) - {task["family_id"]}
+        self.assertTrue(reference_only, "The real compound self-check includes supporting reference families")
         indexed = server.get_store().exposures(owner)
         self.assertIn(task["id"], indexed["questions"])
         self.assertIn(task["family_id"], indexed["families"])
         self.assertEqual(set(indexed["questions"]), {task["id"]})
-        self.assertEqual(set(indexed["families"]), {task["family_id"]})
+        self.assertGreater(indexed["questions"][task["id"]]["presentation_count"], 0)
+        self.assertGreater(indexed["families"][task["family_id"]]["presentation_count"], 0)
+        for family in snapshot["family_ids"]:
+            self.assertGreater(indexed["families"][family]["material_count"], 0)
+            self.assertEqual(indexed["families"][family]["reference_count"], 0)
+        for family in reference_only:
+            self.assertEqual(indexed["families"][family]["presentation_count"], 0)
         excluded, _, _ = server.exposure_exclusions(owner)
+        # The compound area-versus-volume task has no matching bank family.
+        # Its actual surface/volume references still make those bank tasks seen.
         bank_siblings = {qid for qid, value in server.get_catalog().tasks.items()
-                         if value.get("source_kind") == "bank" and value.get("family_id") == task["family_id"]}
-        self.assertTrue(bank_siblings)
+                         if value.get("source_kind") == "bank" and value.get("family_id") in reference_only}
+        self.assertTrue({"m5b.4.1-q1", "m5b.4.1-q2"} <= bank_siblings)
         self.assertTrue(bank_siblings <= excluded)
         values = {**self.save_values(resource), "topic_id": "m5b.4.1", "criterion_index": 1}
         self.assertEqual(self.request("/api/work", values)[0], 200)
@@ -453,7 +573,54 @@ class PortfolioWebTests(unittest.TestCase):
         self.assertEqual(restored["resource_snapshot"], resource["resource_snapshot"])
         indexed = server.get_store().exposures(owner)
         self.assertGreater(indexed["families"][task["family_id"]]["presentation_count"], previous_count)
+        for family in reference_only:
+            self.assertEqual(indexed["families"][family]["presentation_count"], 0)
+            self.assertEqual(indexed["families"][family]["reference_count"], 0)
         self.assertNotIn("a-new-family", indexed["families"])
+
+    def test_undeclared_self_check_family_does_not_fall_back_to_reference_presentations(self):
+        task = server.get_catalog().self_check("m5b.4.1", 1)
+        with patch.dict(server.get_catalog().tasks, {task["id"]: {**task, "family_status": "unclassified"}}):
+            resource = self.descriptor(kind="self_check", topic_id="m5b.4.1", criterion_index=1)
+        snapshot = resource["resource_snapshot"]
+        self.assertEqual(snapshot["presentation_family_ids"], [])
+        indexed = server.get_store().exposures(self.owner())
+        self.assertGreater(indexed["questions"][task["id"]]["presentation_count"], 0)
+        for family in snapshot["family_ids"]:
+            self.assertEqual(indexed["families"][family]["presentation_count"], 0)
+            self.assertGreater(indexed["families"][family]["material_count"], 0)
+            self.assertEqual(indexed["families"][family]["reference_count"], 0)
+
+    def test_legacy_work_exposure_uses_its_frozen_family_fallback_and_distinct_identity(self):
+        resource = self.descriptor(kind="self_check", topic_id="m5b.4.1", criterion_index=1)
+        task = server.get_catalog().self_check("m5b.4.1", 1)
+        row = next(row for row in server.build_teach("m5b.4.1")["objective_coverage"]
+                   if row["criterion_index"] == 1)
+        legacy = copy.deepcopy(resource)
+        legacy["resource_snapshot"].pop("presentation_family_ids")
+        legacy["resource_version"] = server._hash({"task": task["resource_version"], "source": row, "work_schema": 2})
+        legacy["resource_id"] = f"self_check:{task['id']}@{legacy['resource_version'][:16]}"
+        self.assertNotEqual(resource["resource_id"], legacy["resource_id"],
+                            "The new exposure contract must not reuse an earlier work identity")
+        from cnkg import portfolio
+        owner = self.owner()
+        payload = portfolio.learner_payload(legacy, {"draft": {"response": "旧契约保留的原过程"}})
+        server.get_store().save_work(owner, legacy["resource_id"], payload, 0, "legacy-exposure-contract")
+        before = server.get_store().exposures(owner)
+        changed = {**task, "family_id": "new-current-family", "resource_version": "e" * 64}
+        with patch.dict(server.get_catalog().tasks, {task["id"]: changed}):
+            restored = self.descriptor(resource_id=legacy["resource_id"])
+        self.assertEqual(restored, legacy)
+        self.assertNotIn("presentation_family_ids", restored["resource_snapshot"])
+        self.assertEqual(server.get_store().load_work(owner, legacy["resource_id"])["payload"], payload)
+        after = server.get_store().exposures(owner)
+        for family in legacy["resource_snapshot"]["family_ids"]:
+            self.assertEqual(after["families"][family]["presentation_count"],
+                             before["families"][family]["presentation_count"] + 1)
+            self.assertEqual(after["families"][family]["material_count"],
+                             before["families"][family]["material_count"] + 1)
+            self.assertEqual(after["families"][family]["reference_count"], 0)
+        self.assertNotIn("new-current-family", after["families"])
 
     def test_topic_continue_survives_store_reopen_and_stage_filters_saved_works(self):
         code, started = self.request("/api/session", {"targets": ["m7a.5.2"], "mode": "practice", "limit": 2})

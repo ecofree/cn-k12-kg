@@ -24,17 +24,21 @@
     "写厘米单位，重复测量核对；认识100厘米组成1米。"
   ],
   "worked_example": {
-    "prompt": "线段两端对准尺的2厘米和8厘米，长多少厘米？",
+    "prompt": "读附图甲，线段两端分别对准尺的3厘米和9厘米刻度，长多少厘米？为什么不能直接把9当长度？",
     "steps": [
-      "量的是两端间隔，不是末端数字8。",
-      "8−2=6厘米。"
+      "甲从3厘米刻度起量，不是从0起量。",
+      "9−3=6厘米；数过的6个1厘米间隔才是长度。"
     ],
     "answer": "6",
     "family_id": "measure.ruler-offset-length",
     "variant_id": "m2a.4.1:worked-v4",
-    "representation": "manipulative",
+    "representation": "geometry",
     "cognitive_demand": "explain",
-    "verify": "8-2"
+    "verify": "9-3",
+    "diagram": {
+      "src": "/static/diagrams/primary-v6-ruler-offset.svg",
+      "alt": "甲线段两端对3和9厘米；乙线段两端对0和5厘米。每相邻整数刻度相差1厘米，屏幕缩放不改变标注单位。"
+    }
   },
   "pitfalls": [
     "从非0刻度起量要减起点。",
@@ -56,12 +60,21 @@
       "explanation": "正确测量先让尺与线段同方向，读起止刻度差。写下数字和单位才能表达长度。",
       "observation_note": "观察测量动作和读数差；实测图未给尺寸时不要求预设数值。",
       "self_check": {
-        "prompt": "画一条线段，实际用尺量并记录起止读数；再给出起点3、终点9厘米时长度。",
-        "reference_answer": "实测值按实际图报告；给定读数差为6厘米。",
+        "prompt": "先读配图甲与乙各长几厘米，说明怎样读数；再自己画一条线段，实际用尺量并记录起止读数。",
+        "reference_answer": "甲9−3=6厘米，乙5−0=5厘米；实测自己所画线段的值按真实读数报告，需尺与线段同方向、对应两端。",
         "criteria": [
           "尺与端点对应",
           "起止差与厘米单位正确"
-        ]
+        ],
+        "family_id": "measure.ruler-offset-length",
+        "variant_id": "m2a.4.1:criterion:0:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-ruler-offset.svg",
+          "alt": "甲线段两端对3和9厘米；乙线段两端对0和5厘米。每相邻整数刻度相差1厘米，屏幕缩放不改变标注单位。"
+        },
+        "reference_family_ids": []
       },
       "difficulty_support": {
         "discriminating_prompt": "尺起点为3时，右端读9能直接写长9厘米吗？",
@@ -80,7 +93,12 @@
         "criteria": [
           "说明100的来源",
           "2米正确换算"
-        ]
+        ],
+        "family_id": "measure.metres-centimetres",
+        "variant_id": "m2a.4.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
       },
       "difficulty_support": {
         "discriminating_prompt": "一米只分10段，每段都一定是1厘米吗？",
@@ -93,7 +111,11 @@
   ],
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
+  },
+  "diagram": {
+    "src": "/static/diagrams/primary-v6-ruler-offset.svg",
+    "alt": "甲线段两端对3和9厘米；乙线段两端对0和5厘米。每相邻整数刻度相差1厘米，屏幕缩放不改变标注单位。"
   }
 }

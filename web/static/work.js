@@ -31,6 +31,20 @@ window.CNKGWork = (() => {
     if (!root.isConnected) return null;
     loading.remove();
     const descriptor = data.descriptor, snapshot = descriptor.resource_snapshot;
+    if (!options.hidePrompt && ["updated", "legacy_unverified"].includes(data.current_content?.status)) {
+      const update = create("aside", null, "work-version-notice");
+      update.append(create("p", data.current_content.status === "legacy_unverified"
+        ? "这份旧作品缺少可核对的逐题版本信息，暂时无法确认它与当前材料是否相同。这里保留已保存的原版本内容与修订过程；旧的待确认事项继续保留。"
+        : "当前学习材料已有新版。这里保留这份作品已保存的原版本内容与修订过程；旧的待确认事项继续保留。"));
+      if (data.current_content.url) {
+        const link = create("a", "查看当前材料（新标签页）");
+        link.href = data.current_content.url; link.target = "_blank"; link.rel = "noopener";
+        update.append(link);
+      }
+      root.append(update);
+    } else if (!options.hidePrompt && data.current_content?.status === "unavailable") {
+      root.append(create("p", "当前目录中未找到这份作品对应的材料。以下继续显示已保存的原版本，历史过程和待确认事项仍然保留。", "work-version-notice"));
+    }
     if (!options.hidePrompt && snapshot.diagram) {
       const asset = snapshot.asset_snapshots?.[snapshot.diagram.src];
       if (asset?.body_base64) {
@@ -42,21 +56,45 @@ window.CNKGWork = (() => {
     }
     const saved = data.work?.payload || {};
     const fields = new Map();
+    const referenceStatus = create("p", "", "muted work-reference-status"); referenceStatus.setAttribute("role", "status");
+    const support = snapshot.difficulty_support;
+    const supportPanel = support ? create("details", null, "goal-support") : null;
+    let hintPanel = null;
+    if (supportPanel) supportPanel.append(create("summary", "遇到困难时，先辨别再修订"),
+      create("p", "展开前会先保存当前思路。辨别和重新尝试分别保留，可以回看自己的变化。", "muted"));
     for (const field of snapshot.fields) {
       let input = options.externalFields?.[field.id];
       if (!input) {
         const group = create("div", null, "work-field"), label = create("label", field.label);
         input = create("textarea"); input.rows = options.compact ? 4 : 6; input.maxLength = 16000;
         input.id = `work-${identifier()}`; label.htmlFor = input.id;
-        if (field.prompt && !options.hidePrompt) { const prompt = create("div", null, "work-prompt"); window.setRichText(prompt, field.prompt); group.append(prompt); }
+        if (field.prompt && (!options.hidePrompt || field.phase)) { const prompt = create("div", null, "work-prompt"); window.setRichText(prompt, field.prompt); group.append(prompt); }
         group.append(label, input);
         if (field.deliverable) group.append(create("p", "这一步留下：" + field.deliverable, "muted"));
-        root.append(group);
+        if (field.phase && supportPanel) {
+          if (!supportPanel.parentNode) root.append(supportPanel);
+          if (field.phase === "revision") {
+            hintPanel = create("details", null, "goal-support-hint"); hintPanel.append(create("summary", "需要时看这一步提示"));
+            const hint = create("div"); window.setRichText(hint, support.hint); hintPanel.append(hint); supportPanel.append(hintPanel);
+          }
+          supportPanel.append(group);
+        } else root.append(group);
       }
       input.value = saved.draft?.[field.id] ?? field.initial_value ?? "";
       input.disabled = Boolean(options.disabled);
       fields.set(field.id, input);
     }
+    let referencePanel = null;
+    if (!options.hidePrompt && snapshot.reference_answer) {
+      referencePanel = create("details", null, "work-frozen-reference");
+      referencePanel.append(create("summary", "查看这份作品原版本的参考过程"));
+      const reference = create("div"); window.setRichText(reference, snapshot.reference_answer); referencePanel.append(reference);
+      if (snapshot.observation_note) referencePanel.append(create("p", snapshot.observation_note, "muted"));
+      root.append(referencePanel);
+    } else if (!options.hidePrompt && descriptor.kind === "self_check" && !snapshot.work_schema) {
+      root.append(create("p", "这份历史作品保存了原题和量规。原提示与参考答案未存入当时的作品，仍按已保存的原题继续修订。", "muted"));
+    }
+    root.append(referenceStatus);
     const reflection = create("textarea"); reflection.rows = 3; reflection.maxLength = 8000;
     reflection.id = `reflection-${identifier()}`; reflection.value = saved.reflection || "";
     const self = create("details", null, "self-assessment"); self.append(create("summary", "我的自评与反思"));
@@ -116,6 +154,26 @@ window.CNKGWork = (() => {
       await running;
       if (!failed && editor.unsaved()) return persist();
     }
+    function guardReference(panel, key) {
+      if (!panel) return;
+      let opening = false;
+      panel.querySelector("summary").addEventListener("click", async event => {
+        if (panel.open) return;
+        event.preventDefault(); if (opening) return; opening = true;
+        referenceStatus.textContent = "正在保存当前过程与帮助记录…";
+        try {
+          if (!await flushAll()) throw new Error("当前过程还未保存，请先重试保存，再展开帮助");
+          const record = await api("/api/work/reference", { ...source, resource_id: descriptor.resource_id, reference_key: key });
+          if (!record.recorded || record.resource_version !== descriptor.resource_version) throw new Error("参考内容版本未核对成功");
+          // Editing remains available during the request. Save those later
+          // changes too; a failed or conflicting write must keep help closed.
+          if (!await flushAll()) throw new Error("当前过程还未保存，请先重试保存，再展开帮助");
+          panel.open = true; referenceStatus.textContent = "已记录这次帮助；后续仍需结合独立尝试判断。";
+        } catch (error) { referenceStatus.textContent = error.message; }
+        finally { opening = false; }
+      });
+    }
+    guardReference(supportPanel, "difficulty"); guardReference(hintPanel, "hint"); guardReference(referencePanel, "answer");
     function changed() { learnerStatus = "draft"; clearTimeout(timer); status.textContent = "有修改，等待保存…"; timer = setTimeout(persist, 500); }
     for (const input of [...fields.values(), ...comments, reflection]) input.addEventListener("input", changed);
     for (const select of selections) select.addEventListener("change", changed);

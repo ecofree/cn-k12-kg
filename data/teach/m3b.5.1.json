@@ -32,8 +32,15 @@
     "answer": "红3、蓝2、黄1，共6票。",
     "family_id": "statistics.tally-to-frequency-table",
     "variant_id": "m3b.5.1:worked-v5",
-    "representation": "mixed",
-    "cognitive_demand": "explain"
+    "representation": "table",
+    "cognitive_demand": "explain",
+    "diagram": {
+      "src": "/static/diagrams/statistics-v5-tally-table.svg",
+      "alt": "原始六条记录为红、蓝、红、黄、蓝、红。每条只记一笔，红3笔、蓝2笔、黄1笔，对应频数3、2、1。"
+    },
+    "reference_family_ids": [
+      "statistics.frequency-table-total"
+    ]
   },
   "pitfalls": [
     "一个“正”通常代表5笔记录，不是一票。",
@@ -64,7 +71,8 @@
         "family_id": "statistics.tally-to-frequency-table",
         "variant_id": "m3b.5.1:criterion-0-v5",
         "representation": "verbal",
-        "cognitive_demand": "explain"
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
       },
       "difficulty_support": {
         "discriminating_prompt": "12次记录后再记3次，是三个正字，还是两个正字加3笔？请逐条配对。",
@@ -88,7 +96,12 @@
         "family_id": "statistics.frequency-table-with-nonresponse",
         "variant_id": "m3b.5.1:criterion-1-v5",
         "representation": "verbal",
-        "cognitive_demand": "explain"
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "statistics.frequency-table-total",
+          "statistics.missing-not-zero",
+          "statistics.scope-of-observation"
+        ]
       },
       "difficulty_support": {
         "discriminating_prompt": "甲4票、乙3票、丙2票、未回应1人，能把未回应算成丙票吗？",

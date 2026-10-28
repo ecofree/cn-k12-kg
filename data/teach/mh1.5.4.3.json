@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh1.5.4.3",
- "name": "正切函数的性质与图象",
- "tier": "core",
- "hook": "tanx每一段都上升，为什么跨过π/2后却不能继续比较大小？",
- "definition": "y=tanx 的定义域为 {x|x≠π/2+kπ}，周期 π，在每个区间 (-π/2+kπ, π/2+kπ) 上递增，值域 R。tanx的定义域为x≠π/2+kπ，最小正周期π；它是奇函数，在每个(-π/2+kπ,π/2+kπ)内递增。",
- "why": "正切是sin与cos的比，cos=0时断开；转半圈分子分母同时变号，比值不变。每一支中比值随角增加而上升，但跨渐近线不属于同一连续单调区间。",
- "when_to_use": [
-  "求正切的定义域、周期或图象分支",
-  "比较两角的正切值前需要检查是否同支"
- ],
- "steps": [
-  "先排除cosx=0的输入",
-  "以π周期定位到同一分支",
-  "在分支内比较或画穿过(kπ,0)的递增曲线"
- ],
- "worked_example": {
-  "prompt": "比较tan(π/3)与tan(2π/3)，能否直接按角大小判断？",
-  "steps": [
-   "两角隔着π/2，不在同一个递增区间。",
-   "tan(π/3)=√3，tan(2π/3)=-√3。",
-   "前者较大，说明不能把分支递增扩展到整个定义域。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.5.4.3",
+  "name": "正切函数的性质与图象",
+  "tier": "core",
+  "hook": "tanx每一段都上升，为什么跨过π/2后却不能继续比较大小？",
+  "definition": "tanx的定义域排除π/2+kπ（k∈Z），值域R，最小正周期π。它是奇函数，在每个(-π/2+kπ,π/2+kπ)分支内递增；不能把不同分支合为整个定义域上的递增区间，也不能跨无定义点连图。",
+  "why": "正切是sin与cos的比，cos=0时断开；转半圈分子分母同时变号，比值不变。每一支中比值随角增加而上升，但跨渐近线不属于同一连续单调区间。",
+  "when_to_use": [
+    "求正切的定义域、周期或图象分支",
+    "比较两角的正切值前需要检查是否同支"
   ],
-  "answer": "tan(π/3)>tan(2π/3)"
- },
- "pitfalls": [
-  "说正切在整个定义域上递增",
-  "把渐近线画成图象的一部分"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能说出正切函数的定义域与周期",
-   "explanation": "分母为零形成定义域空缺，半圈重复决定周期。",
-   "self_check": {
-    "prompt": "写出[-π,π]中tanx无定义的位置及其最小正周期。",
-    "reference_answer": "x=-π/2、π/2无定义；最小正周期为π。",
-    "criteria": [
-     "排除两个位置",
-     "周期为π而非2π"
-    ]
-   }
+  "steps": [
+    "先排除cosx=0的输入",
+    "以π周期定位到同一分支",
+    "在分支内比较或画穿过(kπ,0)的递增曲线"
+  ],
+  "worked_example": {
+    "prompt": "比较tan(π/3)与tan(2π/3)，能否直接按角大小判断？",
+    "steps": [
+      "两角隔着π/2，不在同一个递增区间。",
+      "tan(π/3)=√3，tan(2π/3)=-√3。",
+      "前者较大，说明不能把分支递增扩展到整个定义域。"
+    ],
+    "answer": "tan(π/3)>tan(2π/3)",
+    "family_id": "trig.tangent-branch-order",
+    "variant_id": "mh1.5.4.3:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能判断其单调性与奇偶性",
-   "explanation": "奇性跨原点联系函数值，递增性只在同一分支使用。",
-   "self_check": {
-    "prompt": "已知tanα=2且0<α<π/2，求tan(-α)，并比较tan(α/2)与tanα。",
-    "reference_answer": "tan(-α)=-2；α/2与α同在(0,π/2)且前者小，故tan(α/2)<2。",
-    "criteria": [
-     "正确应用奇性",
-     "比较前说明同一分支"
-    ]
-   }
+  "pitfalls": [
+    "说正切在整个定义域上递增",
+    "把渐近线画成图象的一部分"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能说出正切函数的定义域与周期",
+      "explanation": "分母为零形成定义域空缺，半圈重复决定周期。",
+      "self_check": {
+        "prompt": "写出[-π,π]中tanx无定义的位置及其最小正周期。",
+        "reference_answer": "x=-π/2、π/2无定义；最小正周期为π。",
+        "criteria": [
+          "排除两个位置",
+          "周期为π而非2π"
+        ],
+        "family_id": "trig.tangent-domain-period",
+        "variant_id": "mh1.5.4.3:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "tan(π/2)能像sin(π/2)一样取1吗？",
+        "hint": "tan=sin/cos，π/2处cos=0。",
+        "revision_prompt": "列[0,2π]内无定义点π/2、3π/2，并用tan(x+π)=tanx解释周期。"
+      },
+      "observation_note": "观察无定义点和最小正周期；不跨空缺连接图象。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能判断其单调性与奇偶性",
+      "explanation": "奇性跨原点联系函数值，递增性只在同一分支使用。",
+      "self_check": {
+        "prompt": "已知tanα=2且0<α<π/2，求tan(-α)，并比较tan(α/2)与tanα。",
+        "reference_answer": "tan(-α)=-2；α/2与α同在(0,π/2)且前者小，故tan(α/2)<2。",
+        "criteria": [
+          "正确应用奇性",
+          "比较前说明同一分支"
+        ],
+        "family_id": "trig.tangent-branch-order",
+        "variant_id": "mh1.5.4.3:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "π/3<2π/3为何不推出前一个正切值小？",
+        "hint": "两角隔着渐近线，不在同一递增分支。",
+        "revision_prompt": "比较tan(-π/4)与tan(π/6)：同分支且-1<1/√3；写明区间。"
+      },
+      "observation_note": "观察奇性与同分支比较；分支递增不等于整个定义域递增。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：排除两个位置；正确应用奇性。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.5.4.3-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.5.4.3-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.5.4.3-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "排除π/2+kπ；递增只在单个连续分支。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：排除两个位置；正确应用奇性。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh1.5.4.3-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.5.4.3-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.5.4.3-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

@@ -27,7 +27,11 @@
       "r=3，先算 r²=9。",
       "S=πr²=3.14×9。",
       "=28.26 平方厘米。"
-    ]
+    ],
+    "family_id": "geometry.circle-area",
+    "variant_id": "m6a.5.3:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "用直径平方，忘了先除以 2。",
@@ -51,7 +55,7 @@
   "check": "能复述「长=πr、宽=r」的推导，并算对半径 8 的面积 200.96。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,27 @@
         "criteria": [
           "长宽来源",
           "认识近似到极限"
+        ],
+        "family_id": "geometry.circle-area-rearrangement",
+        "variant_id": "m6a.5.3:criterion:0:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-circle-area-rearrangement.svg",
+          "alt": "同半径圆的8等份与32等份交错重排；扇形面积保持，有限边界仍弯曲。细分时近似长方形的长趋近πr、宽趋近r，不把有限图形说成准确长方形。"
+        },
+        "reference_family_ids": [
+          "geometry.circle-area",
+          "geometry.circle-circumference",
+          "geometry.rectangle-unit-area"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "剪拼后长接近整个圆周长还是半个？两条长边分别由哪些弧组成？",
+        "hint": "交错放置时一半小弧到上边、一半到下边，单条长边接近πr，高接近r。",
+        "revision_prompt": "画出少分与多分两种扇形拼图，标两条近似边与原半径，解释有限剪拼还不是严格长方形。"
+      },
+      "observation_note": "观察面积守恒和近似长宽来源；直观剪拼不冒充严格极限证明。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +101,21 @@
         "criteria": [
           "先求r=5",
           "平方单位正确"
+        ],
+        "family_id": "geometry.circle-area",
+        "variant_id": "m6a.5.3:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.radius-diameter"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "直径10厘米时半径也是10吗？3.14×5²与(3.14×5)²相同吗？",
+        "hint": "先写r=10÷2=5，再只将半径平方为25，最后乘π；单位是平方厘米。",
+        "revision_prompt": "直径6厘米的圆求面积，用π保留精确形式后再取3.14算近似，注明两个结果的区别。"
+      },
+      "observation_note": "观察先求半径、只平方半径与面积单位；不从面积正确反推推导过程已理解。"
     }
   ],
   "diagram": {

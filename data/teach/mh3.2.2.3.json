@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh3.2.2.3",
- "name": "直线的一般式方程",
- "tier": "core",
- "hook": "竖直线不能写成y=kx+b，但仍能写成x-2=0；一般式把水平、倾斜与竖直方向放在同一形式中。",
- "definition": "直线的一般式为Ax+By+C=0，其中A、B不同时为0。B≠0时斜率k=-A/B，y截距为-C/B；A≠0时x截距为-C/A。B=0是竖直线，A=0是水平线。整体乘非零常数得到同一直线。",
- "why": "点斜式移项即可写成一般式。向量(A,B)与直线任意两点之差数量积为0，故是法向量，非零条件保证确有一个方向。A=B=0时，C=0表示全平面、C≠0表示空集，两者都不是直线。",
- "when_to_use": [
-  "需要统一直线方程或避免竖直线斜率问题",
-  "由方程读取斜率、截距或法向量"
- ],
- "steps": [
-  "展开并把所有项移到一侧，整理成Ax+By+C=0。",
-  "检查A、B不同时为0，再决定能否除以B或A。",
-  "按截距定义令x=0或y=0，必要时说明不存在或不唯一。"
- ],
- "worked_example": {
-  "prompt": "把y-2=3(x+1)化为一般式并读斜率和y截距。",
-  "steps": [
-   "展开为y-2=3x+3，移项得到3x-y+5=0。",
-   "A=3、B=-1、C=5，k=-A/B=3，y截距=-C/B=5。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh3.2.2.3",
+  "name": "直线的一般式方程",
+  "tier": "core",
+  "hook": "竖直线不能写成y=kx+b，但仍能写成x-2=0；一般式把水平、倾斜与竖直方向放在同一形式中。",
+  "definition": "直线的一般式为Ax+By+C=0，其中A、B不同时为0。B≠0时斜率k=-A/B，y截距为-C/B；A≠0时x截距为-C/A。B=0是竖直线，A=0是水平线。整体乘非零常数得到同一直线。",
+  "why": "点斜式移项即可写成一般式。向量(A,B)与直线任意两点之差数量积为0，故是法向量，非零条件保证确有一个方向。A=B=0时，C=0表示全平面、C≠0表示空集，两者都不是直线。",
+  "when_to_use": [
+    "需要统一直线方程或避免竖直线斜率问题",
+    "由方程读取斜率、截距或法向量"
   ],
-  "answer": "3x-y+5=0，斜率3，y截距5。"
- },
- "pitfalls": [
-  "读斜率必须带负号-A/B，直接写A/B会反向。",
-  "x=2没有与y轴的交点，不应机械算-C/B。",
-  "一般式系数可以同时缩放，不能只改常数项而说是同一直线。"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能把其他形式化为一般式",
-   "explanation": "化一般式是等价变形，移项后保留同一解集。",
-   "self_check": {
-    "prompt": "把y+1=-2(x-3)化为一般式。",
-    "reference_answer": "y+1=-2x+6，故2x+y-5=0。",
-    "criteria": [
-     "正确展开括号",
-     "常数项-5正确"
-    ]
-   }
+  "steps": [
+    "展开并把所有项移到一侧，整理成Ax+By+C=0。",
+    "检查A、B不同时为0，再决定能否除以B或A。",
+    "按截距定义令x=0或y=0，必要时说明不存在或不唯一。"
+  ],
+  "worked_example": {
+    "prompt": "把y-2=3(x+1)化为一般式并读斜率和y截距。",
+    "steps": [
+      "展开为y-2=3x+3，移项得到3x-y+5=0。",
+      "A=3、B=-1、C=5，k=-A/B=3，y截距=-C/B=5。"
+    ],
+    "answer": "3x-y+5=0，斜率3，y截距5。",
+    "family_id": "line.general-form-conversion",
+    "variant_id": "mh3.2.2.3:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能由一般式读出斜率与截距",
-   "explanation": "斜率和y截距来自除以非零B，竖直线应单独指出。",
-   "self_check": {
-    "prompt": "3x+2y-6=0的斜率、x截距和y截距分别是多少？",
-    "reference_answer": "斜率-3/2；令y=0得x截距2，令x=0得y截距3。",
-    "criteria": [
-     "斜率含负号",
-     "两个截距对应正确轴"
-    ]
-   }
+  "pitfalls": [
+    "读斜率必须带负号-A/B，直接写A/B会反向。",
+    "x=2没有与y轴的交点，不应机械算-C/B。",
+    "一般式系数可以同时缩放，不能只改常数项而说是同一直线。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能把其他形式化为一般式",
+      "explanation": "化一般式是等价变形，移项后保留同一解集。",
+      "self_check": {
+        "prompt": "把y+1=-2(x-3)化为一般式。",
+        "reference_answer": "y+1=-2x+6，故2x+y-5=0。",
+        "criteria": [
+          "正确展开括号",
+          "常数项-5正确"
+        ],
+        "family_id": "line.general-form-conversion",
+        "variant_id": "mh3.2.2.3:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "移项时常数6与1该相减还是相加？",
+        "hint": "先展开，再把全部项放同一边，最后代原点检查。",
+        "revision_prompt": "y-2=-3(x+1)化为3x+y+1=0，代(-1,2)核验。"
+      },
+      "observation_note": "观察等价移项；整体乘非零数仍同一直线。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能由一般式读出斜率与截距",
+      "explanation": "斜率和y截距来自除以非零B，竖直线应单独指出。",
+      "self_check": {
+        "prompt": "3x+2y-6=0的斜率、x截距和y截距分别是多少？",
+        "reference_answer": "斜率-3/2；令y=0得x截距2，令x=0得y截距3。",
+        "criteria": [
+          "斜率含负号",
+          "两个截距对应正确轴"
+        ],
+        "family_id": "line.general-form-slope-intercepts",
+        "variant_id": "mh3.2.2.3:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "x截距应令x=0还是y=0？",
+        "hint": "x轴上y=0，y轴上x=0；斜率先解出y。",
+        "revision_prompt": "对2x-3y+6=0，斜率2/3、x截距-3、y截距2。"
+      },
+      "observation_note": "观察截距定义与符号；B=0时斜率公式不适用。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh3.2.2.3-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：直线6x-3y+9=0的斜率是多少？"
+    },
+    {
+      "id": "mh3.2.2.3-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：直线2x+5y-20=0的y截距是多少？"
+    },
+    {
+      "id": "mh3.2.2.3-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：哪一个式子表示一条直线？"
+    }
+  ],
+  "check": "独立完成并写出依据：把y+1=-2(x-3)化为一般式。；3x+2y-6=0的斜率、x截距和y截距分别是多少？",
+  "conditions": [
+    "A、B不同时为0；斜率需B≠0，截距按对应轴求。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "mh3.2.2.3-q201",
-   "note": "完成后对照解析检查条件、步骤和结果：直线6x-3y+9=0的斜率是多少？"
-  },
-  {
-   "id": "mh3.2.2.3-q202",
-   "note": "完成后对照解析检查条件、步骤和结果：直线2x+5y-20=0的y截距是多少？"
-  },
-  {
-   "id": "mh3.2.2.3-q203",
-   "note": "完成后对照解析检查条件、步骤和结果：哪一个式子表示一条直线？"
-  }
- ],
- "check": "独立完成并写出依据：把y+1=-2(x-3)化为一般式。；3x+2y-6=0的斜率、x截距和y截距分别是多少？"
 }

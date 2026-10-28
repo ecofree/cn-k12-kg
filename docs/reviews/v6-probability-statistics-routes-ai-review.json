@@ -1,0 +1,1068 @@
+{
+  "schema": 1,
+  "reviewer_kind": "ai",
+  "independent_teacher_review": false,
+  "student_outcome_evidence": false,
+  "base_commit": "652bf63212044e50e259f207f650a8d6f0b2b132",
+  "reviewed_on": "2026-10-28",
+  "scope": {
+    "units": [
+      "independent_events",
+      "sampling_and_variation",
+      "correlation_and_regression",
+      "data_reading_and_mean"
+    ],
+    "new_branched_supports": 22,
+    "new_error_routes": 44,
+    "new_skip_routes": 22,
+    "existing_branched_supports_preserved": 1
+  },
+  "source_sha256": {
+    "data/learning_units/independent_events.json": "5bede182a9ed7514182bcae5665deebec5234fcdf724f3ea414afb5e6dd706a7",
+    "data/learning_units/sampling_and_variation.json": "b21035c6348919c9271e4b2c58662b6a671ac6a4848295423135054379e031b6",
+    "data/learning_units/correlation_and_regression.json": "6462b1e3da7c6869a6e566fb09e3dea2cefb45dba2f22d00e91128ced0887b5d",
+    "data/learning_units/data_reading_and_mean.json": "0c48c2dcf22f1866a3c6143182ebdc4762ccf04c932e9e0c00598245d0b88d42",
+    "schema/instructional-support.schema.json": "7d45e68bf8beba03d6495c65f182834543c067dd299aad317d9949871211fe8a",
+    "cnkg/instruction.py": "0af56a14bcfd1b06e96e3a8009092d54d98536712490421a7c4bd667a5c72233"
+  },
+  "routes": [
+    {
+      "unit_id": "independent_events",
+      "support_id": "independent_events:support:o1",
+      "objective_id": "independent_events:o1",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "conditional_change",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "已知正面发生后，同一次不可能又是反面，所以条件概率为0，不再是原来的1/2。这说明这两个事件不独立。",
+          "observation_boundary": "只观察一次试验中条件概率的改变；还需用交集与乘积判断其他事件。"
+        },
+        {
+          "id": "empty_intersection",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "没有一张卡同时在两集合中，交集为空。这里P(A)=P(B)=1/2，交集概率0与乘积1/4不等，所以进一步可判断不独立。",
+          "observation_boundary": "判断交集为空只建立互斥；是否独立仍要比较概率，不能把两者合并成一个词。"
+        }
+      ],
+      "skip_check": "同一次结果只能是给定的正面，不能同时是反面。接下来才把这样的结果关系转成事件与概率。",
+      "default_boundary": "复合目标先区分互斥和独立；零概率边界与完整样本空间仍需后续任务。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "independent_events",
+      "support_id": "independent_events:support:o2",
+      "objective_id": "independent_events:o2",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "update_remaining_space",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "取走白球后剩3红1白，共4球；红球数未减，所以条件概率为3/4。未给第一次结果时不能直接用这份剩余清单。",
+          "observation_boundary": "只核对指定第一次结果后的概率；没有据此证明所有抽取机制都不独立。"
+        },
+        {
+          "id": "update_favourable_count",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "红1已经不在袋中，只剩红2；随后概率的分子为1，分母为剩余3球。",
+          "observation_boundary": "这一步只观察剩余红球数，不等于已完成两次抽取的交事件概率。"
+        }
+      ],
+      "skip_check": "不放回表示取走的球不再参与下一次抽取，剩余总数为3。",
+      "default_boundary": "复合目标检查不放回后的变化；放回、混匀与随机机制还需分别说明。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "independent_events",
+      "support_id": "independent_events:support:o3",
+      "objective_id": "independent_events:o3",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "check_both_success_membership",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "“至少一次”包括一次和两次成功；成成是两次成功，属于目标事件。集合关系不由成功概率大小改变。",
+          "observation_boundary": "只观察事件成员的归类，计算概率时仍须核对独立性或逐步条件。"
+        },
+        {
+          "id": "include_exactly_one_and_two",
+          "choice_ids": [
+            "B"
+          ],
+          "mathematical_check": "三个列出的结果互斥且各占1/4，相加得3/4。恰好一次只有成败、败成，少了成成。",
+          "observation_boundary": "观察两条互斥部分合并的概率；并未验证能处理未知关联的两次试验。"
+        }
+      ],
+      "skip_check": "只有败败的成功次数为0；其余三种都至少成功一次。",
+      "default_boundary": "复合目标短题观察至少一次的事件范围；独立依据与条件乘法还需继续确认。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "independent_events",
+      "support_id": "independent_events:support:classify",
+      "objective_id": "independent_events:classify",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "check_zero_product",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "A不可能发生，所以交集也不可能发生；0×3/5=0。两个概率相等，符合独立定义，同时两事件互斥。",
+          "observation_boundary": "这条路线只处理不可能事件的边界；一般事件仍需同时检验两个定义。"
+        },
+        {
+          "id": "check_denominator_domain",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "除以0没有定义。换分母会改变所求条件概率；独立的乘积定义无需作这次除法。",
+          "observation_boundary": "只检查这一离散条件概率公式的使用条件，不把未定义写成0。"
+        }
+      ],
+      "skip_check": "六个可能结果中没有7点，有利结果数为0，所以P(A)=0。",
+      "default_boundary": "观察零概率事件对“互斥不独立”的例外；一般判断仍需分别核对交集与乘积。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "independent_events",
+      "support_id": "independent_events:support:conditional",
+      "objective_id": "independent_events:conditional",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "condition_on_subset",
+          "choice_ids": [
+            "B"
+          ],
+          "mathematical_check": "条件已把范围缩成8张A卡，有利卡为其中2张，得2/8=1/4。2/20描述相对于全部卡的交集，问题不同。",
+          "observation_boundary": "只观察同一条件范围内的比例；没有推断A与B独立。"
+        },
+        {
+          "id": "keep_part_over_whole",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "A是条件全体，交集是其中的部分，所以用0.15除以0.6。反向除法给4，已经超出概率可取范围。",
+          "observation_boundary": "只检查条件概率的分子分母与数值范围，不由选择答案确定所有错误原因。"
+        }
+      ],
+      "skip_check": "竖线右侧A是条件，要在A发生的范围内考察B。仅写出这个符号没有给出独立性。",
+      "default_boundary": "观察联合概率除以条件概率；数值结果还需解释新样本范围。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "independent_events",
+      "support_id": "independent_events:support:multiply",
+      "objective_id": "independent_events:multiply",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "draw_second_step_condition",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "第一白取走后剩3红1白，第二白条件概率为1/4；它与原来的2/5不同。",
+          "observation_boundary": "只核对一条路径的第二步条件；整条路径概率仍要再乘第一步。"
+        },
+        {
+          "id": "multiply_within_path",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "A与B都发生是先A、再条件下B的同一路径，概率相乘得1/10；相加用于相应互斥路径的合并，不能在这里代用。",
+          "observation_boundary": "只观察乘法链的结构；没有据此允许把条件概率替换成边际概率。"
+        }
+      ],
+      "skip_check": "“都白”要求两次同时满足白；红白、白红只满足一次。",
+      "default_boundary": "观察不放回时第二步概率；不能看到“两次”就默认独立。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "independent_events",
+      "support_id": "independent_events:support:complement",
+      "objective_id": "independent_events:complement",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "exclude_double_success",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "成成有两次成功，满足至少一次但不满足恰好一次；成败满足两者，败败两者都不满足。",
+          "observation_boundary": "只观察恰好一次与至少一次的区别；还需核对各路径概率。"
+        },
+        {
+          "id": "count_second_success_position",
+          "choice_ids": [
+            "B"
+          ],
+          "mathematical_check": "恰好一次可以成功在第一次，也可以成功在第二次。两条路径互斥，3/8+1/8=1/2；仅保留第一条会漏算。",
+          "observation_boundary": "只观察两次试验中的全部成功位置，不能外推为任意次数的完整枚举。"
+        }
+      ],
+      "skip_check": "第一次失败、第二次成功，共成功1次，因此它必须包含在“恰好一次成功”中。",
+      "default_boundary": "观察恰好一次的两条互斥路径；补事件法需准确界定全不发生。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "independent_events",
+      "support_id": "independent_events:support:assumptions",
+      "objective_id": "independent_events:assumptions",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "compare_two_couplings",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "复制机制两列始终相同，同时正面就是原硬币正面，概率1/2；独立机制才给1/2×1/2=1/4。边际相同不足以确定联合概率。",
+          "observation_boundary": "用反例否定独立性无依据的结论；没有断言真实装置一定采用某一种机制。"
+        },
+        {
+          "id": "do_not_replace_unknown_with_zero",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "同时成功正好等于开关打开，概率0.7。它符合两个边际都是0.7，却否定了“同时成功一定为0”。",
+          "observation_boundary": "只证明零交集并非题设结论，仍未确定原装置实际交集的唯一数值。"
+        }
+      ],
+      "skip_check": "题设分别描述甲、乙各自；没有给出两者如何共同发生。联合机制或额外假设仍需补充。",
+      "default_boundary": "观察独立依据是否充分；需要机制或联合分布，不能靠相同概率补假设。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "sampling_and_variation",
+      "support_id": "sampling_and_variation:support:population",
+      "objective_id": "sampling_and_variation:population",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "zero_chance_outside_frame",
+          "choice_ids": [
+            "B"
+          ],
+          "mathematical_check": "程序没有名单外学生的编号，所以这位学生入样概率为0。名单内抽取得再随机，也不能给名单外对象机会。",
+          "observation_boundary": "只发现抽样框遗漏；没有量化由遗漏引起的偏差大小或方向。"
+        },
+        {
+          "id": "census_of_subset",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "全数调查的“全数”相对于这份200人名单；目标仍是600人，其他400人没有被覆盖。",
+          "observation_boundary": "只核对调查对象的覆盖范围；不声称已知遗漏群体的实际到校方式。"
+        }
+      ],
+      "skip_check": "总体由“本年级所有学生”这个问题范围确定，不能由方便取得的名单反过来缩小。按数据口径则是这些学生上周到馆与否的全部记录。",
+      "default_boundary": "观察抽样框遗漏；调查目的、拒访和样本代表性仍需进一步核对。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "sampling_and_variation",
+      "support_id": "sampling_and_variation:support:sampling",
+      "objective_id": "sampling_and_variation:sampling",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "replace_arrival_with_random_selection",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "相同纸条、完整编号、充分混匀和不放回构成可检查的随机抽取过程；事后重排已选名单不会改变谁被选中。",
+          "observation_boundary": "只核对抽取设计，后续未回应仍可能影响实际收集到的记录。"
+        },
+        {
+          "id": "separate_invitation_and_response",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "邀请范围完整不等于响应机制随机。是否愿意回答、何时提交可能与调查量有关，需说明实际选择过程和局限。",
+          "observation_boundary": "只说明自愿回应可能有选择偏差，不断言这些自荐者已经表现出特定偏差。"
+        }
+      ],
+      "skip_check": "重复编号会改变机会，遗漏对象会使其没有机会。完整唯一编号是实施所述随机抽取的一项前提。",
+      "default_boundary": "观察随机抽样与方便样本的区别；随机化执行和不回应仍需要实际记录。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "sampling_and_variation",
+      "support_id": "sampling_and_variation:support:centre",
+      "objective_id": "sampling_and_variation:centre",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "average_is_not_every_person",
+          "choice_ids": [
+            "B"
+          ],
+          "mathematical_check": "平均数用总量除人数，(2+10)/2=6；它不要求有某条记录等于平均数，更不要求人人相同。",
+          "observation_boundary": "只反驳平均数等于每个人的误读；选择均值还是中位数仍须结合报告目的。"
+        },
+        {
+          "id": "report_without_deleting_valid_outlier",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "原五条总和30，均值6，中位数3；两种摘要配合18分钟这条有效记录，可以同时说明中心与长等待，不篡改原资料。",
+          "observation_boundary": "只处理已确认有效的长等待；真实数据若怀疑录入错误，应另行核查并记录处理依据。"
+        }
+      ],
+      "skip_check": "排序为2、5、8，中间第2条为5。中位数先看位置，不能直接取原记录顺序的中间。",
+      "default_boundary": "观察极端值对平均数与中位数的影响；哪个指标更适合还取决于报告目的。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "sampling_and_variation",
+      "support_id": "sampling_and_variation:support:spread",
+      "objective_id": "sampling_and_variation:spread",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "square_before_averaging",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "先平方得4与4，平方偏差和为8；0只是有符号偏差抵消后的和，不能表示这组完全没有波动。",
+          "observation_boundary": "只核对平方这一步，随后还要按题设分母求方差并保留平方单位。"
+        },
+        {
+          "id": "use_declared_description_denominator",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "本题定义是4条记录的平均平方偏差，所以除4。用n−1属于另一个估计定义，不能忽略这里明确的任务。",
+          "observation_boundary": "只按本题的描述性定义计算；没有否定估计总体方差时使用n−1的另一种规则。"
+        }
+      ],
+      "skip_check": "偏差是2−4=−2，表示这条记录低于均值2；求方差时还要将偏差平方。",
+      "default_boundary": "观察本单元描述性方差的分母与平方偏差；不把这一定义混同于其他用途的无偏估计量。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "sampling_and_variation",
+      "support_id": "sampling_and_variation:support:inference",
+      "objective_id": "sampling_and_variation:inference",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "separate_size_from_coverage",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "扩大同一抽样框内的人数改变了记录量，没有自动把社团外学生纳入；是否能推断全校还要检查覆盖与抽样机制。",
+          "observation_boundary": "只辨别抽样框的系统性遗漏，不给出未经数据支持的偏差数值。"
+        },
+        {
+          "id": "retain_bounded_description",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "描述已取得的12条记录是成立的；推广到未回答者或全校需要额外设计与证据。范围受限不意味着数据没有任何用途。",
+          "observation_boundary": "只报告这组记录中的描述量；不把它自动升级为社团全体或全校的精确值。"
+        }
+      ],
+      "skip_check": "这个平均数首先由20条记录计算；即使抽样随机，估计总体时仍有抽样不确定性。",
+      "default_boundary": "短题检查“大样本消除偏差”的说法；设计完整推断仍需说明抽取机制、缺失与不确定性。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "correlation_and_regression",
+      "support_id": "correlation_and_regression:support:correlation",
+      "objective_id": "correlation_and_regression:correlation",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "undefined_is_not_zero",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "分子0不能消去除以0的问题；此处是0/0。要报告r=0，须先满足Sxx与Syy都大于0。",
+          "observation_boundary": "只检验通常样本相关系数的定义域；r=0时是否存在非线性关系仍需另查。"
+        },
+        {
+          "id": "constant_is_not_positive_trend",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "甲组x、y都变化且y=2x，r=1。乙组是一条竖直点列，Sxx=0；几何上共线不保证r有定义。",
+          "observation_boundary": "只区分非退化完全正线性关系和常量列；不把相关解释成因果。"
+        }
+      ],
+      "skip_check": "每个偏差都是0，平方和也为0，这会使通常样本r的分母为0。",
+      "default_boundary": "观察r的分母退化；判断非线性关系还需结合散点形状。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "correlation_and_regression",
+      "support_id": "correlation_and_regression:support:ols",
+      "objective_id": "correlation_and_regression:ols",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "locate_intercept_at_zero",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "样本中心给8=a+2×3，所以a=2；ȳ是x̄=3处的预测值，截距是x=0处的预测值。",
+          "observation_boundary": "只区分两个位置；估计系数仍须使用含截距最小二乘及非零横坐标变异条件。"
+        },
+        {
+          "id": "subtract_slope_contribution",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "bx̄=6只是x部分的贡献，剩下的截距为8−6=2。代回2+2×3=8即可核对。",
+          "observation_boundary": "只观察给定斜率后的截距计算；没有确认能从完整成对数据估计斜率。"
+        }
+      ],
+      "skip_check": "中心的横坐标3代入x，纵坐标8代入ŷ，得到8=a+6，不能交换横纵坐标。",
+      "default_boundary": "观察截距由样本中心反求；独立计算斜率和检验退化情况仍需后续任务。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "correlation_and_regression",
+      "support_id": "correlation_and_regression:support:residual",
+      "objective_id": "correlation_and_regression:residual",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "preserve_residual_direction",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "观测比预测低，观测减预测为−3。距离或绝对残差不保留方向，不能替代有符号残差。",
+          "observation_boundary": "只能看出这次符号选择是否符合约定，不能由一个答案确定倒减还是绝对值的根因。"
+        },
+        {
+          "id": "equal_values_have_zero_residual",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "观测与预测完全相等，没有偏差，所以残差为7−7=0。相加14与偏离大小无关。",
+          "observation_boundary": "只核对残差的差值定义；一般预测式的代入仍需后续练习。"
+        }
+      ],
+      "skip_check": "约定的顺序是观测减预测。先确定各符号对应的量，再计算正负。",
+      "default_boundary": "观察减法顺序和图上上下位置；绝对误差与平方残差是另外的量。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "correlation_and_regression",
+      "support_id": "correlation_and_regression:support:r_squared",
+      "objective_id": "correlation_and_regression:r_squared",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "variation_not_case_accuracy",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "R²=1−36/100，是相对于样本均值的平方变异比例。这里100是平方和，不是人数，未给新样本的正确率。",
+          "observation_boundary": "只核对R²的样本拟合含义；新数据误差与预测区间需要单独评价。"
+        },
+        {
+          "id": "fit_does_not_identify_cause",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "样本拟合没有随机干预或排除其他机制。高温可能同时影响销量与游泳，故R²不能直接给出因果贡献比例。",
+          "observation_boundary": "只否定无依据的因果百分比，不断言数据中一定存在某个具体共同原因。"
+        }
+      ],
+      "skip_check": "分子分母都是平方和；它们的比值不是人数比例，也不是某个因果事件的概率。",
+      "default_boundary": "观察R²解释边界；R²=r²的适用条件和无截距反例仍需进一步计算。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "correlation_and_regression",
+      "support_id": "correlation_and_regression:support:prediction_limits",
+      "objective_id": "correlation_and_regression:prediction_limits",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "extrapolation_is_not_guarantee",
+          "choice_ids": [
+            "B"
+          ],
+          "mathematical_check": "2×100+1=201是正确的模型运算；观察资料没有证明关系在100附近仍保持，也没有消除随机或模型误差。",
+          "observation_boundary": "只辨别远距离外推风险；范围内预测也仍有误差，不能反向当作保证。"
+        },
+        {
+          "id": "consider_shared_cause",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "共同的气温变化可能使两个量一起变化。观察相关与多种机制相容，需要额外设计和证据才能辨别改变销量的因果作用。",
+          "observation_boundary": "只识别另一种可能机制，不把该机制当成已经验证的真实原因。"
+        }
+      ],
+      "skip_check": "50大于已观察最大值5，属于外推；即使公式能算出数，也需要另查新范围的适用依据。",
+      "default_boundary": "短题观察外推和因果边界；完整报告需要检查样本来源、残差和新情境。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "data_reading_and_mean",
+      "support_id": "data_reading_and_mean:support:mean",
+      "objective_id": "data_reading_and_mean:mean",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "keep_zero_record_in_count",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "三天共9页，份数是3天，平均9÷3=3页。0页是已知记录，与没有记录不同。",
+          "observation_boundary": "只核对完整记录中的0，不能把漏记也补为0。"
+        },
+        {
+          "id": "separate_total_and_number_of_shares",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "“平均每天”要把总页数分给4天；总量是20页，份数是4天，不能把总量同时当作份数。",
+          "observation_boundary": "只检查总量÷份数的含义；未知量反求仍需后续任务。"
+        }
+      ],
+      "skip_check": "每个已记录的一天是一份，包括0页那天，共3份。",
+      "default_boundary": "观察能否把记录的0计入份数，并用总量÷份数；反求未知量和区分缺失记录仍需后续确认。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "data_reading_and_mean",
+      "support_id": "data_reading_and_mean:support:combine",
+      "objective_id": "data_reading_and_mean:combine",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "expand_group_weights",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "乙组的4本在本题对应3人，不能只算一份。总量20本除以4人得5本；一般组平均也须先乘对应人数还原总量。",
+          "observation_boundary": "只观察人数不同为何要加权，不声称所有组成员都恰好等于组平均数。"
+        },
+        {
+          "id": "count_all_people",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "总量来自全部2+5=7人，分母也必须是7人，不能只除某一组人数。",
+          "observation_boundary": "只核对分母，随后仍需用组平均与人数还原总量。"
+        }
+      ],
+      "skip_check": "平均每人4本乘3人还原总量12本。平均数不要求每个人实际都拿4本。",
+      "default_boundary": "观察合并平均的分母和各组权重；选对式子不等于能解释人数改变的影响，后续需保留计算与说理。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "data_reading_and_mean",
+      "support_id": "data_reading_and_mean:support:choose_chart",
+      "objective_id": "data_reading_and_mean:choose_chart",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "category_order_is_not_time",
+          "choice_ids": [
+            "B"
+          ],
+          "mathematical_check": "重排类别没有改变实际借阅量，却改变了连线形状；这里没有时间轴，不能解释成时间趋势。比较类别可用有标签的条形图。",
+          "observation_boundary": "只区别类别与时间顺序，不替代自己绘制带清楚刻度的图。"
+        },
+        {
+          "id": "labels_make_comparison_auditable",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "书类说明比较对象，“本数”和统一刻度说明数量含义；日期不能替代并不存在的时间信息。",
+          "observation_boundary": "只检查图表标签是否支持问题，尚未检查完整作图和刻度比例。"
+        }
+      ],
+      "skip_check": "这里比较故事、科普等类别在同一天的本数，不是在比较不同日期。",
+      "default_boundary": "观察类别、时间顺序和整体份额的区别；选择题不能代替自己画出有轴名、单位和清楚刻度的图。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    },
+    {
+      "unit_id": "data_reading_and_mean",
+      "support_id": "data_reading_and_mean:support:limited_claim",
+      "objective_id": "data_reading_and_mean:limited_claim",
+      "changes": "保留原辨别题、默认指导与后续任务，增加两条实际错误路线和单独暂时不会路线；显式登记实际题族及表征。",
+      "routes": [
+        {
+          "id": "limit_people_to_observed_group",
+          "choice_ids": [
+            "A"
+          ],
+          "mathematical_check": "四条记录只对应甲乙丙丁；未记录的36人既不能补成2本，也不能补成0本。",
+          "observation_boundary": "只限制结论的对象范围，不推测没有调查的同学表现如何。"
+        },
+        {
+          "id": "limit_time_to_observed_week",
+          "choice_ids": [
+            "C"
+          ],
+          "mathematical_check": "已记录的是本周；把时间换成下周或永远，便增加了没有观察支持的保证。",
+          "observation_boundary": "只辨别时间范围，不禁止有依据的预测；预测需另给方法和不确定性。"
+        }
+      ],
+      "skip_check": "“4人”限制对象，“本周”限制时间；结论应先保留这两项。",
+      "default_boundary": "短题只检查结论的对象范围；能否自写有边界的结论、举平均数反例和处理缺失数据，仍由后续开放任务检查。",
+      "history_impact": "新会话冻结新支持与路线；原任务、答案、技能ID不变，旧记录保留原内容与原评分。与当前运行规则兼容时按原快照继续；若grader版本不兼容，既有明确提示会阻止续做，不能将新作者内容替换旧快照。有帮助的正确表现不作独立掌握。"
+    }
+  ],
+  "carry_over_review": [
+    {
+      "source": "data/learning_units/sampling_and_variation.json",
+      "decision": "同时接受对象口径与对应数据口径的总体、样本表述，保留同一调查问题与抽样框限制。"
+    },
+    {
+      "source": "data/learning_units/independent_events.json",
+      "decision": "保留原任务与答案；新增四格卡图与实际认知要求；条件概率的有限确认改用直接问P(B|A)的delayed-3，原joint-only题继续保留在原单元中。"
+    },
+    {
+      "source": "data/learning_units/correlation_and_regression.json",
+      "decision": "保留数值/答案；纠正符号题表征；assessment SVG不再提前写出r=0，绘图坐标与最小二乘线经独立计算检查。"
+    }
+  ],
+  "hint_exposure_decision": "新四单元的每级提示分别登记实际交付的数学题族；guide反馈不附带尚未展开提示的全部题族；新提示事件不把未呈现的确认题当作已接触。旧快照无显式登记时保留原所选guide/确认题范围fallback，不重写旧记录。",
+  "confirmed_family_aliases": [
+    {
+      "alias": "ratio.part-from-percentage",
+      "canonical": "statistics.part-from-percentage",
+      "reason": "已知整体数量和部分百分比求部分数量，同为整体×百分比；图或借书情境不改变这个数学结构。",
+      "source_paths": [
+        "data/content/liuxia.json",
+        "data/teach/m6b.2.1.json",
+        "data/question_sources/application.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.independence-formula-recall",
+      "canonical": "probability.independence-definition",
+      "reason": "同一旧题mh2.10.2-q1只要求选择独立定义式；更改名称没有新增结构。",
+      "source_paths": [
+        "data/content/bx2.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.given-independent-product",
+      "canonical": "probability.independent-intersection",
+      "reason": "已明确独立且给边际概率，求同时发生概率，都是按已知独立关系相乘；不包含条件概率反求。",
+      "source_paths": [
+        "data/content/bx2.json",
+        "data/learning_units/independent_events.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.disjoint-positive-not-independent",
+      "canonical": "probability.independence-vs-exclusive",
+      "reason": "逐项查到旧族使用正概率互斥事件，比较零交集与正的边际乘积；零概率例外仍单列。",
+      "source_paths": [
+        "data/content/bx2.json",
+        "data/learning_units/independent_events.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.without-replacement-conditional",
+      "canonical": "probability.conditional.without-replacement-known-first",
+      "reason": "已知第一次结果后，从剩余同类数除以剩余总数求第二次条件概率；不把两次联合概率族并入。",
+      "source_paths": [
+        "data/content/xby3.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.conditional-from-joint",
+      "canonical": "probability.conditional-from-intersection",
+      "reason": "给交集及正概率条件事件，计算P(A∩B)/P(A)；joint与intersection在此两名称指同一给定量。",
+      "source_paths": [
+        "data/content/xby3.json",
+        "data/learning_units/independent_events.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.conditional.joint-over-condition",
+      "canonical": "probability.conditional-from-intersection",
+      "reason": "旧题mh5.7.1.1-q1与q101都给P(A)、P(A∩B)求P(B|A)，与单元delayed-3的求解方向一致。",
+      "source_paths": [
+        "data/content/xby3.json",
+        "data/question_sources/application.json",
+        "data/learning_units/independent_events.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.conditional-restricted-space",
+      "canonical": "probability.conditional.finite-uniform-intersection",
+      "reason": "完整有限等可能集合内先按条件限制，再数交集与条件集合之比；眼镜人数与骰子子集是同结构表征。",
+      "source_paths": [
+        "data/teach/mh5.7.1.1.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.conditioned-die-subset",
+      "canonical": "probability.conditional.finite-uniform-intersection",
+      "reason": "mh5.7.1.1-q91保留同一骰子条件空间与交集计数，修正算漏一个结果后仍是原条件计数结构。",
+      "source_paths": [
+        "data/content/xby3.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.condition-event-denominator",
+      "canonical": "probability.conditional.identify-denominator",
+      "reason": "两名称都指辨认P(B|A)分母为条件事件P(A)，没有扩成完整概率计算。",
+      "source_paths": [
+        "data/content/xby3.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.conditional-versus-joint",
+      "canonical": "probability.conditional-to-joint",
+      "reason": "同一旧目标自检给P(A)=0.4与P(B|A)=0.5求联合0.2并解释区别；保留乘法方向，不与conditional-from-joint合并。",
+      "source_paths": [
+        "data/teach/mh5.7.1.1.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.at-least-one-complement",
+      "canonical": "probability.at-least-one-independent",
+      "reason": "共同独立尝试中以1减全部失败乘积求至少一次；两次与三次不因次数变化自动成为新结构。",
+      "source_paths": [
+        "data/learning_units/independent_events.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.complement-event",
+      "canonical": "probability.event-complement-partition",
+      "reason": "两名称在实际支持中均表示把至少一次与零次发生划分成互补结果集合；没有声明算概率这一步已独立掌握。",
+      "source_paths": [
+        "data/learning_units/independent_events.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "statistics.correlation-range-recall",
+      "canonical": "statistics.correlation-range",
+      "reason": "旧题只问相关系数取值区间，改名没有变成符号、强弱或零方差定义域任务。",
+      "source_paths": [
+        "data/content/xby3.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "statistics.residual-definition-recall",
+      "canonical": "statistics.residual-definition",
+      "reason": "原两题均辨认观测减预测的残差定义；不将代模型计算残差族一并视为定义回忆。",
+      "source_paths": [
+        "data/content/xby3.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "statistics.ols-centre-property-recall",
+      "canonical": "statistics.ols-centre-property",
+      "reason": "原两题均在含截距且Sxx>0前提下辨认最小二乘线经过样本中心，没有把求系数也合并。",
+      "source_paths": [
+        "data/content/xby3.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "statistics.grouping.fixed-origin-boundaries",
+      "canonical": "statistics.grouping.endpoint-coverage",
+      "reason": "原题与自检都从已定起点列等组距区间，按左右端点覆盖最大数据；自检选择组距仍沿同一边界核对结构。",
+      "source_paths": [
+        "data/content/baxia.json",
+        "data/teach/m8b.24.4.json",
+        "data/question_sources/application.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "statistics.census.non-sampling-error",
+      "canonical": "statistics.census-error-boundary",
+      "reason": "原全面调查题辨认全查仍会漏登、测错和记错的边界，名称变化不改变观察内容。",
+      "source_paths": [
+        "data/content/qixia.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "statistics.grouping.frequency-conservation",
+      "canonical": "statistics.frequency.remaining-count",
+      "reason": "复核该旧讲解自检为40个数据减前三组整数频数，与remaining-count同是求剩余个数；明确不合并频率补1。",
+      "source_paths": [
+        "data/teach/m8b.24.4.json",
+        "data/content/baxia.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "classification.given-attribute",
+      "canonical": "statistics.classify-given-attribute",
+      "reason": "原红圆/红方/蓝圆材料按已给颜色属性分类，没有换属性的额外要求。",
+      "source_paths": [
+        "data/teach/m2a.1.1.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "classification.change-attribute",
+      "canonical": "statistics.reclassify-same-objects",
+      "reason": "同一四张卡改按颜色或形状分类，改变的是分类依据而非对象集合。",
+      "source_paths": [
+        "data/teach/m2a.1.2.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "classification.two-level-leaf-count",
+      "canonical": "statistics.hierarchical-classification",
+      "reason": "原红蓝与圆方材料先颜色后形状，区分四种可能叶类与实际非空三类，结构未改变。",
+      "source_paths": [
+        "data/teach/m2a.1.3.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "sampling.inclusion-probability",
+      "canonical": "v4.foundation.mh2.9.1.1.example",
+      "reason": "原讲解例题明确从100人不放回简单随机抽10人，问每人入样概率10/100；未把抽样配额或总体估计纳入。",
+      "source_paths": [
+        "data/teach/mh2.9.1.1.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "statistics.compare-conditional-rates",
+      "canonical": "v4.foundation.mh5.8.3.1.example",
+      "reason": "原A组40人16参加与B组60人18参加的例题比较两个组内参加率之差，保留分组分母。",
+      "source_paths": [
+        "data/teach/mh5.8.3.1.json"
+      ],
+      "reviewer_kind": "ai",
+      "independent_review": false
+    }
+  ],
+  "rejected_family_merges": [
+    {
+      "old_family": "probability.without-replacement",
+      "proposed": [
+        "probability.without-replacement-conditional",
+        "probability.without-replacement-dependence",
+        "probability.without-replacement-two-red"
+      ],
+      "reason": "旧族含已知第一结果求条件概率、比较独立性和求两次联合三种任务。拆分后不能宣称全部双向等价；原具体任务可保留旧family或登记方法关系。",
+      "source_paths": [
+        "data/content/bx2.json",
+        "data/learning_units/independent_events.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "probability.enumerated-independence",
+      "proposed": [
+        "probability.die-intersection-count"
+      ],
+      "reason": "单纯交集计数与同时求边际/交集后检验乘积关系的要求不同；旧族含两者，不能整体双向合并。",
+      "source_paths": [
+        "data/content/bx2.json",
+        "data/learning_units/independent_events.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.correlation-sign-and-domain",
+      "proposed": [
+        "statistics.correlation-zero-variance-domain"
+      ],
+      "reason": "旧族同时观察r符号强弱与常量列定义域，新标签只描述后者；不能据做过强弱题视为已见零方差方法。",
+      "source_paths": [
+        "data/content/xby3.json",
+        "data/learning_units/correlation_and_regression.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.regression-parameter-interpretation",
+      "proposed": [
+        "statistics.regression-slope-name"
+      ],
+      "reason": "旧族含辨认b名称、解释单位变化、计算Δŷ=bΔx和因果限制；名称回忆不能代表其他结构。",
+      "source_paths": [
+        "data/content/xby3.json",
+        "data/question_sources/application.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.frequency.remaining-proportion",
+      "proposed": [
+        "statistics.frequency.total-conservation"
+      ],
+      "reason": "补剩余频率的总数是1，补频数的总数是样本容量；新族混用两种单位与目标，不能双向合并。",
+      "source_paths": [
+        "data/content/baxia.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.frequency.remaining-count",
+      "proposed": [
+        "statistics.frequency.total-conservation"
+      ],
+      "reason": "新族混有频率补1与整数频数补n；建议整数任务继续用remaining-count，频率任务保留remaining-proportion。",
+      "source_paths": [
+        "data/content/baxia.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.stratified-random-selection",
+      "proposed": [
+        "statistics.sampling-and-nonresponse-bias"
+      ],
+      "reason": "原题按年级分层随机覆盖，新族另含抽中100仅60回答的响应机制比较；后者新增实质步骤。",
+      "source_paths": [
+        "data/content/qixia.json",
+        "data/teach/m7b.12.1.2.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.sample-size-identification",
+      "proposed": [
+        "statistics.population-sample-size-nonresponse"
+      ],
+      "reason": "原题只辨认抽取100的样本容量；新族另含总体/个体/样本识别及20人未回应的观测数变化，不能整体当同任务。",
+      "source_paths": [
+        "data/content/qixia.json",
+        "data/teach/m7b.12.1.2.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "sampling.proportional-count",
+      "proposed": [
+        "statistics.sample-proportion-population-estimate"
+      ],
+      "reason": "旧族同时含按样本比例估计全校人数与按总体层比例分配抽样人数。前者是估计，后者是抽样设计配额，不能双向等价。",
+      "source_paths": [
+        "data/content/qixia.json",
+        "data/teach/m7b.12.1.2.json",
+        "data/teach/mh2.9.1.2.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.ols-from-paired-data",
+      "proposed": [
+        "statistics.ols-coefficients-from-sums"
+      ],
+      "reason": "旧族包含从原始成对数据计算中心与Sxx/Sxy；新支持给全汇总量，省略了这些步骤，故不能整体等价。",
+      "source_paths": [
+        "data/teach/mh5.8.2.2.json",
+        "data/learning_units/correlation_and_regression.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.r-squared-interpretation",
+      "proposed": [
+        "statistics.ols-r-squared-explained-variation",
+        "statistics.r-squared-from-sums"
+      ],
+      "reason": "旧族含r平方、平方和比值与意义解释；不能因同R²主题就把数值变换和含义辨析互作同结构。",
+      "source_paths": [
+        "data/learning_units/correlation_and_regression.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "probability.insufficient-joint-information",
+      "proposed": [
+        "probability.independent-mechanism-assumption"
+      ],
+      "reason": "原任务需构造符合边际的关联反例；新默认支持只选择题设足以使用独立乘积的句子，认知任务不同。",
+      "source_paths": [
+        "data/learning_units/independent_events.json"
+      ],
+      "decision": "no_global_equivalence"
+    }
+  ],
+  "limits": [
+    "全部路线是AI作者内容复核，非教师独立审核。",
+    "合成正确作答仅验证路由和证据边界，不证明真实学习效果。",
+    "过程与解释的rubric确认仍为待审核，不能因有最后一个数值正确而自动关闭。",
+    "新路线不增加已承诺目标数量，不为换数字或表面情境虚构新题族。",
+    "兼容旧内容结构不等于承诺任意旧grader均可续做；跨grader版本仍执行项目既定兼容检查并保留历史。"
+  ],
+  "validation": {
+    "type": "synthetic_regression",
+    "focused_commands": [
+      {
+        "command": "python -m unittest tests.test_probability_statistics_routes_v6 tests.test_quality_v5_branches -q",
+        "tests": 28,
+        "result": "passed"
+      },
+      {
+        "command": "python -m unittest tests.test_instruction_v4 tests.test_quality_v5_branches.BranchObligationsTest -q",
+        "tests": 20,
+        "result": "passed",
+        "note": "Includes overlapping tests from the previous command; counts must not be added."
+      }
+    ],
+    "mathematical_methods": [
+      "Enumerate ordered nonreplacement draws conditioned on the first colour",
+      "Enumerate two independent finite uniform experiments and count exactly-one / at-least-one outcomes",
+      "Count within an explicit condition subset",
+      "Compute mean and squared deviations from raw records",
+      "Derive least-squares slope and intercept from three points"
+    ],
+    "browser_status": "Added four real UI paths to support_branches; final fixed-commit release evidence records the executed outcome."
+  }
+}

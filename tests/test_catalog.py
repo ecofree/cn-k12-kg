@@ -32,7 +32,7 @@ class CatalogFixtureTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.data = self.root / "data"
-        self.topic_ids = {"m6a.5.3", "m5b.4.1"}
+        self.topic_ids = {"m6a.5.3", "m5b.4.1", "mh5.8.1.1"}
         topics = [t for t in read(DATA / "topics.json") if t["id"] in self.topic_ids]
         questions = [q for q in read(DATA / "questions.json") if q["topicId"] in self.topic_ids]
         unit = read(DATA / "learning_units/fraction_equivalence.json")
@@ -118,8 +118,16 @@ class CatalogFixtureTests(unittest.TestCase):
         circle = c.task("m6a.5.3-q2")
         self.assertIn(circle["family_id"], c.material("topic:m6a.5.3")["family_ids"])
         cube = c.task("m5b.4.1-q2")
-        self.assertEqual(cube["family_id"], c.self_check("m5b.4.1", 1)["family_id"])
-        self.assertIn(cube["family_id"], c.material("topic:m5b.4.1")["family_ids"])
+        check = c.self_check("m5b.4.1", 1)
+        material = c.material("topic:m5b.4.1")
+        # The bank question asks only for surface area; the self-check now
+        # compares surface area and volume. Its component answer is exposed
+        # without declaring the two whole tasks to be the same family.
+        self.assertEqual(cube["family_id"], "geometry.cuboid-surface-area")
+        self.assertNotEqual(cube["family_id"], check["family_id"])
+        self.assertIn(cube["family_id"], check["reference_family_ids"])
+        self.assertIn(cube["family_id"], material["reference_families_by_key"]["self_check:1"])
+        self.assertIn(cube["family_id"], material["family_ids"])
 
     def test_authored_check_metadata_and_its_own_diagram_survive_compilation(self):
         card = read(self.data / "teach/m5b.4.1.json")
@@ -152,10 +160,17 @@ class CatalogFixtureTests(unittest.TestCase):
 
     def test_material_exposure_does_not_include_every_assessment_family(self):
         c = Catalog(self.compile())
-        material = c.material("topic:m5b.4.1")
-        unrelated = c.task("m5b.4.1-q1")["family_id"]
+        # This card explains scatter direction, nonlinearity and causal
+        # limits; none of its references squares a supplied coefficient.
+        material = c.material("topic:mh5.8.1.1")
+        question = c.task("mh5.8.1.1-q101")
+        self.assertEqual(question["family_status"], "declared")
+        unrelated = question["family_id"]
+        self.assertEqual(unrelated, "statistics.square-given-correlation")
         self.assertIn(unrelated, material["assessment_family_ids"])
         self.assertNotIn(unrelated, material["family_ids"])
+        self.assertTrue(all(unrelated not in families
+                            for families in material["reference_families_by_key"].values()))
         unit = c.unit("fraction_equivalence")
         unit_material = c.material(unit["resource_id"])
         self.assertTrue(set(unit_material["assessment_family_ids"]) - set(unit_material["family_ids"]))
@@ -171,7 +186,11 @@ class CatalogFixtureTests(unittest.TestCase):
 
     def test_topic_only_mapping_does_not_claim_every_criterion(self):
         c = Catalog(self.compile())
-        old = c.task("m5b.4.1-q1")
+        # Computing r² from a supplied r does not observe either scatter
+        # direction or the distinction between functions and association.
+        old = c.task("mh5.8.1.1-q101")
+        self.assertEqual(old["availability"], "active")
+        self.assertTrue(c.placement("mh5.8.1.1")["criterion_skill_ids"])
         self.assertEqual(old["skill_ids"], [])
         self.assertEqual(old["alignment"], "topic_only")
         mapped = c.task("m5b.4.1-q101")
@@ -181,7 +200,9 @@ class CatalogFixtureTests(unittest.TestCase):
 
     def test_unknown_family_identity_never_establishes_independence(self):
         c = Catalog(self.compile())
-        q = c.task("m5b.4.1-q1")
+        q = c.task("m5b.4.1-q101")
+        self.assertEqual(q["availability"], "active")
+        self.assertTrue(q["policy"]["practice_eligible"])
         self.assertEqual(q["family_status"], "unclassified")
         self.assertFalse(c.families[q["family_id"]]["independence_established"])
         self.assertFalse(q["policy"]["independent_evidence"])
@@ -337,10 +358,10 @@ class FullCatalogTests(unittest.TestCase):
 
     def test_all_real_resource_classes_are_registered_and_contracts_explicit(self):
         counts = self.c.coverage["task_source_counts"]
-        self.assertEqual(counts["bank"], 3578)
+        self.assertEqual(counts["bank"], 3584)
         self.assertEqual(counts["self_check"], 966)
         self.assertEqual(counts["project_step"], 84)
-        self.assertEqual(counts["unit"], 231)
+        self.assertEqual(counts["unit"], 234)
         self.assertEqual(self.c.coverage["quarantined_tasks"], 493)
         self.assertTrue(all("answer_spec" in t for t in self.c.tasks.values()))
         self.assertEqual(validate_resource("catalog", self.c.data), [])
@@ -349,13 +370,12 @@ class FullCatalogTests(unittest.TestCase):
         self.assertEqual(self.c.coverage["policy_migration_changes"], [])
         policies = self.c.coverage["bank_policy_counts"]
         self.assertEqual(policies["original"], policies["compiled"])
-        self.assertEqual(policies["compiled"]["practice_eligible"], 3085)
+        self.assertEqual(policies["compiled"]["practice_eligible"], 3091)
 
-    def test_reviewed_component_observations_cannot_confirm_or_reject_the_whole_topic(self):
-        focus = set(read(DATA / "alignment_targets.json")["topic_ids"])
-        tasks = [task for task in self.c.tasks.values() if task["source_kind"] == "bank"
-                 and task["availability"] == "active" and focus.intersection(task["topic_ids"])]
-        self.assertEqual(len(tasks), 278)
+    def test_all_active_component_observations_cannot_confirm_or_reject_the_whole_topic(self):
+        tasks = [task for task in self.c.tasks.values() if task["availability"] == "active"]
+        self.assertEqual(len(tasks), 4375)
+        self.assertEqual(sum(task["source_kind"] == "bank" for task in tasks), 3091)
         for task in tasks:
             self.assertFalse(task["policy"]["may_confirm_mastery"], task["id"])
             self.assertFalse(task["policy"]["may_judge_weak"], task["id"])

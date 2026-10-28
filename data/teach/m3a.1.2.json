@@ -21,7 +21,11 @@
       "正面两者都是一排2个方格，不能区分。",
       "上面视图甲为1×2，乙为2×2，可区分这两个候选。"
     ],
-    "answer": "正面不能；上面可区分这两个候选"
+    "answer": "正面不能；上面可区分这两个候选",
+    "family_id": "geometry.views-select-compatible-model",
+    "variant_id": "m3a.1.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "没有说明方向，左右视图就容易混淆。",
@@ -32,7 +36,7 @@
   "name": "根据直观图猜测积木形状",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -46,8 +50,22 @@
         "criteria": [
           "选择乙",
           "用两个视图逐项验证"
+        ],
+        "family_id": "geometry.views-select-compatible-model",
+        "variant_id": "m3a.1.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.cube-view-occlusion",
+          "geometry.single-view-nonuniqueness"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "正面都看见3格，为什么不能立刻选甲？还没用到哪个条件？",
+        "hint": "分别摆候选模型，从上面数占地行列；把正面、上面的符合情况各记一格。",
+        "revision_prompt": "保留正面宽3高1，改给上面1行3列，在甲乙中重新选择并说明是哪条信息排除了另一项。"
+      },
+      "observation_note": "观察多个视图共同约束候选；对这两种模型选定不代表任意立体由两视图唯一确定。"
     },
     {
       "criterion_index": 1,
@@ -59,8 +77,22 @@
         "criteria": [
           "指出一面不足",
           "明确结论只针对给定候选"
+        ],
+        "family_id": "geometry.single-view-nonuniqueness",
+        "variant_id": "m3a.1.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.cube-view-occlusion",
+          "geometry.views-select-compatible-model"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "只看正面，乙藏在后面的那一排会增加看见的宽或高吗？",
+        "hint": "正面会把前后重叠压在一起；换到上面才能看清前后占地。",
+        "revision_prompt": "自己摆两个正面相同、上面不同的模型，记录能区分它们的方向，并写还保留的条件。"
+      },
+      "observation_note": "观察选择补充信息的理由；不把所需方向数背成固定数字。"
     }
   ],
   "practice": [

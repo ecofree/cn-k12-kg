@@ -21,7 +21,11 @@
       "问一共有几个：5+3=8（个）。",
       "已知共8个、红球5个，问蓝球几个：8−5=3（个）。"
     ],
-    "answer": "加法问题得8个；减法问题得3个"
+    "answer": "加法问题得8个；减法问题得3个",
+    "family_id": "primary.parts.pose-inverse-problem",
+    "variant_id": "m1a.2.8:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "提出的问题必须有足够条件，不能只写“多少”。",
@@ -32,7 +36,7 @@
   "name": "用加、减法解决问题",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -46,8 +50,22 @@
         "criteria": [
           "两个问题完整",
           "一题求整体、一题求部分"
+        ],
+        "family_id": "primary.parts.pose-inverse-problem",
+        "variant_id": "m1a.2.8:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "number.missing-part-story",
+          "primary.add.combine-parts"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“4本故事书、2本科普书”直接问故事书几本，是新问题还是重复已知条件？",
+        "hint": "先求两种书共6本；再把6本和其中2本作为已知，遮住故事书数量来提问。",
+        "revision_prompt": "换成3支红笔和5支蓝笔，写一个求总数的问题；把总数补入条件，再写求其中一部分的问题。"
+      },
+      "observation_note": "观察提出的问题是否条件足够及未知量是否改变；模仿句式不能确认能独立提出新问题。"
     },
     {
       "criterion_index": 1,
@@ -59,8 +77,21 @@
         "criteria": [
           "正确列9−6",
           "说明差的意义"
+        ],
+        "family_id": "number.missing-part-story",
+        "variant_id": "m1a.2.8:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.add.combine-parts"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "9只总鸟数里是否已经包括树上的6只？若再相加会怎样？",
+        "hint": "把9个点圈成整体，在其中圈出6个树上鸟，未圈的部分是草地鸟。",
+        "revision_prompt": "共有8个球，其中3个红球，其余蓝球，画图并求蓝球；用两部分相加检查8。"
+      },
+      "observation_note": "观察整体与部分辨认和减法；此题不能观察“重叠分类”情形。"
     }
   ],
   "practice": [

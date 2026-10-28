@@ -33,8 +33,11 @@
     "answer": "820；750",
     "family_id": "primary.multiply.zero-place",
     "variant_id": "m3a.4.6:worked-v4",
-    "representation": "table",
-    "cognitive_demand": "explain"
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "primary.multiply.place-value-scaling"
+    ]
   },
   "pitfalls": [
     "把中间0直接删除，会把205变成25，数量缩小了。",
@@ -47,10 +50,6 @@
     },
     {
       "id": "m3a.4.6-q2",
-      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
-    },
-    {
-      "id": "m3a.4.6-q9",
       "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
     }
   ],
@@ -65,6 +64,14 @@
         "criteria": [
           "中间0未被跳过",
           "正确处理有无进位两种情况"
+        ],
+        "family_id": "primary.multiply.zero-place",
+        "variant_id": "m3a.4.6:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.column-multiply-by-digit",
+          "arithmetic.zero-product"
         ]
       },
       "difficulty_support": {
@@ -84,6 +91,13 @@
         "criteria": [
           "两题位值还原正确",
           "不误删中间乘积已有0"
+        ],
+        "family_id": "primary.multiply.place-value-scaling",
+        "variant_id": "m3a.4.6:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "placevalue.ten-adjacent-units"
         ]
       },
       "difficulty_support": {
@@ -97,7 +111,7 @@
   ],
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   }
 }

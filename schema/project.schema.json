@@ -115,6 +115,46 @@
             "type": "string",
             "minLength": 1,
             "pattern": "\\S"
+          },
+          "family_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "variant_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "representation": {
+            "type": "string",
+            "enum": [
+              "verbal",
+              "symbolic",
+              "number_line",
+              "area_model",
+              "table",
+              "graph",
+              "geometry",
+              "manipulative",
+              "mixed",
+              "unknown"
+            ]
+          },
+          "cognitive_demand": {
+            "type": "string",
+            "enum": [
+              "recall",
+              "execute",
+              "explain",
+              "choose_strategy",
+              "prove",
+              "model",
+              "unknown"
+            ]
+          },
+          "alignment_note": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
           }
         },
         "required": [

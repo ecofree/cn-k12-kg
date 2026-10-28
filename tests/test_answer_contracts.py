@@ -224,7 +224,7 @@ class CliContractTests(unittest.TestCase):
                                  "--answers", "c,c", "--limit", "2"], cwd=ROOT,
                                 capture_output=True, text=True, timeout=30)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("魔方是什么形状", result.stdout)
+        self.assertIn("常见六个面都是正方形的正方体魔方，外形是什么形状？", result.stdout)
         self.assertIn("A.", result.stdout)
         self.assertIn("参考答案：", result.stdout)
         self.assertNotIn("参考答案：o", result.stdout)

@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh2.7.1.1",
- "name": "数系的扩充和复数的概念",
- "tier": "core",
- "hook": "x²=-1在实数中无解，加入i后如何避免把它和普通实数混淆？",
- "definition": "引入虚数单位 i（i²=-1）把实数系扩充到复数系；z=a+bi 中 a 为实部、b 为虚部，两复数相等的条件是实部虚部分别相等。i²=-1，复数z=a+bi中a,b∈R；实部是a、虚部是b，虚部不是bi。两复数相等当且仅当实部虚部分别相等。",
- "why": "用一对实数(a,b)记录复数，使实轴方向与新增的虚轴方向分工明确。表示唯一，所以一个复数等式实际包含两个实数条件；通常的实数大小次序不能直接扩展到非实复数。",
- "when_to_use": [
-  "需要识别复数实部、虚部或实数条件",
-  "复数相等式中含未知实参数"
- ],
- "steps": [
-  "先整理成a+bi并注明a,b为实数",
-  "分别读实部与虚部",
-  "相等时列两个实数方程，求解后代回"
- ],
- "worked_example": {
-  "prompt": "实数x、y满足(x+1)+(2y-3)i=4+5i，求x、y。",
-  "steps": [
-   "比较实部：x+1=4。",
-   "比较虚部：2y-3=5。",
-   "解得x=3、y=4，代回两部分都相等。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh2.7.1.1",
+  "name": "数系的扩充和复数的概念",
+  "tier": "core",
+  "hook": "x²=-1在实数中无解，加入i后如何避免把它和普通实数混淆？",
+  "definition": "引入i²=-1，复数写成z=a+bi，其中a、b为实数。a为实部，b为虚部，虚部不是bi。两复数相等当且仅当实部、虚部分别相等；实数可写成虚部0的复数。",
+  "why": "用一对实数(a,b)记录复数，使实轴方向与新增的虚轴方向分工明确。表示唯一，所以一个复数等式实际包含两个实数条件；通常的实数大小次序不能直接扩展到非实复数。",
+  "when_to_use": [
+    "需要识别复数实部、虚部或实数条件",
+    "复数相等式中含未知实参数"
   ],
-  "answer": "x=3，y=4"
- },
- "pitfalls": [
-  "把虚部写成带i的项",
-  "只比较实部忽略虚部条件"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能指出复数的实部与虚部",
-   "explanation": "虚部是虚数单位的实系数，可能为零或负数。",
-   "self_check": {
-    "prompt": "分别写出-2+3i、5、-4i的实部和虚部。",
-    "reference_answer": "依次(-2,3)、(5,0)、(0,-4)。",
-    "criteria": [
-     "六个实数分量正确",
-     "不把虚部写成3i或-4i"
-    ]
-   }
+  "steps": [
+    "先整理成a+bi并注明a,b为实数",
+    "分别读实部与虚部",
+    "相等时列两个实数方程，求解后代回"
+  ],
+  "worked_example": {
+    "prompt": "实数x、y满足(x+1)+(2y-3)i=4+5i，求x、y。",
+    "steps": [
+      "比较实部：x+1=4。",
+      "比较虚部：2y-3=5。",
+      "解得x=3、y=4，代回两部分都相等。"
+    ],
+    "answer": "x=3，y=4",
+    "family_id": "complex.equal-components",
+    "variant_id": "mh2.7.1.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能用复数相等求参数",
-   "explanation": "相等要求两个实分量同步相等，参数方程需同时满足。",
-   "self_check": {
-    "prompt": "实数m、n满足(2m-1)+(n+2)i=5-3i，求m、n。",
-    "reference_answer": "2m-1=5、n+2=-3，得m=3、n=-5。",
-    "criteria": [
-     "列出两个分量方程",
-     "解并代回两式"
-    ]
-   }
+  "pitfalls": [
+    "把虚部写成带i的项",
+    "只比较实部忽略虚部条件"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能指出复数的实部与虚部",
+      "explanation": "虚部是虚数单位的实系数，可能为零或负数。",
+      "self_check": {
+        "prompt": "分别写出-2+3i、5、-4i的实部和虚部。",
+        "reference_answer": "依次(-2,3)、(5,0)、(0,-4)。",
+        "criteria": [
+          "六个实数分量正确",
+          "不把虚部写成3i或-4i"
+        ],
+        "family_id": "complex.real-imaginary-components",
+        "variant_id": "mh2.7.1.1:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "-4i的虚部是-4还是-4i？实部呢？",
+        "hint": "a+bi中的两个分量a、b都为实数；缺的部分为0。",
+        "revision_prompt": "对0、-7、2i列(a,b)：(0,0),(-7,0),(0,2)。"
+      },
+      "observation_note": "观察实虚部读法；不把虚部与虚数项混为一谈。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用复数相等求参数",
+      "explanation": "相等要求两个实分量同步相等，参数方程需同时满足。",
+      "self_check": {
+        "prompt": "实数m、n满足(2m-1)+(n+2)i=5-3i，求m、n。",
+        "reference_answer": "2m-1=5、n+2=-3，得m=3、n=-5。",
+        "criteria": [
+          "列出两个分量方程",
+          "解并代回两式"
+        ],
+        "family_id": "complex.equal-components",
+        "variant_id": "mh2.7.1.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "只比较实部相等，复数就相等了吗？",
+        "hint": "实部和虚部必须同时相等，得到两个实方程。",
+        "revision_prompt": "(x-2)+(2y+1)i=1-5i得x=3、y=-3，代回两部分。"
+      },
+      "observation_note": "观察分量方程和代回；参数须为实数才能按此比较系数。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：六个实数分量正确；列出两个分量方程。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh2.7.1.1-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.7.1.1-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.7.1.1-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "a、b为实数，虚部是b；i²=-1。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：六个实数分量正确；列出两个分量方程。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh2.7.1.1-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh2.7.1.1-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh2.7.1.1-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

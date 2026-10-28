@@ -186,7 +186,7 @@ class RuntimeAndArchiveTests(unittest.TestCase):
         cls.graph = load_graph()
 
     def test_active_runtime_uses_explicit_contracts_without_legacy_inference(self):
-        self.assertEqual(len(self.graph.questions), 3085)
+        self.assertEqual(len(self.graph.questions), 3091)
         self.assertEqual(len(self.graph.retired_questions_by_id), 493)
         self.assertFalse(set(self.graph.questions_by_id) & set(self.graph.retired_questions_by_id))
         self.assertEqual(set(self.graph.retired_questions_by_id), set(self.catalog.retired_tasks))
@@ -195,9 +195,12 @@ class RuntimeAndArchiveTests(unittest.TestCase):
                 compiled = self.catalog.task(question["id"])
                 self.assertEqual(question["answer_spec"], compiled["answer_spec"])
                 self.assertEqual(answers.grade_answer(question, question["answer"])["status"], "correct", question["id"])
-                for field in ("practice_eligible", "diagnosis_eligible"):
+                for field in ("practice_eligible", "diagnosis_eligible",
+                              "may_confirm_mastery", "may_judge_weak"):
                     self.assertEqual(self.graph.question_policies[question["id"]][field], compiled["policy"][field])
-        self.assertEqual(sum(p["diagnosis_eligible"] for p in self.graph.question_policies.values()), 1846)
+                self.assertFalse(compiled["policy"]["may_confirm_mastery"], question["id"])
+                self.assertFalse(compiled["policy"]["may_judge_weak"], question["id"])
+            self.assertEqual(sum(p["diagnosis_eligible"] for p in self.graph.question_policies.values()), 1731)
 
     def test_twelve_retirements_preserve_question_content_and_old_metadata(self):
         audit = read(DATA / "question_retirements.json")
@@ -244,7 +247,7 @@ class RuntimeAndArchiveTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary) / "content.sqlite"
             counts = store.build(path, include_external=False)
-            self.assertEqual(counts["questions"], 3085)
+            self.assertEqual(counts["questions"], 3091)
             self.assertEqual(counts["retired_questions"], 493)
             with closing(sqlite3.connect(path)) as connection:
                 self.assertEqual(connection.execute("SELECT COUNT(*) FROM questions WHERE answer_spec_json IS NULL").fetchone()[0], 0)

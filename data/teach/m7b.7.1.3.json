@@ -1,80 +1,109 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m7b.7.1.3",
- "name": "两条直线被第三条直线所截",
- "tier": "core",
- "hook": "都带着“内”字的内错角和同旁内角，区别究竟在哪里？",
- "definition": "两条直线被第三条直线所截形成八个角，按位置分为同位角、内错角、同旁内角，具体类型由角在截线同侧或异侧、在被截线同方或之间决定。",
- "why": "这三类名称描述角的位置，不要求两条被截线平行。先确定公共截线，才知道“同旁”或“错侧”；再看两角是否位于两条被截线之间，才能分清内角与外角。",
- "when_to_use": [
-  "两条直线被同一条直线截出两组交角",
-  "需要为平行判定选一对有位置关系的角"
- ],
- "steps": [
-  "先标出两个交点并确定截线",
-  "判断两个角在被截线之间还是外部",
-  "再判断在截线同侧还是异侧并命名"
- ],
- "worked_example": {
-  "prompt": "AB、CD水平，分别与竖直线t交于P、Q，P在Q上方；B、D分别在P、Q右侧。判断∠BPQ与∠DQP的关系。",
-  "answer": "同旁内角",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.7.1.3",
+  "name": "两条直线被第三条直线所截",
+  "tier": "core",
+  "hook": "都带着“内”字的内错角和同旁内角，区别究竟在哪里？",
+  "definition": "两条直线被第三条直线所截形成八个角，按位置分为同位角、内错角、同旁内角，具体类型由角在截线同侧或异侧、在被截线同方或之间决定。",
+  "why": "这三类名称描述角的位置，不要求两条被截线平行。先确定公共截线，才知道“同旁”或“错侧”；再看两角是否位于两条被截线之间，才能分清内角与外角。",
+  "when_to_use": [
+    "两条直线被同一条直线截出两组交角",
+    "需要为平行判定选一对有位置关系的角"
+  ],
   "steps": [
-   "两个角都开向AB与CD之间，都是内角。",
-   "它们都在截线t右侧，所以是同旁内角，而非内错角。"
-  ]
- },
- "pitfalls": [
-  "不能只凭“像F或Z”判断，旋转图形后位置关系不变。",
-  "同位角不一定相等，只有加上平行条件才能使用相等性质。"
- ],
- "check": "独立完成并解释：AB、CD水平，分别与竖直线t交于P、Q，P在Q上方；B、D在各交点右侧，C在Q左侧，R在t上且在Q下方。分别写出∠BPQ的一对同位角、内错角、同旁内角。；沿用本卡例题的点位，分别说明∠BPQ、∠DQP的两条边在哪些直线上。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能在图中识别同位角、内错角、同旁内角",
-   "explanation": "三类角按内外位置及在截线同侧异侧分类，与角的大小无关。",
-   "self_check": {
-    "prompt": "AB、CD水平，分别与竖直线t交于P、Q，P在Q上方；B、D在各交点右侧，C在Q左侧，R在t上且在Q下方。分别写出∠BPQ的一对同位角、内错角、同旁内角。",
-    "reference_answer": "与∠BPQ成同位角的是∠DQR，内错角是∠CQP，同旁内角是∠DQP。依次是同为右下位置、内侧异侧、内侧同侧。",
-    "criteria": [
-     "三组配对均正确",
-     "逐组解释内外与同侧异侧"
-    ]
-   }
+    "先标出两个交点并确定截线",
+    "判断两个角在被截线之间还是外部",
+    "再判断在截线同侧还是异侧并命名"
+  ],
+  "worked_example": {
+    "prompt": "AB、CD水平，分别与竖直线t交于P、Q，P在Q上方；B、D分别在P、Q右侧。判断∠BPQ与∠DQP的关系。",
+    "answer": "同旁内角",
+    "steps": [
+      "两个角都开向AB与CD之间，都是内角。",
+      "它们都在截线t右侧，所以是同旁内角，而非内错角。"
+    ],
+    "family_id": "angle.transversal.relative-position",
+    "variant_id": "m7b.7.1.3:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能说明三类角的边分别落在哪两条直线上",
-   "explanation": "每个角有一边落在截线上，另一边分别落在两条被截线上。",
-   "self_check": {
-    "prompt": "沿用本卡例题的点位，分别说明∠BPQ、∠DQP的两条边在哪些直线上。",
-    "reference_answer": "PB在AB上、PQ在t上；QD在CD上、QP在t上。两角各有一边沿同一截线t。",
-    "criteria": [
-     "逐条说明四条角边",
-     "正确确定t是截线"
-    ]
-   }
+  "pitfalls": [
+    "不能只凭“像F或Z”判断，旋转图形后位置关系不变。",
+    "同位角不一定相等，只有加上平行条件才能使用相等性质。"
+  ],
+  "check": "独立完成并解释：AB、CD水平，分别与竖直线t交于P、Q，P在Q上方；B、D在各交点右侧，C在Q左侧，R在t上且在Q下方。分别写出∠BPQ的一对同位角、内错角、同旁内角。；沿用本卡例题的点位，分别说明∠BPQ、∠DQP的两条边在哪些直线上。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能在图中识别同位角、内错角、同旁内角",
+      "explanation": "三类角按内外位置及在截线同侧异侧分类，与角的大小无关。",
+      "self_check": {
+        "prompt": "AB、CD水平，分别与竖直线t交于P、Q，P在Q上方；B、D在各交点右侧，C在Q左侧，R在t上且在Q下方。分别写出∠BPQ的一对同位角、内错角、同旁内角。",
+        "reference_answer": "与∠BPQ成同位角的是∠DQR，内错角是∠CQP，同旁内角是∠DQP。依次是同为右下位置、内侧异侧、内侧同侧。",
+        "criteria": [
+          "三组配对均正确",
+          "逐组解释内外与同侧异侧"
+        ],
+        "family_id": "angle.transversal.relative-position",
+        "variant_id": "m7b.7.1.3:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "∠BPQ与∠DQP都在两线之间，但位于截线同侧还是异侧？",
+        "hint": "先圈共同截线t，再分内外和左右；同位看相同方位，内错看内侧异侧。",
+        "revision_prompt": "把三类角各涂一种颜色，并在图上延长t到R；逐一写出两个判别条件。"
+      },
+      "observation_note": "观察通过实际边与区域识别角对；当前两线看似平行，不得据角类名称就假定任意两线平行。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能说明三类角的边分别落在哪两条直线上",
+      "explanation": "每个角有一边落在截线上，另一边分别落在两条被截线上。",
+      "self_check": {
+        "prompt": "沿用本卡例题的点位，分别说明∠BPQ、∠DQP的两条边在哪些直线上。",
+        "reference_answer": "PB在AB上、PQ在t上；QD在CD上、QP在t上。两角各有一边沿同一截线t。",
+        "criteria": [
+          "逐条说明四条角边",
+          "正确确定t是截线"
+        ],
+        "family_id": "angle.transversal.identify-lines",
+        "variant_id": "m7b.7.1.3:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "PQ和QP方向相反，是否仍在同一条截线t上？",
+        "hint": "射线方向与所在直线是两件事；分别延长角边查它属于AB、CD还是t。",
+        "revision_prompt": "将∠BPQ与∠CQP的四条边逐一归入三条直线，并指出共同截线。"
+      },
+      "observation_note": "观察找出角边所在线及共同截线；尚未证明任何角度相等关系。"
+    }
+  ],
+  "diagram": {
+    "src": "/static/diagrams/junior-transversal-angles.svg",
+    "alt": "AB、CD水平，分别与竖直截线交于P、Q，P在Q上方。A、C在左，B、D在右，R在Q下方。用于识别三类角的位置。"
+  },
+  "practice": [
+    {
+      "id": "m7b.7.1.3-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.7.1.3-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.7.1.3-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "diagram": {
-  "src": "/static/diagrams/junior-transversal-angles.svg",
-  "alt": "AB、CD水平，分别与竖直截线交于P、Q，P在Q上方。A、C在左，B、D在右，R在Q下方。用于识别三类角的位置。"
- },
- "practice": [
-  {
-   "id": "m7b.7.1.3-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m7b.7.1.3-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m7b.7.1.3-q101",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

@@ -22,7 +22,11 @@
       "12+5=17（张），现在共有17张贴纸。"
     ],
     "answer": "17",
-    "verify": "12+5"
+    "verify": "12+5",
+    "family_id": "primary.change.identify-known-unknown",
+    "variant_id": "m1a.4.4:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "题中数字不一定全要用，先看问题问什么。",
@@ -33,7 +37,7 @@
   "name": "解决问题",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -47,8 +51,22 @@
         "criteria": [
           "两条已知准确",
           "所求明确"
+        ],
+        "family_id": "primary.change.identify-known-unknown",
+        "variant_id": "m1a.4.4:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.add.combine-parts",
+          "primary.change.remove-part"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "16本与4本分别是原有、借走还是剩余？题目有没有直接给出剩余数？",
+        "hint": "画原有大圈和借出小圈；给未知的剩余位置写问号，数字暂不运算。",
+        "revision_prompt": "把故事改成“原有13本，又买2本”，只列已知与所求，并指出变化方向与原题不同。"
+      },
+      "observation_note": "观察已知、未知和变化方向的辨认；还未观察运算准确性。"
     },
     {
       "criterion_index": 1,
@@ -60,8 +78,22 @@
         "criteria": [
           "列式与结果正确",
           "说明12是剩余本数"
+        ],
+        "family_id": "primary.change.remove-part",
+        "variant_id": "m1a.4.4:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.add.combine-parts",
+          "primary.base-ten.no-regroup-add-sub"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "16−4得到的12是借走的书数还是还在书架上的书数？",
+        "hint": "将12本留在书架、4本借出，把二者合回16本；答案按“还剩……本”读完整。",
+        "revision_prompt": "原有18本、借走5本，列式写完整回答，再把剩余与借出相加检查。"
+      },
+      "observation_note": "观察列式、单位与结果含义；只写12不能确认回答了所求量。"
     }
   ],
   "practice": [

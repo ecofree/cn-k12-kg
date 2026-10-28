@@ -1,76 +1,113 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh2.8.5.2",
- "name": "直线与平面平行",
- "tier": "core",
- "hook": "直线平行于平面内一条线就够了吗？若它本来就在这个平面里呢？",
- "definition": "线面平行判定：平面外一条直线与此平面内的一条直线平行；性质：线面平行则过该线的平面与原平面的交线与它平行。判定：l不在α内，m⊂α且l∥m，则l∥α。性质：l∥α、l⊂β、α∩β=m，则l∥m。",
- "why": "面内平行参照线限制外部直线沿平面方向延伸；若外线还与平面相交，两平行线确定的平面关系会迫使它落在平面内，与前提冲突。性质定理则用截平面把无公共点传给两条共面直线。",
- "when_to_use": [
-  "想从一组线线平行证明线面平行",
-  "已有线面平行且找到过该直线的截平面"
- ],
- "steps": [
-  "确认待证直线不在目标平面内",
-  "找目标面内一条与之平行的线，写判定条件",
-  "反用性质时明确截平面、交线与所含直线"
- ],
- "worked_example": {
-  "prompt": "在正方体ABCD-A₁B₁C₁D₁中，ABCD为依次排列的底面，A₁、B₁、C₁、D₁分别在对应底点正上方。证明A₁B₁∥平面ABCD。",
-  "steps": [
-   "A₁B₁∥AB，因为ABB₁A₁是正方形。",
-   "AB在底面内，A₁B₁不在底面内。",
-   "满足线面平行判定，得到结论。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh2.8.5.2",
+  "name": "直线与平面平行",
+  "tier": "core",
+  "hook": "直线平行于平面内一条线就够了吗？若它本来就在这个平面里呢？",
+  "definition": "线面平行判定：l不在α内，m在α内且l∥m，则l∥α。线面平行性质：l∥α，平面β包含l且α∩β=m，则l∥m。判定不可省略外线条件，性质依赖两线在β内共面。",
+  "why": "面内平行参照线限制外部直线沿平面方向延伸；若外线还与平面相交，两平行线确定的平面关系会迫使它落在平面内，与前提冲突。性质定理则用截平面把无公共点传给两条共面直线。",
+  "when_to_use": [
+    "想从一组线线平行证明线面平行",
+    "已有线面平行且找到过该直线的截平面"
   ],
-  "answer": "A₁B₁∥平面ABCD"
- },
- "pitfalls": [
-  "遗漏外线不在面内而把包含误判平行",
-  "把线面平行误认为该线平行面内所有直线"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能选择判定定理证明线面平行",
-   "explanation": "三项条件缺一不可：外线、面内参照线、线线平行。",
-   "self_check": {
-    "prompt": "α内有直线m，l∥m且l⊂α，能否推出l∥α？补什么条件才可用判定？",
-    "reference_answer": "不能，l已包含于α；要另保证l不在α内，结合l∥m与m⊂α才能推出。",
-    "criteria": [
-     "指出包含不是平行",
-     "补出正确外线条件"
-    ]
-   }
+  "steps": [
+    "确认待证直线不在目标平面内",
+    "找目标面内一条与之平行的线，写判定条件",
+    "反用性质时明确截平面、交线与所含直线"
+  ],
+  "worked_example": {
+    "prompt": "在正方体ABCD-A₁B₁C₁D₁中，ABCD为依次排列的底面，A₁、B₁、C₁、D₁分别在对应底点正上方。证明A₁B₁∥平面ABCD。",
+    "steps": [
+      "A₁B₁∥AB，因为ABB₁A₁是正方形。",
+      "AB在底面内，A₁B₁不在底面内。",
+      "满足线面平行判定，得到结论。"
+    ],
+    "answer": "A₁B₁∥平面ABCD",
+    "family_id": "space.line-plane-parallel-condition",
+    "variant_id": "mh2.8.5.2:example",
+    "representation": "verbal",
+    "cognitive_demand": "prove"
   },
-  {
-   "criterion_index": 1,
-   "title": "能用性质定理把线面平行转化为线线平行",
-   "explanation": "性质定理把外线与截平面在目标面内的交线联系起来。",
-   "self_check": {
-    "prompt": "l∥α，平面β包含l且β∩α=m，证明l∥m并说明不能相交。",
-    "reference_answer": "l、m同在β内；若相交，交点属于l也属于α，违背l∥α；因此共面且不交，l∥m。",
-    "criteria": [
-     "说明共面",
-     "用无公共点排除相交"
-    ]
-   }
-  }
- ],
- "check": "独立完成两项自检并保留推导或作图：指出包含不是平行；说明共面。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh2.8.5.2-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+  "pitfalls": [
+    "遗漏外线不在面内而把包含误判平行",
+    "把线面平行误认为该线平行面内所有直线"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能选择判定定理证明线面平行",
+      "explanation": "三项条件缺一不可：外线、面内参照线、线线平行。",
+      "self_check": {
+        "prompt": "α内有直线m，l∥m且l⊂α，能否推出l∥α？补什么条件才可用判定？",
+        "reference_answer": "不能，l已包含于α；要另保证l不在α内，结合l∥m与m⊂α才能推出。",
+        "criteria": [
+          "指出包含不是平行",
+          "补出正确外线条件"
+        ],
+        "family_id": "space.line-plane-parallel-condition",
+        "variant_id": "mh2.8.5.2:criterion-0",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "l∥m且m在α内，l是否也可能在α内？",
+        "hint": "可能，所以判定还要检查l不在α内。",
+        "revision_prompt": "在同一平面画两条平行线作缺条件反例，再把l平移出α形成合法判定。"
+      },
+      "observation_note": "观察线外、面内及平行三个条件；不靠图上分离判断外线。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用性质定理把线面平行转化为线线平行",
+      "explanation": "性质定理把外线与截平面在目标面内的交线联系起来。",
+      "self_check": {
+        "prompt": "l∥α，平面β包含l且β∩α=m，证明l∥m并说明不能相交。",
+        "reference_answer": "l、m同在β内；若相交，交点属于l也属于α，违背l∥α；因此共面且不交，l∥m。",
+        "criteria": [
+          "说明共面",
+          "用无公共点排除相交"
+        ],
+        "family_id": "space.parallel-plane-intersection-line",
+        "variant_id": "mh2.8.5.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "prove"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "l与交线m为何必须先说明共面？",
+        "hint": "同在β才有“不交则平行”；空间不交还可能异面。",
+        "revision_prompt": "用反证写出若l∩m={P}，则P∈l且P∈α，与l∥α冲突。"
+      },
+      "observation_note": "观察共面和无交点的完整证明；不是只由无交点直接结论。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：指出包含不是平行；说明共面。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh2.8.5.2-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.8.5.2-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.8.5.2-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "线面平行判定需外线、面内线及两线平行。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   },
-  {
-   "id": "mh2.8.5.2-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+  "diagram": {
+    "src": "/static/diagrams/senior-v6-cube-directions.svg",
+    "alt": "正方体下底面ABCD依次排列，A₁B₁C₁D₁分别在对应点正上方；虚线为遮挡棱，投影不保持长度和角度。"
   },
-  {
-   "id": "mh2.8.5.2-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
+  "representation_note": "用同一套正方体标号核对位置关系；虚线表示遮挡，不能直接量投影角度或长度。"
 }

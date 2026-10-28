@@ -1,75 +1,107 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh3.2.3.1",
- "name": "两条直线的交点坐标",
- "tier": "core",
- "hook": "两条道路的交叉口必须同时在两条道路上；坐标就是两个直线方程的共同解。",
- "definition": "两直线的交点坐标由联立方程组求得。一般式A₁x+B₁y+C₁=0、A₂x+B₂y+C₂=0中，每组(Aᵢ,Bᵢ)非零；若A₁B₂-A₂B₁≠0则唯一交点。若该值为0，须进一步区分无解的平行线和无穷多解的重合线。",
- "why": "方程的解集就是直线，联立表示取两个解集的交集。消元若得到一个确定坐标，说明方向不同；若得到矛盾如0=1则无交点，若只余恒等式则两约束等价。因而代数解的个数与几何位置一一对应。",
- "when_to_use": [
-  "求两条直线交点或经过该交点的新直线",
-  "利用方程组解的个数辨认相交、平行、重合"
- ],
- "steps": [
-  "联立两个方程，用加减或代入消去一个未知数。",
-  "解出坐标，或识别矛盾/恒等式。",
-  "代入两原式核验，再说明相应位置关系。"
- ],
- "worked_example": {
-  "prompt": "求x+y=5与2x-y=1的交点。",
-  "steps": [
-   "两式相加得3x=6，所以x=2。",
-   "代入x+y=5得y=3；再验2×2-3=1成立。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh3.2.3.1",
+  "name": "两条直线的交点坐标",
+  "tier": "core",
+  "hook": "两条道路的交叉口必须同时在两条道路上；坐标就是两个直线方程的共同解。",
+  "definition": "两直线的交点坐标由联立方程组求得。一般式A₁x+B₁y+C₁=0、A₂x+B₂y+C₂=0中，每组(Aᵢ,Bᵢ)非零；若A₁B₂-A₂B₁≠0则唯一交点。若该值为0，须进一步区分无解的平行线和无穷多解的重合线。",
+  "why": "方程的解集就是直线，联立表示取两个解集的交集。消元若得到一个确定坐标，说明方向不同；若得到矛盾如0=1则无交点，若只余恒等式则两约束等价。因而代数解的个数与几何位置一一对应。",
+  "when_to_use": [
+    "求两条直线交点或经过该交点的新直线",
+    "利用方程组解的个数辨认相交、平行、重合"
   ],
-  "answer": "交点(2,3)。"
- },
- "pitfalls": [
-  "只验一个方程不够，任何一条线上的点都满足其中一个式子。",
-  "消元得到0=0时不能随意指定x=y=0，应判断两方程是否重合。"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能求两直线的交点坐标",
-   "explanation": "交点必须同时满足两个方程，代入检验是必要的结果检查。",
-   "self_check": {
-    "prompt": "求y=2x+1与y=-x+4的交点。",
-    "reference_answer": "令2x+1=-x+4，得x=1、y=3；交点(1,3)。",
-    "criteria": [
-     "联立等式正确",
-     "坐标同时满足两式"
-    ]
-   }
+  "steps": [
+    "联立两个方程，用加减或代入消去一个未知数。",
+    "解出坐标，或识别矛盾/恒等式。",
+    "代入两原式核验，再说明相应位置关系。"
+  ],
+  "worked_example": {
+    "prompt": "求x+y=5与2x-y=1的交点。",
+    "steps": [
+      "两式相加得3x=6，所以x=2。",
+      "代入x+y=5得y=3；再验2×2-3=1成立。"
+    ],
+    "answer": "交点(2,3)。",
+    "family_id": "line.intersection-system",
+    "variant_id": "mh3.2.3.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能用方程组解的个数判断位置关系",
-   "explanation": "解的个数由两条约束是否独立和相容决定。",
-   "self_check": {
-    "prompt": "判断x+2y=3与2x+4y=8的位置关系并给出消元结果。",
-    "reference_answer": "第一式乘2为2x+4y=6，与第二式相减得0=2，无解，所以两线平行。",
-    "criteria": [
-     "得到矛盾而非恒等式",
-     "结论为无交点且平行"
-    ]
-   }
+  "pitfalls": [
+    "只验一个方程不够，任何一条线上的点都满足其中一个式子。",
+    "消元得到0=0时不能随意指定x=y=0，应判断两方程是否重合。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能求两直线的交点坐标",
+      "explanation": "交点必须同时满足两个方程，代入检验是必要的结果检查。",
+      "self_check": {
+        "prompt": "求y=2x+1与y=-x+4的交点。",
+        "reference_answer": "令2x+1=-x+4，得x=1、y=3；交点(1,3)。",
+        "criteria": [
+          "联立等式正确",
+          "坐标同时满足两式"
+        ],
+        "family_id": "line.intersection-system",
+        "variant_id": "mh3.2.3.1:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "交点只满足其中一条线够吗？",
+        "hint": "交点属于两条线，代回两个方程分别核验。",
+        "revision_prompt": "求x+y=4与x-y=2，得(3,1)，逐项代回。"
+      },
+      "observation_note": "观察联立解和共同归属；代数运算错误可由双式核验发现。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用方程组解的个数判断位置关系",
+      "explanation": "解的个数由两条约束是否独立和相容决定。",
+      "self_check": {
+        "prompt": "判断x+2y=3与2x+4y=8的位置关系并给出消元结果。",
+        "reference_answer": "第一式乘2为2x+4y=6，与第二式相减得0=2，无解，所以两线平行。",
+        "criteria": [
+          "得到矛盾而非恒等式",
+          "结论为无交点且平行"
+        ],
+        "family_id": "line.system-solution-count",
+        "variant_id": "mh3.2.3.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "消元得到0=0与0=2分别意味着什么？",
+        "hint": "前者可能同一约束，后者相互矛盾。",
+        "revision_prompt": "比较x+y=2与2x+2y=4为重合；右边改5为平行无解。"
+      },
+      "observation_note": "观察恒等、矛盾和唯一解分类；不能一见行列式0就只判平行。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh3.2.3.1-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：直线x+y=7与2x-y=2的交点横坐标是多少？"
+    },
+    {
+      "id": "mh3.2.3.1-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：直线y=3x-1与y=x+5的交点纵坐标是多少？"
+    },
+    {
+      "id": "mh3.2.3.1-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：联立两直线方程消元后得到0=5，说明什么？"
+    }
+  ],
+  "check": "独立完成并写出依据：求y=2x+1与y=-x+4的交点。；判断x+2y=3与2x+4y=8的位置关系并给出消元结果。",
+  "conditions": [
+    "每个方程本身必须表示直线；解数区分交、平行、重合。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "mh3.2.3.1-q201",
-   "note": "完成后对照解析检查条件、步骤和结果：直线x+y=7与2x-y=2的交点横坐标是多少？"
-  },
-  {
-   "id": "mh3.2.3.1-q202",
-   "note": "完成后对照解析检查条件、步骤和结果：直线y=3x-1与y=x+5的交点纵坐标是多少？"
-  },
-  {
-   "id": "mh3.2.3.1-q203",
-   "note": "完成后对照解析检查条件、步骤和结果：联立两直线方程消元后得到0=5，说明什么？"
-  }
- ],
- "check": "独立完成并写出依据：求y=2x+1与y=-x+4的交点。；判断x+2y=3与2x+4y=8的位置关系并给出消元结果。"
 }

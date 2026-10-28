@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m8a.15.1",
- "name": "图形的轴对称",
- "tier": "core",
- "hook": "把纸沿一条线对折后两点重合，这条折痕和两点连线有什么关系？",
- "definition": "把一个图形沿某条直线折叠，若它能与另一个图形重合，就说这两个图形成轴对称，这条直线叫对称轴；对应点所连的线段被对称轴垂直平分。",
- "why": "对折使对应点到折痕的垂直距离相同且位于两侧，所以折痕垂直平分它们的连线。轴对称图形是一个图形与自身重合，两个图形成轴对称则强调两图之间的对应关系。",
- "when_to_use": [
-  "图形能够沿直线对折重合",
-  "已知两点关于某轴对称求距离或角度"
- ],
- "steps": [
-  "检验折叠后每一部分都有对应部分",
-  "对一对对应点连线并找交轴中点",
-  "利用垂直和平分两个条件分别推理"
- ],
- "worked_example": {
-  "prompt": "A、B关于l对称，AB交l于M，AB=12。求AM及AB与l的夹角。",
-  "answer": "AM=6，夹角90°",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.15.1",
+  "name": "图形的轴对称",
+  "tier": "core",
+  "hook": "把纸沿一条线对折后两点重合，这条折痕和两点连线有什么关系？",
+  "definition": "把一个图形沿某条直线折叠，若它能与另一个图形重合，就说这两个图形成轴对称，这条直线叫对称轴；对应点所连的线段被对称轴垂直平分。",
+  "why": "对折使对应点到折痕的垂直距离相同且位于两侧，所以折痕垂直平分它们的连线。轴对称图形是一个图形与自身重合，两个图形成轴对称则强调两图之间的对应关系。",
+  "when_to_use": [
+    "图形能够沿直线对折重合",
+    "已知两点关于某轴对称求距离或角度"
+  ],
   "steps": [
-   "对称轴垂直平分AB，故M为AB中点。",
-   "AM=12÷2=6，且AB⊥l，所以夹角为90°。"
-  ]
- },
- "pitfalls": [
-  "普通平行四边形通常没有对称轴，不能靠外观近似认定。",
-  "对称轴具有垂直和平分两个条件，漏一个都可能判断错误。"
- ],
- "check": "独立完成并解释：下面哪种图形恰有两条对称轴？ 备选：A. 非正方形的矩形；B. 等边三角形；C. 圆 请写出判断或计算依据。；A与A′关于直线l对称，连线AA′交l于M。若AM=4.5厘米，AA′长多少厘米？ 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能识别轴对称图形并指出对称轴",
-   "explanation": "轴对称需整个图形对折重合，不只是部分边相似。",
-   "self_check": {
-    "prompt": "下面哪种图形恰有两条对称轴？ 备选：A. 非正方形的矩形；B. 等边三角形；C. 圆 请写出判断或计算依据。",
-    "reference_answer": "非正方形矩形只有经过两组对边中点的两条直线是对称轴；等边三角形有三条，圆有无数条。 正确选项内容：非正方形的矩形。",
-    "criteria": [
-     "两条轴经过对边中点",
-     "排除对角线为轴"
-    ]
-   }
+    "检验折叠后每一部分都有对应部分",
+    "对一对对应点连线并找交轴中点",
+    "利用垂直和平分两个条件分别推理"
+  ],
+  "worked_example": {
+    "prompt": "A、B关于l对称，AB交l于M，AB=12。求AM及AB与l的夹角。",
+    "answer": "AM=6，夹角90°",
+    "steps": [
+      "对称轴垂直平分AB，故M为AB中点。",
+      "AM=12÷2=6，且AB⊥l，所以夹角为90°。"
+    ],
+    "family_id": "symmetry.axis.perpendicular-midpoint",
+    "variant_id": "m8a.15.1:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能利用对称轴垂直平分对应点连线解题",
-   "explanation": "对应点连线被对称轴垂直平分。",
-   "self_check": {
-    "prompt": "A与A′关于直线l对称，连线AA′交l于M。若AM=4.5厘米，AA′长多少厘米？ 请写出判断或计算依据。",
-    "reference_answer": "对称轴垂直平分AA′，所以MA′=AM=4.5，AA′=4.5+4.5=9厘米。",
-    "criteria": [
-     "M为中点",
-     "AA′为AM的两倍"
-    ]
-   }
+  "pitfalls": [
+    "普通平行四边形通常没有对称轴，不能靠外观近似认定。",
+    "对称轴具有垂直和平分两个条件，漏一个都可能判断错误。"
+  ],
+  "check": "独立完成并解释：下面哪种图形恰有两条对称轴？ 备选：A. 非正方形的矩形；B. 等边三角形；C. 圆 请写出判断或计算依据。；A与A′关于直线l对称，连线AA′交l于M。若AM=4.5厘米，AA′长多少厘米？ 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能识别轴对称图形并指出对称轴",
+      "explanation": "轴对称需整个图形对折重合，不只是部分边相似。",
+      "self_check": {
+        "prompt": "下面哪种图形恰有两条对称轴？ 备选：A. 非正方形的矩形；B. 等边三角形；C. 圆 请写出判断或计算依据。",
+        "reference_answer": "非正方形矩形只有经过两组对边中点的两条直线是对称轴；等边三角形有三条，圆有无数条。 正确选项内容：非正方形的矩形。",
+        "criteria": [
+          "两条轴经过对边中点",
+          "排除对角线为轴"
+        ],
+        "family_id": "symmetry.axis.count-rectangle",
+        "variant_id": "m8a.15.1:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "quadrilateral.rectangle-rhombus-square.inclusion"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "非正方形矩形沿对角线折叠，长边能与短边重合吗？",
+        "hint": "先测试经过对边中点的两轴，再用相邻边不等排除对角线。",
+        "revision_prompt": "画长4宽2的矩形，逐条标两轴并说明；改成边长2的正方形比较对角线为何加入。"
+      },
+      "observation_note": "观察对称轴的实际折合条件；给出轴的数量不说明位置和排除理由。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能利用对称轴垂直平分对应点连线解题",
+      "explanation": "对应点连线被对称轴垂直平分。",
+      "self_check": {
+        "prompt": "A与A′关于直线l对称，连线AA′交l于M。若AM=4.5厘米，AA′长多少厘米？ 请写出判断或计算依据。",
+        "reference_answer": "对称轴垂直平分AA′，所以MA′=AM=4.5，AA′=4.5+4.5=9厘米。",
+        "criteria": [
+          "M为中点",
+          "AA′为AM的两倍"
+        ],
+        "family_id": "symmetry.axis.perpendicular-midpoint",
+        "variant_id": "m8a.15.1:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "AM只是半段还是整段？若A恰在轴上，对应点在哪里？",
+        "hint": "非轴上对应点连线由轴垂直平分；先写AM=MA′再相加。",
+        "revision_prompt": "画轴、直角标记和两等长段求9厘米，补充轴上点不动的边界。"
+      },
+      "observation_note": "观察垂直与平分两种性质；长度翻倍不能替代直角及位置说明。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.15.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.15.1-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.15.1-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m8a.15.1-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.15.1-q101",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.15.1-q102",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

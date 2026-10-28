@@ -6,8 +6,8 @@
   "name": "平行四边形的面积",
   "tier": "core",
   "hook": "平行四边形斜着站，为什么面积是「底×高」，而不是「底×斜边」？",
-  "definition": "把平行四边形沿高剪开，可以拼成一个长方形：长相当于底，宽相当于高，所以平行四边形面积 = 底×高。",
-  "why": "剪拼前后面积没有增减，拼成的长方形面积就是原来的面积。长方形的宽来自「高」，不是斜边——斜边是倾斜的，它的一部分长度并没有贡献到「有多宽」上，所以不能用斜边乘底。",
+  "definition": "平行四边形可用沿高分割和平移的方法等积拼成长方形；在图形倾斜较大的情况下可分成多块后重排。拼成长方形的长、宽分别对应所选底与垂直高，因此面积=底×对应高。",
+  "why": "分割后每块只平移、不拉伸，重排无重叠无空隙，面积保持。拼成长方形的宽是两条平行底边间的垂直距离，不是斜边长；应在原图与拼图中对应标出底和高。",
   "when_to_use": [
     "已知底和高，求面积",
     "已知面积和底，反求高",
@@ -24,9 +24,20 @@
     "verify": "6*4",
     "answer": "24",
     "steps": [
-      "沿高剪开，把左边的三角形平移到右边，正好拼成长方形。",
+      "对本图沿标出的高剪开，把左边三角形向右平移一个底的长度，正好拼成长方形。",
       "长方形的长是 6 厘米（原来的底），宽是 4 厘米（原来的高）。",
       "6×4=24 平方厘米。"
+    ],
+    "family_id": "geometry.parallelogram-corresponding-base-height",
+    "variant_id": "m5a.6.1:worked_example:v6",
+    "representation": "geometry",
+    "cognitive_demand": "explain",
+    "diagram": {
+      "src": "/static/diagrams/primary-v6-parallelogram-area.svg",
+      "alt": "底6厘米、高4厘米的平行四边形沿图示高剪下左三角形，平移到右侧后拼成6厘米乘4厘米的长方形；每片形状大小不变。"
+    },
+    "reference_family_ids": [
+      "geometry.parallelogram-area-rearrangement"
     ]
   },
   "pitfalls": [
@@ -47,22 +58,41 @@
   "check": "能在图上指出「这条高对应哪条底」，并说明为什么不能用斜边。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
     {
       "criterion_index": 0,
       "title": "能说出平行四边形面积公式的推导过程",
-      "explanation": "沿高切下一个三角形移到另一侧，可把平行四边形等积拼成长方形；长宽对应底高。",
+      "explanation": "本图沿高切下一个三角形并平移到另一侧，可以等积拼成长方形；长宽对应底高。倾斜程度很大的平行四边形可能需要多次剪拼，不能假设任何形状都只需图中这一刀。",
       "self_check": {
         "prompt": "用剪拼说明平行四边形面积为何不是底×斜边。",
         "reference_answer": "拼成长方形长为底、宽为两平行底间的垂直距离即高，斜边不是拼成后宽。",
         "criteria": [
           "面积剪拼不变",
           "宽对应高"
+        ],
+        "family_id": "geometry.parallelogram-area-rearrangement",
+        "variant_id": "m5a.6.1:criterion:0:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-parallelogram-area.svg",
+          "alt": "底6厘米、高4厘米的平行四边形沿图示高剪下左三角形，平移到右侧后拼成6厘米乘4厘米的长方形；每片形状大小不变。"
+        },
+        "reference_family_ids": [
+          "geometry.construct-corresponding-height",
+          "geometry.parallelogram-corresponding-base-height",
+          "geometry.rectangle-unit-area"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "剪拼成长方形后，宽沿哪一段：斜边还是垂直于底的高？",
+        "hint": "在原图与拼图中给底、高用相同颜色；移动部分不增减面积，拼图宽对应垂直距离。",
+        "revision_prompt": "画两个底同为6厘米、高同为3厘米而倾斜程度不同的平行四边形，剪拼比较面积并解释斜边不同不影响结论。"
+      },
+      "observation_note": "观察面积守恒和对应底高；极倾斜情形可能需多次剪拼，不能假设任意一刀都适用。"
     },
     {
       "criterion_index": 1,
@@ -74,8 +104,25 @@
         "criteria": [
           "选对高5",
           "面积40平方厘米"
+        ],
+        "family_id": "geometry.parallelogram-corresponding-base-height",
+        "variant_id": "m5a.6.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.construct-corresponding-height"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "8厘米底对应的是5厘米高还是6厘米邻边？哪条与底垂直？",
+        "hint": "先标直角确定对应高，只代入8与5；6是干扰条件，不是所有长度都要相乘。",
+        "revision_prompt": "底7厘米、对应高4厘米、邻边5厘米，先说明选哪两个量再求面积；把平方单位写完整。"
+      },
+      "observation_note": "观察底高配对及面积单位；未给图的文字题不能证明能在倾斜图上独立找到高。"
     }
-  ]
+  ],
+  "diagram": {
+    "src": "/static/diagrams/primary-v6-parallelogram-area.svg",
+    "alt": "底6厘米、高4厘米的平行四边形沿图示高剪下左三角形，平移到右侧后拼成6厘米乘4厘米的长方形；每片形状大小不变。"
+  }
 }

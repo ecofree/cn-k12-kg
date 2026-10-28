@@ -24,7 +24,11 @@
     "steps": [
       "配方y=2(x²−4x)+3=2(x−2)²−5。",
       "2>0且平方≥0，x=2时最小值−5，顶点为(2,−5)，轴为x=2。"
-    ]
+    ],
+    "family_id": "quadratic-function.complete-square.vertex",
+    "variant_id": "m9a.26.2:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
   },
   "pitfalls": [
     "y=a(x−h)²+k中括号写x+1时h=−1。",
@@ -42,21 +46,42 @@
         "criteria": [
           "配方保留常数−5",
           "轴与顶点完整且不混横纵"
-        ]
-      }
+        ],
+        "family_id": "quadratic-function.complete-square.vertex",
+        "variant_id": "m9a.26.2:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "x²−6x补9后，原常数4应变成13还是−5？",
+        "hint": "加9构成(x−3)²时还需减9，所以整体常数为4−9。",
+        "revision_prompt": "把所得(x−3)²−5展开还原，再取x=2、4核对同高对称。"
+      },
+      "observation_note": "观察配方补偿、对称轴和有序顶点；顶点纵坐标不可与对称轴值互换。"
     },
     {
       "criterion_index": 1,
       "title": "能由 a 的符号判断开口方向与最值",
       "explanation": "最值来自平方非负和a的正负，并须给取等号的x。",
       "self_check": {
-        "prompt": "函数y=−2(x+1)²+8在全体实数上的最值是什么？ 备选：A. 最小值8；B. 最大值8；C. 没有最值 请写出判断或计算依据。",
-        "reference_answer": "平方项非负，乘−2后不大于0，故y≤8；x=−1时等号成立，所以最大值为8。 正确选项内容：最大值8。",
+        "prompt": "分别求f(x)=−2(x+1)²+8与g(x)=3(x−2)²−1在全体实数上的最值，说明开口方向、上界或下界以及等号取到的x。",
+        "reference_answer": "f开口向下，−2(x+1)²≤0，所以f≤8，x=−1时取最大值8；无最小值。g开口向上，3(x−2)²≥0，所以g≥−1，x=2时取最小值−1；无最大值。",
         "criteria": [
-          "a<0推出y≤8",
-          "x=−1能取等"
-        ]
-      }
+          "a<0给上界8且x=−1取到",
+          "a>0给下界−1且x=2取到",
+          "分别说明开口方向，不混最大与最小"
+        ],
+        "family_id": "quadratic-function.extremum.square-bound",
+        "variant_id": "m9a.26.2:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "−2乘非负平方后结果能大于0吗？等号在哪个输入取得？",
+        "hint": "由(x+1)²≥0得−2(x+1)²≤0；再加8，x=−1可取等。",
+        "revision_prompt": "说明x=−1时y=8，x=0时y=6；强调全实数定义域使顶点确实可取。"
+      },
+      "observation_note": "两种a符号均有实际最值与等号任务；结论依赖全实数定义域，限制输入后的可取性仍要在对应情境中检查。"
     }
   ],
   "practice": [
@@ -79,7 +104,7 @@
   },
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   }
 }

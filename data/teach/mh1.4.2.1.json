@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh1.4.2.1",
- "name": "指数函数的概念",
- "tier": "core",
- "hook": "y=1ˣ为什么不作为指数函数，y=(-2)ˣ又为什么不能对所有实数x定义？",
- "definition": "形如 y=a^x（a>0 且 a≠1）的函数叫指数函数，定义域为 R。指数函数为y=aˣ，a>0且a≠1；变量位于指数，系数为1，定义域为R。",
- "why": "正底数保证每个实数指数都有实数值，a≠1排除了恒为1的情形。变量进入指数意味着自变量增加相同量时，函数值乘上同一因子，这与线性增长不同。",
- "when_to_use": [
-  "需要判定是否为指数函数",
-  "函数底数含参数，需要筛掉不合法取值"
- ],
- "steps": [
-  "看变量是否仅在指数位置",
-  "列出底数>0且≠1的条件",
-  "求参数范围，并检查是否多了系数或平移项"
- ],
- "worked_example": {
-  "prompt": "若y=(k-1)ˣ为指数函数，求k的范围。",
-  "steps": [
-   "底数k-1必须大于0，得k>1。",
-   "底数不能等于1，得k≠2。",
-   "合并为k>1且k≠2。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.4.2.1",
+  "name": "指数函数的概念",
+  "tier": "core",
+  "hook": "y=1ˣ为什么不作为指数函数，y=(-2)ˣ又为什么不能对所有实数x定义？",
+  "definition": "指数函数的规范形式为y=aˣ，其中固定底数a>0且a≠1，变量位于指数，系数为1，定义域为R。3·2ˣ属于指数型函数模型，但不是本定义的规范形式；底数1给常函数，不能纳入该定义。",
+  "why": "正底数保证每个实数指数都有实数值，a≠1排除了恒为1的情形。变量进入指数意味着自变量增加相同量时，函数值乘上同一因子，这与线性增长不同。",
+  "when_to_use": [
+    "需要判定是否为指数函数",
+    "函数底数含参数，需要筛掉不合法取值"
   ],
-  "answer": "k>1且k≠2"
- },
- "pitfalls": [
-  "只要求底数不等于0而容许负数",
-  "遗漏底数不能为1的条件"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能判断一个函数是否为指数函数",
-   "explanation": "准确区分指数函数本身与它的倍数、平移或幂函数。",
-   "self_check": {
-    "prompt": "在2ˣ、x²、3·2ˣ、(1/3)ˣ中选指数函数。",
-    "reference_answer": "2ˣ与(1/3)ˣ；x²的变量在底数，3·2ˣ不具有本定义的y=aˣ形式。",
-    "criteria": [
-     "选中两个规范形式",
-     "区分变量位置和系数"
-    ]
-   }
+  "steps": [
+    "看变量是否仅在指数位置",
+    "列出底数>0且≠1的条件",
+    "求参数范围，并检查是否多了系数或平移项"
+  ],
+  "worked_example": {
+    "prompt": "若y=(k-1)ˣ为指数函数，求k的范围。",
+    "steps": [
+      "底数k-1必须大于0，得k>1。",
+      "底数不能等于1，得k≠2。",
+      "合并为k>1且k≠2。"
+    ],
+    "answer": "k>1且k≠2",
+    "family_id": "exponential.base-parameter",
+    "variant_id": "mh1.4.2.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能由条件确定底数的取值范围",
-   "explanation": "含参数底数同时满足严格正与不等于1。",
-   "self_check": {
-    "prompt": "若y=(2m+1)ˣ为指数函数，求m范围，并判断m=0是否允许。",
-    "reference_answer": "m>-1/2且m≠0；m=0使底数为1，不允许。",
-    "criteria": [
-     "两项限制均保留",
-     "解释排除m=0"
-    ]
-   }
+  "pitfalls": [
+    "只要求底数不等于0而容许负数",
+    "遗漏底数不能为1的条件"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断一个函数是否为指数函数",
+      "explanation": "准确区分指数函数本身与它的倍数、平移或幂函数。",
+      "self_check": {
+        "prompt": "在2ˣ、x²、3·2ˣ、(1/3)ˣ中选指数函数。",
+        "reference_answer": "2ˣ与(1/3)ˣ；x²的变量在底数，3·2ˣ不具有本定义的y=aˣ形式。",
+        "criteria": [
+          "选中两个规范形式",
+          "区分变量位置和系数"
+        ],
+        "family_id": "exponential.recognize-form",
+        "variant_id": "mh1.4.2.1:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2ˣ与x²中哪个量固定？3·2ˣ为何不是规范y=aˣ？",
+        "hint": "指数函数把变量放指数，规范式系数为1。",
+        "revision_prompt": "从5ˣ、x⁵、1ˣ、(1/5)ˣ中辨认前者和最后一个，逐项说明底数条件。"
+      },
+      "observation_note": "观察规范形式辨认；指数型模型可有倍数和平移，不能与本定义混用。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能由条件确定底数的取值范围",
+      "explanation": "含参数底数同时满足严格正与不等于1。",
+      "self_check": {
+        "prompt": "若y=(2m+1)ˣ为指数函数，求m范围，并判断m=0是否允许。",
+        "reference_answer": "m>-1/2且m≠0；m=0使底数为1，不允许。",
+        "criteria": [
+          "两项限制均保留",
+          "解释排除m=0"
+        ],
+        "family_id": "exponential.base-parameter",
+        "variant_id": "mh1.4.2.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "底数2m+1>0为何还要排除m=0？",
+        "hint": "正数条件没有排掉底数1，而1ˣ为常函数。",
+        "revision_prompt": "若y=(3-k)ˣ，得k<3且k≠2；代k=2检验退化。"
+      },
+      "observation_note": "观察两个底数限制；参数不等式须逐项求交集。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：选中两个规范形式；两项限制均保留。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.4.2.1-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.4.2.1-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.4.2.1-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "底数a>0且a≠1；变量在指数。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：选中两个规范形式；两项限制均保留。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh1.4.2.1-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.4.2.1-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.4.2.1-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

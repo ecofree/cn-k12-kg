@@ -1,75 +1,107 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh3.3.2.1",
- "name": "双曲线及其标准方程",
- "tier": "core",
- "hook": "两个接收器接到同一信号的路程差固定时，信号源可能落在两支分开的曲线上；距离差的绝对值产生双曲线。",
- "definition": "到两个定点F₁、F₂的距离之差的绝对值等于2a，且0<2a<|F₁F₂|=2c的点轨迹为双曲线。焦点在x轴时x²/a²-y²/b²=1，a,b>0且c²=a²+b²。距离差为0时是中垂线；等于焦距时是两条向外射线；大于焦距时无点。",
- "why": "距离差不能超过两焦点距离，这是反三角不等式。取焦点(±c,0)，从|r₁-r₂|=2a和r₁²-r₂²=4cx消去距离，整理得x²/a²-y²/(c²-a²)=1；c>a使b²为正。两种差的正负对应左右两支，不能遗漏绝对值。",
- "when_to_use": [
-  "动点到两定点距离差的绝对值固定",
-  "标准方程有平方项相减且右端为1"
- ],
- "steps": [
-  "核对0<距离差常数<焦距，排除退化情形。",
-  "根据正平方项判断实轴方向，读a²、b²并求c²=a²+b²。",
-  "写焦点或标准方程，必要时代回原始距离条件查是否漏支。"
- ],
- "worked_example": {
-  "prompt": "焦点为(±5,0)，距离差的绝对值为6，求双曲线方程。",
-  "steps": [
-   "c=5、a=3，满足0<a<c。",
-   "b²=c²-a²=25-9=16，实轴沿x轴，得x²/9-y²/16=1。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh3.3.2.1",
+  "name": "双曲线及其标准方程",
+  "tier": "core",
+  "hook": "两个接收器接到同一信号的路程差固定时，信号源可能落在两支分开的曲线上；距离差的绝对值产生双曲线。",
+  "definition": "到两个定点F₁、F₂的距离之差的绝对值等于2a，且0<2a<|F₁F₂|=2c的点轨迹为双曲线。焦点在x轴时x²/a²-y²/b²=1，a,b>0且c²=a²+b²。距离差为0时是中垂线；等于焦距时是两条向外射线；大于焦距时无点。",
+  "why": "距离差不能超过两焦点距离，这是反三角不等式。取焦点(±c,0)，从|r₁-r₂|=2a和r₁²-r₂²=4cx消去距离，整理得x²/a²-y²/(c²-a²)=1；c>a使b²为正。两种差的正负对应左右两支，不能遗漏绝对值。",
+  "when_to_use": [
+    "动点到两定点距离差的绝对值固定",
+    "标准方程有平方项相减且右端为1"
   ],
-  "answer": "x²/9-y²/16=1。"
- },
- "pitfalls": [
-  "双曲线c²=a²+b²，与椭圆的差平方关系不同。",
-  "若题目给有符号的距离差，例如PF₁-PF₂=6，只得到相应一支；绝对值才含两支。"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能由定义判断双曲线",
-   "explanation": "双曲线定义要严格排除距离差为0或等于焦距的退化情况。",
-   "self_check": {
-    "prompt": "两焦点距离10，距离差绝对值为0、6、10时各是什么轨迹？",
-    "reference_answer": "0时是垂直平分线；6时是双曲线；10时是从两个焦点沿焦点连线向外的两条射线。",
-    "criteria": [
-     "6满足严格不等式",
-     "两个退化情形分别正确"
-    ]
-   }
+  "steps": [
+    "核对0<距离差常数<焦距，排除退化情形。",
+    "根据正平方项判断实轴方向，读a²、b²并求c²=a²+b²。",
+    "写焦点或标准方程，必要时代回原始距离条件查是否漏支。"
+  ],
+  "worked_example": {
+    "prompt": "焦点为(±5,0)，距离差的绝对值为6，求双曲线方程。",
+    "steps": [
+      "c=5、a=3，满足0<a<c。",
+      "b²=c²-a²=25-9=16，实轴沿x轴，得x²/9-y²/16=1。"
+    ],
+    "answer": "x²/9-y²/16=1。",
+    "family_id": "hyperbola.from-foci-distance-difference",
+    "variant_id": "mh3.3.2.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能写出双曲线的标准方程并求 a、b、c",
-   "explanation": "正项决定实轴，a与b不再要求a>b。",
-   "self_check": {
-    "prompt": "y²/9-x²/16=1的a、b、c及焦点是什么？",
-    "reference_answer": "a=3、b=4、c=5；正项为y²，焦点(0,±5)。",
-    "criteria": [
-     "不按分母大小猜a",
-     "使用和平方关系与正确方向"
-    ]
-   }
+  "pitfalls": [
+    "双曲线c²=a²+b²，与椭圆的差平方关系不同。",
+    "若题目给有符号的距离差，例如PF₁-PF₂=6，只得到相应一支；绝对值才含两支。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能由定义判断双曲线",
+      "explanation": "双曲线定义要严格排除距离差为0或等于焦距的退化情况。",
+      "self_check": {
+        "prompt": "两焦点距离10，距离差绝对值为0、6、10时各是什么轨迹？",
+        "reference_answer": "0时是垂直平分线；6时是双曲线；10时是从两个焦点沿焦点连线向外的两条射线。",
+        "criteria": [
+          "6满足严格不等式",
+          "两个退化情形分别正确"
+        ],
+        "family_id": "hyperbola.distance-difference-degeneracy",
+        "variant_id": "mh3.3.2.1:criterion-0",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "距离差绝对值为0会得到双曲线吗？",
+        "hint": "0时是等距点，轨迹为焦点连线的中垂线。",
+        "revision_prompt": "焦距6，差绝对值2为双曲线、6为两条向外射线、7无点。"
+      },
+      "observation_note": "观察绝对差的严格上下界；漏绝对值只会选其中一支。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能写出双曲线的标准方程并求 a、b、c",
+      "explanation": "正项决定实轴，a与b不再要求a>b。",
+      "self_check": {
+        "prompt": "y²/9-x²/16=1的a、b、c及焦点是什么？",
+        "reference_answer": "a=3、b=4、c=5；正项为y²，焦点(0,±5)。",
+        "criteria": [
+          "不按分母大小猜a",
+          "使用和平方关系与正确方向"
+        ],
+        "family_id": "hyperbola.signed-axis-parameters",
+        "variant_id": "mh3.3.2.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "双曲线的a一定是两个分母中较大的吗？",
+        "hint": "a²对应正项，c²为a²+b²。",
+        "revision_prompt": "y²/4-x²/5=1得a=2,b=√5,c=3，焦点(0,±3)。"
+      },
+      "observation_note": "观察正项定轴与和平方；不能照搬椭圆分母大小规则。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh3.3.2.1-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：双曲线x²/9-y²/16=1的焦距是多少？"
+    },
+    {
+      "id": "mh3.3.2.1-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：两定点距离为6，动点到两定点距离差的绝对值为8，轨迹是什么？"
+    },
+    {
+      "id": "mh3.3.2.1-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：双曲线焦点为(0,±5)，距离差绝对值为8，标准式中负的x²项分母是多少？"
+    }
+  ],
+  "check": "独立完成并写出依据：两焦点距离10，距离差绝对值为0、6、10时各是什么轨迹？；y²/9-x²/16=1的a、b、c及焦点是什么？",
+  "conditions": [
+    "0<距离差绝对值<焦距；正项决定实轴方向。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "mh3.3.2.1-q201",
-   "note": "完成后对照解析检查条件、步骤和结果：双曲线x²/9-y²/16=1的焦距是多少？"
-  },
-  {
-   "id": "mh3.3.2.1-q202",
-   "note": "完成后对照解析检查条件、步骤和结果：两定点距离为6，动点到两定点距离差的绝对值为8，轨迹是什么？"
-  },
-  {
-   "id": "mh3.3.2.1-q203",
-   "note": "完成后对照解析检查条件、步骤和结果：双曲线焦点为(0,±5)，距离差绝对值为8，标准式中负的x²项分母是多少？"
-  }
- ],
- "check": "独立完成并写出依据：两焦点距离10，距离差绝对值为0、6、10时各是什么轨迹？；y²/9-x²/16=1的a、b、c及焦点是什么？"
 }

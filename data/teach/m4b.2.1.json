@@ -26,12 +26,16 @@
     "steps": [
       "按顺序：先算括号内 4+8=12，再 25×12=300。",
       "用分配律：25×4+25×8=100+200=300。",
-      "两条路结果相同，第二条更快，因为 25×4 正好凑成 100。"
-    ]
+      "两条路结果相同；本例展示可选择不同的等价计算组织方式，哪一种方便应看具体数和自己的计算熟悉程度。"
+    ],
+    "family_id": "arithmetic.distributive-multiplication",
+    "variant_id": "m4b.2.1:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "25×(4+8) 写成 25×4+8，只乘了括号里的第一项。",
-    "先算加减再算乘除，把 25×4 先算成 100 后再加 8。",
+    "忽略25×(4+8)中的括号，先算25×4再加8，会把本应也乘25的第二项漏乘。",
     "把结合律当分配律用：25×(4×8) 拆成 25×4×25×8。"
   ],
   "practice": [
@@ -51,7 +55,7 @@
   "check": "能说出「(31+5)×26 可以拆成 31×26+5×26」，并指出依据是乘法分配律。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,21 @@
         "criteria": [
           "括号优先",
           "同级从左到右"
+        ],
+        "family_id": "arithmetic.parenthesized-group",
+        "variant_id": "m4b.2.1:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.same-level-left-to-right"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "算完括号后48÷8×2，要从左依次算，还是把8×2先合起来？",
+        "hint": "乘除同级，先48÷8=6，再6×2；若要除以整个8×2，原式必须有对应括号。",
+        "revision_prompt": "比较36÷(2+4)×3与36÷((2+4)×3)，写各自第一步后继续计算，说明括号改变什么。"
+      },
+      "observation_note": "观察括号内优先及乘除从左向右；合法等价改写也需说明保持数值的依据。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +95,21 @@
         "criteria": [
           "等价变形",
           "依据与900正确"
+        ],
+        "family_id": "arithmetic.associative-multiplication",
+        "variant_id": "m4b.2.1:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.distributive-multiplication"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把25×(4×9)变成25×4+25×9，改变了括号内哪个运算？",
+        "hint": "结合律只改相乘的分组；分配律要求括号内是加或减，不能混用。",
+        "revision_prompt": "简算125×32，选择32=8×4并写结合过程；再说明125×(30+2)要怎样分配。"
+      },
+      "observation_note": "观察结合律与分配律的条件；只是算出900还未说明使用哪种规律。"
     }
   ]
 }

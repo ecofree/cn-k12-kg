@@ -1,6 +1,8 @@
 # 构建、验收与交付
 
-正式资源从登记的作者JSON构建。开发检查可以在未提交的工作树运行；正式发行必须对应一个干净提交，并绑定该提交的文件清单、核心报告、浏览器报告和原始日志。
+正式资源从登记的作者JSON构建。当前开发分支为 `codex/cnkg-quality-v6-followup`。开发检查可以在未提交的工作树运行；正式发行必须对应一个干净提交，并绑定该提交的文件清单、核心报告、浏览器报告和原始日志。
+
+本文规定验收步骤，不表示正在修改的版本已经通过。V6的内容及行为范围见 [全量恢复记录](quality-v6-completion.md)。最终结论只读取同一提交的实际报告，不能复制V5、前序V6或工作树专项测试的通过状态。
 
 ## 日常开发
 
@@ -32,13 +34,17 @@ npx playwright install --with-deps chromium
 1. 完成作者文件与代码修改，审查过新增目标后显式更新范围清单，再运行 `python tools/build_project.py --write`。从真实基线生成语义差异、影响及页面清单，填写逐项审查记录并由 `docs/reviews/current.json` 指向它，详见 [语义审查](semantic-change-review.md)。填写记录与文档后，最后运行 `python tools/release_manifest.py --write`，将这些实际审查文件也纳入发行清单。
 2. 检查差异，将作者源、注册表、派生目录、内容清单和 `release-manifest.json` 一并提交。
 3. 确认工作树干净，运行 `python tools/release_check.py --with-browser`。
-4. 检查18项核心门禁与15条浏览器流程全部通过，运行 `python tools/package_release.py`。
+4. 检查19项核心门禁与浏览器门禁中的17条流程全部通过，运行 `python tools/package_release.py`。
 
 Git历史包要求完整历史。若 `git rev-parse --is-shallow-repository` 返回 `true`，先运行 `git fetch --unshallow origin` 补齐历史；该操作不会切换分支或更改工作树。打包器拒绝用浅克隆生成一个看似完整但缺少父提交的包。
 
 构建之后如果又修改文档、代码、Schema、字体或其他发行文件，应重新生成清单并提交，再验收。运行中改变提交、清单或源码会使报告失败。缺依赖或启动失败时不会继续沿用上一次报告作为本次通过证据。
 
-当前18项核心门禁包括发布清单、来源一致性、稳定身份、catalog、显式题目准入、完整目标范围、全量目标对齐缺口、语义审查绑定、图与答案结构、讲解、单元、实践、课标、既定结构覆盖、数值复算、回归、状态与数据库构建。`--with-browser`增加第19项门禁，其中运行15条浏览器旅程。
+当前19项核心门禁包括发布清单、来源一致性、稳定身份、catalog、显式题目准入、完整目标范围、全量目标对齐、语义审查绑定、图与答案结构、讲解、单元、实践、课标、既定结构覆盖、数值答案复算、完整数值等式审查、回归、状态与数据库构建。`--with-browser`增加第20项门禁，其中运行17条浏览器旅程。检查集合由 `tools/release_check.py` 的 `CHECKS` 和 `tools/browser_check.py` 的 `JOURNEYS` 给出。
+
+V6的全量对齐门禁要求全部1,136项登记目标都有专属帮助、观察边界和明确题族／表征的任务关系；原加强范围仍保留题库逐题关系检查。多客观题族不足、未知题族、未知表征和未映射目标继续报告，不能通过缩小分母或机械填标签消除。讲解门禁还要求当前practice入口具有显式准入，退役源即使误标准入也会被拒绝。
+
+新增 `math_statements` 门禁扫描解析、讲解及参考中的完整数值等式，补充仅核对答案与 `verify` 的检查。反例或学生错误示例中的故意不成立算式须有对应内容指纹和具体语境审查；不能统一忽略所有异常。扫描可识别的数值等式通过，不等于证明、定义域、图示或全部题意已经数学语义全审。
 
 浏览器旅程验证自检保存与参考曝光、过程草稿与自评、完整单元的三阶段作答、实践修订与导出、学段选择及手机布局、题池耗尽后的复习入口。每条使用独立临时学习库与浏览器上下文。它们使用作者答案，证据类型固定为 `synthetic_browser_test`。
 
@@ -47,6 +53,13 @@ V3增加 `navigation_recovery` 与 `keyboard_accessibility`：实际验证刷新
 V4新增 `learning_needs_support`、`profile_backup_recovery`、`scope_and_manipulatives`、`changed_content_preview`：验证旧困难暂缓/重开与支持确认、跨浏览器恢复和两个独立学习库之间的完整导入、四种实际数学操作及逐目标入口，并逐页打开由本轮影响分析产生的真实内容地址。页面检查包括文字、公式、图示、可访问控件名称及手机宽度；结果报告记录实际打开页面，保留代表截图。功能测试使用作者答案，不能作真实学生效果证据。
 
 V5新增 `goal_alignment`、`equation_steps`、`support_branches`：实际检查目标、前置支持与所选任务的对应，方程逐步反馈及未提交草稿断网保护，不同错误选择进入不同指导题以及失败事项的明确重试。既有操作旅程增加预测前隐藏检验结果、同一预测重试保留点数、重复点数不增加物体数；恢复旅程增加实际下载文件核验和新的接触使备份过时。逐项证据含点数、备份状态及方程桌面/手机截图。
+
+V6新增 `goal_support_revision` 与 `prerequisite_plan`，使完整旅程数达到17：
+
+- `goal_support_revision` 检查先保存原作答再打开帮助、参考记录失败时提示保持关闭且输入不丢失，分别保存辨别和修订并在刷新后恢复；历史作品展示冻结参考及曝光顺序，手机页面保持可用。内容更新提示的界面分支使用明确标注的响应夹具，实际版本查找由HTTP回归另行检查。
+- `prerequisite_plan` 完成真实单元中的单个目标任务后，检查未作答的其他先修目标仍留在计划，并通过“检查这项前置目标”进入准确目标页。新诊断的 `assumed` 为空，未回答先修仍未观察，旧推断列明确标为未实测；打开先修不改写原会话答案。
+
+这两项是必须执行的验收路径，不是本文预先给出的通过声明。完整浏览器集合仍包括受影响内容页面预览，运行部分 `--journey` 适合定位问题，但不能形成完整发行验收。
 
 ## 文件与验证
 
@@ -61,7 +74,7 @@ V5新增 `goal_alignment`、`equation_steps`、`support_branches`：实际检查
 
 `release-manifest.json`使用原始字节SHA-256，包括代码、CSS、SVG、Schema、catalog、依赖锁、许可证及字体，不对二进制做换行替换。`data/manifest.json`保留内容构建兼容口径，两者用途不同。
 
-打包检查报告与当前HEAD、发布清单一致，逐项验证日志和PNG哈希。只运行部分浏览器旅程、失败报告、旧提交报告、被替换的日志或缺失截图都会阻止打包。学习数据库、失败trace、旧失败截图和未绑定输出不进入证据包。
+先核对核心报告的 `head`、`release_manifest_sha256`、`source_clean`、`manifest_valid`、全部检查结果和 `delivery_ready`；浏览器报告还须包含当前17条旅程及完整受影响页面集合。打包检查报告与当前HEAD、发布清单一致，逐项验证日志和PNG哈希。只运行部分浏览器旅程、失败报告、旧提交报告、被替换的日志或缺失截图都会阻止打包。学习数据库、失败trace、旧失败截图和未绑定输出不进入证据包。
 
 Bundle扫描完整可达历史路径，包括合并提交引入的文件。发现被排除的学习库或外部资产会报告路径并停止，不自动改写历史。`git bundle verify`之外还执行实际克隆与 `git fsck --full`，确认包中对象足以恢复当前提交。Git子进程结束且恢复成功后清理本次临时锁，最终目录只允许上述四个交付文件；已有输出目录不覆盖。
 
@@ -74,19 +87,19 @@ Bundle扫描完整可达历史路径，包括合并提交引入的文件。发�
 保留本轮完整分支历史时，可以克隆bundle：
 
 ```bash
-git clone -b codex/cnkg-quality-v5 current-branch.bundle cn-k12-kg-v5
-cd cn-k12-kg-v5
+git clone -b codex/cnkg-quality-v6-followup current-branch.bundle cn-k12-kg-v6
+cd cn-k12-kg-v6
 ```
 
 已有仓库可先导入为一个新本地分支，再检查差异：
 
 ```bash
-git fetch /absolute/path/current-branch.bundle refs/heads/codex/cnkg-quality-v5:refs/heads/imported-quality-v5
-git log --oneline imported-quality-v5
+git fetch /absolute/path/current-branch.bundle refs/heads/codex/cnkg-quality-v6-followup:refs/heads/imported-quality-v6
+git log --oneline imported-quality-v6
 ```
 
 这些操作不覆盖现有分支。是否推送远程仍以远程实际引用为准；本地包、提交或验收通过不等于GitHub已经更新。
 
 ## 证据界限
 
-所有门禁针对已登记的内容、协议和软件路径。独立教师审核与真实学生效果验证按用户要求暂缓。文件完整、算式正确、程序通过和学生真正学会是不同类型的结论。
+所有门禁针对已登记的内容、协议和软件路径。程序按作者参考答案运行，参考自判通过只表明当前评分合同内部相容；真实数学复核须另列题面条件、推导、图示和观察范围。全目标覆盖、AI语义抽样、合成功能流程、独立教师审核和真实学习效果是不同证据。后两项按用户要求暂缓，内容作者和审核身份继续如实保留。

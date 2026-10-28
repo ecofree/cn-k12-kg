@@ -27,7 +27,11 @@
       "先求 3 盒的总价：8×3=24 元。",
       "再求找回：50-24=26 元。",
       "写成一道就是 50-8×3，乘号那部分先算。"
-    ]
+    ],
+    "family_id": "arithmetic.multiply-then-adjust",
+    "variant_id": "m3a.2.5:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "50-8×3 算成 (50-8)×3，先减后乘，结果变成 126 元。",
@@ -51,7 +55,7 @@
   "check": "给「每包 6 元买 4 包，付 30 元」，能列出 30-6×4，并说清 6×4 求的是总价，不是找回的钱。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,22 @@
         "criteria": [
           "式子50−8×4",
           "计算18元"
+        ],
+        "family_id": "arithmetic.multiply-then-adjust",
+        "variant_id": "m3a.2.5:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "money.total-then-change",
+          "ratio.unit-rate-projection"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "50−8只付了一本的钱还是4本的钱？随后再乘4会把找零也重复了吗？",
+        "hint": "先把四本各8元圈成总价32元，再从付款50元扣掉这一整块。",
+        "revision_prompt": "每盒6元买5盒，付40元，先列两步再合成综合式，解释乘法为何先算。"
+      },
+      "observation_note": "观察乘法总价与付款差的两级结构；正确运算顺序还需与实际数量对应。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +96,22 @@
         "criteria": [
           "乘法为整盒总量",
           "加法合并同单位数量"
+        ],
+        "family_id": "arithmetic.multiply-then-adjust",
+        "variant_id": "m3a.2.5:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.add.combine-parts",
+          "primary.multiply.equal-groups"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "式子中的5与3分别是零散笔数还是盒数？哪两个量可直接相加？",
+        "hint": "6支/盒×3盒先变为18支，18支才能与5支合计，不能把3盒和5支相加。",
+        "revision_prompt": "4盒每盒7支再加2支，给每一步结果标单位并说明最后数量包含哪些部分。"
+      },
+      "observation_note": "观察中间量的对象与单位；不能从算得23反推每个量都理解。"
     }
   ]
 }

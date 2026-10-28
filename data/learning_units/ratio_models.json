@@ -118,7 +118,7 @@
   ],
   "explanation": {
     "intuition": "糖与水的比2:7表示把糖看成2份、水看成7份，混合后总共是9份。比例模型要先找“谁和谁相比”及保持不变的量。",
-    "reasoning": "按比例分配时先求总份数，再求每份是多少。两个正量的比值恒定时可以用正比例；乘积恒定时可以用反比例。有固定起步量的关系通常不能只凭“一个增大、另一个也增大”就认定正比例。 单位率把对应关系改写成“每1单位有多少”：如3升售价12元，则每升4元。数量单位不同，单位率通常带有复合单位；同类长度的比例尺要先换成相同单位。把购买量与费用同时按同一倍数变化，可以在双数轴和对应表中记录。若没有固定附加量，费用=单位率×数量，正比例是后来一次函数中初始值为0的特殊情形。",
+    "reasoning": "按比例分配时先求总份数，再求每份是多少。两个正量的比值恒定时可以用正比例；乘积恒定时可以用反比例。有固定起步量的关系通常不能只凭“一个增大、另一个也增大”就认定正比例。 单位率把对应关系改写成“每1单位有多少”：如3升售价12元，则每升4元。数量单位不同，单位率通常带有复合单位；同类长度的比例尺要先换成相同单位。把购买量与费用同时按同一倍数变化，可以在双数轴和对应表中记录。若没有固定附加量，费用=单位率×数量，0单位对应0费用。本单元先用每单位的量与不变量说明关系，后续函数学习会继续研究它。",
     "conditions": [
       "比的后项不能为0；本单元情境中的数量与单位须明确。",
       "判断正比例要确认比值不变，判断反比例要确认乘积不变，并明确其他条件固定。",
@@ -290,7 +290,7 @@
       ],
       "phase": "transfer",
       "type": "rubric",
-      "prompt": "饮料甲的果汁与水之比是1:4，饮料乙是2:7。忽略其他成分，哪种饮料中果汁的质量占比更高？不能只比较比的前项，请说明理由。",
+      "prompt": "饮料甲的果汁与水的质量比是1:4，饮料乙是2:7。忽略其他成分，哪种饮料中果汁的质量占比更高？不能只比较比的前项，请说明理由。",
       "rubric": [
         {
           "criterion": "分别求部分占整体的比",
@@ -410,7 +410,7 @@
       ],
       "phase": "practice",
       "type": "numeric",
-      "prompt": "750克一种谷物售价18元，单价固定。250克售价多少元？请只填数字。",
+      "prompt": "750克一种谷物售价18元，按质量计价、单价固定，无另外收费。250克售价多少元？请只填数字。",
       "explanation": "750克含3个250克，因此250克售价18÷3=6元。也可先求每克18/750元，再乘250。比较前后的重量单位相同。",
       "feedback": {
         "correct": "结果匹配。请核对解释中使用的条件与单位。",
@@ -447,7 +447,7 @@
       },
       "family_id": "ratio.map-scale-infer",
       "variant_id": "ratio_models:practice-5",
-      "representation": "mixed",
+      "representation": "verbal",
       "cognitive_demand": "execute",
       "answer": "B",
       "answer_spec": {
@@ -498,6 +498,10 @@
         "kind": "number",
         "comparison": "exact",
         "representation": "any"
+      },
+      "diagram": {
+        "src": "/static/diagrams/primary-v6-unit-rate-table.svg",
+        "alt": "两行对应表：数量x（千克）为2、5、7；总价y（元）分别为6、15、21。没有预填单价。"
       }
     },
     {
@@ -508,7 +512,7 @@
       ],
       "phase": "practice",
       "type": "choice",
-      "prompt": "红、蓝颜料原来质量比为4:6，各加2克后成为6:8。原来的配色比例是否保持？",
+      "prompt": "红颜料原有4克、蓝颜料原有6克，质量比为4:6。各加2克后成为6:8。原来的配色比例是否保持？",
       "explanation": "4/6=2/3，6/8=3/4，二者不同。红色扩大到1.5倍而蓝色扩大到4/3倍，变化倍数不同。",
       "feedback": {
         "correct": "结果匹配。请核对解释中使用的条件与单位。",
@@ -591,7 +595,7 @@
       },
       "family_id": "ratio.rate-compare-unit-conversion",
       "variant_id": "ratio_models:transfer-3",
-      "representation": "mixed",
+      "representation": "verbal",
       "cognitive_demand": "model",
       "answer_spec": {
         "kind": "rubric"
@@ -617,7 +621,7 @@
       ],
       "phase": "transfer",
       "type": "numeric",
-      "prompt": "两组获得的图书数之比为5:3，甲组比乙组多18本。甲组有多少本？请只填整数。",
+      "prompt": "甲组与乙组获得的图书数之比为5:3，甲组比乙组多18本。甲组有多少本？请只填整数。",
       "explanation": "18本对应5−3=2份，一份9本，甲组5份是45本。乙27本，差18本且45:27=5:3。",
       "feedback": {
         "correct": "结果匹配。请核对解释中使用的条件与单位。",
@@ -669,7 +673,11 @@
           "points": 2,
           "example": "A过0用量0费用；B即使用量0仍有3元，增量固定不等于比值固定。"
         }
-      ]
+      ],
+      "diagram": {
+        "src": "/static/diagrams/primary-v6-fee-table.svg",
+        "alt": "对应表列出用量0、2、5，方案A费用0、8、20元，方案B费用3、11、23元。"
+      }
     },
     {
       "id": "ratio_models:transfer-6",
@@ -706,7 +714,11 @@
           "id": "C",
           "text": "不能保证；已有两组符合，但还缺推广所需的规则或依据。"
         }
-      ]
+      ],
+      "diagram": {
+        "src": "/static/diagrams/primary-v6-finite-pairs-table.svg",
+        "alt": "记录表只有两次观测，x为1和2时，y分别为2和4；没有给出后续数据或生成规则。"
+      }
     },
     {
       "id": "ratio_models:delayed-3",
@@ -716,7 +728,7 @@
       ],
       "phase": "delayed",
       "type": "numeric",
-      "prompt": "一个未装满的容器以每分钟1.2升的恒定速度进水，开始时是空的，中途不出水。装入3.6升需要多少分钟？请只填数值。",
+      "prompt": "一个容量至少3.6升的容器，以每分钟1.2升的恒定速度进水，开始时是空的，中途不出水也不溢出。装入3.6升需要多少分钟？请只填数值。",
       "explanation": "时间=水量÷单位时间进水量，3.6÷1.2=3分钟。单位为升÷(升/分钟)=分钟；容器未装满与没有出水是使用此关系的条件。",
       "feedback": {
         "correct": "结果匹配。请核对解释中使用的条件与单位。",
@@ -785,7 +797,7 @@
       },
       "family_id": "ratio.rescaled-map",
       "variant_id": "ratio_models:delayed-5",
-      "representation": "mixed",
+      "representation": "verbal",
       "cognitive_demand": "explain",
       "answer_spec": {
         "kind": "rubric"
@@ -865,6 +877,81 @@
       "answer_spec": {
         "kind": "rubric"
       }
+    },
+    {
+      "id": "ratio_models:practice-9",
+      "objective_ids": [
+        "ratio_models:o2",
+        "ratio_models:o3",
+        "ratio_models:unit_rate",
+        "ratio_models:invariant"
+      ],
+      "phase": "practice",
+      "type": "rubric",
+      "prompt": "苹果按固定单价每千克6元出售，没有另外收费，可以按0.5千克计量。制作一个对应表或双数轴，表示0、0.5、1、2、3千克与费用；写清两种单位。用图表解释1.5千克需多少钱，再说明若每次另收2元包装费，原来的对应关系还能直接使用吗？可在纸上画好后逐行记录表中的对应数值。",
+      "explanation": "对应量为0↔0元、0.5↔3元、1↔6元、2↔12元、3↔18元；双数轴上对应点应对齐，刻度间距遵守各自的数量单位。1.5千克需9元。若另收2元，费用变为6×质量+2，1.5千克需11元，原表不再表示最终费用。",
+      "feedback": {
+        "correct": "保留图表、单位和规则变化的说明；这份过程自评不自动确认独立掌握。",
+        "incorrect": "先确定1千克对应6元，再同时放大或缩小两个量。检查0.5与1、2之间的间隔，固定费用不能按质量一起缩放。"
+      },
+      "family_id": "ratio.unit-rate-projection",
+      "variant_id": "ratio_models:practice-9",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "制作带单位且对应正确的表或双数轴",
+          "points": 2,
+          "example": "千克0、0.5、1、2、3对应元0、3、6、12、18；数轴不能把不等数差画成等间距。"
+        },
+        {
+          "criterion": "用单位率说明未直接列出的用量",
+          "points": 1,
+          "example": "1.5×6=9元，或1千克6元加0.5千克3元。"
+        },
+        {
+          "criterion": "检查收费规则改变后的适用性",
+          "points": 2,
+          "example": "另收2元后为6×质量+2，1.5千克11元，不能直接沿用原表。"
+        }
+      ]
+    },
+    {
+      "id": "ratio_models:delayed-7",
+      "objective_ids": [
+        "ratio_models:o3",
+        "ratio_models:allocation"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "20本完整图书要全部分给甲、乙两组，每本不能拆分，要求甲:乙严格等于4:3。这样的分配能做到吗？有人把计算结果四舍五入为11本和9本，请核对比，并说明你的依据。",
+      "explanation": "严格4:3可看成甲4份、乙3份。若图书数为整数，约成最简比4:3后每份须为整数，总数须为7的整数倍。20不是7的倍数，无法同时满足全部分完、整数本数和严格比例。11:9不等于4:3（11×3=33，9×4=36），四舍五入破坏比例。",
+      "feedback": {
+        "correct": "把可行性和比例核对一起保存；结论依赖完整图书不可拆分与严格比例条件。",
+        "incorrect": "先把已知20本对应到7份；检查每组是否为整数本，再把任何取整方案的实际比写出来。"
+      },
+      "family_id": "ratio.indivisible-allocation-feasibility",
+      "variant_id": "ratio_models:delayed-7",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "判断整数分配的可行性并给依据",
+          "points": 2,
+          "example": "20÷7不是整数；4和3互质，准确4:3的两组整数本数只能是4k、3k，k为整数，故总数必须是7的倍数。也可完整列举可行的4:3整数配对说明。"
+        },
+        {
+          "criterion": "核对取整方案并保留条件",
+          "points": 2,
+          "example": "11+9虽为20，但11:9不等于4:3；不能一边要求严格比例一边擅自取整。"
+        }
+      ]
     }
   ],
   "teacher_review": {
@@ -925,7 +1012,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "红2份、蓝5份，共7份；不知每份几颗，不能断言实际有2颗和5颗。"
+          "explanation": "红2份、蓝5份，共7份；不知每份几颗，不能断言实际有2颗和5颗。",
+          "family_id": "ratio.referent-order",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "ratio.part-part-to-whole"
+          ]
         },
         "hints": [
           {
@@ -962,7 +1055,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "必须区分作为比较基准的是水还是糖水；比没有给出绝对质量。"
+          "explanation": "必须区分作为比较基准的是水还是糖水；比没有给出绝对质量。",
+          "family_id": "ratio.part-part-to-whole",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "ratio.part-part-to-whole"
+          ]
         },
         "followup_task_ids": [
           "ratio_models:practice-1",
@@ -1006,7 +1105,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "正比例看商，反比例看积；这里只能确定长+宽=10。"
+          "explanation": "正比例看商，反比例看积；这里只能确定长+宽=10。",
+          "family_id": "ratio.invariant-classify",
+          "representation": "verbal",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "ratio.fixed-distance-inverse",
+            "ratio.invariant-classify"
+          ]
         },
         "hints": [
           {
@@ -1023,7 +1129,7 @@
           }
         ],
         "guided_task": {
-          "prompt": "收费y=5+3x元，x>0。费用y与用量x是否正比例？",
+          "prompt": "收费规则是先收5元，再按每单位3元计费，写作y=5+3x（x>0）。费用与用量成正比例吗？",
           "type": "choice",
           "choices": [
             {
@@ -1032,7 +1138,7 @@
             },
             {
               "id": "B",
-              "text": "不是，y/x=5/x+3随x变化"
+              "text": "不是，用量1和2时费用分别8和11，费用÷用量分别8和5.5，不相同"
             },
             {
               "id": "C",
@@ -1043,7 +1149,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "固定基础费使商变化；固定增量是一次关系的特征，但不保证正比例。"
+          "explanation": "固定基础费使总费用除以用量的结果改变：8÷1=8，11÷2=5.5。每增加1单位多3元，不能代替总量比值恒定。",
+          "family_id": "ratio.constant-increment-vs-proportion",
+          "representation": "verbal",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "ratio.fixed-distance-inverse",
+            "ratio.invariant-classify"
+          ]
         },
         "followup_task_ids": [
           "ratio_models:practice-2",
@@ -1087,7 +1200,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "一份9本，甲18本、乙27本；两组相加45，且18:27=2:3。"
+          "explanation": "一份9本，甲18本、乙27本；两组相加45，且18:27=2:3。",
+          "family_id": "ratio.allocate-from-total",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "ratio.allocate-from-difference"
+          ]
         },
         "hints": [
           {
@@ -1113,7 +1232,13 @@
           },
           "answer": "24",
           "verify": "40/(3+2)*3",
-          "explanation": "5份共40，每份8，甲3份共24；乙16，和为40。"
+          "explanation": "5份共40，每份8，甲3份共24；乙16，和为40。",
+          "family_id": "ratio.allocate-from-total",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "ratio.allocate-from-difference"
+          ]
         },
         "followup_task_ids": [
           "ratio_models:practice-3",
@@ -1157,7 +1282,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "同类量的比先统一单位，再按指定顺序排列，3:600=1:200。"
+          "explanation": "同类量的比先统一单位，再按指定顺序排列，3:600=1:200。",
+          "family_id": "ratio.map-scale-infer",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "ratio.rate-compare-unit-conversion"
+          ]
         },
         "hints": [
           {
@@ -1194,7 +1325,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "题目先蓝后红，因此12:8；8:20则是红与全部的比。"
+          "explanation": "题目先蓝后红，因此12:8；8:20则是红与全部的比。",
+          "family_id": "ratio.referent-order",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "ratio.rate-compare-unit-conversion"
+          ]
         },
         "followup_task_ids": [
           "ratio_models:practice-1",
@@ -1238,7 +1375,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "整体是黑与白合起来的5份。"
+          "explanation": "整体是黑与白合起来的5份。",
+          "family_id": "ratio.part-part-to-whole",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "ratio.reconstruct-total-from-part"
+          ]
         },
         "hints": [
           {
@@ -1264,7 +1407,13 @@
           },
           "answer": "7/9",
           "verify": "7/(2+7)",
-          "explanation": "整体共9份，蓝珠7份，占7/9。"
+          "explanation": "整体共9份，蓝珠7份，占7/9。",
+          "family_id": "ratio.part-part-to-whole",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "ratio.reconstruct-total-from-part"
+          ]
         },
         "followup_task_ids": [
           "ratio_models:practice-1",
@@ -1308,7 +1457,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "等比变化保持商，不要求差不变。"
+          "explanation": "等比变化保持商，不要求差不变。",
+          "family_id": "ratio.equivalent-scaling",
+          "representation": "symbolic",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "ratio.additive-change-error",
+            "ratio.rescaled-map"
+          ]
         },
         "hints": [
           {
@@ -1345,7 +1501,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "7到21乘3，红色4也乘3得12。"
+          "explanation": "7到21乘3，红色4也乘3得12。",
+          "family_id": "ratio.reconstruct-component-from-part",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "ratio.additive-change-error",
+            "ratio.rescaled-map"
+          ]
         },
         "followup_task_ids": [
           "ratio_models:practice-7",
@@ -1389,7 +1552,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "先明确每1分钟，计算400米÷5分钟。"
+          "explanation": "先明确每1分钟，计算400米÷5分钟。",
+          "family_id": "ratio.rate-compare-unit-conversion",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "ratio.rate-compare-unit-conversion"
+          ]
         },
         "hints": [
           {
@@ -1415,12 +1584,19 @@
           },
           "answer": "10",
           "verify": "24/6*2.5",
-          "explanation": "每千克4元，2.5千克10元。"
+          "explanation": "每千克4元，2.5千克10元。",
+          "family_id": "ratio.unit-rate-projection",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "ratio.rate-compare-unit-conversion"
+          ]
         },
         "followup_task_ids": [
           "ratio_models:practice-4",
           "ratio_models:transfer-3",
-          "ratio_models:delayed-3"
+          "ratio_models:delayed-3",
+          "ratio_models:practice-9"
         ]
       },
       {
@@ -1459,7 +1635,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "应依据规则中的不变量判断；既非正比例也非反比例。"
+          "explanation": "应依据规则中的不变量判断；既非正比例也非反比例。",
+          "family_id": "ratio.constant-increment-vs-proportion",
+          "representation": "symbolic",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "ratio.invariant-classify"
+          ]
         },
         "hints": [
           {
@@ -1496,7 +1678,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "数据与模型一致是支持，不能排除在未观察处不同的规则。"
+          "explanation": "数据与模型一致是支持，不能排除在未观察处不同的规则。",
+          "family_id": "model.finite-data-limit",
+          "representation": "symbolic",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "ratio.invariant-classify"
+          ]
         },
         "followup_task_ids": [
           "ratio_models:practice-2",
@@ -1540,7 +1728,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "差量对应份数差；甲30本、乙12本，差18且比为5:2。"
+          "explanation": "差量对应份数差；甲30本、乙12本，差18且比为5:2。",
+          "family_id": "ratio.allocate-from-difference",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "ratio.indivisible-allocation-feasibility"
+          ]
         },
         "hints": [
           {
@@ -1566,12 +1760,19 @@
           },
           "answer": "27",
           "verify": "9/(4-3)*3",
-          "explanation": "一份9本，乙3份27本，甲36本，差9。"
+          "explanation": "一份9本，乙3份27本，甲36本，差9。",
+          "family_id": "ratio.allocate-from-difference",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "ratio.indivisible-allocation-feasibility"
+          ]
         },
         "followup_task_ids": [
           "ratio_models:practice-3",
           "ratio_models:transfer-4",
-          "ratio_models:delayed-6"
+          "ratio_models:delayed-6",
+          "ratio_models:delayed-7"
         ]
       },
       {
@@ -1610,7 +1811,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "比例尺写的是同单位长度比；1千米=100000厘米。"
+          "explanation": "比例尺写的是同单位长度比；1千米=100000厘米。",
+          "family_id": "ratio.map-length-convert",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "ratio.rescaled-map"
+          ]
         },
         "hints": [
           {
@@ -1636,7 +1843,13 @@
           },
           "answer": "800",
           "verify": "4*20000/100",
-          "explanation": "实际80000厘米，除以100得800米。"
+          "explanation": "实际80000厘米，除以100得800米。",
+          "family_id": "ratio.map-length-convert",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "ratio.rescaled-map"
+          ]
         },
         "followup_task_ids": [
           "ratio_models:practice-5",

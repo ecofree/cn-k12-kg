@@ -27,6 +27,17 @@
       "两个同样的梯形拼成平行四边形，底 = 3+5 = 8 厘米。",
       "高还是 4 厘米，平行四边形面积 8×4=32。",
       "一个梯形是一半：32÷2=16 平方厘米。"
+    ],
+    "family_id": "geometry.trapezoid-area",
+    "variant_id": "m5a.6.3:worked_example:v6",
+    "representation": "geometry",
+    "cognitive_demand": "explain",
+    "diagram": {
+      "src": "/static/diagrams/primary-v6-trapezoid-area.svg",
+      "alt": "两张全等梯形各有上底3厘米、下底5厘米、高4厘米，反向拼接成底由5厘米和3厘米两段相接、高4厘米的平行四边形。"
+    },
+    "reference_family_ids": [
+      "geometry.trapezoid-area-duplicate"
     ]
   },
   "pitfalls": [
@@ -51,7 +62,7 @@
   "check": "能画图说明「两个梯形拼成平行四边形」，并算对一组数据的面积。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +76,26 @@
         "criteria": [
           "两底和与高对应",
           "解释除2"
+        ],
+        "family_id": "geometry.trapezoid-area-duplicate",
+        "variant_id": "m5a.6.3:criterion:0:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-trapezoid-area.svg",
+          "alt": "两张全等梯形各有上底3厘米、下底5厘米、高4厘米，反向拼接成底由5厘米和3厘米两段相接、高4厘米的平行四边形。"
+        },
+        "reference_family_ids": [
+          "geometry.parallelogram-corresponding-base-height",
+          "geometry.trapezoid-area"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "两梯形反向拼好，长底来自一个梯形下底，还是一上底加一下底？",
+        "hint": "将两片用不同颜色区分，在拼图底边标出上底和下底两段，高沿原来垂直方向不变。",
+        "revision_prompt": "用上底2、下底6、高3的两张同样梯形拼图，分别标出公式的8、3和除2表示什么。"
+      },
+      "observation_note": "观察两底之和、高不变与两份减半；不以记住公式代替拼图对应。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +107,26 @@
         "criteria": [
           "底和乘高",
           "面积35平方厘米"
+        ],
+        "family_id": "geometry.trapezoid-area",
+        "variant_id": "m5a.6.3:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.construct-corresponding-height",
+          "geometry.trapezoid-area-duplicate"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "4和10是哪两条平行边？5是腰长还是两底间垂直距离？",
+        "hint": "确认5为高，再先算两底和14，乘5得两份面积70，最后除2。",
+        "revision_prompt": "上底3、下底9、对应高4、腰5厘米，选择有效数据求面积，标出排除腰长的理由。"
+      },
+      "observation_note": "观察数据选择、完整运算与平方单位；没有高或足够替代条件时不能只用腰。"
     }
-  ]
+  ],
+  "diagram": {
+    "src": "/static/diagrams/primary-v6-trapezoid-area.svg",
+    "alt": "两张全等梯形各有上底3厘米、下底5厘米、高4厘米，反向拼接成底由5厘米和3厘米两段相接、高4厘米的平行四边形。"
+  }
 }

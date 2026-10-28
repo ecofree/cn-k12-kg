@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh1.1.4.1",
- "name": "充分条件与必要条件",
- "tier": "core",
- "hook": "‘x=2’能推出‘x²=4’，反过来为什么不一定？",
- "definition": "若 p⇒q，则 p 是 q 的充分条件，q 是 p 的必要条件；可用集合包含关系判断推出关系。p⇒q时p是q的充分条件，q是p的必要条件；判断关系须固定同一论域。",
- "why": "把满足p的对象看成集合P、满足q的对象看成Q，p⇒q恰好表示P⊆Q。充分说‘有它就够’，必要说‘缺它不行’；反向是否成立要另查反例。",
- "when_to_use": [
-  "题目要求判断充分、必要或两者皆非",
-  "一个条件的解集可能包含于另一个解集"
- ],
- "steps": [
-  "先写出p与q及共同论域",
-  "分别检验p⇒q和q⇒p，不能只看一边",
-  "用包含关系或反例给出条件类型"
- ],
- "worked_example": {
-  "prompt": "在R中，p:x=2，q:x²=4。判断p是q的什么条件。",
-  "steps": [
-   "x=2时必有x²=4，故p⇒q。",
-   "x=-2满足q但不满足p，故q不能推出p。",
-   "因此p是q的充分不必要条件。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.1.4.1",
+  "name": "充分条件与必要条件",
+  "tier": "core",
+  "hook": "‘x=2’能推出‘x²=4’，反过来为什么不一定？",
+  "definition": "在同一论域中，若p⇒q，则p是q的充分条件，q是p的必要条件。还须另查q⇒p是否成立，才能区分充分不必要、必要不充分、充要或既不充分也不必要；可用两命题真值集合的包含关系判断。",
+  "why": "把满足p的对象看成集合P、满足q的对象看成Q，p⇒q恰好表示P⊆Q。充分说‘有它就够’，必要说‘缺它不行’；反向是否成立要另查反例。",
+  "when_to_use": [
+    "题目要求判断充分、必要或两者皆非",
+    "一个条件的解集可能包含于另一个解集"
   ],
-  "answer": "充分不必要条件"
- },
- "pitfalls": [
-  "把充分条件的箭头写反",
-  "用几个成立实例当作对所有对象都成立的证明"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能判断 p 是 q 的充分条件还是必要条件",
-   "explanation": "两次推出决定四类关系，不能由一个方向推断另一个方向。",
-   "self_check": {
-    "prompt": "在R中，p:x>3，q:x>1，判断p对q的条件类型并给出反向反例。",
-    "reference_answer": "p充分不必要：x>3必有x>1；x=2满足q而不满足p。",
-    "criteria": [
-     "证明正向推出并给反向反例",
-     "条件名称与方向一致"
-    ]
-   }
+  "steps": [
+    "先写出p与q及共同论域",
+    "分别检验p⇒q和q⇒p，不能只看一边",
+    "用包含关系或反例给出条件类型"
+  ],
+  "worked_example": {
+    "prompt": "在R中，p:x=2，q:x²=4。判断p是q的什么条件。",
+    "steps": [
+      "x=2时必有x²=4，故p⇒q。",
+      "x=-2满足q但不满足p，故q不能推出p。",
+      "因此p是q的充分不必要条件。"
+    ],
+    "answer": "充分不必要条件",
+    "family_id": "logic.sufficient-necessary",
+    "variant_id": "mh1.1.4.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能用集合包含解释推出关系",
-   "explanation": "命题的真值范围越小，条件越强；小集合对应充分条件。",
-   "self_check": {
-    "prompt": "用数轴说明p:|x|<1与q:-2<x<2之间的推出关系。",
-    "reference_answer": "P=(-1,1)真包含于Q=(-2,2)，所以p⇒q，q不能推出p，例如x=3/2。",
-    "criteria": [
-     "写对两个集合及包含方向",
-     "以集合外差元素给出反例"
-    ]
-   }
+  "pitfalls": [
+    "把充分条件的箭头写反",
+    "用几个成立实例当作对所有对象都成立的证明"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断 p 是 q 的充分条件还是必要条件",
+      "explanation": "两次推出决定四类关系，不能由一个方向推断另一个方向。",
+      "self_check": {
+        "prompt": "在R中，p:x>3，q:x>1，判断p对q的条件类型并给出反向反例。",
+        "reference_answer": "p充分不必要：x>3必有x>1；x=2满足q而不满足p。",
+        "criteria": [
+          "证明正向推出并给反向反例",
+          "条件名称与方向一致"
+        ],
+        "family_id": "logic.sufficient-necessary",
+        "variant_id": "mh1.1.4.1:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "p⇒q成立，为什么不能直接说q⇒p？",
+        "hint": "把“x>3”的真值范围放进“x>1”，再找只满足后者的数。",
+        "revision_prompt": "判断x²=1与x=1：前者是后者的必要不充分条件，反例x=-1。"
+      },
+      "observation_note": "观察两个方向与合法反例；一个方向正确不足以确认条件类型。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用集合包含解释推出关系",
+      "explanation": "命题的真值范围越小，条件越强；小集合对应充分条件。",
+      "self_check": {
+        "prompt": "用数轴说明p:|x|<1与q:-2<x<2之间的推出关系。",
+        "reference_answer": "P=(-1,1)真包含于Q=(-2,2)，所以p⇒q，q不能推出p，例如x=3/2。",
+        "criteria": [
+          "写对两个集合及包含方向",
+          "以集合外差元素给出反例"
+        ],
+        "family_id": "logic.implication-as-inclusion",
+        "variant_id": "mh1.1.4.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "P⊂Q时，是P中的每个数在Q内，还是反过来？",
+        "hint": "把推出看成从满足前件的所有对象出发。",
+        "revision_prompt": "画P=[0,1]、Q=[0,2]，用3/2说明Q不能推出P；给出两个方向的结论。"
+      },
+      "observation_note": "观察真值集合与推出方向；作图仍须文字或符号说明包含依据。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：证明正向推出并给反向反例；写对两个集合及包含方向。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.1.4.1-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.1.4.1-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.1.4.1-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "两个命题须在同一论域讨论。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：证明正向推出并给反向反例；写对两个集合及包含方向。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh1.1.4.1-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.1.4.1-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.1.4.1-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

@@ -250,7 +250,7 @@
       "family_id": "probability.at-least-one-independent",
       "variant_id": "independent_events:transfer-1",
       "representation": "verbal",
-      "cognitive_demand": "model"
+      "cognitive_demand": "execute"
     },
     {
       "id": "independent_events:transfer-2",
@@ -432,7 +432,7 @@
       "family_id": "probability.two-way-table-independence",
       "variant_id": "independent_events:transfer-3",
       "representation": "table",
-      "cognitive_demand": "model",
+      "cognitive_demand": "explain",
       "answer_spec": {
         "kind": "rubric"
       },
@@ -447,7 +447,11 @@
           "points": 2,
           "example": "P(B|A)=6/10=3/5，等于原来B的概率。"
         }
-      ]
+      ],
+      "diagram": {
+        "src": "/static/diagrams/senior-v6-two-way-cards.svg",
+        "alt": "20张完整卡组的四格数量：有A有B6张，有A无B4张，无A有B6张，无A无B4张。行按A标记分，列按B标记分，每张等可能抽到。"
+      }
     },
     {
       "id": "independent_events:transfer-4",
@@ -467,7 +471,7 @@
       "family_id": "probability.exactly-one",
       "variant_id": "independent_events:transfer-4",
       "representation": "verbal",
-      "cognitive_demand": "model",
+      "cognitive_demand": "execute",
       "answer": "0.44",
       "verify": "0.8*(1-0.6)+(1-0.8)*0.6",
       "answer_spec": {
@@ -692,20 +696,34 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "互斥看是否能同时发生，独立看交集概率是否等于边际概率乘积。"
+          "explanation": "互斥看是否能同时发生，独立看交集概率是否等于边际概率乘积。",
+          "family_id": "probability.independence-vs-exclusive",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "independent_events:support:o1:diagnostic"
         },
         "hints": [
           {
             "level": 1,
-            "text": "先分别写A、B包含哪些结果，再找交集。"
+            "text": "先分别写A、B包含哪些结果，再找交集。",
+            "reference_family_ids": [
+              "probability.independence-vs-exclusive"
+            ]
           },
           {
             "level": 2,
-            "text": "计算P(A∩B)与P(A)P(B)，不要用名称或直觉代替比较。"
+            "text": "计算P(A∩B)与P(A)P(B)，不要用名称或直觉代替比较。",
+            "reference_family_ids": [
+              "probability.given-joint-independence"
+            ]
           },
           {
             "level": 3,
-            "text": "若P(A)=0.4、P(B)=0.5、交集0.2，则满足独立；交集并非0，因此不是互斥。正概率互斥事件则不独立。"
+            "text": "若P(A)=0.4、P(B)=0.5、交集0.2，则满足独立；交集并非0，因此不是互斥。正概率互斥事件则不独立。",
+            "reference_family_ids": [
+              "probability.given-joint-independence",
+              "probability.independence-vs-exclusive"
+            ]
           }
         ],
         "guided_task": {
@@ -729,13 +747,117 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "0.3×0.4=0.12与交集相等，所以满足独立定义。"
+          "explanation": "0.3×0.4=0.12与交集相等，所以满足独立定义。",
+          "family_id": "probability.given-joint-independence",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "independent_events:support:o1:guided"
         },
         "followup_task_ids": [
           "independent_events:practice-1",
           "independent_events:transfer-2",
           "independent_events:delayed-1"
-        ]
+        ],
+        "default_route": {
+          "title": "继续：交集与乘积分别计算",
+          "rationale": "已区分硬币例中的互斥与独立；接着用给定的边际概率和交集核对定义。",
+          "observation_note": "复合目标先区分互斥和独立；零概率边界与完整样本空间仍需后续任务。"
+        },
+        "guided_branches": [
+          {
+            "id": "conditional_change",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "把“互不影响”写成知道结果后的概率",
+            "rationale": "这次按结果名称不同判了独立；下一题检查知道A以后，B的可能性是否改变。",
+            "observation_note": "只观察一次试验中条件概率的改变；还需用交集与乘积判断其他事件。",
+            "guided_task": {
+              "prompt": "只掷一次公平硬币，A为正面、B为反面。原来P(B)=1/2；现在已知A发生，P(B|A)是多少？",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "0",
+              "verify": "0/1",
+              "explanation": "已知正面发生后，同一次不可能又是反面，所以条件概率为0，不再是原来的1/2。这说明这两个事件不独立。",
+              "family_id": "probability.independence-vs-exclusive",
+              "representation": "verbal",
+              "cognitive_demand": "execute",
+              "variant_id": "independent_events:support:o1:guided:conditional_change"
+            }
+          },
+          {
+            "id": "empty_intersection",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "先检查两事件能否同时发生",
+            "rationale": "这次否认了互斥；下一题先列出结果集合，单独检查是否存在共同结果。",
+            "observation_note": "判断交集为空只建立互斥；是否独立仍要比较概率，不能把两者合并成一个词。",
+            "guided_task": {
+              "prompt": "从1、2、3、4四张卡中等可能抽1张。A={1,2}，B={3,4}。哪项准确描述两事件的交集？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "交集为空，所以互斥；独立性还要核对交集概率与乘积"
+                },
+                {
+                  "id": "B",
+                  "text": "交集有四张卡，所以不互斥"
+                },
+                {
+                  "id": "C",
+                  "text": "A与B名称不同，所以独立"
+                }
+              ],
+              "answer": "A",
+              "explanation": "没有一张卡同时在两集合中，交集为空。这里P(A)=P(B)=1/2，交集概率0与乘积1/4不等，所以进一步可判断不独立。",
+              "family_id": "probability.independence-vs-exclusive",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "independent_events:support:o1:guided:empty_intersection"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先辨认同一次试验的结果",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只识别结果能否同时出现，不把这一步当作完整独立性判断。",
+          "guided_task": {
+            "prompt": "一次掷硬币的结果是正面。以下哪个事件同时发生？",
+            "type": "choice",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "choices": [
+              {
+                "id": "A",
+                "text": "反面朝上"
+              },
+              {
+                "id": "B",
+                "text": "正面朝上"
+              },
+              {
+                "id": "C",
+                "text": "正面和反面同时朝上"
+              }
+            ],
+            "answer": "B",
+            "explanation": "同一次结果只能是给定的正面，不能同时是反面。接下来才把这样的结果关系转成事件与概率。",
+            "family_id": "probability.independence-vs-exclusive",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "variant_id": "independent_events:support:o1:guided:skip"
+          }
+        }
       },
       {
         "id": "independent_events:support:o2",
@@ -773,20 +895,35 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "知道第一球红后，条件概率1/3不同于原来的1/2，红球事件不独立。"
+          "explanation": "知道第一球红后，条件概率1/3不同于原来的1/2，红球事件不独立。",
+          "family_id": "probability.without-replacement",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "independent_events:support:o2:diagnostic"
         },
         "hints": [
           {
             "level": 1,
-            "text": "区分“还不知道第一次结果”和“已知第一次结果”两种信息状态。"
+            "text": "区分“还不知道第一次结果”和“已知第一次结果”两种信息状态。",
+            "reference_family_ids": [
+              "probability.without-replacement"
+            ]
           },
           {
             "level": 2,
-            "text": "按题设更新剩余对象，重算第二次概率；放回时还需说明充分混匀与随机方式是否避免耦合。"
+            "text": "按题设更新剩余对象，重算第二次概率；放回时还需说明充分混匀与随机方式是否避免耦合。",
+            "reference_family_ids": [
+              "probability.without-replacement",
+              "probability.independent-intersection"
+            ]
           },
           {
             "level": 3,
-            "text": "3红1白且球除颜色外相同，每次等可能随机抽取，不放回。已知先红后剩2红1白，第二红为2/3；若放回并以独立随机方式抽取，则仍为3/4。"
+            "text": "3红1白且球除颜色外相同，每次等可能随机抽取，不放回。已知先红后剩2红1白，第二红为2/3；若放回并以独立随机方式抽取，则仍为3/4。",
+            "reference_family_ids": [
+              "probability.without-replacement",
+              "probability.independent-intersection"
+            ]
           }
         ],
         "guided_task": {
@@ -810,13 +947,97 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "共同来源造成完全关联，边际概率相同并不保证独立。"
+          "explanation": "共同来源造成完全关联，边际概率相同并不保证独立。",
+          "family_id": "probability.coupled-mechanism",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "independent_events:support:o2:guided"
         },
         "followup_task_ids": [
           "independent_events:practice-3",
           "independent_events:transfer-2",
-          "independent_events:delayed-2"
-        ]
+          "independent_events:delayed-2",
+          "independent_events:practice-5",
+          "independent_events:delayed-3"
+        ],
+        "default_route": {
+          "title": "继续：先画知道结果后的试验条件",
+          "rationale": "已按已知结果更新了袋内条件；接着比较共用同一随机来源的两列记录，检验机制而非名称。",
+          "observation_note": "复合目标检查不放回后的变化；放回、混匀与随机机制还需分别说明。"
+        },
+        "guided_branches": [
+          {
+            "id": "update_remaining_space",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "抽出以后重新写剩余对象",
+            "rationale": "这次保留了原来比例；下一步先把已取走的球从条件样本中删去，再计算。",
+            "observation_note": "只核对指定第一次结果后的概率；没有据此证明所有抽取机制都不独立。",
+            "guided_task": {
+              "prompt": "袋中3红2白，球除颜色外相同，每次等可能随机抽取且不放回。已知第一球是白球，第二球是红球的条件概率是多少？",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "3/4",
+              "verify": "3/(3+2-1)",
+              "explanation": "取走白球后剩3红1白，共4球；红球数未减，所以条件概率为3/4。未给第一次结果时不能直接用这份剩余清单。",
+              "family_id": "probability.without-replacement",
+              "representation": "verbal",
+              "cognitive_demand": "execute",
+              "variant_id": "independent_events:support:o2:guided:update_remaining_space"
+            }
+          },
+          {
+            "id": "update_favourable_count",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "分子也要扣除已取走的同色球",
+            "rationale": "这次改了总数却保留原红球数；下一步单独核对有利对象还剩几个。",
+            "observation_note": "这一步只观察剩余红球数，不等于已完成两次抽取的交事件概率。",
+            "guided_task": {
+              "prompt": "袋中红球编号为红1、红2，白球编号为白1、白2。不放回取走红1以后，袋中仍可抽到的红球有几个？",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "1",
+              "verify": "2-1",
+              "explanation": "红1已经不在袋中，只剩红2；随后概率的分子为1，分母为剩余3球。",
+              "family_id": "probability.without-replacement",
+              "representation": "verbal",
+              "cognitive_demand": "execute",
+              "variant_id": "independent_events:support:o2:guided:update_favourable_count"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先把第一次取走的球划掉",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只核对条件样本的总数；颜色分子和独立判断还要继续。",
+          "guided_task": {
+            "prompt": "原有2红2白共4球，不放回取走1球后，袋中还剩几个球？",
+            "type": "numeric",
+            "answer_spec": {
+              "kind": "number",
+              "comparison": "exact",
+              "representation": "any"
+            },
+            "answer": "3",
+            "verify": "2+2-1",
+            "explanation": "不放回表示取走的球不再参与下一次抽取，剩余总数为3。",
+            "family_id": "probability.without-replacement",
+            "representation": "verbal",
+            "cognitive_demand": "execute",
+            "variant_id": "independent_events:support:o2:guided:skip"
+          }
+        }
       },
       {
         "id": "independent_events:support:o3",
@@ -854,20 +1075,35 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "先把事件分清，再算1−P(两次都失败)。"
+          "explanation": "先把事件分清，再算1−P(两次都失败)。",
+          "family_id": "probability.event-complement-partition",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "independent_events:support:o3:diagnostic"
         },
         "hints": [
           {
             "level": 1,
-            "text": "把可能结果写为成成、成败、败成、败败，圈出目标。"
+            "text": "把可能结果写为成成、成败、败成、败败，圈出目标。",
+            "reference_family_ids": [
+              "probability.event-complement-partition"
+            ]
           },
           {
             "level": 2,
-            "text": "同时发生可按明确的独立或逐步条件相乘；至少一次常用1减全不发生。"
+            "text": "同时发生可按明确的独立或逐步条件相乘；至少一次常用1减全不发生。",
+            "reference_family_ids": [
+              "probability.conditional-intersection",
+              "probability.at-least-one-independent"
+            ]
           },
           {
             "level": 3,
-            "text": "独立成功率0.7与0.4，两次都成功0.28；至少一次为1−0.3×0.6=0.82。两者不是同一个事件。"
+            "text": "独立成功率0.7与0.4，两次都成功0.28；至少一次为1−0.3×0.6=0.82。两者不是同一个事件。",
+            "reference_family_ids": [
+              "probability.independent-intersection",
+              "probability.at-least-one-independent"
+            ]
           }
         ],
         "guided_task": {
@@ -880,13 +1116,117 @@
           },
           "answer": "0.9",
           "verify": "1-(1-0.8)*(1-0.5)",
-          "explanation": "全失败为0.2×0.5=0.1，至少一台成功为0.9。"
+          "explanation": "全失败为0.2×0.5=0.1，至少一台成功为0.9。",
+          "family_id": "probability.at-least-one-independent",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "variant_id": "independent_events:support:o3:guided"
         },
         "followup_task_ids": [
           "independent_events:practice-2",
           "independent_events:transfer-1",
           "independent_events:delayed-2"
-        ]
+        ],
+        "default_route": {
+          "title": "继续：先辨事件，再选乘法或补集",
+          "rationale": "已正确找出全失败这个补事件；接着在题设明确独立时计算至少一台成功。",
+          "observation_note": "复合目标短题观察至少一次的事件范围；独立依据与条件乘法还需继续确认。"
+        },
+        "guided_branches": [
+          {
+            "id": "check_both_success_membership",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "两次都成功也属于至少一次",
+            "rationale": "这次把两次都成功选作对立事件；先逐一检查“至少一次”包含哪些结果。",
+            "observation_note": "只观察事件成员的归类，计算概率时仍须核对独立性或逐步条件。",
+            "guided_task": {
+              "prompt": "两次尝试用“成、败”记录。结果“成成”与事件“至少一次成功”的关系是哪项？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "成成在至少一次成功之内"
+                },
+                {
+                  "id": "B",
+                  "text": "成成属于至少一次成功的对立事件"
+                },
+                {
+                  "id": "C",
+                  "text": "成成是否属于取决于成功概率大小"
+                }
+              ],
+              "answer": "A",
+              "explanation": "“至少一次”包括一次和两次成功；成成是两次成功，属于目标事件。集合关系不由成功概率大小改变。",
+              "family_id": "probability.event-complement-partition",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "independent_events:support:o3:guided:check_both_success_membership"
+            }
+          },
+          {
+            "id": "include_exactly_one_and_two",
+            "choice_ids": [
+              "B"
+            ],
+            "title": "把恰好一次放回目标事件",
+            "rationale": "这次把恰好一次选作对立事件；下一步把“恰好一次”和“两次”合成至少一次。",
+            "observation_note": "观察两条互斥部分合并的概率；并未验证能处理未知关联的两次试验。",
+            "guided_task": {
+              "prompt": "两次独立公平尝试的四种结果成成、成败、败成、败败各占1/4。“至少一次成功”包含成败、败成和成成，概率是多少？",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "3/4",
+              "verify": "1/4+1/4+1/4",
+              "explanation": "三个列出的结果互斥且各占1/4，相加得3/4。恰好一次只有成败、败成，少了成成。",
+              "family_id": "probability.at-least-one-independent",
+              "representation": "verbal",
+              "cognitive_demand": "execute",
+              "variant_id": "independent_events:support:o3:guided:include_exactly_one_and_two"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先找一次也未成功的结果",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只建立补事件的含义；尚未观察乘法或独立依据。",
+          "guided_task": {
+            "prompt": "两次记录为成成、成败、败成、败败。哪一个结果表示一次成功也没有？",
+            "type": "choice",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "choices": [
+              {
+                "id": "A",
+                "text": "成败"
+              },
+              {
+                "id": "B",
+                "text": "败成"
+              },
+              {
+                "id": "C",
+                "text": "败败"
+              }
+            ],
+            "answer": "C",
+            "explanation": "只有败败的成功次数为0；其余三种都至少成功一次。",
+            "family_id": "probability.event-complement-partition",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "variant_id": "independent_events:support:o3:guided:skip"
+          }
+        }
       },
       {
         "id": "independent_events:support:classify",
@@ -924,20 +1264,34 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "“正概率互斥事件不独立”需要正概率条件。"
+          "explanation": "“正概率互斥事件不独立”需要正概率条件。",
+          "family_id": "probability.zero-probability-boundary",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "independent_events:support:classify:diagnostic"
         },
         "hints": [
           {
             "level": 1,
-            "text": "把互斥、独立各自的定义分两行写，不以一个替代另一个。"
+            "text": "把互斥、独立各自的定义分两行写，不以一个替代另一个。",
+            "reference_family_ids": [
+              "probability.independence-vs-exclusive"
+            ]
           },
           {
             "level": 2,
-            "text": "检查P(A)、P(B)是否为0；有零概率时优先用交集乘积式。"
+            "text": "检查P(A)、P(B)是否为0；有零概率时优先用交集乘积式。",
+            "reference_family_ids": [
+              "probability.zero-probability-boundary"
+            ]
           },
           {
             "level": 3,
-            "text": "P(A)=P(B)=1/2且互斥，则0≠1/4，不独立；A为空事件时，交集与乘积都0，二者既互斥又独立。"
+            "text": "P(A)=P(B)=1/2且互斥，则0≠1/4，不独立；A为空事件时，交集与乘积都0，二者既互斥又独立。",
+            "reference_family_ids": [
+              "probability.zero-probability-boundary",
+              "probability.independence-vs-exclusive"
+            ]
           }
         ],
         "guided_task": {
@@ -961,13 +1315,119 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "交集概率0，边际乘积0.1，两者不等。"
+          "explanation": "交集概率0，边际乘积0.1，两者不等。",
+          "family_id": "probability.independence-vs-exclusive",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "independent_events:support:classify:guided"
         },
         "followup_task_ids": [
           "independent_events:practice-1",
           "independent_events:transfer-2",
-          "independent_events:delayed-1"
-        ]
+          "independent_events:delayed-1",
+          "independent_events:transfer-5",
+          "independent_events:delayed-5"
+        ],
+        "default_route": {
+          "title": "继续：边界情形也用定义检验",
+          "rationale": "已保留零概率的边界条件；接着对正概率互斥事件比较交集与乘积。",
+          "observation_note": "观察零概率事件对“互斥不独立”的例外；一般判断仍需分别核对交集与乘积。"
+        },
+        "guided_branches": [
+          {
+            "id": "check_zero_product",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "零概率边界仍按乘积定义核对",
+            "rationale": "这次把正概率互斥的结论用于不可能事件；下一步直接计算交集与乘积。",
+            "observation_note": "这条路线只处理不可能事件的边界；一般事件仍需同时检验两个定义。",
+            "guided_task": {
+              "prompt": "A是不可能事件，P(B)=3/5。下面哪一组计算能正确检验独立？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "P(A∩B)=0，P(A)P(B)=0，两者相等"
+                },
+                {
+                  "id": "B",
+                  "text": "P(A∩B)=0，P(A)P(B)=3/5，两者不等"
+                },
+                {
+                  "id": "C",
+                  "text": "只要互斥，便不用计算概率"
+                }
+              ],
+              "answer": "A",
+              "explanation": "A不可能发生，所以交集也不可能发生；0×3/5=0。两个概率相等，符合独立定义，同时两事件互斥。",
+              "family_id": "probability.zero-probability-boundary",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "independent_events:support:classify:guided:check_zero_product"
+            }
+          },
+          {
+            "id": "check_denominator_domain",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "条件概率除法先检查分母",
+            "rationale": "这次选择了0/0；下一步先判断条件事件概率为0时，常用除法公式是否有定义。",
+            "observation_note": "只检查这一离散条件概率公式的使用条件，不把未定义写成0。",
+            "guided_task": {
+              "prompt": "准备使用P(B|A)=P(A∩B)/P(A)。如果P(A)=0，哪项处理正确？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "把0/0规定成0后继续"
+                },
+                {
+                  "id": "B",
+                  "text": "该除法不能使用；检验独立可改查P(A∩B)=P(A)P(B)"
+                },
+                {
+                  "id": "C",
+                  "text": "把分母换成P(B)，仍称P(B|A)"
+                }
+              ],
+              "answer": "B",
+              "explanation": "除以0没有定义。换分母会改变所求条件概率；独立的乘积定义无需作这次除法。",
+              "family_id": "probability.zero-probability-boundary",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "independent_events:support:classify:guided:check_denominator_domain"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先认出不可能事件的概率",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只确认概率为0这一前提；独立与互斥的定义仍须分别使用。",
+          "guided_task": {
+            "prompt": "公平六面骰的点数只可能为1至6。事件A为“掷出7点”，P(A)是多少？",
+            "type": "numeric",
+            "answer_spec": {
+              "kind": "number",
+              "comparison": "exact",
+              "representation": "any"
+            },
+            "answer": "0",
+            "verify": "0/6",
+            "explanation": "六个可能结果中没有7点，有利结果数为0，所以P(A)=0。",
+            "family_id": "probability.zero-probability-boundary",
+            "representation": "verbal",
+            "cognitive_demand": "execute",
+            "variant_id": "independent_events:support:classify:guided:skip"
+          }
+        }
       },
       {
         "id": "independent_events:support:conditional",
@@ -1005,20 +1465,33 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "P(B|A)=P(A∩B)/P(A)，须P(A)>0。"
+          "explanation": "P(B|A)=P(A∩B)/P(A)，须P(A)>0。",
+          "family_id": "probability.conditional-from-intersection",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "independent_events:support:conditional:diagnostic"
         },
         "hints": [
           {
             "level": 1,
-            "text": "读清竖线后面是“已知哪个事件”。"
+            "text": "读清竖线后面是“已知哪个事件”。",
+            "reference_family_ids": [
+              "probability.conditional-from-intersection"
+            ]
           },
           {
             "level": 2,
-            "text": "把条件事件当新的总体，分子是其中同时满足目标事件的部分。"
+            "text": "把条件事件当新的总体，分子是其中同时满足目标事件的部分。",
+            "reference_family_ids": [
+              "probability.conditional-from-intersection"
+            ]
           },
           {
             "level": 3,
-            "text": "20张等可能卡中有A的8张，其中5张也有B，则P(B|A)=5/8；5/20则是交集概率，信息条件不同。"
+            "text": "20张等可能卡中有A的8张，其中5张也有B，则P(B|A)=5/8；5/20则是交集概率，信息条件不同。",
+            "reference_family_ids": [
+              "probability.conditional-from-intersection"
+            ]
           }
         ],
         "guided_task": {
@@ -1031,13 +1504,117 @@
           },
           "answer": "0.4",
           "verify": "0.24/0.6",
-          "explanation": "把交集概率0.24除以条件事件概率0.6，得0.4。"
+          "explanation": "把交集概率0.24除以条件事件概率0.6，得0.4。",
+          "family_id": "probability.conditional-from-intersection",
+          "representation": "symbolic",
+          "cognitive_demand": "execute",
+          "variant_id": "independent_events:support:conditional:guided"
         },
         "followup_task_ids": [
           "independent_events:practice-3",
           "independent_events:transfer-3",
-          "independent_events:delayed-2"
-        ]
+          "independent_events:delayed-3"
+        ],
+        "default_route": {
+          "title": "继续：条件概率重新限定分母",
+          "rationale": "已正确选出交集除以条件事件概率；接着独立完成一题同结构数值计算，不把换数当成新题族。",
+          "observation_note": "观察联合概率除以条件概率；数值结果还需解释新样本范围。"
+        },
+        "guided_branches": [
+          {
+            "id": "condition_on_subset",
+            "choice_ids": [
+              "B"
+            ],
+            "title": "把条件事件当作新的总体",
+            "rationale": "这次把相对于全体的交集概率当作条件概率；下一题显式数出条件范围内的卡片。",
+            "observation_note": "只观察同一条件范围内的比例；没有推断A与B独立。",
+            "guided_task": {
+              "prompt": "20张等可能抽取的卡中，有A标记的8张，其中2张同时有B标记。已经知道抽到A标记，此时抽到B标记的概率是多少？",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "1/4",
+              "verify": "2/8",
+              "explanation": "条件已把范围缩成8张A卡，有利卡为其中2张，得2/8=1/4。2/20描述相对于全部卡的交集，问题不同。",
+              "family_id": "probability.conditional-from-intersection",
+              "representation": "verbal",
+              "cognitive_demand": "execute",
+              "variant_id": "independent_events:support:conditional:guided:condition_on_subset"
+            }
+          },
+          {
+            "id": "keep_part_over_whole",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "分子是部分，分母是条件全体",
+            "rationale": "这次把除法方向倒置；下一步先对应“条件范围”与“其中满足目标的部分”。",
+            "observation_note": "只检查条件概率的分子分母与数值范围，不由选择答案确定所有错误原因。",
+            "guided_task": {
+              "prompt": "P(A)=0.6，P(A∩B)=0.15。已知A发生时，下面哪项兼顾条件含义和概率范围？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "0.6÷0.15=4"
+                },
+                {
+                  "id": "B",
+                  "text": "0.15÷0.6=0.25"
+                },
+                {
+                  "id": "C",
+                  "text": "0.15÷1=0.15，因为条件不改变分母"
+                }
+              ],
+              "answer": "B",
+              "explanation": "A是条件全体，交集是其中的部分，所以用0.15除以0.6。反向除法给4，已经超出概率可取范围。",
+              "family_id": "probability.conditional-from-intersection",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "independent_events:support:conditional:guided:keep_part_over_whole"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先辨清竖线后面的已知条件",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只识别条件事件，不等于已完成条件概率计算。",
+          "guided_task": {
+            "prompt": "P(B|A)中的竖线读作“在……已发生的条件下”。这里已知的是哪个事件？",
+            "type": "choice",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "choices": [
+              {
+                "id": "A",
+                "text": "A"
+              },
+              {
+                "id": "B",
+                "text": "B"
+              },
+              {
+                "id": "C",
+                "text": "A与B互斥"
+              }
+            ],
+            "answer": "A",
+            "explanation": "竖线右侧A是条件，要在A发生的范围内考察B。仅写出这个符号没有给出独立性。",
+            "family_id": "probability.conditional-from-intersection",
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy",
+            "variant_id": "independent_events:support:conditional:guided:skip"
+          }
+        }
       },
       {
         "id": "independent_events:support:multiply",
@@ -1075,20 +1652,34 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "一般乘法为P(A∩B)=P(A)P(B|A)；独立时才把条件概率换成原P(B)。"
+          "explanation": "一般乘法为P(A∩B)=P(A)P(B|A)；独立时才把条件概率换成原P(B)。",
+          "family_id": "probability.without-replacement",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "independent_events:support:multiply:diagnostic"
         },
         "hints": [
           {
             "level": 1,
-            "text": "先画第一步各结果，再在对应分支上写第二步条件。"
+            "text": "先画第一步各结果，再在对应分支上写第二步条件。",
+            "reference_family_ids": [
+              "probability.without-replacement"
+            ]
           },
           {
             "level": 2,
-            "text": "同一路径的概率相乘；不同互斥路径若都满足目标，再相加。"
+            "text": "同一路径的概率相乘；不同互斥路径若都满足目标，再相加。",
+            "reference_family_ids": [
+              "probability.conditional-intersection"
+            ]
           },
           {
             "level": 3,
-            "text": "4红2白不放回两次红为(4/6)×(3/5)=2/5；若独立放回抽取才为(4/6)²=4/9。"
+            "text": "4红2白不放回两次红为(4/6)×(3/5)=2/5；若独立放回抽取才为(4/6)²=4/9。",
+            "reference_family_ids": [
+              "probability.without-replacement",
+              "probability.independent-intersection"
+            ]
           }
         ],
         "guided_task": {
@@ -1101,13 +1692,117 @@
           },
           "answer": "1/15",
           "verify": "2/6*1/5",
-          "explanation": "先白2/6，再白1/5，乘得1/15。"
+          "explanation": "先白2/6，再白1/5，乘得1/15。",
+          "family_id": "probability.without-replacement",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "variant_id": "independent_events:support:multiply:guided"
         },
         "followup_task_ids": [
           "independent_events:practice-2",
           "independent_events:transfer-1",
           "independent_events:delayed-2"
-        ]
+        ],
+        "default_route": {
+          "title": "继续：每一步用对应条件下的概率",
+          "rationale": "已正确写出条件乘法；接着在另一袋中执行不放回的两步计算，同构题仍使用同一题族。",
+          "observation_note": "观察不放回时第二步概率；不能看到“两次”就默认独立。"
+        },
+        "guided_branches": [
+          {
+            "id": "draw_second_step_condition",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "先写第二步的新条件",
+            "rationale": "这次把初始白球比例用了两次；下一题先只求第一次已白后的第二步。",
+            "observation_note": "只核对一条路径的第二步条件；整条路径概率仍要再乘第一步。",
+            "guided_task": {
+              "prompt": "袋中3红2白，每次等可能随机抽取且不放回。已知第一次取走白球，下一次白球的概率是多少？",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "1/4",
+              "verify": "1/(3+1)",
+              "explanation": "第一白取走后剩3红1白，第二白条件概率为1/4；它与原来的2/5不同。",
+              "family_id": "probability.without-replacement",
+              "representation": "verbal",
+              "cognitive_demand": "execute",
+              "variant_id": "independent_events:support:multiply:guided:draw_second_step_condition"
+            }
+          },
+          {
+            "id": "multiply_within_path",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "区分同一路径相乘与互斥路径相加",
+            "rationale": "这次把两步概率相加；下一题直接给出条件概率，只判断如何合成“都发生”。",
+            "observation_note": "只观察乘法链的结构；没有据此允许把条件概率替换成边际概率。",
+            "guided_task": {
+              "prompt": "已知P(A)=2/5，且在A发生的条件下P(B|A)=1/4。要求A与B都发生的概率，应选哪式？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "2/5+1/4"
+                },
+                {
+                  "id": "B",
+                  "text": "(2/5)×(1/4)"
+                },
+                {
+                  "id": "C",
+                  "text": "1−2/5"
+                }
+              ],
+              "answer": "B",
+              "explanation": "A与B都发生是先A、再条件下B的同一路径，概率相乘得1/10；相加用于相应互斥路径的合并，不能在这里代用。",
+              "family_id": "probability.conditional-intersection",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "independent_events:support:multiply:guided:multiply_within_path"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先区分“都发生”和“至少一个”",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只识别目标事件，随后还要按给定机制安排计算。",
+          "guided_task": {
+            "prompt": "两次抽球记录为红红、红白、白红、白白。“两次都白”包含哪个结果？",
+            "type": "choice",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "choices": [
+              {
+                "id": "A",
+                "text": "红白与白红"
+              },
+              {
+                "id": "B",
+                "text": "只有白白"
+              },
+              {
+                "id": "C",
+                "text": "除红红外的所有结果"
+              }
+            ],
+            "answer": "B",
+            "explanation": "“都白”要求两次同时满足白；红白、白红只满足一次。",
+            "family_id": "probability.event-complement-partition",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "variant_id": "independent_events:support:multiply:guided:skip"
+          }
+        }
       },
       {
         "id": "independent_events:support:complement",
@@ -1145,20 +1840,36 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "恰好一次为1/4+1/4=1/2；至少一次为3/4。"
+          "explanation": "恰好一次为1/4+1/4=1/2；至少一次为3/4。",
+          "family_id": "probability.exactly-one",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "independent_events:support:complement:diagnostic"
         },
         "hints": [
           {
             "level": 1,
-            "text": "把“至少”“恰好”“一次也没有”逐一翻成结果集合。"
+            "text": "把“至少”“恰好”“一次也没有”逐一翻成结果集合。",
+            "reference_family_ids": [
+              "probability.exactly-one",
+              "probability.at-least-one-independent"
+            ]
           },
           {
             "level": 2,
-            "text": "至少一次用1减全失败；恰好一次列各个唯一成功位置，确认不重叠后相加。"
+            "text": "至少一次用1减全失败；恰好一次列各个唯一成功位置，确认不重叠后相加。",
+            "reference_family_ids": [
+              "probability.exactly-one",
+              "probability.at-least-one-independent"
+            ]
           },
           {
             "level": 3,
-            "text": "独立成功率0.8与0.6，恰好一次为0.8×0.4+0.2×0.6=0.44；至少一次为1−0.2×0.4=0.92。"
+            "text": "独立成功率0.8与0.6，恰好一次为0.8×0.4+0.2×0.6=0.44；至少一次为1−0.2×0.4=0.92。",
+            "reference_family_ids": [
+              "probability.exactly-one",
+              "probability.at-least-one-independent"
+            ]
           }
         ],
         "guided_task": {
@@ -1171,13 +1882,117 @@
           },
           "answer": "0.5",
           "verify": "0.5*(1-0.5)+(1-0.5)*0.5",
-          "explanation": "成败与败成各0.25，相加0.5。"
+          "explanation": "成败与败成各0.25，相加0.5。",
+          "family_id": "probability.exactly-one",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "variant_id": "independent_events:support:complement:guided"
         },
         "followup_task_ids": [
           "independent_events:practice-4",
           "independent_events:transfer-4",
           "independent_events:delayed-6"
-        ]
+        ],
+        "default_route": {
+          "title": "继续：至少一次与恰好一次分开列",
+          "rationale": "已列出恰好一次的两条互斥路径；接着用明确的独立概率完成合计计算。",
+          "observation_note": "观察恰好一次的两条互斥路径；补事件法需准确界定全不发生。"
+        },
+        "guided_branches": [
+          {
+            "id": "exclude_double_success",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "恰好一次必须排除两次成功",
+            "rationale": "这次把成成也列入恰好一次；下一题对照成功次数和事件集合。",
+            "observation_note": "只观察恰好一次与至少一次的区别；还需核对各路径概率。",
+            "guided_task": {
+              "prompt": "两次结果分别为成成、成败、败成、败败。哪项恰好是“至少一次成功”有、但“恰好一次成功”没有的结果？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "成成"
+                },
+                {
+                  "id": "B",
+                  "text": "成败"
+                },
+                {
+                  "id": "C",
+                  "text": "败败"
+                }
+              ],
+              "answer": "A",
+              "explanation": "成成有两次成功，满足至少一次但不满足恰好一次；成败满足两者，败败两者都不满足。",
+              "family_id": "probability.exactly-one",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "independent_events:support:complement:guided:exclude_double_success"
+            }
+          },
+          {
+            "id": "count_second_success_position",
+            "choice_ids": [
+              "B"
+            ],
+            "title": "把成功在第二次的路径补回来",
+            "rationale": "这次只列了成败；下一步分别计算第一次成功与第二次成功这两条互斥路径。",
+            "observation_note": "只观察两次试验中的全部成功位置，不能外推为任意次数的完整枚举。",
+            "guided_task": {
+              "prompt": "两次相互独立，成功率分别1/2与1/4。“成败”的概率为3/8，“败成”的概率为1/8。恰好一次成功的概率是多少？",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "1/2",
+              "verify": "3/8+1/8",
+              "explanation": "恰好一次可以成功在第一次，也可以成功在第二次。两条路径互斥，3/8+1/8=1/2；仅保留第一条会漏算。",
+              "family_id": "probability.exactly-one",
+              "representation": "verbal",
+              "cognitive_demand": "execute",
+              "variant_id": "independent_events:support:complement:guided:count_second_success_position"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先数每条结果的成功次数",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只完成事件分类；没有完成独立性核查或概率合成。",
+          "guided_task": {
+            "prompt": "结果“败成”表示两次尝试中成功了几次？",
+            "type": "choice",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "choices": [
+              {
+                "id": "A",
+                "text": "0次"
+              },
+              {
+                "id": "B",
+                "text": "1次"
+              },
+              {
+                "id": "C",
+                "text": "2次"
+              }
+            ],
+            "answer": "B",
+            "explanation": "第一次失败、第二次成功，共成功1次，因此它必须包含在“恰好一次成功”中。",
+            "family_id": "probability.exactly-one",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "variant_id": "independent_events:support:complement:guided:skip"
+          }
+        }
       },
       {
         "id": "independent_events:support:assumptions",
@@ -1215,20 +2030,35 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "相同边际可以配上不同联合机制，交集不能唯一确定。"
+          "explanation": "相同边际可以配上不同联合机制，交集不能唯一确定。",
+          "family_id": "probability.insufficient-joint-information",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "independent_events:support:assumptions:diagnostic"
         },
         "hints": [
           {
             "level": 1,
-            "text": "区分“各自概率已知”和“联合关系已知”。"
+            "text": "区分“各自概率已知”和“联合关系已知”。",
+            "reference_family_ids": [
+              "probability.insufficient-joint-information"
+            ]
           },
           {
             "level": 2,
-            "text": "寻找明确独立随机机制，或由完整联合分布检验交集是否等于乘积。"
+            "text": "寻找明确独立随机机制，或由完整联合分布检验交集是否等于乘积。",
+            "reference_family_ids": [
+              "probability.given-joint-independence",
+              "probability.insufficient-joint-information"
+            ]
           },
           {
             "level": 3,
-            "text": "把同一硬币结果复制两份，各自正面1/2，同时正面1/2；两次独立掷币则同时正面1/4。边际相同，联合关系不同。"
+            "text": "把同一硬币结果复制两份，各自正面1/2，同时正面1/2；两次独立掷币则同时正面1/4。边际相同，联合关系不同。",
+            "reference_family_ids": [
+              "probability.coupled-mechanism",
+              "probability.independent-intersection"
+            ]
           }
         ],
         "guided_task": {
@@ -1252,13 +2082,119 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "明确的机制假设可支持计算；名称和边际数值不能替代。"
+          "explanation": "明确的机制假设可支持计算；名称和边际数值不能替代。",
+          "family_id": "probability.insufficient-joint-information",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "independent_events:support:assumptions:guided"
         },
         "followup_task_ids": [
           "independent_events:practice-3",
           "independent_events:transfer-2",
-          "independent_events:delayed-4"
-        ]
+          "independent_events:delayed-4",
+          "independent_events:practice-5",
+          "independent_events:transfer-3"
+        ],
+        "default_route": {
+          "title": "继续：边际概率没有说明怎样共同发生",
+          "rationale": "已发现边际概率不足以确定联合结果；接着选出能够支持独立乘积的明确机制条件。",
+          "observation_note": "观察独立依据是否充分；需要机制或联合分布，不能靠相同概率补假设。"
+        },
+        "guided_branches": [
+          {
+            "id": "compare_two_couplings",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "相同边际可对应不同联合结果",
+            "rationale": "这次只凭两个成功率就相乘；下一题保留相同边际，比较两种不同随机机制。",
+            "observation_note": "用反例否定独立性无依据的结论；没有断言真实装置一定采用某一种机制。",
+            "guided_task": {
+              "prompt": "甲乙各有1/2机会为正面。机制一把同一枚公平硬币的结果复制两份；机制二独立掷两枚公平硬币。两者同时正面的概率依次是多少？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "都是1/4"
+                },
+                {
+                  "id": "B",
+                  "text": "1/2和1/4"
+                },
+                {
+                  "id": "C",
+                  "text": "都是1/2"
+                }
+              ],
+              "answer": "B",
+              "explanation": "复制机制两列始终相同，同时正面就是原硬币正面，概率1/2；独立机制才给1/2×1/2=1/4。边际相同不足以确定联合概率。",
+              "family_id": "probability.coupled-mechanism",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "independent_events:support:assumptions:guided:compare_two_couplings"
+            }
+          },
+          {
+            "id": "do_not_replace_unknown_with_zero",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "信息不足不能改写成必不同时发生",
+            "rationale": "这次把“不确定0.49”改成了“一定为0”；下一步检查一个符合题设且交集非零的机制。",
+            "observation_note": "只证明零交集并非题设结论，仍未确定原装置实际交集的唯一数值。",
+            "guided_task": {
+              "prompt": "两台装置由同一随机开关控制：开关有0.7概率打开，此时两台都成功；关闭时两台都失败。每台成功率都是0.7，此机制中同时成功的概率是多少？",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "0.7",
+              "verify": "7/10",
+              "explanation": "同时成功正好等于开关打开，概率0.7。它符合两个边际都是0.7，却否定了“同时成功一定为0”。",
+              "family_id": "probability.coupled-mechanism",
+              "representation": "verbal",
+              "cognitive_demand": "execute",
+              "variant_id": "independent_events:support:assumptions:guided:do_not_replace_unknown_with_zero"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先区分一个事件与联合事件",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只辨认所给信息，不从表述自动补上独立假设。",
+          "guided_task": {
+            "prompt": "“甲成功概率0.7，乙成功概率0.7”直接给出的是什么？",
+            "type": "choice",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "choices": [
+              {
+                "id": "A",
+                "text": "甲乙同时成功的概率"
+              },
+              {
+                "id": "B",
+                "text": "各自成功的两个边际概率"
+              },
+              {
+                "id": "C",
+                "text": "甲乙一定相互独立"
+              }
+            ],
+            "answer": "B",
+            "explanation": "题设分别描述甲、乙各自；没有给出两者如何共同发生。联合机制或额外假设仍需补充。",
+            "family_id": "probability.insufficient-joint-information",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "variant_id": "independent_events:support:assumptions:guided:skip"
+          }
+        }
       }
     ]
   }

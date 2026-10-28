@@ -1,76 +1,106 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m7b.11.2",
- "name": "一元一次不等式",
- "tier": "core",
- "hook": "解不等式步骤像解方程，但哪一步不能照搬等式的处理？",
- "definition": "只含一个未知数且次数为 1 的不等式叫一元一次不等式；解法与一元一次方程类似，去分母、系数化 1 时要注意变号。",
- "why": "每一步变形应保留原来的全部解；加减、乘正数保持次序，乘负数反向才能保留同一批数。去分母也只是乘法，因此关键不是“去分母”这个名称，而是所乘数的符号。",
- "when_to_use": [
-  "未知数最高次数为1的不等式",
-  "带括号、分母或负系数的范围问题"
- ],
- "steps": [
-  "选正公分母清除分母并展开括号",
-  "把未知项和常数分别归并",
-  "系数化1时检查正负，再画出完整解集"
- ],
- "worked_example": {
-  "prompt": "解2−3x<8，并在数轴表示。",
-  "answer": "x>−2；−2处空心向右",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.11.2",
+  "name": "一元一次不等式",
+  "tier": "core",
+  "hook": "解不等式步骤像解方程，但哪一步不能照搬等式的处理？",
+  "definition": "两边都是整式、只含一个未知数，移项化简后未知数最高次数为1且系数非零的不等式叫一元一次不等式。解时可去分母、去括号、移项和合并同类项；两边乘除负数须改变不等号方向，乘除正数则不改变。",
+  "why": "每一步变形应保留原来的全部解；加减、乘正数保持次序，乘负数反向才能保留同一批数。去分母也只是乘法，因此关键不是“去分母”这个名称，而是所乘数的符号。",
+  "when_to_use": [
+    "未知数最高次数为1的不等式",
+    "带括号、分母或负系数的范围问题"
+  ],
   "steps": [
-   "移项得−3x<6。",
-   "同除以−3须反向，得x>−2；数轴上−2不取，向右延伸。"
-  ]
- },
- "pitfalls": [
-  "去分母时每一项都要乘，常数项不能漏。",
-  "端点是否取到由最后的<或≤决定，不能凭习惯填实心。"
- ],
- "check": "独立完成并解释：解不等式3(x−2)≤x+4，写出解集。 请写出判断或计算依据。；解不等式(1−x)/2>3，写出解集。 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能解一元一次不等式并在数轴上表示解集",
-   "explanation": "正确解集包含端点判断及数轴方向，而非只给某个解。",
-   "self_check": {
-    "prompt": "解不等式3(x−2)≤x+4，写出解集。 请写出判断或计算依据。",
-    "reference_answer": "展开得3x−6≤x+4，移项合并得2x≤10，同除以正数2得到x≤5。",
-    "criteria": [
-     "等价变形至x≤5",
-     "数轴5处实心向左"
-    ]
-   }
+    "选正公分母清除分母并展开括号",
+    "把未知项和常数分别归并",
+    "系数化1时检查正负，再画出完整解集"
+  ],
+  "worked_example": {
+    "prompt": "解2−3x<8，并在数轴表示。",
+    "answer": "x>−2；−2处空心向右",
+    "steps": [
+      "移项得−3x<6。",
+      "同除以−3须反向，得x>−2；数轴上−2不取，向右延伸。"
+    ],
+    "family_id": "inequality.linear.solve-and-plot",
+    "variant_id": "m7b.11.2:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
   },
-  {
-   "criterion_index": 1,
-   "title": "能正确处理去分母与系数化为 1 时的变号",
-   "explanation": "去分母与除负系数分开判断符号，避免反向两次或漏反向。",
-   "self_check": {
-    "prompt": "解不等式(1−x)/2>3，写出解集。 请写出判断或计算依据。",
-    "reference_answer": "两边同乘正数2，得1−x>6；移项得−x>5；再除以−1需反向，得到x<−5。",
-    "criteria": [
-     "乘2方向保持",
-     "除−1方向反转"
-    ]
-   }
+  "pitfalls": [
+    "去分母时每一项都要乘，常数项不能漏。",
+    "端点是否取到由最后的<或≤决定，不能凭习惯填实心。"
+  ],
+  "check": "独立完成并解释：解不等式3(x−2)≤x+4，写出解集。 请写出判断或计算依据。；解不等式(1−x)/2>3，写出解集。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能解一元一次不等式并在数轴上表示解集",
+      "explanation": "正确解集包含端点判断及数轴方向，而非只给某个解。",
+      "self_check": {
+        "prompt": "解不等式3(x−2)≤x+4，写等价变形过程，在数轴上画出解集，并检验端点。",
+        "reference_answer": "3x−6≤x+4，移项合并得2x≤10，除以正数2得x≤5。数轴5处画实心点并向左延伸。代x=5，左9右9成立；代x=6，左12右10不成立。",
+        "criteria": [
+          "各步等价变形并得x≤5",
+          "实际数轴在5处实心且向左延伸",
+          "将端点5代回原式核验，并能区分6不满足"
+        ],
+        "family_id": "inequality.linear.solve-and-plot",
+        "variant_id": "m7b.11.2:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "解得x≤5后，数轴5应空心还是实心？6能满足原式吗？",
+        "hint": "把等价变形与端点检验连接起来；≤含端点，左侧数值更小。",
+        "revision_prompt": "画实心5向左的数轴，用x=5与x=6回代核对边界。"
+      },
+      "observation_note": "观察求解、实际数轴与边界检验；只写解集不能说明已经会表示。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能正确处理去分母与系数化为 1 时的变号",
+      "explanation": "去分母与除负系数分开判断符号，避免反向两次或漏反向。",
+      "self_check": {
+        "prompt": "解不等式(1−x)/2>3，写出解集。 请写出判断或计算依据。",
+        "reference_answer": "两边同乘正数2，得1−x>6；移项得−x>5；再除以−1需反向，得到x<−5。",
+        "criteria": [
+          "乘2方向保持",
+          "除−1方向反转"
+        ],
+        "family_id": "inequality.clear-denominator-then-negative",
+        "variant_id": "m7b.11.2:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "乘2和除−1两步都要反向吗？每一步乘数的符号是什么？",
+        "hint": "在行尾分别注明×2（正，保持）与÷(−1)（负，反向）。",
+        "revision_prompt": "解(2−x)/3≥4，写x≤−10并用端点回代，逐步保留运算依据。"
+      },
+      "observation_note": "观察不同步骤各自的符号条件；不能把“去分母必反向”当规则。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.11.2-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.11.2-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.11.2-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m7b.11.2-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m7b.11.2-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m7b.11.2-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

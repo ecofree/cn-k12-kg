@@ -757,7 +757,11 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "定义域是除1外的实数，导数在两个区间均为负。"
+          "explanation": "定义域是除1外的实数，导数在两个区间均为负。",
+          "family_id": "derivative.disconnected-domain-monotonicity",
+          "variant_id": "derivative_monotonicity:support:o1:diagnostic",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy"
         },
         "hints": [
           {
@@ -794,7 +798,15 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "导数零点为±1，但−1不在研究范围；0是已排除的边界。"
+          "explanation": "导数零点为±1，但−1不在研究范围；0是已排除的边界。",
+          "family_id": "derivative.positive-domain-reciprocal",
+          "variant_id": "derivative_monotonicity:support:o1:guided_task",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "derivative.disconnected-domain-monotonicity",
+            "derivative.nondifferentiable-extremum"
+          ]
         },
         "followup_task_ids": [
           "derivative_monotonicity:practice-1",
@@ -838,7 +850,11 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "导数单调性判定在适当区间内使用，不能跳过缺口。"
+          "explanation": "导数单调性判定在适当区间内使用，不能跳过缺口。",
+          "family_id": "derivative.disconnected-domain-monotonicity",
+          "variant_id": "derivative_monotonicity:support:o2:diagnostic",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy"
         },
         "hints": [
           {
@@ -875,7 +891,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "导数负说明下降，正说明上升，与函数值是否正无关。"
+          "explanation": "导数负说明下降，正说明上升，与函数值是否正无关。",
+          "family_id": "derivative.linear-sign",
+          "variant_id": "derivative_monotonicity:support:o2:guided_task",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "derivative.disconnected-domain-monotonicity"
+          ]
         },
         "followup_task_ids": [
           "derivative_monotonicity:practice-2",
@@ -919,7 +942,11 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "驻点是候选，极值要检查邻域内的大小关系。"
+          "explanation": "驻点是候选，极值要检查邻域内的大小关系。",
+          "family_id": "derivative.stationary-not-extremum",
+          "variant_id": "derivative_monotonicity:support:o3:diagnostic",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy"
         },
         "hints": [
           {
@@ -956,7 +983,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "函数先减后增，0附近函数值均不小于f(0)=0。"
+          "explanation": "函数先减后增，0附近函数值均不小于f(0)=0。",
+          "family_id": "derivative.stationary-not-extremum",
+          "variant_id": "derivative_monotonicity:support:o3:guided_task",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "derivative.stationary-extremum-sign-change"
+          ]
         },
         "followup_task_ids": [
           "derivative_monotonicity:practice-3",
@@ -1000,7 +1034,11 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "候选可包含导数零点、函数有定义但不可导点，以及允许端点。"
+          "explanation": "候选可包含导数零点、函数有定义但不可导点，以及允许端点。",
+          "family_id": "derivative.closed-interval-candidates",
+          "variant_id": "derivative_monotonicity:support:domain_split:diagnostic",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy"
         },
         "hints": [
           {
@@ -1037,7 +1075,16 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "端点0的函数值为0，导数无定义不妨碍它作为最值候选。"
+          "explanation": "端点0的函数值为0，导数无定义不妨碍它作为最值候选。",
+          "family_id": "derivative.closed-interval-candidates",
+          "variant_id": "derivative_monotonicity:support:domain_split:guided_task",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "derivative.closed-interval-extrema",
+            "derivative.disconnected-domain-monotonicity",
+            "derivative.nondifferentiable-extremum"
+          ]
         },
         "followup_task_ids": [
           "derivative_monotonicity:practice-2",
@@ -1081,7 +1128,11 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "在−1两侧由负变正；在2两侧不变号。"
+          "explanation": "在−1两侧由负变正；在2两侧不变号。",
+          "family_id": "derivative.stationary-not-extremum",
+          "variant_id": "derivative_monotonicity:support:sign_chart:diagnostic",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy"
         },
         "hints": [
           {
@@ -1118,7 +1169,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "第一因子正、第二负，乘积负；只在边界零点为0。"
+          "explanation": "第一因子正、第二负，乘积负；只在边界零点为0。",
+          "family_id": "derivative.factored-sign-intervals",
+          "variant_id": "derivative_monotonicity:support:sign_chart:guided_task",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "derivative.stationary-not-extremum"
+          ]
         },
         "followup_task_ids": [
           "derivative_monotonicity:practice-1",
@@ -1162,7 +1220,11 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "严格递增要求任意x₁<x₂有f(x₁)<f(x₂)；非递减允许相等。"
+          "explanation": "严格递增要求任意x₁<x₂有f(x₁)<f(x₂)；非递减允许相等。",
+          "family_id": "derivative.nonnegative-vs-strict",
+          "variant_id": "derivative_monotonicity:support:monotonic_intervals:diagnostic",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy"
         },
         "hints": [
           {
@@ -1199,7 +1261,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "对任意x₁<x₂，立方值也严格增大；驻点并不自动改变单调性。"
+          "explanation": "对任意x₁<x₂，立方值也严格增大；驻点并不自动改变单调性。",
+          "family_id": "derivative.zero-yet-strict-increase",
+          "variant_id": "derivative_monotonicity:support:monotonic_intervals:guided_task",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "derivative.nonnegative-vs-strict"
+          ]
         },
         "followup_task_ids": [
           "derivative_monotonicity:practice-1",
@@ -1243,7 +1312,11 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "标准连续内点的符号判别不能忽略连续性；极值定义比较的是实际函数值。"
+          "explanation": "标准连续内点的符号判别不能忽略连续性；极值定义比较的是实际函数值。",
+          "family_id": "derivative.discontinuous-sign-counterexample",
+          "variant_id": "derivative_monotonicity:support:extrema:diagnostic",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy"
         },
         "hints": [
           {
@@ -1280,7 +1353,15 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "先增后减，在该点附近函数值不超过f(c)。"
+          "explanation": "先增后减，在该点附近函数值不超过f(c)。",
+          "family_id": "derivative.stationary-extremum-sign-change",
+          "variant_id": "derivative_monotonicity:support:extrema:guided_task",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "derivative.discontinuous-sign-counterexample",
+            "derivative.nondifferentiable-extremum"
+          ]
         },
         "followup_task_ids": [
           "derivative_monotonicity:practice-3",
@@ -1324,7 +1405,11 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "筛选候选必须先服从真实定义域。"
+          "explanation": "筛选候选必须先服从真实定义域。",
+          "family_id": "derivative.closed-interval-extrema",
+          "variant_id": "derivative_monotonicity:support:boundary_maximum:diagnostic",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy"
         },
         "hints": [
           {
@@ -1361,7 +1446,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "导数6−2x在[1,2]正，函数递增，允许端点2给8。"
+          "explanation": "导数6−2x在[1,2]正，函数递增，允许端点2给8。",
+          "family_id": "derivative.closed-interval-extrema",
+          "variant_id": "derivative_monotonicity:support:boundary_maximum:guided_task",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "derivative.open-interval-nonattainment"
+          ]
         },
         "followup_task_ids": [
           "derivative_monotonicity:practice-4",

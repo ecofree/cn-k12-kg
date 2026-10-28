@@ -27,6 +27,13 @@
       "思路一：先分别算两批。3×4=12 张，3×6=18 张，合起来 12+18=30 张。",
       "思路二：先算一共几排。4+6=10 排，每排 3 张，3×10=30 张。",
       "两个结果都是 30，说明 3×4+3×6=3×(4+6)。"
+    ],
+    "family_id": "arithmetic.distributive-context-two-methods",
+    "variant_id": "m3a.2.6:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "arithmetic.distributive-multiplication"
     ]
   },
   "pitfalls": [
@@ -51,7 +58,7 @@
   "check": "对同一道题写出两个不同算式，说明各自先求什么，并指出两式相等的原因。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +72,21 @@
         "criteria": [
           "两式均正确",
           "两种思路各有数量解释"
+        ],
+        "family_id": "arithmetic.distributive-context-two-methods",
+        "variant_id": "m3a.2.6:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.distributive-multiplication"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "先合人数后，为什么还能统一乘2？如果每人的份数不同还成立吗？",
+        "hint": "用两种颜色画甲乙，每个人都配2本；一种按人分组，一种按组分开统计。",
+        "revision_prompt": "甲9人、乙6人、每人3本，写两种完整解法并分别说明第一步求什么。"
+      },
+      "observation_note": "观察同份条件下的两种分组方法；只是把加数交换位置不算不同数量思路。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +98,22 @@
         "criteria": [
           "识别同份数条件",
           "说明变条件后原简法不适用"
+        ],
+        "family_id": "arithmetic.distributive-context-two-methods",
+        "variant_id": "m3a.2.6:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.distributive-multiplication",
+          "primary.multiply.equal-groups"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "12人各2本与8人各3本，用20×2会漏掉哪些书？",
+        "hint": "给乙每人先画2本再补第3本，看到直接乘2漏了8本。",
+        "revision_prompt": "比较“8人和5人均每人4本”与“两组分别每人4本、2本”，说清哪题可先合人数乘同一个数。"
+      },
+      "observation_note": "观察分配结构成立的相同每份条件；举例相等本身不证明所有不同份数也成立。"
     }
   ]
 }

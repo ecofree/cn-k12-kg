@@ -45,6 +45,7 @@ from cnkg.review_timing import interval_context, unit_activity_scope  # noqa: E4
 from cnkg import manipulatives, step_practice  # noqa: E402
 from cnkg.content_repository import ContentRepository  # noqa: E402
 from cnkg.runtime_version import freeze_grader  # noqa: E402
+from cnkg.task_families import canonical_family, family_exposure  # noqa: E402
 
 # This process runs the imported grading functions until it is restarted.
 # Freeze eagerly; the first new session may arrive after files have changed.
@@ -188,6 +189,7 @@ def build_teach(topic_id: str) -> dict | None:
         "topicName": topic["name"], "description": topic.get("description"),
         "mastery_criteria": topic.get("mastery_criteria", []),
         "criterion_skill_ids": list(get_catalog().placements.get(topic_id, {}).get("criterion_skill_ids", [])),
+        "resource_version": get_catalog().material("topic:" + topic_id)["resource_version"],
         "review_status": card.get("review_status", "draft"),
         "diagnostic_count": len(GRAPH.bank.get(topic_id, [])),
         "practice_count": len(pool),
@@ -259,9 +261,9 @@ def presented_metadata(record, question_id):
 def exposure_exclusions(owner):
     observed = get_store().exposures(owner)
     questions = set(observed["questions"])
-    families = set(observed["families"])
+    families = {canonical_family(identity) for identity in observed["families"]}
     excluded = questions | {qid for qid, task in get_catalog().tasks.items()
-                            if task.get("family_status") == "declared" and task.get("family_id") in families}
+                            if task.get("family_status") == "declared" and canonical_family(task.get("family_id")) in families}
     return excluded, questions, families
 
 
@@ -373,7 +375,8 @@ def _present_question(record, events):
             repeated.append(question["id"])
     meta = presented_metadata(record, question["id"])
     family = meta.get("family_id")
-    if family and meta.get("family_status") == "declared" and family in record.get("prior_seen_family_ids", []):
+    if family and meta.get("family_status") == "declared" and canonical_family(family) in {
+            canonical_family(identity) for identity in record.get("prior_seen_family_ids", [])}:
         repeated = record["context"].setdefault("repeated_family_ids", [])
         if family not in repeated:
             repeated.append(family)
@@ -469,6 +472,37 @@ def _version_problem(record):
     return None
 
 
+def session_content_updates(record):
+    """Compare only presented task identities, without releasing current answers.
+
+    A saved result belongs to its original content. An updated or retired task
+    must nevertheless be visible to a learner returning to that old result.
+    """
+    if record.get("kind") not in {"topic", "unit"}:
+        return {"status": "frozen_support", "changes": []}
+    changes = []
+    catalog = get_catalog()
+    for identity in record.get("presentations", {}):
+        saved = record.get("task_metadata", {}).get(identity, {})
+        current = catalog.tasks.get(identity)
+        if not current or current.get("availability") != "active":
+            changes.append({"task_id": identity, "status": "unavailable"})
+            continue
+        if saved.get("resource_version") == current.get("resource_version"):
+            continue
+        material = current.get("material_id", "")
+        route = None
+        if material.startswith("topic:"):
+            route = {"teach": material[6:]}
+        elif material.startswith("unit:"):
+            route = {"unit": material[5:]}
+        row = {"task_id": identity, "status": "updated" if saved.get("resource_version") else "legacy_unverified"}
+        if route:
+            row["url"] = "/?" + urllib.parse.urlencode(route)
+        changes.append(row)
+    return {"status": "updated" if changes else "current", "changes": changes}
+
+
 def session_payload(record: dict) -> dict:
     if record["kind"] == "support":
         return instruction.public_session(record)
@@ -481,7 +515,8 @@ def session_payload(record: dict) -> dict:
                             "feedback_policy": record["feedback_policy"],
                             "content_sha256": record["content_sha256"],
                             "resource_version": record.get("resource_version", record["content_sha256"]),
-                            "context": copy.deepcopy(record["context"])},
+                            "context": copy.deepcopy(record["context"]),
+                            "current_content": session_content_updates(record)},
                 "item": item, "done": done}
     problem = _version_problem(record)
     if problem:
@@ -711,14 +746,29 @@ def work_descriptor(values, owner):
         if row is None:
             raise KeyError("这个目标暂时没有自检任务")
         task = get_catalog().self_check(tid, index)
-        version = _hash({"task": task["resource_version"], "source": row})
+        # The work format and exposure contract are part of its identity.
+        # Existing works retain their frozen schema and are never rewritten.
+        presentation_families = [task["family_id"]] if task.get("family_status") == "declared" else []
+        version = _hash({"task": task["resource_version"], "source": row, "work_schema": 2,
+                         "presentation_family_ids": presentation_families})
+        fields = [{"id": "response", "label": "我的思路与过程", "prompt": row["self_check"]["prompt"]}]
+        help_content = row.get("difficulty_support")
+        if help_content:
+            fields.extend([
+                {"id": "discrimination", "label": "我怎样辨别这处困难", "prompt": help_content["discriminating_prompt"], "phase": "discrimination"},
+                {"id": "revision", "label": "我重新尝试的过程", "prompt": help_content["revision_prompt"], "phase": "revision"},
+            ])
         resource = portfolio.descriptor(kind, f"topic:{tid}:check:{index}", version,
             f"{card['topicName']} · {row['title']}",
-            [{"id": "response", "label": "我的思路与过程", "prompt": row["self_check"]["prompt"]}],
+            fields,
             row["self_check"]["criteria"], stage=get_catalog().placements[tid].get("stage"),
             work_id=f"self_check:{task['id']}@{version[:16]}")
-        resource["resource_snapshot"].update(task_ids=[task["id"]], family_ids=[task["family_id"]]
-            if task.get("family_status") == "declared" else [])
+        family_ids = get_catalog().material("topic:" + tid).get("reference_families_by_key", {}).get(f"self_check:{index}", [])
+        resource["resource_snapshot"].update(task_ids=[task["id"]], skill_ids=list(task["skill_ids"]),
+            family_ids=sorted(set(family_ids)), presentation_family_ids=presentation_families, work_schema=2,
+            observation_note=row.get("observation_note", ""),
+            reference_answer=row["self_check"]["reference_answer"],
+            difficulty_support=copy.deepcopy(help_content))
         if task.get("diagram"):
             resource["resource_snapshot"].update(diagram=copy.deepcopy(task["diagram"]),
                 asset_snapshots=_CONTENT.assets_for([task]))
@@ -773,6 +823,44 @@ def work_descriptor(values, owner):
               "initial_value": answer.get("raw_answer", "")}], criteria,
             work_id=f"session_task:{sid}:{qid}", stage=stage)
     raise ValueError("不支持的作品类型")
+
+
+def work_current_content(resource, owner):
+    """Describe currency outside the frozen work, without replacing its content.
+
+    A task inside a saved session belongs to that session's original contract.
+    Only explicit material source identities are used to locate newer material.
+    """
+    kind, source = resource.get("kind"), resource.get("source_ref")
+    if kind == "session_task":
+        if isinstance(source, dict):
+            record = get_store().load(source.get("session_id"), owner)
+            if record:
+                change = next((row for row in session_content_updates(record)["changes"]
+                               if row["task_id"] == source.get("question_id")), None)
+                if change:
+                    return {key: value for key, value in change.items() if key != "task_id"}
+        return {"status": "frozen_session_task"}
+    if not isinstance(source, str):
+        return {"status": "unavailable"}
+    selector, route = None, None
+    if kind == "self_check":
+        match = re.fullmatch(r"topic:([^:]+):check:(\d+)", source)
+        if match:
+            tid, index = match.group(1), int(match.group(2))
+            selector = {"kind": kind, "topic_id": tid, "criterion_index": index}
+            route = {"teach": tid}
+    elif kind in {"unit", "project"} and source.startswith(kind + ":"):
+        identity = source[len(kind) + 1:]
+        selector, route = {"kind": kind, kind + "_id": identity}, {kind: identity}
+    if selector is None:
+        return {"status": "unavailable"}
+    try:
+        current = work_descriptor(selector, owner)
+    except (KeyError, ValueError):
+        return {"status": "unavailable"}
+    return {"status": "current" if current["resource_version"] == resource["resource_version"] else "updated",
+            "resource_version": current["resource_version"], "url": "/?" + urllib.parse.urlencode(route)}
 
 
 def export_works(owner):
@@ -891,10 +979,20 @@ class Handler(BaseHTTPRequestHandler):
                 self._provided_tasks(record, [source["question_id"]])
             return
         if task_ids:
+            # New works distinguish the presented task from references shipped
+            # alongside it. Old snapshots keep their original frozen contract.
+            presentation_families = snapshot.get("presentation_family_ids", snapshot.get("family_ids", []))
             get_store().add_event(self._owner(), {"event_type": "question_presented", "occurred_at": _now(),
                 "resource_id": resource["resource_id"], "content_sha256": resource["resource_version"],
-                "payload": {"task_ids": task_ids, "family_ids": snapshot.get("family_ids", []),
+                "payload": {"task_ids": task_ids, "family_ids": presentation_families,
                             "evidence": "work_task_provided_not_proof_of_completion"}})
+        if snapshot.get("work_schema") == 2 and snapshot.get("reference_answer"):
+            # A restored snapshot contains its original references. Availability
+            # is conservatively tracked separately from an actual UI opening.
+            get_store().add_event(self._owner(), {"event_type": "material_provided", "occurred_at": _now(),
+                "resource_id": resource["resource_id"], "content_sha256": resource["resource_version"],
+                "payload": {"task_ids": task_ids, "family_ids": snapshot.get("family_ids", []),
+                            "evidence": "frozen_work_reference_available_not_proof_of_reading"}})
 
     def _provided_tasks(self, record, task_ids, event_type="session_content_provided"):
         """Append a replay exposure without changing frozen answers or timing."""
@@ -1075,6 +1173,7 @@ class Handler(BaseHTTPRequestHandler):
                     return self._json(200, {"revisions": get_store().work_history(owner, resource["resource_id"],
                         limit=int(params.get("limit", "50")), offset=int(params.get("offset", "0")))})
                 return self._json(200, {"descriptor": resource,
+                    "current_content": work_current_content(resource, owner),
                     "work": get_store().load_work(owner, resource["resource_id"])})
             except KeyError:
                 return self._error(404, "作品资源不存在或不属于本浏览器")
@@ -1198,8 +1297,8 @@ class Handler(BaseHTTPRequestHandler):
                             prediction = {"prediction_id": prediction_id, "request_sha256": request_sha,
                                 "unit_id": uid, "state": copy.deepcopy(manip_state), "recorded_at": now,
                                 "result": result, "representation_version": manipulatives.representation_version(uid),
-                                "reference_family_ids": [fid for fid in manipulatives.CONFIG[uid]["reference_family_ids"]
-                                    if fid in get_catalog().families and get_catalog().families[fid]["status"] == "declared"],
+                                "reference_family_ids": sorted({canonical_family(fid) for fid in manipulatives.CONFIG[uid]["reference_family_ids"]
+                                    if canonical_family(fid) in get_catalog().families and get_catalog().families[canonical_family(fid)]["status"] == "declared"}),
                                 "representation_snapshot": manipulatives.snapshot(uid), "independent_evidence": False}
                             get_store().add_event(owner, {"event_type": "manipulation_prediction_saved", "occurred_at": now,
                                 "resource_id": "unit:" + uid, "question_id": prediction_id, "content_sha256": version,
@@ -1274,6 +1373,22 @@ class Handler(BaseHTTPRequestHandler):
                     return self._create_session(payload)
                 if path == "/api/answer":
                     return self._answer(payload)
+                if path == "/api/work/reference":
+                    resource = work_descriptor(payload, self._owner())
+                    if payload.get("resource_id") != resource["resource_id"]:
+                        return self._error(409, "内容版本已改变，请恢复原作品后再查看")
+                    snapshot = resource["resource_snapshot"]
+                    reference = payload.get("reference_key")
+                    if reference not in {"difficulty", "hint", "answer"}:
+                        return self._error(400, "参考项目不正确")
+                    if (snapshot.get("work_schema") != 2 or resource["kind"] != "self_check"
+                            or (reference in {"difficulty", "hint"} and not snapshot.get("difficulty_support"))):
+                        return self._error(400, "这份旧作品未保存该参考内容，不能用新版材料代替")
+                    get_store().add_event(self._owner(), {"event_type": "reference_opened", "occurred_at": _now(),
+                        "resource_id": resource["resource_id"], "content_sha256": resource["resource_version"],
+                        "payload": {"task_ids": snapshot.get("task_ids", []), "family_ids": snapshot.get("family_ids", []),
+                                    "reference_key": reference, "evidence": "frozen_work_reference_opened_not_mastery"}})
+                    return self._json(200, {"recorded": True, "resource_version": resource["resource_version"]})
                 if path == "/api/work":
                     owner = self._owner()
                     resource = work_descriptor(payload, owner)
@@ -1293,6 +1408,8 @@ class Handler(BaseHTTPRequestHandler):
                     reference = payload.get("reference_key")
                     if not isinstance(reference, str) or not re.fullmatch(r"(?:self_check|example):\d{1,3}", reference):
                         return self._error(400, "参考项目不正确")
+                    if payload.get("resource_version") != material["resource_version"]:
+                        return self._error(409, "页面材料版本已改变，请保存当前过程后重新打开；历史作品仍使用原版本参考")
                     family_ids, task_ids = [], []
                     reference_kind, index_text = reference.split(":")
                     index = int(index_text)
@@ -1592,7 +1709,7 @@ class Handler(BaseHTTPRequestHandler):
                  "family_status": presented_metadata(record, qid).get("family_status", "unclassified")}
         family = entry.get("family_id") if entry["family_status"] == "declared" else None
         observed = get_store().exposures(record["owner_id"], question_ids=[qid], family_ids=[family] if family else [])
-        rows = [observed["questions"].get(qid, {}), observed["families"].get(family, {})]
+        rows = [observed["questions"].get(qid, {}), family_exposure(observed["families"], family)]
         entry["help_used"] = bool(payload.get("used_help") is True or any(
             row.get("material_count", 0) or row.get("reference_count", 0) or row.get("feedback_count", 0)
             for row in rows))

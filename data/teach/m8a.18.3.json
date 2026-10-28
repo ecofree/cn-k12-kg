@@ -1,76 +1,105 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m8a.18.3",
- "name": "分式的加法与减法",
- "tier": "core",
- "hook": "1/x+1/y为什么通常不是2/(x+y)？通分到底保持了什么？",
- "definition": "同分母分式相加减，分母不变、分子相加减；异分母分式先通分化为同分母，通分的关键是确定最简公分母。",
- "why": "分母表示分式的单位，同分母后才能合并分子。通分用分子分母同乘非零因式保持每个分式的值；分母相加会更换单位，因而不是加法。最简公分母包含各不同因式的最高次数。",
- "when_to_use": [
-  "分式加减需要统一分母",
-  "减号后面分子是多项式要整体处理"
- ],
- "steps": [
-  "先写定义域并分解分母",
-  "取最简公分母，分子分母同乘所缺因式",
-  "合并分子、保持分母，再约分检查"
- ],
- "worked_example": {
-  "prompt": "化简1/x+1/(x+1)。",
-  "answer": "(2x+1)/[x(x+1)]，x≠0、−1",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.18.3",
+  "name": "分式的加法与减法",
+  "tier": "core",
+  "hook": "1/x+1/y为什么通常不是2/(x+y)？通分到底保持了什么？",
+  "definition": "同分母分式相加减，分母不变、分子相加减；异分母分式先通分化为同分母，通分的关键是确定最简公分母。",
+  "why": "分母表示分式的单位，同分母后才能合并分子。通分用分子分母同乘非零因式保持每个分式的值；分母相加会更换单位，因而不是加法。最简公分母包含各不同因式的最高次数。",
+  "when_to_use": [
+    "分式加减需要统一分母",
+    "减号后面分子是多项式要整体处理"
+  ],
   "steps": [
-   "两分母不同，取公分母x(x+1)。",
-   "通分得(x+1)/[x(x+1)]+x/[x(x+1)]，合并为(2x+1)/[x(x+1)]。"
-  ]
- },
- "pitfalls": [
-  "通分时不能只乘分母，分子也要乘同一因式。",
-  "减去整个分子时须加括号并使每一项变号。"
- ],
- "check": "独立完成并解释：化简(2x+1)/(x−1)−(x+2)/(x−1)。；求1/(2x)+1/(3x²)的最简公分母并化简。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能进行同分母分式的加减",
-   "explanation": "同分母加减保持分母，分子整体作相应运算。",
-   "self_check": {
-    "prompt": "化简(2x+1)/(x−1)−(x+2)/(x−1)。",
-    "reference_answer": "x≠1；分子(2x+1)−(x+2)=x−1，结果为1，但仍要求x≠1。",
-    "criteria": [
-     "减号作用于整个分子",
-     "约分后保留x≠1"
-    ]
-   }
+    "先写定义域并分解分母",
+    "取最简公分母，分子分母同乘所缺因式",
+    "合并分子、保持分母，再约分检查"
+  ],
+  "worked_example": {
+    "prompt": "化简1/x+1/(x+1)。",
+    "answer": "(2x+1)/[x(x+1)]，x≠0、−1",
+    "steps": [
+      "两分母不同，取公分母x(x+1)。",
+      "通分得(x+1)/[x(x+1)]+x/[x(x+1)]，合并为(2x+1)/[x(x+1)]。"
+    ],
+    "family_id": "rational-expression.least-common-denominator",
+    "variant_id": "m8a.18.3:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
   },
-  {
-   "criterion_index": 1,
-   "title": "能找最简公分母完成通分",
-   "explanation": "最简公分母应含每个原分母的全部因式及所需最高次数。",
-   "self_check": {
-    "prompt": "求1/(2x)+1/(3x²)的最简公分母并化简。",
-    "reference_answer": "x≠0，最简公分母6x²，原式=(3x+2)/(6x²)。",
-    "criteria": [
-     "数系数取6，x取二次",
-     "两分子分别乘3x和2"
-    ]
-   }
+  "pitfalls": [
+    "通分时不能只乘分母，分子也要乘同一因式。",
+    "减去整个分子时须加括号并使每一项变号。"
+  ],
+  "check": "独立完成并解释：化简(2x+1)/(x−1)−(x+2)/(x−1)。；求1/(2x)+1/(3x²)的最简公分母并化简。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能进行同分母分式的加减",
+      "explanation": "同分母加减保持分母，分子整体作相应运算。",
+      "self_check": {
+        "prompt": "化简(2x+1)/(x−1)−(x+2)/(x−1)。",
+        "reference_answer": "x≠1；分子(2x+1)−(x+2)=x−1，结果为1，但仍要求x≠1。",
+        "criteria": [
+          "减号作用于整个分子",
+          "约分后保留x≠1"
+        ],
+        "family_id": "rational-expression.subtract-entire-numerator",
+        "variant_id": "m8a.18.3:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "减(x+2)时，常数2应写+2还是−2？",
+        "hint": "保持括号直到将−1分配给分子每一项，分母先不变。",
+        "revision_prompt": "展开(2x+1)−(x+2)=x−1，再约分；用x=3验值1且标x≠1。"
+      },
+      "observation_note": "观察整体分子减法与原定义域；约成常数1不表示x=1可代。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能找最简公分母完成通分",
+      "explanation": "最简公分母应含每个原分母的全部因式及所需最高次数。",
+      "self_check": {
+        "prompt": "求1/(2x)+1/(3x²)的最简公分母并化简。",
+        "reference_answer": "x≠0，最简公分母6x²，原式=(3x+2)/(6x²)。",
+        "criteria": [
+          "数系数取6，x取二次",
+          "两分子分别乘3x和2"
+        ],
+        "family_id": "rational-expression.least-common-denominator",
+        "variant_id": "m8a.18.3:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2x与3x²的公分母可写6x吗？第二个分母还少哪个因子？",
+        "hint": "数字系数取6，字母最高指数取x²；逐个求公分母除原分母的倍数。",
+        "revision_prompt": "计算1/(4x²)+1/(6x)，公分母12x²，结果(3+2x)/(12x²)，保留x≠0。"
+      },
+      "observation_note": "观察系数公倍数与各字母最高幂；通分必须同时乘分子，不能只改分母。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.18.3-q301",
+      "note": "观察同分母减法与约分结果；x≠2已在题面给出，不据此判断学生会独立确定定义域。"
+    },
+    {
+      "id": "m8a.18.3-q302",
+      "note": "观察最简公分母的选择，未观察分子也乘相应因式。"
+    },
+    {
+      "id": "m8a.18.3-q303",
+      "note": "观察在已给公分母时同步扩分子并合并；与q302同族，不能当独立结构证明会选公分母。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m8a.18.3-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.18.3-q101",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.18.3-q102",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

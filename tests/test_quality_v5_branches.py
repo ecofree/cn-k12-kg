@@ -42,7 +42,7 @@ class AuthoredBranchesTest(unittest.TestCase):
                                   "2026-01-02T00:00:00+00:00")[0]
 
     def test_authored_routes_have_distinct_tasks_reasons_and_original_goal_followups(self):
-        self.assertEqual(5, len(self.supports))
+        self.assertEqual(9, len(self.supports))
         for unit in self.units.values():
             self.assertEqual([], validate_resource("instructional-support", unit["instructional_support"]))
             self.assertEqual([], instruction.check_supports(unit))
@@ -132,9 +132,7 @@ class AuthoredBranchesTest(unittest.TestCase):
         self.assertIsNone(session_content.asset_bytes(record, alternative))
         self.assertTrue(instruction.public_session(record)["item"]["diagram"]["src"].startswith("/api/session/"))
         _, hint_events = instruction.hint(record, 2, "2026-01-02T00:01:02+00:00")
-        chosen_ids = {record["task_ids"][1], record["task_ids"][2]}
-        families = {record["task_metadata"][qid]["family_id"] for qid in chosen_ids}
-        families.update(family for qid in chosen_ids for family in record["task_metadata"][qid]["reference_family_ids"])
+        families = set(support["hints"][1]["reference_family_ids"])
         self.assertEqual(families, set(hint_events[0]["payload"]["family_ids"]))
         self.assertFalse(hint_events[0]["payload"]["independent_evidence"])
         self.assertFalse(any(event["question_id"].endswith(":restore_axis_origin") for event in events))

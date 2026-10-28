@@ -21,7 +21,11 @@
       "三支箭头形状大小和朝向都相同，相邻对应点相隔3格。",
       "使用相同的平移两次，最后一支相对第一支向右6格。"
     ],
-    "answer": "连续向右平移3格两次"
+    "answer": "连续向右平移3格两次",
+    "family_id": "geometry.repeated-transformation-design",
+    "variant_id": "m5a.4.4:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "只说“旋转一下”没有中心和角度，别人不能复现。",
@@ -32,7 +36,7 @@
   "name": "设计图案",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -46,8 +50,22 @@
         "criteria": [
           "有基本图形",
           "有明确且重复的变换参数"
+        ],
+        "family_id": "geometry.repeated-transformation-design",
+        "variant_id": "m5a.4.4:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.translation-vector",
+          "position.grid-translation"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "三次平移加上最初一个L，应该共有3个还是4个？每次量的是对应点之间吗？",
+        "hint": "给初始图记0号，每平移一次新增一份；选同一角点标出每次向右4格。",
+        "revision_prompt": "画一个不对称箭头，每次向上3格连续平移两次，写总份数、相邻位移与初末位移。"
+      },
+      "observation_note": "观察重复变换参数和可复现性；只看成品漂亮不能证明用了所说的规则。"
     },
     {
       "criterion_index": 1,
@@ -59,8 +77,22 @@
         "criteria": [
           "判旋转",
           "中心方向角度齐全"
+        ],
+        "family_id": "geometry.rotation-parameters",
+        "variant_id": "m5a.4.4:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.quarter-turn-point",
+          "geometry.translation-invariants"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "箭头从右转到下，平移能使朝向改变吗？若未说中心，还能唯一确定位置吗？",
+        "hint": "固定端点为中心，追踪另一端向顺时针方向转过直角，长度保持不变。",
+        "revision_prompt": "把向右箭头绕尾端逆时针旋转90°，画预测朝向并用中心、方向、角度写完整指令。"
+      },
+      "observation_note": "观察区分平移与旋转并给全参数；对称变化仍需轴与对应点另行核查。"
     }
   ],
   "practice": [

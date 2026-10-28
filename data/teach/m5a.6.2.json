@@ -27,6 +27,17 @@
       "拿两个完全一样的三角形，一正一反拼起来。",
       "拼成的平行四边形底 6、高 4，面积 6×4=24。",
       "一个三角形是它的一半：24÷2=12 平方厘米。"
+    ],
+    "family_id": "geometry.triangle-base-height-area",
+    "variant_id": "m5a.6.2:worked_example:v6",
+    "representation": "geometry",
+    "cognitive_demand": "explain",
+    "diagram": {
+      "src": "/static/diagrams/primary-v6-triangle-area.svg",
+      "alt": "底6厘米、高4厘米的蓝色三角形与一个全等橙色三角形反向拼接，两片形成底6厘米、高4厘米的平行四边形。"
+    },
+    "reference_family_ids": [
+      "geometry.triangle-area-duplicate"
     ]
   },
   "pitfalls": [
@@ -51,7 +62,7 @@
   "check": "能用两个三角形拼成平行四边形解释「÷2」，并算对底 13、高 26 的面积 169。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +76,26 @@
         "criteria": [
           "两个全等三角形",
           "一半关系"
+        ],
+        "family_id": "geometry.triangle-area-duplicate",
+        "variant_id": "m5a.6.2:criterion:0:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-triangle-area.svg",
+          "alt": "底6厘米、高4厘米的蓝色三角形与一个全等橙色三角形反向拼接，两片形成底6厘米、高4厘米的平行四边形。"
+        },
+        "reference_family_ids": [
+          "geometry.parallelogram-corresponding-base-height",
+          "geometry.triangle-base-height-area"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "两个完全相同三角形拼出平行四边形，底×高算一个还是两个原三角形？",
+        "hint": "给两片不同颜色，拼好后总面积由两块同样面积组成，所以求一块要取一半。",
+        "revision_prompt": "用同底高的三角形与平行四边形作纸片对照，先预测面积关系再拼两片验证，保留剪拼记录。"
+      },
+      "observation_note": "观察除以2的面积来源；只背一半不能证明已经找到一组对应底高。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +107,26 @@
         "criteria": [
           "公式含除以2",
           "平方单位正确"
+        ],
+        "family_id": "geometry.triangle-base-height-area",
+        "variant_id": "m5a.6.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.parallelogram-corresponding-base-height",
+          "geometry.triangle-area-duplicate"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "10×6得到的是三角形面积，还是等底等高平行四边形面积？",
+        "hint": "先画一份三角形及复制的一份，两份合计60，原来一份30。",
+        "revision_prompt": "底8厘米、对应高7厘米的三角形求面积，另给斜边9厘米时说明为什么不用9。"
+      },
+      "observation_note": "观察公式中的半与对应高；钝角外高仍需在图中确认。"
     }
-  ]
+  ],
+  "diagram": {
+    "src": "/static/diagrams/primary-v6-triangle-area.svg",
+    "alt": "底6厘米、高4厘米的蓝色三角形与一个全等橙色三角形反向拼接，两片形成底6厘米、高4厘米的平行四边形。"
+  }
 }

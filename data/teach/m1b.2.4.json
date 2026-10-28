@@ -22,7 +22,11 @@
       "2+4=6；6+8=14，所以还剩6个。"
     ],
     "answer": "6",
-    "verify": "14-8"
+    "verify": "14-8",
+    "family_id": "subtraction.break-ten",
+    "variant_id": "m1b.2.4:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "个位不够减不能把减数和个位倒过来减。",
@@ -33,7 +37,7 @@
   "name": "解决问题",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -47,8 +51,21 @@
         "criteria": [
           "选16−8",
           "比较个位6和减数"
+        ],
+        "family_id": "primary.subtract.regroup-condition",
+        "variant_id": "m1b.2.4:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "placevalue.regroup-ten-ones"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "16中的6个一够拿走8个一吗？比较16与8的大小能代替这一步吗？",
+        "hint": "看个位而非整个数；不够才拆一个十，再把拆出的十个一与原6个一一起考虑。",
+        "revision_prompt": "对17−4与17−9分别判断是否退位，画十和一的分组验证。"
+      },
+      "observation_note": "观察是否按个位数量判断退位；判断对不等同于已会完整计算。"
     },
     {
       "criterion_index": 1,
@@ -60,8 +77,22 @@
         "criteria": [
           "正确破十或想加法",
           "结果6且检验正确"
+        ],
+        "family_id": "subtraction.break-ten",
+        "variant_id": "m1b.2.4:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.subtraction-addition-inverse",
+          "primary.change.remove-part"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "13−7先算10−7=3，原来另外3个气球去了哪里？",
+        "hint": "把13拆成十个与三个两组；从十个中拿走7后，仍要合并没有动的3个。",
+        "revision_prompt": "15个气球飞走8个，写两步破十过程与加法检验，圈出最初没被拿走的5个。"
+      },
+      "observation_note": "观察破十后不漏加原个位及检验；不同退位算法仍需分别记录。"
     }
   ],
   "practice": [

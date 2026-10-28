@@ -6,8 +6,8 @@
   "name": "乘法模型：单价、数量与总价",
   "tier": "core",
   "hook": "知道总价和数量，怎么求单价？三个量里其实只要知道两个。",
-  "definition": "单价×数量=总价；总价÷数量=单价；总价÷单价=数量。",
-  "why": "总价是「每份多少钱」重复「份数」次累加的结果。所以知道总数和份数，就能反推每份是多少；知道总数和每份多少，就能反推份数。三个量构成一个闭合关系，任给两个都能求第三个。",
+  "definition": "单价固定且没有额外费用或优惠时，总价=单价×数量。数量非零可用总价÷数量求单价；单价非零可用总价÷单价求数量，且数量须满足实际整件等约束。",
+  "why": "同价物品的总价由相同单价重复累加得到。逆求一个因数需确保作除数的另一个量非零。数量为0、总价为0时不能由0÷0求单价；额外费用或不同单价还需要先拆分。",
   "when_to_use": [
     "题面出现「每……元」「买了……个」「一共……元」中的任意两个",
     "要求求第三个量（单价、数量或总价）",
@@ -27,7 +27,11 @@
       "单价 12 元，数量 15 本。",
       "求总价用乘法：12×15。",
       "12×15=180 元。回验：180÷15=12，单价对得上。"
-    ]
+    ],
+    "family_id": "ratio.unit-rate-projection",
+    "variant_id": "m4a.4.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "三个量张冠李戴，把数量当单价代进去。",
@@ -51,7 +55,7 @@
   "check": "给「180 元买 15 本」，能立刻说出 180÷15，并解释求的是单价。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,22 @@
         "criteria": [
           "模型正确",
           "总价84元"
+        ],
+        "family_id": "ratio.unit-rate-projection",
+        "variant_id": "m4a.4.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "model.price-quantity-roles",
+          "ratio.table-unit-rate"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "12元/本与7本相乘为什么得到元？是否还有折扣或运费条件？",
+        "hint": "7本价格同为12元，重复加7次得到84元；先确认题目排除了其他收费。",
+        "revision_prompt": "每盒彩笔15元买4盒，无另收费，计算总价并检查总价除盒数回到单价。"
+      },
+      "observation_note": "观察固定单价乘法及单位；分段价格、折扣不能自动沿用。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +96,27 @@
         "criteria": [
           "单价9元/本",
           "再求5本"
+        ],
+        "family_id": "model.fixed-price-inverse",
+        "variant_id": "m4a.4.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "ratio.inverse-unit-rate-query",
+          "ratio.table-unit-rate"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "72÷8求的是单价还是总价？求45元能买几本时除数应是哪一个量？",
+        "hint": "先求每本9元，再把45元按9元一份分组，组数才是可买本数。",
+        "revision_prompt": "同价练习本6本共48元，求单价与40元可买几本，逐步写单位并用乘法验证。"
+      },
+      "observation_note": "观察由总价反求单价再求数量；数量必须符合整本条件，有余钱时需另说明。"
     }
+  ],
+  "conditions": [
+    "单价固定，金额单位一致。",
+    "另收费、优惠与不同单价需要单独处理。",
+    "逆求时除数非零，件数须符合情境限制。"
   ]
 }

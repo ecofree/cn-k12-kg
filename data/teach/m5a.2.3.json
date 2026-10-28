@@ -27,7 +27,11 @@
       "先算 0.25×4：四个 0.25 正好是 1。",
       "再用 1×2=2。",
       "如果不凑整，按顺序算 0.25×4=1 也一样——但凑整能让后面全是整数。"
-    ]
+    ],
+    "family_id": "arithmetic.associative-multiplication",
+    "variant_id": "m5a.2.3:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "2.5×3.2 拆成 2.5×3+0.2，拆错了一项。",
@@ -51,7 +55,7 @@
   "check": "能说出 2.5×4.4=2.5×4+2.5×0.4 用的是乘法分配律，并算对 11。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,22 @@
         "criteria": [
           "等价重排",
           "得3.7"
+        ],
+        "family_id": "arithmetic.associative-multiplication",
+        "variant_id": "m5a.2.3:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.multiplication-commutativity",
+          "decimal.multiply-place-value"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "0.25与4不相邻，能移到一起的依据是什么？原来的3.7还在吗？",
+        "hint": "三项都是相乘，可先用交换律换次序，再用结合律把0.25×4括起来。",
+        "revision_prompt": "简算1.25×2.6×8，写移动和重新分组两步，核对三个原因数各出现一次。"
+      },
+      "observation_note": "观察乘法交换结合保持所有因数；含减除的算式不能照样任意移动。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +96,21 @@
         "criteria": [
           "指出分配律",
           "两项都乘2.5"
+        ],
+        "family_id": "arithmetic.distributive-multiplication",
+        "variant_id": "m5a.2.3:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "decimal.multiply-place-value"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "展开2.5×(4+0.4)时，0.4为什么也必须乘2.5？",
+        "hint": "把4与0.4都看作被同一2.5倍放大的两部分，各部分都要受到乘法。",
+        "revision_prompt": "改算1.5×(6+0.2)，指出错误式1.5×6+0.2少了哪一项乘法，并修正。"
+      },
+      "observation_note": "观察分配律的两项齐乘和与结合律的区别；答案11本身不能解释规律。"
     }
   ]
 }

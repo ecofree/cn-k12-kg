@@ -27,7 +27,11 @@
       "4.8 是 48 个 0.1。",
       "48÷4=12，即 12 个 0.1。",
       "12 个 0.1 是 1.2，商的小数点与被除数对齐。"
-    ]
+    ],
+    "family_id": "decimal.divide-integer-place-value",
+    "variant_id": "m5a.3.1:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "商的小数点位置随意点，或者干脆不点。",
@@ -51,7 +55,7 @@
   "check": "能列竖式算 67.2÷8=8.4，并说明小数点为什么与被除数对齐。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,22 @@
         "criteria": [
           "商2.4",
           "计数单位或竖式依据"
+        ],
+        "family_id": "decimal.divide-integer-place-value",
+        "variant_id": "m5a.3.1:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "decimal.digit-place-value",
+          "decimal.multiply-integer-place-value"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "7.2按72来分得到24，24的单位是1还是0.1？",
+        "hint": "72个0.1平均分3份，每份24个0.1，写成2.4；2.4×3应回到7.2。",
+        "revision_prompt": "计算9.6÷4，用十分之一单位解释后写竖式，核对商的小数点与被除数对齐。"
+      },
+      "observation_note": "观察单位分配与商的小数点；不能从这题推断会处理循环小数。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +96,22 @@
         "criteria": [
           "两商正确",
           "占位0不遗漏"
+        ],
+        "family_id": "decimal.divide-integer-place-value",
+        "variant_id": "m5a.3.1:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "decimal.multiply-integer-place-value",
+          "decimal.trailing-zero-equivalence"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2.04除以2时，十分位0个十分之一能省去这一位吗？省了会让百分位2变成什么？",
+        "hint": "在个位、十分位、百分位逐栏记商1、0、2；小数末尾补0可以继续细分余数。",
+        "revision_prompt": "计算3.06÷3和1.5÷6，保留中间0或补0的竖式，并用商乘除数验算。"
+      },
+      "observation_note": "观察中间0占位及继续细分；文字答案不能定位竖式落位是否正确。"
     }
   ]
 }

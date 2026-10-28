@@ -5,7 +5,7 @@
   "tier": "core",
   "hook": "给盒子包纸与往盒子里装满小方块，为什么需要不同的公式和单位？",
   "definition": "长方体有6个面、12条棱、8个顶点，相对面相同。长宽高为a、b、c时，表面积2(ab+ac+bc)，体积abc；正方体棱长s时，表面积6s²，体积s³。",
-  "why": "表面积把三组相对面的面积相加，衡量外表大小；体积按每层ab个单位立方体、共c层计数，衡量占空间大小。二者分别使用平方单位与立方单位。",
+  "why": "表面积把三组相对面的面积相加，衡量外表大小。先用长宽高为整数厘米的盒子理解体积：每层有a×b个1立方厘米小方块，共c层，得到abc；遇到非整厘米长度，可细分单位后沿用底面积×高。表面积使用平方单位，体积使用立方单位。",
   "when_to_use": [
     "研究盒子的面、棱和顶点特征",
     "区分包外表用的面积与容积/体积问题"
@@ -21,7 +21,16 @@
       "表面积2×(4×3+4×2+3×2)=52平方厘米。",
       "体积4×3×2=24立方厘米；面积与体积单位不同。"
     ],
-    "answer": "表面积52平方厘米，体积24立方厘米"
+    "answer": "表面积52平方厘米，体积24立方厘米",
+    "family_id": "geometry.cuboid-area-versus-volume",
+    "variant_id": "m5b.4.1:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "geometry.cuboid-surface-area",
+      "geometry.cuboid-volume",
+      "geometry.cube.surface-volume-from-edge"
+    ]
   },
   "pitfalls": [
     "无盖盒子不能直接套封闭六面表面积。",
@@ -32,7 +41,7 @@
   "name": "长方体和正方体",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -46,8 +55,21 @@
         "criteria": [
           "三项数量正确",
           "棱的分组正确"
+        ],
+        "family_id": "geometry.cuboid-face-edge-vertex-count",
+        "variant_id": "m5b.4.1:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.solid-classify-features"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "看到的3个面就是全部面吗？同一条棱会不会在数不同面时被重复数？",
+        "hint": "用三种颜色按长、宽、高方向各标4条棱，顶点逐个贴号，六面按相对面配对。",
+        "revision_prompt": "用另一长方体盒标6面、12棱、8顶点，再解释正方体的这些数量为何相同但面形状更特殊。"
+      },
+      "observation_note": "观察分类计数与隐藏部分；背出6、12、8还需实际模型定位。"
     },
     {
       "criterion_index": 1,
@@ -59,8 +81,24 @@
         "criteria": [
           "表面积54平方厘米",
           "体积27立方厘米"
+        ],
+        "family_id": "geometry.cuboid-area-versus-volume",
+        "variant_id": "m5b.4.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.cuboid-surface-area",
+          "geometry.cuboid-volume",
+          "geometry.rectangle-unit-area",
+          "geometry.cube.surface-volume-from-edge"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "6×3×3在算六个表面，3×3×3在算多少层单位小方块？单位为何不同？",
+        "hint": "每面9平方厘米共有6面；每层9个1立方厘米小方块共3层，分别对应面积与体积。",
+        "revision_prompt": "算长4宽3高2的封闭长方体表面积与体积，再说明去掉顶盖只改变哪一个表面面积计算。"
+      },
+      "observation_note": "观察面积和体积的不同对象、公式与单位；无盖、空心或壁厚情形需补条件。"
     }
   ],
   "practice": [

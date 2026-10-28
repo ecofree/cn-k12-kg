@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh3.2.3.4",
- "name": "两条平行线间的距离",
- "tier": "core",
- "hook": "两条平行车道的间距到处相同；用同一个法向量描述两条线，就能直接比较它们的常数项。",
- "definition": "两条平行直线先写成Ax+By+C₁=0和Ax+By+C₂=0，其中A、B不同时为0、C₁≠C₂，则距离为|C₁-C₂|/√(A²+B²)。若C₁=C₂则重合、距离0。只有x、y系数已经统一时，才能直接相减常数。",
- "why": "在第一条线上选P，有Axₚ+Byₚ=-C₁，代入P到第二线的距离公式即得|C₂-C₁|/√(A²+B²)。这个表达式与P无关，所以两线间距处处相同；系数未统一时常数项的数值不在同一尺度，不能比较。",
- "when_to_use": [
-  "已知两条平行直线的一般式，要求间距",
-  "题目含不同倍数的平行方程，要先统一系数"
- ],
- "steps": [
-  "确认两线法向量成比例，必要时乘除非零常数使A、B完全相同。",
-  "取两常数项的差的绝对值。",
-  "除以共同法向量模，并检查是否出现重合。"
- ],
- "worked_example": {
-  "prompt": "求3x+4y-5=0与6x+8y+20=0之间的距离。",
-  "steps": [
-   "第二式除以2得到3x+4y+10=0，两线系数一致。",
-   "距离=|-5-10|/√(9+16)=15/5=3。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh3.2.3.4",
+  "name": "两条平行线间的距离",
+  "tier": "core",
+  "hook": "两条平行车道的间距到处相同；用同一个法向量描述两条线，就能直接比较它们的常数项。",
+  "definition": "两条平行直线先写成Ax+By+C₁=0和Ax+By+C₂=0，其中A、B不同时为0、C₁≠C₂，则距离为|C₁-C₂|/√(A²+B²)。若C₁=C₂则重合、距离0。只有x、y系数已经统一时，才能直接相减常数。",
+  "why": "在第一条线上选P，有Axₚ+Byₚ=-C₁，代入P到第二线的距离公式即得|C₂-C₁|/√(A²+B²)。这个表达式与P无关，所以两线间距处处相同；系数未统一时常数项的数值不在同一尺度，不能比较。",
+  "when_to_use": [
+    "已知两条平行直线的一般式，要求间距",
+    "题目含不同倍数的平行方程，要先统一系数"
   ],
-  "answer": "3",
-  "verify": "((-5-10)**2)**0.5/(9+16)**0.5"
- },
- "pitfalls": [
-  "不能直接拿原常数-5与20相减，第二条式子的比例尺还没统一。",
-  "若两直线相交，最小距离为0；平行线专用公式不适用。"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能把平行线化为同系数",
-   "explanation": "同系数也包括符号相同；法向量反向时须整体变号。",
-   "self_check": {
-    "prompt": "将x-2y+3=0与-2x+4y+8=0化为同系数。",
-    "reference_answer": "第二式除以-2得x-2y-4=0，与第一式有共同A=1、B=-2。",
-    "criteria": [
-     "整体除以-2",
-     "常数变为-4"
-    ]
-   }
+  "steps": [
+    "确认两线法向量成比例，必要时乘除非零常数使A、B完全相同。",
+    "取两常数项的差的绝对值。",
+    "除以共同法向量模，并检查是否出现重合。"
+  ],
+  "worked_example": {
+    "prompt": "求3x+4y-5=0与6x+8y+20=0之间的距离。",
+    "steps": [
+      "第二式除以2得到3x+4y+10=0，两线系数一致。",
+      "距离=|-5-10|/√(9+16)=15/5=3。"
+    ],
+    "answer": "3",
+    "verify": "((-5-10)**2)**0.5/(9+16)**0.5",
+    "family_id": "distance.parallel-lines-normalize",
+    "variant_id": "mh3.2.3.4:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能求两平行线间的距离",
-   "explanation": "间距来自相同法向上的常数差，再除法向量长度。",
-   "self_check": {
-    "prompt": "求y=2与y=-3之间的距离并用公式核对。",
-    "reference_answer": "写为y-2=0、y+3=0，d=|-2-3|/√1=5。",
-    "criteria": [
-     "统一系数并含正确常数",
-     "距离5"
-    ]
-   }
+  "pitfalls": [
+    "不能直接拿原常数-5与20相减，第二条式子的比例尺还没统一。",
+    "若两直线相交，最小距离为0；平行线专用公式不适用。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能把平行线化为同系数",
+      "explanation": "同系数也包括符号相同；法向量反向时须整体变号。",
+      "self_check": {
+        "prompt": "将x-2y+3=0与-2x+4y+8=0化为同系数。",
+        "reference_answer": "第二式除以-2得x-2y-4=0，与第一式有共同A=1、B=-2。",
+        "criteria": [
+          "整体除以-2",
+          "常数变为-4"
+        ],
+        "family_id": "distance.parallel-lines-normalize",
+        "variant_id": "mh3.2.3.4:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "x-2y+3和-2x+4y+8能直接用3-8吗？",
+        "hint": "先整体除以-2让x,y系数一致，常数也必须变。",
+        "revision_prompt": "把2x+2y+6=0化为x+y+3=0，再与x+y-1=0比较。"
+      },
+      "observation_note": "观察全式统一系数；法向量可反向但常数同步变化。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能求两平行线间的距离",
+      "explanation": "间距来自相同法向上的常数差，再除法向量长度。",
+      "self_check": {
+        "prompt": "求y=2与y=-3之间的距离并用公式核对。",
+        "reference_answer": "写为y-2=0、y+3=0，d=|-2-3|/√1=5。",
+        "criteria": [
+          "统一系数并含正确常数",
+          "距离5"
+        ],
+        "family_id": "distance.parallel-lines",
+        "variant_id": "mh3.2.3.4:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "平行线距离能随所选点改变吗？公式怎样保证固定？",
+        "hint": "同法向方向只差常数，垂距为常数差除法向模。",
+        "revision_prompt": "求3x+4y-1=0与3x+4y+9=0的距离10/5=2。"
+      },
+      "observation_note": "观察统一系数后的固定垂距；相交线不能套此平行公式。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh3.2.3.4-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：求平行直线x=2与x=-5之间的距离。"
+    },
+    {
+      "id": "mh3.2.3.4-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：求直线3x+4y+1=0与6x+8y-18=0之间的距离。"
+    },
+    {
+      "id": "mh3.2.3.4-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：将2x-y+3=0与-4x+2y+10=0化为同系数时，第二式应变为哪一式？"
+    }
+  ],
+  "check": "独立完成并写出依据：将x-2y+3=0与-2x+4y+8=0化为同系数。；求y=2与y=-3之间的距离并用公式核对。",
+  "conditions": [
+    "先统一A、B；C相等重合距离0，A、B不同时为0。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "mh3.2.3.4-q201",
-   "note": "完成后对照解析检查条件、步骤和结果：求平行直线x=2与x=-5之间的距离。"
-  },
-  {
-   "id": "mh3.2.3.4-q202",
-   "note": "完成后对照解析检查条件、步骤和结果：求直线3x+4y+1=0与6x+8y-18=0之间的距离。"
-  },
-  {
-   "id": "mh3.2.3.4-q203",
-   "note": "完成后对照解析检查条件、步骤和结果：将2x-y+3=0与-4x+2y+10=0化为同系数时，第二式应变为哪一式？"
-  }
- ],
- "check": "独立完成并写出依据：将x-2y+3=0与-2x+4y+8=0化为同系数。；求y=2与y=-3之间的距离并用公式核对。"
 }

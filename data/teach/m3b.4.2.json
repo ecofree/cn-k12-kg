@@ -27,7 +27,11 @@
       "每行铺 6 个 1 平方厘米的小正方形。",
       "一共能铺 4 行。",
       "6×4=24 个，所以面积是 24 平方厘米。"
-    ]
+    ],
+    "family_id": "geometry.rectangle-unit-area",
+    "variant_id": "m3b.4.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "用 (长+宽)×2 算面积，把周长公式套上来。",
@@ -51,7 +55,7 @@
   "check": "能解释「为什么是长×宽」（铺小正方形），并正确写出单位。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,21 @@
         "criteria": [
           "两面积正确",
           "平方单位正确"
+        ],
+        "family_id": "geometry.rectangle-unit-area",
+        "variant_id": "m3b.4.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "measure.area-unit-choice"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "8×5是在数边上的厘米段，还是数能铺满的1平方厘米方格？",
+        "hint": "每行8格共5行，面积为40格；正方形6行每行6格，不只算四条边。",
+        "revision_prompt": "用长6宽4的长方形与边长5的正方形各画一行单位格，再求总格数并写平方单位。"
+      },
+      "observation_note": "观察面积公式及平方单位；仅得到40不能证明已区分周长与面积。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +95,21 @@
         "criteria": [
           "铺格无空隙无重叠",
           "行列对应长宽"
+        ],
+        "family_id": "geometry.rectangle-unit-area",
+        "variant_id": "m3b.4.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.equal-groups"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "长4宽3的长方形为何不是4+3个单位格？哪一行有4格，共多少行？",
+        "hint": "先铺第一行4个，再复制同样3行，完整覆盖、无重叠无空隙。",
+        "revision_prompt": "将长方形换成5厘米×2厘米，画方格并用每行个数与行数解释乘法，不先背公式。"
+      },
+      "observation_note": "观察单位方格阵列到长乘宽的联系；非整厘米尺寸的铺分仍需扩展观察。"
     }
   ]
 }

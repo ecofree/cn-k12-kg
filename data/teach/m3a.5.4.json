@@ -7,7 +7,7 @@
   "name": "直角、锐角、钝角",
   "tier": "tool",
   "hook": "不用先记度数，怎样用三角尺的直角比较一个角？",
-  "definition": "直角是90°；大于0°且小于90°的角是锐角；大于90°且小于180°的是钝角。把三角尺直角的顶点与一边对齐，可以比较开口。",
+  "definition": "把三角尺上的直角作基准：开口比直角小且已经张开的角是锐角；比直角大、但两边还没有张成一条直线的角是钝角；两边向相反方向张成一直线的是平角。比较时顶点与一条边都要对齐，不凭边的长短判断。",
   "why": "直角提供一个固定基准。若待测角另一边在基准开口内部，角较小；在基准外但未到平角则较大。顶点或基准边错位会把位置差误认成角度差。",
   "conditions": [
     "本卡比较0°到180°之间的角，平角单独处理。",
@@ -24,16 +24,20 @@
     "比较另一边开口，写锐、直、钝，并排除平角。"
   ],
   "worked_example": {
-    "prompt": "一个角比直角大，但比平角小，属于哪类？",
+    "prompt": "看配图丙，顶点和向右的边已与直角基准对齐。另一边越过直角虚线、又未张成一直线，它属于哪一类？",
     "steps": [
-      "直角90°、平角180°给出上下界。",
-      "开口严格在二者之间。"
+      "与直角基准比较，开口已经超过直角。",
+      "两边还未张成一直线，仍小于平角，因此是钝角。"
     ],
-    "answer": "钝角。",
+    "answer": "钝角",
     "family_id": "geometry.angle-classify-benchmark",
     "variant_id": "m3a.5.4:worked-v4",
     "representation": "geometry",
-    "cognitive_demand": "explain"
+    "cognitive_demand": "explain",
+    "diagram": {
+      "src": "/static/diagrams/primary-v6-angle-benchmarks.svg",
+      "alt": "甲、乙、丙、丁四角，同顶点直角基准用虚线给出；依次小于、等于、大于直角但小于平角、两边成一直线。"
+    }
   },
   "pitfalls": [
     "比直角大不必都是钝角，还要小于平角。",
@@ -53,19 +57,29 @@
   "objective_coverage": [
     {
       "explanation": "类型由开口范围确定，不随摆放方向改变。90°是直角，恰好180°是平角，不能放进钝角。",
-      "observation_note": "观察典型与边界；图上测量还需下一自检。",
+      "observation_note": "通过实际开口与直角基准判断，未要求先学量角器或度数范围；单次名称正确还需保留叠合和边界说明。",
       "self_check": {
-        "prompt": "把40°、90°、120°、180°分别分类，并说180°为什么不叫钝角。",
-        "reference_answer": "锐、直、钝、平；钝角要求小于180°。",
+        "prompt": "读附图，把甲、乙、丙、丁分别认作锐角、直角、钝角或平角。用叠合基准解释为什么丁不能只因“比直角大”就叫钝角。",
+        "reference_answer": "甲锐角，乙直角，丙钝角，丁平角；钝角虽比直角大，但还没有张成一直线，丁已到平角边界。",
         "criteria": [
-          "四类边界正确",
-          "解释严格范围"
-        ]
+          "四角分类正确",
+          "顶点与同一边对齐比较",
+          "区分钝角和平角的边界"
+        ],
+        "family_id": "geometry.angle-classify-benchmark",
+        "variant_id": "m3a.5.4:criterion:0:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-angle-benchmarks.svg",
+          "alt": "甲、乙、丙、丁四角，同顶点直角基准用虚线给出；依次小于、等于、大于直角但小于平角、两边成一直线。"
+        },
+        "reference_family_ids": []
       },
       "difficulty_support": {
-        "discriminating_prompt": "179°和180°都大于90°，为什么名称不同？",
-        "hint": "比较钝角的上界是否允许等号。",
-        "revision_prompt": "用范围0<角<90、=90、90<角<180、=180重新分类。"
+        "discriminating_prompt": "丙与丁都超过直角基准，为什么不能都叫钝角？",
+        "hint": "看两边是否已经张成一条直线；钝角还未到这个位置，平角已经到。",
+        "revision_prompt": "用活动角从直角慢慢张开，先停在未成一直线的位置，再张成直线；对照丙、丁重新命名并记录两个不同状态。"
       },
       "criterion_index": 0,
       "title": "能辨认直角、锐角、钝角"
@@ -79,7 +93,12 @@
         "criteria": [
           "顶点与一边均对齐",
           "依据开口作判断"
-        ]
+        ],
+        "family_id": "geometry.angle-classify-benchmark",
+        "variant_id": "m3a.5.4:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
       },
       "difficulty_support": {
         "discriminating_prompt": "只把三角尺放在角旁边，没有对齐，能可靠比较吗？",
@@ -92,7 +111,11 @@
   ],
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
+  },
+  "diagram": {
+    "src": "/static/diagrams/primary-v6-angle-benchmarks.svg",
+    "alt": "甲、乙、丙、丁四角，同顶点直角基准用虚线给出；依次小于、等于、大于直角但小于平角、两边成一直线。"
   }
 }

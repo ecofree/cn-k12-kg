@@ -305,7 +305,11 @@
       "family_id": "number.gcd-square-tiling",
       "variant_id": "common_factors_multiples:transfer-1",
       "representation": "geometry",
-      "cognitive_demand": "model"
+      "cognitive_demand": "model",
+      "diagram": {
+        "src": "/static/diagrams/primary-v6-equal-square-cuts.svg",
+        "alt": "长方形长40厘米、宽24厘米，只标外边界与尺寸；没有画裁剪网格。须自己选择等大正方形的边长并检查行列是否排满。"
+      }
     },
     {
       "id": "common_factors_multiples:transfer-2",
@@ -546,7 +550,7 @@
       },
       "family_id": "number.offset-cycle-condition",
       "variant_id": "common_factors_multiples:transfer-4",
-      "representation": "table",
+      "representation": "verbal",
       "cognitive_demand": "model",
       "answer_spec": {
         "kind": "rubric"
@@ -694,7 +698,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "12因数1、2、3、4、6、12；18因数1、2、3、6、9、18，公有1、2、3、6，最大6。"
+          "explanation": "12因数1、2、3、4、6、12；18因数1、2、3、6、9、18，公有1、2、3、6，最大6。",
+          "family_id": "number.gcd-maximality-error",
+          "representation": "symbolic",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "number.gcd-enumerate"
+          ]
         },
         "hints": [
           {
@@ -731,7 +741,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "2不整除15，10和15也不是两数共有因数。"
+          "explanation": "2不整除15，10和15也不是两数共有因数。",
+          "family_id": "number.gcd-enumerate",
+          "representation": "symbolic",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "number.gcd-enumerate"
+          ]
         },
         "followup_task_ids": [
           "common_factors_multiples:practice-1",
@@ -775,7 +791,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "公倍数须是两数的整数倍；最小性需排除更小的正公共值。"
+          "explanation": "公倍数须是两数的整数倍；最小性需排除更小的正公共值。",
+          "family_id": "number.lcm-minimality-error",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "number.lcm-positive-direct"
+          ]
         },
         "hints": [
           {
@@ -792,16 +814,22 @@
           }
         ],
         "guided_task": {
-          "prompt": "求5与15的最小正公倍数。",
+          "prompt": "求3与9的最小正公倍数。",
           "type": "numeric",
           "answer_spec": {
             "kind": "number",
             "comparison": "exact",
             "representation": "any"
           },
-          "answer": "15",
-          "verify": "15",
-          "explanation": "15本来就是5的倍数；正公倍数不可能小于15的第一个正倍数15。"
+          "answer": "9",
+          "verify": "9",
+          "explanation": "9本来就是3的倍数；正公倍数不可能小于9的第一个正倍数9。",
+          "family_id": "number.divisibility-shortcut",
+          "representation": "symbolic",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "number.lcm-positive-direct"
+          ]
         },
         "followup_task_ids": [
           "common_factors_multiples:practice-2",
@@ -845,7 +873,15 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "段长分别整除每根长度，所以找最大公因数4。"
+          "explanation": "段长分别整除每根长度，所以找最大公因数4。",
+          "family_id": "number.gcd-equal-cuts",
+          "representation": "verbal",
+          "cognitive_demand": "model",
+          "reference_family_ids": [
+            "number.gcd-equal-cuts",
+            "number.lcm-synchronized-cycles",
+            "number.offset-cycle-condition"
+          ]
         },
         "hints": [
           {
@@ -858,7 +894,7 @@
           },
           {
             "level": 3,
-            "text": "12与18厘米剪等长段找最大公因数6；每12、18分钟从同刻开始鸣响，下次同响找最小公倍数36。若开始时刻不同，必须重新检查时间表。"
+            "text": "12与18厘米剪等长段找最大公因数6；每4、6分钟从同刻开始鸣响，下次同响找最小公倍数12。若开始时刻不同，必须重新检查时间表。"
           }
         ],
         "guided_task": {
@@ -882,7 +918,15 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "时间要同时是两个周期的倍数，且明确排除起始时刻。"
+          "explanation": "时间要同时是两个周期的倍数，且明确排除起始时刻。",
+          "family_id": "number.lcm-synchronized-cycles",
+          "representation": "verbal",
+          "cognitive_demand": "model",
+          "reference_family_ids": [
+            "number.gcd-equal-cuts",
+            "number.lcm-synchronized-cycles",
+            "number.offset-cycle-condition"
+          ]
         },
         "followup_task_ids": [
           "common_factors_multiples:practice-3",
@@ -926,7 +970,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "取两列交集，最大者8。"
+          "explanation": "取两列交集，最大者8。",
+          "family_id": "number.gcd-enumerate",
+          "representation": "symbolic",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "number.factor-pair",
+            "number.factors-enumerate"
+          ]
         },
         "hints": [
           {
@@ -952,7 +1003,14 @@
           },
           "answer": "4",
           "verify": "4",
-          "explanation": "20因数1、2、4、5、10、20；28因数1、2、4、7、14、28，共同最大4。"
+          "explanation": "20因数1、2、4、5、10、20；28因数1、2、4、7、14、28，共同最大4。",
+          "family_id": "number.gcd-enumerate",
+          "representation": "symbolic",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "number.factor-pair",
+            "number.factors-enumerate"
+          ]
         },
         "followup_task_ids": [
           "common_factors_multiples:practice-1",
@@ -970,24 +1028,24 @@
           "可能把较大数一律当最小公倍数。"
         ],
         "diagnostic": {
-          "prompt": "8与24的最小公倍数为什么是24？",
+          "prompt": "3与9的最小公倍数为什么是9？",
           "type": "choice",
           "choices": [
             {
               "id": "A",
               "text": "任意两个数都选较大的",
-              "feedback": "例如8与12的较大数12不能被8整除。",
+              "feedback": "例如3与8的较大数8不能被3整除。",
               "next_hint_level": 2
             },
             {
               "id": "B",
-              "text": "24是8的倍数，且24的正倍数没有更小者",
+              "text": "9是3的倍数，且9的正倍数没有更小者",
               "feedback": "对，同时满足公有与最小。",
               "next_hint_level": 1
             },
             {
               "id": "C",
-              "text": "因为24−8=16",
+              "text": "因为9−3=6",
               "feedback": "差值并不能证明最小公倍数。",
               "next_hint_level": 2
             }
@@ -996,7 +1054,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "只有一个数整除另一个时，较大数就是最小公倍数。"
+          "explanation": "在正整数范围内，只有一个数整除另一个时，较大数才是它们的最小公倍数。",
+          "family_id": "number.divisibility-shortcut",
+          "representation": "symbolic",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "number.divisibility-shortcut"
+          ]
         },
         "hints": [
           {
@@ -1009,7 +1073,7 @@
           },
           {
             "level": 3,
-            "text": "6与18选18，因为18是6的倍数；6与15不能选15，首个公共正倍数为30。"
+            "text": "3与9选9，因为9是3的倍数；6与9不能选9，首个公共正倍数为18。"
           }
         ],
         "guided_task": {
@@ -1022,7 +1086,13 @@
           },
           "answer": "18",
           "verify": "18",
-          "explanation": "6的正倍数6、12、18；9的正倍数9、18，首次相遇18。"
+          "explanation": "6的正倍数6、12、18；9的正倍数9、18，首次相遇18。",
+          "family_id": "number.lcm-positive-direct",
+          "representation": "symbolic",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "number.divisibility-shortcut"
+          ]
         },
         "followup_task_ids": [
           "common_factors_multiples:practice-2",
@@ -1066,7 +1136,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "周期不同起点时，先检查完整时间关系，不能只对周期求最小公倍数。"
+          "explanation": "周期不同起点时，先检查完整时间关系，不能只对周期求最小公倍数。",
+          "family_id": "number.offset-cycle-condition",
+          "representation": "verbal",
+          "cognitive_demand": "model",
+          "reference_family_ids": [
+            "number.offset-cycle-condition",
+            "number.gcd-equal-cuts"
+          ]
         },
         "hints": [
           {
@@ -1103,7 +1180,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "段长是公因数，原长度除以段长都应为整数；要证明最长还需排除更大公因数。"
+          "explanation": "段长是公因数，原长度除以段长都应为整数；要证明最长还需排除更大公因数。",
+          "family_id": "number.divisor-multiple-direction",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "number.offset-cycle-condition",
+            "number.gcd-equal-cuts"
+          ]
         },
         "followup_task_ids": [
           "common_factors_multiples:practice-3",
@@ -1147,7 +1231,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "“可行”与“最优”是两层命题，需要分别给依据。"
+          "explanation": "“可行”与“最优”是两层命题，需要分别给依据。",
+          "family_id": "number.lcm-minimality-error",
+          "representation": "symbolic",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "number.gcd-maximality-error"
+          ]
         },
         "hints": [
           {
@@ -1184,7 +1274,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "完整性加大小比较支持最大性，位置和原数大小不够。"
+          "explanation": "完整性加大小比较支持最大性，位置和原数大小不够。",
+          "family_id": "number.gcd-enumerate",
+          "representation": "symbolic",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "number.gcd-maximality-error"
+          ]
         },
         "followup_task_ids": [
           "common_factors_multiples:practice-1",

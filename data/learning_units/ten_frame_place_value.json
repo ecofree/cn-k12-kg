@@ -50,7 +50,7 @@
     },
     {
       "id": "ten_frame_place_value:place_value",
-      "statement": "能把1个十与若干个一对应到11至20的数，说明十位上的1表示10个一。",
+      "statement": "能把11至20的数对应为十和一，说明14中的1表示1个十、20中的2表示2个十。",
       "granularity": "observable",
       "prerequisite_objective_ids": [
         "ten_frame_place_value:count"
@@ -76,7 +76,7 @@
   ],
   "explanation": {
     "intuition": "一个十框有两排，每排5格，一共10格。每格放1颗，满框就是1个十。把10根小棒捆成1捆，小棒仍有10根，只是可以把整捆当作一个大单位来数。",
-    "reasoning": "先点数，再看十框里还空几格。把8和5合起来时，8还差2到10，从5里拿2补入十框，5剩3，所以8+5=10+3=13。取出来的2已经算进10，不能再加一次。14可以看作1个十和4个一；写成14时左边的1代表10，不是1根。",
+    "reasoning": "先点数，再看十框里还空几格。把8和5合起来时，8还差2到10，从5里拿2补入十框，5剩3，所以8+5=10+3=13。取出来的2已经算进10，不能再加一次。14可以看作1个十和4个一；写成14时左边的1代表10，不是1根。 数到19时有1个十和9个一；再添1个一，10个一可捆成新的1个十，因此20是2个十、0个一。",
     "conditions": [
       "点数时每个物体只点一次，不遗漏，不重复。",
       "一个十框正好10格，每格至多放1颗；小棒一捆明确为10根。",
@@ -125,8 +125,25 @@
       "verify": "8+5",
       "family_id": "addition.make-ten",
       "variant_id": "ten_frame_place_value:example-3",
-      "representation": "manipulative",
+      "representation": "symbolic",
       "cognitive_demand": "explain"
+    },
+    {
+      "prompt": "19根小棒已有1捆10根和9根散棒，再添1根，怎样整理并写出总数？",
+      "steps": [
+        "9根散棒添1根成为10根，可再捆成1捆。",
+        "原有1捆加新捆的1捆，共2捆，没有散棒。",
+        "总数20；十位2表示2个十，个位0表示0个一。"
+      ],
+      "answer": "20",
+      "verify": "19+1",
+      "family_id": "placevalue.regroup-ten-ones",
+      "variant_id": "ten_frame_place_value:example-4",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "reference_family_ids": [
+        "placevalue.ten-and-ones"
+      ]
     }
   ],
   "diagram": {
@@ -301,7 +318,7 @@
       },
       "family_id": "count.arrangement-invariance",
       "variant_id": "ten_frame_place_value:practice-6",
-      "representation": "manipulative",
+      "representation": "verbal",
       "cognitive_demand": "explain",
       "answer_spec": {
         "kind": "rubric"
@@ -362,7 +379,7 @@
       },
       "family_id": "number.missing-addend-through-ten",
       "variant_id": "ten_frame_place_value:transfer-2",
-      "representation": "manipulative",
+      "representation": "symbolic",
       "cognitive_demand": "choose_strategy",
       "answer_spec": {
         "kind": "rubric"
@@ -469,7 +486,7 @@
       },
       "family_id": "count.one-to-one-distribution",
       "variant_id": "ten_frame_place_value:transfer-5",
-      "representation": "manipulative",
+      "representation": "verbal",
       "cognitive_demand": "model",
       "answer_spec": {
         "kind": "rubric"
@@ -594,7 +611,7 @@
       },
       "family_id": "placevalue.ten-and-ones",
       "variant_id": "ten_frame_place_value:delayed-4",
-      "representation": "manipulative",
+      "representation": "verbal",
       "cognitive_demand": "explain",
       "answer_spec": {
         "kind": "rubric"
@@ -652,7 +669,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "只改变摆放，物体仍能一一配对，个数不变。"
+          "explanation": "只改变摆放，物体仍能一一配对，个数不变。",
+          "family_id": "count.arrangement-invariance",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "count.arrangement-invariance",
+            "primary.count.distinct-objects"
+          ]
         },
         "hints": [
           {
@@ -678,7 +702,14 @@
           },
           "answer": "7",
           "verify": "4+3",
-          "explanation": "两排分别4个和3个，共7个；空格不计数。"
+          "explanation": "两排分别4个和3个，共7个；空格不计数。",
+          "family_id": "primary.count.distinct-objects",
+          "representation": "manipulative",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "count.arrangement-invariance",
+            "primary.count.distinct-objects"
+          ]
         },
         "followup_task_ids": [
           "ten_frame_place_value:practice-1",
@@ -722,7 +753,10 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "已有6，目标10，还差10−6=4。"
+          "explanation": "已有6，目标10，还差10−6=4。",
+          "family_id": "ten.complete-frame",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy"
         },
         "hints": [
           {
@@ -748,7 +782,10 @@
           },
           "answer": "2",
           "verify": "10-8",
-          "explanation": "8+2=10，还缺2颗。"
+          "explanation": "8+2=10，还缺2颗。",
+          "family_id": "ten.complete-frame",
+          "representation": "verbal",
+          "cognitive_demand": "execute"
         },
         "followup_task_ids": [
           "ten_frame_place_value:practice-2",
@@ -792,7 +829,13 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "相同数字在不同数位有不同单位，14=10+4。"
+          "explanation": "相同数字在不同数位有不同单位，14=10+4。",
+          "family_id": "placevalue.ten-and-ones",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "placevalue.regroup-ten-ones"
+          ]
         },
         "hints": [
           {
@@ -818,7 +861,13 @@
           },
           "answer": "17",
           "verify": "10+7",
-          "explanation": "1个十和7个一合成17。"
+          "explanation": "1个十和7个一合成17。",
+          "family_id": "placevalue.ten-and-ones",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "placevalue.regroup-ten-ones"
+          ]
         },
         "followup_task_ids": [
           "ten_frame_place_value:practice-3",
@@ -862,7 +911,10 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "9+5=9+1+4=10+4，总量没有变化。"
+          "explanation": "9+5=9+1+4=10+4，总量没有变化。",
+          "family_id": "addition.make-ten",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy"
         },
         "hints": [
           {
@@ -888,7 +940,10 @@
           },
           "answer": "13",
           "verify": "8+5",
-          "explanation": "10+3=13，5里的2只用了一次。"
+          "explanation": "10+3=13，5里的2只用了一次。",
+          "family_id": "addition.make-ten",
+          "representation": "symbolic",
+          "cognitive_demand": "execute"
         },
         "followup_task_ids": [
           "ten_frame_place_value:practice-4",
@@ -932,7 +987,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "词语相同，未知量不同，算式也会不同。先画“原来=吃掉+剩下”。"
+          "explanation": "词语相同，未知量不同，算式也会不同。先画“原来=吃掉+剩下”。",
+          "family_id": "number.restore-whole-story",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "reference_family_ids": [
+            "number.remove-operation-selection",
+            "number.restore-whole-story"
+          ]
         },
         "hints": [
           {
@@ -958,7 +1020,14 @@
           },
           "answer": "5",
           "verify": "12-7",
-          "explanation": "送出与剩下合起来是12，12−7=5，再查5+7=12。"
+          "explanation": "送出与剩下合起来是12，12−7=5，再查5+7=12。",
+          "family_id": "number.missing-part-story",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": [
+            "number.remove-operation-selection",
+            "number.restore-whole-story"
+          ]
         },
         "followup_task_ids": [
           "ten_frame_place_value:practice-5",

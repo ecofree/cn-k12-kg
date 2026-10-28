@@ -7,11 +7,11 @@
   "name": "一个数除以整数",
   "tier": "tool",
   "hook": "把3/4米彩带平均分2份，分子3不能整除2就不能算了吗？",
-  "definition": "除以非零整数n相当于乘它的倒数1/n。分数a/b除以n，可写a/b×1/n；分子不能整除n时也可把分母乘n后约分，除数0不允许。",
+  "definition": "本卡讨论分数除以正整数n，等价于乘它的倒数1/n：a/b÷n=a/b×1/n。分子不能整除n时，仍可将分母乘n后约分；除数0不允许。",
   "why": "把原来每个1/b单位再平均分n份，每小份成1/(bn)，原来的a份平均分组后得到a/(bn)。例如3/4÷2=3/8；不能把分子分母同时除2而保持原值，那没有完成除法。",
   "conditions": [
-    "除数为正整数，明确不能为0。",
-    "先转换除法，再按分数乘法约分计算。"
+    "除数是正整数，分数的分母非零。",
+    "具体平均分情境需分成正整数份；涉及负数的运算在后续有理数课程处理。"
   ],
   "representation_note": "用分数条把每个四分之一再二等分，展示平均分后的份量变为八分之三。",
   "when_to_use": [
@@ -32,9 +32,12 @@
     "answer": "3/8",
     "family_id": "fraction.divide-by-positive-integer",
     "variant_id": "m6a.3.2:worked-v4",
-    "representation": "geometry",
+    "representation": "verbal",
     "cognitive_demand": "explain",
-    "verify": "(3/4)/2"
+    "verify": "(3/4)/2",
+    "reference_family_ids": [
+      "fraction.multiply-fractions"
+    ]
   },
   "pitfalls": [
     "除以2是乘1/2，不是乘2。",
@@ -56,11 +59,19 @@
       "explanation": "除数n对应倒数1/n，转换只作用于除法与除数。被除数原样保留，不能把两个数同时取倒数。",
       "observation_note": "观察倒数转化，不自动说明全部分数除法类型。",
       "self_check": {
-        "prompt": "把2/5÷3转成乘法并说明3为何变1/3；再写2/5÷1的结果。",
+        "prompt": "把(2/5)÷3转成乘法并说明3为何变1/3；再写(2/5)÷1的结果。",
         "reference_answer": "2/5×1/3=2/15；除以1不变仍2/5。",
         "criteria": [
           "转化对象正确",
           "处理除以1"
+        ],
+        "family_id": "fraction.divide-by-positive-integer",
+        "variant_id": "m6a.3.2:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.multiply-fractions",
+          "fraction.reciprocal-product-one"
         ]
       },
       "difficulty_support": {
@@ -75,11 +86,19 @@
       "explanation": "分数乘倒数后按乘法计算，能约则约；结果乘回除数应等于原被除数，这是平均分的逆向检查。",
       "observation_note": "观察计算与可逆检查，数值等价但未最简需继续修订形式。",
       "self_check": {
-        "prompt": "计算4/5÷2和2/3÷4，约成最简并各乘回原除数。",
+        "prompt": "计算(4/5)÷2和(2/3)÷4，约成最简并各乘回原除数。",
         "reference_answer": "2/5、1/6；2/5×2=4/5，1/6×4=2/3。",
         "criteria": [
           "结果最简正确",
           "两次乘回核对"
+        ],
+        "family_id": "fraction.divide-by-positive-integer",
+        "variant_id": "m6a.3.2:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.multiply-integer-common-unit",
+          "fraction.reduce-direct"
         ]
       },
       "difficulty_support": {
@@ -93,7 +112,7 @@
   ],
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   }
 }

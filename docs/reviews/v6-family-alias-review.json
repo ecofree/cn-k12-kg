@@ -1,0 +1,4322 @@
+{
+  "schema": 1,
+  "baseline": "652bf63212044e50e259f207f650a8d6f0b2b132",
+  "reviewer_kind": "ai",
+  "independent_teacher_review": false,
+  "accepted_relation_count": 74,
+  "alias_count": 71,
+  "groups": [
+    {
+      "canonical": "addition.make-ten",
+      "equivalent_names": [
+        "addition.make-ten",
+        "primary.add.make-ten"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "primary.add.make-ten",
+          "canonical": "addition.make-ten",
+          "reason": "相同3+8先拆3为2+1，8+2+1；显式凑十策略一致。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "primary.subtract.fact-and-inverse-check",
+      "equivalent_names": [
+        "arithmetic.subtraction-addition-inverse",
+        "primary.subtract.fact-and-inverse-check",
+        "primary.subtract.inverse-addition"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "primary.subtract.fact-and-inverse-check",
+          "canonical": "arithmetic.subtraction-addition-inverse",
+          "reason": "减法a−b=c用c+b=a检验；旧5−1、4−2及新14−5纠错均使用同一逆关系。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        },
+        {
+          "alias": "primary.subtract.inverse-addition",
+          "canonical": "arithmetic.subtraction-addition-inverse",
+          "reason": "旧13−5通过5+8=13求差及验算；与当前减法结果用加法反验同一逆运算关系。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "statistics.reclassify-same-objects",
+      "equivalent_names": [
+        "classification.change-attribute",
+        "statistics.reclassify-same-objects"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "statistics.reclassify-same-objects",
+          "canonical": "classification.change-attribute",
+          "reason": "相同红圆红方蓝圆蓝方四物，用颜色或形状对同一全集重新分组；属性变化但对象总数不变。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        },
+        {
+          "alias": "classification.change-attribute",
+          "canonical": "statistics.reclassify-same-objects",
+          "reason": "同一四张卡改按颜色或形状分类，改变的是分类依据而非对象集合。",
+          "source_paths": [
+            "data/teach/m1b.3.1.json",
+            "data/teach/m2a.1.2.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "statistics.classify-given-attribute",
+      "equivalent_names": [
+        "classification.given-attribute",
+        "statistics.classify-given-attribute"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "statistics.classify-given-attribute",
+          "canonical": "classification.given-attribute",
+          "reason": "相同按颜色统计红圆2红方1蓝圆3，归并同属性数量；与自主改换分类属性分开。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        },
+        {
+          "alias": "classification.given-attribute",
+          "canonical": "statistics.classify-given-attribute",
+          "reason": "原红圆/红方/蓝圆材料按已给颜色属性分类，没有换属性的额外要求。",
+          "source_paths": [
+            "data/teach/m2a.1.1.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "statistics.hierarchical-classification",
+      "equivalent_names": [
+        "classification.two-level-leaf-count",
+        "statistics.hierarchical-classification"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "statistics.hierarchical-classification",
+          "canonical": "classification.two-level-leaf-count",
+          "reason": "相同先颜色后形状的两层分类，4个可能叶类、3个非空叶类；不能把非空类数当对象总数。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        },
+        {
+          "alias": "classification.two-level-leaf-count",
+          "canonical": "statistics.hierarchical-classification",
+          "reason": "原红蓝与圆方材料先颜色后形状，区分四种可能叶类与实际非空三类，结构未改变。",
+          "source_paths": [
+            "data/teach/m2a.1.3.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "derivative.extremum-necessary-condition",
+      "equivalent_names": [
+        "derivative.extremum-necessary-condition",
+        "derivative.interior-extremum-necessary-condition"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "derivative.extremum-necessary-condition",
+          "canonical": "derivative.interior-extremum-necessary-condition",
+          "reason": "两侧均为同一道 mh4.5.3.2-q1：定义区间内点、可导、已知局部极值，选择 f′(x0)=0 这一必要条件。内点与可导前提未被增删，没有把必要条件升级为充分条件；新增 interior 只是把既有题设写进名字。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "derivative.positive-sign-theorem",
+      "equivalent_names": [
+        "derivative.positive-sign-monotone",
+        "derivative.positive-sign-theorem"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "derivative.positive-sign-theorem",
+          "canonical": "derivative.positive-sign-monotone",
+          "reason": "两侧均为 mh4.5.3.1-q1：在一个区间上处处 f′>0，判断该区间递增。区间、严格正号及结论完全相同，没有导数非负、零点或跨定义域断点的边界扩展。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "derivative.stationary-candidates",
+      "equivalent_names": [
+        "derivative.stationary-candidates",
+        "derivative.stationary-equation"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "derivative.stationary-candidates",
+          "canonical": "derivative.stationary-equation",
+          "reason": "两侧均为 mh4.5.3.1-q203：对 x³−12x 求导，解 3x²−12=0 后选正根 2。只是 stationary-candidates 改称 stationary-equation；既未判断极值，也未增加导数符号分段。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "primary.divide.inverse-table",
+      "equivalent_names": [
+        "division.fact-family",
+        "primary.divide.inverse-table",
+        "primary.divide.inverse-table-nine",
+        "primary.divide.inverse-table-seven-eight"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "primary.divide.inverse-table-seven-eight",
+          "canonical": "division.fact-family",
+          "reason": "已审题均为整除且落在乘法表内，用除数×商=被除数求商；7、8、9与其他表内除数只改数字，不引入余数或长除法。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        },
+        {
+          "alias": "primary.divide.inverse-table",
+          "canonical": "division.fact-family",
+          "reason": "已审题均为整除且落在乘法表内，用除数×商=被除数求商；7、8、9与其他表内除数只改数字，不引入余数或长除法。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        },
+        {
+          "alias": "primary.divide.inverse-table-nine",
+          "canonical": "division.fact-family",
+          "reason": "已审题均为整除且落在乘法表内，用除数×商=被除数求商；7、8、9与其他表内除数只改数字，不引入余数或长除法。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "equation.verbal-affine-model",
+      "equivalent_names": [
+        "equation.affine-word-model",
+        "equation.verbal-affine-model"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "equation.verbal-affine-model",
+          "canonical": "equation.affine-word-model",
+          "reason": "旧、新族均恰含同两道任务 m7a.5.3-q1/q4，把“3倍减5等于16”“2倍等于10”翻译为一次等量关系并求未知数。数量关系、未知量位置和解法均保留，没有新增逆命题或额外约束。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "equation.discount-base-model",
+      "equivalent_names": [
+        "equation.discount-base-model",
+        "equation.price-before-discount"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "equation.discount-base-model",
+          "canonical": "equation.price-before-discount",
+          "reason": "两侧均为 m7a.5.3-q2：已知八折与售价240，设标价 x，解 0.8x=240，得300。未知量仍是折前基数，没有把“已知原价求售价”或连续折扣混入。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "equation.meeting-model",
+      "equivalent_names": [
+        "equation.meeting-model",
+        "motion.opposing-speeds-meeting"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "equation.meeting-model",
+          "canonical": "motion.opposing-speeds-meeting",
+          "reason": "当前旧族的 bank 与 teach 题均为同一直路、同时出发、相向匀速、已知相距路程与两速度，统一用 (v1+v2)t=D 求相遇时间。草稿新族仍是相同条件的 m7a.5.3-q3；36/(10+8) 与 30/(4+6) 只有数值差异，没有追及、异时或折返。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "fraction.remainder-from-original",
+      "equivalent_names": [
+        "fraction.region-complement",
+        "fraction.remainder-from-original"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "fraction.region-complement",
+          "canonical": "fraction.remainder-from-original",
+          "reason": "同一整体减去两个互不重叠部分，图中(12−4−3)/12=5/12；与原总量连续取出已给原量分数后求余同一模型，画格与文字是表征变化。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "model.domain-recall",
+      "equivalent_names": [
+        "function.domain-from-meaning",
+        "model.domain-recall"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "model.domain-recall",
+          "canonical": "function.domain-from-meaning",
+          "reason": "两侧均为 m8b.23.4-q2：选择“实际意义的限制”这一泛泛原则。function.domain-from-meaning 这个新名没有伴随具体求取值范围的新任务，因此仅批准该现有识记任务的改名；它不能作为会求实际定义域的证据。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "function.representation-name-recall",
+      "equivalent_names": [
+        "function.representation-methods-recall",
+        "function.representation-name-recall"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "function.representation-name-recall",
+          "canonical": "function.representation-methods-recall",
+          "reason": "两侧均为 m8b.22.2-q1：识别解析式法、列表法、图象法，排除只给面积公式名称。仍仅为表示法名称识记，没有读取具体图表、选择用途或表示间转换。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "linear.formula-evaluation",
+      "equivalent_names": [
+        "linear.evaluate-given-motion-model",
+        "linear.formula-evaluation"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "linear.formula-evaluation",
+          "canonical": "linear.evaluate-given-motion-model",
+          "reason": "两侧均为 m8b.23.4-q1：已经给定 s=60t，代入 t=3 得180。模型是题目给出的，未把代值升级为从情境建立模型或求参数。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "linear.slope-monotonicity",
+      "equivalent_names": [
+        "linear.monotonicity.slope-sign",
+        "linear.slope-monotonicity"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "linear.slope-monotonicity",
+          "canonical": "linear.monotonicity.slope-sign",
+          "reason": "两侧均为 m8b.23.2-q1：从 y=−2x+1 的负斜率判断随 x 增大而减小。k 的符号、定义域情境和判断方向相同，不涉及由图像/数据反求 k 或 k=0 的边界。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "primary.parts.fixed-total",
+      "equivalent_names": [
+        "number.missing-part-story",
+        "primary.parts.fixed-total"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "primary.parts.fixed-total",
+          "canonical": "number.missing-part-story",
+          "reason": "相同固定整体5分成已知2及未知部分，关系已知总量减已知部分；与动态增加后的逆运算分开。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "v4.foundation.m7a.1.2.1.example",
+      "equivalent_names": [
+        "number.rational.sign-partition",
+        "v4.foundation.m7a.1.2.1.example"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "v4.foundation.m7a.1.2.1.example",
+          "canonical": "number.rational.sign-partition",
+          "reason": "旧例题与新族题目都对含负整数、负小数、正分数、正整数及0的给定列表按与0的大小关系作符号分类；数负数是取负数这一栏计数，新自检是列出三栏并核对总数。2/2仍以正数原条目保留，没有加入整数/分数分类或求值运算的新方法，判断谓词与零的边界完全一致。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "primary.additive-structure.find-original-after-removal",
+      "equivalent_names": [
+        "number.restore-whole-story",
+        "primary.additive-structure.find-original-after-removal"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "primary.additive-structure.find-original-after-removal",
+          "canonical": "number.restore-whole-story",
+          "reason": "已知拿走部分与剩余求原量，原量=拿走+剩余；现有新名实例吃2剩4也完全同结构。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "v4.foundation.m2b.3.2.example",
+      "equivalent_names": [
+        "placevalue.abacus-five-and-one",
+        "v4.foundation.m2b.3.2.example"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "v4.foundation.m2b.3.2.example",
+          "canonical": "placevalue.abacus-five-and-one",
+          "reason": "相同百位1上珠2下珠、十位3下珠、个位4下珠，(5+2)×100+3×10+4；算盘计数规则一致。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "placevalue.chinese-number.transcribe",
+      "equivalent_names": [
+        "placevalue.chinese-number.transcribe",
+        "placevalue.number-from-words"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "placevalue.chinese-number.transcribe",
+          "canonical": "placevalue.number-from-words",
+          "reason": "相同五十七及三千零五十转数字，按数级和空位占位组成数，无计算模型变化。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "v4.foundation.m1b.3.5.example",
+      "equivalent_names": [
+        "placevalue.compare-two-digit",
+        "v4.foundation.m1b.3.5.example"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "v4.foundation.m1b.3.5.example",
+          "canonical": "placevalue.compare-two-digit",
+          "reason": "相同46与49比较，十位相同再看个位；两位数按位比较同结构。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "v4.foundation.m4a.1.3.example",
+      "equivalent_names": [
+        "placevalue.exact-unit-rewrite",
+        "v4.foundation.m4a.1.3.example"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "v4.foundation.m4a.1.3.example",
+          "canonical": "placevalue.exact-unit-rewrite",
+          "reason": "相同380000改写成38万；精确除以单位10000，不是四舍五入求近似。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "placevalue.round.to-specified-position",
+      "equivalent_names": [
+        "placevalue.round.direct-target-position",
+        "placevalue.round.to-specified-position"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "placevalue.round.to-specified-position",
+          "canonical": "placevalue.round.direct-target-position",
+          "reason": "相同2.36精确到十分位，直接观察目标位后一位决定舍入；不与两次舍入/误差界混合。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "v4.foundation.m1b.3.4.example",
+      "equivalent_names": [
+        "placevalue.skip-count-tens",
+        "v4.foundation.m1b.3.4.example"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "v4.foundation.m1b.3.4.example",
+          "canonical": "placevalue.skip-count-tens",
+          "reason": "相同30、40、50后续一项，按十为单位递增。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "position.ordered-pair-location",
+      "equivalent_names": [
+        "position.ordered-pair-location",
+        "position.ordered-pair-notation"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "position.ordered-pair-location",
+          "canonical": "position.ordered-pair-notation",
+          "reason": "现有旧族题只询问明确约定(列,行)中首分量3的意义，新名对应完全同一题；不与移动距离或变换题族合并。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "v4.foundation.m1a.1.3.example",
+      "equivalent_names": [
+        "position.ordinal-before-count",
+        "v4.foundation.m1a.1.3.example"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "v4.foundation.m1a.1.3.example",
+          "canonical": "position.ordinal-before-count",
+          "reason": "相同从前数第2名之前的人数=2−1；序数与前方人数区别相同。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "primary.add-sub.sequence",
+      "equivalent_names": [
+        "primary.add-sub.sequence",
+        "primary.change.sequential-add-subtract"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "primary.add-sub.sequence",
+          "canonical": "primary.change.sequential-add-subtract",
+          "reason": "相同8支笔先送3支再送2支，按发生顺序更新当前量；不能与求原来的逆向模型合并。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "primary.ten.complements",
+      "equivalent_names": [
+        "primary.add.single-digit-facts",
+        "primary.ten.complements"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "primary.ten.complements",
+          "canonical": "primary.add.single-digit-facts",
+          "reason": "旧题6+4、7+3与当前4+3等均为给定两个一位数求和；当前该族不含需另教进位的方法，和为10本身不产生新模型。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "primary.additive-structure.find-original-after-increase",
+      "equivalent_names": [
+        "primary.additive-structure.find-original-after-addition",
+        "primary.additive-structure.find-original-after-increase",
+        "primary.additive-structure.select-inverse-after-increase",
+        "primary.change.unknown-start"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "primary.additive-structure.find-original-after-increase",
+          "canonical": "primary.change.unknown-start",
+          "reason": "只限当前已审实例：增加后总量与增加量已知，求原量=现量−增加量；不含拿走后求原量。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        },
+        {
+          "alias": "primary.additive-structure.find-original-after-addition",
+          "canonical": "primary.change.unknown-start",
+          "reason": "增加/买入之后求原量，14−4并以10+4=14检验；与find-original-after-increase语义一致。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        },
+        {
+          "alias": "primary.additive-structure.select-inverse-after-increase",
+          "canonical": "primary.change.unknown-start",
+          "reason": "选择减法与实际计算都围绕原量+增加量=现量；选择题虽观察较窄，但方法已曝光，不能把同模型计算题当结构全新。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "primary.subtract.remove-part",
+      "equivalent_names": [
+        "primary.change.remove-part",
+        "primary.subtract.remove-part"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "primary.subtract.remove-part",
+          "canonical": "primary.change.remove-part",
+          "reason": "同一情境4只气球飞走1只求剩余，已知整体及拿走部分，直接作4−1；新旧题文一致。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "v4.foundation.m1a.1.2.example",
+      "equivalent_names": [
+        "primary.compare.integer-magnitude",
+        "v4.foundation.m1a.1.2.example"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "v4.foundation.m1a.1.2.example",
+          "canonical": "primary.compare.integer-magnitude",
+          "reason": "相同3和5比较大小；同一整数数量大小关系。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "v4.foundation.m1b.3.6.example",
+      "equivalent_names": [
+        "primary.compare.qualitative-gap",
+        "v4.foundation.m1b.3.6.example"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "v4.foundation.m1b.3.6.example",
+          "canonical": "primary.compare.qualitative-gap",
+          "reason": "相同52比50多几，先求52−50=2再描述多一点；不是只比较大小。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "primary.table-eight.equal-groups",
+      "equivalent_names": [
+        "primary.multiply.table-facts",
+        "primary.table-eight.equal-groups",
+        "primary.table-five.equal-groups",
+        "primary.table-nine.equal-groups",
+        "primary.table-seven.equal-groups",
+        "primary.table-six.equal-groups",
+        "primary.tables-two-three-four"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "primary.table-eight.equal-groups",
+          "canonical": "primary.multiply.table-facts",
+          "reason": "已审例题均按相同组的数量与每组数量求积，并可用同一句乘法口诀求逆向商；2至9只更换口诀数字，不构成新运算结构。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        },
+        {
+          "alias": "primary.tables-two-three-four",
+          "canonical": "primary.multiply.table-facts",
+          "reason": "已审例题均按相同组的数量与每组数量求积，并可用同一句乘法口诀求逆向商；2至9只更换口诀数字，不构成新运算结构。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        },
+        {
+          "alias": "primary.table-nine.equal-groups",
+          "canonical": "primary.multiply.table-facts",
+          "reason": "已审例题均按相同组的数量与每组数量求积，并可用同一句乘法口诀求逆向商；2至9只更换口诀数字，不构成新运算结构。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        },
+        {
+          "alias": "primary.table-six.equal-groups",
+          "canonical": "primary.multiply.table-facts",
+          "reason": "已审例题均按相同组的数量与每组数量求积，并可用同一句乘法口诀求逆向商；2至9只更换口诀数字，不构成新运算结构。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        },
+        {
+          "alias": "primary.table-seven.equal-groups",
+          "canonical": "primary.multiply.table-facts",
+          "reason": "已审例题均按相同组的数量与每组数量求积，并可用同一句乘法口诀求逆向商；2至9只更换口诀数字，不构成新运算结构。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        },
+        {
+          "alias": "primary.table-five.equal-groups",
+          "canonical": "primary.multiply.table-facts",
+          "reason": "已审例题均按相同组的数量与每组数量求积，并可用同一句乘法口诀求逆向商；2至9只更换口诀数字，不构成新运算结构。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "primary.order.successor-within-five",
+      "equivalent_names": [
+        "primary.order.successor",
+        "primary.order.successor-within-five"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "primary.order.successor-within-five",
+          "canonical": "primary.order.successor",
+          "reason": "相同4后面的一个数；都是自然数后继n+1，扩大取值范围不改变结构。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "primary.subtract.break-ten",
+      "equivalent_names": [
+        "primary.subtract.break-ten",
+        "subtraction.break-ten"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "primary.subtract.break-ten",
+          "canonical": "subtraction.break-ten",
+          "reason": "相同14−9、13−7的破十法，将十拆为10−减数再加个位；明确方法完全相同。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "primary.subtract.compute-within-five",
+      "equivalent_names": [
+        "primary.subtract.compute-within-five",
+        "primary.subtract.single-digit-facts"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "primary.subtract.compute-within-five",
+          "canonical": "primary.subtract.single-digit-facts",
+          "reason": "旧题5−2与当前7−3、8−3都观察10以内已知被减数、减数求差；数量范围变化不引入退位或未知数位置变化。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "probability.at-least-one-independent",
+      "equivalent_names": [
+        "probability.at-least-one-complement",
+        "probability.at-least-one-independent"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "probability.at-least-one-complement",
+          "canonical": "probability.at-least-one-independent",
+          "reason": "共同独立尝试中以1减全部失败乘积求至少一次；两次与三次不因次数变化自动成为新结构。",
+          "source_paths": [
+            "data/learning_units/independent_events.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "probability.complement-event",
+      "equivalent_names": [
+        "probability.complement-event",
+        "probability.event-complement-partition"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "probability.complement-event",
+          "canonical": "probability.event-complement-partition",
+          "reason": "两名称在实际支持中均表示把至少一次与零次发生划分成互补结果集合；没有声明算概率这一步已独立掌握。",
+          "source_paths": [
+            "data/learning_units/independent_events.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "probability.conditional.identify-denominator",
+      "equivalent_names": [
+        "probability.condition-event-denominator",
+        "probability.conditional.identify-denominator"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "probability.condition-event-denominator",
+          "canonical": "probability.conditional.identify-denominator",
+          "reason": "两名称都指辨认P(B|A)分母为条件事件P(A)，没有扩成完整概率计算。",
+          "source_paths": [
+            "data/content/xby3.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "probability.conditional.joint-over-condition",
+      "equivalent_names": [
+        "probability.conditional-from-intersection",
+        "probability.conditional-from-joint",
+        "probability.conditional.joint-over-condition"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "probability.conditional-from-joint",
+          "canonical": "probability.conditional-from-intersection",
+          "reason": "给交集及正概率条件事件，计算P(A∩B)/P(A)；joint与intersection在此两名称指同一给定量。",
+          "source_paths": [
+            "data/content/xby3.json",
+            "data/learning_units/independent_events.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        },
+        {
+          "alias": "probability.conditional.joint-over-condition",
+          "canonical": "probability.conditional-from-intersection",
+          "reason": "旧题mh5.7.1.1-q1与q101都给P(A)、P(A∩B)求P(B|A)，与单元delayed-3的求解方向一致。",
+          "source_paths": [
+            "data/content/xby3.json",
+            "data/question_sources/application.json",
+            "data/learning_units/independent_events.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "probability.conditional.finite-uniform-intersection",
+      "equivalent_names": [
+        "probability.conditional-restricted-space",
+        "probability.conditional.finite-uniform-intersection",
+        "probability.conditioned-die-subset"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "probability.conditional-restricted-space",
+          "canonical": "probability.conditional.finite-uniform-intersection",
+          "reason": "完整有限等可能集合内先按条件限制，再数交集与条件集合之比；眼镜人数与骰子子集是同结构表征。",
+          "source_paths": [
+            "data/teach/mh5.7.1.1.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        },
+        {
+          "alias": "probability.conditioned-die-subset",
+          "canonical": "probability.conditional.finite-uniform-intersection",
+          "reason": "mh5.7.1.1-q91保留同一骰子条件空间与交集计数，修正算漏一个结果后仍是原条件计数结构。",
+          "source_paths": [
+            "data/content/xby3.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "probability.conditional-to-joint",
+      "equivalent_names": [
+        "probability.conditional-to-joint",
+        "probability.conditional-versus-joint"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "probability.conditional-versus-joint",
+          "canonical": "probability.conditional-to-joint",
+          "reason": "同一旧目标自检给P(A)=0.4与P(B|A)=0.5求联合0.2并解释区别；保留乘法方向，不与conditional-from-joint合并。",
+          "source_paths": [
+            "data/teach/mh5.7.1.1.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "probability.conditional.without-replacement-known-first",
+      "equivalent_names": [
+        "probability.conditional.without-replacement-known-first",
+        "probability.without-replacement-conditional"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "probability.without-replacement-conditional",
+          "canonical": "probability.conditional.without-replacement-known-first",
+          "reason": "已知第一次结果后，从剩余同类数除以剩余总数求第二次条件概率；不把两次联合概率族并入。",
+          "source_paths": [
+            "data/content/xby3.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "probability.independence-vs-exclusive",
+      "equivalent_names": [
+        "probability.disjoint-positive-not-independent",
+        "probability.independence-vs-exclusive"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "probability.disjoint-positive-not-independent",
+          "canonical": "probability.independence-vs-exclusive",
+          "reason": "逐项查到旧族使用正概率互斥事件，比较零交集与正的边际乘积；零概率例外仍单列。",
+          "source_paths": [
+            "data/content/bx2.json",
+            "data/learning_units/independent_events.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "probability.independent-intersection",
+      "equivalent_names": [
+        "probability.given-independent-product",
+        "probability.independent-intersection"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "probability.given-independent-product",
+          "canonical": "probability.independent-intersection",
+          "reason": "已明确独立且给边际概率，求同时发生概率，都是按已知独立关系相乘；不包含条件概率反求。",
+          "source_paths": [
+            "data/content/bx2.json",
+            "data/learning_units/independent_events.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "probability.independence-definition",
+      "equivalent_names": [
+        "probability.independence-definition",
+        "probability.independence-formula-recall"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "probability.independence-formula-recall",
+          "canonical": "probability.independence-definition",
+          "reason": "同一旧题mh2.10.2-q1只要求选择独立定义式；更改名称没有新增结构。",
+          "source_paths": [
+            "data/content/bx2.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "statistics.part-from-percentage",
+      "equivalent_names": [
+        "ratio.part-from-percentage",
+        "statistics.part-from-percentage"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "ratio.part-from-percentage",
+          "canonical": "statistics.part-from-percentage",
+          "reason": "已知整体数量和部分百分比求部分数量，同为整体×百分比；图或借书情境不改变这个数学结构。",
+          "source_paths": [
+            "data/content/liuxia.json",
+            "data/teach/m6b.2.1.json",
+            "data/question_sources/application.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "v4.foundation.mh2.9.1.1.example",
+      "equivalent_names": [
+        "sampling.inclusion-probability",
+        "v4.foundation.mh2.9.1.1.example"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "sampling.inclusion-probability",
+          "canonical": "v4.foundation.mh2.9.1.1.example",
+          "reason": "原讲解例题明确从100人不放回简单随机抽10人，问每人入样概率10/100；未把抽样配额或总体估计纳入。",
+          "source_paths": [
+            "data/teach/mh2.9.1.1.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "solid.cuboid.surface-area",
+      "equivalent_names": [
+        "solid.cuboid-face-decomposition",
+        "solid.cuboid.surface-area"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "solid.cuboid.surface-area",
+          "canonical": "solid.cuboid-face-decomposition",
+          "reason": "两侧均为 mh2.8.3.1-q202：已知长宽高5、3、2，按三对相对矩形面积相加 2(ab+ac+bc)=62。face-decomposition 是原解释已有的同一计算结构；没有开放盒、展开图判断或逆求尺寸。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "statistics.census-error-boundary",
+      "equivalent_names": [
+        "statistics.census-error-boundary",
+        "statistics.census.non-sampling-error"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "statistics.census.non-sampling-error",
+          "canonical": "statistics.census-error-boundary",
+          "reason": "原全面调查题辨认全查仍会漏登、测错和记错的边界，名称变化不改变观察内容。",
+          "source_paths": [
+            "data/content/qixia.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "v4.foundation.mh5.8.3.1.example",
+      "equivalent_names": [
+        "statistics.compare-conditional-rates",
+        "v4.foundation.mh5.8.3.1.example"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "statistics.compare-conditional-rates",
+          "canonical": "v4.foundation.mh5.8.3.1.example",
+          "reason": "原A组40人16参加与B组60人18参加的例题比较两个组内参加率之差，保留分组分母。",
+          "source_paths": [
+            "data/teach/mh5.8.3.1.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "statistics.correlation-range",
+      "equivalent_names": [
+        "statistics.correlation-range",
+        "statistics.correlation-range-recall"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "statistics.correlation-range-recall",
+          "canonical": "statistics.correlation-range",
+          "reason": "旧题只问相关系数取值区间，改名没有变成符号、强弱或零方差定义域任务。",
+          "source_paths": [
+            "data/content/xby3.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "statistics.frequency.remaining-count",
+      "equivalent_names": [
+        "statistics.frequency.remaining-count",
+        "statistics.grouping.frequency-conservation"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "statistics.grouping.frequency-conservation",
+          "canonical": "statistics.frequency.remaining-count",
+          "reason": "复核该旧讲解自检为40个数据减前三组整数频数，与remaining-count同是求剩余个数；明确不合并频率补1。",
+          "source_paths": [
+            "data/teach/m8b.24.4.json",
+            "data/content/baxia.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "statistics.grouping.endpoint-coverage",
+      "equivalent_names": [
+        "statistics.grouping.endpoint-coverage",
+        "statistics.grouping.fixed-origin-boundaries"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "statistics.grouping.fixed-origin-boundaries",
+          "canonical": "statistics.grouping.endpoint-coverage",
+          "reason": "原题与自检都从已定起点列等组距区间，按左右端点覆盖最大数据；自检选择组距仍沿同一边界核对结构。",
+          "source_paths": [
+            "data/content/baxia.json",
+            "data/teach/m8b.24.4.json",
+            "data/question_sources/application.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "statistics.ols-centre-property",
+      "equivalent_names": [
+        "statistics.ols-centre-property",
+        "statistics.ols-centre-property-recall"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "statistics.ols-centre-property-recall",
+          "canonical": "statistics.ols-centre-property",
+          "reason": "原两题均在含截距且Sxx>0前提下辨认最小二乘线经过样本中心，没有把求系数也合并。",
+          "source_paths": [
+            "data/content/xby3.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "statistics.residual-definition",
+      "equivalent_names": [
+        "statistics.residual-definition",
+        "statistics.residual-definition-recall"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "statistics.residual-definition-recall",
+          "canonical": "statistics.residual-definition",
+          "reason": "原两题均辨认观测减预测的残差定义；不将代模型计算残差族一并视为定义回忆。",
+          "source_paths": [
+            "data/content/xby3.json"
+          ],
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    },
+    {
+      "canonical": "triangle.elements.classification",
+      "equivalent_names": [
+        "triangle.elements.basic-count",
+        "triangle.elements.classification"
+      ],
+      "reviewed_relations": [
+        {
+          "alias": "triangle.elements.classification",
+          "canonical": "triangle.elements.basic-count",
+          "reason": "草稿新族完整承接旧族的同两题 m8a.13.1-q1/q2：辨别不存在的三角形对角线与顶点数3，题面、答案及认识对象未变。尽管新名 basic-count 较窄，审查批准范围只限这组实际相同任务，绝不把标签当作证明边角对应或作图的证据。",
+          "reviewer_kind": "ai",
+          "independent_review": false
+        }
+      ],
+      "canonical_selection": "优先保留基线实际已使用的稳定名称；只合并上列逐项确认的结构，不依据名称近似。"
+    }
+  ],
+  "rejected_primary": [
+    {
+      "old": "primary.additive-structure.continue-from-current",
+      "candidate": "number.restore-whole-story",
+      "reason": "原题知道当前剩8再拿来1求现在9；草稿改成送2剩8求原来10。未知量位置与时间方向改变，不是别名。"
+    },
+    {
+      "old": "primary.additive-structure.contrast-change-direction",
+      "candidate": "number.restore-whole-story",
+      "reason": "旧自检同时比较送出/买入后求原来，包含两个逆向模型；只用拿走求整体单族会丢掉对比结构。"
+    },
+    {
+      "old": "primary.multiply.column-no-regroup",
+      "candidate": "arithmetic.column-multiply-by-digit",
+      "reason": "泛名同时覆盖无进位32×3和进位24×3/268×4。无进位不观察跨位交换，不能全局合并；当前泛名按topic m3a.4.2恢复旧无进位族，m3a.4.3/4.4恢复旧进位族。"
+    },
+    {
+      "old": "primary.multiply.column-regroup",
+      "candidate": "arithmetic.column-multiply-by-digit",
+      "reason": "同上；旧历史已将一次/连续进位归同族，保持该原关系，不把无进位也并入。"
+    },
+    {
+      "old": "decimal.subtract-regroup-tenths",
+      "candidate": "decimal.add-subtract-alignment",
+      "reason": "旧2.3−0.8要求1个一换成10个十分之一；泛名还含加法与无退位减法，不能把十进交换与仅对齐计算都当等价方法。"
+    },
+    {
+      "old": "primary.base-ten.column-add-regroup",
+      "candidate": "arithmetic.place-value-column-addition",
+      "reason": "旧例均要求进位说明；泛名包括32+24等不进位对齐题，需细分有无进位后才能保护准确曝光。"
+    },
+    {
+      "old": "primary.base-ten.column-subtract-regroup",
+      "candidate": "arithmetic.place-value-column-subtraction",
+      "reason": "旧例要求退位或跨零退位；泛名包括86−32等不退位题，需细分有无退位。"
+    },
+    {
+      "old": "primary.ten.remove-part",
+      "candidate": [
+        "primary.parts.fact-family",
+        "primary.subtract.single-digit-facts"
+      ],
+      "reason": "历史同名既有10−7直接求差，又有8+2、10−3等混合任务；新parts.fact-family包含写完整加减关系。不能从名字生成单一全局等价，保留历史名与具体任务关系。"
+    }
+  ],
+  "rejected_probability_statistics": [
+    {
+      "old_family": "probability.without-replacement",
+      "proposed": [
+        "probability.without-replacement-conditional",
+        "probability.without-replacement-dependence",
+        "probability.without-replacement-two-red"
+      ],
+      "reason": "旧族含已知第一结果求条件概率、比较独立性和求两次联合三种任务。拆分后不能宣称全部双向等价；原具体任务可保留旧family或登记方法关系。",
+      "source_paths": [
+        "data/content/bx2.json",
+        "data/learning_units/independent_events.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "probability.enumerated-independence",
+      "proposed": [
+        "probability.die-intersection-count"
+      ],
+      "reason": "单纯交集计数与同时求边际/交集后检验乘积关系的要求不同；旧族含两者，不能整体双向合并。",
+      "source_paths": [
+        "data/content/bx2.json",
+        "data/learning_units/independent_events.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.correlation-sign-and-domain",
+      "proposed": [
+        "statistics.correlation-zero-variance-domain"
+      ],
+      "reason": "旧族同时观察r符号强弱与常量列定义域，新标签只描述后者；不能据做过强弱题视为已见零方差方法。",
+      "source_paths": [
+        "data/content/xby3.json",
+        "data/learning_units/correlation_and_regression.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.regression-parameter-interpretation",
+      "proposed": [
+        "statistics.regression-slope-name"
+      ],
+      "reason": "旧族含辨认b名称、解释单位变化、计算Δŷ=bΔx和因果限制；名称回忆不能代表其他结构。",
+      "source_paths": [
+        "data/content/xby3.json",
+        "data/question_sources/application.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.frequency.remaining-proportion",
+      "proposed": [
+        "statistics.frequency.total-conservation"
+      ],
+      "reason": "补剩余频率的总数是1，补频数的总数是样本容量；新族混用两种单位与目标，不能双向合并。",
+      "source_paths": [
+        "data/content/baxia.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.frequency.remaining-count",
+      "proposed": [
+        "statistics.frequency.total-conservation"
+      ],
+      "reason": "新族混有频率补1与整数频数补n；建议整数任务继续用remaining-count，频率任务保留remaining-proportion。",
+      "source_paths": [
+        "data/content/baxia.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.stratified-random-selection",
+      "proposed": [
+        "statistics.sampling-and-nonresponse-bias"
+      ],
+      "reason": "原题按年级分层随机覆盖，新族另含抽中100仅60回答的响应机制比较；后者新增实质步骤。",
+      "source_paths": [
+        "data/content/qixia.json",
+        "data/teach/m7b.12.1.2.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.sample-size-identification",
+      "proposed": [
+        "statistics.population-sample-size-nonresponse"
+      ],
+      "reason": "原题只辨认抽取100的样本容量；新族另含总体/个体/样本识别及20人未回应的观测数变化，不能整体当同任务。",
+      "source_paths": [
+        "data/content/qixia.json",
+        "data/teach/m7b.12.1.2.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "sampling.proportional-count",
+      "proposed": [
+        "statistics.sample-proportion-population-estimate"
+      ],
+      "reason": "旧族同时含按样本比例估计全校人数与按总体层比例分配抽样人数。前者是估计，后者是抽样设计配额，不能双向等价。",
+      "source_paths": [
+        "data/content/qixia.json",
+        "data/teach/m7b.12.1.2.json",
+        "data/teach/mh2.9.1.2.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.ols-from-paired-data",
+      "proposed": [
+        "statistics.ols-coefficients-from-sums"
+      ],
+      "reason": "旧族包含从原始成对数据计算中心与Sxx/Sxy；新支持给全汇总量，省略了这些步骤，故不能整体等价。",
+      "source_paths": [
+        "data/teach/mh5.8.2.2.json",
+        "data/learning_units/correlation_and_regression.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "statistics.r-squared-interpretation",
+      "proposed": [
+        "statistics.ols-r-squared-explained-variation",
+        "statistics.r-squared-from-sums"
+      ],
+      "reason": "旧族含r平方、平方和比值与意义解释；不能因同R²主题就把数值变换和含义辨析互作同结构。",
+      "source_paths": [
+        "data/learning_units/correlation_and_regression.json"
+      ],
+      "decision": "no_global_equivalence"
+    },
+    {
+      "old_family": "probability.insufficient-joint-information",
+      "proposed": [
+        "probability.independent-mechanism-assumption"
+      ],
+      "reason": "原任务需构造符合边际的关联反例；新默认支持只选择题设足以使用独立乘积的句子，认知任务不同。",
+      "source_paths": [
+        "data/learning_units/independent_events.json"
+      ],
+      "decision": "no_global_equivalence"
+    }
+  ],
+  "algebra_geometry_review": {
+    "schema": 1,
+    "review_kind": "ai_task_structure_review",
+    "reviewer_kind": "ai",
+    "independent_review": false,
+    "reviewed_at": "2026-10-28T00:53:12.597778+00:00",
+    "baseline_commit": "652bf63212044e50e259f207f650a8d6f0b2b132",
+    "scope": {
+      "old_families": 32,
+      "candidate_pairs": 35,
+      "excluded": [
+        "primary",
+        "probability",
+        "statistics"
+      ],
+      "author_sources": [
+        "data/content",
+        "data/teach",
+        "data/learning_units",
+        "data/projects"
+      ],
+      "map_source": "family-draft-map.json"
+    },
+    "policy": [
+      "逐任务比较当前作者源、652bf632基线与旧V6草稿在同一位置的题面、条件、答案和操作；不按家族名称、题号或内容相邻推断等价。",
+      "别名只用于新运行中的历史暴露/结构多样性比较；保留所有历史 family_id、答案、事件和既有冻结报告原值。",
+      "目标中包含不同逆向关系、额外候选、先决计算、不同可解性边界或更高过程要求时，不能因部分题相同就批准全局等价。",
+      "本记录不是独立教师审核，不声称课堂效果或掌握证据；所有练习准入限制仍由正式准入表负责。",
+      "无当前新族使用不等于无法审查：根代理恢复旧 family，故用旧草稿拟名与当前同任务定位核对；未来新增族成员需要重新评估。"
+    ],
+    "accepted_aliases": [
+      {
+        "alias": "derivative.extremum-necessary-condition",
+        "canonical": "derivative.interior-extremum-necessary-condition",
+        "reason": "两侧均为同一道 mh4.5.3.2-q1：定义区间内点、可导、已知局部极值，选择 f′(x0)=0 这一必要条件。内点与可导前提未被增删，没有把必要条件升级为充分条件；新增 interior 只是把既有题设写进名字。",
+        "reviewer_kind": "ai",
+        "independent_review": false
+      },
+      {
+        "alias": "derivative.positive-sign-theorem",
+        "canonical": "derivative.positive-sign-monotone",
+        "reason": "两侧均为 mh4.5.3.1-q1：在一个区间上处处 f′>0，判断该区间递增。区间、严格正号及结论完全相同，没有导数非负、零点或跨定义域断点的边界扩展。",
+        "reviewer_kind": "ai",
+        "independent_review": false
+      },
+      {
+        "alias": "derivative.stationary-candidates",
+        "canonical": "derivative.stationary-equation",
+        "reason": "两侧均为 mh4.5.3.1-q203：对 x³−12x 求导，解 3x²−12=0 后选正根 2。只是 stationary-candidates 改称 stationary-equation；既未判断极值，也未增加导数符号分段。",
+        "reviewer_kind": "ai",
+        "independent_review": false
+      },
+      {
+        "alias": "equation.verbal-affine-model",
+        "canonical": "equation.affine-word-model",
+        "reason": "旧、新族均恰含同两道任务 m7a.5.3-q1/q4，把“3倍减5等于16”“2倍等于10”翻译为一次等量关系并求未知数。数量关系、未知量位置和解法均保留，没有新增逆命题或额外约束。",
+        "reviewer_kind": "ai",
+        "independent_review": false
+      },
+      {
+        "alias": "equation.meeting-model",
+        "canonical": "motion.opposing-speeds-meeting",
+        "reason": "当前旧族的 bank 与 teach 题均为同一直路、同时出发、相向匀速、已知相距路程与两速度，统一用 (v1+v2)t=D 求相遇时间。草稿新族仍是相同条件的 m7a.5.3-q3；36/(10+8) 与 30/(4+6) 只有数值差异，没有追及、异时或折返。",
+        "reviewer_kind": "ai",
+        "independent_review": false
+      },
+      {
+        "alias": "equation.discount-base-model",
+        "canonical": "equation.price-before-discount",
+        "reason": "两侧均为 m7a.5.3-q2：已知八折与售价240，设标价 x，解 0.8x=240，得300。未知量仍是折前基数，没有把“已知原价求售价”或连续折扣混入。",
+        "reviewer_kind": "ai",
+        "independent_review": false
+      },
+      {
+        "alias": "solid.cuboid.surface-area",
+        "canonical": "solid.cuboid-face-decomposition",
+        "reason": "两侧均为 mh2.8.3.1-q202：已知长宽高5、3、2，按三对相对矩形面积相加 2(ab+ac+bc)=62。face-decomposition 是原解释已有的同一计算结构；没有开放盒、展开图判断或逆求尺寸。",
+        "reviewer_kind": "ai",
+        "independent_review": false
+      },
+      {
+        "alias": "triangle.elements.classification",
+        "canonical": "triangle.elements.basic-count",
+        "reason": "草稿新族完整承接旧族的同两题 m8a.13.1-q1/q2：辨别不存在的三角形对角线与顶点数3，题面、答案及认识对象未变。尽管新名 basic-count 较窄，审查批准范围只限这组实际相同任务，绝不把标签当作证明边角对应或作图的证据。",
+        "reviewer_kind": "ai",
+        "independent_review": false
+      },
+      {
+        "alias": "function.representation-name-recall",
+        "canonical": "function.representation-methods-recall",
+        "reason": "两侧均为 m8b.22.2-q1：识别解析式法、列表法、图象法，排除只给面积公式名称。仍仅为表示法名称识记，没有读取具体图表、选择用途或表示间转换。",
+        "reviewer_kind": "ai",
+        "independent_review": false
+      },
+      {
+        "alias": "model.domain-recall",
+        "canonical": "function.domain-from-meaning",
+        "reason": "两侧均为 m8b.23.4-q2：选择“实际意义的限制”这一泛泛原则。function.domain-from-meaning 这个新名没有伴随具体求取值范围的新任务，因此仅批准该现有识记任务的改名；它不能作为会求实际定义域的证据。",
+        "reviewer_kind": "ai",
+        "independent_review": false
+      },
+      {
+        "alias": "linear.slope-monotonicity",
+        "canonical": "linear.monotonicity.slope-sign",
+        "reason": "两侧均为 m8b.23.2-q1：从 y=−2x+1 的负斜率判断随 x 增大而减小。k 的符号、定义域情境和判断方向相同，不涉及由图像/数据反求 k 或 k=0 的边界。",
+        "reviewer_kind": "ai",
+        "independent_review": false
+      },
+      {
+        "alias": "linear.formula-evaluation",
+        "canonical": "linear.evaluate-given-motion-model",
+        "reason": "两侧均为 m8b.23.4-q1：已经给定 s=60t，代入 t=3 得180。模型是题目给出的，未把代值升级为从情境建立模型或求参数。",
+        "reviewer_kind": "ai",
+        "independent_review": false
+      },
+      {
+        "alias": "v4.foundation.m7a.1.2.1.example",
+        "canonical": "number.rational.sign-partition",
+        "reason": "旧例题与新族题目都对含负整数、负小数、正分数、正整数及0的给定列表按与0的大小关系作符号分类；数负数是取负数这一栏计数，新自检是列出三栏并核对总数。2/2仍以正数原条目保留，没有加入整数/分数分类或求值运算的新方法，判断谓词与零的边界完全一致。",
+        "reviewer_kind": "ai",
+        "independent_review": false
+      }
+    ],
+    "rejected_pairs": [
+      {
+        "alias": "derivative.polynomial-extrema",
+        "proposed": "derivative.stationary-extremum-sign-change",
+        "reason": "旧族同时包含 x²−4x 的极小值点计算与 x³−3x² 的全部驻点、导数变号、极值类型/值及局部与全局区分；新族还含“已给左右导数正负”直接判极大值的支持题。给定符号判别与自行求导、解驻点、完整极值判定不具相同证据范围，不能把其中一个题的改名扩为全族等价。"
+      },
+      {
+        "alias": "derivative.extremum-candidate-completeness",
+        "proposed": "derivative.closed-interval-candidates",
+        "reason": "旧题要求完整选择闭区间最值的候选集合（驻点、不可导点、端点）；新族另有 |x| 的不可导点0、√x 的端点0能否遗漏的单边界任务。单类候选辨别不能等同于完整候选枚举，拒绝全局别名；原 bank 题本身虽是同题改名，也不能支撑对整个新族等价。"
+      },
+      {
+        "alias": "derivative.disconnected-domain",
+        "proposed": "derivative.disconnected-domain-monotonicity",
+        "reason": "旧族有 1/x 与 1/(x−2) 的分段，也有 x+1/x 必须额外求导数零点 ±1、综合分段的自检；新族集中于倒数函数定义域断点和不能跨断点拼接单调区间。共享断点规则不足以把额外驻点分析与简单断域反例视为同结构。"
+      },
+      {
+        "alias": "derivative.nonnegative-vs-strict",
+        "proposed": "derivative.zero-yet-strict-increase",
+        "reason": "旧族既含 x³ 严格递增却导数在0为零，也含 f=0(x≤0)、f=x³(x>0) 的平台反例，要求说明 f′≥0 不保证严格递增。新族仅 x³ 的“严格递增不必处处导数>0”方向；必要性反例与充分性失败/平台边界不同，拒绝合并。"
+      },
+      {
+        "alias": "derivative.linear-sign",
+        "proposed": "derivative.sign-change-boundary",
+        "reason": "旧族混合求导数由负转正的边界横坐标、求递增区间，以及已给一次式导数后判断两侧单调性。草稿将它拆成边界值和区间结论两族，两个结果类型、所需完整性不同；一个旧族不能分别全局等价到两个不同新族，保留旧族名。"
+      },
+      {
+        "alias": "derivative.linear-sign",
+        "proposed": "derivative.solve-monotone-interval",
+        "reason": "旧族混合求导数由负转正的边界横坐标、求递增区间，以及已给一次式导数后判断两侧单调性。草稿将它拆成边界值和区间结论两族，两个结果类型、所需完整性不同；一个旧族不能分别全局等价到两个不同新族，保留旧族名。"
+      },
+      {
+        "alias": "equation.solve-linear",
+        "proposed": "equation.property-operation-justification",
+        "reason": "旧族覆盖多步、去括号、去分母、求根和代回检验。新族又包含选择保持解集的可逆操作理由、指出非零除数前提。计算出解与说明变形对全部候选解合法不是同一观察；部分一步题复用不能使两族全局等价。"
+      },
+      {
+        "alias": "solid.regular-pyramid.surface-area",
+        "proposed": "solid.regular-pyramid-surface-area",
+        "reason": "旧族 bank 题直接给侧面斜高，teach 自检给垂直高并要求先用勾股定理求斜高、再求表面积；草稿新族仅直接给斜高的前一题。额外区分两种高度与求斜高是实质进阶边界，不可把全旧族等同于只需直接代入的数据。"
+      },
+      {
+        "alias": "solid.frustum.parallel-cut-volume",
+        "proposed": "solid.frustum-parallel-section-volume",
+        "reason": "旧族包括公式计算以及必须用面积比开方建立相似长度/高度比、补成大小棱锥作体积差的复核任务。草稿新族只收录已给两底面积与垂直高直接求体积的 bank 题；能直接代公式不等于能完成相似比和补锥复核，不批准全族别名。"
+      },
+      {
+        "alias": "projection.oblique.axis-rule",
+        "proposed": "projection.oblique-x-length",
+        "reason": "旧族同时含 x向不变、y向减半。草稿拆成 x 方向与 y 方向两族，且 y 族又并入实际正算、逆算长度；方向条件及任务操作不一致，不能一对多全局合并。"
+      },
+      {
+        "alias": "projection.oblique.axis-rule",
+        "proposed": "projection.oblique-y-length",
+        "reason": "旧族同时含 x向不变、y向减半。草稿拆成 x 方向与 y 方向两族，且 y 族又并入实际正算、逆算长度；方向条件及任务操作不一致，不能一对多全局合并。"
+      },
+      {
+        "alias": "solid.prism.base-height-volume",
+        "proposed": "solid.prism-height-vs-lateral-edge",
+        "reason": "旧族兼有只给垂直高的 V=Sh 代值题及给侧棱干扰值、要求排除侧棱说明理由的题；草稿按高度甄别与已知垂直高计算拆开。是否要从干扰长度中识别垂距是实际条件边界，两个子族都不等价于全旧族。"
+      },
+      {
+        "alias": "solid.prism.base-height-volume",
+        "proposed": "solid.prism-perpendicular-height-volume",
+        "reason": "旧族兼有只给垂直高的 V=Sh 代值题及给侧棱干扰值、要求排除侧棱说明理由的题；草稿按高度甄别与已知垂直高计算拆开。是否要从干扰长度中识别垂距是实际条件边界，两个子族都不等价于全旧族。"
+      },
+      {
+        "alias": "solid.pyramid.base-height-volume",
+        "proposed": "solid.pyramid-perpendicular-height-volume",
+        "reason": "旧族除直接给底面积及垂直高的 V=Sh/3 两题外，还包含三角形底面先求面积、区分除2与除3来源的自检；草稿新族只有直接给底面积的两题。面积子问题及两个比例因子的解释不能被当作纯数值变体，拒绝全局合并。"
+      },
+      {
+        "alias": "projection.oblique.forward-length",
+        "proposed": "projection.oblique-y-length",
+        "reason": "旧族仅已知原 y 向长度，乘1/2求图长。草稿 y-length 同时含规则识记及已知图长乘2求原长；已知量与未知量交换、正反向运算不同，不能用一个宽标签抹平该边界。"
+      },
+      {
+        "alias": "projection.oblique.inverse-length",
+        "proposed": "projection.oblique-y-length",
+        "reason": "旧族按图中 y 向长度除以1/2求原长（含原图尺寸恢复）；草稿 y-length 还包含规则识记和正向缩小。逆推与正推不是完全相同任务结构，拒绝把正反向及识记一并合并。"
+      },
+      {
+        "alias": "triangle.third-side-range",
+        "proposed": "triangle.side-feasibility",
+        "reason": "旧族需要给两边求第三边的严格上下界 |a−b|<x<a+b 或按该范围选择；新族主要是给定三条长度后检验可行性，还含已知 x 为最长边时只需上界的题。完整双边范围、固定三元组验证和已知最长的单边条件不等价。"
+      },
+      {
+        "alias": "linear.graph-point-read",
+        "proposed": "function.graph-point-read",
+        "reason": "旧族含已知横坐标读纵坐标、已知纵坐标反读横坐标及联系坐标和函数式代入核对；草稿新族仅 bank 的已知 x 读 y 题。原单题是改名，但方向交换与图式联结任务并未随之成为同一结构，拒绝全族别名。"
+      },
+      {
+        "alias": "linear.table-to-parameters",
+        "proposed": "linear.coefficient-from-one-known-parameter",
+        "reason": "旧族包含从两点/多条记录求斜率和截距、非零起点、第三点复核；草稿新族只是已知 y=2x+b 且过(0,3)，直接求 b。已知一个参数与同时确定两个参数所需关系数不同，不能等价。"
+      },
+      {
+        "alias": "v4.foundation.m7a.1.2.4.example",
+        "proposed": "number.absolute-value.inverse-cases",
+        "reason": "旧例题给 |a|=7 且 a<0，直接取负根；新族还含绝对值右端正、零、负三种情况，分别两解、一解、无解。新增零/负值可解性边界并非原例题已覆盖的数值替换，拒绝全局别名。"
+      },
+      {
+        "alias": "v4.foundation.m7a.1.2.5.example",
+        "proposed": "number.rational.compare-equivalent-forms",
+        "reason": "旧例题只在−2.5、−2、0、3中找最小数；新族还要求异分母负分数通分比较与等值小数判等。表示等价及相等边界新增了实质任务，不能以旧单一排序例题等同全新族。"
+      },
+      {
+        "alias": "v4.foundation.m7a.2.3.2.example",
+        "proposed": "placevalue.scientific.normalize-large",
+        "reason": "旧例题已经给规范系数5.6，只需恢复10的指数6；新族要求自行规范正负大数的系数和指数、判断48×10⁵虽等值但未规范。系数规范化和负数情形均是额外任务，不能当作原指数补空的纯改名。"
+      }
+    ],
+    "decisions": [
+      {
+        "old_family": "derivative.extremum-necessary-condition",
+        "proposed_family": "derivative.interior-extremum-necessary-condition",
+        "decision": "accept_comparison_alias",
+        "reason": "两侧均为同一道 mh4.5.3.2-q1：定义区间内点、可导、已知局部极值，选择 f′(x0)=0 这一必要条件。内点与可导前提未被增删，没有把必要条件升级为充分条件；新增 interior 只是把既有题设写进名字。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/30",
+            "task_id": "mh4.5.3.2-q1",
+            "family_id": "derivative.extremum-necessary-condition",
+            "prompt": "函数在定义区间的内点x0处可导，并在该点取得局部极大值或极小值。下面哪一项是必要条件？",
+            "answer": "o4",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/30",
+            "task_id": "mh4.5.3.2-q1",
+            "family_id": "derivative.interior-extremum-necessary-condition",
+            "prompt": "函数在定义区间的内点x0处可导，并在该点取得局部极大值或极小值。下面哪一项是必要条件？",
+            "answer": "o4",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "note": "只确认比较用的实际任务同构；不改变原 family、冻结答案/事件、练习准入或掌握判定。"
+      },
+      {
+        "old_family": "derivative.polynomial-extrema",
+        "proposed_family": "derivative.stationary-extremum-sign-change",
+        "decision": "reject_global_alias",
+        "reason": "旧族同时包含 x²−4x 的极小值点计算与 x³−3x² 的全部驻点、导数变号、极值类型/值及局部与全局区分；新族还含“已给左右导数正负”直接判极大值的支持题。给定符号判别与自行求导、解驻点、完整极值判定不具相同证据范围，不能把其中一个题的改名扩为全族等价。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/31",
+            "task_id": "mh4.5.3.2-q2",
+            "family_id": "derivative.polynomial-extrema",
+            "prompt": "函数 f(x)=x²-4x 的极小值点的横坐标是多少？",
+            "answer": "2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/tasks/4",
+            "task_id": "derivative_monotonicity:transfer-2",
+            "family_id": "derivative.polynomial-extrema",
+            "prompt": "f(x)=x³−3x²，定义域为实数。判断x=0和x=2是否为极值点，分别是什么极值，并用导数符号变化说明。",
+            "answer": null,
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "current_proposed_family_tasks": [
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/instructional_support/supports/6/guided_task",
+            "task_id": "derivative_monotonicity:support:extrema:guided_task",
+            "family_id": "derivative.stationary-extremum-sign-change",
+            "prompt": "f连续，c左侧导数正、右侧负。c处应如何判断？",
+            "answer": "A",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/31",
+            "task_id": "mh4.5.3.2-q2",
+            "family_id": "derivative.stationary-extremum-sign-change",
+            "prompt": "函数 f(x)=x²-4x 的极小值点的横坐标是多少？",
+            "answer": "2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/instructional_support/supports/6/guided_task",
+            "task_id": "derivative_monotonicity:support:extrema:guided_task",
+            "family_id": "derivative.stationary-extremum-sign-change",
+            "prompt": "f连续，c左侧导数正、右侧负。c处应如何判断？",
+            "answer": "A",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "derivative.extremum-candidate-completeness",
+        "proposed_family": "derivative.closed-interval-candidates",
+        "decision": "reject_global_alias",
+        "reason": "旧题要求完整选择闭区间最值的候选集合（驻点、不可导点、端点）；新族另有 |x| 的不可导点0、√x 的端点0能否遗漏的单边界任务。单类候选辨别不能等同于完整候选枚举，拒绝全局别名；原 bank 题本身虽是同题改名，也不能支撑对整个新族等价。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/78",
+            "task_id": "mh4.5.3.2-q204",
+            "family_id": "derivative.extremum-candidate-completeness",
+            "prompt": "求连续函数在闭区间上的最值时，哪一组候选点应检查？",
+            "answer": "o3",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "current_proposed_family_tasks": [
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/instructional_support/supports/3/diagnostic",
+            "task_id": "derivative_monotonicity:support:domain_split:diagnostic",
+            "family_id": "derivative.closed-interval-candidates",
+            "prompt": "f=|x|在[−1,2]上求最小值，x=0不可导。应怎样处理0？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/instructional_support/supports/3/guided_task",
+            "task_id": "derivative_monotonicity:support:domain_split:guided_task",
+            "family_id": "derivative.closed-interval-candidates",
+            "prompt": "f=√x只在[0,4]研究，0处通常导数公式1/(2√x)无定义。哪项正确？",
+            "answer": "A",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/78",
+            "task_id": "mh4.5.3.2-q204",
+            "family_id": "derivative.closed-interval-candidates",
+            "prompt": "求连续函数在闭区间上的最值时，哪一组候选点应检查？",
+            "answer": "o3",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/instructional_support/supports/3/diagnostic",
+            "task_id": "derivative_monotonicity:support:domain_split:diagnostic",
+            "family_id": "derivative.closed-interval-candidates",
+            "prompt": "f=|x|在[−1,2]上求最小值，x=0不可导。应怎样处理0？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/instructional_support/supports/3/guided_task",
+            "task_id": "derivative_monotonicity:support:domain_split:guided_task",
+            "family_id": "derivative.closed-interval-candidates",
+            "prompt": "f=√x只在[0,4]研究，0处通常导数公式1/(2√x)无定义。哪项正确？",
+            "answer": "A",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "derivative.positive-sign-theorem",
+        "proposed_family": "derivative.positive-sign-monotone",
+        "decision": "accept_comparison_alias",
+        "reason": "两侧均为 mh4.5.3.1-q1：在一个区间上处处 f′>0，判断该区间递增。区间、严格正号及结论完全相同，没有导数非负、零点或跨定义域断点的边界扩展。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/28",
+            "task_id": "mh4.5.3.1-q1",
+            "family_id": "derivative.positive-sign-theorem",
+            "prompt": "在某区间上 f'(x)>0，函数在该区间上是什么状态？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/28",
+            "task_id": "mh4.5.3.1-q1",
+            "family_id": "derivative.positive-sign-monotone",
+            "prompt": "在某区间上 f'(x)>0，函数在该区间上是什么状态？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "note": "只确认比较用的实际任务同构；不改变原 family、冻结答案/事件、练习准入或掌握判定。"
+      },
+      {
+        "old_family": "derivative.disconnected-domain",
+        "proposed_family": "derivative.disconnected-domain-monotonicity",
+        "decision": "reject_global_alias",
+        "reason": "旧族有 1/x 与 1/(x−2) 的分段，也有 x+1/x 必须额外求导数零点 ±1、综合分段的自检；新族集中于倒数函数定义域断点和不能跨断点拼接单调区间。共享断点规则不足以把额外驻点分析与简单断域反例视为同结构。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/74",
+            "task_id": "mh4.5.3.1-q204",
+            "family_id": "derivative.disconnected-domain",
+            "prompt": "f(x)=1/x的单调性应怎样表述？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          },
+          {
+            "source": "data/teach/mh4.5.3.1.json#/objective_coverage/1/self_check",
+            "task_id": "mh4.5.3.1:self-check:1",
+            "family_id": "derivative.disconnected-domain",
+            "prompt": "求f(x)=x+1/x的单调区间。",
+            "answer": "x≠0，f′=1-1/x²=(x²-1)/x²。增区间(-∞,-1)、(1,+∞)，减区间(-1,0)、(0,1)；不能跨过0合并。",
+            "steps_or_criteria": [
+              "定义域排除0",
+              "导数与四区间符号正确",
+              "不跨断点合并"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/worked_examples/1",
+            "task_id": "derivative_monotonicity:example-2",
+            "family_id": "derivative.disconnected-domain",
+            "prompt": "f(x)=1/x的导数在所有定义点都小于0，能否说它在整个定义域上递减？",
+            "answer": "只能说在(−∞,0)和(0,+∞)上分别递减，不能合并为整个定义域递减。",
+            "steps_or_criteria": [
+              "函数在x=0处没有定义，定义域分成(−∞,0)和(0,+∞)。",
+              "f′(x)=−1/x²<0，所以在这两个区间上分别递减。",
+              "不能据此说整个定义域上递减：取−1<1，却有f(−1)=−1<f(1)=1，违背整体递减所要求的比较。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/tasks/1",
+            "task_id": "derivative_monotonicity:practice-2",
+            "family_id": "derivative.disconnected-domain",
+            "prompt": "f(x)=1/(x−2)，且f′(x)=−1/(x−2)²。以下表述哪项准确？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "current_proposed_family_tasks": [
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/instructional_support/supports/0/diagnostic",
+            "task_id": "derivative_monotonicity:support:o1:diagnostic",
+            "family_id": "derivative.disconnected-domain-monotonicity",
+            "prompt": "f(x)=1/(x−1)，f′(x)=−1/(x−1)²。研究单调性应怎样分段？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/instructional_support/supports/1/diagnostic",
+            "task_id": "derivative_monotonicity:support:o2:diagnostic",
+            "family_id": "derivative.disconnected-domain-monotonicity",
+            "prompt": "f=1/x在(−∞,0)和(0,+∞)上导数都小于0。能直接说它在整个非零实数集合递减吗？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/74",
+            "task_id": "mh4.5.3.1-q204",
+            "family_id": "derivative.disconnected-domain-monotonicity",
+            "prompt": "f(x)=1/x的单调性应怎样表述？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/instructional_support/supports/0/diagnostic",
+            "task_id": "derivative_monotonicity:support:o1:diagnostic",
+            "family_id": "derivative.disconnected-domain-monotonicity",
+            "prompt": "f(x)=1/(x−1)，f′(x)=−1/(x−1)²。研究单调性应怎样分段？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/instructional_support/supports/1/diagnostic",
+            "task_id": "derivative_monotonicity:support:o2:diagnostic",
+            "family_id": "derivative.disconnected-domain-monotonicity",
+            "prompt": "f=1/x在(−∞,0)和(0,+∞)上导数都小于0。能直接说它在整个非零实数集合递减吗？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "derivative.nonnegative-vs-strict",
+        "proposed_family": "derivative.zero-yet-strict-increase",
+        "decision": "reject_global_alias",
+        "reason": "旧族既含 x³ 严格递增却导数在0为零，也含 f=0(x≤0)、f=x³(x>0) 的平台反例，要求说明 f′≥0 不保证严格递增。新族仅 x³ 的“严格递增不必处处导数>0”方向；必要性反例与充分性失败/平台边界不同，拒绝合并。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/71",
+            "task_id": "mh4.5.3.1-q201",
+            "family_id": "derivative.nonnegative-vs-strict",
+            "prompt": "f(x)=x³在实数上严格递增，但f′(0)=0。这说明哪一项？",
+            "answer": "o3",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          },
+          {
+            "source": "data/teach/mh4.5.3.1.json#/objective_coverage/0/self_check",
+            "task_id": "mh4.5.3.1:self-check:0",
+            "family_id": "derivative.nonnegative-vs-strict",
+            "prompt": "x³在实数上严格递增吗？x=0处导数为0是否矛盾？",
+            "answer": "x³严格递增。任取a<b，b³−a³=(b−a)(a²+ab+b²)>0，所以函数值严格增加；f′(0)=0不矛盾，处处正导数是充分条件而非必要条件。",
+            "steps_or_criteria": [
+              "承认严格递增",
+              "指出正导数并非必要条件"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/tasks/10",
+            "task_id": "derivative_monotonicity:transfer-4",
+            "family_id": "derivative.nonnegative-vs-strict",
+            "prompt": "定义f(x)=0（x≤0），f(x)=x³（x>0）。该函数处处可导且f′(x)≥0。它在整个实数范围严格递增吗？给出两个不同自变量核对，并改写成正确的单调性描述。",
+            "answer": null,
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/instructional_support/supports/5/diagnostic",
+            "task_id": "derivative_monotonicity:support:monotonic_intervals:diagnostic",
+            "family_id": "derivative.nonnegative-vs-strict",
+            "prompt": "f(x)=0（x≤0），f(x)=x³（x>0）。它处处f′≥0，是否在整个实数上严格递增？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "current_proposed_family_tasks": [
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/instructional_support/supports/5/guided_task",
+            "task_id": "derivative_monotonicity:support:monotonic_intervals:guided_task",
+            "family_id": "derivative.zero-yet-strict-increase",
+            "prompt": "f(x)=x³在实数上，哪项正确？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/71",
+            "task_id": "mh4.5.3.1-q201",
+            "family_id": "derivative.zero-yet-strict-increase",
+            "prompt": "f(x)=x³在实数上严格递增，但f′(0)=0。这说明哪一项？",
+            "answer": "o3",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/instructional_support/supports/5/guided_task",
+            "task_id": "derivative_monotonicity:support:monotonic_intervals:guided_task",
+            "family_id": "derivative.zero-yet-strict-increase",
+            "prompt": "f(x)=x³在实数上，哪项正确？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "derivative.stationary-candidates",
+        "proposed_family": "derivative.stationary-equation",
+        "decision": "accept_comparison_alias",
+        "reason": "两侧均为 mh4.5.3.1-q203：对 x³−12x 求导，解 3x²−12=0 后选正根 2。只是 stationary-candidates 改称 stationary-equation；既未判断极值，也未增加导数符号分段。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/73",
+            "task_id": "mh4.5.3.1-q203",
+            "family_id": "derivative.stationary-candidates",
+            "prompt": "f(x)=x³-12x的导数在正数范围内为0的x是多少？",
+            "answer": "2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/73",
+            "task_id": "mh4.5.3.1-q203",
+            "family_id": "derivative.stationary-equation",
+            "prompt": "f(x)=x³-12x的导数在正数范围内为0的x是多少？",
+            "answer": "2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "note": "只确认比较用的实际任务同构；不改变原 family、冻结答案/事件、练习准入或掌握判定。"
+      },
+      {
+        "old_family": "derivative.linear-sign",
+        "proposed_family": "derivative.sign-change-boundary",
+        "decision": "reject_global_alias",
+        "reason": "旧族混合求导数由负转正的边界横坐标、求递增区间，以及已给一次式导数后判断两侧单调性。草稿将它拆成边界值和区间结论两族，两个结果类型、所需完整性不同；一个旧族不能分别全局等价到两个不同新族，保留旧族名。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/29",
+            "task_id": "mh4.5.3.1-q2",
+            "family_id": "derivative.linear-sign",
+            "prompt": "函数f(x)=x²−2x在实数范围内定义。导数由负变正的分界点横坐标是多少？只填数值。",
+            "answer": "1",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/xby2.json#/questions/72",
+            "task_id": "mh4.5.3.1-q202",
+            "family_id": "derivative.linear-sign",
+            "prompt": "f(x)=x²-6x的递增区间是哪一个？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/tasks/0",
+            "task_id": "derivative_monotonicity:practice-1",
+            "family_id": "derivative.linear-sign",
+            "prompt": "函数f在实数范围内可导，且f′(x)=2x−6。由导数符号可以确定哪个结论？",
+            "answer": "A",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/instructional_support/supports/1/guided_task",
+            "task_id": "derivative_monotonicity:support:o2:guided_task",
+            "family_id": "derivative.linear-sign",
+            "prompt": "f在整个实数域可导，f′(x)=2x−4。哪项正确？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/29",
+            "task_id": "mh4.5.3.1-q2",
+            "family_id": "derivative.sign-change-boundary",
+            "prompt": "函数f(x)=x²−2x在实数范围内定义。导数由负变正的分界点横坐标是多少？只填数值。",
+            "answer": "1",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "derivative.linear-sign",
+        "proposed_family": "derivative.solve-monotone-interval",
+        "decision": "reject_global_alias",
+        "reason": "旧族混合求导数由负转正的边界横坐标、求递增区间，以及已给一次式导数后判断两侧单调性。草稿将它拆成边界值和区间结论两族，两个结果类型、所需完整性不同；一个旧族不能分别全局等价到两个不同新族，保留旧族名。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/29",
+            "task_id": "mh4.5.3.1-q2",
+            "family_id": "derivative.linear-sign",
+            "prompt": "函数f(x)=x²−2x在实数范围内定义。导数由负变正的分界点横坐标是多少？只填数值。",
+            "answer": "1",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/xby2.json#/questions/72",
+            "task_id": "mh4.5.3.1-q202",
+            "family_id": "derivative.linear-sign",
+            "prompt": "f(x)=x²-6x的递增区间是哪一个？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/tasks/0",
+            "task_id": "derivative_monotonicity:practice-1",
+            "family_id": "derivative.linear-sign",
+            "prompt": "函数f在实数范围内可导，且f′(x)=2x−6。由导数符号可以确定哪个结论？",
+            "answer": "A",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/learning_units/derivative_monotonicity.json#/instructional_support/supports/1/guided_task",
+            "task_id": "derivative_monotonicity:support:o2:guided_task",
+            "family_id": "derivative.linear-sign",
+            "prompt": "f在整个实数域可导，f′(x)=2x−4。哪项正确？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/xby2.json#/questions/72",
+            "task_id": "mh4.5.3.1-q202",
+            "family_id": "derivative.solve-monotone-interval",
+            "prompt": "f(x)=x²-6x的递增区间是哪一个？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "equation.verbal-affine-model",
+        "proposed_family": "equation.affine-word-model",
+        "decision": "accept_comparison_alias",
+        "reason": "旧、新族均恰含同两道任务 m7a.5.3-q1/q4，把“3倍减5等于16”“2倍等于10”翻译为一次等量关系并求未知数。数量关系、未知量位置和解法均保留，没有新增逆命题或额外约束。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/qishang.json#/questions/71",
+            "task_id": "m7a.5.3-q1",
+            "family_id": "equation.verbal-affine-model",
+            "prompt": "某数的 3 倍减去 5 等于 16，这个数是多少？",
+            "answer": "7",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "model"
+          },
+          {
+            "source": "data/content/qishang.json#/questions/74",
+            "task_id": "m7a.5.3-q4",
+            "family_id": "equation.verbal-affine-model",
+            "prompt": "某数的 2 倍是 10，这个数是多少？",
+            "answer": "5",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "model"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/qishang.json#/questions/71",
+            "task_id": "m7a.5.3-q1",
+            "family_id": "equation.affine-word-model",
+            "prompt": "某数的 3 倍减去 5 等于 16，这个数是多少？",
+            "answer": "7",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "model"
+          },
+          {
+            "source": "data/content/qishang.json#/questions/74",
+            "task_id": "m7a.5.3-q4",
+            "family_id": "equation.affine-word-model",
+            "prompt": "某数的 2 倍是 10，这个数是多少？",
+            "answer": "5",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "model"
+          }
+        ],
+        "note": "只确认比较用的实际任务同构；不改变原 family、冻结答案/事件、练习准入或掌握判定。"
+      },
+      {
+        "old_family": "equation.meeting-model",
+        "proposed_family": "motion.opposing-speeds-meeting",
+        "decision": "accept_comparison_alias",
+        "reason": "当前旧族的 bank 与 teach 题均为同一直路、同时出发、相向匀速、已知相距路程与两速度，统一用 (v1+v2)t=D 求相遇时间。草稿新族仍是相同条件的 m7a.5.3-q3；36/(10+8) 与 30/(4+6) 只有数值差异，没有追及、异时或折返。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/qishang.json#/questions/73",
+            "task_id": "m7a.5.3-q3",
+            "family_id": "equation.meeting-model",
+            "prompt": "甲、乙两人相距30千米，同时沿同一直路相向匀速而行，甲每小时走4千米、乙每小时走6千米。几小时后两人相遇？",
+            "answer": "3",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "model"
+          },
+          {
+            "source": "data/teach/m7a.5.3.json#/worked_example",
+            "task_id": "m7a.5.3:worked-example-v6",
+            "family_id": "equation.meeting-model",
+            "prompt": "甲、乙两地相距 36 千米，两人骑车同时从两地出发相向而行，甲每小时行 10 千米、乙每小时行 8 千米，几小时后相遇？",
+            "answer": "2",
+            "steps_or_criteria": [
+              "相向而行，两人每小时合起来缩短 10+8=18 千米。",
+              "设 x 小时后相遇，则 18x=36。",
+              "解得 x=36÷18=2，即 2 小时后相遇。"
+            ],
+            "representation": "verbal",
+            "cognitive_demand": "model"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/qishang.json#/questions/73",
+            "task_id": "m7a.5.3-q3",
+            "family_id": "motion.opposing-speeds-meeting",
+            "prompt": "甲、乙两人相距30千米，同时沿同一直路相向匀速而行，甲每小时走4千米、乙每小时走6千米。几小时后两人相遇？",
+            "answer": "3",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "model"
+          }
+        ],
+        "note": "只确认比较用的实际任务同构；不改变原 family、冻结答案/事件、练习准入或掌握判定。"
+      },
+      {
+        "old_family": "equation.solve-linear",
+        "proposed_family": "equation.property-operation-justification",
+        "decision": "reject_global_alias",
+        "reason": "旧族覆盖多步、去括号、去分母、求根和代回检验。新族又包含选择保持解集的可逆操作理由、指出非零除数前提。计算出解与说明变形对全部候选解合法不是同一观察；部分一步题复用不能使两族全局等价。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/qishang.json#/questions/61",
+            "task_id": "m7a.5.1.1-q2",
+            "family_id": "equation.solve-linear",
+            "prompt": "方程 2x-6=0 的解是多少？",
+            "answer": "3",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/qishang.json#/questions/64",
+            "task_id": "m7a.5.1.2-q2",
+            "family_id": "equation.solve-linear",
+            "prompt": "若 x+5=8，根据等式性质两边同时减去 5，得到什么？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/content/qishang.json#/questions/66",
+            "task_id": "m7a.5.1.2-q4",
+            "family_id": "equation.solve-linear",
+            "prompt": "若 x+5=8，根据等式性质两边同时减去 5，x 等于多少？",
+            "answer": "3",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/qishang.json#/questions/67",
+            "task_id": "m7a.5.2-q1",
+            "family_id": "equation.solve-linear",
+            "prompt": "解方程 3x-5=7，x 等于多少？",
+            "answer": "4",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/qishang.json#/questions/68",
+            "task_id": "m7a.5.2-q2",
+            "family_id": "equation.solve-linear",
+            "prompt": "解方程 2(x-1)=6，x 等于多少？",
+            "answer": "4",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/qishang.json#/questions/69",
+            "task_id": "m7a.5.2-q3",
+            "family_id": "equation.solve-linear",
+            "prompt": "解方程 (x-1)/2=3，x 等于多少？",
+            "answer": "7",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/qishang.json#/questions/70",
+            "task_id": "m7a.5.2-q4",
+            "family_id": "equation.solve-linear",
+            "prompt": "解方程 x+2=5，x 等于多少？",
+            "answer": "3",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/m7a.5.2.json#/worked_example",
+            "task_id": "m7a.5.2:worked-example-v6",
+            "family_id": "equation.solve-linear",
+            "prompt": "解方程 3x-5=7。",
+            "answer": "4",
+            "steps_or_criteria": [
+              "移项：把 -5 挪到右边变 +5，得 3x=7+5=12。",
+              "系数化为 1：两边同除以 3，x=12÷3=4。",
+              "代回检验：3×4-5=7，左右相等。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/teach/m7a.5.2.json#/objective_coverage/0/self_check",
+            "task_id": "m7a.5.2:criterion-0-v6",
+            "family_id": "equation.solve-linear",
+            "prompt": "解(x−1)/2+1=3，写完整过程。",
+            "answer": "两边乘2得x−1+2=6，即x+1=6，x=5；代入(5−1)/2+1=3。",
+            "steps_or_criteria": [
+              "常数项1也乘2",
+              "回代原方程检验"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/m7a.5.1.1.json#/worked_example",
+            "task_id": "m7a.5.1.1:worked-example-v6",
+            "family_id": "equation.solve-linear",
+            "prompt": "方程 2x-6=0 的解是多少？",
+            "answer": "3",
+            "steps_or_criteria": [
+              "移项：把 -6 挪到右边变成 +6，得 2x=6。",
+              "两边同除以 2：x=3。",
+              "代回检验：2×3-6=0，左右相等，所以 x=3 是解。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/equation_equivalence.json#/worked_examples/0",
+            "task_id": "equation_equivalence:example-1",
+            "family_id": "equation.solve-linear",
+            "prompt": "解方程3(x−2)=12，并检验。",
+            "answer": "6",
+            "steps_or_criteria": [
+              "两边同除以非零数3，得到x−2=4。",
+              "两边同时加2，得到x=6。",
+              "代回原式：3×(6−2)=12，检验成立。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/equation_equivalence.json#/worked_examples/1",
+            "task_id": "equation_equivalence:example-2",
+            "family_id": "equation.solve-linear",
+            "prompt": "解方程(x+1)/3−(x−2)/2=1。",
+            "answer": "2",
+            "steps_or_criteria": [
+              "两边每一项同乘6：2(x+1)−3(x−2)=6，右边的1也要乘6。",
+              "去括号得2x+2−3x+6=6，合并为−x+8=6。",
+              "解得x=2，代回：(2+1)/3−(2−2)/2=1。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/equation_equivalence.json#/tasks/1",
+            "task_id": "equation_equivalence:practice-2",
+            "family_id": "equation.solve-linear",
+            "prompt": "解方程(2x−1)/3=(x+2)/2，填x的值，并在草稿上代回原方程检验。请只填数值，不写变量名或等号。",
+            "answer": "8",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/learning_units/equation_equivalence.json#/tasks/5",
+            "task_id": "equation_equivalence:delayed-1",
+            "family_id": "equation.solve-linear",
+            "prompt": "独立解方程2(3x+1)−5=3(x+4)，填写x。请只填数值，不写变量名或等号。",
+            "answer": "5",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/learning_units/equation_equivalence.json#/instructional_support/supports/1/guided_task",
+            "task_id": "equation_equivalence:support:o2:guided_task-v6",
+            "family_id": "equation.solve-linear",
+            "prompt": "解3(x−2)=x+4，先去括号再移项，最后代回原式。填x。",
+            "answer": "5",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "current_proposed_family_tasks": [
+          {
+            "source": "data/content/qishang.json#/questions/65",
+            "task_id": "m7a.5.1.2-q3",
+            "family_id": "equation.property-operation-justification",
+            "prompt": "由 2x=6 得到 x=3，依据是什么？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/teach/m7a.5.1.2.json#/objective_coverage/0/self_check",
+            "task_id": "m7a.5.1.2:criterion-0-v6",
+            "family_id": "equation.property-operation-justification",
+            "prompt": "从3x−2=10得到3x=12，再得到x=4，分别用了什么性质？",
+            "answer": "先两边同加2，再两边同除以非零数3。",
+            "steps_or_criteria": [
+              "每一步两边做同样运算",
+              "说明除数3非零"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/equation_equivalence.json#/instructional_support/supports/0/guided_task",
+            "task_id": "equation_equivalence:support:o1:guided_task-v6",
+            "family_id": "equation.property-operation-justification",
+            "prompt": "由x+4=9到x=5，哪条理由充分？",
+            "answer": "A",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/equation_equivalence.json#/instructional_support/supports/3/guided_task",
+            "task_id": "equation_equivalence:support:reversible:guided_task-v6",
+            "family_id": "equation.property-operation-justification",
+            "prompt": "哪一步可对所有实数候选x保持解集？",
+            "answer": "C",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/equation_equivalence.json#/instructional_support/supports/3/skip_route/guided_task",
+            "task_id": null,
+            "family_id": "equation.property-operation-justification",
+            "prompt": "从2x=6得到x=3，下面哪项准确说明这一步？",
+            "answer": "1",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/qishang.json#/questions/64",
+            "task_id": "m7a.5.1.2-q2",
+            "family_id": "equation.property-operation-justification",
+            "prompt": "若 x+5=8，根据等式性质两边同时减去 5，得到什么？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/content/qishang.json#/questions/65",
+            "task_id": "m7a.5.1.2-q3",
+            "family_id": "equation.property-operation-justification",
+            "prompt": "由 2x=6 得到 x=3，依据是什么？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/content/qishang.json#/questions/66",
+            "task_id": "m7a.5.1.2-q4",
+            "family_id": "equation.property-operation-justification",
+            "prompt": "若 x+5=8，根据等式性质两边同时减去 5，x 等于多少？",
+            "answer": "3",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/m7a.5.1.2.json#/objective_coverage/0/self_check",
+            "task_id": "m7a.5.1.2:criterion-0-v6",
+            "family_id": "equation.property-operation-justification",
+            "prompt": "从3x−2=10得到3x=12，再得到x=4，分别用了什么性质？",
+            "answer": "先两边同加2，再两边同除以非零数3。",
+            "steps_or_criteria": [
+              "每一步两边做同样运算",
+              "说明除数3非零"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/equation_equivalence.json#/instructional_support/supports/0/guided_task",
+            "task_id": "equation_equivalence:support:o1:guided_task-v6",
+            "family_id": "equation.property-operation-justification",
+            "prompt": "由x+4=9到x=5，哪条理由充分？",
+            "answer": "A",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/equation_equivalence.json#/instructional_support/supports/3/guided_task",
+            "task_id": "equation_equivalence:support:reversible:guided_task-v6",
+            "family_id": "equation.property-operation-justification",
+            "prompt": "哪一步可对所有实数候选x保持解集？",
+            "answer": "C",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/equation_equivalence.json#/instructional_support/supports/3/skip_route/guided_task",
+            "task_id": null,
+            "family_id": "equation.property-operation-justification",
+            "prompt": "从2x=6得到x=3，下面哪项准确说明这一步？",
+            "answer": "1",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "equation.discount-base-model",
+        "proposed_family": "equation.price-before-discount",
+        "decision": "accept_comparison_alias",
+        "reason": "两侧均为 m7a.5.3-q2：已知八折与售价240，设标价 x，解 0.8x=240，得300。未知量仍是折前基数，没有把“已知原价求售价”或连续折扣混入。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/qishang.json#/questions/72",
+            "task_id": "m7a.5.3-q2",
+            "family_id": "equation.discount-base-model",
+            "prompt": "一件商品按标价的八折出售，售价是 240 元，标价是多少元？",
+            "answer": "300",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "model"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/qishang.json#/questions/72",
+            "task_id": "m7a.5.3-q2",
+            "family_id": "equation.price-before-discount",
+            "prompt": "一件商品按标价的八折出售，售价是 240 元，标价是多少元？",
+            "answer": "300",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "model"
+          }
+        ],
+        "note": "只确认比较用的实际任务同构；不改变原 family、冻结答案/事件、练习准入或掌握判定。"
+      },
+      {
+        "old_family": "solid.regular-pyramid.surface-area",
+        "proposed_family": "solid.regular-pyramid-surface-area",
+        "decision": "reject_global_alias",
+        "reason": "旧族 bank 题直接给侧面斜高，teach 自检给垂直高并要求先用勾股定理求斜高、再求表面积；草稿新族仅直接给斜高的前一题。额外区分两种高度与求斜高是实质进阶边界，不可把全旧族等同于只需直接代入的数据。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/200",
+            "task_id": "mh2.8.3.1-q203",
+            "family_id": "solid.regular-pyramid.surface-area",
+            "prompt": "正四棱锥底边6厘米、侧面斜高5厘米，表面积多少平方厘米？",
+            "answer": "96",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/mh2.8.3.1.json#/objective_coverage/1/self_check",
+            "task_id": "mh2.8.3.1:self-check:1",
+            "family_id": "solid.regular-pyramid.surface-area",
+            "prompt": "正四棱锥底边8、垂直高3，求其侧面斜高与表面积。",
+            "answer": "斜高√(3²+4²)=5；底面积64，侧面积4·8·5/2=80，总144。",
+            "steps_or_criteria": [
+              "斜高由半底边与垂直高求出",
+              "侧面及底面完整相加"
+            ],
+            "representation": "mixed",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/200",
+            "task_id": "mh2.8.3.1-q203",
+            "family_id": "solid.regular-pyramid-surface-area",
+            "prompt": "正四棱锥底边6厘米、侧面斜高5厘米，表面积多少平方厘米？",
+            "answer": "96",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "solid.frustum.parallel-cut-volume",
+        "proposed_family": "solid.frustum-parallel-section-volume",
+        "decision": "reject_global_alias",
+        "reason": "旧族包括公式计算以及必须用面积比开方建立相似长度/高度比、补成大小棱锥作体积差的复核任务。草稿新族只收录已给两底面积与垂直高直接求体积的 bank 题；能直接代公式不等于能完成相似比和补锥复核，不批准全族别名。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/201",
+            "task_id": "mh2.8.3.1-q204",
+            "family_id": "solid.frustum.parallel-cut-volume",
+            "prompt": "用平行于棱锥底面的平面截去顶端小棱锥，得到两底面积为4与16平方厘米、垂直高3厘米的棱台。体积多少立方厘米？",
+            "answer": "28",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/mh2.8.3.1.json#/worked_example",
+            "task_id": "mh2.8.3.1:frustum-worked-v5",
+            "family_id": "solid.frustum.parallel-cut-volume",
+            "prompt": "一个由平行截面截得的棱台，上底面积9平方厘米、下底面积36平方厘米、垂直高4厘米，求体积，并用大棱锥减小棱锥复核。",
+            "answer": "84",
+            "steps_or_criteria": [
+              "面积比9:36=1:4，所以相似长度比（也是两棱锥高之比）为1:2。设小棱锥高x，大棱锥高2x，棱台高2x−x=4，得x=4。",
+              "大棱锥体积36×8÷3=96，小棱锥体积9×4÷3=12，差为84立方厘米。",
+              "直接代入棱台公式：4×(9+36+√(9×36))÷3=4×63÷3=84。",
+              "检验9×4=36<84<144=36×4；注意此例的两个底面必须平行且由同一棱锥截得。"
+            ],
+            "representation": "mixed",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/teach/mh2.8.3.1.json#/objective_coverage/5/self_check",
+            "task_id": "mh2.8.3.1:self-check:5",
+            "family_id": "solid.frustum.parallel-cut-volume",
+            "prompt": "由平行于底面的平面截一个棱锥，得到上下底面积分别4、25平方厘米、高6厘米的棱台。用公式求体积，再用补成大棱锥的方法复核。",
+            "answer": "√(4×25)=10，V=6×(4+25+10)÷3=78立方厘米。相似长度比2:5，设小锥高2k、大锥高5k，差3k=6得k=2；大锥25×10÷3，小锥4×4÷3，差(250−16)÷3=78。",
+            "steps_or_criteria": [
+              "说明平行截得的条件",
+              "把几何平均项算为10而不是14.5",
+              "公式与大锥减小锥都得到78",
+              "用面积比平方根建立长度比"
+            ],
+            "representation": "mixed",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/201",
+            "task_id": "mh2.8.3.1-q204",
+            "family_id": "solid.frustum-parallel-section-volume",
+            "prompt": "用平行于棱锥底面的平面截去顶端小棱锥，得到两底面积为4与16平方厘米、垂直高3厘米的棱台。体积多少立方厘米？",
+            "answer": "28",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "projection.oblique.axis-rule",
+        "proposed_family": "projection.oblique-x-length",
+        "decision": "reject_global_alias",
+        "reason": "旧族同时含 x向不变、y向减半。草稿拆成 x 方向与 y 方向两族，且 y 族又并入实际正算、逆算长度；方向条件及任务操作不一致，不能一对多全局合并。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/80",
+            "task_id": "mh2.8.2-q1",
+            "family_id": "projection.oblique.axis-rule",
+            "prompt": "斜二测画法中，与 y 轴平行的线段长度如何变化？",
+            "answer": "o3",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/81",
+            "task_id": "mh2.8.2-q2",
+            "family_id": "projection.oblique.axis-rule",
+            "prompt": "斜二测画法中，与 x 轴平行的线段长度如何变化？",
+            "answer": "o1",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/82",
+            "task_id": "mh2.8.2-q3",
+            "family_id": "projection.oblique.axis-rule",
+            "prompt": "斜二测画法中，与 y 轴平行的线段长度变为原来的几分之几？",
+            "answer": "1/2",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/197",
+            "task_id": "mh2.8.2-q203",
+            "family_id": "projection.oblique.axis-rule",
+            "prompt": "标准45°斜二测画法对沿x轴的线段怎样处理？",
+            "answer": "o3",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/81",
+            "task_id": "mh2.8.2-q2",
+            "family_id": "projection.oblique-x-length",
+            "prompt": "斜二测画法中，与 x 轴平行的线段长度如何变化？",
+            "answer": "o1",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/197",
+            "task_id": "mh2.8.2-q203",
+            "family_id": "projection.oblique-x-length",
+            "prompt": "标准45°斜二测画法对沿x轴的线段怎样处理？",
+            "answer": "o3",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "projection.oblique.axis-rule",
+        "proposed_family": "projection.oblique-y-length",
+        "decision": "reject_global_alias",
+        "reason": "旧族同时含 x向不变、y向减半。草稿拆成 x 方向与 y 方向两族，且 y 族又并入实际正算、逆算长度；方向条件及任务操作不一致，不能一对多全局合并。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/80",
+            "task_id": "mh2.8.2-q1",
+            "family_id": "projection.oblique.axis-rule",
+            "prompt": "斜二测画法中，与 y 轴平行的线段长度如何变化？",
+            "answer": "o3",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/81",
+            "task_id": "mh2.8.2-q2",
+            "family_id": "projection.oblique.axis-rule",
+            "prompt": "斜二测画法中，与 x 轴平行的线段长度如何变化？",
+            "answer": "o1",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/82",
+            "task_id": "mh2.8.2-q3",
+            "family_id": "projection.oblique.axis-rule",
+            "prompt": "斜二测画法中，与 y 轴平行的线段长度变为原来的几分之几？",
+            "answer": "1/2",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/197",
+            "task_id": "mh2.8.2-q203",
+            "family_id": "projection.oblique.axis-rule",
+            "prompt": "标准45°斜二测画法对沿x轴的线段怎样处理？",
+            "answer": "o3",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/80",
+            "task_id": "mh2.8.2-q1",
+            "family_id": "projection.oblique-y-length",
+            "prompt": "斜二测画法中，与 y 轴平行的线段长度如何变化？",
+            "answer": "o3",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/82",
+            "task_id": "mh2.8.2-q3",
+            "family_id": "projection.oblique-y-length",
+            "prompt": "斜二测画法中，与 y 轴平行的线段长度变为原来的几分之几？",
+            "answer": "1/2",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/195",
+            "task_id": "mh2.8.2-q201",
+            "family_id": "projection.oblique-y-length",
+            "prompt": "斜二测画法中，原图沿y轴的线段长10厘米，直观图中应画多少厘米？",
+            "answer": "5",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/196",
+            "task_id": "mh2.8.2-q202",
+            "family_id": "projection.oblique-y-length",
+            "prompt": "斜二测直观图中，原来沿y方向的线段画为4厘米，原长多少厘米？",
+            "answer": "8",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "solid.cuboid.surface-area",
+        "proposed_family": "solid.cuboid-face-decomposition",
+        "decision": "accept_comparison_alias",
+        "reason": "两侧均为 mh2.8.3.1-q202：已知长宽高5、3、2，按三对相对矩形面积相加 2(ab+ac+bc)=62。face-decomposition 是原解释已有的同一计算结构；没有开放盒、展开图判断或逆求尺寸。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/199",
+            "task_id": "mh2.8.3.1-q202",
+            "family_id": "solid.cuboid.surface-area",
+            "prompt": "长方体长5、宽3、高2厘米，表面积多少平方厘米？",
+            "answer": "62",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/199",
+            "task_id": "mh2.8.3.1-q202",
+            "family_id": "solid.cuboid-face-decomposition",
+            "prompt": "长方体长5、宽3、高2厘米，表面积多少平方厘米？",
+            "answer": "62",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "note": "只确认比较用的实际任务同构；不改变原 family、冻结答案/事件、练习准入或掌握判定。"
+      },
+      {
+        "old_family": "solid.prism.base-height-volume",
+        "proposed_family": "solid.prism-height-vs-lateral-edge",
+        "decision": "reject_global_alias",
+        "reason": "旧族兼有只给垂直高的 V=Sh 代值题及给侧棱干扰值、要求排除侧棱说明理由的题；草稿按高度甄别与已知垂直高计算拆开。是否要从干扰长度中识别垂距是实际条件边界，两个子族都不等价于全旧族。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/83",
+            "task_id": "mh2.8.3.1-q1",
+            "family_id": "solid.prism.base-height-volume",
+            "prompt": "棱柱底面积为4平方单位，两底面的垂直距离为3单位，体积是多少立方单位？",
+            "answer": "12",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/270",
+            "task_id": "mh2.8.3.1-q305",
+            "family_id": "solid.prism.base-height-volume",
+            "prompt": "一个斜棱柱的底面积为18平方厘米，侧棱长8厘米，两底面的垂直距离为7厘米。这个棱柱体积是多少立方厘米？",
+            "answer": "126",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/mh2.8.3.1.json#/objective_coverage/3/self_check",
+            "task_id": "mh2.8.3.1:self-check:3",
+            "family_id": "solid.prism.base-height-volume",
+            "prompt": "一个斜棱柱底面积15平方厘米，侧棱长10厘米，两底面的垂直距离8厘米，求体积并说明哪项信息没有用于相乘。",
+            "answer": "V=15×8=120立方厘米；侧棱10厘米没有用于相乘，它不是两底面间的垂直距离。",
+            "steps_or_criteria": [
+              "选择底面积15与垂直高8",
+              "体积120且单位为立方厘米",
+              "明确排除侧棱10作为高"
+            ],
+            "representation": "mixed",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/270",
+            "task_id": "mh2.8.3.1-q305",
+            "family_id": "solid.prism-height-vs-lateral-edge",
+            "prompt": "一个斜棱柱的底面积为18平方厘米，侧棱长8厘米，两底面的垂直距离为7厘米。这个棱柱体积是多少立方厘米？",
+            "answer": "126",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "solid.prism.base-height-volume",
+        "proposed_family": "solid.prism-perpendicular-height-volume",
+        "decision": "reject_global_alias",
+        "reason": "旧族兼有只给垂直高的 V=Sh 代值题及给侧棱干扰值、要求排除侧棱说明理由的题；草稿按高度甄别与已知垂直高计算拆开。是否要从干扰长度中识别垂距是实际条件边界，两个子族都不等价于全旧族。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/83",
+            "task_id": "mh2.8.3.1-q1",
+            "family_id": "solid.prism.base-height-volume",
+            "prompt": "棱柱底面积为4平方单位，两底面的垂直距离为3单位，体积是多少立方单位？",
+            "answer": "12",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/270",
+            "task_id": "mh2.8.3.1-q305",
+            "family_id": "solid.prism.base-height-volume",
+            "prompt": "一个斜棱柱的底面积为18平方厘米，侧棱长8厘米，两底面的垂直距离为7厘米。这个棱柱体积是多少立方厘米？",
+            "answer": "126",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/mh2.8.3.1.json#/objective_coverage/3/self_check",
+            "task_id": "mh2.8.3.1:self-check:3",
+            "family_id": "solid.prism.base-height-volume",
+            "prompt": "一个斜棱柱底面积15平方厘米，侧棱长10厘米，两底面的垂直距离8厘米，求体积并说明哪项信息没有用于相乘。",
+            "answer": "V=15×8=120立方厘米；侧棱10厘米没有用于相乘，它不是两底面间的垂直距离。",
+            "steps_or_criteria": [
+              "选择底面积15与垂直高8",
+              "体积120且单位为立方厘米",
+              "明确排除侧棱10作为高"
+            ],
+            "representation": "mixed",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/83",
+            "task_id": "mh2.8.3.1-q1",
+            "family_id": "solid.prism-perpendicular-height-volume",
+            "prompt": "棱柱底面积为4平方单位，两底面的垂直距离为3单位，体积是多少立方单位？",
+            "answer": "12",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "solid.pyramid.base-height-volume",
+        "proposed_family": "solid.pyramid-perpendicular-height-volume",
+        "decision": "reject_global_alias",
+        "reason": "旧族除直接给底面积及垂直高的 V=Sh/3 两题外，还包含三角形底面先求面积、区分除2与除3来源的自检；草稿新族只有直接给底面积的两题。面积子问题及两个比例因子的解释不能被当作纯数值变体，拒绝全局合并。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/84",
+            "task_id": "mh2.8.3.1-q2",
+            "family_id": "solid.pyramid.base-height-volume",
+            "prompt": "棱锥底面积为6平方单位，顶点到底面的垂直距离为4单位，体积是多少立方单位？",
+            "answer": "8",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/198",
+            "task_id": "mh2.8.3.1-q201",
+            "family_id": "solid.pyramid.base-height-volume",
+            "prompt": "棱锥底面积30平方厘米、垂直高6厘米，体积多少立方厘米？",
+            "answer": "60",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/mh2.8.3.1.json#/objective_coverage/4/self_check",
+            "task_id": "mh2.8.3.1:self-check:4",
+            "family_id": "solid.pyramid.base-height-volume",
+            "prompt": "三棱锥的底面是直角三角形，两直角边6厘米、8厘米，棱锥垂直高9厘米。求体积，分别说明两个除法的作用。",
+            "answer": "底面积6×8÷2=24平方厘米，体积24×9÷3=72立方厘米；除2来自三角形面积，除3来自棱锥体积。",
+            "steps_or_criteria": [
+              "先求三角形底面积24",
+              "再乘垂直高9并除3得72",
+              "区分三角形底面的二分之一与棱锥的三分之一"
+            ],
+            "representation": "mixed",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/84",
+            "task_id": "mh2.8.3.1-q2",
+            "family_id": "solid.pyramid-perpendicular-height-volume",
+            "prompt": "棱锥底面积为6平方单位，顶点到底面的垂直距离为4单位，体积是多少立方单位？",
+            "answer": "8",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/198",
+            "task_id": "mh2.8.3.1-q201",
+            "family_id": "solid.pyramid-perpendicular-height-volume",
+            "prompt": "棱锥底面积30平方厘米、垂直高6厘米，体积多少立方厘米？",
+            "answer": "60",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "projection.oblique.forward-length",
+        "proposed_family": "projection.oblique-y-length",
+        "decision": "reject_global_alias",
+        "reason": "旧族仅已知原 y 向长度，乘1/2求图长。草稿 y-length 同时含规则识记及已知图长乘2求原长；已知量与未知量交换、正反向运算不同，不能用一个宽标签抹平该边界。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/195",
+            "task_id": "mh2.8.2-q201",
+            "family_id": "projection.oblique.forward-length",
+            "prompt": "斜二测画法中，原图沿y轴的线段长10厘米，直观图中应画多少厘米？",
+            "answer": "5",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/80",
+            "task_id": "mh2.8.2-q1",
+            "family_id": "projection.oblique-y-length",
+            "prompt": "斜二测画法中，与 y 轴平行的线段长度如何变化？",
+            "answer": "o3",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/82",
+            "task_id": "mh2.8.2-q3",
+            "family_id": "projection.oblique-y-length",
+            "prompt": "斜二测画法中，与 y 轴平行的线段长度变为原来的几分之几？",
+            "answer": "1/2",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/195",
+            "task_id": "mh2.8.2-q201",
+            "family_id": "projection.oblique-y-length",
+            "prompt": "斜二测画法中，原图沿y轴的线段长10厘米，直观图中应画多少厘米？",
+            "answer": "5",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/196",
+            "task_id": "mh2.8.2-q202",
+            "family_id": "projection.oblique-y-length",
+            "prompt": "斜二测直观图中，原来沿y方向的线段画为4厘米，原长多少厘米？",
+            "answer": "8",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "projection.oblique.inverse-length",
+        "proposed_family": "projection.oblique-y-length",
+        "decision": "reject_global_alias",
+        "reason": "旧族按图中 y 向长度除以1/2求原长（含原图尺寸恢复）；草稿 y-length 还包含规则识记和正向缩小。逆推与正推不是完全相同任务结构，拒绝把正反向及识记一并合并。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/196",
+            "task_id": "mh2.8.2-q202",
+            "family_id": "projection.oblique.inverse-length",
+            "prompt": "斜二测直观图中，原来沿y方向的线段画为4厘米，原长多少厘米？",
+            "answer": "8",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/mh2.8.2.json#/objective_coverage/1/self_check",
+            "task_id": "mh2.8.2:self-check:1",
+            "family_id": "projection.oblique.inverse-length",
+            "prompt": "直观图中一条原来沿y方向的边画长3，原长是多少？原图中x、y两边的直角在图上必仍90°吗？",
+            "answer": "原长6；不是，通常画为45°或135°。平行关系保留，角度一般不保持。",
+            "steps_or_criteria": [
+              "还原原长6",
+              "明确长度与角度失真规则"
+            ],
+            "representation": "mixed",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/bx2.json#/questions/80",
+            "task_id": "mh2.8.2-q1",
+            "family_id": "projection.oblique-y-length",
+            "prompt": "斜二测画法中，与 y 轴平行的线段长度如何变化？",
+            "answer": "o3",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/82",
+            "task_id": "mh2.8.2-q3",
+            "family_id": "projection.oblique-y-length",
+            "prompt": "斜二测画法中，与 y 轴平行的线段长度变为原来的几分之几？",
+            "answer": "1/2",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/195",
+            "task_id": "mh2.8.2-q201",
+            "family_id": "projection.oblique-y-length",
+            "prompt": "斜二测画法中，原图沿y轴的线段长10厘米，直观图中应画多少厘米？",
+            "answer": "5",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bx2.json#/questions/196",
+            "task_id": "mh2.8.2-q202",
+            "family_id": "projection.oblique-y-length",
+            "prompt": "斜二测直观图中，原来沿y方向的线段画为4厘米，原长多少厘米？",
+            "answer": "8",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "triangle.third-side-range",
+        "proposed_family": "triangle.side-feasibility",
+        "decision": "reject_global_alias",
+        "reason": "旧族需要给两边求第三边的严格上下界 |a−b|<x<a+b 或按该范围选择；新族主要是给定三条长度后检验可行性，还含已知 x 为最长边时只需上界的题。完整双边范围、固定三元组验证和已知最长的单边条件不等价。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/bashang.json#/questions/3",
+            "task_id": "m8a.13.2-q2",
+            "family_id": "triangle.third-side-range",
+            "prompt": "三角形两边长分别为 3 和 7，第三边 x 满足 4<x<k，k 等于多少？（只填数字）",
+            "answer": "10",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bashang.json#/questions/53",
+            "task_id": "m8a.13.2-q201",
+            "family_id": "triangle.third-side-range",
+            "prompt": "已知两边长为3厘米和8厘米，第三边长可取下面哪个值？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/m8a.13.2.json#/objective_coverage/1/self_check",
+            "task_id": "m8a.13.2:criterion-1-v6",
+            "family_id": "triangle.third-side-range",
+            "prompt": "已知两边长为3厘米和8厘米，第三边长可取下面哪个值？ 备选：A. 5厘米；B. 6厘米；C. 11厘米 请写出判断或计算依据。",
+            "answer": "第三边x须满足8−3<x<8+3，即5<x<11；6符合，5和11为退化边界不能组成三角形。 正确选项内容：6厘米。",
+            "steps_or_criteria": [
+              "列5<x<11",
+              "排除边界5和11"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "current_proposed_family_tasks": [
+          {
+            "source": "data/content/bashang.json#/questions/2",
+            "task_id": "m8a.13.2-q1",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "下列长度的三条线段能组成三角形的是哪一组？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/m8a.13.2.json#/worked_example",
+            "task_id": "m8a.13.2:worked-example-v6",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "长度为4、6、11的三条线段能组成三角形吗？",
+            "answer": "不能",
+            "steps_or_criteria": [
+              "最长边为11，而另外两边之和4+6=10。",
+              "因为10<11，不满足两边之和大于第三边，不能组成三角形。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/triangle_conditions.json#/worked_examples/0",
+            "task_id": "triangle_conditions:example-1",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "长度为4cm、5cm、7cm的三条线段能围成三角形吗？若把7cm改成9cm呢？",
+            "answer": "4、5、7可以；4、5、9不可以。",
+            "steps_or_criteria": [
+              "最长边为7cm，只需核对4+5>7，成立；另外两组不等式因长度为正也成立。",
+              "所以4cm、5cm、7cm可以围成三角形。",
+              "改成9cm后4+5=9，不满足严格大于；三段拉直，不能围成非退化三角形。"
+            ],
+            "representation": "verbal",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/triangle_conditions.json#/tasks/0",
+            "task_id": "triangle_conditions:practice-1",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "以下四组长度（单位均为cm）中，哪组能围成非退化三角形？",
+            "answer": "C",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/learning_units/triangle_conditions.json#/tasks/12",
+            "task_id": "triangle_conditions:delayed-3",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "三条线段长4厘米、5厘米、c厘米。下面关于c=9与c=8.99的判断哪项正确？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/triangle_conditions.json#/instructional_support/supports/0/diagnostic",
+            "task_id": "triangle_conditions:support:o1:diagnostic-v6",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "长度2、3、5厘米的线段能围成非退化三角形吗？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/triangle_conditions.json#/instructional_support/supports/0/guided_task",
+            "task_id": "triangle_conditions:support:o1:guided_task-v6",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "哪组三条正长度能围成非退化三角形？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/triangle_conditions.json#/instructional_support/supports/3/guided_task",
+            "task_id": "triangle_conditions:support:feasibility:guided_task-v6",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "正长度4、6、x，已知x是最长边。哪条额外条件确保能围成非退化三角形？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/bashang.json#/questions/2",
+            "task_id": "m8a.13.2-q1",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "下列长度的三条线段能组成三角形的是哪一组？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/bashang.json#/questions/53",
+            "task_id": "m8a.13.2-q201",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "已知两边长为3厘米和8厘米，第三边长可取下面哪个值？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/m8a.13.2.json#/worked_example",
+            "task_id": "m8a.13.2:worked-example-v6",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "长度为4、6、11的三条线段能组成三角形吗？",
+            "answer": "不能",
+            "steps_or_criteria": [
+              "最长边为11，而另外两边之和4+6=10。",
+              "因为10<11，不满足两边之和大于第三边，不能组成三角形。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/triangle_conditions.json#/worked_examples/0",
+            "task_id": "triangle_conditions:example-1",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "长度为4cm、5cm、7cm的三条线段能围成三角形吗？若把7cm改成9cm呢？",
+            "answer": "4、5、7可以；4、5、9不可以。",
+            "steps_or_criteria": [
+              "最长边为7cm，只需核对4+5>7，成立；另外两组不等式因长度为正也成立。",
+              "所以4cm、5cm、7cm可以围成三角形。",
+              "改成9cm后4+5=9，不满足严格大于；三段拉直，不能围成非退化三角形。"
+            ],
+            "representation": "verbal",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/triangle_conditions.json#/tasks/0",
+            "task_id": "triangle_conditions:practice-1",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "以下四组长度（单位均为cm）中，哪组能围成非退化三角形？",
+            "answer": "C",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/learning_units/triangle_conditions.json#/tasks/12",
+            "task_id": "triangle_conditions:delayed-3",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "三条线段长4厘米、5厘米、c厘米。下面关于c=9与c=8.99的判断哪项正确？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/triangle_conditions.json#/instructional_support/supports/0/diagnostic",
+            "task_id": "triangle_conditions:support:o1:diagnostic-v6",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "长度2、3、5厘米的线段能围成非退化三角形吗？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/triangle_conditions.json#/instructional_support/supports/0/guided_task",
+            "task_id": "triangle_conditions:support:o1:guided_task-v6",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "哪组三条正长度能围成非退化三角形？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/triangle_conditions.json#/instructional_support/supports/3/guided_task",
+            "task_id": "triangle_conditions:support:feasibility:guided_task-v6",
+            "family_id": "triangle.side-feasibility",
+            "prompt": "正长度4、6、x，已知x是最长边。哪条额外条件确保能围成非退化三角形？",
+            "answer": "B",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "triangle.elements.classification",
+        "proposed_family": "triangle.elements.basic-count",
+        "decision": "accept_comparison_alias",
+        "reason": "草稿新族完整承接旧族的同两题 m8a.13.1-q1/q2：辨别不存在的三角形对角线与顶点数3，题面、答案及认识对象未变。尽管新名 basic-count 较窄，审查批准范围只限这组实际相同任务，绝不把标签当作证明边角对应或作图的证据。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/bashang.json#/questions/0",
+            "task_id": "m8a.13.1-q1",
+            "family_id": "triangle.elements.classification",
+            "prompt": "下列各项中不属于三角形基本元素的是哪一个？",
+            "answer": "o4",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "recall"
+          },
+          {
+            "source": "data/content/bashang.json#/questions/1",
+            "task_id": "m8a.13.1-q2",
+            "family_id": "triangle.elements.classification",
+            "prompt": "一个三角形有几个顶点？（只填数字）",
+            "answer": "3",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "recall"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/bashang.json#/questions/0",
+            "task_id": "m8a.13.1-q1",
+            "family_id": "triangle.elements.basic-count",
+            "prompt": "下列各项中不属于三角形基本元素的是哪一个？",
+            "answer": "o4",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "recall"
+          },
+          {
+            "source": "data/content/bashang.json#/questions/1",
+            "task_id": "m8a.13.1-q2",
+            "family_id": "triangle.elements.basic-count",
+            "prompt": "一个三角形有几个顶点？（只填数字）",
+            "answer": "3",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "recall"
+          }
+        ],
+        "note": "只确认比较用的实际任务同构；不改变原 family、冻结答案/事件、练习准入或掌握判定。"
+      },
+      {
+        "old_family": "function.representation-name-recall",
+        "proposed_family": "function.representation-methods-recall",
+        "decision": "accept_comparison_alias",
+        "reason": "两侧均为 m8b.22.2-q1：识别解析式法、列表法、图象法，排除只给面积公式名称。仍仅为表示法名称识记，没有读取具体图表、选择用途或表示间转换。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/baxia.json#/questions/20",
+            "task_id": "m8b.22.2-q1",
+            "family_id": "function.representation-name-recall",
+            "prompt": "下列不属于函数三种表示方法的是哪一个？",
+            "answer": "o1",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "recall"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/baxia.json#/questions/20",
+            "task_id": "m8b.22.2-q1",
+            "family_id": "function.representation-methods-recall",
+            "prompt": "下列不属于函数三种表示方法的是哪一个？",
+            "answer": "o1",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "recall"
+          }
+        ],
+        "note": "只确认比较用的实际任务同构；不改变原 family、冻结答案/事件、练习准入或掌握判定。"
+      },
+      {
+        "old_family": "model.domain-recall",
+        "proposed_family": "function.domain-from-meaning",
+        "decision": "accept_comparison_alias",
+        "reason": "两侧均为 m8b.23.4-q2：选择“实际意义的限制”这一泛泛原则。function.domain-from-meaning 这个新名没有伴随具体求取值范围的新任务，因此仅批准该现有识记任务的改名；它不能作为会求实际定义域的证据。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/baxia.json#/questions/29",
+            "task_id": "m8b.23.4-q2",
+            "family_id": "model.domain-recall",
+            "prompt": "用一次函数解决实际问题时，确定自变量取值范围主要依据什么？",
+            "answer": "o3",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "recall"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/baxia.json#/questions/29",
+            "task_id": "m8b.23.4-q2",
+            "family_id": "function.domain-from-meaning",
+            "prompt": "用一次函数解决实际问题时，确定自变量取值范围主要依据什么？",
+            "answer": "o3",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "recall"
+          }
+        ],
+        "note": "只确认比较用的实际任务同构；不改变原 family、冻结答案/事件、练习准入或掌握判定。"
+      },
+      {
+        "old_family": "linear.slope-monotonicity",
+        "proposed_family": "linear.monotonicity.slope-sign",
+        "decision": "accept_comparison_alias",
+        "reason": "两侧均为 m8b.23.2-q1：从 y=−2x+1 的负斜率判断随 x 增大而减小。k 的符号、定义域情境和判断方向相同，不涉及由图像/数据反求 k 或 k=0 的边界。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/baxia.json#/questions/24",
+            "task_id": "m8b.23.2-q1",
+            "family_id": "linear.slope-monotonicity",
+            "prompt": "一次函数 y=-2x+1 中，y 随 x 增大而怎样变化？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/baxia.json#/questions/24",
+            "task_id": "m8b.23.2-q1",
+            "family_id": "linear.monotonicity.slope-sign",
+            "prompt": "一次函数 y=-2x+1 中，y 随 x 增大而怎样变化？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "note": "只确认比较用的实际任务同构；不改变原 family、冻结答案/事件、练习准入或掌握判定。"
+      },
+      {
+        "old_family": "linear.graph-point-read",
+        "proposed_family": "function.graph-point-read",
+        "decision": "reject_global_alias",
+        "reason": "旧族含已知横坐标读纵坐标、已知纵坐标反读横坐标及联系坐标和函数式代入核对；草稿新族仅 bank 的已知 x 读 y 题。原单题是改名，但方向交换与图式联结任务并未随之成为同一结构，拒绝全族别名。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/baxia.json#/questions/21",
+            "task_id": "m8b.22.2-q2",
+            "family_id": "linear.graph-point-read",
+            "prompt": "观察坐标图中的点P。当x=3时，点P表示的函数值是多少？只填数值。",
+            "answer": "7",
+            "steps_or_criteria": null,
+            "representation": "graph",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/learning_units/linear_function_representations.json#/worked_examples/3",
+            "task_id": "linear_function_representations:example-4",
+            "family_id": "linear.graph-point-read",
+            "prompt": "观察单元图中的点(1,3)，怎样把图上的位置、坐标与式子y=2x+1联系起来？",
+            "answer": "(1,3)表示输入1对应输出3，满足y=2x+1。",
+            "steps_or_criteria": [
+              "从横轴x=1向上找到直线，读取纵轴对应值3。",
+              "坐标写成(1,3)，先横坐标后纵坐标。",
+              "代入式子得到2×1+1=3，因此这个点与函数式一致。"
+            ],
+            "representation": "graph",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/linear_function_representations.json#/tasks/1",
+            "task_id": "linear_function_representations:practice-2",
+            "family_id": "linear.graph-point-read",
+            "prompt": "观察配图中标出的点。当纵坐标y=5时，对应的横坐标x是多少？先在图中找到这个点，再填写横坐标。请只填数值，不写变量名或等号。",
+            "answer": "2",
+            "steps_or_criteria": null,
+            "representation": "graph",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/baxia.json#/questions/21",
+            "task_id": "m8b.22.2-q2",
+            "family_id": "function.graph-point-read",
+            "prompt": "观察坐标图中的点P。当x=3时，点P表示的函数值是多少？只填数值。",
+            "answer": "7",
+            "steps_or_criteria": null,
+            "representation": "graph",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "linear.formula-evaluation",
+        "proposed_family": "linear.evaluate-given-motion-model",
+        "decision": "accept_comparison_alias",
+        "reason": "两侧均为 m8b.23.4-q1：已经给定 s=60t，代入 t=3 得180。模型是题目给出的，未把代值升级为从情境建立模型或求参数。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/baxia.json#/questions/28",
+            "task_id": "m8b.23.4-q1",
+            "family_id": "linear.formula-evaluation",
+            "prompt": "汽车以 60 千米/时匀速行驶，路程 s=60t。当 t=3 时，s 是多少千米？（只填数字）",
+            "answer": "180",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/baxia.json#/questions/28",
+            "task_id": "m8b.23.4-q1",
+            "family_id": "linear.evaluate-given-motion-model",
+            "prompt": "汽车以 60 千米/时匀速行驶，路程 s=60t。当 t=3 时，s 是多少千米？（只填数字）",
+            "answer": "180",
+            "steps_or_criteria": null,
+            "representation": "verbal",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "note": "只确认比较用的实际任务同构；不改变原 family、冻结答案/事件、练习准入或掌握判定。"
+      },
+      {
+        "old_family": "linear.table-to-parameters",
+        "proposed_family": "linear.coefficient-from-one-known-parameter",
+        "decision": "reject_global_alias",
+        "reason": "旧族包含从两点/多条记录求斜率和截距、非零起点、第三点复核；草稿新族只是已知 y=2x+b 且过(0,3)，直接求 b。已知一个参数与同时确定两个参数所需关系数不同，不能等价。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/content/baxia.json#/questions/23",
+            "task_id": "m8b.23.1-q2",
+            "family_id": "linear.table-to-parameters",
+            "prompt": "一次函数 y=2x+b 的图象经过点 (0,3)，b 等于多少？（只填数字）",
+            "answer": "3",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/baxia.json#/questions/61",
+            "task_id": "m8b.23.1-q202",
+            "family_id": "linear.table-to-parameters",
+            "prompt": "一次函数经过(0,−2)与(3,4)，写出解析式。",
+            "answer": "y=2x-2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/m8b.23.1.json#/worked_example",
+            "task_id": "m8b.23.1:worked-example-v6",
+            "family_id": "linear.table-to-parameters",
+            "prompt": "直线经过(0,1)、(2,5)，求函数式。",
+            "answer": "y=2x+1",
+            "steps_or_criteria": [
+              "设y=kx+b，代入第一点得b=1。",
+              "代入第二点得5=2k+1，k=2，所以y=2x+1；两点均满足。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/m8b.23.1.json#/objective_coverage/1/self_check",
+            "task_id": "m8b.23.1:criterion-1-v6",
+            "family_id": "linear.table-to-parameters",
+            "prompt": "一次函数经过(0,−2)与(3,4)，写出解析式。 请写出判断或计算依据。",
+            "answer": "设y=kx+b，代入(0,−2)得b=−2，再代入(3,4)得3k−2=4，所以k=2，y=2x−2。",
+            "steps_or_criteria": [
+              "由x=0直接求b",
+              "再求k=2"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/learning_units/linear_function_representations.json#/worked_examples/0",
+            "task_id": "linear_function_representations:example-1",
+            "family_id": "linear.table-to-parameters",
+            "prompt": "已知y是x的一次函数，三条对应记录为(0,2)、(1,5)、(2,8)。求函数式并检查。",
+            "answer": "y=3x+2",
+            "steps_or_criteria": [
+              "x每增加1，y增加3，所以k=(5−2)/(1−0)=3；另一组数据也给出(8−5)/(2−1)=3。",
+              "当x=0时y=2，所以b=2，函数式为y=3x+2。",
+              "代入x=2得到y=8，与第三行一致。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/linear_function_representations.json#/tasks/0",
+            "task_id": "linear_function_representations:practice-1",
+            "family_id": "linear.table-to-parameters",
+            "prompt": "已知y是x的一次函数。表中三组数据为(0,3)、(2,7)、(4,11)。求变化率k、初始值b和函数式，并用一个未参与求k的点检查。",
+            "answer": null,
+            "steps_or_criteria": null,
+            "representation": "table",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/linear_function_representations.json#/tasks/5",
+            "task_id": "linear_function_representations:delayed-1",
+            "family_id": "linear.table-to-parameters",
+            "prompt": "已知y是x的一次函数。三组数据为(1,0)、(3,6)、(5,12)。求y=kx+b中的b。请只填数值，不写变量名或等号。",
+            "answer": "-3",
+            "steps_or_criteria": null,
+            "representation": "table",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/learning_units/linear_function_representations.json#/tasks/7",
+            "task_id": "linear_function_representations:practice-4",
+            "family_id": "linear.table-to-parameters",
+            "prompt": "已知y是x的一次函数，表中有(−1,7)、(2,1)、(4,−3)。斜率k是多少？请只填数值。",
+            "answer": "-2",
+            "steps_or_criteria": null,
+            "representation": "table",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/learning_units/linear_function_representations.json#/tasks/20",
+            "task_id": "linear_function_representations:delayed-7",
+            "family_id": "linear.table-to-parameters",
+            "prompt": "已知y是x的一次函数，经过(−1,5)、(2,−1)。求函数式，再用记录(4,−5)检验。请写出斜率、截距和代入检查；只写式子不能展示检查过程。",
+            "answer": null,
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/linear_function_representations.json#/instructional_support/supports/0/guided_task",
+            "task_id": "linear_function_representations:support:o1:guided_task-v6",
+            "family_id": "linear.table-to-parameters",
+            "prompt": "已知一次函数过(1,5)、(3,9)，第三条记录为(4,11)。哪项完成了建式和核对？",
+            "answer": "A",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/linear_function_representations.json#/instructional_support/supports/3/diagnostic",
+            "task_id": "linear_function_representations:support:rate:diagnostic-v6",
+            "family_id": "linear.table-to-parameters",
+            "prompt": "从(1,9)到(4,3)，x增加3，y减少6，k是多少？",
+            "answer": "C",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/learning_units/linear_function_representations.json#/instructional_support/supports/3/guided_task",
+            "task_id": "linear_function_representations:support:rate:guided_task-v6",
+            "family_id": "linear.table-to-parameters",
+            "prompt": "一次函数从(−1,6)到(2,0)，斜率是多少？",
+            "answer": "-2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/learning_units/linear_function_representations.json#/instructional_support/supports/5/guided_task",
+            "task_id": "linear_function_representations:support:formula:guided_task-v6",
+            "family_id": "linear.table-to-parameters",
+            "prompt": "已知一次函数经过(0,4)、(2,10)，哪项通过第三点(5,19)检查？",
+            "answer": "A",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "current_proposed_family_tasks": [],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/baxia.json#/questions/23",
+            "task_id": "m8b.23.1-q2",
+            "family_id": "linear.coefficient-from-one-known-parameter",
+            "prompt": "一次函数 y=2x+b 的图象经过点 (0,3)，b 等于多少？（只填数字）",
+            "answer": "3",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "v4.foundation.m7a.1.2.4.example",
+        "proposed_family": "number.absolute-value.inverse-cases",
+        "decision": "reject_global_alias",
+        "reason": "旧例题给 |a|=7 且 a<0，直接取负根；新族还含绝对值右端正、零、负三种情况，分别两解、一解、无解。新增零/负值可解性边界并非原例题已覆盖的数值替换，拒绝全局别名。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/teach/m7a.1.2.4.json#/worked_example",
+            "task_id": "m7a.1.2.4:worked-example-v6",
+            "family_id": "v4.foundation.m7a.1.2.4.example",
+            "prompt": "若|a|=7且a<0，a等于多少？",
+            "answer": "-7",
+            "steps_or_criteria": [
+              "到0的距离为7，候选是7与−7。",
+              "条件a<0要求在原点左侧，只能取−7。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "current_proposed_family_tasks": [
+          {
+            "source": "data/content/qishang.json#/questions/13",
+            "task_id": "m7a.1.2.4-q2",
+            "family_id": "number.absolute-value.inverse-cases",
+            "prompt": "若 |x|=4 且 x<0，则 x 等于多少？",
+            "answer": "-4",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/m7a.1.2.4.json#/objective_coverage/1/self_check",
+            "task_id": "m7a.1.2.4:criterion-1-v6",
+            "family_id": "number.absolute-value.inverse-cases",
+            "prompt": "分别解|a|=3、|a|=0、|a|=−2，再从|a|=3的答案中选出a<0者。",
+            "answer": "依次为a=3或−3；a=0；无解。附加a<0后只剩−3。",
+            "steps_or_criteria": [
+              "正距离列全两解",
+              "0与负距离边界正确",
+              "附加条件筛选正确"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/qishang.json#/questions/13",
+            "task_id": "m7a.1.2.4-q2",
+            "family_id": "number.absolute-value.inverse-cases",
+            "prompt": "若 |x|=4 且 x<0，则 x 等于多少？",
+            "answer": "-4",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/m7a.1.2.4.json#/worked_example",
+            "task_id": "m7a.1.2.4:worked-example-v6",
+            "family_id": "number.absolute-value.inverse-cases",
+            "prompt": "若|a|=7且a<0，a等于多少？",
+            "answer": "-7",
+            "steps_or_criteria": [
+              "到0的距离为7，候选是7与−7。",
+              "条件a<0要求在原点左侧，只能取−7。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/teach/m7a.1.2.4.json#/objective_coverage/1/self_check",
+            "task_id": "m7a.1.2.4:criterion-1-v6",
+            "family_id": "number.absolute-value.inverse-cases",
+            "prompt": "分别解|a|=3、|a|=0、|a|=−2，再从|a|=3的答案中选出a<0者。",
+            "answer": "依次为a=3或−3；a=0；无解。附加a<0后只剩−3。",
+            "steps_or_criteria": [
+              "正距离列全两解",
+              "0与负距离边界正确",
+              "附加条件筛选正确"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "v4.foundation.m7a.1.2.5.example",
+        "proposed_family": "number.rational.compare-equivalent-forms",
+        "decision": "reject_global_alias",
+        "reason": "旧例题只在−2.5、−2、0、3中找最小数；新族还要求异分母负分数通分比较与等值小数判等。表示等价及相等边界新增了实质任务，不能以旧单一排序例题等同全新族。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/teach/m7a.1.2.5.json#/worked_example",
+            "task_id": "m7a.1.2.5:worked-example-v6",
+            "family_id": "v4.foundation.m7a.1.2.5.example",
+            "prompt": "在−2.5、−2、0、3中，最小的数是多少？",
+            "answer": "-2.5",
+            "steps_or_criteria": [
+              "最小值必在两个负数中。",
+              "2.5>2，所以−2.5在−2左边，最小为−2.5。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "current_proposed_family_tasks": [
+          {
+            "source": "data/content/qishang.json#/questions/16",
+            "task_id": "m7a.1.2.5-q1",
+            "family_id": "number.rational.compare-equivalent-forms",
+            "prompt": "下列比较正确的是哪一个？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/qishang.json#/questions/17",
+            "task_id": "m7a.1.2.5-q2",
+            "family_id": "number.rational.compare-equivalent-forms",
+            "prompt": "在 -2.5，-2，0，3 这四个数中，最小的数是多少？",
+            "answer": "-2.5",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/m7a.1.2.5.json#/objective_coverage/0/self_check",
+            "task_id": "m7a.1.2.5:criterion-0-v6",
+            "family_id": "number.rational.compare-equivalent-forms",
+            "prompt": "用<、>或=比较−2/3与−3/5、0与−0.01、−1.50与−1.5，并给出依据。",
+            "answer": "−2/3<−3/5；0>−0.01；−1.50=−1.5。前两负分数通分到−10/15与−9/15，小数末尾添0不改变数值。",
+            "steps_or_criteria": [
+              "三组关系正确",
+              "通分或等值表示可靠",
+              "相等情形不误判"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/qishang.json#/questions/16",
+            "task_id": "m7a.1.2.5-q1",
+            "family_id": "number.rational.compare-equivalent-forms",
+            "prompt": "下列比较正确的是哪一个？",
+            "answer": "o2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/content/qishang.json#/questions/17",
+            "task_id": "m7a.1.2.5-q2",
+            "family_id": "number.rational.compare-equivalent-forms",
+            "prompt": "在 -2.5，-2，0，3 这四个数中，最小的数是多少？",
+            "answer": "-2.5",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/m7a.1.2.5.json#/worked_example",
+            "task_id": "m7a.1.2.5:worked-example-v6",
+            "family_id": "number.rational.compare-equivalent-forms",
+            "prompt": "在−2.5、−2、0、3中，最小的数是多少？",
+            "answer": "-2.5",
+            "steps_or_criteria": [
+              "最小值必在两个负数中。",
+              "2.5>2，所以−2.5在−2左边，最小为−2.5。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/teach/m7a.1.2.5.json#/objective_coverage/0/self_check",
+            "task_id": "m7a.1.2.5:criterion-0-v6",
+            "family_id": "number.rational.compare-equivalent-forms",
+            "prompt": "用<、>或=比较−2/3与−3/5、0与−0.01、−1.50与−1.5，并给出依据。",
+            "answer": "−2/3<−3/5；0>−0.01；−1.50=−1.5。前两负分数通分到−10/15与−9/15，小数末尾添0不改变数值。",
+            "steps_or_criteria": [
+              "三组关系正确",
+              "通分或等值表示可靠",
+              "相等情形不误判"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      },
+      {
+        "old_family": "v4.foundation.m7a.1.2.1.example",
+        "proposed_family": "number.rational.sign-partition",
+        "decision": "accept_comparison_alias",
+        "reason": "旧例题与新族题目都对含负整数、负小数、正分数、正整数及0的给定列表按与0的大小关系作符号分类；数负数是取负数这一栏计数，新自检是列出三栏并核对总数。2/2仍以正数原条目保留，没有加入整数/分数分类或求值运算的新方法，判断谓词与零的边界完全一致。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/teach/m7a.1.2.1.json#/worked_example",
+            "task_id": "m7a.1.2.1:worked-example-v6",
+            "family_id": "v4.foundation.m7a.1.2.1.example",
+            "prompt": "在−4、0、2/3、−1.5、6这五个数中，负有理数有几个？",
+            "answer": "2",
+            "steps_or_criteria": [
+              "五个数都能写成整数之比，均为有理数。",
+              "小于0的只有−4和−1.5，所以有2个。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "current_proposed_family_tasks": [
+          {
+            "source": "data/content/qishang.json#/questions/4",
+            "task_id": "m7a.1.2.1-q2",
+            "family_id": "number.rational.sign-partition",
+            "prompt": "在 -3，0，2/5，-1.5，7 这五个数中，负有理数有多少个？",
+            "answer": "2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/m7a.1.2.1.json#/objective_coverage/1/self_check",
+            "task_id": "m7a.1.2.1:criterion-1-v6",
+            "family_id": "number.rational.sign-partition",
+            "prompt": "把−3、0、2/5、−1.5、7、2/2按正有理数、0、负有理数分类，并核对总数。",
+            "answer": "正有理数：2/5、7、2/2；0：0；负有理数：−3、−1.5。共6个，2/2=1但仍保留原条目的对应。",
+            "steps_or_criteria": [
+              "三个类别边界准确",
+              "六个条目各归一类",
+              "0不放入正组或负组"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/content/qishang.json#/questions/4",
+            "task_id": "m7a.1.2.1-q2",
+            "family_id": "number.rational.sign-partition",
+            "prompt": "在 -3，0，2/5，-1.5，7 这五个数中，负有理数有多少个？",
+            "answer": "2",
+            "steps_or_criteria": null,
+            "representation": "symbolic",
+            "cognitive_demand": "execute"
+          },
+          {
+            "source": "data/teach/m7a.1.2.1.json#/worked_example",
+            "task_id": "m7a.1.2.1:worked-example-v6",
+            "family_id": "number.rational.sign-partition",
+            "prompt": "在−4、0、2/3、−1.5、6这五个数中，负有理数有几个？",
+            "answer": "2",
+            "steps_or_criteria": [
+              "五个数都能写成整数之比，均为有理数。",
+              "小于0的只有−4和−1.5，所以有2个。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/teach/m7a.1.2.1.json#/objective_coverage/1/self_check",
+            "task_id": "m7a.1.2.1:criterion-1-v6",
+            "family_id": "number.rational.sign-partition",
+            "prompt": "把−3、0、2/5、−1.5、7、2/2按正有理数、0、负有理数分类，并核对总数。",
+            "answer": "正有理数：2/5、7、2/2；0：0；负有理数：−3、−1.5。共6个，2/2=1但仍保留原条目的对应。",
+            "steps_or_criteria": [
+              "三个类别边界准确",
+              "六个条目各归一类",
+              "0不放入正组或负组"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "note": "只确认比较用的实际任务同构；不改变原 family、冻结答案/事件、练习准入或掌握判定。"
+      },
+      {
+        "old_family": "v4.foundation.m7a.2.3.2.example",
+        "proposed_family": "placevalue.scientific.normalize-large",
+        "decision": "reject_global_alias",
+        "reason": "旧例题已经给规范系数5.6，只需恢复10的指数6；新族要求自行规范正负大数的系数和指数、判断48×10⁵虽等值但未规范。系数规范化和负数情形均是额外任务，不能当作原指数补空的纯改名。",
+        "current_old_family_tasks": [
+          {
+            "source": "data/teach/m7a.2.3.2.json#/worked_example",
+            "task_id": "m7a.2.3.2:worked-example-v6",
+            "family_id": "v4.foundation.m7a.2.3.2.example",
+            "prompt": "5600000写成5.6×10ⁿ，n是多少？",
+            "answer": "6",
+            "steps_or_criteria": [
+              "5.6要扩大1000000倍才得到5600000。",
+              "1000000=10⁶，故n=6。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "current_proposed_family_tasks": [
+          {
+            "source": "data/teach/m7a.2.3.2.json#/objective_coverage/0/self_check",
+            "task_id": "m7a.2.3.2:criterion-0-v6",
+            "family_id": "placevalue.scientific.normalize-large",
+            "prompt": "把4800000和−72000写成科学记数法，再判断48×10⁵是否已经规范。",
+            "answer": "4.8×10⁶，−7.2×10⁴；48×10⁵数值正确但系数不规范，应改4.8×10⁶。",
+            "steps_or_criteria": [
+              "数值与符号正确",
+              "系数绝对值在[1,10)内",
+              "区分等值表示与规范表示"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "draft_proposed_family_tasks": [
+          {
+            "source": "data/teach/m7a.2.3.2.json#/worked_example",
+            "task_id": "m7a.2.3.2:worked-example-v6",
+            "family_id": "placevalue.scientific.normalize-large",
+            "prompt": "5600000写成5.6×10ⁿ，n是多少？",
+            "answer": "6",
+            "steps_or_criteria": [
+              "5.6要扩大1000000倍才得到5600000。",
+              "1000000=10⁶，故n=6。"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          },
+          {
+            "source": "data/teach/m7a.2.3.2.json#/objective_coverage/0/self_check",
+            "task_id": "m7a.2.3.2:criterion-0-v6",
+            "family_id": "placevalue.scientific.normalize-large",
+            "prompt": "把4800000和−72000写成科学记数法，再判断48×10⁵是否已经规范。",
+            "answer": "4.8×10⁶，−7.2×10⁴；48×10⁵数值正确但系数不规范，应改4.8×10⁶。",
+            "steps_or_criteria": [
+              "数值与符号正确",
+              "系数绝对值在[1,10)内",
+              "区分等值表示与规范表示"
+            ],
+            "representation": "symbolic",
+            "cognitive_demand": "explain"
+          }
+        ],
+        "note": "保留原族；即使存在单题完全相同的改名，也不能扩展成两个全集等价。"
+      }
+    ],
+    "source_hashes": {
+      "data/content/bashang.json": {
+        "current_sha256": "e2a154a45fc2be9bb3644efb4cb401a233dbdbf56b58d763ff92879c77b7a9a7",
+        "draft_sha256": "202085a223b079cc9516d6703808ef7ec82dcecff83da93c612282819c479314"
+      },
+      "data/content/baxia.json": {
+        "current_sha256": "5cdf9b587eb1efaa79369aae2db44a7ac57c9784490fec25cc5f945472057675",
+        "draft_sha256": "772cc039b7d98eb8caa622f1e9cbcedd78f89c95eab26876655ccc9dea9b39e6"
+      },
+      "data/content/bx2.json": {
+        "current_sha256": "ec9ee516e1803c605433c7e72d0e0f6259aa42212cbecbd837081f1bdf5c59d5",
+        "draft_sha256": "048fc4ae4b9e4654e3d63e27780e6a046681e8a930ff1aa1effc12b1f29e032f"
+      },
+      "data/content/qishang.json": {
+        "current_sha256": "5e8638b11d52ae2bde069d5f2901de5ba877108bc753806dd4df653af7d37a52",
+        "draft_sha256": "61b2d1cf7ac57bcae76c179b52acafb0deff6328287700de38457dc5cc2cf5a2"
+      },
+      "data/content/xby2.json": {
+        "current_sha256": "770420ab6dd369bcf4635813d887a6cd8f3e46648ab85b57a688728124ca327d",
+        "draft_sha256": "cd8e16265a579a1234e440f8b204905d2e89804f194c533ce53cd2e34c1da5b5"
+      },
+      "data/learning_units/derivative_monotonicity.json": {
+        "current_sha256": "ba20d3ece3a7240b7482e2bce9640ffbafa11bf6156e52219febeae184da5679",
+        "draft_sha256": "ba20d3ece3a7240b7482e2bce9640ffbafa11bf6156e52219febeae184da5679"
+      },
+      "data/learning_units/equation_equivalence.json": {
+        "current_sha256": "787edc3703fb2cae6ea5b53c8d20bb284b8426db2356c73c543a5ae4a770cad5",
+        "draft_sha256": "787edc3703fb2cae6ea5b53c8d20bb284b8426db2356c73c543a5ae4a770cad5"
+      },
+      "data/learning_units/linear_function_representations.json": {
+        "current_sha256": "9b4f0d4195a9ec97f6b4238c19ba5308b488b677a77095bc9a32d362b02dac09",
+        "draft_sha256": "9b4f0d4195a9ec97f6b4238c19ba5308b488b677a77095bc9a32d362b02dac09"
+      },
+      "data/learning_units/triangle_conditions.json": {
+        "current_sha256": "bc33666aa8c9cc1d4a53db4280f9f91510fbff66584acbdebbe302a3a3d724cd",
+        "draft_sha256": "bc33666aa8c9cc1d4a53db4280f9f91510fbff66584acbdebbe302a3a3d724cd"
+      },
+      "data/teach/m7a.1.2.1.json": {
+        "current_sha256": "89b14bec078812708b019c0c15f8f09128b0802f19200f8ab2992ed5a758d672",
+        "draft_sha256": "85267ce2cae52368f08a7b0c361d5b6ad2feb2000a4ac109f36594b6f49e6f0a"
+      },
+      "data/teach/m7a.1.2.4.json": {
+        "current_sha256": "5f312e7b6b4611e62d7bc0f6dd3fc9fa05f94b1676b582f3c02ec1d0f01b6490",
+        "draft_sha256": "40336faf00634373d3a3bd18c64b06e7208f479e94aba5c52c80228117bd2441"
+      },
+      "data/teach/m7a.1.2.5.json": {
+        "current_sha256": "f1548c96eed8ada569e50d256d9508b8249f37dcb9b604eecec091ba7cd8b723",
+        "draft_sha256": "54997f63035eaddc363623f3bafb6ca05255a858414b974a4fc74bbf24d9ea25"
+      },
+      "data/teach/m7a.2.3.2.json": {
+        "current_sha256": "d2e618d5a208265208f7a20fee35ea609a3ad7e89f30e01694d031bc9f3c5cf5",
+        "draft_sha256": "f7cfaf9d31716dcb114db384152d9667a615424a0edfaa3a9c17db7cf16be8b2"
+      },
+      "data/teach/m7a.5.1.1.json": {
+        "current_sha256": "e229627b98780a50f5fe4057e154319948d62e2264d4b516aabbbf15122cefea",
+        "draft_sha256": "e229627b98780a50f5fe4057e154319948d62e2264d4b516aabbbf15122cefea"
+      },
+      "data/teach/m7a.5.1.2.json": {
+        "current_sha256": "40391f1c36f483b8e024f1cef6ef0c54702b819be188e429f57587d5d692dcf6",
+        "draft_sha256": "40391f1c36f483b8e024f1cef6ef0c54702b819be188e429f57587d5d692dcf6"
+      },
+      "data/teach/m7a.5.2.json": {
+        "current_sha256": "05b0abbfa1f9ddfea7afa5d0e0bcb7124784a0ce4ec47f13f80f166cb376e760",
+        "draft_sha256": "05b0abbfa1f9ddfea7afa5d0e0bcb7124784a0ce4ec47f13f80f166cb376e760"
+      },
+      "data/teach/m7a.5.3.json": {
+        "current_sha256": "e9e73cc6a028bd208437e15cc1c1981b63bb9a65d09ece8327b899c7ff060838",
+        "draft_sha256": "e9e73cc6a028bd208437e15cc1c1981b63bb9a65d09ece8327b899c7ff060838"
+      },
+      "data/teach/m8a.13.2.json": {
+        "current_sha256": "0688d7ba77e1daff9ad4950d742bf5f233e6e44111fe429710cd1f069b15be4e",
+        "draft_sha256": "0688d7ba77e1daff9ad4950d742bf5f233e6e44111fe429710cd1f069b15be4e"
+      },
+      "data/teach/m8b.23.1.json": {
+        "current_sha256": "d822c3868073ee7f863a48b9d4bb518cc65f5747d3b1ac8f1aff77a17b290c5f",
+        "draft_sha256": "d822c3868073ee7f863a48b9d4bb518cc65f5747d3b1ac8f1aff77a17b290c5f"
+      },
+      "data/teach/mh2.8.2.json": {
+        "current_sha256": "a80bdf4e4ac11bc5775538e15257277b6a1a5031960838bdac78f9e2533a4374",
+        "draft_sha256": "90c4330b05ea780b7e3ca5be6c91298b2aea35064128ea446aefb88ebef575f7"
+      },
+      "data/teach/mh2.8.3.1.json": {
+        "current_sha256": "8ed7ba4d40af1a0dbea715c88318f3e53547cfeec744cb93418c1eed638c10d7",
+        "draft_sha256": "a9c169a9193afcb60d4399c2af0f837f308ebeb780936eaa69aff9bb5102fdcd"
+      },
+      "data/teach/mh4.5.3.1.json": {
+        "current_sha256": "3e2035d785dbfe69050afadce82e45a5d217cab09307303851478d5bc5cb291c",
+        "draft_sha256": "3e2035d785dbfe69050afadce82e45a5d217cab09307303851478d5bc5cb291c"
+      }
+    },
+    "map_sha256": "970062f9c677b93cbff3e292b974c31e4e93f08b539b48bad5309c8a7a04d341",
+    "counts": {
+      "accepted_pairs": 13,
+      "rejected_pairs": 22
+    }
+  }
+}

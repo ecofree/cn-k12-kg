@@ -111,7 +111,9 @@
       ],
       "answer": "4、5、7可以；4、5、9不可以。",
       "family_id": "triangle.side-feasibility",
-      "variant_id": "triangle_conditions:example-1"
+      "variant_id": "triangle_conditions:example-1",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "三角形ABC中，∠A=40°，∠B=75°。延长BC到D，求∠ACD。",
@@ -123,7 +125,9 @@
       "answer": "115",
       "verify": "40+75",
       "family_id": "triangle.exterior-angle-sum",
-      "variant_id": "triangle_conditions:example-2"
+      "variant_id": "triangle_conditions:example-2",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "三角形内角为20°、30°、130°。130°处的邻补外角是否比所有内角都大？",
@@ -134,7 +138,9 @@
       ],
       "answer": "不是；50°小于相邻内角130°。",
       "family_id": "triangle.exterior-universal-counterexample",
-      "variant_id": "triangle_conditions:example-3"
+      "variant_id": "triangle_conditions:example-3",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
     },
     {
       "prompt": "怎样利用过A且平行于BC的直线说明三角形内角和？",
@@ -145,7 +151,9 @@
       ],
       "answer": "平行线把两个底角移到A旁，与顶角拼成180°。",
       "family_id": "triangle.angle-sum-proof",
-      "variant_id": "triangle_conditions:example-4"
+      "variant_id": "triangle_conditions:example-4",
+      "representation": "verbal",
+      "cognitive_demand": "prove"
     }
   ],
   "tasks": [
@@ -240,7 +248,7 @@
       },
       "family_id": "triangle.angle-sum-proof",
       "variant_id": "triangle_conditions:practice-3",
-      "representation": "geometry",
+      "representation": "verbal",
       "cognitive_demand": "prove"
     },
     {
@@ -294,7 +302,7 @@
       },
       "family_id": "triangle.angle-equation-model",
       "variant_id": "triangle_conditions:transfer-2",
-      "representation": "geometry",
+      "representation": "verbal",
       "cognitive_demand": "explain"
     },
     {
@@ -348,7 +356,7 @@
       },
       "family_id": "triangle.exterior-universal-counterexample",
       "variant_id": "triangle_conditions:delayed-2",
-      "representation": "geometry",
+      "representation": "verbal",
       "cognitive_demand": "explain"
     },
     {
@@ -429,7 +437,7 @@
       },
       "family_id": "triangle.angle-sum-proof",
       "variant_id": "triangle_conditions:transfer-3",
-      "representation": "geometry",
+      "representation": "verbal",
       "cognitive_demand": "prove",
       "answer_spec": {
         "kind": "rubric"
@@ -498,7 +506,7 @@
       },
       "family_id": "triangle.multiple-exterior-inference",
       "variant_id": "triangle_conditions:transfer-5",
-      "representation": "geometry",
+      "representation": "verbal",
       "cognitive_demand": "model",
       "answer": "60",
       "verify": "180-(180-110)-(180-130)",
@@ -561,7 +569,7 @@
       },
       "family_id": "geometry.measurement-vs-proof",
       "variant_id": "triangle_conditions:delayed-4",
-      "representation": "geometry",
+      "representation": "verbal",
       "cognitive_demand": "explain",
       "answer_spec": {
         "kind": "rubric"
@@ -626,7 +634,7 @@
       },
       "family_id": "triangle.equal-perimeter-counterexample",
       "variant_id": "triangle_conditions:transfer-6",
-      "representation": "geometry",
+      "representation": "verbal",
       "cognitive_demand": "prove",
       "rubric": [
         {
@@ -698,7 +706,12 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "正边长下，两短边之和必须严格大于最长边。"
+          "explanation": "正边长下，两短边之和必须严格大于最长边。",
+          "family_id": "triangle.side-feasibility",
+          "variant_id": "triangle_conditions:support:o1:diagnostic-v6",
+          "representation": "verbal",
+          "cognitive_demand": "explain",
+          "reference_family_ids": []
         },
         "hints": [
           {
@@ -735,7 +748,12 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "2+4>5；另外两组分别为等号和小于。"
+          "explanation": "2+4>5；另外两组分别为等号和小于。",
+          "family_id": "triangle.side-feasibility",
+          "variant_id": "triangle_conditions:support:o1:guided_task-v6",
+          "representation": "symbolic",
+          "cognitive_demand": "explain",
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "triangle_conditions:practice-1",
@@ -779,7 +797,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "邻补外角与相邻内角和180°，也等于另外两个内角之和。"
+          "explanation": "邻补外角与相邻内角和180°，也等于另外两个内角之和。",
+          "family_id": "triangle.supplementary-exterior",
+          "variant_id": "triangle_conditions:support:o2:diagnostic-v6",
+          "representation": "verbal",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "triangle.exterior-angle-sum"
+          ]
         },
         "hints": [
           {
@@ -805,7 +830,12 @@
           },
           "answer": "115",
           "verify": "35+80",
-          "explanation": "外角等于两个不相邻内角和115°；第三内角65°，二者和180°。"
+          "explanation": "外角等于两个不相邻内角和115°；第三内角65°，二者和180°。",
+          "family_id": "triangle.exterior-angle-sum",
+          "variant_id": "triangle_conditions:support:o2:guided_task-v6",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "triangle_conditions:practice-2",
@@ -849,7 +879,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "一般命题要靠适用于任意对象的推理，不由例子数量自动变成证明。"
+          "explanation": "一般命题要靠适用于任意对象的推理，不由例子数量自动变成证明。",
+          "family_id": "geometry.measurement-vs-proof",
+          "variant_id": "triangle_conditions:support:o3:diagnostic-v6",
+          "representation": "verbal",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "triangle.angle-sum-proof"
+          ]
         },
         "hints": [
           {
@@ -886,7 +923,12 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "可检查的证明需要条件和性质，而非依赖外观。"
+          "explanation": "可检查的证明需要条件和性质，而非依赖外观。",
+          "family_id": "triangle.angle-sum-proof",
+          "variant_id": "triangle_conditions:support:o3:guided_task-v6",
+          "representation": "verbal",
+          "cognitive_demand": "explain",
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "triangle_conditions:practice-3",
@@ -930,7 +972,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "正长度排序后，检验两短边之和大于最长边可覆盖其余关系。"
+          "explanation": "正长度排序后，检验两短边之和大于最长边可覆盖其余关系。",
+          "family_id": "triangle.incomplete-condition-counterexample",
+          "variant_id": "triangle_conditions:support:feasibility:diagnostic-v6",
+          "representation": "symbolic",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "triangle.side-feasibility"
+          ]
         },
         "hints": [
           {
@@ -967,7 +1016,12 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "需4+6>x，等号退化；x为最长与正长度是题设前提。"
+          "explanation": "需4+6>x，等号退化；x为最长与正长度是题设前提。",
+          "family_id": "triangle.side-feasibility",
+          "variant_id": "triangle_conditions:support:feasibility:guided_task-v6",
+          "representation": "symbolic",
+          "cognitive_demand": "explain",
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "triangle_conditions:practice-1",
@@ -1011,7 +1065,12 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "|7−4|<x<7+4，整数候选4、5、6、7、8、9、10。"
+          "explanation": "|7−4|<x<7+4，整数候选4、5、6、7、8、9、10。",
+          "family_id": "triangle.third-side-integer-range",
+          "variant_id": "triangle_conditions:support:integer_range:diagnostic-v6",
+          "representation": "verbal",
+          "cognitive_demand": "explain",
+          "reference_family_ids": []
         },
         "hints": [
           {
@@ -1037,7 +1096,12 @@
           },
           "answer": "5",
           "verify": "8-4+1",
-          "explanation": "3<x<9，整数4、5、6、7、8，共5种。"
+          "explanation": "3<x<9，整数4、5、6、7、8，共5种。",
+          "family_id": "triangle.third-side-integer-range",
+          "variant_id": "triangle_conditions:support:integer_range:guided_task-v6",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "triangle_conditions:practice-4",
@@ -1081,7 +1145,14 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "外角等于两个不相邻内角之和，所以严格大于其中各一个。"
+          "explanation": "外角等于两个不相邻内角之和，所以严格大于其中各一个。",
+          "family_id": "triangle.exterior-universal-counterexample",
+          "variant_id": "triangle_conditions:support:angle_relations:diagnostic-v6",
+          "representation": "verbal",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "triangle.multiple-exterior-inference"
+          ]
         },
         "hints": [
           {
@@ -1107,7 +1178,12 @@
           },
           "answer": "90",
           "verify": "180-(180-120)-(180-150)",
-          "explanation": "A=60°，B=30°，C=180−60−30=90°。"
+          "explanation": "A=60°，B=30°，C=180−60−30=90°。",
+          "family_id": "triangle.multiple-exterior-inference",
+          "variant_id": "triangle_conditions:support:angle_relations:guided_task-v6",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "triangle_conditions:practice-2",
@@ -1151,7 +1227,12 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "证明须先满足定理前提，才能用它推出角相等。"
+          "explanation": "证明须先满足定理前提，才能用它推出角相等。",
+          "family_id": "triangle.angle-sum-proof",
+          "variant_id": "triangle_conditions:support:proof_chain:diagnostic-v6",
+          "representation": "verbal",
+          "cognitive_demand": "explain",
+          "reference_family_ids": []
         },
         "hints": [
           {
@@ -1188,7 +1269,12 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "记录原测量，再检查误差来源；不能改数据，也不能以近似测量直接否定已证明的平面定理。"
+          "explanation": "记录原测量，再检查误差来源；不能改数据，也不能以近似测量直接否定已证明的平面定理。",
+          "family_id": "geometry.measurement-vs-proof",
+          "variant_id": "triangle_conditions:support:proof_chain:guided_task-v6",
+          "representation": "verbal",
+          "cognitive_demand": "explain",
+          "reference_family_ids": []
         },
         "followup_task_ids": [
           "triangle_conditions:practice-3",
@@ -1232,7 +1318,15 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "反例必须是合法三角形，同时具有原结论不允许的性质。"
+          "explanation": "反例必须是合法三角形，同时具有原结论不允许的性质。",
+          "family_id": "triangle.angle-classification-counterexample",
+          "variant_id": "triangle_conditions:support:counterexample:diagnostic-v6",
+          "representation": "verbal",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "triangle.equal-perimeter-counterexample",
+            "triangle.side-feasibility"
+          ]
         },
         "hints": [
           {
@@ -1269,7 +1363,15 @@
           "answer_spec": {
             "kind": "choice"
           },
-          "explanation": "60°不大于120°，直接否定“每个”；60°大于30°则不能反驳。"
+          "explanation": "60°不大于120°，直接否定“每个”；60°大于30°则不能反驳。",
+          "family_id": "triangle.exterior-universal-counterexample",
+          "variant_id": "triangle_conditions:support:counterexample:guided_task-v6",
+          "representation": "verbal",
+          "cognitive_demand": "explain",
+          "reference_family_ids": [
+            "triangle.equal-perimeter-counterexample",
+            "triangle.side-feasibility"
+          ]
         },
         "followup_task_ids": [
           "triangle_conditions:practice-5",

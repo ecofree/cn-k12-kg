@@ -1,76 +1,105 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m8a.15.3",
- "name": "等腰三角形",
- "tier": "core",
- "hook": "等腰三角形的顶角平分线为什么还能垂直平分底边？",
- "definition": "等腰三角形两腰相等、两底角相等（等边对等角）；顶角平分线、底边上的中线、底边上的高互相重合（三线合一）；等边三角形三边相等、三角都是 60°。",
- "why": "从顶点引角平分线后，两小三角形具有相等的腰、公共边以及相等夹角，由SAS全等。于是底边被平分，两个邻补角又相等而各为90°，这就是三线合一的来源。",
- "when_to_use": [
-  "三角形有两边相等",
-  "顶角平分线、底边高或中线从同一顶点引出"
- ],
- "steps": [
-  "先确认相等两腰与对应底角",
-  "算角时列底角相等与内角和",
-  "使用三线合一前检查是顶角对应底边的线段"
- ],
- "worked_example": {
-  "prompt": "AB=AC，AD平分∠BAC，D在BC上。证明BD=DC且AD⊥BC。",
-  "answer": "BD=DC，AD⊥BC",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.15.3",
+  "name": "等腰三角形",
+  "tier": "core",
+  "hook": "等腰三角形的顶角平分线为什么还能垂直平分底边？",
+  "definition": "等腰三角形两腰相等、两底角相等（等边对等角）；顶角平分线、底边上的中线、底边上的高互相重合（三线合一）；等边三角形三边相等、三角都是 60°。",
+  "why": "从顶点引角平分线后，两小三角形具有相等的腰、公共边以及相等夹角，由SAS全等。于是底边被平分，两个邻补角又相等而各为90°，这就是三线合一的来源。",
+  "when_to_use": [
+    "三角形有两边相等",
+    "顶角平分线、底边高或中线从同一顶点引出"
+  ],
   "steps": [
-   "AB=AC、AD公共、∠BAD=∠CAD，所以△ABD≌△ACD（SAS）。",
-   "对应边得BD=DC；对应角∠ADB=∠ADC，又两角互补，故各90°，AD⊥BC。"
-  ]
- },
- "pitfalls": [
-  "三线合一限于等腰三角形顶角与底边，不能套到任意顶点。",
-  "题目只给一个角度而没说顶角时要考虑它可能是底角。"
- ],
- "check": "独立完成并解释：等腰△ABC中AB=AC，顶角∠A=44°，求底角∠B的度数。 请写出判断或计算依据。；在本卡例题条件下，写出三线合一的全等证明。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能用等边对等角求角度",
-   "explanation": "等腰的两底角相等，须确认题给的是顶角还是底角。",
-   "self_check": {
-    "prompt": "等腰△ABC中AB=AC，顶角∠A=44°，求底角∠B的度数。 请写出判断或计算依据。",
-    "reference_answer": "AB=AC，所以∠B=∠C；两底角之和180°−44°=136°，各为68°。",
-    "criteria": [
-     "∠B=∠C",
-     "两底角各68°"
-    ]
-   }
+    "先确认相等两腰与对应底角",
+    "算角时列底角相等与内角和",
+    "使用三线合一前检查是顶角对应底边的线段"
+  ],
+  "worked_example": {
+    "prompt": "AB=AC，AD平分∠BAC，D在BC上。证明BD=DC且AD⊥BC。",
+    "answer": "BD=DC，AD⊥BC",
+    "steps": [
+      "AB=AC、AD公共、∠BAD=∠CAD，所以△ABD≌△ACD（SAS）。",
+      "对应边得BD=DC；对应角∠ADB=∠ADC，又两角互补，故各90°，AD⊥BC。"
+    ],
+    "family_id": "triangle.isosceles.three-lines.sas-proof",
+    "variant_id": "m8a.15.3:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "prove"
   },
-  {
-   "criterion_index": 1,
-   "title": "能用三线合一说明线段或角相等",
-   "explanation": "三线合一可用全等推出，证明时不能在尚未证明等腰前使用。",
-   "self_check": {
-    "prompt": "在本卡例题条件下，写出三线合一的全等证明。",
-    "reference_answer": "AB=AC、AD=AD、∠BAD=∠CAD，由SAS得△ABD≌△ACD，故BD=DC，∠ADB=∠ADC=90°。",
-    "criteria": [
-     "明确SAS三条件",
-     "由对应角及邻补推出垂直"
-    ]
-   }
+  "pitfalls": [
+    "三线合一限于等腰三角形顶角与底边，不能套到任意顶点。",
+    "题目只给一个角度而没说顶角时要考虑它可能是底角。"
+  ],
+  "check": "独立完成并解释：等腰△ABC中AB=AC，顶角∠A=44°，求底角∠B的度数。 请写出判断或计算依据。；在本卡例题条件下，写出三线合一的全等证明。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用等边对等角求角度",
+      "explanation": "等腰的两底角相等，须确认题给的是顶角还是底角。",
+      "self_check": {
+        "prompt": "等腰△ABC中AB=AC，顶角∠A=44°，求底角∠B的度数。 请写出判断或计算依据。",
+        "reference_answer": "AB=AC，所以∠B=∠C；两底角之和180°−44°=136°，各为68°。",
+        "criteria": [
+          "∠B=∠C",
+          "两底角各68°"
+        ],
+        "family_id": "triangle.isosceles.base-angles",
+        "variant_id": "m8a.15.3:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "AB=AC时哪两个角相对两条等边？44°是顶角还是底角？",
+        "hint": "先标∠B=∠C，再将扣除顶角后的136°平均分给两底角。",
+        "revision_prompt": "若给的是底角44°，求顶角92°并解释为什么不能仍算68°。"
+      },
+      "observation_note": "观察等边与对角对应及已知角身份；只记(180−角)÷2容易忽略底角情形。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用三线合一说明线段或角相等",
+      "explanation": "三线合一可用全等推出，证明时不能在尚未证明等腰前使用。",
+      "self_check": {
+        "prompt": "在本卡例题条件下，写出三线合一的全等证明。",
+        "reference_answer": "AB=AC、AD=AD、∠BAD=∠CAD，由SAS得△ABD≌△ACD，故BD=DC，∠ADB=∠ADC=90°。",
+        "criteria": [
+          "明确SAS三条件",
+          "由对应角及邻补推出垂直"
+        ],
+        "family_id": "triangle.isosceles.three-lines.sas-proof",
+        "variant_id": "m8a.15.3:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "prove"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“三线合一”是否适用于任意三角形的任一中线？本题等腰条件在哪里？",
+        "hint": "由AB=AC、AD公共和顶角平分建立SAS，再用D在BC上得到两邻角互补。",
+        "revision_prompt": "逐行写全等、BD=DC、两角相等且和180°，推得AD⊥BC；删等腰条件说明推理断在哪一步。"
+      },
+      "observation_note": "观察三线合一的限定位置与证明链；结论仅用于等腰顶角至底边这组三线。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.15.3-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.15.3-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.15.3-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m8a.15.3-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.15.3-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.15.3-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

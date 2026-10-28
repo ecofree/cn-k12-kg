@@ -34,7 +34,10 @@
     "variant_id": "m5b.2.1:worked-example-v5",
     "representation": "symbolic",
     "cognitive_demand": "explain",
-    "verify": "12/18"
+    "verify": "12/18",
+    "reference_family_ids": [
+      "number.gcd-enumerate"
+    ]
   },
   "pitfalls": [
     "分子分母同加不保证等值。",
@@ -68,8 +71,10 @@
         "representation": "symbolic",
         "cognitive_demand": "execute",
         "reference_family_ids": [
+          "fraction.add-common-unit",
           "fraction.common-unit-equivalence-check",
-          "fraction.add-common-unit"
+          "fraction.mismatched-scaling",
+          "fraction.partition-refinement"
         ]
       },
       "difficulty_support": {
@@ -96,7 +101,11 @@
         "cognitive_demand": "explain",
         "reference_family_ids": [
           "fraction.additive-equivalence-error"
-        ]
+        ],
+        "diagram": {
+          "src": "/static/diagrams/primary-fraction-refinement-v5.svg",
+          "alt": "同长色带：上条三等分涂两份，下条六等分涂四份，涂色边界相同。"
+        }
       },
       "difficulty_support": {
         "discriminating_prompt": "细分后原来涂色部分面积真的增大了吗？",

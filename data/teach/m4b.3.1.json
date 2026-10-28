@@ -21,7 +21,14 @@
       "第三角180−40−65=75°，三个角都锐，是锐角三角形。",
       "2+3=5，不是严格大于，因此三边不能围成三角形。"
     ],
-    "answer": "第三角75°；2、3、5不能成三角形"
+    "answer": "第三角75°；2、3、5不能成三角形",
+    "family_id": "geometry.triangle-angle-sum",
+    "variant_id": "m4b.3.1:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "geometry.triangle-side-inequality"
+    ]
   },
   "pitfalls": [
     "一个三角形可以同时是等腰和直角，两者分类标准不同。",
@@ -32,7 +39,7 @@
   "name": "三角形",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -46,8 +53,21 @@
         "criteria": [
           "内角和求90°",
           "说明等腰直角两种属性"
+        ],
+        "family_id": "geometry.triangle-classification",
+        "variant_id": "m4b.3.1:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.triangle-angle-sum"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“直角”和“等腰”是否在按同一个标准分类？一个三角形能同时符合吗？",
+        "hint": "先算最大角90°按角分类，再看相等两角对应等边按边分类，两张标签分别记录。",
+        "revision_prompt": "两角为40°、70°的三角形求第三角，再分别按角和边分类，说明哪些条件支持答案。"
+      },
+      "observation_note": "观察分类标准可并存；不能把锐角、等腰等不同标准混成互斥选项。"
     },
     {
       "criterion_index": 1,
@@ -59,8 +79,21 @@
         "criteria": [
           "第三角60°",
           "严格三角形不等式判断"
+        ],
+        "family_id": "geometry.triangle-angle-sum",
+        "variant_id": "m4b.3.1:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.triangle-side-inequality"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "4、5、10中最长边是哪条？两条短边合起来能到达它两端吗？",
+        "hint": "角度用180°减去两已知角；长度另用4+5与10比较，两项条件分开。",
+        "revision_prompt": "求两角50°、60°的第三角，并判断3、4、7能否围三角形，强调相等时仍不成立。"
+      },
+      "observation_note": "观察内角和与严格三边关系；角度合格不自动证明任意所给边长能构成三角形。"
     }
   ],
   "practice": [

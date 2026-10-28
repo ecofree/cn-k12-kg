@@ -35,7 +35,11 @@
     "variant_id": "m4a.2.2:worked-v4",
     "representation": "geometry",
     "cognitive_demand": "explain",
-    "verify": "60"
+    "verify": "60",
+    "diagram": {
+      "src": "/static/diagrams/primary-v6-protractor.svg",
+      "alt": "量角器中心O，基准边向右，另一边到从右侧0起的60刻度；同一刻线反向从左读为120。两圈方向相反。"
+    }
   },
   "pitfalls": [
     "不能见到哪个数字清楚就读哪个圈。",
@@ -54,7 +58,7 @@
   "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
   "objective_coverage": [
     {
-      "explanation": "读数必须对应同一个中心和起读零线。先粗判角型，再精读能发现把锐角读成钝角的错误。",
+      "explanation": "读数必须对应同一个中心和起读零线。先粗判角型，再精读能发现把锐角读成钝角的错误。 配图提供双圈错读对照：基准边向右，对应的0从右开始，读60°；若从相反零点开始会误读120°。",
       "observation_note": "观察实际测量动作和记录；没有给定图不能预设唯一数值。",
       "self_check": {
         "prompt": "用量角器测两个自画角（一锐一钝），记录中心、零线、刻度圈和读数，交换同伴复核。",
@@ -62,6 +66,13 @@
         "criteria": [
           "中心和零线对齐",
           "刻度圈与角型一致"
+        ],
+        "family_id": "geometry.protractor-zero-selection",
+        "variant_id": "m4a.2.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.protractor-placement"
         ]
       },
       "difficulty_support": {
@@ -81,6 +92,14 @@
         "criteria": [
           "基准与标点步骤完整",
           "复测支持70°"
+        ],
+        "family_id": "geometry.construct-specified-angle",
+        "variant_id": "m4a.2.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.angle-label-components",
+          "geometry.protractor-zero-selection"
         ]
       },
       "difficulty_support": {
@@ -94,7 +113,11 @@
   ],
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
+  },
+  "diagram": {
+    "src": "/static/diagrams/primary-v6-protractor.svg",
+    "alt": "量角器中心O，基准边向右，另一边到从右侧0起的60刻度；同一刻线反向从左读为120。两圈方向相反。"
   }
 }

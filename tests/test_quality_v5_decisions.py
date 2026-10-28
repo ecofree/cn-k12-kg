@@ -78,11 +78,15 @@ def later_observation(history):
 class DecisionCounterexampleTests(unittest.TestCase):
     @staticmethod
     def diagnostic_graph():
-        return Graph([{"id": "parent", "name": "基础"}, {"id": "child", "name": "应用"}],
+        return Graph([{"id": "parent", "name": "基础", "mastery_criteria": ["能数物体"]},
+                      {"id": "child", "name": "应用", "mastery_criteria": ["能加减计算"]}],
             [{"topicId": "child", "prerequisiteId": "parent", "strength": "hard"}],
             [{"id": f"child-q{index}", "topicId": "child", "type": "numeric", "difficulty": "basic",
-              "prompt": f"{index}+3=?", "answer": str(index + 3), "verify": f"{index}+3",
-              "explanation": "把两组数量合并后计数。"} for index in (1, 2)])
+              "prompt": "2+3=?" if index == 1 else "5-2=?", "answer": "5" if index == 1 else "3",
+              "verify": "2+3" if index == 1 else "5-2", "tested_criterion_indices": [0],
+              "family_id": "addition.combine" if index == 1 else "subtraction.remove", "representation": "symbolic",
+              "explanation": "把两组数量合并后计数。" if index == 1 else "从已有数量中取走一部分，求剩余。"}
+             for index in (1, 2)])
 
     def test_helped_correct_answers_cannot_create_mastered_or_assumed_ancestors(self):
         graph = self.diagnostic_graph()

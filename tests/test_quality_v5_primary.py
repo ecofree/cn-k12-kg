@@ -166,7 +166,9 @@ class QualityV5PrimaryTests(unittest.TestCase):
             self.assertFalse(self.bank[qid]['diagnosis_eligible'])
             self.assertIn('ratio_models', self.bank[qid]['alignment_note'])
         check = self.cards['m6b.1.1']['objective_coverage'][0]['self_check']
-        self.assertEqual(set(check['reference_family_ids']), {'ratio.value-direct'})
+        # The current reference also reduces 18/24 to 3/4. Its actual method
+        # must remain exposed, alongside the quotient interpretation.
+        self.assertEqual(set(check['reference_family_ids']), {'ratio.value-direct', 'fraction.reduce-direct'})
         self.assertEqual(check['family_id'], 'ratio.reduce-direct')
 
     def test_all_cards_and_actual_source_tasks_satisfy_contracts_without_inflated_goals(self):

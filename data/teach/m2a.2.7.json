@@ -22,7 +22,11 @@
       "4×6=24（元），共付24元。"
     ],
     "answer": "24",
-    "verify": "4*6"
+    "verify": "4*6",
+    "family_id": "ratio.unit-rate-projection",
+    "variant_id": "m2a.2.7:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "4元与6本不能直接相加成10元。",
@@ -33,7 +37,7 @@
   "name": "用乘法解决购物问题",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -47,8 +51,22 @@
         "criteria": [
           "乘法正确",
           "解释相同加数的意义"
+        ],
+        "family_id": "ratio.unit-rate-projection",
+        "variant_id": "m2a.2.7:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.multiply-then-adjust",
+          "primary.multiply.equal-groups"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "7元与5盒能直接相加吗？一共应出现几个7元？",
+        "hint": "画5个盒子，每盒写7元；先列7+7+7+7+7再改写乘法。",
+        "revision_prompt": "每本6元买4本，无优惠无其他费用，写总价；再说若另收2元包装费，原乘法结果还少了什么。"
+      },
+      "observation_note": "观察固定单价的等量累加；带优惠或额外费用的付款不能只套单价乘数量。"
     },
     {
       "criterion_index": 1,
@@ -60,8 +78,22 @@
         "criteria": [
           "三者区分准确",
           "关系式成立"
+        ],
+        "family_id": "model.price-quantity-roles",
+        "variant_id": "m2a.2.7:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.repeated-addition",
+          "ratio.unit-rate-projection"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "3、8、24后面各是什么单位？哪个数说明“每一支”的钱？",
+        "hint": "把信息放在“每支多少钱、买几支、一共付多少”三栏，金额与支数不能混换。",
+        "revision_prompt": "改用每盒4元、买6盒，把三个量及单位填入三栏，用乘法和重复加法相互核对。"
+      },
+      "observation_note": "观察单价、数量、总价的角色；只背关系式不能证明复杂购物情境也能识别。"
     }
   ],
   "practice": [

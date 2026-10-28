@@ -22,7 +22,11 @@
       "8+7=8+2+5=10+5=15（颗）。"
     ],
     "answer": "15",
-    "verify": "8+7"
+    "verify": "8+7",
+    "family_id": "addition.make-ten",
+    "variant_id": "m1a.5.4:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "从7里拿出2后还剩5，不能仍把7整个再加一次。",
@@ -33,7 +37,7 @@
   "name": "解决问题",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -47,8 +51,22 @@
         "criteria": [
           "判断正确",
           "用凑十或满十解释"
+        ],
+        "family_id": "addition.regroup-condition",
+        "variant_id": "m1a.5.4:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "addition.make-ten",
+          "ten.complete-frame"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "6再添3能装满十格框吗？再添7时会留下几个在框外？",
+        "hint": "先放6个，满框还差4；把第二堆与缺的4比较，就知道是否需要换出一个十。",
+        "revision_prompt": "分别画出7+2和7+5，圈出是否能凑成一组10，说明判断依据。"
+      },
+      "observation_note": "观察进位由满十决定；题目出现“一共”本身不能决定是否进位。"
     },
     {
       "criterion_index": 1,
@@ -60,8 +78,19 @@
         "criteria": [
           "正确拆分6",
           "算得15并说明总数"
-        ]
-      }
+        ],
+        "family_id": "addition.make-ten",
+        "variant_id": "m1a.5.4:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "9+6先取6中的1去凑十后，原来6只灰鸽还剩几只没算？",
+        "hint": "把6拆成1和5，取出的1标记已进入10，防止再把完整6加一次。",
+        "revision_prompt": "用同样办法画8只白鸽和5只灰鸽，写拆分、凑十、剩余三步并检查总数。"
+      },
+      "observation_note": "观察合并情境中的拆分守恒与计算；完成9加几不自动证明8加几也独立完成。"
     }
   ],
   "practice": [

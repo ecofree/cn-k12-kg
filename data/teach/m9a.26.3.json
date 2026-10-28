@@ -1,76 +1,112 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m9a.26.3",
- "name": "二次函数与一元二次方程",
- "tier": "core",
- "hook": "方程的根、图象与x轴的交点、不等式的分界点，为什么是同一批x？",
- "definition": "抛物线 y=ax²+bx+c 与 x 轴交点的横坐标就是方程 ax²+bx+c=0 的根；判别式大于 0 有两个交点，等于 0 有一个交点，小于 0 没有交点。",
- "why": "图象与x轴相交意味着y=0，所以交点横坐标恰是二次方程的根。根把数轴分成若干区间，图象在x轴上方代表正值，下方代表负值；判别式控制实根个数，也控制交点个数。",
- "when_to_use": [
-  "判断抛物线与x轴相交、相切或不交",
-  "由图象求二次不等式的解集"
- ],
- "steps": [
-  "令y=0求零点或计算判别式",
-  "根据开口和顶点确定图象上下位置",
-  "按问题的>、<或含等号选区间及端点"
- ],
- "worked_example": {
-  "prompt": "对y=x²−5x+6，求零点并写y≤0的范围。",
-  "answer": "零点2、3；2≤x≤3",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m9a.26.3",
+  "name": "二次函数与一元二次方程",
+  "tier": "core",
+  "hook": "方程的根、图象与x轴的交点、不等式的分界点，为什么是同一批x？",
+  "definition": "抛物线 y=ax²+bx+c 与 x 轴交点的横坐标就是方程 ax²+bx+c=0 的根；判别式大于 0 有两个交点，等于 0 有一个交点，小于 0 没有交点。",
+  "why": "图象与x轴相交意味着y=0，所以交点横坐标恰是二次方程的根。根把数轴分成若干区间，图象在x轴上方代表正值，下方代表负值；判别式控制实根个数，也控制交点个数。",
+  "when_to_use": [
+    "判断抛物线与x轴相交、相切或不交",
+    "由图象求二次不等式的解集"
+  ],
   "steps": [
-   "分解y=(x−2)(x−3)，所以与x轴交点横坐标为2和3。",
-   "a=1>0，图象在两根之间不高于x轴，且≤包含交点，故2≤x≤3。"
-  ]
- },
- "pitfalls": [
-  "没有实根并不总表示函数为正，还要看开口方向。",
-  "不等式含等号时不能漏掉使y=0的边界。"
- ],
- "check": "独立完成并解释：抛物线y=x²−2x+5与x轴有几个交点？ 备选：A. 0个；B. 1个；C. 2个 请写出判断或计算依据。；抛物线y=(x−1)(x−4)开口向上，与x轴交于x=1、4。写出y<0时x的范围。 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能用判别式判断抛物线与 x 轴的交点个数",
-   "explanation": "Δ正、零、负分别对应两点、一点、无交点。",
-   "self_check": {
-    "prompt": "抛物线y=x²−2x+5与x轴有几个交点？ 备选：A. 0个；B. 1个；C. 2个 请写出判断或计算依据。",
-    "reference_answer": "交点需解x²−2x+5=0，判别式Δ=4−20=−16<0，无实根，所以没有交点。 正确选项内容：0个。",
-    "criteria": [
-     "计算Δ=−16",
-     "与无实根联系"
-    ]
-   }
+    "令y=0求零点或计算判别式",
+    "根据开口和顶点确定图象上下位置",
+    "按问题的>、<或含等号选区间及端点"
+  ],
+  "worked_example": {
+    "prompt": "对y=x²−5x+6，求零点并写y≤0的范围。",
+    "answer": "零点2、3；2≤x≤3",
+    "steps": [
+      "分解y=(x−2)(x−3)，所以与x轴交点横坐标为2和3。",
+      "a=1>0，图象在两根之间不高于x轴，且≤包含交点，故2≤x≤3。"
+    ],
+    "family_id": "quadratic-function.graph-sign-between-roots",
+    "variant_id": "m9a.26.3:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能借图象写出不等式的解集",
-   "explanation": "图象在轴下意味着函数值负，区间边界由零点给出。",
-   "self_check": {
-    "prompt": "抛物线y=(x−1)(x−4)开口向上，与x轴交于x=1、4。写出y<0时x的范围。 请写出判断或计算依据。",
-    "reference_answer": "开口向上，图象在两个零点之间位于x轴下方，因此1<x<4；严格小于0不含两个端点。",
-    "criteria": [
-     "确定两根之间在轴下",
-     "排除1与4"
-    ]
-   }
+  "pitfalls": [
+    "没有实根并不总表示函数为正，还要看开口方向。",
+    "不等式含等号时不能漏掉使y=0的边界。"
+  ],
+  "check": "独立完成并解释：抛物线y=x²−2x+5与x轴有几个交点？ 备选：A. 0个；B. 1个；C. 2个 请写出判断或计算依据。；抛物线y=(x−1)(x−4)开口向上，与x轴交于x=1、4。写出y<0时x的范围。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用判别式判断抛物线与 x 轴的交点个数",
+      "explanation": "Δ正、零、负分别对应两点、一点、无交点。",
+      "self_check": {
+        "prompt": "抛物线y=x²−2x+5与x轴有几个交点？ 备选：A. 0个；B. 1个；C. 2个 请写出判断或计算依据。",
+        "reference_answer": "交点需解x²−2x+5=0，判别式Δ=4−20=−16<0，无实根，所以没有交点。 正确选项内容：0个。",
+        "criteria": [
+          "计算Δ=−16",
+          "与无实根联系"
+        ],
+        "family_id": "quadratic-function.x-intersections.discriminant",
+        "variant_id": "m9a.26.3:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "quadratic-function.complete-square.vertex"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "与x轴相交时是x=0还是y=0？Δ<0对应几个实横坐标？",
+        "hint": "先令y=0形成方程，再算Δ=4−20=−16。",
+        "revision_prompt": "将y=x²−2x+5配成(x−1)²+4，独立说明始终在x轴上方，与0交点互验。"
+      },
+      "observation_note": "观察根与轴交点的对应；不把与y轴有交点混为与x轴有交点。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能借图象写出不等式的解集",
+      "explanation": "图象在轴下意味着函数值负，区间边界由零点给出。",
+      "self_check": {
+        "prompt": "观察配图，指出y=(x−1)(x−4)的图象在哪一段低于x轴，并写出y<0的解集；说明两个零点是否包含。",
+        "reference_answer": "开口向上，图象在两个零点之间位于x轴下方，因此1<x<4；严格小于0不含两个端点。",
+        "criteria": [
+          "确定两根之间在轴下",
+          "排除1与4"
+        ],
+        "family_id": "quadratic-function.graph-sign-between-roots",
+        "variant_id": "m9a.26.3:criterion-1-v6",
+        "representation": "graph",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/quadratic-sign-v6.svg",
+          "alt": "抛物线y=(x−1)(x−4)开口向上，与x轴交于1和4，两轴每格1单位。"
+        }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "y<0对应图在x轴上方还是下方？根的位置能取吗？",
+        "hint": "在配图标出低于横轴的弧段，把该段向x轴投影；严格小于不含交点。",
+        "revision_prompt": "从图读1<x<4，再取x=2验(2−1)(2−4)=−2，并用x=0、5核对外侧为正。"
+      },
+      "observation_note": "观察图象位置到横坐标区间的转换及端点；只背“两根之间”忽略开口会出错。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m9a.26.3-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.26.3-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.26.3-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m9a.26.3-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m9a.26.3-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m9a.26.3-q101",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

@@ -31,12 +31,16 @@
     "family_id": "statistics.line-adjacent-change",
     "variant_id": "m5b.5.1:worked-v5",
     "representation": "graph",
-    "cognitive_demand": "execute"
+    "cognitive_demand": "execute",
+    "diagram": {
+      "src": "/static/diagrams/primary-line-chart-change.svg",
+      "alt": "按月等距的折线图，1月5℃、2月8℃、3月12℃；纵轴以摄氏度计，每格2度。点按时间顺序相连，不预标增减差值。"
+    }
   },
   "pitfalls": [
     "把点的高低当成变化量：3 月 12℃ 就说「上升了 12℃」。",
     "连线不按时间顺序，折线来回折。",
-    "用折线图比较不同类别的多少（这种该用条形图）。"
+    "类别没有自然先后顺序时，随意连线会暗示并不存在的连续变化；比较各类别数量通常宜用条形图。"
   ],
   "practice": [
     {
@@ -77,7 +81,10 @@
         "diagram": {
           "src": "/static/diagrams/statistics-v5-line-self-check.svg",
           "alt": "四天等距折线图，纵轴从0到24摄氏度，每格2度；最高气温依次18、20、19、23摄氏度。"
-        }
+        },
+        "reference_family_ids": [
+          "statistics.line-adjacent-change"
+        ]
       },
       "observation_note": "观察是否按时间顺序逐段读出升降，并区分局部下降与全程上升；描述趋势不等于能预测下一天温度。",
       "difficulty_support": {
@@ -104,7 +111,11 @@
         "diagram": {
           "src": "/static/diagrams/statistics-v5-line-self-check.svg",
           "alt": "四天等距折线图，纵轴从0到24摄氏度，每格2度；最高气温依次18、20、19、23摄氏度。"
-        }
+        },
+        "reference_family_ids": [
+          "ratio.table-unit-rate",
+          "statistics.line-adjacent-change"
+        ]
       },
       "observation_note": "观察相邻纵坐标差和最大增幅；跨图比较斜率还需要时间间隔与坐标比例一致，不能只凭肉眼陡缓。",
       "difficulty_support": {

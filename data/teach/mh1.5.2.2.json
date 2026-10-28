@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh1.5.2.2",
- "name": "同角三角函数的基本关系",
- "tier": "core",
- "hook": "知道sinα=3/5，为何cosα还可能有两个符号？",
- "definition": "同角三角函数的基本关系：sin²α+cos²α=1，tanα=sinα/cosα（cosα≠0）。sin²α+cos²α=1；tanα=sinα/cosα须cosα≠0。开平方时符号由角的范围决定。",
- "why": "单位圆上x²+y²=1把正弦与余弦联系起来，但平方消去了符号，因此求另一函数值还需象限条件。齐次式同除适当幂可转成正切，前提是除数不为0。",
- "when_to_use": [
-  "已知一个三角函数值及角的范围",
-  "含sin与cos的同次式需要转成tan"
- ],
- "steps": [
-  "先用象限确定待求值符号",
-  "用平方关系求大小并选正确符号",
-  "用商关系或同除化简，逐项检查分母"
- ],
- "worked_example": {
-  "prompt": "sinα=3/5，α在第二象限，求cosα与tanα。",
-  "steps": [
-   "cos²α=1-9/25=16/25。",
-   "第二象限cosα<0，所以cosα=-4/5。",
-   "tanα=(3/5)/(-4/5)=-3/4。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.5.2.2",
+  "name": "同角三角函数的基本关系",
+  "tier": "core",
+  "hook": "知道sinα=3/5，为何cosα还可能有两个符号？",
+  "definition": "同角基本关系为sin²α+cos²α=1；当cosα≠0时tanα=sinα/cosα。平方关系只确定绝对值，开平方的正负由角的范围决定；化简分式要同时保留原分母与所除量非零的条件。",
+  "why": "单位圆上x²+y²=1把正弦与余弦联系起来，但平方消去了符号，因此求另一函数值还需象限条件。齐次式同除适当幂可转成正切，前提是除数不为0。",
+  "when_to_use": [
+    "已知一个三角函数值及角的范围",
+    "含sin与cos的同次式需要转成tan"
   ],
-  "answer": "cosα=-4/5，tanα=-3/4"
- },
- "pitfalls": [
-  "开平方只取正根",
-  "同除cosα前不检查cosα是否为零"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能由一个三角函数值求其余两个",
-   "explanation": "平方关系给绝对值，象限决定符号，商关系再给正切。",
-   "self_check": {
-    "prompt": "cosα=-5/13且α在第三象限，求sinα、tanα。",
-    "reference_answer": "sinα=-√(1-25/169)=-12/13；tanα=12/5。",
-    "criteria": [
-     "平方关系与负正弦正确",
-     "正切为正且比值正确"
-    ]
-   }
+  "steps": [
+    "先用象限确定待求值符号",
+    "用平方关系求大小并选正确符号",
+    "用商关系或同除化简，逐项检查分母"
+  ],
+  "worked_example": {
+    "prompt": "sinα=3/5，α在第二象限，求cosα与tanα。",
+    "steps": [
+      "cos²α=1-9/25=16/25。",
+      "第二象限cosα<0，所以cosα=-4/5。",
+      "tanα=(3/5)/(-4/5)=-3/4。"
+    ],
+    "answer": "cosα=-4/5，tanα=-3/4",
+    "family_id": "trig.one-ratio-with-quadrant",
+    "variant_id": "mh1.5.2.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能化简含 sin、cos 的齐次式",
-   "explanation": "同次分式可同除cos的相应幂，但须说明相关分母非零。",
-   "self_check": {
-    "prompt": "已知tanα=2，求(sinα+cosα)/(sinα-cosα)，说明分母为何非零。",
-    "reference_answer": "tan已定义故cos≠0；同除cos得(2+1)/(2-1)=3。sin-cos=cos(2-1)≠0。",
-    "criteria": [
-     "同除合法及分母非零有说明",
-     "计算得3"
-    ]
-   }
+  "pitfalls": [
+    "开平方只取正根",
+    "同除cosα前不检查cosα是否为零"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能由一个三角函数值求其余两个",
+      "explanation": "平方关系给绝对值，象限决定符号，商关系再给正切。",
+      "self_check": {
+        "prompt": "cosα=-5/13且α在第三象限，求sinα、tanα。",
+        "reference_answer": "sinα=-√(1-25/169)=-12/13；tanα=12/5。",
+        "criteria": [
+          "平方关系与负正弦正确",
+          "正切为正且比值正确"
+        ],
+        "family_id": "trig.one-ratio-with-quadrant",
+        "variant_id": "mh1.5.2.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "由sin²=144/169能直接选正12/13吗？",
+        "hint": "平方只给绝对值，第三象限的y<0。",
+        "revision_prompt": "已知sin=3/5且在第二象限，得cos=-4/5、tan=-3/4；每个符号回查象限。"
+      },
+      "observation_note": "观察平方关系与符号选择；没给象限时可能存在两解。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能化简含 sin、cos 的齐次式",
+      "explanation": "同次分式可同除cos的相应幂，但须说明相关分母非零。",
+      "self_check": {
+        "prompt": "已知tanα=2，求(sinα+cosα)/(sinα-cosα)，说明分母为何非零。",
+        "reference_answer": "tan已定义故cos≠0；同除cos得(2+1)/(2-1)=3。sin-cos=cos(2-1)≠0。",
+        "criteria": [
+          "同除合法及分母非零有说明",
+          "计算得3"
+        ],
+        "family_id": "trig.homogeneous-ratio-domain",
+        "variant_id": "mh1.5.2.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "除以cosα前为什么要确认cosα≠0？",
+        "hint": "tanα已定义给出此条件，原分式还需另查sinα-cosα。",
+        "revision_prompt": "若tanα=1，说明(sin+cos)/(sin-cos)无定义；不能把分母0写成某个数。"
+      },
+      "observation_note": "观察齐次化简的两层非零条件；数值代入不代表所有角恒等。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：平方关系与负正弦正确；同除合法及分母非零有说明。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.5.2.2-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.5.2.2-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.5.2.2-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "开平方按象限选符号；商式分母非零。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：平方关系与负正弦正确；同除合法及分母非零有说明。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh1.5.2.2-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.5.2.2-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.5.2.2-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

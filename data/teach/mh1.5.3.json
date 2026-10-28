@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh1.5.3",
- "name": "诱导公式",
- "tier": "core",
- "hook": "sin150°为什么等于sin30°，cos150°却要变号？",
- "definition": "利用单位圆的旋转与对称把三角函数化成熟悉角或参考角的函数值；先识别函数是否变名，再依据原角位置判断符号，轴线角单独处理。借助终边对称或旋转把任意角化为熟悉角；如sin(π-α)=sinα、cos(π-α)=-cosα。",
- "why": "单位圆上正弦是纵坐标、余弦是横坐标。关于y轴对称只改变横坐标，关于x轴只改变纵坐标；旋转整圈不改坐标，这些几何变化逐一产生诱导公式。",
- "when_to_use": [
-  "角是特殊角加整圈、半圈或负角",
-  "三角式含π±α、-α或π/2±α"
- ],
- "steps": [
-  "先减去整圈并识别对称角",
-  "确定函数是否变名以及结果符号",
-  "化成熟悉角求值，再用象限验符号"
- ],
- "worked_example": {
-  "prompt": "求sin210°与cos150°。",
-  "steps": [
-   "210°=180°+30°，第三象限正弦负，sin210°=-sin30°=-1/2。",
-   "150°=180°-30°，第二象限余弦负。",
-   "cos150°=-cos30°=-√3/2。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.5.3",
+  "name": "诱导公式",
+  "tier": "core",
+  "hook": "sin150°为什么等于sin30°，cos150°却要变号？",
+  "definition": "诱导公式把单位圆的旋转或对称转成函数关系，例如sin(π-α)=sinα、cos(π-α)=-cosα、sin(π/2+α)=cosα。先认几何变换及函数是否变名，再按原角终边检查符号；大角、负角和轴线角分别核查。",
+  "why": "单位圆上正弦是纵坐标、余弦是横坐标。关于y轴对称只改变横坐标，关于x轴只改变纵坐标；旋转整圈不改坐标，这些几何变化逐一产生诱导公式。",
+  "when_to_use": [
+    "角是特殊角加整圈、半圈或负角",
+    "三角式含π±α、-α或π/2±α"
   ],
-  "answer": "-1/2；-√3/2"
- },
- "pitfalls": [
-  "仅背符号不看原角象限",
-  "遇π/2±α忘记正弦余弦会互换"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能选择正确的诱导公式化简",
-   "explanation": "选公式依据角与基本角的几何关系，符号由原角坐标确定。",
-   "self_check": {
-    "prompt": "化简sin(π-α)、cos(-α)、sin(π/2+α)。",
-    "reference_answer": "sinα、cosα、cosα；分别来自y轴对称、x轴对称和四分之一圈旋转。",
-    "criteria": [
-     "三式正确",
-     "解释至少一种坐标变换"
-    ]
-   }
+  "steps": [
+    "先减去整圈并识别对称角",
+    "确定函数是否变名以及结果符号",
+    "化成熟悉角求值，再用象限验符号"
+  ],
+  "worked_example": {
+    "prompt": "求sin210°与cos150°。",
+    "steps": [
+      "210°=180°+30°，第三象限正弦负，sin210°=-sin30°=-1/2。",
+      "150°=180°-30°，第二象限余弦负。",
+      "cos150°=-cos30°=-√3/2。"
+    ],
+    "answer": "-1/2；-√3/2",
+    "family_id": "trig.reduce-and-evaluate",
+    "variant_id": "mh1.5.3:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能求任意角的三角函数值",
-   "explanation": "先把大角或负角化到熟悉角，再用符号与基本值求值。",
-   "self_check": {
-    "prompt": "求sin750°与cos(-120°)。",
-    "reference_answer": "sin750°=sin30°=1/2；cos(-120°)=cos120°=-1/2。",
-    "criteria": [
-     "整圈与负角化简正确",
-     "两个精确值正确"
-    ]
-   }
+  "pitfalls": [
+    "仅背符号不看原角象限",
+    "遇π/2±α忘记正弦余弦会互换"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能选择正确的诱导公式化简",
+      "explanation": "选公式依据角与基本角的几何关系，符号由原角坐标确定。",
+      "self_check": {
+        "prompt": "化简sin(π-α)、cos(-α)、sin(π/2+α)。",
+        "reference_answer": "sinα、cosα、cosα；分别来自y轴对称、x轴对称和四分之一圈旋转。",
+        "criteria": [
+          "三式正确",
+          "解释至少一种坐标变换"
+        ],
+        "family_id": "trig.reduction-coordinate-symmetry",
+        "variant_id": "mh1.5.3:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "sin(π/2+α)应变成sinα还是cosα？",
+        "hint": "在单位圆取α=0先检错，再看四分之一圈后的纵坐标来自原横坐标。",
+        "revision_prompt": "用α=π/6核验sin(π/2+α)=cosα=√3/2，并说明这次代入只是核查非证明。"
+      },
+      "observation_note": "观察变名、符号与几何依据；单角验证不能证明诱导恒等式。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能求任意角的三角函数值",
+      "explanation": "先把大角或负角化到熟悉角，再用符号与基本值求值。",
+      "self_check": {
+        "prompt": "求sin750°与cos(-120°)。",
+        "reference_answer": "sin750°=sin30°=1/2；cos(-120°)=cos120°=-1/2。",
+        "criteria": [
+          "整圈与负角化简正确",
+          "两个精确值正确"
+        ],
+        "family_id": "trig.reduce-and-evaluate",
+        "variant_id": "mh1.5.3:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "cos(-120°)的负号能直接移到函数外吗？",
+        "hint": "余弦为偶函数，先把负角变正，再判第二象限符号。",
+        "revision_prompt": "求sin(-150°)=-1/2、cos390°=√3/2；分别说明奇性与整圈化简。"
+      },
+      "observation_note": "观察周期和对称求值；同结构换角仍为同题族。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：三式正确；整圈与负角化简正确。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.5.3-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.5.3-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.5.3-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "先化角再判原终边符号；轴线角单独处理。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：三式正确；整圈与负角化简正确。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh1.5.3-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.5.3-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.5.3-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

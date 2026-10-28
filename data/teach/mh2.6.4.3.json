@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh2.6.4.3",
- "name": "余弦定理、正弦定理",
- "tier": "core",
- "hook": "已知三角形两边及夹角时，为什么优先用余弦定理而非直接用正弦定理？",
- "definition": "余弦定理 a²=b²+c²-2bc·cosA；正弦定理 a/sinA=b/sinB=c/sinC=2R，用于解三角形。a²=b²+c²-2bc cosA；a/sinA=b/sinB=c/sinC=2R。a、b、c分别对A、B、C，角在(0,π)。",
- "why": "余弦定理来自两边向量差的模平方，适合三边或两边夹角；正弦定理把边与其对角联系，适合已有完整边角对。SSA情形因sinB=sin(π-B)可能产生两解，必须检验角和。",
- "when_to_use": [
-  "已知三边或两边夹角求边角",
-  "已知一边与对角以及另一边或角"
- ],
- "steps": [
-  "画图标清边与对角配对",
-  "按已知结构选定理并求未知量",
-  "检查三角形不等式、角和及SSA可能的两解"
- ],
- "worked_example": {
-  "prompt": "三角形两边b=3、c=5，夹角A=60°，求a。",
-  "steps": [
-   "已知两边夹角，用余弦定理。",
-   "a²=3²+5²-2·3·5·1/2=19。",
-   "a=√19，满足2<a<8。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh2.6.4.3",
+  "name": "余弦定理、正弦定理",
+  "tier": "core",
+  "hook": "已知三角形两边及夹角时，为什么优先用余弦定理而非直接用正弦定理？",
+  "definition": "在非退化三角形中，边a、b、c分别对应角A、B、C。余弦定理a²=b²+c²-2bc cosA，正弦定理a/sinA=b/sinB=c/sinC=2R。按已知边角选法，SSA求得的正弦值可能对应两个角，须逐一检查角和及边长限制。",
+  "why": "余弦定理来自两边向量差的模平方，适合三边或两边夹角；正弦定理把边与其对角联系，适合已有完整边角对。SSA情形因sinB=sin(π-B)可能产生两解，必须检验角和。",
+  "when_to_use": [
+    "已知三边或两边夹角求边角",
+    "已知一边与对角以及另一边或角"
   ],
-  "answer": "√19"
- },
- "pitfalls": [
-  "把夹角错配成不相邻边的对角",
-  "正弦定理求出锐角后忽略可能的钝角解"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能选择合适的定理求解三角形",
-   "explanation": "边角对应必须一致；求得角后还需用角和排除非法解。",
-   "self_check": {
-    "prompt": "在△ABC中A=30°、B=45°、a=2，求b及C。",
-    "reference_answer": "b=a sinB/sinA=2√2；C=180°-30°-45°=105°。",
-    "criteria": [
-     "边角比配对正确",
-     "余角C合法且角和180°"
-    ]
-   }
+  "steps": [
+    "画图标清边与对角配对",
+    "按已知结构选定理并求未知量",
+    "检查三角形不等式、角和及SSA可能的两解"
+  ],
+  "worked_example": {
+    "prompt": "三角形两边b=3、c=5，夹角A=60°，求a。",
+    "steps": [
+      "已知两边夹角，用余弦定理。",
+      "a²=3²+5²-2·3·5·1/2=19。",
+      "a=√19，满足2<a<8。"
+    ],
+    "answer": "√19",
+    "family_id": "triangle.cosine-rule-sas",
+    "variant_id": "mh2.6.4.3:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能判断何时用正弦定理、何时用余弦定理",
-   "explanation": "选择方法由已知量决定，而不是固定只用一个公式。",
-   "self_check": {
-    "prompt": "分别为‘三边3、4、5求最大角’和‘A=30°、a=1、b=√2求B’选法并求解。",
-    "reference_answer": "前者余弦定理，cos最大角=(9+16-25)/(24)=0，得90°；后者正弦定理sinB=√2/2，B=45°或135°，两者与A之和均小于180°，都有解。",
-    "criteria": [
-     "两种方法按数据选择",
-     "SSA保留并检验两个解"
-    ]
-   }
+  "pitfalls": [
+    "把夹角错配成不相邻边的对角",
+    "正弦定理求出锐角后忽略可能的钝角解"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能选择合适的定理求解三角形",
+      "explanation": "边角对应必须一致；求得角后还需用角和排除非法解。",
+      "self_check": {
+        "prompt": "在△ABC中A=30°、B=45°、a=2，求b及C。",
+        "reference_answer": "b=a sinB/sinA=2√2；C=180°-30°-45°=105°。",
+        "criteria": [
+          "边角比配对正确",
+          "余角C合法且角和180°"
+        ],
+        "family_id": "triangle.sine-rule-opposite-pairs",
+        "variant_id": "mh2.6.4.3:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "a对应sinA还是sinB？求出的三角形角和能超过180°吗？",
+        "hint": "先标边的对角，再求剩余角检查存在性。",
+        "revision_prompt": "A=30°、B=60°、a=3，则b=3√3、C=90°，用直角关系复核。"
+      },
+      "observation_note": "观察边角对应与解的合法性；一组AAS不代表掌握所有解三角形。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能判断何时用正弦定理、何时用余弦定理",
+      "explanation": "选择方法由已知量决定，而不是固定只用一个公式。",
+      "self_check": {
+        "prompt": "分别为‘三边3、4、5求最大角’和‘A=30°、a=1、b=√2求B’选法并求解。",
+        "reference_answer": "前者余弦定理，cos最大角=(9+16-25)/(24)=0，得90°；后者正弦定理sinB=√2/2，B=45°或135°，两者与A之和均小于180°，都有解。",
+        "criteria": [
+          "两种方法按数据选择",
+          "SSA保留并检验两个解"
+        ],
+        "family_id": "triangle.select-rule-ssa-ambiguity",
+        "variant_id": "mh2.6.4.3:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "由sinB=√2/2为何不能只取45°？",
+        "hint": "0°<B<180°中正弦同值有互补两角，再用A+B<180°筛选。",
+        "revision_prompt": "A=60°、a=√3、b=√2，sinB=√2/2；45°可用，135°使角和超180°排除。"
+      },
+      "observation_note": "观察定理选择和SSA候选筛选；反三角函数主值不自动给全部解。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：边角比配对正确；两种方法按数据选择。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh2.6.4.3-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.6.4.3-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.6.4.3-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "边角对应且三角形非退化；SSA须检查多解和角和。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：边角比配对正确；两种方法按数据选择。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh2.6.4.3-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh2.6.4.3-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh2.6.4.3-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

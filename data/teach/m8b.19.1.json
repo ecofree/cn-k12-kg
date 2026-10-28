@@ -1,82 +1,110 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m8b.19.1",
- "name": "二次根式及其性质",
- "tier": "core",
- "hook": "√((−3)²)是−3还是3？开平方为什么不能简单抵消平方？",
- "definition": "形如√a（a≥0）的式子叫二次根式，√a 表示 a 的算术平方根，结果非负；有 (√a)²=a（a≥0），√(a²)=|a|。",
- "why": "算术平方根的结果必须非负。a²把a的符号信息丢掉，开平方只能得到它的大小|a|，因此√(a²)=|a|；另一方面(√a)²=a要求原先a≥0，两条规则条件不同。",
- "when_to_use": [
-  "根号内含变量需要限定范围",
-  "出现平方再开方并涉及正负号"
- ],
- "steps": [
-  "先令被开方数≥0并检查其他分母",
-  "把√(a²)改写成",
-  "a",
-  "而非直接a",
-  "依据a的正负决定是否需要变号"
- ],
- "worked_example": {
-  "prompt": "已知a<0，化简√(9a²)。",
-  "answer": "−3a",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8b.19.1",
+  "name": "二次根式及其性质",
+  "tier": "core",
+  "hook": "√((−3)²)是−3还是3？开平方为什么不能简单抵消平方？",
+  "definition": "形如√a（a≥0）的式子叫二次根式，√a 表示 a 的算术平方根，结果非负；有 (√a)²=a（a≥0），√(a²)=|a|。",
+  "why": "算术平方根的结果必须非负。a²把a的符号信息丢掉，开平方只能得到它的大小|a|，因此√(a²)=|a|；另一方面(√a)²=a要求原先a≥0，两条规则条件不同。",
+  "when_to_use": [
+    "根号内含变量需要限定范围",
+    "出现平方再开方并涉及正负号"
+  ],
   "steps": [
-   "9a²=(3a)²，故根式等于",
-   "3a",
-   "。",
-   "因a<0，3a<0，所以",
-   "3a",
-   "=−3a，结果为非负数。"
-  ]
- },
- "pitfalls": [
-  "√(a²)=a仅在a≥0时成立。",
-  "根号内非负与根号结果非负是两件都要检查的事。"
- ],
- "check": "独立完成并解释：二次根式√(5−2x)在实数范围内有意义，x的取值范围是什么？ 请写出判断或计算依据。；已知x<2，化简√((x−2)²)，不保留绝对值符号。 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能判断二次根式有意义的条件",
-   "explanation": "二次根式定义域来自被开方数非负；解不等式仍须注意负系数。",
-   "self_check": {
-    "prompt": "二次根式√(5−2x)在实数范围内有意义，x的取值范围是什么？ 请写出判断或计算依据。",
-    "reference_answer": "被开方数须非负，5−2x≥0，移项并除以−2要反向，得x≤2.5。",
-    "criteria": [
-     "列5−2x≥0",
-     "正确反向得到x≤2.5"
-    ]
-   }
+    "先令被开方数≥0，并检查是否还存在分母非零等限制。",
+    "遇到√(a²)先完整写成|a|，不要把绝对值符号拆掉。",
+    "根据a≥0或a<0分别写a或−a；条件未知时保留绝对值。",
+    "用满足条件的具体数回查化简结果非负且与原式相等。"
+  ],
+  "worked_example": {
+    "prompt": "已知a<0，化简√(9a²)。",
+    "answer": "−3a",
+    "steps": [
+      "9a²=(3a)²，因此√(9a²)=|3a|。",
+      "因为a<0，所以3a<0，|3a|=−3a；−3a为正数，与算术平方根非负一致。",
+      "例如a=−2时，根式为√36=6，−3a也为6。"
+    ],
+    "family_id": "radical.square-to-absolute-value",
+    "variant_id": "m8b.19.1:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能化简 √(a²) 并正确处理绝对值",
-   "explanation": "化简平方根要保留绝对值再按已知范围取符号。",
-   "self_check": {
-    "prompt": "已知x<2，化简√((x−2)²)，不保留绝对值符号。 请写出判断或计算依据。",
-    "reference_answer": "√((x−2)²)=|x−2|；因x<2，x−2为负，所以绝对值为−(x−2)=2−x。",
-    "criteria": [
-     "先转为x−2的绝对值",
-     "利用x<2得到2−x"
-    ]
-   }
+  "pitfalls": [
+    "√(a²)=a仅在a≥0时成立。",
+    "根号内非负与根号结果非负是两件都要检查的事。"
+  ],
+  "check": "独立完成并解释：二次根式√(5−2x)在实数范围内有意义，x的取值范围是什么？ 请写出判断或计算依据。；已知x<2，化简√((x−2)²)，不保留绝对值符号。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断二次根式有意义的条件",
+      "explanation": "二次根式定义域来自被开方数非负；解不等式仍须注意负系数。",
+      "self_check": {
+        "prompt": "二次根式√(5−2x)在实数范围内有意义，x的取值范围是什么？ 请写出判断或计算依据。",
+        "reference_answer": "被开方数须非负，5−2x≥0，移项并除以−2要反向，得x≤2.5。",
+        "criteria": [
+          "列5−2x≥0",
+          "正确反向得到x≤2.5"
+        ],
+        "family_id": "radical.domain.radicand-nonnegative",
+        "variant_id": "m8b.19.1:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "reference_family_ids": [
+          "inequality.divide-negative.reverse"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "√(5−2x)的被开方数能为0吗？除以−2时方向怎么办？",
+        "hint": "实数平方根要求5−2x≥0，包含0；先移项再同除负数并反向。",
+        "revision_prompt": "检验x=2.5时根式为0、x=3时无实数值，画出x≤2.5的范围。"
+      },
+      "observation_note": "观察非负被开方数与不等式方向；若根式又位于分母，还须排除等于0。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能化简 √(a²) 并正确处理绝对值",
+      "explanation": "化简平方根要保留绝对值再按已知范围取符号。",
+      "self_check": {
+        "prompt": "已知x<2，化简√((x−2)²)，不保留绝对值符号。 请写出判断或计算依据。",
+        "reference_answer": "√((x−2)²)=|x−2|；因x<2，x−2为负，所以绝对值为−(x−2)=2−x。",
+        "criteria": [
+          "先转为x−2的绝对值",
+          "利用x<2得到2−x"
+        ],
+        "family_id": "radical.square-to-absolute-value",
+        "variant_id": "m8b.19.1:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "√((x−2)²)能直接写x−2吗？在x=1时会得到负数吗？",
+        "hint": "先写|x−2|，再由x<2判内部为负，取相反数2−x。",
+        "revision_prompt": "分别讨论x>2、x=2、x<2的结果，并用x=3、2、1验证根式都非负。"
+      },
+      "observation_note": "观察平方开根取绝对值与条件分支；消去平方和根号不能忽略符号。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8b.19.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.19.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.19.1-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m8b.19.1-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8b.19.1-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8b.19.1-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

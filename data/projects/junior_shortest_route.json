@@ -43,7 +43,12 @@
         "junior_shortest_route:o1"
       ],
       "instructions": "描A、B及l，选P=(0,0)、(2,0)、(4,0)画三条路线。量出长度作初步比较，明确测量只是猜想证据。",
-      "deliverable": "三条路线和带测量精度的比较表。"
+      "deliverable": "三条路线和带测量精度的比较表。",
+      "family_id": "geometry.broken-path.feasible-contact",
+      "variant_id": "junior_shortest_route:step-0-v6",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "观察总目标AP+PB、接触点范围与测量精度，有限试点仅为猜想。"
     },
     {
       "title": "反射消去折返",
@@ -51,7 +56,12 @@
         "junior_shortest_route:o2"
       ],
       "instructions": "作A关于l的对称点A′(0,−3)，连接A′B，交l于P。解释对任何l上的点Q，AQ=A′Q的原因。",
-      "deliverable": "含对称轴、对应点及交点的构造图。"
+      "deliverable": "含对称轴、对应点及交点的构造图。",
+      "family_id": "reflection.shortest-path.distance-preservation",
+      "variant_id": "junior_shortest_route:step-1-v6",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "观察A关于河岸的反射A′和任意岸上Q的等距性质。"
     },
     {
       "title": "证明与确定交点",
@@ -60,7 +70,12 @@
         "junior_shortest_route:o3"
       ],
       "instructions": "对任意Q在l上，比较AQ+QB=A′Q+QB与A′B；说明何时取等号，并利用此题的对称高度求P坐标。",
-      "deliverable": "至少三步的证明及P(4,0)。"
+      "deliverable": "至少三步的证明及P(4,0)。",
+      "family_id": "reflection.shortest-path.triangle-inequality-equality",
+      "variant_id": "junior_shortest_route:step-2-v6",
+      "representation": "verbal",
+      "cognitive_demand": "prove",
+      "alignment_note": "观察对全部Q的下界和取等共线条件，不把测得三条路线当证明。"
     },
     {
       "title": "检查条件变化",
@@ -69,7 +84,12 @@
         "junior_shortest_route:o3"
       ],
       "instructions": "若河岸只允许在x∈[0,2]范围接触，原P还可用吗？说明无障碍与可达范围是结论的一部分，画一个受限方案而不直接照抄P。",
-      "deliverable": "原方案成立条件与受限情境讨论。"
+      "deliverable": "原方案成立条件与受限情境讨论。",
+      "family_id": "optimization.restricted-contact.revise-feasibility",
+      "variant_id": "junior_shortest_route:step-3-v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "alignment_note": "观察原最优点被新范围排除后的可行方案，若未补证不声称受限最优。"
     }
   ],
   "deliverables": [
@@ -116,9 +136,12 @@
   },
   "teacher_notes": [
     "本活动目录登记课时为0，表示当前目录字段为0；本原创任务建议用2课时完成，不把建议值写回目录。",
-    "不要先套尚未学习的勾股定理作为最短性的理由；反射与线段最短已经足够。"
+    "不要先套尚未学习的勾股定理作为最短性的理由；反射与线段最短已经足够。",
+    "目标o1：若只比较AP，补画P到B的第二段；表中每行记录AP、PB和总和。新限制0≤x≤2必须从点的坐标开始核对。",
+    "目标o2：若把A′仍画在河岸上方，先用河岸为AA′垂直平分线核对A′(0,−3)；再证明岸上Q到A、A′等距，而非只验某个P。",
+    "目标o3：写AQ+QB=A′Q+QB≥A′B，然后补“只有A′、Q、B共线且Q在线段之间才取等”；交点P(4,0)因此最优。若改接触范围，Q(2,0)只是已有可行例，不自动得到受限最优证明。"
   ],
-  "assessment_note": "每项目标依据相应作品独立评分：0分为未展示或关键结论错误，1分为部分正确但缺条件、依据或核对，2分为完整正确且可复核。共6分；反馈指出具体证据，不把参加活动或排版漂亮当作目标达成。",
+  "assessment_note": "每项目标依据相应作品独立评分：0分为未展示或关键结论错误，1分为部分正确但缺条件、依据或核对，2分为完整正确且可复核。共6分；反馈指出具体证据，不把参加活动或排版漂亮当作目标达成。 最短性由对任意Q的不等式与取等条件支持；图上量几次只支持猜想。受限变式要求可行性讨论，不未经证明把示例当最优。",
   "review_status": "draft",
   "author_type": "ai",
   "teacher_review": {

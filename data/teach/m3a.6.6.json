@@ -6,7 +6,7 @@
   "name": "分数的简单计算",
   "tier": "core",
   "hook": "1 - 3/8 = ？1 是整数，怎么跟分数相减？",
-  "definition": "1 可以写成任何分子分母相同的分数：1 = 8/8 = 9/9 = 12/12。计算 1 减几分之几时，先把 1 化成同分母的分数，再按同分母减法算。",
+  "definition": "分子、分母是同一个非零数时，分数等于1；本卡用正整数份数，例如1=8/8=9/9=12/12。计算1减一个真分数时，先把1写成与减数同分母的分数，再减去所取份数。",
   "why": "只有「份的大小相同」才能直接相减。1 表示整个，化成 8/8 就是「8 份全都在」；从中拿走 3 份，还剩 5 份。分母取 8，是因为减数是八分之几，必须换成同样的份。",
   "when_to_use": [
     "算式中出现 1 减去一个分数",
@@ -14,10 +14,10 @@
     "题目问「还剩几分之几」，而整体是 1"
   ],
   "steps": [
-    "看减数的分母是几",
-    "把 1 写成「分母/分母」",
-    "分子相减，分母不变",
-    "结果是 n/n 就写成 1，能约分就约分"
+    "看减数的分母是几，并确认它为正整数。",
+    "把1写成分子分母都等于该份数的分数。",
+    "只减份数，分母保持。",
+    "用剩下与去掉的份数合回整体核对；不把尚未学过的约分作为本课额外门槛。"
   ],
   "worked_example": {
     "prompt": "计算 1-3/8，所得结果的分子是多少？",
@@ -27,7 +27,11 @@
       "减数是 3/8，分母是 8，所以把 1 看成 8/8。",
       "8/8-3/8，分母不变，分子 8-3=5，得 5/8。",
       "题目问分子，填 5。"
-    ]
+    ],
+    "family_id": "fraction.remainder-from-original",
+    "variant_id": "m3a.6.6:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "1-3/8 算成 3/7——把 1 当成了分子。",
@@ -51,7 +55,7 @@
   "check": "能立刻说出 1 = 5/5 = 12/12，并正确算出 1-4/9=5/9。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,21 @@
         "criteria": [
           "两个表示正确",
           "整体全部份数解释"
+        ],
+        "family_id": "fraction.all-parts-make-whole",
+        "variant_id": "m3a.6.6:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.part-count-over-equal-whole"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把整张纸分成6份后，取满全部6份是6/6还是1/6？",
+        "hint": "分母说明共分几份，分子说明取了几份；取满时二者相同。",
+        "revision_prompt": "把同一个整体分别八等分、十二等分，写两种表示1的分数并圈出全部份。"
+      },
+      "observation_note": "观察整数1与完整份数对应；不同整体的1不意味着实际长度相等。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +95,22 @@
         "criteria": [
           "先换同分母",
           "结果5/8"
+        ],
+        "family_id": "fraction.remainder-from-original",
+        "variant_id": "m3a.6.6:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.all-parts-make-whole",
+          "fraction.subtract-common-unit"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "1−3/8中的1若写1/8，原来整根纸条会变成几份？",
+        "hint": "把1先写成8个1/8，再去掉3份；单位相同后只减份数。",
+        "revision_prompt": "画十等分整体求1−4/10，写完整总份数与剩余份数，检查两部分合回1。"
+      },
+      "observation_note": "观察整体改写及剩余份数；不能由一题推断异分母运算已掌握。"
     }
   ]
 }

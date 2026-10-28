@@ -28,7 +28,9 @@
     "answer": "12",
     "verify": "20*120/200",
     "family_id": "sampling.proportional-count",
-    "variant_id": "mh2.9.1.2:worked-example-v4"
+    "variant_id": "mh2.9.1.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "只按层比例定人数，却在层内随手选熟人，失去随机环节。",
@@ -51,7 +53,7 @@
       "criterion_index": 0,
       "title": "能按比例计算各层样本量",
       "explanation": "比例配额由每层容量占比决定，必须核对配额总和。若计算结果非整数，不能各自随意四舍五入；要记录一个事先约定、保持总样本量的分配办法。",
-      "observation_note": "观察比例配额计算；不要求本卡处理最优分配及复杂调查权重。",
+      "observation_note": "观察比例分配、总量与整数约定；配额正确不等于层内已随机。",
       "self_check": {
         "prompt": "三层分别有120、80、200人，总体400人，按比例抽40人。列各层人数并核对抽样比例；如果某次配额出现小数，应记录什么？",
         "reference_answer": "依次抽12、8、20人，合计40，各层抽样比例均为1/10。配额非整数时记录保持总量的整数分配规则，并说明可能轻微偏离完全同比例。",
@@ -59,19 +61,23 @@
           "三层配额与总数正确",
           "核对抽样比例",
           "小数配额不隐瞒取整规则"
-        ]
+        ],
+        "family_id": "sampling.proportional-count",
+        "variant_id": "mh2.9.1.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
       },
       "difficulty_support": {
-        "discriminating_prompt": "12+8+20是否等于计划40？",
-        "hint": "先算每层占比，再用总样本量统一乘，最后加总。",
-        "revision_prompt": "补充合计与抽样比例两行验算。"
+        "discriminating_prompt": "总样本40，三层人数之和等于400吗？每层抽样比例一致吗？",
+        "hint": "先核总体总量，再按nN_h/N计算并核对配额和。",
+        "revision_prompt": "三层50,100,150抽30，得5,10,15；若抽31，记录整数分配规则而非各自随意取整。"
       }
     },
     {
       "criterion_index": 1,
       "title": "能判断何时应使用分层抽样",
       "explanation": "分层要根据与研究有关的先验特征，不能先看完调查结果再任意挑层。层要穷尽互斥，并在每层随机抽取；仅按性别或年级分组不自动保证对所有研究指标更有效。",
-      "observation_note": "任务观察方案论证；真实精度提升需要调查设计及数据验证。",
+      "observation_note": "观察分层依据与操作；不作无数据的精度提升保证。",
       "self_check": {
         "prompt": "调查三个年级的通勤时间，已知年级住校政策不同，准备按年级分层。说明理由及操作；若改研究左右利手，年级分层一定更精确吗？",
         "reference_answer": "通勤时间与住校政策可能有关，按年级覆盖各层有依据，层内仍需随机并记录回复。左右利手是否与年级有关未知，不能保证同样分层提高精度。",
@@ -79,22 +85,26 @@
           "分层依据与指标相关",
           "要求层内随机与覆盖完整",
           "对新指标不作必然精确的断言"
-        ]
+        ],
+        "family_id": "sampling.strata-relevance",
+        "variant_id": "mh2.9.1.2:criterion-1",
+        "representation": "verbal",
+        "cognitive_demand": "model"
       },
       "difficulty_support": {
-        "discriminating_prompt": "分层变量与本次研究指标为什么有关？",
-        "hint": "写出“研究指标—可能差异—分层依据”的联系。",
-        "revision_prompt": "修改方案，补层的边界、随机步骤、回复记录与适用限制。"
+        "discriminating_prompt": "按年级分层总能比简单随机更精确吗？",
+        "hint": "收益依分层变量与研究指标关系，分层内仍须随机。",
+        "revision_prompt": "研究校服尺码可说明年级与身高的关联可能有用；研究硬币投掷结果则不能保证年级分层有益。"
       }
     }
   ],
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "conditions": [
-    "各层互斥且穷尽总体；n≤N，层内随机；比例分配与其他分配分别解释。"
+    "各层互斥且覆盖总体；层内随机，非比例分配须说明权重。"
   ],
   "representation_note": "使用层容量、占比、样本量、实际回复量四列表。"
 }

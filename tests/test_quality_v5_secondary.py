@@ -40,7 +40,9 @@ class SecondaryAlignmentTests(unittest.TestCase):
         self.assertIn("正概率", self.cards["mh2.10.2"]["objective_coverage"][1]["observation_note"])
 
     def test_given_extremum_or_fixed_discount_is_not_evidence_for_another_goal(self):
-        for qid in ("mh4.5.3.1-q102", "m8b.22.2-q102", "m8b.23.2-q102", "m8b.23.4-q1"):
+        for qid in ("mh4.5.3.1-q102", "m8b.22.2-q102", "m8b.23.2-q102", "m8b.23.4-q1",
+                    "m8b.23.4-q2", "m8b.22.2-q1", "m7a.5.1.2-q2", "m7a.5.1.2-q4",
+                    "mh4.5.3.1-q2", "mh4.5.3.1-q203"):
             self.assertNotIn("tested_criterion_indices", self.bank[qid])
             self.assertFalse(self.bank[qid]["for_diagnosis"])
         self.assertNotIn("下表", self.bank["m8b.22.2-q102"]["prompt"])
@@ -99,7 +101,7 @@ class SecondaryAlignmentTests(unittest.TestCase):
                 self.assertNotEqual(entry["self_check"]["representation"], "unknown")
         tasks = [q for q in self.bank.values() if q.get("topicId") in TOPICS and not q["id"].endswith("-q9")]
         self.assertEqual(len(tasks), 66)
-        self.assertEqual(sum(not q.get("tested_criterion_indices") for q in tasks), 17)
+        self.assertEqual(sum(not q.get("tested_criterion_indices") for q in tasks), 20)
         for q in tasks:
             self.assertEqual(validate_resource("question", q), [], q["id"])
             resolved = {**q, "answer_spec": q.get("answer_spec") or self.bindings["bank:" + q["id"]]["answer_spec"]}

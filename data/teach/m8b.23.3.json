@@ -1,76 +1,112 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m8b.23.3",
- "name": "一次函数与方程(组)不等式",
- "tier": "core",
- "hook": "两条直线相交的一点，怎样同时回答方程组和不等式的问题？",
- "definition": "一次函数 y=kx+b 图象与 x 轴交点的横坐标就是方程 kx+b=0 的解；图象在 x 轴上方的部分对应不等式 kx+b>0 的解集；两条直线的交点坐标就是相应二元一次方程组的解。",
- "why": "交点有相同横坐标和相同纵坐标，所以其坐标同时满足两方程。交点两侧若一条直线位于另一条上方，同一输入对应的函数值就更大，因而图象高低可表达不等式解集。",
- "when_to_use": [
-  "要用图象理解方程根或方程组解",
-  "比较两个一次函数在何范围内谁更大"
- ],
- "steps": [
-  "把方程写成函数值相等或与0相等",
-  "求交点并检验两式都成立",
-  "比较交点两侧的纵向高低，处理边界等号"
- ],
- "worked_example": {
-  "prompt": "直线y=2x与y=6−x相交，求交点以及2x<6−x的解集。",
-  "answer": "交点(2,4)；x<2",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8b.23.3",
+  "name": "一次函数与方程(组)不等式",
+  "tier": "core",
+  "hook": "两条直线相交的一点，怎样同时回答方程组和不等式的问题？",
+  "definition": "一次函数 y=kx+b 图象与 x 轴交点的横坐标就是方程 kx+b=0 的解；图象在 x 轴上方的部分对应不等式 kx+b>0 的解集；两条直线的交点坐标就是相应二元一次方程组的解。",
+  "why": "交点有相同横坐标和相同纵坐标，所以其坐标同时满足两方程。交点两侧若一条直线位于另一条上方，同一输入对应的函数值就更大，因而图象高低可表达不等式解集。",
+  "when_to_use": [
+    "要用图象理解方程根或方程组解",
+    "比较两个一次函数在何范围内谁更大"
+  ],
   "steps": [
-   "令2x=6−x，得3x=6，x=2，再得y=4。",
-   "当x<2时2x比6−x小，图象也位于下方，所以不等式解集为x<2。"
-  ]
- },
- "pitfalls": [
-  "方程组的解是坐标对，只给横坐标不完整。",
-  "比较高低时需同一个x，不能比较两点的左右位置。"
- ],
- "check": "独立完成并解释：直线y₁=2x+1与y₂=−x+7，在哪些x取值时y₁>y₂？ 请写出判断或计算依据。；直线y=3x−1与y=x+5交点的横坐标是多少？ 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能用图象法求方程的解与不等式的解集",
-   "explanation": "图象在上对应函数值较大，交点横坐标是分界。",
-   "self_check": {
-    "prompt": "直线y₁=2x+1与y₂=−x+7，在哪些x取值时y₁>y₂？ 请写出判断或计算依据。",
-    "reference_answer": "比较图象高低等价于2x+1>−x+7，解得3x>6，即x>2。",
-    "criteria": [
-     "由同x比较转化不等式",
-     "x>2且端点不取"
-    ]
-   }
+    "把方程写成函数值相等或与0相等",
+    "求交点并检验两式都成立",
+    "比较交点两侧的纵向高低，处理边界等号"
+  ],
+  "worked_example": {
+    "prompt": "直线y=2x与y=6−x相交，求交点以及2x<6−x的解集。",
+    "answer": "交点(2,4)；x<2",
+    "steps": [
+      "令2x=6−x，得3x=6，x=2，再得y=4。",
+      "当x<2时2x比6−x小，图象也位于下方，所以不等式解集为x<2。"
+    ],
+    "family_id": "linear.intersection.common-solution",
+    "variant_id": "m8b.23.3:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能说明两条直线交点与方程组解的关系",
-   "explanation": "交点坐标是两个线性关系的共同解，须代入两式。",
-   "self_check": {
-    "prompt": "直线y=3x−1与y=x+5交点的横坐标是多少？ 请写出判断或计算依据。",
-    "reference_answer": "交点同时在两条直线上，故3x−1=x+5，解得2x=6，x=3；代回y=8。",
-    "criteria": [
-     "列3x−1=x+5",
-     "得(3,8)并检验"
-    ]
-   }
+  "pitfalls": [
+    "方程组的解是坐标对，只给横坐标不完整。",
+    "比较高低时需同一个x，不能比较两点的左右位置。"
+  ],
+  "check": "独立完成并解释：直线y₁=2x+1与y₂=−x+7，在哪些x取值时y₁>y₂？ 请写出判断或计算依据。；直线y=3x−1与y=x+5交点的横坐标是多少？ 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用图象法求方程的解与不等式的解集",
+      "explanation": "图象在上对应函数值较大，交点横坐标是分界。",
+      "self_check": {
+        "prompt": "观察配图中的两条直线，先读出交点横坐标，再指出哪些x使蓝线y₁位于橙线y₂上方；最后用不等式核验解集。",
+        "reference_answer": "比较图象高低等价于2x+1>−x+7，解得3x>6，即x>2。",
+        "criteria": [
+          "由同x比较转化不等式",
+          "x>2且端点不取"
+        ],
+        "family_id": "linear.graph-inequality.compare-two-lines",
+        "variant_id": "m8b.23.3:criterion-0-v6",
+        "representation": "graph",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/linear-inequality-comparison-v6.svg",
+          "alt": "蓝线y₁=2x+1，橙线y₂=−x+7，横轴每格1、纵轴每格2；比较同一x处两线的高低。"
+        },
+        "reference_family_ids": [
+          "linear.intersection.common-solution"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "交点左侧与右侧，哪条线更高？交点本身满足严格大于吗？",
+        "hint": "保持同一个横坐标，竖直比较两个纵坐标；两线交点是等值分界。",
+        "revision_prompt": "先从图读出交点横坐标2，再用x=1、3分别代入核对两侧高低，得x>2。"
+      },
+      "observation_note": "观察真实图象的同输入高低与代数核验；只解不等式不能证明会读图，交点纵值也不是解集。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能说明两条直线交点与方程组解的关系",
+      "explanation": "交点坐标是两个线性关系的共同解，须代入两式。",
+      "self_check": {
+        "prompt": "直线y=3x−1与y=x+5交点的横坐标是多少？ 请写出判断或计算依据。",
+        "reference_answer": "交点同时在两条直线上，故3x−1=x+5，解得2x=6，x=3；代回y=8。",
+        "criteria": [
+          "列3x−1=x+5",
+          "得(3,8)并检验"
+        ],
+        "family_id": "linear.intersection.common-solution",
+        "variant_id": "m8b.23.3:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "两条线相交时只有x相同，还是x、y都共同？只报x=3完整吗？",
+        "hint": "同一点同时满足两式，所以先令输出相等求x，再代回共同y。",
+        "revision_prompt": "将(3,8)分别代入两条式子，说明交点坐标就是方程组的有序数对解。"
+      },
+      "observation_note": "观察交点与同时满足的关系；一个横坐标只提供完整解的一部分。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8b.23.3-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.23.3-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.23.3-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m8b.23.3-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8b.23.3-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8b.23.3-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

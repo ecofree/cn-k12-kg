@@ -6,7 +6,7 @@
   "name": "圆柱和圆锥",
   "tier": "core",
   "hook": "圆锥的体积为什么正好是等底等高圆柱的三分之一？",
-  "definition": "圆柱有两个相同的圆形底面和一个曲面侧面，体积 = 底面积×高；圆锥有一个圆形底面和一个顶点，体积等于等底等高圆柱的三分之一。",
+  "definition": "本课研究直圆柱与直圆锥。圆柱有两个相同圆底和一个曲面侧面，沿一条高剪开侧面可展成长方形，长是底周长、宽是高；封闭圆柱表面积=2πrh+2πr²，体积=πr²h。圆锥体积等于等底等高圆柱的三分之一，即πr²h÷3。",
   "why": "等底等高时，圆柱与圆锥体积公式分别为Sh和Sh/3，因此比为3:1。倒水实验提供近似直观证据，会有测量误差，严格关系来自公式。其他底高组合也可能恰有1:3体积比，不能从比例反推它们一定等底等高。",
   "when_to_use": [
     "已知底面半径（或直径）和高，求体积",
@@ -14,19 +14,32 @@
     "比较等底等高的圆柱与圆锥"
   ],
   "steps": [
-    "先求底面积：πr²",
-    "圆柱：底面积×高；圆锥：底面积×高÷3",
-    "单位写成立方单位",
-    "检查是否真的等底等高，再套三分之一"
+    "先确认半径与垂直高、是否封闭以及内外尺寸。",
+    "表面积：侧面底周长×高，加上实际存在的圆底；封闭时加两个底面积。",
+    "体积：圆柱底面积×高，圆锥再除3；分别写平方或立方单位。",
+    "比较两种立体体积之前，核对是否确实等底等高。"
   ],
   "worked_example": {
-    "prompt": "底面半径 2、高 5 的圆柱，体积是多少？（π 取 3.14）",
-    "verify": "3.14*2**2*5",
-    "answer": "62.8",
+    "prompt": "封闭直圆柱底面半径2厘米、高5厘米。先借助展开图求表面积，再求体积，π取3.14，指出两种单位。",
+    "answer": "表面积约87.92平方厘米；体积约62.8立方厘米。",
     "steps": [
-      "先求底面积：3.14×2²=12.56。",
-      "圆柱体积 = 底面积×高 = 12.56×5。",
-      "=62.8。"
+      "侧面长等于底周长2πr=4π厘米，高5厘米，所以侧面积20π平方厘米。",
+      "两个底面面积合计2×π×2²=8π平方厘米；封闭表面积28π≈87.92平方厘米。",
+      "体积是底面积4π乘高5，得20π≈62.8立方厘米，与表面积的计算对象和单位不同。"
+    ],
+    "family_id": "geometry.cylinder-area-versus-volume",
+    "variant_id": "m6b.3.1:worked_example:v6",
+    "representation": "geometry",
+    "cognitive_demand": "explain",
+    "diagram": {
+      "src": "/static/diagrams/primary-v6-cylinder-unfold.svg",
+      "alt": "封闭直圆柱半径2厘米高5厘米，侧面展开成长4π厘米高5厘米长方形，另有两个半径2厘米圆底。"
+    },
+    "reference_family_ids": [
+      "geometry.circle-area",
+      "geometry.circle-circumference",
+      "geometry.cylinder-surface-area",
+      "geometry.cylinder-volume"
     ]
   },
   "pitfalls": [
@@ -51,7 +64,7 @@
   "check": "能说出「圆锥是圆柱的三分之一」的前提是等底等高，并算对一组。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +78,28 @@
         "criteria": [
           "侧面和两底齐全",
           "体积与单位正确"
+        ],
+        "family_id": "geometry.cylinder-area-versus-volume",
+        "variant_id": "m6b.3.1:criterion:0:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-cylinder-unfold.svg",
+          "alt": "封闭直圆柱半径2厘米高5厘米，侧面展开成长4π厘米高5厘米长方形，另有两个半径2厘米圆底。"
+        },
+        "reference_family_ids": [
+          "geometry.circle-area",
+          "geometry.circle-circumference",
+          "geometry.cylinder-surface-area",
+          "geometry.cylinder-volume"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "侧面长方形的长是直径4还是底周长4π？表面积是否还包括两个圆底？",
+        "hint": "侧面为4π×5=20π；两底为2×4π=8π，总28π；体积是底面积4π乘高5。",
+        "revision_prompt": "封闭圆柱半径3、高4厘米，分别求表面积与体积并标单位；去掉上底时说明删哪一项。"
+      },
+      "observation_note": "观察侧面展开、封闭底面和二维三维单位；容积仍需内径内高等条件。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +111,26 @@
         "criteria": [
           "20立方厘米",
           "明确共享底面积与高"
+        ],
+        "family_id": "geometry.cone-cylinder-volume-condition",
+        "variant_id": "m6b.3.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.cone-volume",
+          "geometry.cylinder-volume"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "若圆锥高是圆柱两倍，仍能直接取圆柱体积的1/3吗？",
+        "hint": "先检查两者底面积与高是否分别相同；公式中Sh一致时才直接形成三倍关系。",
+        "revision_prompt": "圆柱底面积12平方厘米高6厘米，与同底同高圆锥比较体积；再把圆锥高改3厘米重新算，解释变化。"
+      },
+      "observation_note": "观察充分条件和公式比较；体积比为1:3本身不能反推一定等底等高。"
     }
-  ]
+  ],
+  "diagram": {
+    "src": "/static/diagrams/primary-v6-cylinder-unfold.svg",
+    "alt": "封闭直圆柱半径2厘米高5厘米，侧面展开成长4π厘米高5厘米长方形，另有两个半径2厘米圆底。"
+  }
 }

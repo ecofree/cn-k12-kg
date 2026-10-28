@@ -117,6 +117,20 @@ async function refreshPlan() {
       if (step.due_at) detail.append(node("p", `最早再次观察时间：${formatTime(step.due_at)}`, "muted"));
       if (step.interval_notice) detail.append(node("p", step.interval_notice, "muted"));
       if (step.skill_ids?.length) detail.append(button("查看具体目标与安排依据", () => openGoal(step.skill_ids[0], step.unit_id)));
+      if (step.prerequisite_skill_ids?.length) {
+        const prerequisites = node("details", null, "plan-prerequisites");
+        prerequisites.append(node("summary", `需要时检查这些前置目标（${step.prerequisite_skill_ids.length}）`));
+        for (const skillId of step.prerequisite_skill_ids) {
+          const route = (step.support_routes || []).find(item => item.skill_id === skillId);
+          const item = node("div", null, "plan-prerequisite");
+          item.dataset.prerequisiteSkill = skillId;
+          item.append(rich("p", route?.statement || "已登记的前置目标"));
+          if (!route?.available) item.append(node("p", route?.availability_notice || "对应材料入口仍需核对，目标记录会继续保留。", "muted"));
+          item.append(button("检查这项前置目标", () => openGoal(skillId)));
+          prerequisites.append(item);
+        }
+        detail.append(prerequisites);
+      }
       const label = step.action === "independent_followup" ? step.ready && step.followup_available ? "进行目标确认" : "查看待确认事项" : step.continuation === "reflect_and_revise" ? "自查并修订" : step.work_resource_id && !step.session_id ? "继续作品" : step.action === "continue" ? "继续" : step.action === "due_review" ? step.ready ? "开始复测" : "继续练习" : step.action === "transfer" ? "迁移任务" : "开始学习";
       row.append(detail, button(label, () => followPlan(step, plan))); root.append(row);
     }
@@ -329,9 +343,23 @@ async function openNeeds(routeMode = "push") {
     $("need-filter").onchange = render; render(); return true;
   } catch (error) { $("needs-status").textContent = error.message; return false; }
 }
-function trackReference(element, resource, reference) {
-  element.addEventListener("toggle", () => {
-    if (element.open) api("/api/exposure", { resource_id: resource, event_type: "reference_opened", reference_key: reference }).catch(() => {});
+function trackReference(element, resource, reference, version) {
+  let pending = false;
+  const message = node("p", "", "muted reference-status"); message.setAttribute("role", "status");
+  element.querySelector("summary").addEventListener("click", async event => {
+    if (element.open) return;
+    event.preventDefault(); if (pending) return; pending = true;
+    if (!message.isConnected) element.after(message);
+    message.textContent = "正在保存当前过程与参考记录…";
+    try {
+      if (window.CNKGWork && !await window.CNKGWork.flushAll()) throw new Error("当前过程尚未保存，请先重试保存再查看参考。");
+      const result = await api("/api/exposure", { resource_id: resource, resource_version: version, event_type: "reference_opened", reference_key: reference });
+      if (!result.recorded) throw new Error("参考记录未保存，请重试。");
+      // The learner may keep editing while the exposure request is pending.
+      if (window.CNKGWork && !await window.CNKGWork.flushAll()) throw new Error("当前过程尚未保存，请先重试保存再查看参考。");
+      element.open = true; message.textContent = "已记录查看参考。";
+    } catch (error) { message.textContent = error.message; }
+    finally { pending = false; }
   });
 }
 async function initHome() {
@@ -386,7 +414,7 @@ async function openTeach(id, routeMode = "push", skillId = null) {
     if (card.conditions) root.append(section("使用前先核对", list(card.conditions)));
     if (card.representation_note) root.append(section("怎样摆、画或表示", rich("p", card.representation_note)));
     if (card.steps || card.key_points) root.append(section("思路与要点", list(card.steps || card.key_points, true)));
-    if (card.worked_example) root.append(workedExample(card.worked_example, 0, "topic:" + id));
+    if (card.worked_example) root.append(workedExample(card.worked_example, 0, "topic:" + id, card.resource_version));
     if (card.pitfalls) root.append(section("检查这些易错处", list(card.pitfalls)));
     if (card.objective_coverage && card.objective_coverage.length) {
       root.append(section("逐项目标自检", node("p", "先独立写出解答或完成作图，再展开参考过程逐条比较。开放任务的自检记录用于整理思路。", "muted")));
@@ -396,11 +424,6 @@ async function openTeach(id, routeMode = "push", skillId = null) {
         content.append(rich("p", objective.explanation), rich("p", task.prompt, "self-check-prompt"));
         if (task.diagram) content.append(diagram(task.diagram));
         content.append(node("p", objective.observation_note || "这次自检观察下面的具体检查点。完成一题或自报达到，仍不足以确认其他情形与稍后迁移。", "muted"));
-        if (objective.difficulty_support) {
-          const support = node("details"), help = objective.difficulty_support;
-          support.append(node("summary", "遇到困难时，从这里辨别与修订"), rich("p", help.discriminating_prompt), rich("p", help.hint), rich("p", help.revision_prompt));
-          trackReference(support, "topic:" + id, "self_check:" + objective.criterion_index); content.append(support);
-        }
         const label = node("label", "我的思路与过程");
         const input = node("textarea"); input.rows = 4;
         input.id = `self-check-${objective.criterion_index}`; label.htmlFor = input.id;
@@ -411,7 +434,7 @@ async function openTeach(id, routeMode = "push", skillId = null) {
           { externalFields: { response: input }, hidePrompt: true, compact: true }).catch(() => {});
         const answer = node("details", null, "self-check-answer");
         answer.append(node("summary", "完成后查看参考过程与检查点"), rich("div", task.reference_answer), list(task.criteria));
-        trackReference(answer, "topic:" + id, "self_check:" + objective.criterion_index);
+        trackReference(answer, "topic:" + id, "self_check:" + objective.criterion_index, card.resource_version);
         content.append(answer);
         const goalId = card.criterion_skill_ids?.[objective.criterion_index];
         if (goalId) content.prepend(button("查看这个目标的基础与后续任务", () => openGoal(goalId)));
@@ -432,10 +455,12 @@ async function openTeach(id, routeMode = "push", skillId = null) {
     return true;
   } catch (err) { notice(err.message); return false; }
 }
-function workedExample(ex, index, resource) {
+function workedExample(ex, index, resource, version) {
   const root = node("details", null, "card worked-example"); root.append(node("summary", `例题${index == null ? "" : index + 1} · 展开推导`));
-  root.append(rich("div", ex.prompt), list(ex.steps, true), rich("div", `结论：${ex.answer}`));
-  if (resource) trackReference(root, resource, "example:" + (index || 0)); return root;
+  root.append(rich("div", ex.prompt));
+  if (ex.diagram) root.append(diagram(ex.diagram));
+  root.append(list(ex.steps, true), rich("div", `结论：${ex.answer}`));
+  if (resource) trackReference(root, resource, "example:" + (index || 0), version); return root;
 }
 async function openUnit(id, routeMode = "push", skillId = null) {
   const token = await prepareNavigation(); if (!token) return false;
@@ -466,7 +491,7 @@ async function openUnit(id, routeMode = "push", skillId = null) {
     root.append(section("从直观开始", rich("div", ex.intuition)), section("为什么成立", rich("div", ex.reasoning)));
     if (unit.diagram) root.append(section("把信息放到图上", diagram(unit.diagram)));
     root.append(section("使用条件", list(ex.conditions)), section("用反例检查边界", rich("div", ex.counterexample)));
-    root.append(...unit.worked_examples.map((example, index) => workedExample(example, index, "unit:" + id)));
+    root.append(...unit.worked_examples.map((example, index) => workedExample(example, index, "unit:" + id, unit.resource_version)));
     if (window.CNKGManipulatives) window.CNKGManipulatives.mount(root, unit, { node, rich, button, api, busy: value => { state.pending = value; } });
     if (unit.id === "equation_equivalence" && window.CNKGSteps) {
       const stepsRoot = node("section", null, "card step-practice"); root.append(stepsRoot);
@@ -620,8 +645,25 @@ async function startSession(options, routeMode = "push") {
     rememberRoute({ session: data.session.id }, routeMode); return true;
   } catch (err) { if (err.data?.code === "no_fresh_tasks") notice(err.message, err.data.availability.practice_count ? err.data.next_action : null); else notice(err.message); return false; } finally { state.pending = false; }
 }
+function renderSessionContentUpdate(anchor, identity) {
+  let panel = $(identity);
+  if (!panel) { panel = node("aside", null, "work-version-notice"); panel.id = identity; anchor.after(panel); }
+  const changes = state.session.current_content?.changes || [];
+  panel.replaceChildren(); panel.hidden = !changes.length;
+  if (!changes.length) return;
+  const changed = changes.some(change => ["updated", "unavailable"].includes(change.status));
+  const unverified = changes.some(change => change.status === "legacy_unverified");
+  if (changed) panel.append(node("p", "这份记录中的部分任务已有新版，或已不在当前题库。这里保留原题和当时结果，旧答案未被重新判分；请结合当前材料继续学习，旧的待确认事项仍然保留。"));
+  if (unverified) panel.append(node("p", "这份旧记录中有任务缺少可核对的逐题版本信息，暂时无法确认它与当前材料是否相同。这里保留原题和当时结果，旧答案未被重新判分；旧的待确认事项仍然保留。"));
+  const links = [...new Set(changes.map(change => change.url).filter(Boolean))];
+  links.forEach((url, index) => {
+    const link = node("a", links.length === 1 ? "查看当前材料（新标签页）" : `查看当前材料 ${index + 1}（新标签页）`);
+    link.href = url; link.target = "_blank"; link.rel = "noopener"; panel.append(link);
+  });
+}
 function renderItem() {
   const item = state.item, blocked = !!state.session.resume_blocked;
+  renderSessionContentUpdate($("quiz-resume-notice"), "quiz-content-update");
   $("quiz-resume-notice").hidden = !blocked; $("quiz-resume-message").textContent = state.session.resume_message || "本次材料已经更新，原记录已保留，请回目录重新开始。";
   const saved = $("quiz-saved-answers"); saved.replaceChildren();
   if (blocked) {
@@ -725,6 +767,7 @@ function nameOf(id) {
 }
 function showResult() {
   const summary = state.summary; if (!summary) return; show("result"); state.lastResultSession = state.session.id;
+  renderSessionContentUpdate($("result-context"), "result-content-update");
   $("result-title").textContent = summary.title || "本次结果"; $("verdict").textContent = state.verdictText || "";
   $("result-context").textContent = contextText(summary.context || state.session.context, state.session.mode);
   const isUnit = state.session.kind === "unit";
@@ -737,7 +780,7 @@ function showResult() {
     $("res-shaky").textContent = summary.shaky.map(nameOf).join("、") || "本次未形成";
     $("res-roots").textContent = summary.roots.map(nameOf).join("、") || "尚无";
     $("res-candidates").textContent = ((summary.root_candidates || []).length ? `待确认起点：${summary.root_candidates.map(nameOf).join("、")}。` : "")
-      + (summary.incomplete ? "本次确认未完成，请先处理待确认任务。" : "") + "先修推断与直接作答的证据分别记录。";
+      + (summary.incomplete ? "本次确认未完成，请先处理待确认任务。" : "") + "旧版先修推断仅保留作历史记录，未测内容不能据此算已掌握。";
     const path = $("res-path"); path.textContent = "";
     for (const task of summary.support_tasks || []) {
       const li = node("li"), actions = node("div", null, "actions"); li.append(node("strong", nameOf(task.topicId)), node("p", task.reason, "muted"));
@@ -745,7 +788,7 @@ function showResult() {
     }
     if (!path.children.length) path.append(node("li", state.session.mode === "practice" ? "继续看逐题反馈，理解后用新题检查。" : "本次没有形成明确补学任务，未测内容仍需另行确认。"));
     const table = $("res-chapters"); table.textContent = ""; const header = node("tr");
-    for (const label of ["章节", "已测表现", "推断", "不稳", "补学", "证据不足", "未测"]) header.append(node("th", label)); table.append(header);
+    for (const label of ["章节", "已测表现", "旧推断（未实测）", "不稳", "补学", "证据不足", "未测"]) header.append(node("th", label)); table.append(header);
     for (const [chapter, bucket] of Object.entries(summary.by_chapter || {})) { const row = node("tr"); row.append(node("td", chapter)); for (const key of ["mastered", "assumed", "shaky", "weak", "insufficient_evidence", "untested"]) row.append(node("td", bucket[key] || 0, "num")); table.append(row); }
   }
   const review = $("answer-review"); review.textContent = "";

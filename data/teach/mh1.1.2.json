@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh1.1.2",
- "name": "集合间的基本关系",
- "tier": "core",
- "hook": "集合{1,2}有几个子集？为什么空集也必须算进去？",
- "definition": "若 A 中每个元素都属于 B，则 A⊆B；A⊆B 且 B⊆A 时 A=B；空集是任何集合的子集。真子集还要求两集合不相等；∅与{∅}不同，后者有一个元素。",
- "why": "A⊆B是在逐个检查A的元素都在B中。空集没有能违反条件的元素，所以包含关系成立；每个元素都有选或不选两种状态，n个元素产生2ⁿ个子集。",
- "when_to_use": [
-  "需要判断两个条件所限定的范围是否包含",
-  "需要列出有限集合所有可能的子集"
- ],
- "steps": [
-  "先列清两集合的成员或区间",
-  "逐个检查包含方向，双向包含才相等",
-  "列子集按元素个数分类，检查空集与全集"
- ],
- "worked_example": {
-  "prompt": "列出{a,b}的全部子集并指出真子集。",
-  "steps": [
-   "按0、1、2个元素分组。",
-   "子集是∅、{a}、{b}、{a,b}。",
-   "去掉自身{a,b}，剩下三个是真子集。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.1.2",
+  "name": "集合间的基本关系",
+  "tier": "core",
+  "hook": "集合{1,2}有几个子集？为什么空集也必须算进去？",
+  "definition": "若 A 中每个元素都属于 B，则 A⊆B；A⊆B 且 B⊆A 时 A=B；空集是任何集合的子集。真子集还要求两集合不相等；∅与{∅}不同，后者有一个元素。",
+  "why": "A⊆B是在逐个检查A的元素都在B中。空集没有能违反条件的元素，所以包含关系成立；每个元素都有选或不选两种状态，n个元素产生2ⁿ个子集。",
+  "when_to_use": [
+    "需要判断两个条件所限定的范围是否包含",
+    "需要列出有限集合所有可能的子集"
   ],
-  "answer": "4个子集，其中3个真子集"
- },
- "pitfalls": [
-  "把元素与集合之间的∈写成⊆",
-  "计算真子集时只减空集，实际上应去掉集合自身"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能判断两个集合的包含或相等关系",
-   "explanation": "包含只需单向逐元素成立，相等需要两个方向都成立。",
-   "self_check": {
-    "prompt": "设A={x∈Z|0≤x≤2}，B={0,1,2,3}，C={2,0,1}，判断A与B、A与C的关系并说明。",
-    "reference_answer": "A={0,1,2}，A是B的真子集，因为3∈B且3∉A；A=C，顺序不影响集合。",
-    "criteria": [
-     "用3说明是真包含",
-     "按成员而非顺序判断相等"
-    ]
-   }
+  "steps": [
+    "先列清两集合的成员或区间",
+    "逐个检查包含方向，双向包含才相等",
+    "列子集按元素个数分类，检查空集与全集"
+  ],
+  "worked_example": {
+    "prompt": "列出{a,b}的全部子集并指出真子集。",
+    "steps": [
+      "按0、1、2个元素分组。",
+      "子集是∅、{a}、{b}、{a,b}。",
+      "去掉自身{a,b}，剩下三个是真子集。"
+    ],
+    "answer": "4个子集，其中3个真子集",
+    "family_id": "sets.enumerate-subsets",
+    "variant_id": "mh1.1.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能写出给定集合的全部子集",
-   "explanation": "按每个元素是否入选枚举，不因排列顺序重复计数。",
-   "self_check": {
-    "prompt": "列出{p,q,r}的全部子集，并检查总数。",
-    "reference_answer": "∅，{p}，{q}，{r}，{p,q}，{p,r}，{q,r}，{p,q,r}；共2³=8个。",
-    "criteria": [
-     "八个子集无遗漏无重复",
-     "含空集与原集合"
-    ]
-   }
+  "pitfalls": [
+    "把元素与集合之间的∈写成⊆",
+    "计算真子集时只减空集，实际上应去掉集合自身"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断两个集合的包含或相等关系",
+      "explanation": "包含只需单向逐元素成立，相等需要两个方向都成立。",
+      "self_check": {
+        "prompt": "设A={x∈Z|0≤x≤2}，B={0,1,2,3}，C={2,0,1}，判断A与B、A与C的关系并说明。",
+        "reference_answer": "A={0,1,2}，A是B的真子集，因为3∈B且3∉A；A=C，顺序不影响集合。",
+        "criteria": [
+          "用3说明是真包含",
+          "按成员而非顺序判断相等"
+        ],
+        "family_id": "sets.subset-inclusion",
+        "variant_id": "mh1.1.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "{0,1}⊆{0,1,2}能反推两个集合相等吗？",
+        "hint": "相等要双向包含，找大集合中小集合没有的元素。",
+        "revision_prompt": "比较{1,2,2}与{2,1}，说明二者相等；再加元素3说明为何成为真包含。"
+      },
+      "observation_note": "观察双向包含与真包含反例；不能由一次判断确认参数集合关系。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能写出给定集合的全部子集",
+      "explanation": "按每个元素是否入选枚举，不因排列顺序重复计数。",
+      "self_check": {
+        "prompt": "列出{p,q,r}的全部子集，并检查总数。",
+        "reference_answer": "∅，{p}，{q}，{r}，{p,q}，{p,r}，{q,r}，{p,q,r}；共2³=8个。",
+        "criteria": [
+          "八个子集无遗漏无重复",
+          "含空集与原集合"
+        ],
+        "family_id": "sets.enumerate-subsets",
+        "variant_id": "mh1.1.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "列子集时{p,q}与{q,p}算两个吗？空集算不算？",
+        "hint": "每个元素只有选或不选两种状态，顺序不产生新子集。",
+        "revision_prompt": "按0、1、2个元素列{a,b}子集：∅、{a}、{b}、{a,b}；核对2²=4。"
+      },
+      "observation_note": "需看到完整枚举与去重；只报2³不能确认没有漏列。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：用3说明是真包含；八个子集无遗漏无重复。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.1.2-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.1.2-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.1.2-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "空集包含于所有集合；真包含须排除相等。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：用3说明是真包含；八个子集无遗漏无重复。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh1.1.2-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.1.2-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.1.2-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

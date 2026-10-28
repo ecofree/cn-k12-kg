@@ -20,15 +20,17 @@
     "区分可见棱和不可见棱；题目只画外轮廓时不要把接缝当成额外外边。"
   ],
   "worked_example": {
-    "prompt": "长4厘米、宽3厘米、高2厘米的长方体，正面为长与高所在面。主视图面积多少平方厘米？",
+    "prompt": "长方体长4厘米、宽3厘米、高2厘米，规定正面看到长与高。怎样画三视图并核对对应尺寸？",
     "steps": [
-      "主视图保留长4与高2，前后宽3不进入这幅面积。",
-      "主视图为4×2的长方形，面积8平方厘米。"
+      "主视去掉前后深度，画长4高2的矩形。",
+      "左视保留前后宽3与高2，画3×2矩形；俯视保留长4宽3，画4×3矩形。",
+      "使用同一比例，主与俯的长对正，主与左的高平齐，左与俯所表达的宽相等。参照配图逐条核对。"
     ],
-    "answer": "8",
-    "verify": "4*2",
-    "family_id": "v4.foundation.m9b.33.2.1.example",
-    "variant_id": "m9b.33.2.1:worked-example-v4"
+    "answer": "主视4×2、左视3×2、俯视4×3，按同尺度共享尺寸摆放。",
+    "family_id": "views.cuboid.construct-three-orthographic",
+    "variant_id": "m9b.33.2.1:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "把宽与长对换，却没有随之改变正面约定。",
@@ -55,14 +57,22 @@
       "criterion_index": 0,
       "title": "能画出简单几何体的三视图",
       "explanation": "对长方体，三视图分别是长×高、宽×高、长×宽的矩形。画图任务必须实际留下图或带尺寸的方格记录；能回答视图名称、面积，不能替代画图证据。",
-      "observation_note": "观察这一个长方体的作图；复杂组合体、孔洞、斜面与隐藏棱仍需专门任务。",
+      "observation_note": "观察长方体、直圆柱、直圆锥与球的三个视图及尺寸对应；实际画图过程保留，复杂组合体、孔洞和隐藏棱不由这四种基本体自动推定。",
       "self_check": {
-        "prompt": "用方格纸画长4、宽3、高2的长方体三视图，规定正面看到长与高。分别写出每幅图的边长，并说明哪些尺寸来自同一方向。",
-        "reference_answer": "主视图4×2、左视图3×2、俯视图4×3；三幅图比例一致，主与俯共长4，主与左共高2，左与俯共宽3。",
+        "prompt": "实际画并标尺寸：①长4、宽3、高2的长方体三视图，正面看到长与高；②底面半径2、高5的竖直直圆柱；③同半径、高的竖直直圆锥；④半径2的球。每幅用相同尺度，说明哪些尺寸共享。",
+        "reference_answer": "①主视4×2、左视3×2、俯视4×3；主俯共享长4，主左共享高2，左俯共享宽3。②主、左视均为宽4高5矩形，俯视半径2的圆。③主、左视均为底4高5的等腰三角形，俯视为半径2的圆（说明采用外轮廓表示）。④三个视图均为半径2的圆。三视图是正投影，不画透视椭圆。",
         "criteria": [
-          "实际留下三幅矩形图或逐格边界记录",
-          "各图对应尺寸正确",
-          "同一尺度且方向明确"
+          "四个对象各有实际三视图或等价清楚的格点边界记录",
+          "长方体三尺寸共享关系正确",
+          "竖直直圆柱和直圆锥的侧向轮廓不同但俯视均为圆",
+          "球三个方向均圆且同尺度，不混透视图"
+        ],
+        "family_id": "views.cuboid.construct-three-orthographic",
+        "variant_id": "m9b.33.2.1:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute",
+        "reference_family_ids": [
+          "views.basic-solid.candidate-match"
         ]
       },
       "difficulty_support": {
@@ -83,7 +93,11 @@
           "找到长4与长5的具体冲突",
           "正确关联共享尺寸",
           "说明外轮廓证据的限度"
-        ]
+        ],
+        "family_id": "views.shared-dimensions.consistency",
+        "variant_id": "m9b.33.2.1:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
       },
       "difficulty_support": {
         "discriminating_prompt": "4和5应表示物体的同一条方向尺寸吗？",
@@ -94,7 +108,7 @@
   ],
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "conditions": [
@@ -102,7 +116,7 @@
   ],
   "representation_note": "实际用方格纸画三视图；复用示意图中的1、2、1堆叠时，右视图与左视图在此单行结构下轮廓相同。",
   "diagram": {
-    "src": "/static/diagrams/primary-three-views.svg",
-    "alt": "单行三列高度为1、2、1的方块摆法，前视图高度1、2、1，侧视图一列高2，俯视图一行三格；示图标右面，本例左视外轮廓相同。"
+    "src": "/static/diagrams/orthographic-cuboid-v6.svg",
+    "alt": "长4宽3高2的长方体，主视4×2、左视3×2、俯视4×3，共享尺寸在相同尺度下对齐。"
   }
 }

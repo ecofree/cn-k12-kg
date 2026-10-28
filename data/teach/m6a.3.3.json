@@ -5,7 +5,7 @@
   "topicId": "m6a.3.3",
   "name": "一个数除以分数",
   "tier": "core",
-  "hook": "16÷4/5=20，比 16 还大。除法不是让数变小吗？",
+  "hook": "16÷(4/5)=20，比16还大。为何除以一个比1小的正数时，商反而变大？",
   "definition": "除数非零时，一个数除以分数等于乘这个分数的倒数。对正被除数，除以0到1之间的正数，商比被除数大；不满足这些条件时不能套用大小口诀。",
   "why": "利用商不变规律，把被除数与除数同时乘除数的倒数，除数就变为1，商等于原被除数乘该倒数。这也解释了为什么只倒转除数、除数不能为0；用结果乘回原除数可检验。",
   "when_to_use": [
@@ -14,19 +14,27 @@
     "已知部分求整体（部分 ÷ 它占的几分之几）"
   ],
   "steps": [
+    "先确认除数不为0，分子分母合法；再进行倒数转换。",
     "把除号改成乘号",
     "把除数写成它的倒数（分子分母交换）",
     "先约分再乘",
     "判断结果该比被除数大还是小，检查是否合理"
   ],
   "worked_example": {
-    "prompt": "16÷4/5=？",
+    "prompt": "计算16÷(4/5)，说明只把哪个数取倒数。",
     "verify": "16/(4/5)",
     "answer": "20",
     "steps": [
-      "除以 4/5 等于乘 5/4。",
-      "16×5/4：16 和 4 约分得 4。",
-      "4×5=20 袋。结果比 16 大，符合「每份不到 1」的预期。"
+      "4/5非0，除以4/5等于乘它的倒数5/4。",
+      "16×(5/4)中16与4约分，得到4×5。",
+      "4×5=20；20×(4/5)=16，乘回检查正确。正被除数除以小于1的正数，结果会比原数大。"
+    ],
+    "family_id": "fraction.divide-by-fraction",
+    "variant_id": "m6a.3.3:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "fraction.multiply-fractions"
     ]
   },
   "pitfalls": [
@@ -51,7 +59,7 @@
   "check": "能解释「除以 4/5 等于乘 5/4」，并说明商为什么变大。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -60,13 +68,27 @@
       "title": "能计算分数除以分数",
       "explanation": "除数须非零；除以分数a/b等于乘b/a，只取除数的倒数。",
       "self_check": {
-        "prompt": "计算3/4÷2/5并验算。",
-        "reference_answer": "3/4×5/2=15/8；15/8×2/5=3/4。",
+        "prompt": "计算(3/4)÷(2/5)并验算。",
+        "reference_answer": "(3/4)×(5/2)=15/8；(15/8)×(2/5)=3/4。",
         "criteria": [
           "倒数对象正确",
           "乘回检验"
+        ],
+        "family_id": "fraction.divide-by-fraction",
+        "variant_id": "m6a.3.3:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.multiply-fractions",
+          "fraction.reciprocal-product-one"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "(3/4)÷(2/5)中哪一个数是除数？把两个分数都倒过来还能保持原关系吗？",
+        "hint": "只把非零除数2/5变成倒数5/2；检验所得商乘原除数能否回到3/4。",
+        "revision_prompt": "计算(5/6)÷(3/4)，圈出原除数与其倒数，完成后用乘法恢复5/6。"
+      },
+      "observation_note": "观察只倒转非零除数与逆运算检验；文字规则不能说明所有分式情形都合法。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +100,22 @@
         "criteria": [
           "同时乘同一非零数",
           "除数变1"
+        ],
+        "family_id": "fraction.division-common-scaling-proof",
+        "variant_id": "m6a.3.3:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.divide-by-fraction",
+          "fraction.reciprocal-zero-exclusion"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "除数2/3乘3/2变1时，被除数x有没有也乘3/2？若只改变除数会怎样？",
+        "hint": "将同乘动作同时写在除式两边的两个量上，随后除以1才等于新的被除数。",
+        "revision_prompt": "用4÷(2/5)具体展示两量同乘5/2，再把方法用于一般被除数，说明除数为0不能这样做。"
+      },
+      "observation_note": "观察商不变规律推导及非零条件；只会背“乘倒数”还没有解释来源。"
     }
   ]
 }

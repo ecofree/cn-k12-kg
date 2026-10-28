@@ -163,6 +163,10 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
                     data / "topics.json", data / "questions.json"}
     if (data / "alignment_targets.json").is_file():
         source_paths.add(data / "alignment_targets.json")
+    if (data / "task_family_aliases.json").is_file():
+        from .task_families import load_aliases
+        load_aliases(data / "task_family_aliases.json")
+        source_paths.add(data / "task_family_aliases.json")
     admission_rows = None
     if (data / "task_admissions.json").is_file():
         admission_manifest = _read(data / "task_admissions.json")
@@ -592,6 +596,12 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
             raw = {"type": "rubric", "prompt": step["instructions"], "title": step["title"],
                    "deliverable": step["deliverable"], "objective_ids": objective_ids,
                    "rubric": rubric, "explanation": project["assessment_note"]}
+            # Project steps have the same authored semantic metadata as other
+            # tasks. Preserve their registered identities and process rubric;
+            # adding a family does not grant an automatic grade or mastery.
+            for field in ("family_id", "variant_id", "representation", "cognitive_demand", "alignment_note"):
+                if field in step:
+                    raw[field] = copy.deepcopy(step[field])
             task_id = add_task(_task_key("project_step", pid, index), raw, source_kind="project_step",
                                path=f"data/projects/{pid}.json", legacy_id=pid, locator=index,
                                material_id=mid, topic_ids=project.get("topic_ids", []), skill_ids=[mapped[o] for o in objective_ids if o in mapped],

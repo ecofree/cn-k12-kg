@@ -202,11 +202,12 @@ class QualityV4HTTPTest(unittest.TestCase):
 
     def test_reference_opening_records_each_exposed_method_and_no_other_reference(self):
         expected = {"statistics.ols-from-paired-data", "statistics.ols-intercept-from-centre", "statistics.signed-residual"}
+        version = server.get_catalog().material("topic:mh5.8.2.2")["resource_version"]
         code, response = self.request("/api/exposure", {"resource_id": "topic:mh5.8.2.2",
-            "event_type": "reference_opened", "reference_key": "example:0"})
+            "resource_version": version, "event_type": "reference_opened", "reference_key": "example:0"})
         self.assertEqual(200, code, response)
         code, response = self.request("/api/exposure", {"resource_id": "topic:mh5.8.2.2",
-            "event_type": "reference_opened", "reference_key": "self_check:1"})
+            "resource_version": version, "event_type": "reference_opened", "reference_key": "self_check:1"})
         self.assertEqual(200, code, response)
         with self.servers[0][0].learning_store._connect() as db:
             events = [json.loads(row[0]) for row in db.execute(
@@ -215,7 +216,12 @@ class QualityV4HTTPTest(unittest.TestCase):
         self.assertEqual(set(events[1]["family_ids"]), {"statistics.ols-intercept-from-centre"})
         self.assertEqual(1, len(events[1]["task_ids"]))
         self.assertEqual(400, self.request("/api/exposure", {"resource_id": "topic:mh5.8.2.2",
-            "event_type": "reference_opened", "reference_key": "example:1"})[0])
+            "resource_version": version, "event_type": "reference_opened", "reference_key": "example:1"})[0])
+        for stale in ({}, {"resource_version": "a" * 64}):
+            self.assertEqual(409, self.request("/api/exposure", {"resource_id": "topic:mh5.8.2.2",
+                "event_type": "reference_opened", "reference_key": "example:0", **stale})[0])
+        with self.servers[0][0].learning_store._connect() as db:
+            self.assertEqual(db.execute("SELECT COUNT(*) FROM events WHERE event_type='reference_opened'").fetchone()[0], 2)
 
     def test_self_check_works_freeze_the_actual_diagram_used_by_the_learner(self):
         source = {"kind": "self_check", "topic_id": "m5b.5.1", "criterion_index": "0"}

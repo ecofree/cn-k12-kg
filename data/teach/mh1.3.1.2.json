@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh1.3.1.2",
- "name": "函数的表示法",
- "tier": "core",
- "hook": "阶梯电价在分界用量处，应该代入哪一段公式？",
- "definition": "函数可用解析法、列表法、图象法表示；分段函数在定义域的不同部分用不同解析式。分段函数是一个函数，分界点由各段条件决定归属；图象空心点表示不包含该点。",
- "why": "解析式、列表和图象描述同一组输入输出。分段只是在不同输入范围使用不同规则；画图必须把区间限制一起画出，才能避免同一输入出现两个相冲突的函数值。",
- "when_to_use": [
-  "给定解析式要求画图或列表",
-  "分段条件含<与≥并要求求值"
- ],
- "steps": [
-  "标出定义域与各段范围",
-  "选关键点列表并在各段画图",
-  "按条件标实心或空心端点，求值前先定位输入"
- ],
- "worked_example": {
-  "prompt": "f(x)=x²（x<1），f(x)=2x+1（x≥1）。求f(1)、f(-2)。",
-  "steps": [
-   "1属于x≥1的区间，用2x+1。",
-   "f(1)=3；-2<1，用平方段，f(-2)=4。",
-   "图上(1,1)空心、(1,3)实心。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.3.1.2",
+  "name": "函数的表示法",
+  "tier": "core",
+  "hook": "阶梯电价在分界用量处，应该代入哪一段公式？",
+  "definition": "函数可用解析式、表格和图象表示。分段函数在定义域的不同部分采用不同规则，仍是一个函数；先按输入所属条件选公式，分界点由等号归属决定。图上的实心点表示包含，空心点表示不包含。",
+  "why": "解析式、列表和图象描述同一组输入输出。分段只是在不同输入范围使用不同规则；画图必须把区间限制一起画出，才能避免同一输入出现两个相冲突的函数值。",
+  "when_to_use": [
+    "给定解析式要求画图或列表",
+    "分段条件含<与≥并要求求值"
   ],
-  "answer": "f(1)=3，f(-2)=4"
- },
- "pitfalls": [
-  "只看离哪个公式近而不看区间条件",
-  "图象在分界点把两段都画成实心点"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能由解析式画出示意图",
-   "explanation": "先画熟悉的基本图象，再按定义范围保留所需部分。",
-   "self_check": {
-    "prompt": "画f(x)=|x-1|的示意图，标出顶点及与坐标轴的交点。",
-    "reference_answer": "x<1时y=1-x，x≥1时y=x-1；顶点(1,0)，与y轴交于(0,1)，两侧斜率分别-1、1。",
-    "criteria": [
-     "两条线段或射线及交点正确",
-     "标出顶点并写分段条件"
-    ]
-   }
+  "steps": [
+    "标出定义域与各段范围",
+    "选关键点列表并在各段画图",
+    "按条件标实心或空心端点，求值前先定位输入"
+  ],
+  "worked_example": {
+    "prompt": "f(x)=x²（x<1），f(x)=2x+1（x≥1）。求f(1)、f(-2)。",
+    "steps": [
+      "1属于x≥1的区间，用2x+1。",
+      "f(1)=3；-2<1，用平方段，f(-2)=4。",
+      "图上(1,1)空心、(1,3)实心。"
+    ],
+    "answer": "f(1)=3，f(-2)=4",
+    "family_id": "function.piecewise-boundary",
+    "variant_id": "mh1.3.1.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能求分段函数在分界点处的函数值",
-   "explanation": "分界输入只能使用包含该端点的分段公式。",
-   "self_check": {
-    "prompt": "设g(x)=x+2（x≤0），g(x)=x²（x>0），求g(0)、g(-1)、g(2)，并在图上标零点处实心与空心点。",
-    "reference_answer": "分别为2、1、4；(0,2)实心，平方段的(0,0)空心。",
-    "criteria": [
-     "三个代入值正确",
-     "端点归属与图象标记一致"
-    ]
-   }
+  "pitfalls": [
+    "只看离哪个公式近而不看区间条件",
+    "图象在分界点把两段都画成实心点"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能由解析式画出示意图",
+      "explanation": "先画熟悉的基本图象，再按定义范围保留所需部分。",
+      "self_check": {
+        "prompt": "画f(x)=|x-1|的示意图，标出顶点及与坐标轴的交点。",
+        "reference_answer": "x<1时y=1-x，x≥1时y=x-1；顶点(1,0)，与y轴交于(0,1)，两侧斜率分别-1、1。",
+        "criteria": [
+          "两条线段或射线及交点正确",
+          "标出顶点并写分段条件"
+        ],
+        "family_id": "function.absolute-value-graph",
+        "variant_id": "mh1.3.1.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "|x-1|在x<1时能直接去掉绝对值吗？",
+        "hint": "先判断x-1的符号；负时取相反数。",
+        "revision_prompt": "画|x+2|并标(-2,0),(0,2)；左段-x-2，右段x+2。"
+      },
+      "observation_note": "观察分段表达和关键点作品；只给顶点不能确认完整图象。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能求分段函数在分界点处的函数值",
+      "explanation": "分界输入只能使用包含该端点的分段公式。",
+      "self_check": {
+        "prompt": "设g(x)=x+2（x≤0），g(x)=x²（x>0），求g(0)、g(-1)、g(2)，并在图上标零点处实心与空心点。",
+        "reference_answer": "分别为2、1、4；(0,2)实心，平方段的(0,0)空心。",
+        "criteria": [
+          "三个代入值正确",
+          "端点归属与图象标记一致"
+        ],
+        "family_id": "function.piecewise-boundary",
+        "variant_id": "mh1.3.1.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "分界点0可以任选一个公式代入吗？",
+        "hint": "先圈出含等号的条件，再代入相应公式。",
+        "revision_prompt": "设f=x²(x<1)、f=2x(x≥1)，求f(1)=2；在(1,1)空心、(1,2)实心。"
+      },
+      "observation_note": "观察分段条件与点归属；三次代入不能确认所有分段建模。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：两条线段或射线及交点正确；三个代入值正确。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.3.1.2-q1",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.3.1.2-q2",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.3.1.2-q90",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "各段条件须覆盖定义域且不能给同一输入不同值。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：两条线段或射线及交点正确；三个代入值正确。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh1.3.1.2-q1",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.3.1.2-q2",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.3.1.2-q90",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

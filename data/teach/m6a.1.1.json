@@ -33,7 +33,11 @@
     "family_id": "position.ordered-pair-location",
     "variant_id": "m6a.1.1:worked-example-v5",
     "representation": "geometry",
-    "cognitive_demand": "explain"
+    "cognitive_demand": "explain",
+    "diagram": {
+      "src": "/static/diagrams/primary-ordered-grid-v5.svg",
+      "alt": "5列5行方格点图：列向右、行向上，均从1开始；留空供自己标点。"
+    }
   },
   "pitfalls": [
     "(2,5)与(5,2)不同，但(3,3)交换后并未改变。",
@@ -68,7 +72,10 @@
         "diagram": {
           "src": "/static/diagrams/primary-ordered-grid-v5.svg",
           "alt": "5列5行方格点图：列向右、行向上，均从1开始；留空供自己标点。"
-        }
+        },
+        "reference_family_ids": [
+          "position.coordinate-order-error"
+        ]
       },
       "difficulty_support": {
         "discriminating_prompt": "若两个数都为3，交换还会改变位置吗？",
@@ -97,7 +104,8 @@
           "alt": "5列5行方格点图：列向右、行向上，均从1开始；留空供自己标点。"
         },
         "reference_family_ids": [
-          "position.grid-translation"
+          "position.grid-translation",
+          "position.shortest-grid-path-bound"
         ]
       },
       "difficulty_support": {

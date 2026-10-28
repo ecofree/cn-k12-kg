@@ -27,7 +27,11 @@
       "下车后车上还剩 25-8=17 人，这一步是接着 25 算的。",
       "又上车 5 人，在 17 的基础上加：17+5=22 人。",
       "回看：22 比 25 少 3，正好等于多下了 3 人（8-5=3），结果合理。"
-    ]
+    ],
+    "family_id": "primary.change.sequential-add-subtract",
+    "variant_id": "m3a.2.4:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "把下车8人和上车5人相加后都减去，写成25−(8+5)，把增加误当减少。",
@@ -51,7 +55,7 @@
   "check": "给一道「原有 → 用去 → 又买来」的题，能一次列对式子，并指着每一步说出「这一步求的是什么」。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,21 @@
         "criteria": [
           "顺序与变化一致",
           "中间量解释清楚"
+        ],
+        "family_id": "primary.change.sequential-add-subtract",
+        "variant_id": "m3a.2.4:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.same-level-left-to-right"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“再上车4人”应让当前12人增加还是减少？加括号后会不会把这4人也减去？",
+        "hint": "按18→下6得12→上4得16画箭头，每个变化旁先写加减方向。",
+        "revision_prompt": "车上20人、下7人、上3人，按时间顺序列式，再求净减少数对照最终结果。"
+      },
+      "observation_note": "观察连续变化的方向与中间量；等价改写可以使用，但必须保留原有增减。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +95,22 @@
         "criteria": [
           "指出加减方向错",
           "用净变化交叉检查"
+        ],
+        "family_id": "primary.change.sequential-add-subtract",
+        "variant_id": "m3a.2.4:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.parenthesized-group",
+          "arithmetic.same-level-left-to-right"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "18−(6+4)表示两次下车还是一次下车一次上车？",
+        "hint": "展开故事：减10是总共下了10人，与上车4人的信息相反；原题净减少6−4=2。",
+        "revision_prompt": "解释错误式20−(7+3)与原故事“下7上3”的区别，写正确式及净变化检查。"
+      },
+      "observation_note": "观察能用情境检出符号错误；只重复原计算不能说明错误来源。"
     }
   ]
 }

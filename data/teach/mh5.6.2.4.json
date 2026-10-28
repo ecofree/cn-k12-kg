@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh5.6.2.4",
- "name": "组合数",
- "tier": "core",
- "hook": "从10人中选8人，也可以决定留下哪2人不选；每个8人组恰好对应一个2人补集，数目相同。",
- "definition": "组合数Cₙᵐ=n!/[m!(n-m)!]=Aₙᵐ/m!，0≤m≤n，Cₙ⁰=Cₙⁿ=1。补集对应给Cₙᵐ=Cₙⁿ⁻ᵐ；按是否包含某个指定元素分类，得Cₙᵐ=Cₙ₋₁ᵐ+Cₙ₋₁ᵐ⁻¹（1≤m≤n-1）。组合数必须使用整数合法参数。",
- "why": "有序选m人时每个无序小组被计入m!次，所以排列数除以m!得到组合数。选择m个与不选n-m个建立一一对应，证明对称性；固定某一人，入选与不入选两类互斥且穷尽，证明加法恒等式。",
- "when_to_use": [
-  "不计顺序的选择需要计算个数",
-  "m接近n时用对称性简化大阶乘或组合数恒等式"
- ],
- "steps": [
-  "确认元素互异且不计顺序，检查0≤m≤n。",
-  "先用对称性取较小的m与n-m，再写递减乘积除m!。",
-  "约分后计算，或按是否包含指定元素分类化简。"
- ],
- "worked_example": {
-  "prompt": "计算C₁₀⁸。",
-  "steps": [
-   "由补集对称性，C₁₀⁸=C₁₀²。",
-   "C₁₀²=10×9/(2×1)=45。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh5.6.2.4",
+  "name": "组合数",
+  "tier": "core",
+  "hook": "从10人中选8人，也可以决定留下哪2人不选；每个8人组恰好对应一个2人补集，数目相同。",
+  "definition": "组合数Cₙᵐ=n!/[m!(n-m)!]=Aₙᵐ/m!，0≤m≤n，Cₙ⁰=Cₙⁿ=1。补集对应给Cₙᵐ=Cₙⁿ⁻ᵐ；按是否包含某个指定元素分类，得Cₙᵐ=Cₙ₋₁ᵐ+Cₙ₋₁ᵐ⁻¹（1≤m≤n-1）。组合数必须使用整数合法参数。",
+  "why": "有序选m人时每个无序小组被计入m!次，所以排列数除以m!得到组合数。选择m个与不选n-m个建立一一对应，证明对称性；固定某一人，入选与不入选两类互斥且穷尽，证明加法恒等式。",
+  "when_to_use": [
+    "不计顺序的选择需要计算个数",
+    "m接近n时用对称性简化大阶乘或组合数恒等式"
   ],
-  "answer": "45",
-  "verify": "10*9/(2*1)"
- },
- "pitfalls": [
-  "Cₙᵐ比Aₙᵐ多除一个m!，漏除就把同组的不同次序重复计数。",
-  "Cₙ⁰=1代表选空集的一种方法，不是0种。"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能用公式计算组合数",
-   "explanation": "组合公式通过除去内部顺序消除重复。",
-   "self_check": {
-    "prompt": "计算C₇³并解释分母3!。",
-    "reference_answer": "7×6×5/(3×2×1)=35；每组三人有6种排列，分母去掉这6次重复。",
-    "criteria": [
-     "数值35",
-     "分母来自同组内部顺序"
-    ]
-   }
+  "steps": [
+    "确认元素互异且不计顺序，检查0≤m≤n。",
+    "先用对称性取较小的m与n-m，再写递减乘积除m!。",
+    "约分后计算，或按是否包含指定元素分类化简。"
+  ],
+  "worked_example": {
+    "prompt": "计算C₁₀⁸。",
+    "steps": [
+      "由补集对称性，C₁₀⁸=C₁₀²。",
+      "C₁₀²=10×9/(2×1)=45。"
+    ],
+    "answer": "45",
+    "verify": "10*9/(2*1)",
+    "family_id": "count.complement-bijection",
+    "variant_id": "mh5.6.2.4:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能用对称性化简组合数",
-   "explanation": "对称性是选中组与未选组的一一对应。",
-   "self_check": {
-    "prompt": "为什么C₁₂¹⁰=C₁₂²？算出它们的值。",
-    "reference_answer": "选10人等价于决定不选哪2人，补集对应；值为12×11/2=66。",
-    "criteria": [
-     "说明补集一一对应",
-     "算得66"
-    ]
-   }
+  "pitfalls": [
+    "Cₙᵐ比Aₙᵐ多除一个m!，漏除就把同组的不同次序重复计数。",
+    "Cₙ⁰=1代表选空集的一种方法，不是0种。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用公式计算组合数",
+      "explanation": "组合公式通过除去内部顺序消除重复。",
+      "self_check": {
+        "prompt": "计算C₇³并解释分母3!。",
+        "reference_answer": "7×6×5/(3×2×1)=35；每组三人有6种排列，分母去掉这6次重复。",
+        "criteria": [
+          "数值35",
+          "分母来自同组内部顺序"
+        ],
+        "family_id": "count.combination-divide-orders",
+        "variant_id": "mh5.6.2.4:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "为何C₇³不能直接等于7×6×5？",
+        "hint": "同一三人组被3!种顺序重复计算。",
+        "revision_prompt": "C₆²=6×5/2=15，明确每对AB/BA只留一次。"
+      },
+      "observation_note": "观察去重因子与数值；分母不是任意为凑整数而除。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用对称性化简组合数",
+      "explanation": "对称性是选中组与未选组的一一对应。",
+      "self_check": {
+        "prompt": "为什么C₁₂¹⁰=C₁₂²？算出它们的值。",
+        "reference_answer": "选10人等价于决定不选哪2人，补集对应；值为12×11/2=66。",
+        "criteria": [
+          "说明补集一一对应",
+          "算得66"
+        ],
+        "family_id": "count.complement-bijection",
+        "variant_id": "mh5.6.2.4:criterion-1",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "选10人和不选2人为何数量一样，是否结果本身相同？",
+        "hint": "两种结果通过补集一一配对，并非同一个集合。",
+        "revision_prompt": "从8人选6人与选不入选的2人对应，数C₈²=28。"
+      },
+      "observation_note": "观察一一对应理由；不把上标n-m换成随意的差。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh5.6.2.4-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：计算组合数C₈³。"
+    },
+    {
+      "id": "mh5.6.2.4-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：利用对称性计算C₁₁⁹。"
+    },
+    {
+      "id": "mh5.6.2.4-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：从6个不同元素中选0个，组合数C₆⁰是多少？"
+    }
+  ],
+  "check": "独立完成并写出依据：计算C₇³并解释分母3!。；为什么C₁₂¹⁰=C₁₂²？算出它们的值。",
+  "conditions": [
+    "n、m为整数且0≤m≤n；组合忽略组内顺序。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "mh5.6.2.4-q201",
-   "note": "完成后对照解析检查条件、步骤和结果：计算组合数C₈³。"
-  },
-  {
-   "id": "mh5.6.2.4-q202",
-   "note": "完成后对照解析检查条件、步骤和结果：利用对称性计算C₁₁⁹。"
-  },
-  {
-   "id": "mh5.6.2.4-q203",
-   "note": "完成后对照解析检查条件、步骤和结果：从6个不同元素中选0个，组合数C₆⁰是多少？"
-  }
- ],
- "check": "独立完成并写出依据：计算C₇³并解释分母3!。；为什么C₁₂¹⁰=C₁₂²？算出它们的值。"
 }

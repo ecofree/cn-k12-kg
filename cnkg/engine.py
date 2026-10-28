@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from . import evidence
+from .task_families import canonical_family
 
 DIFF_RANK = {"basic": 0, "standard": 1, "advanced": 2}
 MODES = {
@@ -121,6 +122,28 @@ def _policy(graph, question):
     return graph.question_policies.get(question["id"]) or evidence.question_policy(question)
 
 
+def _observed_criteria(graph, tid, question):
+    """Only the primary topic's explicitly valid criterion indices are evidence."""
+    criteria = graph.by_id[tid].get("mastery_criteria")
+    indices = question.get("tested_criterion_indices")
+    if (not isinstance(criteria, list) or not criteria or question.get("topicId") != tid
+            or not isinstance(indices, list)
+            or any(not isinstance(index, int) or isinstance(index, bool) or not 0 <= index < len(criteria)
+                   for index in indices)):
+        return []
+    return list(dict.fromkeys(indices))
+
+
+def _declared_family(question):
+    identity = question.get("family_id")
+    status = question.get("family_status", "declared" if identity else "unclassified")
+    if (status != "declared" or not isinstance(identity, str) or not identity.strip()
+            or identity.strip().lower() in {"unknown", "unclassified", "unspecified", "未知", "未分类"}
+            or identity.startswith("unclassified:")):
+        return None
+    return canonical_family(identity)
+
+
 def _pick_question(graph, session, tid, attempt):
     bank = graph.practice_bank if session["mode"] == "practice" else graph.bank
     pool = [q for q in bank.get(tid, []) if q["id"] not in set(session["seen"])]
@@ -154,6 +177,16 @@ def _pick_question(graph, session, tid, attempt):
     ordered = _rotate_pool(ordered, session.get("rotate", 0))
     if session["mode"] != "practice":
         ordered.sort(key=lambda q: not _policy(graph, q)["may_judge_weak"])
+    # A change of answer format or number is not a new mathematical structure.
+    # Prefer an authored different family and goals not yet observed, while
+    # retaining the admitted evidence order for diagnostic questions.
+    seen_families = {_declared_family(entry) for entry in session["log"] if entry["topicId"] == tid}
+    observed_goals = {index for entry in session["log"] if entry["topicId"] == tid
+                      for index in entry.get("observed_criterion_indices", [])}
+    ordered.sort(key=lambda q: (
+        session["mode"] != "practice" and not _policy(graph, q)["may_judge_weak"],
+        not _declared_family(q) or _declared_family(q) in seen_families,
+        not bool(set(_observed_criteria(graph, tid, q)) - observed_goals)))
     return ordered[0], escalated
 
 
@@ -231,6 +264,36 @@ def _finish_practice(session, tid, entries):
     _remove(session, tid)
 
 
+def _observation_gaps(graph, tid, entries):
+    """Check the actual scope of these answers before a topic-level summary.
+
+    An admitted, arithmetically correct task is not automatically aligned to
+    every criterion in its topic. These checks never prove student mastery.
+    """
+    criteria = graph.by_id[tid].get("mastery_criteria")
+    if not isinstance(criteria, list) or not criteria:
+        return ["undeclared_topic_goals"]
+    gaps, observed, families = [], set(), set()
+    for entry in entries:
+        indices = entry.get("observed_criterion_indices", [])
+        if not indices:
+            gaps.append("task_goal_alignment_unknown")
+        observed.update(indices)
+        family = _declared_family(entry)
+        if not family:
+            gaps.append("task_structure_unknown")
+        else:
+            families.add(family)
+        if (not isinstance(entry.get("representation"), str) or not entry["representation"].strip()
+                or entry["representation"].strip().lower() in {"unknown", "unclassified", "unspecified", "未知", "未分类"}):
+            gaps.append("task_representation_unknown")
+    if observed != set(range(len(criteria))):
+        gaps.append("topic_goals_not_fully_observed")
+    if len(families) < 2:
+        gaps.append("insufficient_structural_variety")
+    return list(dict.fromkeys(gaps))
+
+
 def apply_answer(graph, session, verdict, text=None, *, help_used=False) -> dict:
     """记录答题及当时的题目证据；不足的错答不能变成薄弱或触发回溯。"""
     if verdict not in ("correct", "wrong", "skip"):
@@ -252,12 +315,16 @@ def apply_answer(graph, session, verdict, text=None, *, help_used=False) -> dict
     if help_used:
         policy.update(may_confirm_mastery=False, may_judge_weak=False,
                       original_reason=policy.get("reason"), reason="recorded_help_used")
+    mapped = _observed_criteria(graph, tid, question)
+    family_status = question.get("family_status", "declared" if question.get("family_id") else "unclassified")
     session["asked"][tid] = attempt
     session["log"].append({
         "topicId": tid, "questionId": current["questionId"], "attempt": attempt,
         "verdict": verdict, "text": text, "difficulty": question.get("difficulty"),
         "questionType": question.get("type"), "escalated": current.get("escalated", False),
         "evidence": policy, "help_used": help_used,
+        "observed_criterion_indices": list(mapped), "family_id": question.get("family_id"),
+        "family_status": family_status, "representation": question.get("representation", "unknown"),
     })
     session["seen"].append(current["questionId"])
     session["current"] = None
@@ -283,6 +350,7 @@ def apply_answer(graph, session, verdict, text=None, *, help_used=False) -> dict
             reasons.append("answer_cannot_judge_weak")
         if entry.get("escalated"):
             reasons.append("forced_difficulty_increase")
+    reasons.extend(_observation_gaps(graph, tid, entries))
     if reasons:
         session["state"][tid] = "insufficient_evidence"
         session.setdefault("evidence_gaps", {})[tid] = ",".join(dict.fromkeys(reasons))
@@ -292,11 +360,9 @@ def apply_answer(graph, session, verdict, text=None, *, help_used=False) -> dict
     correct = sum(e["verdict"] == "correct" for e in entries)
     if correct == len(entries):
         session["state"][tid] = "mastered"
-        # 这仍是临时推断，不计为已测掌握；明确选择的目标点必须实际作答。
-        if session["mode"] == "diagnose" and len(entries) >= 2:
-            for anc in graph.ancestors(tid, hard_only=True):
-                if anc not in session["targets"]:
-                    session["state"].setdefault(anc, "assumed")
+        # 结果只属于实际作答的目标。hard 边描述作者登记的先修关系，
+        # 不能替没有作答的祖先生成证据；共享先修仍须能被其他目标回溯。
+        # TERMINAL 中保留 assumed 只用于读取旧版本原始记录。
     elif correct:
         first, last = entries[0], entries[-1]
         harder_failed = (first["verdict"] == "correct" and last["verdict"] == "wrong"
@@ -409,6 +475,8 @@ def summarize(graph, session) -> dict:
         "path": path, "support_tasks": support_tasks, "by_chapter": by_chapter,
         "incomplete": incomplete, "stop_reason": stop_reason,
         "assessment_kind": "practice" if mode == "practice" else "screening",
+        "observation_scope": "presented_tasks_only", "independent_mastery_evidence": False,
+        "unobserved_prerequisites_inferred": bool(groups["assumed"]),
         "confidence": "provisional", "causal_claim": False,
         "reviewer_pending": any((e.get("evidence") or {}).get("reviewer_pending", True)
                                 for e in session["log"]),

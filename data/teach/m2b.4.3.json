@@ -22,7 +22,15 @@
       "检查35+28=63，故□=35。"
     ],
     "answer": "35",
-    "verify": "63-28"
+    "verify": "63-28",
+    "family_id": "arithmetic.unknown-addend",
+    "variant_id": "m2b.4.3:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "arithmetic.place-value-column-addition",
+      "arithmetic.place-value-column-subtraction"
+    ]
   },
   "pitfalls": [
     "未知量在不同位置，不能统一用两个已知数相减。",
@@ -33,7 +41,7 @@
   "name": "加减法各部分间的关系",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -47,8 +55,22 @@
         "criteria": [
           "和减已知加数",
           "答案45"
+        ],
+        "family_id": "arithmetic.unknown-addend",
+        "variant_id": "m2b.4.3:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.place-value-column-addition",
+          "arithmetic.place-value-column-subtraction"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "□+37=82中，82是整体还是另一部分？用82+37会变成什么？",
+        "hint": "画82的总条，划出已知37，空缺部分由总条减去已知部分。",
+        "revision_prompt": "解□+26=71，写反向计算，再把求得数与26相加恢复71。"
+      },
+      "observation_note": "观察未知加数的整体部分关系与代回；未知减数需另行观察。"
     },
     {
       "criterion_index": 1,
@@ -60,8 +82,22 @@
         "criteria": [
           "验算式正确",
           "说出对应各部分"
+        ],
+        "family_id": "arithmetic.subtraction-addition-inverse",
+        "variant_id": "m2b.4.3:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.place-value-column-addition",
+          "arithmetic.place-value-column-subtraction"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "要检查74−29=45，重复74−29一遍能否排除同样的错误？",
+        "hint": "把剩余45与去掉29合起来，应该恢复原有74；顺便检查单位相同。",
+        "revision_prompt": "对63−28=35写加法验算，再对错误结果63−28=45做同样检查指出矛盾。"
+      },
+      "observation_note": "观察逆运算能否检出错差；会背验算式还需实际核对相等。"
     }
   ],
   "practice": [

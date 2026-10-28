@@ -1,76 +1,106 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m7b.10.2.2",
- "name": "加减消元法",
- "tier": "core",
- "hook": "两个等式中的同一个未知量，能否通过整体相加或相减消失？",
- "definition": "加减消元法：同一未知数系数相同则相减、系数相反则相加，先消去一个未知数；系数不同时先把方程乘适当倍数化为相同或相反。",
- "why": "等式两边同加等量、同减等量仍相等。使某未知数的系数相同或相反后，一次加减就把该项抵消，保留关于另一未知数的约束；回代补回被消去的信息。",
- "when_to_use": [
-  "某未知数系数相同或互为相反数",
-  "两式系数可用小整数倍配齐"
- ],
- "steps": [
-  "选择较容易配齐的一组系数",
-  "必要时对整条方程两边同乘倍数",
-  "逐项相加减、解出一个数再回代检验"
- ],
- "worked_example": {
-  "prompt": "解2x+y=7、3x−y=8。",
-  "answer": "x=3，y=1",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.10.2.2",
+  "name": "加减消元法",
+  "tier": "core",
+  "hook": "两个等式中的同一个未知量，能否通过整体相加或相减消失？",
+  "definition": "加减消元法：同一未知数系数相同则相减、系数相反则相加，先消去一个未知数；系数不同时先把方程乘适当倍数化为相同或相反。",
+  "why": "等式两边同加等量、同减等量仍相等。使某未知数的系数相同或相反后，一次加减就把该项抵消，保留关于另一未知数的约束；回代补回被消去的信息。",
+  "when_to_use": [
+    "某未知数系数相同或互为相反数",
+    "两式系数可用小整数倍配齐"
+  ],
   "steps": [
-   "两式相加，y与−y抵消，得5x=15，所以x=3。",
-   "代入2x+y=7得y=1；第二式3×3−1=8也成立。"
-  ]
- },
- "pitfalls": [
-  "同号相同系数用相减，异号相反系数用相加。",
-  "乘倍数时等式每项及右边常数都要乘。"
- ],
- "check": "独立完成并解释：用加减法解方程组2x+3y=13、4x−3y=5，求x。 请写出判断或计算依据。；方程组2x+3y=12、3x+2y=13中，第一式乘3、第二式乘2后相减，求y。 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能用加减法解二元一次方程组",
-   "explanation": "选择能够抵消的未知数，逐项相加减而非只处理未知项。",
-   "self_check": {
-    "prompt": "用加减法解方程组2x+3y=13、4x−3y=5，求x。 请写出判断或计算依据。",
-    "reference_answer": "两式的y系数互为相反数，相加得6x=18，所以x=3；代回得y=7/3。",
-    "criteria": [
-     "3y与−3y相消",
-     "6x=18得x=3"
-    ]
-   }
+    "选择较容易配齐的一组系数",
+    "必要时对整条方程两边同乘倍数",
+    "逐项相加减、解出一个数再回代检验"
+  ],
+  "worked_example": {
+    "prompt": "解2x+y=7、3x−y=8。",
+    "answer": "x=3，y=1",
+    "steps": [
+      "两式相加，y与−y抵消，得5x=15，所以x=3。",
+      "代入2x+y=7得y=1；第二式3×3−1=8也成立。"
+    ],
+    "family_id": "system.elimination.opposite-coefficients",
+    "variant_id": "m7b.10.2.2:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
   },
-  {
-   "criterion_index": 1,
-   "title": "能通过乘倍数构造相同或相反的系数",
-   "explanation": "通过乘倍数创造相同系数，方程两边必须同时改变。",
-   "self_check": {
-    "prompt": "方程组2x+3y=12、3x+2y=13中，第一式乘3、第二式乘2后相减，求y。 请写出判断或计算依据。",
-    "reference_answer": "两式变为6x+9y=36、6x+4y=26；相减得5y=10，所以y=2，回代x=3。",
-    "criteria": [
-     "构造两个6x",
-     "相减得5y=10"
-    ]
-   }
+  "pitfalls": [
+    "同号相同系数用相减，异号相反系数用相加。",
+    "乘倍数时等式每项及右边常数都要乘。"
+  ],
+  "check": "独立完成并解释：用加减法解方程组2x+3y=13、4x−3y=5，求x。 请写出判断或计算依据。；方程组2x+3y=12、3x+2y=13中，第一式乘3、第二式乘2后相减，求y。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用加减法解二元一次方程组",
+      "explanation": "选择能够抵消的未知数，逐项相加减而非只处理未知项。",
+      "self_check": {
+        "prompt": "用加减法解方程组2x+3y=13、4x−3y=5，求x和y，写出消元、回代和两式检验。",
+        "reference_answer": "两式相加得6x=18，x=3；代回2x+3y=13得6+3y=13，y=7/3。检验2×3+3×(7/3)=13，4×3−3×(7/3)=5，故解为x=3、y=7/3。",
+        "criteria": [
+          "利用相反y系数相加消元得到x=3",
+          "回代准确保留y=7/3",
+          "将同一对值代回两条原式核验"
+        ],
+        "family_id": "system.elimination.opposite-coefficients",
+        "variant_id": "m7b.10.2.2:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "3y与−3y要相加还是相减才能消去？",
+        "hint": "先只看待消项，3y+(−3y)=0；等式两边同时逐项相加。",
+        "revision_prompt": "求x=3后回代y=7/3，保留分数并检查4×3−3×(7/3)=5。"
+      },
+      "observation_note": "观察消元和有理数回代；不能因为答案非整数而擅改题目或舍入。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能通过乘倍数构造相同或相反的系数",
+      "explanation": "通过乘倍数创造相同系数，方程两边必须同时改变。",
+      "self_check": {
+        "prompt": "方程组2x+3y=12、3x+2y=13中，第一式乘3、第二式乘2后相减，求y。 请写出判断或计算依据。",
+        "reference_answer": "两式变为6x+9y=36、6x+4y=26；相减得5y=10，所以y=2，回代x=3。",
+        "criteria": [
+          "构造两个6x",
+          "相减得5y=10"
+        ],
+        "family_id": "system.elimination.scale-equations",
+        "variant_id": "m7b.10.2.2:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "第一式乘3时，右边12及3y是否也都乘3？",
+        "hint": "在整个等式两边加括号乘倍数，确保每一项参与；再对齐相减。",
+        "revision_prompt": "写6x+9y=36与6x+4y=26，消去x求y=2，再检验x=3。"
+      },
+      "observation_note": "观察完整倍乘与同系数消元；漏乘常数会改变方程组。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.10.2.2-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.10.2.2-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.10.2.2-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m7b.10.2.2-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m7b.10.2.2-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m7b.10.2.2-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

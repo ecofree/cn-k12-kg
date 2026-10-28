@@ -1,76 +1,105 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "author_type": "ai",
- "topicId": "m8a.16.3",
- "name": "乘法公式",
- "tier": "core",
- "hook": "(a−b)²为什么不是a²−b²？少掉的两块面积对应哪一项？",
- "definition": "平方差公式 (a+b)(a-b)=a²-b²；完全平方公式 (a±b)²=a²±2ab+b²，中间项符号随括号内符号而定。",
- "why": "公式由分配律展开后合并得到：(a+b)(a−b)的交叉项互相抵消，而(a−b)²的两项交叉乘积都是−ab，所以合成−2ab。辨结构比记字形更可靠。",
- "when_to_use": [
-  "两个因式分别为同两项的和与差",
-  "同一个二项式整体被平方"
- ],
- "steps": [
-  "找出公式中的整体a和b",
-  "判断应使用平方差还是完全平方",
-  "完整写出平方项和中间项，再按需要化简"
- ],
- "worked_example": {
-  "prompt": "展开(3x+2)²。",
-  "answer": "9x²+12x+4",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.16.3",
+  "name": "乘法公式",
+  "tier": "core",
+  "hook": "(a−b)²为什么不是a²−b²？少掉的两块面积对应哪一项？",
+  "definition": "平方差公式 (a+b)(a-b)=a²-b²；完全平方公式 (a±b)²=a²±2ab+b²，中间项符号随括号内符号而定。",
+  "why": "公式由分配律展开后合并得到：(a+b)(a−b)的交叉项互相抵消，而(a−b)²的两项交叉乘积都是−ab，所以合成−2ab。辨结构比记字形更可靠。",
+  "when_to_use": [
+    "两个因式分别为同两项的和与差",
+    "同一个二项式整体被平方"
+  ],
   "steps": [
-   "把a看成3x，b看成2，使用a²+2ab+b²。",
-   "得到(3x)²+2·3x·2+2²=9x²+12x+4。"
-  ]
- },
- "pitfalls": [
-  "完全平方的中间项为两倍乘积，既不是ab也不是2a。",
-  "平方差是和乘差，(a−b)²不能误套。"
- ],
- "check": "独立完成并解释：用乘法公式计算99×101。 请写出判断或计算依据。；展开(2x−3)²，用^表示乘方。 请写出判断或计算依据。",
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能识别符合乘法公式结构的多项式乘法",
-   "explanation": "平方差需两因式只有第二项符号不同，整体可以是数或式。",
-   "self_check": {
-    "prompt": "用乘法公式计算99×101。 请写出判断或计算依据。",
-    "reference_answer": "99×101=(100−1)(100+1)，由平方差公式得100²−1²=9999。",
-    "criteria": [
-     "改写100±1",
-     "得10000−1"
-    ]
-   }
+    "找出公式中的整体a和b",
+    "判断应使用平方差还是完全平方",
+    "完整写出平方项和中间项，再按需要化简"
+  ],
+  "worked_example": {
+    "prompt": "展开(3x+2)²。",
+    "answer": "9x²+12x+4",
+    "steps": [
+      "把a看成3x，b看成2，使用a²+2ab+b²。",
+      "得到(3x)²+2·3x·2+2²=9x²+12x+4。"
+    ],
+    "family_id": "algebra.formula.perfect-square-cross-term",
+    "variant_id": "m8a.16.3:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
   },
-  {
-   "criterion_index": 1,
-   "title": "能正确写出完全平方公式的中间项",
-   "explanation": "中间项的系数与符号来自2ab，首尾平方项均非负。",
-   "self_check": {
-    "prompt": "展开(2x−3)²，用^表示乘方。 请写出判断或计算依据。",
-    "reference_answer": "完全平方公式给出(2x)²−2·2x·3+3²=4x²−12x+9，中间项不能省。",
-    "criteria": [
-     "中间项−12x",
-     "首尾4x²与9"
-    ]
-   }
+  "pitfalls": [
+    "完全平方的中间项为两倍乘积，既不是ab也不是2a。",
+    "平方差是和乘差，(a−b)²不能误套。"
+  ],
+  "check": "独立完成并解释：用乘法公式计算99×101。 请写出判断或计算依据。；展开(2x−3)²，用^表示乘方。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能识别符合乘法公式结构的多项式乘法",
+      "explanation": "平方差需两因式只有第二项符号不同，整体可以是数或式。",
+      "self_check": {
+        "prompt": "用乘法公式计算99×101。 请写出判断或计算依据。",
+        "reference_answer": "99×101=(100−1)(100+1)，由平方差公式得100²−1²=9999。",
+        "criteria": [
+          "改写100±1",
+          "得10000−1"
+        ],
+        "family_id": "algebra.formula.difference-squares-structure",
+        "variant_id": "m8a.16.3:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "choose_strategy"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "99和101围绕哪个共同数等距？为什么不能把所有相邻数都直接相乘成平方差？",
+        "hint": "分别写100−1与100+1，确认同一个a和同一个b只差符号。",
+        "revision_prompt": "用公式算49×51=2499，再展开(a+b)(a−b)说明中间项抵消。"
+      },
+      "observation_note": "观察结构识别与平方差来源；不能只记某一数值捷径。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能正确写出完全平方公式的中间项",
+      "explanation": "中间项的系数与符号来自2ab，首尾平方项均非负。",
+      "self_check": {
+        "prompt": "展开(2x−3)²，用^表示乘方。 请写出判断或计算依据。",
+        "reference_answer": "完全平方公式给出(2x)²−2·2x·3+3²=4x²−12x+9，中间项不能省。",
+        "criteria": [
+          "中间项−12x",
+          "首尾4x²与9"
+        ],
+        "family_id": "algebra.formula.perfect-square-cross-term",
+        "variant_id": "m8a.16.3:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "(2x−3)²是否只把两项各平方？两个交叉乘积分别是多少？",
+        "hint": "把平方写成两个相同括号，交叉项各为−6x，合成−12x。",
+        "revision_prompt": "展开(x−5)²=x²−10x+25，再用x=1检查漏中项式与原式是否一致。"
+      },
+      "observation_note": "观察完全平方的中间项及末项为正；不能因括号有减号便把末项写负。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.16.3-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.16.3-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.16.3-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "m8a.16.3-q201",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.16.3-q202",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  },
-  {
-   "id": "m8a.16.3-q1",
-   "note": "独立作答后，按解析检查关键条件和推理。"
-  }
- ]
 }

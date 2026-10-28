@@ -109,7 +109,15 @@ class PlannerTests(unittest.TestCase):
         steps = plan(data, [], [work], now=NOW)["next_steps"]
         self.assertEqual(next(step for step in steps if step.get("unit_id") == "u2")["prerequisite_unit_ids"], ["u1"])
         steps = plan(data, [record()], [work], now=NOW)["next_steps"]
-        self.assertEqual(next(step for step in steps if step.get("unit_id") == "u2")["prerequisite_unit_ids"], [])
+        unobserved = next(step for step in steps if step.get("unit_id") == "u2")
+        self.assertEqual(unobserved["prerequisite_unit_ids"], ["u1"])
+        self.assertEqual(unobserved["prerequisite_skill_ids"], ["sk_fraction_equivalence"])
+        attempted = record()
+        attempted["answers"][0]["skill_ids"] = ["sk_fraction_equivalence"]
+        steps = plan(data, [attempted], [work], now=NOW)["next_steps"]
+        observed = next(step for step in steps if step.get("unit_id") == "u2")
+        self.assertEqual(observed["prerequisite_unit_ids"], [])
+        self.assertEqual(observed["observed_prerequisite_skill_ids"], ["sk_fraction_equivalence"])
 
     def test_unzoned_timestamp_does_not_establish_review_gap(self):
         invalid = record(mode="transfer", completed="2026-10-24T00:00:00")

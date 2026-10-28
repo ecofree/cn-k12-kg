@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh3.3.3.2",
- "name": "抛物线的简单几何性质",
- "tier": "core",
- "hook": "抛物线上一点到焦点的斜线距离常难算，但它等于到准线的垂距；一个根式问题因此变成一次式。",
- "definition": "抛物线y²=2px（p>0）顶点O=(0,0)，对称轴x轴，开口向右，范围x≥0，离心率为1。点P=(x,y)在曲线上时焦半径PF=x+p/2。对y²=-2px则PF=-x+p/2，其他方向相应交换坐标。焦半径公式只对抛物线上点成立。",
- "why": "方程含y²，y变号仍成立，故关于x轴对称；因p>0和y²≥0，必有x≥0。按定义PF等于P到准线x=-p/2的距离|x+p/2|，在曲线上x≥0所以可去绝对值为x+p/2。距离相等也说明离心率恒为1。",
- "when_to_use": [
-  "求抛物线上点到焦点距离或焦半径之和",
-  "由方程描述范围、对称轴、顶点、开口"
- ],
- "steps": [
-  "先检查点满足曲线方程，再认出标准方向与p。",
-  "写准线，用点到准线的垂距替代焦半径。",
-  "用坐标范围去绝对值，并对所需几何性质逐项作答。"
- ],
- "worked_example": {
-  "prompt": "P=(2,4)在y²=8x上，求P到焦点的距离。",
-  "steps": [
-   "先验4²=8×2=16，P确在曲线上；p=4，准线x=-2。",
-   "焦半径等于到准线距离2+2=4。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh3.3.3.2",
+  "name": "抛物线的简单几何性质",
+  "tier": "core",
+  "hook": "抛物线上一点到焦点的斜线距离常难算，但它等于到准线的垂距；一个根式问题因此变成一次式。",
+  "definition": "抛物线y²=2px（p>0）顶点O=(0,0)，对称轴x轴，开口向右，范围x≥0，离心率为1。点P=(x,y)在曲线上时焦半径PF=x+p/2。对y²=-2px则PF=-x+p/2，其他方向相应交换坐标。焦半径公式只对抛物线上点成立。",
+  "why": "方程含y²，y变号仍成立，故关于x轴对称；因p>0和y²≥0，必有x≥0。按定义PF等于P到准线x=-p/2的距离|x+p/2|，在曲线上x≥0所以可去绝对值为x+p/2。距离相等也说明离心率恒为1。",
+  "when_to_use": [
+    "求抛物线上点到焦点距离或焦半径之和",
+    "由方程描述范围、对称轴、顶点、开口"
   ],
-  "answer": "4",
-  "verify": "2+8/4"
- },
- "pitfalls": [
-  "把开口向左的式子仍写PF=x+p/2会得到错误距离，应按准线重新推。",
-  "对于不在抛物线上的点，到焦点和准线的距离一般不相等。"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能用定义转化焦半径",
-   "explanation": "用准线替代焦距可消掉根号，但前提是点在给定曲线上。",
-   "self_check": {
-    "prompt": "y²=12x上横坐标为5的点到焦点距离是多少？说明理由。",
-    "reference_answer": "p=6，准线x=-3；点在曲线上，PF等于到准线的距离5+3=8。",
-    "criteria": [
-     "准线x=-3",
-     "使用等距定义得到8"
-    ]
-   }
+  "steps": [
+    "先检查点满足曲线方程，再认出标准方向与p。",
+    "写准线，用点到准线的垂距替代焦半径。",
+    "用坐标范围去绝对值，并对所需几何性质逐项作答。"
+  ],
+  "worked_example": {
+    "prompt": "P=(2,4)在y²=8x上，求P到焦点的距离。",
+    "steps": [
+      "先验4²=8×2=16，P确在曲线上；p=4，准线x=-2。",
+      "焦半径等于到准线距离2+2=4。"
+    ],
+    "answer": "4",
+    "verify": "2+8/4",
+    "family_id": "parabola.focal-radius-on-curve",
+    "variant_id": "mh3.3.3.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能说出抛物线的几何性质",
-   "explanation": "平方变量决定对称轴，一次项符号决定开口和范围。",
-   "self_check": {
-    "prompt": "说出x²=-8y的顶点、对称轴、开口与y的范围。",
-    "reference_answer": "顶点(0,0)，对称轴y轴，开口向下，y≤0。",
-    "criteria": [
-     "轴与开口正确",
-     "顶点及范围完整"
-    ]
-   }
+  "pitfalls": [
+    "把开口向左的式子仍写PF=x+p/2会得到错误距离，应按准线重新推。",
+    "对于不在抛物线上的点，到焦点和准线的距离一般不相等。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用定义转化焦半径",
+      "explanation": "用准线替代焦距可消掉根号，但前提是点在给定曲线上。",
+      "self_check": {
+        "prompt": "y²=12x上横坐标为5的点到焦点距离是多少？说明理由。",
+        "reference_answer": "p=6，准线x=-3；点在曲线上，PF等于到准线的距离5+3=8。",
+        "criteria": [
+          "准线x=-3",
+          "使用等距定义得到8"
+        ],
+        "family_id": "parabola.focal-radius-on-curve",
+        "variant_id": "mh3.3.3.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "平面上任意点都能用PF=x+p/2吗？",
+        "hint": "等距关系只对曲线上点成立，先代方程核验。",
+        "revision_prompt": "y²=8x上P=(2,4)焦半径4；(2,0)不在曲线上，不能用同式。"
+      },
+      "observation_note": "观察曲线归属与等距转化；坐标代入公式前先检条件。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能说出抛物线的几何性质",
+      "explanation": "平方变量决定对称轴，一次项符号决定开口和范围。",
+      "self_check": {
+        "prompt": "说出x²=-8y的顶点、对称轴、开口与y的范围。",
+        "reference_answer": "顶点(0,0)，对称轴y轴，开口向下，y≤0。",
+        "criteria": [
+          "轴与开口正确",
+          "顶点及范围完整"
+        ],
+        "family_id": "parabola.axis-opening-range",
+        "variant_id": "mh3.3.3.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "x²=-8y中哪个变量可正可负，哪个受符号限制？",
+        "hint": "平方项非负，故-8y≥0，而x可取两种符号。",
+        "revision_prompt": "对y²=-4x写顶点(0,0)、对称轴x轴、向左、x≤0；比较纵向式。"
+      },
+      "observation_note": "观察轴、开口与范围；平移后的抛物线须相应移动顶点。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh3.3.3.2-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：抛物线y²=4x上横坐标为8的点到焦点距离是多少？"
+    },
+    {
+      "id": "mh3.3.3.2-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：抛物线y²=-8x上横坐标为-3的点到焦点距离是多少？"
+    },
+    {
+      "id": "mh3.3.3.2-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：x²=6y的对称轴、开口和范围正确的是哪项？"
+    }
+  ],
+  "check": "独立完成并写出依据：y²=12x上横坐标为5的点到焦点距离是多少？说明理由。；说出x²=-8y的顶点、对称轴、开口与y的范围。",
+  "conditions": [
+    "焦半径公式仅限曲线上点；顶点与开口依标准式。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "mh3.3.3.2-q201",
-   "note": "完成后对照解析检查条件、步骤和结果：抛物线y²=4x上横坐标为8的点到焦点距离是多少？"
-  },
-  {
-   "id": "mh3.3.3.2-q202",
-   "note": "完成后对照解析检查条件、步骤和结果：抛物线y²=-8x上横坐标为-3的点到焦点距离是多少？"
-  },
-  {
-   "id": "mh3.3.3.2-q203",
-   "note": "完成后对照解析检查条件、步骤和结果：x²=6y的对称轴、开口和范围正确的是哪项？"
-  }
- ],
- "check": "独立完成并写出依据：y²=12x上横坐标为5的点到焦点距离是多少？说明理由。；说出x²=-8y的顶点、对称轴、开口与y的范围。"
 }

@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh1.5.2.1",
- "name": "三角函数的概念",
- "tier": "core",
- "hook": "角的终边经过(-3,4)，为什么正弦是4/5而不是4/3？",
- "definition": "角 α 终边上一点 P(x,y)，r=√(x²+y²)，则 sinα=y/r，cosα=x/r，tanα=y/x。终边上取非原点P(x,y)，r=√(x²+y²)>0；sinα=y/r，cosα=x/r，tanα=y/x（x≠0）。",
- "why": "沿同一终边移动，x、y、r按同一正比例变化，所以比值不依赖选点。r恒正使正弦、余弦符号分别由y、x决定；正切的分母为x，故y轴方向无定义。",
- "when_to_use": [
-  "已知终边上一点求三角函数",
-  "需要根据象限判断正负或定义条件"
- ],
- "steps": [
-  "检查点不是原点并算r",
-  "代入y/r、x/r、y/x",
-  "用象限核对符号，分母为0时注明无定义"
- ],
- "worked_example": {
-  "prompt": "α终边过(-3,4)，求sinα、cosα、tanα。",
-  "steps": [
-   "r=√(9+16)=5。",
-   "sinα=4/5，cosα=-3/5。",
-   "x≠0，tanα=-4/3；第二象限正弦正、余弦负符合。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.5.2.1",
+  "name": "三角函数的概念",
+  "tier": "core",
+  "hook": "角的终边经过(-3,4)，为什么正弦是4/5而不是4/3？",
+  "definition": "角α终边上取非原点P(x,y)，令r=√(x²+y²)>0，则sinα=y/r、cosα=x/r、tanα=y/x（x≠0）。r始终为正，函数值符号由坐标决定；同一终边上的正比例缩放不改变这些比值。",
+  "why": "沿同一终边移动，x、y、r按同一正比例变化，所以比值不依赖选点。r恒正使正弦、余弦符号分别由y、x决定；正切的分母为x，故y轴方向无定义。",
+  "when_to_use": [
+    "已知终边上一点求三角函数",
+    "需要根据象限判断正负或定义条件"
   ],
-  "answer": "4/5，-3/5，-4/3"
- },
- "pitfalls": [
-  "把r写成x+y或给r带负号",
-  "在终边落y轴时仍计算正切"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能由终边上的点求三个三角函数值",
-   "explanation": "用距离定义r，再用坐标比值，不依赖选点离原点多远。",
-   "self_check": {
-    "prompt": "终边经过(6,-8)，求三个三角函数值。",
-    "reference_answer": "r=10，sin=-4/5，cos=3/5，tan=-4/3。",
-    "criteria": [
-     "距离与三个比值正确",
-     "第四象限符号一致"
-    ]
-   }
+  "steps": [
+    "检查点不是原点并算r",
+    "代入y/r、x/r、y/x",
+    "用象限核对符号，分母为0时注明无定义"
+  ],
+  "worked_example": {
+    "prompt": "α终边过(-3,4)，求sinα、cosα、tanα。",
+    "steps": [
+      "r=√(9+16)=5。",
+      "sinα=4/5，cosα=-3/5。",
+      "x≠0，tanα=-4/3；第二象限正弦正、余弦负符合。"
+    ],
+    "answer": "4/5，-3/5，-4/3",
+    "family_id": "trig.terminal-point-ratios",
+    "variant_id": "mh1.5.2.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能判断各象限三角函数的符号",
-   "explanation": "非轴象限由x、y符号确定；正切符号由两者是否同号决定。",
-   "self_check": {
-    "prompt": "分别写第二、第三象限的sin、cos、tan符号，并解释。",
-    "reference_answer": "第二象限(+,-,-)，第三象限(-,-,+)；r>0，x、y同号时y/x正。",
-    "criteria": [
-     "两组符号正确",
-     "以坐标而非背诵给依据"
-    ]
-   }
+  "pitfalls": [
+    "把r写成x+y或给r带负号",
+    "在终边落y轴时仍计算正切"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能由终边上的点求三个三角函数值",
+      "explanation": "用距离定义r，再用坐标比值，不依赖选点离原点多远。",
+      "self_check": {
+        "prompt": "终边经过(6,-8)，求三个三角函数值。",
+        "reference_answer": "r=10，sin=-4/5，cos=3/5，tan=-4/3。",
+        "criteria": [
+          "距离与三个比值正确",
+          "第四象限符号一致"
+        ],
+        "family_id": "trig.terminal-point-ratios",
+        "variant_id": "mh1.5.2.1:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "P=(6,-8)中r能等于-10吗？",
+        "hint": "r为到原点距离必正；符号来自x、y而非r。",
+        "revision_prompt": "用同终边点(3,-4)复算三个比值，仍为-4/5、3/5、-4/3。"
+      },
+      "observation_note": "观察距离、比值与符号；同终边缩放不能被算作新的独立题族。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能判断各象限三角函数的符号",
+      "explanation": "非轴象限由x、y符号确定；正切符号由两者是否同号决定。",
+      "self_check": {
+        "prompt": "分别写第二、第三象限的sin、cos、tan符号，并解释。",
+        "reference_answer": "第二象限(+,-,-)，第三象限(-,-,+)；r>0，x、y同号时y/x正。",
+        "criteria": [
+          "两组符号正确",
+          "以坐标而非背诵给依据"
+        ],
+        "family_id": "trig.quadrant-signs",
+        "variant_id": "mh1.5.2.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "第三象限x、y都负，y/x为什么是正？",
+        "hint": "正弦随y、余弦随x，正切看除法符号。",
+        "revision_prompt": "用(-1,-1)核验第三象限符号(-,-,+)，再与(-1,1)的第二象限比较。"
+      },
+      "observation_note": "观察坐标依据与三种符号；轴线上的无定义情形需另查。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：距离与三个比值正确；两组符号正确。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.5.2.1-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.5.2.1-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.5.2.1-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "终边点不能是原点；正切要求x≠0。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：距离与三个比值正确；两组符号正确。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh1.5.2.1-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.5.2.1-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.5.2.1-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

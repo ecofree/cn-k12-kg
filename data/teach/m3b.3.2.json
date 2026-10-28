@@ -27,7 +27,11 @@
       "一圈包括两条长、两条宽。",
       "先算一组：6+4=10 厘米。",
       "两组就是 10×2=20 厘米。"
-    ]
+    ],
+    "family_id": "geometry.rectangle-perimeter",
+    "variant_id": "m3b.3.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "写成 6+4×2=14——漏了括号，只乘了宽。",
@@ -51,7 +55,7 @@
   "check": "能说出周长是「绕图形走一圈的长度」，并正确区分「周长 20 厘米」和「面积 20 平方厘米」。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,19 @@
         "criteria": [
           "描述封闭外边界",
           "排除内部对角线"
-        ]
-      }
+        ],
+        "family_id": "geometry.perimeter-boundary",
+        "variant_id": "m3b.3.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "沿纸片外边走一圈会经过内部对角线吗？这条线是否把外边界变长了？",
+        "hint": "用一根线只贴最外圈，内部画线不贴；走完应回到起点且外边不重不漏。",
+        "revision_prompt": "在长方形内加两条交叉线，再描外边并写周长由哪几段组成。"
+      },
+      "observation_note": "观察封闭外边界与内部线段区别；纸上填一个周长数不能证明边界选择正确。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +93,21 @@
         "criteria": [
           "两公式正确",
           "长度单位正确"
+        ],
+        "family_id": "geometry.rectangle-perimeter",
+        "variant_id": "m3b.3.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.perimeter-boundary"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "7+4只包括长方形全部四边，还是一长一宽？正方形5×5在数什么？",
+        "hint": "给四条外边依次标7、4、7、4；正方形则四个5相加。",
+        "revision_prompt": "长方形长9厘米宽3厘米、正方形边长4厘米，分别列出边长和，再写简便乘法。"
+      },
+      "observation_note": "观察周长按边界长度合计及单位；与面积公式的区分需结合式子含义。"
     }
   ]
 }

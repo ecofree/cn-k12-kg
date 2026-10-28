@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh1.5.6.2",
- "name": "函数y=Asin(ωx+φ)的图象",
- "tier": "core",
- "hook": "sin(2x+π/3)应向左平移π/3，还是π/6？",
- "definition": "对A≠0、ω≠0，y=Asin(ωx+φ)的振幅为|A|，最小正周期为2π/|ω|；相位写成ω(x+φ/ω)来判断平移，负系数还涉及相应方向的反射。A≠0、ω≠0时振幅|A|、周期2π/|ω|；ωx+φ=ω(x+φ/ω)，平移量由φ/ω决定。A<0表示纵向反射，ω<0可借sin(-u)=-sin u化为正频率再作图；A=0或ω=0时为常函数，不套用最小正周期公式。",
- "why": "相位改变一整圈2π后重复，所以自变量的最小正周期为2π/|ω|。图象中的旧横坐标u满足u=ωx+φ，新坐标x=(u-φ)/ω；系数符号反映方向，缩放和平移顺序影响平移量。",
- "when_to_use": [
-  "从正弦解析式读取振幅、周期、相位",
-  "按给定步骤把基本正弦图象变换为目标"
- ],
- "steps": [
-  "先检查A、ω非零；若ω<0可用奇性化成正频率形式",
-  "用|A|与|ω|计算振幅周期，按内角五点法定位",
-  "说明缩放和平移的顺序，负的外系数需再关于x轴反射"
- ],
- "worked_example": {
-  "prompt": "从y=sinx得到y=2sin(2x+π/3)，描述一条合法变换路径。",
-  "steps": [
-   "先把横坐标缩为原来1/2，得sin2x。",
-   "再向左移π/6，得sin(2(x+π/6))。",
-   "最后纵坐标扩大2倍；振幅2，周期π。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.5.6.2",
+  "name": "函数y=Asin(ωx+φ)的图象",
+  "tier": "core",
+  "hook": "sin(2x+π/3)应向左平移π/3，还是π/6？",
+  "definition": "对A≠0、ω≠0，y=Asin(ωx+φ)的振幅为|A|、最小正周期为2π/|ω|。写成ω(x+φ/ω)辨认平移量；A<0涉及纵向反射，ω<0可用正弦奇性化为正频率。A=0或ω=0时为常函数，没有最小正周期，不能套此公式。",
+  "why": "相位改变一整圈2π后重复，所以自变量的最小正周期为2π/|ω|。图象中的旧横坐标u满足u=ωx+φ，新坐标x=(u-φ)/ω；系数符号反映方向，缩放和平移顺序影响平移量。",
+  "when_to_use": [
+    "从正弦解析式读取振幅、周期、相位",
+    "按给定步骤把基本正弦图象变换为目标"
   ],
-  "answer": "横缩1/2→左移π/6→纵伸2倍"
- },
- "pitfalls": [
-  "把φ直接当作横向平移量",
-  "先平移与先缩放时仍使用同一个平移量"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能由解析式说出振幅与周期",
-   "explanation": "振幅与最小正周期取非零系数的绝对值；符号只改变方向和相位，不会使长度或周期为负。",
-   "self_check": {
-    "prompt": "对y=-3sin(-4x-π/2)，求振幅、周期与值域，并化为正频率形式。",
-    "reference_answer": "振幅3，周期π/2，值域[-3,3]；由正弦奇性，原式=3sin(4x+π/2)。",
-    "criteria": [
-     "非零条件及绝对值使振幅周期为正",
-     "负频率化简与值域一致"
-    ]
-   }
+  "steps": [
+    "先检查A、ω非零；若ω<0可用奇性化成正频率形式",
+    "用|A|与|ω|计算振幅周期，按内角五点法定位",
+    "说明缩放和平移的顺序，负的外系数需再关于x轴反射"
+  ],
+  "worked_example": {
+    "prompt": "从y=sinx得到y=2sin(2x+π/3)，描述一条合法变换路径。",
+    "steps": [
+      "先把横坐标缩为原来1/2，得sin2x。",
+      "再向左移π/6，得sin(2(x+π/6))。",
+      "最后纵坐标扩大2倍；振幅2，周期π。"
+    ],
+    "answer": "横缩1/2→左移π/6→纵伸2倍",
+    "family_id": "trig.horizontal-transform-order",
+    "variant_id": "mh1.5.6.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能描述图象变换的顺序",
-   "explanation": "变换顺序需用代数验证每一步，防止横向平移量误读。",
-   "self_check": {
-    "prompt": "说明从sinx到sin(3x-π)的一条变换路径，并代数核对。",
-    "reference_answer": "先横坐标缩为1/3得到sin3x，再右移π/3，得sin[3(x-π/3)]=sin(3x-π)。",
-    "criteria": [
-     "平移量为π/3且向右",
-     "逐步表达式验证目标"
-    ]
-   }
+  "pitfalls": [
+    "把φ直接当作横向平移量",
+    "先平移与先缩放时仍使用同一个平移量"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能由解析式说出振幅与周期",
+      "explanation": "振幅与最小正周期取非零系数的绝对值；符号只改变方向和相位，不会使长度或周期为负。",
+      "self_check": {
+        "prompt": "对y=-3sin(-4x-π/2)，求振幅、周期与值域，并化为正频率形式。",
+        "reference_answer": "振幅3，周期π/2，值域[-3,3]；由正弦奇性，原式=3sin(4x+π/2)。",
+        "criteria": [
+          "非零条件及绝对值使振幅周期为正",
+          "负频率化简与值域一致"
+        ],
+        "family_id": "trig.amplitude-period-sign",
+        "variant_id": "mh1.5.6.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "系数-3会使振幅成为-3吗？ω=0还能套周期公式吗？",
+        "hint": "振幅和周期是正的长度量，常函数没有最小正周期。",
+        "revision_prompt": "对-2sin(3x)求振幅2、周期2π/3；对2sin0=0说明公式不能用。"
+      },
+      "observation_note": "观察绝对值和非零条件；不能只背参数读数。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能描述图象变换的顺序",
+      "explanation": "变换顺序需用代数验证每一步，防止横向平移量误读。",
+      "self_check": {
+        "prompt": "说明从sinx到sin(3x-π)的一条变换路径，并代数核对。",
+        "reference_answer": "先横坐标缩为1/3得到sin3x，再右移π/3，得sin[3(x-π/3)]=sin(3x-π)。",
+        "criteria": [
+          "平移量为π/3且向右",
+          "逐步表达式验证目标"
+        ],
+        "family_id": "trig.horizontal-transform-order",
+        "variant_id": "mh1.5.6.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "sin(3x-π)向右移的是π还是π/3？",
+        "hint": "先提出3，写成sin[3(x-π/3)]。",
+        "revision_prompt": "从sinx到sin(2x+π/2)：先横缩1/2，再左移π/4；代数逐步核对。"
+      },
+      "observation_note": "观察操作顺序和代数验证；另一合法顺序可行但位移量须随之调整。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：非零条件及绝对值使振幅周期为正；平移量为π/3且向右。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.5.6.2-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.5.6.2-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.5.6.2-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "A、ω非零时用振幅和最小正周期公式；常函数另论。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "独立完成两项自检并保留推导或作图：非零条件及绝对值使振幅周期为正；平移量为π/3且向右。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
- "practice": [
-  {
-   "id": "mh1.5.6.2-q201",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.5.6.2-q202",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  },
-  {
-   "id": "mh1.5.6.2-q203",
-   "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
-  }
- ]
 }

@@ -14,10 +14,10 @@
     "给部分数量反求总数"
   ],
   "steps": [
-    "先看总数是多少",
-    "读出这一部分的百分比",
-    "部分 = 总数 × 百分比",
-    "把各部分加起来，检查是否为 100%"
+    "确认总量、类别是否互斥且覆盖整体，以及标签是否为精确值。",
+    "读这一部分百分比，或由圆心角占360°的比例确定。",
+    "按总量乘比例求部分数量，涉及近似时写明精度。",
+    "核对精确比例和为100%；有舍入标签时说明允许的舍入差并回查原始数量，不擅自修改某一类凑100。"
   ],
   "worked_example": {
     "prompt": "读本课顶部的扇形统计图：总体200人，蓝色部分占30%，这一部分有多少人？",
@@ -31,12 +31,16 @@
     "family_id": "statistics.part-from-percentage",
     "variant_id": "m6b.2.1:worked-v5",
     "representation": "graph",
-    "cognitive_demand": "execute"
+    "cognitive_demand": "execute",
+    "diagram": {
+      "src": "/static/diagrams/primary-pie-chart-whole.svg",
+      "alt": "整个圆表示200人，某部分为蓝色108°扇形，占30%；其余为70%。图例标占比，总人数另列，部分人数需计算。"
+    }
   },
   "pitfalls": [
-    "把 30% 直接当成人数的答案。",
-    "各部分加起来不是 100%，却没发现数据读错了。",
-    "拿两个总数不同的扇形图直接比扇形大小，就断言数量多少。"
+    "把30%直接当成人数，漏用总人数。",
+    "精确比例和不为100%需回查遗漏或重叠；标签舍入的小差异则应看精度，不能一律当读图错误。",
+    "总量不同的图不能只比较扇形角度就判断实际人数多寡。"
   ],
   "practice": [
     {
@@ -64,16 +68,24 @@
       "title": "能从扇形统计图读出百分比并求数量",
       "explanation": "扇形比例是部分占总量的份额，人数等实际数量还要乘总量。",
       "self_check": {
-        "prompt": "兴趣小组共80人，阅读扇形占35%，阅读组多少人？",
+        "prompt": "阅读附图：80名学生每人只参加一个小组，阅读组占总人数的百分之几？阅读组有多少人？写出图中比例与人数的关系。",
         "reference_answer": "80×35%=28人。",
         "criteria": [
-          "百分比作比例",
-          "数量28人"
+          "从图读35%而非把35当人数",
+          "80×35%=28人"
         ],
         "family_id": "statistics.part-from-percentage",
         "variant_id": "m6b.2.1:criterion-0-v5",
-        "representation": "verbal",
-        "cognitive_demand": "execute"
+        "representation": "graph",
+        "cognitive_demand": "execute",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-pie-reading.svg",
+          "alt": "兴趣小组共80人，阅读35%、其他65%，每人归一类且合计全体；阅读扇形占126度。"
+        },
+        "reference_family_ids": [
+          "ratio.part-to-reference-percentage",
+          "ratio.percentage-decimal-conversion"
+        ]
       },
       "observation_note": "观察是否把百分比与同一个整体相乘并保留人数单位；只看扇形大小、或不知道总人数时不能直接确定人数。",
       "difficulty_support": {
@@ -96,7 +108,10 @@
         "family_id": "statistics.chart-purpose",
         "variant_id": "m6b.2.1:criterion-1-v5",
         "representation": "verbal",
-        "cognitive_demand": "choose_strategy"
+        "cognitive_demand": "choose_strategy",
+        "reference_family_ids": [
+          "statistics.nominal-categories-not-time"
+        ]
       },
       "observation_note": "观察图形选择与“构成、类别数量、时间变化”的问题是否匹配；能说出图名还需解释数据类别和比较目的。",
       "difficulty_support": {
@@ -109,5 +124,9 @@
   "diagram": {
     "src": "/static/diagrams/primary-pie-chart-whole.svg",
     "alt": "整个圆表示200人，某部分为蓝色108°扇形，占30%；其余为70%。图例标占比，总人数另列，部分人数需计算。"
-  }
+  },
+  "conditions": [
+    "各类别构成同一个总量，互不重叠且不遗漏。",
+    "精确比例总和为100%；若各部分先经过舍入，标签合计可与100%有小差异，应核对原始数量与舍入精度。"
+  ]
 }

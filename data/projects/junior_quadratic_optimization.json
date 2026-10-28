@@ -42,7 +42,12 @@
         "junior_quadratic_optimization:o1"
       ],
       "instructions": "由10元售120件推出q=120−4(p−10)。利润是每件利润(p−8)乘实际销量，先按无供货上限建P=(p−8)q，明确p取整数10至30。",
-      "deliverable": "变量、假设、函数与定义域。"
+      "deliverable": "变量、假设、函数与定义域。",
+      "family_id": "quadratic.profit.price-demand-domain",
+      "variant_id": "junior_quadratic_optimization:step-0-v6",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "观察需求线与每件利润相乘，价格整数范围及模拟假设。"
     },
     {
       "title": "求顶点并验整数",
@@ -50,7 +55,12 @@
         "junior_quadratic_optimization:o2"
       ],
       "instructions": "展开利润式，配成−4(p−24)²+1024。比较p=23、24、25及区间边界，解释为什么24在范围内且为整数。",
-      "deliverable": "配方过程与五种价格的核对表。"
+      "deliverable": "配方过程与五种价格的核对表。",
+      "family_id": "quadratic.profit.vertex-and-neighbour-check",
+      "variant_id": "junior_quadratic_optimization:step-1-v6",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "观察配方、顶点可行性以及邻整数/端点复算。"
     },
     {
       "title": "增加供货上限",
@@ -59,7 +69,12 @@
         "junior_quadratic_optimization:o3"
       ],
       "instructions": "若最多供60件，实际销量为需求q与60中较小者。将p≤25和p≥25分开，分别写利润表达式并求最大值。",
-      "deliverable": "分段模型及与旧结果的比较。"
+      "deliverable": "分段模型及与旧结果的比较。",
+      "family_id": "quadratic.profit.supply-cap-piecewise",
+      "variant_id": "junior_quadratic_optimization:step-2-v6",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "观察需求与库存取较小者，分段交点25及新最优修订。"
     },
     {
       "title": "报告模型边界",
@@ -67,7 +82,12 @@
         "junior_quadratic_optimization:o3"
       ],
       "instructions": "明确“每涨1元少售4件”是假设而非实测。提出若要真实实施需要补哪些需求数据，说明固定成本、退货等未计入因素可能改变最优点。",
-      "deliverable": "有依据的方案说明与补充数据清单。"
+      "deliverable": "有依据的方案说明与补充数据清单。",
+      "family_id": "model.assumptions-versus-business-evidence",
+      "variant_id": "junior_quadratic_optimization:step-3-v6",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "alignment_note": "观察假设需求和现实证据分开，指出未计费用与需求验证资料。"
     }
   ],
   "deliverables": [
@@ -113,9 +133,12 @@
   },
   "teacher_notes": [
     "对价格需求模型的真实性不作背书，评价学生是否能识别并修订假设。",
-    "所有价格是整数，若未来改数据使顶点非整数，需要比较相邻可行整数。"
+    "所有价格是整数，若未来改数据使顶点非整数，需要比较相邻可行整数。",
+    "目标o1：若销量写120−4p，问价格10元时是否还给120；应减涨价量p−10，得到160−4p。利润用(p−8)乘销量，非售价乘销量。",
+    "目标o2：若直接选24而不验范围，先列10≤p≤30且整数；算23、24、25利润1020、1024、1020，再核端点240与880。",
+    "目标o3：库存60时旧p=24需求64不可全卖；先解160−4p=60得25，再分别用60(p−8)和原二次式，证明新最大1020在25。"
   ],
-  "assessment_note": "每项目标依据相应作品独立评分：0分为未展示或关键结论错误，1分为部分正确但缺条件、依据或核对，2分为完整正确且可复核。共6分；反馈指出具体证据，不把参加活动或排版漂亮当作目标达成。",
+  "assessment_note": "每项目标依据相应作品独立评分：0分为未展示或关键结论错误，1分为部分正确但缺条件、依据或核对，2分为完整正确且可复核。共6分；反馈指出具体证据，不把参加活动或排版漂亮当作目标达成。 观察的是在明确模拟假设下的建模与约束修订。计算最优不等于真实销售建议；需求规则改变、费用增加均须重新建模。",
   "review_status": "draft",
   "author_type": "ai",
   "teacher_review": {

@@ -1,76 +1,108 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "ai",
- "topicId": "mh3.2.5.2",
- "name": "圆与圆的位置关系",
- "tier": "core",
- "hook": "两个圆形喷灌区刚接触、重叠或完全分开，取决于圆心间距与两半径的和、差怎样比较。",
- "definition": "两圆半径R、r>0，圆心距d：d>R+r外离；d=R+r外切；|R-r|<d<R+r相交；d=|R-r|且d>0内切；0≤d<|R-r|内含。d=0且R=r是重合。相交两圆的方程相减会消去x²+y²，所得直线包含公共弦。",
- "why": "若有公共点P，三角形O₁PO₂的边长为R、r、d，三角不等式给|R-r|≤d≤R+r；等号对应三点共线的相切情形。公共点同时满足两圆方程，所以满足相减式，但相减直线上的所有点不必都在圆上，还需与任一圆联立。",
- "when_to_use": [
-  "根据圆心、半径判断两圆位置关系",
-  "求相交两圆公共弦所在直线或公共点"
- ],
- "steps": [
-  "求两圆圆心、正半径和圆心距d。",
-  "先排查同心重合，再比较d、R+r与|R-r|。",
-  "若求公共弦，统一二次项系数后相减；要交点再联立一个圆。"
- ],
- "worked_example": {
-  "prompt": "圆x²+y²=25与(x-6)²+y²=25的位置关系是什么？公共弦在哪条直线上？",
-  "steps": [
-   "两半径均为5，圆心距6，0<6<10，所以相交。",
-   "第二式展开为x²+y²-12x+11=0，第一式为x²+y²-25=0；相减得-12x+36=0。",
-   "公共弦所在直线为x=3，与圆联立可得交点(3,±4)。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh3.2.5.2",
+  "name": "圆与圆的位置关系",
+  "tier": "core",
+  "hook": "两个圆形喷灌区刚接触、重叠或完全分开，取决于圆心间距与两半径的和、差怎样比较。",
+  "definition": "两圆半径R、r>0，圆心距d：d>R+r外离；d=R+r外切；|R-r|<d<R+r相交；d=|R-r|且d>0内切；0≤d<|R-r|内含。d=0且R=r是重合。相交两圆的方程相减会消去x²+y²，所得直线包含公共弦。",
+  "why": "若有公共点P，三角形O₁PO₂的边长为R、r、d，三角不等式给|R-r|≤d≤R+r；等号对应三点共线的相切情形。公共点同时满足两圆方程，所以满足相减式，但相减直线上的所有点不必都在圆上，还需与任一圆联立。",
+  "when_to_use": [
+    "根据圆心、半径判断两圆位置关系",
+    "求相交两圆公共弦所在直线或公共点"
   ],
-  "answer": "两圆相交，公共弦所在直线x=3。"
- },
- "pitfalls": [
-  "d=|R-r|=0且R=r是重合，不是内切。",
-  "相减得到的直线在两圆无交点时仍可能存在，不能据此宣布一定有公共弦。"
- ],
- "objective_coverage": [
-  {
-   "criterion_index": 0,
-   "title": "能用圆心距判断两圆位置关系",
-   "explanation": "半径差用绝对值，同心情况必须单列。",
-   "self_check": {
-    "prompt": "R=5、r=2，分别判断d=3与d=0时的位置关系。",
-    "reference_answer": "d=3=|5-2|且d>0，为内切；d=0<3，为同心内含且不相交。",
-    "criteria": [
-     "d=3判断内切",
-     "d=0判断内含而非重合"
-    ]
-   }
+  "steps": [
+    "求两圆圆心、正半径和圆心距d。",
+    "先排查同心重合，再比较d、R+r与|R-r|。",
+    "若求公共弦，统一二次项系数后相减；要交点再联立一个圆。"
+  ],
+  "worked_example": {
+    "prompt": "圆x²+y²=25与(x-6)²+y²=25的位置关系是什么？公共弦在哪条直线上？",
+    "steps": [
+      "两半径均为5，圆心距6，0<6<10，所以相交。",
+      "第二式展开为x²+y²-12x+11=0，第一式为x²+y²-25=0；相减得-12x+36=0。",
+      "公共弦所在直线为x=3，与圆联立可得交点(3,±4)。"
+    ],
+    "answer": "两圆相交，公共弦所在直线x=3。",
+    "family_id": "circle.common-chord-subtract",
+    "variant_id": "mh3.2.5.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
   },
-  {
-   "criterion_index": 1,
-   "title": "能求公共弦所在直线方程",
-   "explanation": "公共弦直线由两个圆方程相减得到，需先确认相交。",
-   "self_check": {
-    "prompt": "圆x²+y²=9与(x-2)²+y²=9的公共弦所在直线是什么？",
-    "reference_answer": "圆心距2介于0与6之间，确实相交；展开相减得-4x+4=0，所以x=1。",
-    "criteria": [
-     "确认相交",
-     "正确相减得x=1"
-    ]
-   }
+  "pitfalls": [
+    "d=|R-r|=0且R=r是重合，不是内切。",
+    "相减得到的直线在两圆无交点时仍可能存在，不能据此宣布一定有公共弦。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用圆心距判断两圆位置关系",
+      "explanation": "半径差用绝对值，同心情况必须单列。",
+      "self_check": {
+        "prompt": "R=5、r=2，分别判断d=3与d=0时的位置关系。",
+        "reference_answer": "d=3=|5-2|且d>0，为内切；d=0<3，为同心内含且不相交。",
+        "criteria": [
+          "d=3判断内切",
+          "d=0判断内含而非重合"
+        ],
+        "family_id": "circle.circle-position-boundaries",
+        "variant_id": "mh3.2.5.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "圆心相同就一定重合吗？",
+        "hint": "还需半径相同；半径不同是同心内含。",
+        "revision_prompt": "R=4,r=1，d=0内含、d=3内切、d=5外切；逐项对照和与差。"
+      },
+      "observation_note": "观察内外切、内含及重合边界；不可省去d>0的内切条件。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能求公共弦所在直线方程",
+      "explanation": "公共弦直线由两个圆方程相减得到，需先确认相交。",
+      "self_check": {
+        "prompt": "圆x²+y²=9与(x-2)²+y²=9的公共弦所在直线是什么？",
+        "reference_answer": "圆心距2介于0与6之间，确实相交；展开相减得-4x+4=0，所以x=1。",
+        "criteria": [
+          "确认相交",
+          "正确相减得x=1"
+        ],
+        "family_id": "circle.common-chord-subtract",
+        "variant_id": "mh3.2.5.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "任意两圆相减都有直线，是否一定存在公共弦？",
+        "hint": "相减给等幂线，须先确认两圆确实相交。",
+        "revision_prompt": "半径2、圆心(0,0),(6,0)相减得x=3，但两圆外离，无真实公共弦。"
+      },
+      "observation_note": "观察消元和存在性；相减直线不能单独证明有交点。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh3.2.5.2-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：两圆半径分别4与3，外切时圆心距是多少？"
+    },
+    {
+      "id": "mh3.2.5.2-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：两圆半径均为2且圆心相同，其关系是什么？"
+    },
+    {
+      "id": "mh3.2.5.2-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：圆x²+y²=16与(x-4)²+y²=16的公共弦所在直线为x=c，求c。"
+    }
+  ],
+  "check": "独立完成并写出依据：R=5、r=2，分别判断d=3与d=0时的位置关系。；圆x²+y²=9与(x-2)²+y²=9的公共弦所在直线是什么？",
+  "conditions": [
+    "R、r正；先判相交再把相减直线称公共弦线。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "practice": [
-  {
-   "id": "mh3.2.5.2-q201",
-   "note": "完成后对照解析检查条件、步骤和结果：两圆半径分别4与3，外切时圆心距是多少？"
-  },
-  {
-   "id": "mh3.2.5.2-q202",
-   "note": "完成后对照解析检查条件、步骤和结果：两圆半径均为2且圆心相同，其关系是什么？"
-  },
-  {
-   "id": "mh3.2.5.2-q203",
-   "note": "完成后对照解析检查条件、步骤和结果：圆x²+y²=16与(x-4)²+y²=16的公共弦所在直线为x=c，求c。"
-  }
- ],
- "check": "独立完成并写出依据：R=5、r=2，分别判断d=3与d=0时的位置关系。；圆x²+y²=9与(x-2)²+y²=9的公共弦所在直线是什么？"
 }

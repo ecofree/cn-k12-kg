@@ -27,6 +27,17 @@
       "先看图例确认哪根是男生、哪根是女生。",
       "男生 22 人、女生 20 人，是并列的两部分。",
       "全班 22+20=42 人。"
+    ],
+    "family_id": "statistics.double-bar-legend-scale",
+    "variant_id": "m4a.6.2:worked_example:v6",
+    "representation": "graph",
+    "cognitive_demand": "explain",
+    "diagram": {
+      "src": "/static/diagrams/primary-double-bar-legend.svg",
+      "alt": "复式条形统计图纵轴每格2人；图例蓝色实条为男生，斜线条为女生。某班两条分别为22人和20人，图例不只使用颜色区分。"
+    },
+    "reference_family_ids": [
+      "primary.add.combine-parts"
     ]
   },
   "pitfalls": [
@@ -47,7 +58,7 @@
   "check": "先完成本卡“读图并说明图例”的目标自检，逐一说清颜色或条纹代表谁、每格代表几人；再用比较两组差异的自检核对。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -56,26 +67,61 @@
       "title": "能读懂复式条形统计图并说明图例",
       "explanation": "复式图每类有多组数据，图例把颜色或纹理对应到组别，所有条共用尺度。",
       "self_check": {
-        "prompt": "图例实条为男生、斜线条为女生，每格2人。某班实条5格、斜线条6格，各多少人？",
+        "prompt": "观察本题配图，说明图例怎样区分男生和女生，并读出A班男、女生各有多少人。",
         "reference_answer": "男生10人，女生12人；必须按图例识别。",
         "criteria": [
           "图例不颠倒",
           "人数正确"
+        ],
+        "family_id": "statistics.double-bar-legend-scale",
+        "variant_id": "m4a.6.2:criterion:0:v6",
+        "representation": "graph",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-double-bar-check.svg",
+          "alt": "复式条形图纵轴从0至16人，每相邻刻度相差2人。实条表示男生，斜线条表示女生。A班两条分别到10、12人，B班两条分别到14、10人。"
+        },
+        "reference_family_ids": [
+          "statistics.bar-axis-reading"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "实条5格表示5人还是10人？先读图例还是先猜哪组人数多？",
+        "hint": "先写实条→男生、斜线条→女生，再写每格2人，格数与每格数相乘。",
+        "revision_prompt": "把同样5格、6格的图改成每格3人，重新读数并说明图形高度相同为何人数不同。"
+      },
+      "observation_note": "观察是否同时使用图例与实际纵轴刻度；这张图均为整格读数，不能据此确认会读非整格数值或其他统计图。"
     },
     {
       "criterion_index": 1,
       "title": "能比较两组数据的差异",
       "explanation": "同一类别可比较组间差，同一组也可跨类别比较；先确定比较对象。",
       "self_check": {
-        "prompt": "A班男10女12，B班男14女10。哪个班男女差更大？",
+        "prompt": "观察本题配图，先读出A、B两班的男、女生人数，再判断哪个班男女差更大，并给出计算依据。",
         "reference_answer": "A班差2人，B班差4人，B班差更大；不能只比较两个班总人数。",
         "criteria": [
           "两差计算正确",
           "比较对象一致"
+        ],
+        "family_id": "statistics.double-bar-group-differences",
+        "variant_id": "m4a.6.2:criterion:1:v6",
+        "representation": "graph",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-double-bar-check.svg",
+          "alt": "复式条形图纵轴从0至16人，每相邻刻度相差2人。实条表示男生，斜线条表示女生。A班两条分别到10、12人，B班两条分别到14、10人。"
+        },
+        "reference_family_ids": [
+          "primary.compare.difference",
+          "statistics.double-bar-legend-scale"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "A班总22人、B班总24人，能据此直接判断男女差吗？要比较的量是什么？",
+        "hint": "分别求同班男女人数的差，再比较2与4；总人数是另一种统计量。",
+        "revision_prompt": "C班男13女9、D班男10女11，分别计算组内差并比较，写清哪两组被相减。"
+      },
+      "observation_note": "观察组内差与跨班比较；总量较大不保证组间差较大。"
     }
   ],
   "diagram": {

@@ -27,7 +27,11 @@
       "48 接近 50，把 48 看成 50。",
       "50×12=600，所以大约 600 元。",
       "这是估大的结果：实际花费不到 600 元。"
-    ]
+    ],
+    "family_id": "primary.multiply.estimate-upper-budget",
+    "variant_id": "m4a.3.5:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "估大以后说「正好 600 元」，把估算当成精确计算。",
@@ -51,7 +55,7 @@
   "check": "能说明「我把 48 估成 50，估大了还够，所以一定够」，而不是只说「大约 600」。",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -65,8 +69,22 @@
         "criteria": [
           "估算800",
           "说明上估"
+        ],
+        "family_id": "primary.multiply.estimate-upper-budget",
+        "variant_id": "m4a.3.5:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.column-multiply-by-digit",
+          "arithmetic.distributive-multiplication"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "198看作200后，每件多估多少？买4件总共多估多少？",
+        "hint": "估值800比真实值多4个2，即8；估算值要标“大约”，不能写正好800。",
+        "revision_prompt": "估算297×3，说明选择300的方向，再用每件多估3核查总误差9。"
+      },
+      "observation_note": "观察近似取整与误差方向；估计值本身不能替代临界预算的精确判断。"
     },
     {
       "criterion_index": 1,
@@ -78,8 +96,22 @@
         "criteria": [
           "正确使用上界",
           "认识估算不能下结论的情况"
+        ],
+        "family_id": "primary.multiply.estimate-upper-budget",
+        "variant_id": "m4a.3.5:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.column-multiply-by-digit",
+          "ratio.unit-rate-projection"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "上估800元大于790元，就能证明真实价也大于790吗？真实价可能在什么范围？",
+        "hint": "上界只说明实际不超过800；判断790需更紧界或精算198×4=792。",
+        "revision_prompt": "每件49元买6件，先判断带300元是否够，再判断带290元是否够，分别说明使用上界还是精算。"
+      },
+      "observation_note": "观察预算与估计方向的逻辑；上界超预算仍不等于实际必超。"
     }
   ]
 }

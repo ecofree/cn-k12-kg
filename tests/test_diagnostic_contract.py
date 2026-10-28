@@ -12,11 +12,19 @@ from cnkg.graph import Graph, load_graph
 
 
 def make_graph(edges=(), level="verified", count=2):
-    topics = [{"id": t, "name": t, "grade": 7, "volume": "七上", "chapter": "测试"}
+    # These state-machine fixtures explicitly observe their one declared goal
+    # through two different quantity structures. Missing mappings and repeated
+    # structures have separate counterexample tests in test_goal_observation_v6.
+    topics = [{"id": t, "name": t, "grade": 7, "volume": "七上", "chapter": "测试",
+               "mastery_criteria": ["能用十以内加减法解决一步合并或求剩余问题。"]}
               for t in ("A", "B", "C")]
     questions = [{"id": f"{t}-q{i}", "topicId": t, "type": "numeric",
-                  "difficulty": "basic", "prompt": "计算一加一的结果。", "answer": "2",
-                  "verify": "1+1", "evidence_level": level, "source": "external-fixture"}
+                  "difficulty": "basic", "answer": "2", "representation": "verbal",
+                  "tested_criterion_indices": [0],
+                  "prompt": "一组有1个，另一组有1个，合起来有几个？" if i % 2 else "原有5个，取走3个，还剩几个？",
+                  "verify": "1+1" if i % 2 else "5-3",
+                  "family_id": "quantity.combine" if i % 2 else "quantity.remove",
+                  "evidence_level": level, "source": "external-fixture"}
                  for t in ("A", "B", "C") for i in range(1, count + 1)]
     return Graph(topics, list(edges), questions)
 

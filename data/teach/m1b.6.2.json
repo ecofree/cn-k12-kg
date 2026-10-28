@@ -22,7 +22,11 @@
       "7+3=10（颗），检查10−7=3。"
     ],
     "answer": "10",
-    "verify": "7+3"
+    "verify": "7+3",
+    "family_id": "comparison.additive-unknown-quantity",
+    "variant_id": "m1b.6.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "“甲比乙多3，甲7”求乙，虽然出现多字仍用7−3。",
@@ -33,7 +37,7 @@
   "name": "求比一个数多（或少）几的数是多少",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -47,8 +51,19 @@
         "criteria": [
           "比较方向正确",
           "选择减法"
-        ]
-      }
+        ],
+        "family_id": "comparison.additive-unknown-quantity",
+        "variant_id": "m1b.6.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“甲比乙多4”是否表示乙也比甲多4？谁应画长一点？",
+        "hint": "先给甲画10的长条，乙条少一段4；把关系改说“乙比甲少4”。",
+        "revision_prompt": "改成“甲有9张，甲比乙少3张”，先画长短再求乙，检查不能只看多、少字选运算。"
+      },
+      "observation_note": "观察比较方向与未知量位置；熟悉正向语句不代表逆向语句也理解。"
     },
     {
       "criterion_index": 1,
@@ -60,8 +75,21 @@
         "criteria": [
           "列加法",
           "结果及检验正确"
+        ],
+        "family_id": "comparison.additive-unknown-quantity",
+        "variant_id": "m1b.6.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.compare.difference"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "8本是小雨还是小林的书？多出的5本应加在哪条长条上？",
+        "hint": "给小雨画8本，小林先配同样8本，再添5本；新条总数才是小林的。",
+        "revision_prompt": "小雨有12本，小林比她少4本，先列式再算两人的差，核对仍是4本。"
+      },
+      "observation_note": "观察根据标准量与差求另一个量并反查；求两人总量不在本题观察范围。"
     }
   ],
   "practice": [

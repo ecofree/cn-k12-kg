@@ -21,7 +21,11 @@
       "总数：6×4=24（支）。",
       "剩余：24−9=15（支），第二步使用第一问的24支。"
     ],
-    "answer": "共24支，剩15支"
+    "answer": "共24支，剩15支",
+    "family_id": "arithmetic.multiply-then-adjust",
+    "variant_id": "m2a.5.6:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
   "pitfalls": [
     "不能拿4盒减9支，不同单位不能直接运算。",
@@ -32,7 +36,7 @@
   "name": "解决连续两问的问题",
   "content_revision": {
     "author_type": "ai",
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "teacher_review": "pending"
   },
   "objective_coverage": [
@@ -46,8 +50,22 @@
         "criteria": [
           "先乘后减",
           "说明24是中间总数"
+        ],
+        "family_id": "arithmetic.multiply-then-adjust",
+        "variant_id": "m2a.5.6:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.change.remove-part",
+          "primary.multiply.equal-groups"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "5颗是吃掉的数量，3袋是袋数；它们能直接相减得到剩余糖数吗？",
+        "hint": "先把3袋各8颗合成总颗数，给24标“颗”，再从这个总量扣5颗。",
+        "revision_prompt": "每盒4块共6盒，吃掉7块，先画第二问需要的数量框，再依次列两步。"
+      },
+      "observation_note": "观察乘法中间量是后一问的条件；还需分别检查两步运算。"
     },
     {
       "criterion_index": 1,
@@ -59,8 +77,22 @@
         "criteria": [
           "原有35",
           "使用35求29"
+        ],
+        "family_id": "arithmetic.multiply-then-adjust",
+        "variant_id": "m2a.5.6:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.subtraction-addition-inverse",
+          "primary.multiply.equal-groups"
         ]
-      }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "5×7得到35后，35指排数、每排人数还是全部人数？",
+        "hint": "写“原有人数35人”再画离开6人的箭头，后一问从35继续。",
+        "revision_prompt": "4排每排8人，离开5人，分两行求原有与现有人数，并用现有加离开检查原有。"
+      },
+      "observation_note": "观察中间量带含义地传入第二步；不能用排数减人数。"
     }
   ],
   "practice": [
