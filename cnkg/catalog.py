@@ -94,6 +94,7 @@ class Catalog:
         self.families = self.data["families"]
         self.units = self.data["units"]
         self.projects = self.data["projects"]
+        self.assessment_plans = self.data.get("assessment_plans", {})
         self.source_index = self.data["source_index"]
         self.version = self.data["content_sha256"]
         self.coverage = self.data["coverage"]
@@ -167,6 +168,10 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
         from .task_families import load_aliases
         load_aliases(data / "task_family_aliases.json")
         source_paths.add(data / "task_family_aliases.json")
+    if (data / "task_family_transitions.json").is_file():
+        from .task_families import load_task_transitions
+        load_task_transitions(data / "task_family_transitions.json", root=data.parent)
+        source_paths.add(data / "task_family_transitions.json")
     admission_rows = None
     if (data / "task_admissions.json").is_file():
         admission_manifest = _read(data / "task_admissions.json")
@@ -391,7 +396,7 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
         if meta is None:
             return None
         tid = meta["id"]
-        if source_kind in ("bank", "unit") and raw.get("id") != tid:
+        if source_kind in ("bank", "unit", "assessment") and raw.get("id") != tid:
             errors.append(f"{key}: 旧任务 ID 不得重编号")
         if tid in tasks:
             errors.append(f"任务 ID 重复：{tid}")
@@ -613,6 +618,43 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
         compiled_projects[pid].update(resource_id=mid, resource_version=material["resource_version"],
                                      task_ids=[x for x in task_ids if x], skill_ids=sorted(mapped.values()))
 
+    from .assessments import load_sources, validate_links
+    assessment_sources, assessment_errors = load_sources(data, schema_dir=schema_dir)
+    errors.extend(assessment_errors)
+    assessment_plans = {}
+    for path, source in assessment_sources:
+        source_paths.add(path)
+        for plan in source["goals"]:
+            sid = plan["skill_id"]
+            if sid in assessment_plans:
+                errors.append(f"重复的逐目标观察计划：{sid}")
+                continue
+            if sid not in skills or skills[sid]["stage"] != source["stage"]:
+                errors.append(f"{sid}: 观察计划的学段与稳定目标不一致")
+            assessment_plans[sid] = {**copy.deepcopy(plan), "source_path": path.relative_to(data.parent).as_posix()}
+        for task in source["tasks"]:
+            for sid in task["skill_ids"]:
+                if sid not in skills or skills[sid]["stage"] != source["stage"]:
+                    errors.append(f"{task['id']}: 观察任务的学段与目标不一致")
+            for tid in task["topic_ids"]:
+                if tid not in placements:
+                    errors.append(f"{task['id']}: 观察任务引用不存在的主题 {tid}")
+            add_task("assessment:" + task["id"], task, source_kind="assessment",
+                     path=path.relative_to(data.parent).as_posix(), legacy_id=task["id"], locator=task["id"],
+                     material_id="assessment:" + task["skill_ids"][0], topic_ids=task["topic_ids"],
+                     skill_ids=task["skill_ids"], alignment="explicit_component", purpose=[task["phase"]])
+            for fid in task.get("reference_family_ids", []):
+                add_family(fid, "declared", "assessment:" + task["id"])
+    errors.extend(validate_links(assessment_plans, tasks, skills, placements, compiled_units, compiled_projects))
+    for sid, plan in assessment_plans.items():
+        related = [tid for tid in plan["task_ids"] if tid in tasks]
+        plan["resource_version"] = content_hash({"plan": plan,
+            "task_versions": {tid: tasks[tid]["resource_version"] for tid in related}})
+        if sid in skills:
+            add_material("assessment:" + sid, "assessment", {"title": skills[sid]["statement"], **plan},
+                         task_ids=related, reference_families=[],
+                         topic_ids=sorted({tid for task_id in related for tid in tasks[task_id]["topic_ids"]}))
+
     for key in set(bindings["tasks"]) - used_bindings:
         errors.append(f"任务注册失去来源：{key}；删除应显式登记迁移，不能默默漂移")
     for key in set(bindings["examples"]) - used_examples:
@@ -638,6 +680,8 @@ def compile_catalog(data_dir=None, *, schema_dir=None):
               "placements": placements, "tasks": tasks, "materials": materials, "families": families,
               "units": compiled_units, "projects": compiled_projects, "source_index": source_index,
               "source_hashes": source_hashes, "coverage": coverage}
+    if assessment_sources:
+        result["assessment_plans"] = assessment_plans
     result["content_sha256"] = content_hash(result)
     errors = validate_resource("catalog", result, schema_dir=schema_dir)
     if errors:

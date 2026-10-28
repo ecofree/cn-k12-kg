@@ -24,6 +24,8 @@ class StatusReportTest(unittest.TestCase):
         self.assertIsNone(snapshot["external_kc"]["topic_cover_rate"])
         self.assertIsNone(snapshot["response_data"]["rows"])
         self.assertFalse(snapshot["response_data"]["available"])
+        self.assertFalse(snapshot["bound_bank_review"]["available"])
+        self.assertFalse(snapshot["goal_observation_resources"]["available"])
         out = StringIO()
         with redirect_stdout(out):
             self.assertEqual(SR.main(["--data-dir", str(self.data), "--root-dir", str(self.root)]), 0)
@@ -54,6 +56,7 @@ class StatusReportTest(unittest.TestCase):
         self.assertEqual(review["reviewed"], 1)
         self.assertEqual(review["teacher_reviewed"], 0)
         self.assertEqual(review["orphaned_records"], 1)
+        self.assertIn("不表示", review["missing_record_meaning"])
 
 
 if __name__ == "__main__":

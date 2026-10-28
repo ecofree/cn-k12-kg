@@ -170,6 +170,13 @@ def _index(catalog, registry):
             result["material_topics"][mid].update(resource.get("topic_ids", []))
             for sid in skills:
                 result["skill_materials"][sid].add(mid)
+    for sid, plan in catalog.get("assessment_plans", {}).items():
+        mid, tasks = "assessment:" + sid, plan.get("task_ids", [])
+        add(result["by_id"][sid], skills=[sid], tasks=tasks, materials=[mid])
+        if plan.get("source_path"):
+            add(result["by_path"][plan["source_path"]], skills=[sid], tasks=tasks, materials=[mid])
+        result["skill_materials"][sid].add(mid)
+        result["material_topics"][mid].update(catalog.get("materials", {}).get(mid, {}).get("topic_ids", []))
     return result
 
 
@@ -202,7 +209,7 @@ def _identified_nodes(value, pointer, index):
         nodes.append(current)
     for node in reversed(nodes):
         if isinstance(node, dict):
-            identities = [node.get("id"), node.get("topicId"), node.get("topic_id"), node.get("objective_id")]
+            identities = [node.get("id"), node.get("topicId"), node.get("topic_id"), node.get("objective_id"), node.get("skill_id")]
             matched = [identity for identity in identities if isinstance(identity, str) and identity in index["by_id"]]
             if matched:
                 return matched
@@ -287,9 +294,9 @@ def review_changes(root, base, *, preview_base_url="http://127.0.0.1:8765"):
                             unresolved_bindings.append({"path": path, "source_ref": key, "reason": "自检尚未出现在此版本catalog；需登记并编译后确认稳定任务ID"})
             if path.endswith(".svg"):
                 asset = "/static/" + path.removeprefix("web/static/")
-                listed = _git(root, "grep", "-l", "-F", asset, commit, "--", "data/teach", "data/learning_units", "data/projects", missing_ok=True) or b""
+                listed = _git(root, "grep", "-l", "-F", asset, commit, "--", "data/teach", "data/learning_units", "data/projects", "data/assessments", missing_ok=True) or b""
                 refs = {line.decode().split(":", 1)[1] for line in listed.splitlines() if b":" in line}
-                for folder in ("data/teach", "data/learning_units", "data/projects"):
+                for folder in ("data/teach", "data/learning_units", "data/projects", "data/assessments"):
                     for source in (root / folder).glob("*.json"):
                         if asset in source.read_text(encoding="utf-8"):
                             refs.add(source.relative_to(root).as_posix())
@@ -341,7 +348,7 @@ def review_changes(root, base, *, preview_base_url="http://127.0.0.1:8765"):
     preview_rows = []
     for material in sorted(value for value in overall["materials"] | downstream_materials if value):
         kind, _, identity = material.partition(":")
-        query = {"topic": "teach", "unit": "unit", "project": "project"}.get(kind)
+        query = {"topic": "teach", "unit": "unit", "project": "project", "assessment": "goal"}.get(kind)
         if query is None:
             continue
         path = "/?" + urlencode({query: identity})

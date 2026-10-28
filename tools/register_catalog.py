@@ -127,6 +127,12 @@ def register_new_sources(data_dir):
             else:
                 for index, step in enumerate(resource["steps"]):
                     task_binding(f"project_step:{rid}:{index}", step, rubric_adapter=True)
+    from cnkg.assessments import load_sources
+    assessment_sources, assessment_errors = load_sources(data)
+    errors.extend(assessment_errors)
+    for _, source in assessment_sources:
+        for task in source["tasks"]:
+            task_binding("assessment:" + task["id"], task, task["id"])
     errors.extend(validate_resource("skills-registry", registry))
     errors.extend(validate_resource("catalog-bindings", bindings))
     if errors:

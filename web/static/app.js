@@ -4,7 +4,7 @@ const state = { session: null, item: null, nextItem: null, done: false, selected
 const $ = (id) => document.getElementById(id);
 const PHASE = { diagnose: "知识点检查", screen: "整册抽查", practice: "练习", transfer: "迁移任务", delayed: "复测题", support: "辨别与指导练习" };
 const STATUS = { correct: "答对了", wrong: "还需练习", invalid: "请检查格式", needs_review: "过程已记录，可按量规自查",
-  not_attempted: "暂未作答", demonstrated: "本组已作答任务答对，目标仍需继续观察", practice_needed: "建议再练习", not_observed: "本组未观察到该目标" };
+  not_attempted: "暂未作答", demonstrated: "本组已作答任务答对，目标仍需继续观察", result_recorded: "本题结果已记录，分项仍需继续核对", practice_needed: "建议再练习", not_observed: "本组未观察到该目标" };
 async function api(path, body) {
   const res = await fetch(path, { method: body ? "POST" : "GET", headers: body ? { "Content-Type": "application/json" } : {}, body: body ? JSON.stringify(body) : undefined });
   const data = await res.json().catch(() => ({}));
@@ -172,6 +172,23 @@ async function openGoal(skillId, unitId = null, routeMode = "push") {
     show("goal"); rememberRoute({ goal: skillId, ...(unitId ? { goal_unit: unitId } : {}) }, routeMode);
     $("goal-title").textContent = goal.statement;
     const root = $("goal-content"); root.replaceChildren(node("p", goal.notice, "muted"));
+    if (goal.observation_plan) {
+      const plan = goal.observation_plan, components = node("div", null, "goal-observation-plan");
+      components.append(node("p", plan.scope_note), node("p", plan.notice, "muted"));
+      for (const component of plan.components) {
+        const row = node("article", null, "card observation-component"); row.dataset.componentId = component.id;
+        row.append(rich("h4", component.statement), list(component.submission_requirements));
+        const actions = node("div", null, "actions");
+        for (const [index, task] of component.tasks.entries()) if (task.start_action) {
+          const label = task.type === "rubric" ? `记录过程 ${index + 1}` : `作答观察 ${index + 1}`;
+          const action = task.start_action.assessment_goal_id ? { ...task.start_action, assessment_goal_id: skillId, focus_skill_ids: [skillId] } : task.start_action;
+          const control = button(label, () => followGoalAction(action), "primary"); control.dataset.taskId = task.task_id; actions.append(control);
+        }
+        row.append(actions); components.append(row);
+      }
+      if (plan.unobserved_aspects.length) components.append(section("还需继续观察", list(plan.unobserved_aspects)));
+      root.append(section("逐项留下可以查看的表现", components));
+    }
     if (goal.pending_need_ids.length) root.append(node("p", `这个目标还有 ${goal.pending_need_ids.length} 项待处理或暂缓事项。`), button("查看未解决事项", () => openNeeds()));
     if (goal.refined_by.length) {
       const children = node("div", null, "actions");
@@ -300,6 +317,7 @@ async function actOnNeed(need) {
   }
   if (need.kind === "work_revision") return openSavedWork(need.work_resource_id);
   if (need.kind === "process_revision" || need.kind === "support_revision") return resumeSession(need.source_ref.session_id);
+  if (need.unit_id?.startsWith("assessment:")) return openGoal(need.unit_id.slice("assessment:".length));
   if (need.unit_id && need.objective_ids?.length) {
     try {
       const unit = await api(`/api/learning/units/${encodeURIComponent(need.unit_id)}`);
@@ -334,7 +352,10 @@ async function openNeeds(routeMode = "push") {
         }
         if (need.explicit_state) card.append(node("p", `暂缓或重开说明：${need.explicit_state.reason}`, "muted"));
         if (need.status !== "resolved") actions.append(button(need.kind === "answer_support" ? "辨别与补学" : need.kind === "independent_followup" ? "查看并继续确认" : "继续处理", () => actOnNeed(need), "primary"));
-        if (need.unit_id && need.skill_ids?.length && need.status !== "resolved") actions.append(button("针对这些目标再练习", () => startSession({ unit_id: need.unit_id, mode: "practice", focus_skill_ids: need.skill_ids })));
+        if (need.unit_id && need.skill_ids?.length && need.status !== "resolved") {
+          if (need.unit_id.startsWith("assessment:")) actions.append(button("查看这个目标的后续任务", () => openGoal(need.unit_id.slice("assessment:".length))));
+          else actions.append(button("针对这些目标再练习", () => startSession({ unit_id: need.unit_id, mode: "practice", focus_skill_ids: need.skill_ids })));
+        }
         if (need.source_ref.session_id) actions.append(button("查看原作答", () => resumeSession(need.source_ref.session_id)));
         if (need.status !== "resolved") {
           const details = node("details"), summary = node("summary", need.status === "deferred" ? "重新列入计划" : "暂缓这件事");
@@ -805,6 +826,15 @@ function showResult() {
   } else if (isUnit) {
     $("objective-list").textContent = "";
     for (const goal of summary.objective_results) { const row = node("div", null, "objective-row"); row.append(node("p", goal.statement), node("span", STATUS[goal.status], "muted")); $("objective-list").append(row); }
+    if (summary.component_results) {
+      $("objective-list").append(node("p", summary.observation_notice, "muted"));
+      for (const component of summary.component_results) {
+        const row = node("div", null, "objective-row component-result"); row.dataset.componentId = component.component_id;
+        row.append(node("p", component.statement), node("span", `${STATUS[component.status]} · 本次 ${component.observations} 次提交`, "muted"));
+        if (component.remaining_task_ids?.length) row.append(node("p", `还有 ${component.remaining_task_ids.length} 个关联任务未在本次提交。`, "muted"));
+        $("objective-list").append(row);
+      }
+    }
   } else {
     $("res-weak").textContent = summary.weak.map(nameOf).join("、") || "本次未形成";
     $("res-shaky").textContent = summary.shaky.map(nameOf).join("、") || "本次未形成";
@@ -833,7 +863,9 @@ function showResult() {
     review.append(entry);
   }
   const actions = $("result-actions"); actions.textContent = "";
-  if (isUnit) {
+  if (state.session.assessment_goal_id) {
+    actions.append(button("回到目标与分项任务", () => openGoal(state.session.assessment_goal_id), "primary"));
+  } else if (isUnit) {
     actions.append(button("回看讲解", () => openUnit(state.session.unit_id)), button("迁移任务", () => startSession({ unit_id: state.session.unit_id, mode: "transfer", previous_session_id: state.lastResultSession }), "primary"),
       button("复测题（建议稍后）", () => startSession({ unit_id: state.session.unit_id, mode: "delayed", previous_session_id: state.lastResultSession })));
   } else if (state.session.targets.length) {

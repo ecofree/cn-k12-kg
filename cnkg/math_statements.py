@@ -108,7 +108,7 @@ def scan(root):
     admissions = json.loads((data / "task_admissions.json").read_text())["tasks"]
     paths = [data / row["path"] for row in manifest["content_sources"]]
     paths += [data / "question_sources/application.json"]
-    paths += [path for folder in ("teach", "learning_units", "projects") for path in sorted((data / folder).glob("*.json"))]
+    paths += [path for folder in ("teach", "learning_units", "projects", "assessments") for path in sorted((data / folder).glob("*.json"))]
     checked, findings, sources = 0, [], {}
     for path in paths:
         raw = path.read_bytes(); value = json.loads(raw); name = path.relative_to(root).as_posix()

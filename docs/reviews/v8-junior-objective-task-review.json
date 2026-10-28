@@ -1,0 +1,2882 @@
+{
+  "schema": 1,
+  "reviewer": "AI assistant, author review consolidated with final mathematical and contract checks",
+  "status": "author_review_complete",
+  "independent_teacher_review": false,
+  "student_effectiveness_evidence": false,
+  "assessment_source_sha256": "ae05594652afbbc26c8b158b73f6e907d43b78aa1e2dcb0dc34a9d75ac45973e",
+  "counts": {
+    "objective_tasks": 78,
+    "numeric": 23,
+    "choice": 55,
+    "numeric_independent_recalculations_pass": 23,
+    "numeric_authored_verify_pass": 23,
+    "choice_contract_pass": 55
+  },
+  "scope": "完整阅读78道题面、全部选项、答案和解释；客观合同检查只验证评分实现，语义判断与原family实际成员比较分别记录。原过程任务按作者已写分项/案例保留，不能由客观评分推出过程掌握。",
+  "tasks": [
+    {
+      "task_id": "v8j_m7a_1_1_c0_baseline",
+      "task_sha256": "f705c3a2ce6da8a3d189fd7aa9bc8032b6dd0105f5dc486620a3b116aba3680b",
+      "prompt": "某温控系统把12℃记为0，规定温度每比12℃低1℃，记录值增加1。记录值为+3时，实际温度是多少℃？",
+      "choices": null,
+      "answer": "9",
+      "mathematical_reference_read": "记录的正方向是降温，从12℃下降3℃，实际为12−3=9℃。",
+      "observation_boundary": "只观察给定参照与反向正方向下实际温度的恢复，说明过程由另项保存。",
+      "canonical_family_id": "number.signed-context.reference-offset",
+      "actual_family_reason": "必须区分非零实际基准与符号记录，不能仅给温度变化加负号；这是原点平移后的有向量解释。",
+      "phase": "transfer",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_1_1_c1_intersection",
+      "task_sha256": "4d426fe4109e2e8e43bb8465456adb5673c69e24cd62adc8a05dbac218affbe4",
+      "prompt": "把−2、0、3分别放入“非负数”和“非正数”两个分类框，一个数可以同时进入两个框。哪一个数同时属于这两个框？只填这个数。",
+      "choices": null,
+      "answer": "0",
+      "mathematical_reference_read": "非负数为0、3；非正数为−2、0；共同成员为0。",
+      "observation_boundary": "观察两个非严格类别的共同边界，不能替代学生对零的解释。",
+      "canonical_family_id": "number.zero.nonstrict-category-intersection",
+      "actual_family_reason": "通过两个含端点分类的交集判断零，与背诵单一正负分类的逻辑任务不同。",
+      "phase": "transfer",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_1_2_2_c1_read",
+      "task_sha256": "e20d87d3f149507094473dc93c77f09cb612a0f1af432adcb052ba5aadd8fa3b",
+      "prompt": "读取配图中点P表示的数。图上刻度等距，箭头表示正方向。",
+      "choices": null,
+      "answer": "-3",
+      "mathematical_reference_read": "图中0到2相隔两格，每格1；P在0左侧三格，所以表示−3。",
+      "observation_boundary": "从真实数轴图读取单点值；未提交读图过程时只确认结果。",
+      "canonical_family_id": "numberline.read-scaled-position",
+      "actual_family_reason": "沿用数轴尺度换算读点结构；从文字转为图像补足真实表征，不作为新数学题族。",
+      "phase": "practice",
+      "representation": "number_line",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_1_2_2_c3_consistent-scale",
+      "task_sha256": "b5b7fa7494bdd785b794e444f9dba354f43d1795bee798f7f66cb75cae352b14",
+      "prompt": "一条向右为正、已标原点的直线上，四个连续等距刻度从左到右标为−1、0、1、3。以下判断哪项正确？",
+      "choices": [
+        {
+          "id": "o1",
+          "text": "有原点和箭头就一定正确"
+        },
+        {
+          "id": "o2",
+          "text": "单位长度与所标数值不一致"
+        },
+        {
+          "id": "o3",
+          "text": "负数绝不能写在数轴上"
+        }
+      ],
+      "answer": "o2",
+      "mathematical_reference_read": "连续等距刻度的数值差必须相同。前三处确定每格1，末刻度应为2而非3，因此现标法单位长度不一致。",
+      "observation_boundary": "观察单位长度一致性的约束，非仅背三要素名称。",
+      "canonical_family_id": "numberline.validate-uniform-scale",
+      "actual_family_reason": "检查相邻差的恒定条件，是对表示有效性的诊断；与要素术语识别不同。",
+      "phase": "transfer",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_1_2_5_c0_constraints",
+      "task_sha256": "f7524762ece614938c5c9159bc9c8c6d7b18dcb639a6b8a2cb26015c72a38a45",
+      "prompt": "a为负有理数，b为正有理数，且|a|>|b|。哪一个次序一定成立？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "a<0<b"
+        },
+        {
+          "id": "2",
+          "text": "b<a<0"
+        },
+        {
+          "id": "3",
+          "text": "0<a<b"
+        }
+      ],
+      "answer": "1",
+      "mathematical_reference_read": "负有理数总小于0，正有理数总大于0，绝对值条件不改变这一顺序。",
+      "observation_boundary": "只观察由正负条件确定顺序；没有计算具体分数。",
+      "canonical_family_id": "number.rational.compare-equivalent-forms",
+      "actual_family_reason": "原组m7a.1.2.5-q2和自检实际已用负数<0<正数。新题a<0<b直接由同一符号分类得到，多余绝对值条件及用字母代替数值不产生独立方法。",
+      "phase": "practice",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_2_1_1_c1_legal-reorder",
+      "task_sha256": "f0a0e6390eba3c3bf8a5abef22b12c675e69caba27755e80fef8274c9b096492",
+      "prompt": "把7−12+5按加法交换律重排，哪一项保持原式每个带符号加数？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "7+12−5"
+        },
+        {
+          "id": "2",
+          "text": "7+5+(−12)"
+        },
+        {
+          "id": "3",
+          "text": "7−5+12"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "原式加数是7、−12、5，交换后7+5+(−12)=0；−12的符号不能改。",
+      "observation_boundary": "只选择合法重排，不替代实际多项简算过程。",
+      "canonical_family_id": "number.addition.reorder-cancel",
+      "actual_family_reason": "仍按带符号加数重排配对，复用旧族，不因选项形式而增加结构。",
+      "phase": "practice",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_2_3_2_c0_product-normalize",
+      "task_sha256": "2a22d87cc384ba9cac76e170a8692add707f6240c1da80735def050fe4125be3",
+      "prompt": "A=4×10³，B=5×10⁴。AB写成a×10ⁿ且1≤a<10时，n是多少？",
+      "choices": null,
+      "answer": "8",
+      "mathematical_reference_read": "AB=20×10⁷=2×10⁸；系数乘积20须再归一化一次。",
+      "observation_boundary": "观察两个科学记数乘积的归一化指数，a的完整书写仍由过程稿核对。",
+      "canonical_family_id": "placevalue.scientific.product-renormalization",
+      "actual_family_reason": "先合成两个乘法尺度，再处理系数越过10，区别于从一串十进制数字直接定位小数点。",
+      "phase": "transfer",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_5_1_2_c0_nonzero-divisor",
+      "task_sha256": "609039ce9351f942151e7193358ccd4f78279a12caf003182c9fa907680d7767",
+      "prompt": "已知a=b。下面哪一步不能对所有实数a,b都合法执行？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "两边都加5"
+        },
+        {
+          "id": "2",
+          "text": "两边都除以a−b"
+        },
+        {
+          "id": "3",
+          "text": "两边都乘−3"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "a=b使a−b=0，不能除以0；同加5、同乘−3均保持相等。",
+      "observation_boundary": "观察性质中除数非零的限制，不替代两性质的完整表述。",
+      "canonical_family_id": "equation.property-operation-justification",
+      "actual_family_reason": "仍是等式同操作合法性的判定，使用原过程族，没有按选择形式新增家族。",
+      "phase": "practice",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_5_2_c1_find-missed-term",
+      "task_sha256": "8cde2fd8acac76911d6fab6576ce030c296a7f12e58ca619843c074d43a28d51",
+      "prompt": "方程(x+1)/3+2=5两边乘3。有人写成x+1+2=15，应该将哪一部分改成什么？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "把+2改成+6"
+        },
+        {
+          "id": "2",
+          "text": "把x改成3x"
+        },
+        {
+          "id": "3",
+          "text": "把右边15改回5"
+        }
+      ],
+      "answer": "1",
+      "mathematical_reference_read": "乘3须作用左边每一完整项；分式变x+1，常数2变6，右边5变15。",
+      "observation_boundary": "只定位一次漏乘错误，完整解答仍由自检过程留存。",
+      "canonical_family_id": "equation.denominator-missed-term",
+      "actual_family_reason": "去分母时非分式项漏乘的既有错误结构，换系数不加新族。",
+      "phase": "practice",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_6_3_3_c0_ratio-condition",
+      "task_sha256": "8e414e10d9f8df0083d46f34284658ec3ac73a51e4f9457bbb209c728a3a3fa1",
+      "prompt": "一个锐角的补角是它余角的4倍。这个锐角的余角是多少度？",
+      "choices": null,
+      "answer": "30",
+      "mathematical_reference_read": "设锐角为x，则180−x=4(90−x)，3x=180，x=60°；所求是余角90−60=30°，不是锐角本身。",
+      "observation_boundary": "通过两个角关系求未知角后求余角；不涉及角图测量。",
+      "canonical_family_id": "angle.complement-supplement.ratio-equation",
+      "actual_family_reason": "把同一未知角的余补角用倍数约束联立，区别于已知角直接从90/180相减。",
+      "phase": "transfer",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7b_7_2_2_c1_circular-step",
+      "task_sha256": "675f1e2785202e4647da85958aa9f307bcc89e90cb16788d7c59b9c0081ad51c",
+      "prompt": "已知内错角∠1=∠2，要证明a∥b。哪一段论证有效？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "由已知内错角相等，应用平行判定，得a∥b"
+        },
+        {
+          "id": "2",
+          "text": "先假定a∥b，用平行性质得∠1=∠2，因而证明a∥b"
+        },
+        {
+          "id": "3",
+          "text": "因为图看起来平行，所以a∥b"
+        }
+      ],
+      "answer": "1",
+      "mathematical_reference_read": "第一段从已知走向结论；第二段把待证结论当成前提，第三段只有视觉猜测。",
+      "observation_boundary": "识别一段有效证明，不等于独立写完整证明。",
+      "canonical_family_id": "proof.parallel.avoid-circular-reasoning",
+      "actual_family_reason": "沿用旧循环论证检查族，选择格式不创建新结构。",
+      "phase": "practice",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7b_12_1_2_c0_response-count",
+      "task_sha256": "2fa4d024901647c2717561b639c1ea0dd1e1652d622997215096677ba074f7be",
+      "prompt": "从全校900人随机选100人问每天阅读时间，只有75人交回有效记录。哪一说法准确？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "实际有100条阅读时间数据"
+        },
+        {
+          "id": "2",
+          "text": "计划抽100人，实际有75条有效数据"
+        },
+        {
+          "id": "3",
+          "text": "未回复25人都应填0分钟"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "入选人数100与已获得数据75不同，缺失不能记作零阅读。",
+      "observation_boundary": "区分抽样框、计划样本与响应数据量，未据此判定代表性充分。",
+      "canonical_family_id": "statistics.population-sample-size-nonresponse",
+      "actual_family_reason": "引入非回复导致的观测缺失，需要区分两个样本计数；不同于只读取题面抽取人数。",
+      "phase": "transfer",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7b_12_1_2_c1_nonresponse",
+      "task_sha256": "78ebe82edcdc7b0e76859e5da5e6d46daa7531dc34d1a2e773e3360b5c104729",
+      "prompt": "从完整名单随机抽100人研究上网时间，只有经常上网的同学愿意回复。哪项结论成立？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "回复者的结果仍可能偏高，需检查非回复偏差"
+        },
+        {
+          "id": "2",
+          "text": "抽签随机就能保证任何回复子集代表总体"
+        },
+        {
+          "id": "3",
+          "text": "回复人数越少，偏差必然越小"
+        }
+      ],
+      "answer": "1",
+      "mathematical_reference_read": "回复意愿与上网行为有关，实际回复者已不是原随机入选全体；所得上网时间可能受非回复偏差影响，需进一步核查。",
+      "observation_boundary": "指出具体非回复偏差来源，不自动估计偏差大小或保证修正成功。",
+      "canonical_family_id": "statistics.sampling-and-nonresponse-bias",
+      "actual_family_reason": "抽取后的响应机制破坏代表性，与单纯选择按层随机抽样方案不同。",
+      "phase": "transfer",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7b_12_2_1_c0_composition-purpose",
+      "task_sha256": "e1ac11de9ea310a624f5e0c6ab23843a3f88182245bff8c8f8d8234d23d02b27",
+      "prompt": "同一班每位同学只选一种上学方式，要突出各种方式占全班的份额，哪种图最直接？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "把类别任意连成折线"
+        },
+        {
+          "id": "2",
+          "text": "扇形统计图"
+        },
+        {
+          "id": "3",
+          "text": "只画一根全班人数的柱"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "互斥且合计全班的类别可用整圆表示总体、各扇形表示占比；类别无时间顺序不宜任意连线。",
+      "observation_boundary": "在完整互斥分类前提下选择组成比例表示，不读取实际扇形数值。",
+      "canonical_family_id": "statistics.chart-choice.ordered-change",
+      "actual_family_reason": "原组m7b.12.2.1-q1已问部分占总体的百分比应选扇形图，自检也同时讨论时间趋势、类别和构成比例；旧族名不能遮蔽实际已包括的部分—整体分支。",
+      "phase": "practice",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8b_20_2_c1_direction",
+      "task_sha256": "cad89425c04cf7c6f808f66d1a9453bf2e4a684d0432c6c49c82f08d4c29ad9d",
+      "prompt": "已知一个三角形三边为8、15、17，要说明某角为直角。应怎样使用勾股关系？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "先把它当直角三角形，再计算边长"
+        },
+        {
+          "id": "2",
+          "text": "先验8²+15²=17²，再用逆定理判直角"
+        },
+        {
+          "id": "3",
+          "text": "只要8+15>17就可判直角"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "三边条件未给直角，须先验证64+225=289，再用逆定理得最长边所对角90°。",
+      "observation_boundary": "识别推理方向；完整证明仍看过程稿。",
+      "canonical_family_id": "pythagoras.theorem-versus-converse",
+      "actual_family_reason": "使用已有定理/逆定理方向族，非新增数学结构。",
+      "phase": "practice",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8b_24_2_c1_unit-comparability",
+      "task_sha256": "b0b5b1903e85792c96baa190a51edc4a0e829eae91683b058d20f0c0a180a70f",
+      "prompt": "两组对同一长度的测量，甲的均值2米、方差0.04平方米；乙的均值200厘米、方差9平方厘米。统一单位后，哪组围绕其均值更集中？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "甲组"
+        },
+        {
+          "id": "2",
+          "text": "乙组"
+        },
+        {
+          "id": "3",
+          "text": "两组一样"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "均值均200厘米。甲方差0.04×100²=400平方厘米，大于乙9平方厘米，所以乙更集中；方差换单位须平方换算。",
+      "observation_boundary": "观察可比单位后的离散程度；不据此证明测量没有系统偏差。",
+      "canonical_family_id": "statistics.variance.unit-scale-comparability",
+      "actual_family_reason": "先把平方单位按长度换算率的平方转换，再比较方差，区别于同单位数字的直接大小比较。",
+      "phase": "transfer",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8b_24_3_c1_iqr-limit",
+      "task_sha256": "d8bf4373ffc1c55c06be3f29a2c162129b2405361c825c35fcf65233e17529dc",
+      "prompt": "甲Q1=7、Q2=10、Q3=13；乙Q1=9、Q2=10、Q3=11。仅据这些信息，哪项有依据？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "乙的中间一半数据跨度较小"
+        },
+        {
+          "id": "2",
+          "text": "乙的最大值一定较小"
+        },
+        {
+          "id": "3",
+          "text": "乙的方差一定为2"
+        }
+      ],
+      "answer": "1",
+      "mathematical_reference_read": "甲四分位距6，乙2，所以乙中间部分跨度较小；最大值和全部平方离差未给，不能确定。",
+      "observation_boundary": "仅四分位跨度和结论边界，不判断完整分布或真实样本。",
+      "canonical_family_id": "statistics.interquartile-range.compare",
+      "actual_family_reason": "原过程族的同一有限比较，未因客观选项产生新族。",
+      "phase": "practice",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9a_27_3_c0_fixed-overhead",
+      "task_sha256": "bd3fd862ba5c3d431bcab201be1258b8a35ac16e788bb1adb65020ae451dac0e",
+      "prompt": "完成60件物品，每小时加工q件；每次另需固定1小时准备，准备不加工。总时间T与q成反比例吗？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "成反比例，因为物品数固定"
+        },
+        {
+          "id": "2",
+          "text": "不成反比例，因为T=1+60/q"
+        },
+        {
+          "id": "3",
+          "text": "成反比例，因为q越大T越小"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "总时间包括准备，T=1+60/q，qT=q+60并非定值；递减关系本身不充分。",
+      "observation_boundary": "在固定准备时间模型中判断反比例不成立，不计算实际效率波动。",
+      "canonical_family_id": "inverse-function.fixed-overhead.not-reciprocal",
+      "actual_family_reason": "关系中增加不可随效率缩放的固定时间项，检验的是倒数关系被加性偏移打破，不是把面积情境换成工作情境。",
+      "phase": "transfer",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9a_27_3_c1_two-stage-time",
+      "task_sha256": "2a6f39e492db7b3678a3c1fd3b206557ee4346c3dbf317b21d2f7245281c29a4",
+      "prompt": "旅程先行40千米，速度固定20千米/时；后行60千米，速度v千米/时，全程不停靠。总时间不超过5小时，后段速度至少多少千米/时？",
+      "choices": null,
+      "answer": "20",
+      "mathematical_reference_read": "前段需2小时，后段至多3小时；v>0，60/v≤3得v≥20，最小20。",
+      "observation_boundary": "两段理想匀速时间与总上限；未处理加减速或安全限速。",
+      "canonical_family_id": "inverse-function.fixed-leg-plus-variable-time",
+      "actual_family_reason": "先扣除固定一段的时间，再由剩余时间限制解倒数不等式，区别于同一路程直接用总路程/总时间。",
+      "phase": "transfer",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9b_33_2_2_c1_minimum-cubes",
+      "task_sha256": "2199043fcf2285aeabf2d126d593d4c93d96d646790e780cb3541724b617079c",
+      "prompt": "无悬空方块堆叠，俯视是2×2四格全占；正视每列高3、左视每排高3。最少有多少个小正方体？",
+      "choices": null,
+      "answer": "8",
+      "mathematical_reference_read": "四格至少各1。每行、每列必须有高3，可把两个3放对角，另两格1，得8；至少两格高3，故不能更少。",
+      "observation_boundary": "只求在已给投影约束下的最少数，不把8称唯一实际数。",
+      "canonical_family_id": "views.cubes.multiview-nonunique",
+      "actual_family_reason": "复用原多视图非唯一约束族；高度换数、求最少或举反例都不被拆成新增独立族。",
+      "phase": "practice",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9b_34_1_1_c1_inclusive-event",
+      "task_sha256": "32e3c4526dc476d423c3cc88fa06db61660d42c30c0d7deaefd40678aa472936",
+      "prompt": "六面骰子点数为1至6。“点数不小于4”的全部可能点数是哪组？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "{4,5,6}"
+        },
+        {
+          "id": "2",
+          "text": "{5,6}"
+        },
+        {
+          "id": "3",
+          "text": "{1,2,3,4}"
+        }
+      ],
+      "answer": "1",
+      "mathematical_reference_read": "不小于4是≥4，包含边界4，结果4、5、6。",
+      "observation_boundary": "有限单次空间按不等条件完整筛选，未生成多阶段空间。",
+      "canonical_family_id": "probability.event-results.inclusive-boundary",
+      "actual_family_reason": "沿用原事件结果与包含边界族。",
+      "phase": "practice",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9b_34_1_1_c1_ordered-two-stage",
+      "task_sha256": "6ccaf7c27bd165e8b40da1885bff61aa1f406ce464f636b281f0e3c375d523a2",
+      "prompt": "先后抛两次硬币，只记录正或反，先后次序必须保留。全部可能结果是哪一组？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "{正正,正反,反反}"
+        },
+        {
+          "id": "2",
+          "text": "{正正,正反,反正,反反}"
+        },
+        {
+          "id": "3",
+          "text": "{正,反}"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "每次各两种，按先后构成四个有序结果；正反与反正不同，不能合并。",
+      "observation_boundary": "只完整列有序结果，不依赖公平性计算概率。",
+      "canonical_family_id": "probability.two-stage.ordered-sample-space",
+      "actual_family_reason": "先建立两阶段的笛卡尔积结果，区别于单一骰子空间内按大小条件筛选事件。",
+      "phase": "transfer",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9b_34_1_2_c1_complement",
+      "task_sha256": "11a4dc3b26da0d56fc0c260d95eb06e3ba464ef2ac1ec84ceff5db081e3316a5",
+      "prompt": "一次操作只可能“成功”或“失败”，成功概率为0.7。失败概率是多少？用小数表示。",
+      "choices": null,
+      "answer": "0.3",
+      "mathematical_reference_read": "成功和失败互斥且覆盖全部结果，概率和1，所以失败=1−0.7=0.3；未假定两个结果等可能。",
+      "observation_boundary": "由互补事件已知概率求另一概率，不用事件类别数作等可能分母。",
+      "canonical_family_id": "probability.complement.exhaustive-two-events",
+      "actual_family_reason": "利用互斥完备事件的概率和，而非数等可能样本点；已明确只有两类，不能直接套在可同时发生的事件。",
+      "phase": "transfer",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9b_34_2_c0_without-replacement",
+      "task_sha256": "dcd4ea24a4288035c607c6b5bbed5fe9a78fa9897f251088ea0616cf108ad56f",
+      "prompt": "袋中有可区分的红球R1、R2和蓝球B，各球除标记、颜色外相同。不放回依次取2个，每一步各个剩余球被取到的机会相同，两个都是红球的概率是多少？用最简分数表示。",
+      "choices": null,
+      "answer": "1/3",
+      "mathematical_reference_read": "有序等可能结果R1R2、R1B、R2R1、R2B、BR1、BR2共6，两红为R1R2、R2R1，2/6=1/3；第二步只剩2球。",
+      "observation_boundary": "不放回且每一步剩余球等可能的两阶段模型；仅概率数值不替代提交完整树。",
+      "canonical_family_id": "probability.without-replacement.ordered-tree",
+      "actual_family_reason": "第二阶段结果依赖第一步移去的球，分支不能重复自己，区别于两次独立二元试验的固定分支空间。",
+      "phase": "transfer",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9b_34_2_c1_complete-tree",
+      "task_sha256": "a57f1c9e7a8b533bac737d1d0f1c534306d820a3a8699d748959c75bb4015465",
+      "prompt": "从A、B、C三张不同卡中不放回依次取2张。保留先后顺序，哪组是不重不漏的全部结果？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "AB,AC,BA,BC,CA,CB"
+        },
+        {
+          "id": "2",
+          "text": "AA,AB,AC,BA,BB,BC,CA,CB,CC"
+        },
+        {
+          "id": "3",
+          "text": "AB,AC,BC"
+        }
+      ],
+      "answer": "1",
+      "mathematical_reference_read": "第一步三选一，每个分支第二步排除自身，仅六有序结果；AA等不允许，AB与BA不可合并。",
+      "observation_boundary": "有限列举清单判断；实际独立画树能力由过程稿另核。",
+      "canonical_family_id": "probability.without-replacement.ordered-tree",
+      "actual_family_reason": "与新不放回抽球保持同族，身份换成卡片不增加结构。",
+      "phase": "transfer",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_2_2_1_c0_zero-product",
+      "task_sha256": "738af1523f759cd4d444eb9997dc4dc2efa572d582b1e926387bd6ccff2fbbc2",
+      "prompt": "计算(−3)×(−4)×0×(−5)。下面哪项同时给出结果与成立的理由？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "负数，因为有三个负因子"
+        },
+        {
+          "id": "2",
+          "text": "0，因为有零因子"
+        },
+        {
+          "id": "3",
+          "text": "正数，因为负负得正"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "任意数与0相乘得0。此时不再把积按负因子奇偶判为正或负；0既不是正数，也不是负数。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "number.product.negative-parity",
+      "actual_family_reason": "原组m7a.2.2.1-q2已有(−5)×0×(−9)=0，零因子边界已经在该保守组内。本题继续沿用旧族，不把其名称中的负因子奇偶误读为排除零例。",
+      "phase": "practice",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_2_3_3_c0_scientific-precision",
+      "task_sha256": "b51cd45e13cca44c5ad3913bfc920659343a9a6292d3b99b732660b1089d6edc",
+      "prompt": "近似数写为1.200×10⁴，末位0也用于表示保留的精度。这个近似数精确到哪一位？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "千分位"
+        },
+        {
+          "id": "2",
+          "text": "十位"
+        },
+        {
+          "id": "3",
+          "text": "个位"
+        },
+        {
+          "id": "4",
+          "text": "千位"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "系数末位在千分位，该位乘10⁴后对应10，即原数的十位。写作12000但不能忽略原科学记数法保留位信息。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "placevalue.approximation.precision",
+      "actual_family_reason": "原自检已处理2.30×10⁴的末位位值，明确0.01×10⁴=100。新题1.200×10⁴只改变系数保留位，仍是同一实际科学记数法精度规则，合回旧族。",
+      "phase": "practice",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_4_1_c1_terms-degree-direct",
+      "task_sha256": "5eab4859586ca1189ac848ed8da8a3976c63b9d98335d5a726d1474c54c50957",
+      "prompt": "多项式3x²y−2xy+5有多少项、次数是多少？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "3项，次数2"
+        },
+        {
+          "id": "2",
+          "text": "3项，次数3"
+        },
+        {
+          "id": "3",
+          "text": "2项，次数5"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "有3个加法项，次数分别3、2、0，最高为3；多项式次数不是各项次数相加。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "polynomial.term-count-total-degree",
+      "actual_family_reason": "沿用已存在的数学结构；本次新增有限结果入口不被命名为不同方法。",
+      "phase": "practice",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_4_1_c1_degree-cancellation",
+      "task_sha256": "ed043ddc60831142ef94b839b7c0f9b15812d0b75123256640c884d9a78c420b",
+      "prompt": "先合并同类项，再判断P=2x²+3x−2x²+4x+1的项数与次数。哪项正确？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "5项、2次"
+        },
+        {
+          "id": "2",
+          "text": "3项、2次"
+        },
+        {
+          "id": "3",
+          "text": "2项、1次"
+        }
+      ],
+      "answer": "3",
+      "mathematical_reference_read": "二次项2x²−2x²相消，一次项3x+4x=7x，P=7x+1，所以2项、1次。必须按化简后的非零项判断。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "polynomial.degree.after-collection",
+      "actual_family_reason": "原族直接读取已整理多项式的各项次数；新任务必须先识别同类项、消去最高次项再取最大次数，表面最高指数会给错误答案。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_5_1_2_c0_multiply-zero-domain",
+      "task_sha256": "10e8b4ad646139d553780ed438d6bc1df948bc88989efd5593b5873a9de3518e",
+      "prompt": "由x=5两边都乘0，得到0=0。哪项同时说明相等关系和解集？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "同样操作，所以解集都只有5"
+        },
+        {
+          "id": "2",
+          "text": "等式成立，但新式解集扩大，不能逆推"
+        },
+        {
+          "id": "3",
+          "text": "0=0不成立，所以任何同乘0都无意义"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "同乘0仍得到真等式，但新等式对所有实数成立。由0=0不能逆推出x=5；保持等号真值不等于保持方程解集。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "equation.multiply-zero-error",
+      "actual_family_reason": "原族在指定非零操作下说明两边相同操作；新任务比较乘零前后整个解集，以不可逆性发现条件丢失，不是换数值的同除非零数。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_5_3_c1_integer-admissible",
+      "task_sha256": "a49b01854964e77dc138377f64cd59f1733ab8675c50a76fe44dc134ec76ffbf",
+      "prompt": "某服务固定收20元，另每整小时8元，只接受整小时预约。方程20+8t=42得到t=2.75。应怎样解释？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "按3小时即可，误差很小"
+        },
+        {
+          "id": "2",
+          "text": "给定收费规则下无这种整小时预约"
+        },
+        {
+          "id": "3",
+          "text": "2.75是正数所以一定是整小时"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "2.75满足实数方程，却不是允许的整小时数；取3会变为44元，不能用四舍五入满足原题。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "equation.discrete-domain",
+      "actual_family_reason": "沿用已存在的数学结构；本次新增有限结果入口不被命名为不同方法。",
+      "phase": "practice",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7a_5_3_c1_positive-length",
+      "task_sha256": "a26ad4b48981494924691d245eedc203ad0457181aa2baca0cc64b30b8c27bc2",
+      "prompt": "长方形长比宽多4厘米，周长6厘米。设宽x，列2x+2(x+4)=6解得x=−0.5。哪项解释正确？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "长3.5、宽0.5，取绝对值就行"
+        },
+        {
+          "id": "2",
+          "text": "长比宽多4，故任何解都可用"
+        },
+        {
+          "id": "3",
+          "text": "原条件下不存在这样的长方形"
+        }
+      ],
+      "answer": "3",
+      "mathematical_reference_read": "宽−0.5不满足长度为正，长3.5虽然为正也不能构成长方形。取绝对值后周长变8厘米，破坏题设。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "equation.model.positive-length-constraint",
+      "actual_family_reason": "整数预约用离散数集限制排除正小数；本任务解为负实数，几何量的正性否定整个模型可行性。必须检查不同的实际数量条件，取整或取绝对值都不能代替原方程。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7b_8_3_c0_decimal-periodicity",
+      "task_sha256": "089a80cd967edcf2b6cf54345e5185431549536d8cdd540ac47ec6461430e389",
+      "prompt": "已明确知道甲的小数表示无限但循环，乙的小数表示无限且不循环（不是仅看前几位猜测）。哪一项分类正确？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "甲、乙都是无理数，因为都无限"
+        },
+        {
+          "id": "2",
+          "text": "甲有理，乙无理"
+        },
+        {
+          "id": "3",
+          "text": "甲无理，乙有理"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "无限循环小数可写成整数之比，属于有理数；无限不循环小数属于无理数。判断依赖已给完整性质，有限截取几位不足以确定。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "number.real.rationality-simplify",
+      "actual_family_reason": "原q201与自检已将循环小数、根式、分数放在同一有理/无理分类族中，并解释循环与无限不循环。新题显式给完整循环性质仍使用该定义，不将媒介改写计作独立结构。",
+      "phase": "practice",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7b_10_2_1_c1_unit-coefficient-choice",
+      "task_sha256": "5fab8c01e47f331d493b52f492842aa9c2f7a3ff238daf1986d16b9b07bb2d16",
+      "prompt": "用代入法解x−2y=7，3x+5y=10，哪一步最直接避免先引入分母？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "先由第二式x=(10−5y)/3"
+        },
+        {
+          "id": "2",
+          "text": "先由第一式x=7+2y"
+        },
+        {
+          "id": "3",
+          "text": "先由第一式y=(x−7)/2"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "第一式x系数为1，可写x=7+2y后代入第二式；解第二式为x或第一式为y都会先出现分母。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "system.substitution.choose-unit-coefficient",
+      "actual_family_reason": "沿用已存在的数学结构；本次新增有限结果入口不被命名为不同方法。",
+      "phase": "practice",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7b_10_3_c1_noninteger-objects",
+      "task_sha256": "2df6c52025e5a48c71765e3a4a09b0e70eee087ea6b0e5bd24396b6bf12479d5",
+      "prompt": "某解答为鸡兔问题列x+y=5，2x+4y=13，解得x=3.5、y=1.5；x、y分别表示鸡和兔的只数。这能作实际答案吗？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "可以，因为满足两方程"
+        },
+        {
+          "id": "2",
+          "text": "不可以，计数必须为整数且脚数奇偶冲突"
+        },
+        {
+          "id": "3",
+          "text": "取x=4、y=1即可"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "鸡兔只数必须为非负整数；总脚数为奇数也已与2x+4y必为偶数冲突。把解取整会改变至少一个原关系。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "system.model.integer-feasibility",
+      "actual_family_reason": "沿用已存在的数学结构；本次新增有限结果入口不被命名为不同方法。",
+      "phase": "practice",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7b_11_1_1_c0_strict-budget",
+      "task_sha256": "ea1e2e2c5ac67c912bfc7c156c7320b0e75da5bd03dafd1f4e038d41057eacdb",
+      "prompt": "每本练习本3元，另收一次包装费5元。总花费必须严格少于20元，且至少买1本。哪项同时给出不等式和最多本数？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "3n+5≤20，最多5本"
+        },
+        {
+          "id": "2",
+          "text": "3n+5<20，最多4本"
+        },
+        {
+          "id": "3",
+          "text": "3(n+5)<20，最多1本"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "3n+5<20给n<5；n为正整数，最多4本。5本恰好20元，不满足严格少于。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "inequality.model.integer-strict-budget",
+      "actual_family_reason": "原族由“剩余至少”形成非严格数量下界；新任务把一次性费用、严格总价上界和整数输入联合筛选，边界等号及取整方向决定实际解。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7b_12_1_1_c1_population-individual",
+      "task_sha256": "aa0ce71ac0eed50adb5d3325a5634f106356e642293cf9cd3b12b450be34a6b6",
+      "prompt": "要了解全班40名学生本周各自借书的本数。若以数据为研究对象，哪个“总体—个体”表述一致？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "总体是图书馆所有图书，个体是一本书"
+        },
+        {
+          "id": "2",
+          "text": "总体是40人的借书本数，个体是一人的借书本数"
+        },
+        {
+          "id": "3",
+          "text": "总体是全校人数，个体是班级人数"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "研究的是本周每名学生的借书本数；总体为40个本数记录，个体为其中一名学生的本数记录。图书种类、全校人数是别的研究对象。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "statistics.population-individual-indicator",
+      "actual_family_reason": "沿用已存在的数学结构；本次新增有限结果入口不被命名为不同方法。",
+      "phase": "practice",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7b_12_2_1_c1_angle-to-count",
+      "task_sha256": "8ea7291856d38ce8d92cd943c78d3177e167636d1fc2a7a9fb78736e76be7425",
+      "prompt": "扇形统计图表示120人的通学方式，蓝色扇形表示步行。读取图中的圆心角，求步行人数。",
+      "choices": null,
+      "answer": "30",
+      "mathematical_reference_read": "90°占整圆360°的1/4，即25%；120×1/4=30人。必须先把角度换成所占比例。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "statistics.pie.proportion-to-count",
+      "actual_family_reason": "原自检已同时以比例计算人数与360°圆心角。本题从图读90°后反求比例是同一整圆比例关系的反向使用，不因角度输入替代百分比而拆族；保留真实读图输入。",
+      "phase": "practice",
+      "representation": "graph",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7b_12_2_3_c0_trend-local",
+      "task_sha256": "d8b77a51937105205520dcb9fa0dba918d368bf8834b1375436d31981343cd58",
+      "prompt": "图中横轴d为天数，纵轴h为某容器水位（厘米）。读取五天记录，哪一句同时描述首末与局部变化？注意纵轴起点。",
+      "choices": [
+        {
+          "id": "1",
+          "text": "每天上升，净升2厘米"
+        },
+        {
+          "id": "2",
+          "text": "首末净升2厘米，但中间有下降"
+        },
+        {
+          "id": "3",
+          "text": "最后一天比最初低2厘米"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "首末12−10=2厘米，整体净上升；第2到3天下降1，第4到5天下降1，不能说每天都上升。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "statistics.trend.global-versus-local",
+      "actual_family_reason": "沿用已存在的数学结构；本次新增有限结果入口不被命名为不同方法。",
+      "phase": "practice",
+      "representation": "graph",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m7b_12_2_3_c0_unequal-time-rate",
+      "task_sha256": "6350e5d9fcb2c5072799e591888836154809fbe8fe3be7545d994b89b1edf905",
+      "prompt": "图中横轴是时间t（小时），纵轴是水量V（升），记录点的坐标已标出。比较这两段记录间的平均增水速度，哪项正确？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "后段平均增水速度较慢"
+        },
+        {
+          "id": "2",
+          "text": "两段平均增水速度相同，因为都增6升"
+        },
+        {
+          "id": "3",
+          "text": "后段较快，因为终值最大"
+        }
+      ],
+      "answer": "1",
+      "mathematical_reference_read": "两段均增加6升，但时间分别2小时、3小时，平均速度3与2升/小时，后段更慢；同样增量不等于同样速度。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "statistics.trend.unequal-interval-rate",
+      "actual_family_reason": "原族只比较时间序列的升降及首末差；新任务在不等时间间隔下以差商比较平均变化快慢，相同增量会给不同结论。",
+      "phase": "transfer",
+      "representation": "graph",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8a_13_3_c0_angle-equation",
+      "task_sha256": "579e386779d24b714bc6b8330a7c6c5d9f1c9dcf5e01eb52f83da5029a9d5790",
+      "prompt": "一个三角形的三个内角依次为x、2x、3x度。最大的内角是多少度？",
+      "choices": null,
+      "answer": "90",
+      "mathematical_reference_read": "三角形内角和180°，(1+2+3)x=180，所以x=30；最大3x=90°。三角均正且和180。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "triangle.angle-equation-model",
+      "actual_family_reason": "原族已给两个具体内角后做补足180°的减法；新任务三个角都未知但存在倍数关系，须建一元方程并把x转换为所问角。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8a_14_1_c0_side-signature",
+      "task_sha256": "052c0b0eee39ec2ebcf514a08ee122637607b94062914ae88c00e7a47f74c694",
+      "prompt": "△ABC中AB=3、BC=4、CA=5；△DEF中DE=4、EF=5、FD=3，两个三角形全等。与△ABC顺序对应的写法是哪一个？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "△ABC≌△DEF"
+        },
+        {
+          "id": "2",
+          "text": "△ABC≌△FDE"
+        },
+        {
+          "id": "3",
+          "text": "△ABC≌△EFD"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "A邻接3与5两边，对应F；B邻接3与4，对应D；C邻接4与5，对应E。因此△ABC≌△FDE。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "congruence.correspondence.from-side-signatures",
+      "actual_family_reason": "原族由已经声明的全等顺序读取对应；新任务没有给顺序，须利用顶点邻接的两条互异边长推断对应，再组织全等符号。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8a_15_1_c0_isosceles-axis",
+      "task_sha256": "e66ef0c6c947454718a30627525c7794288e88c42e20b2732b3e71f7feed2a50",
+      "prompt": "图中AB=AC=5，BC=6，D为BC中点。这一三角形的全部对称轴是哪项？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "只有直线AD"
+        },
+        {
+          "id": "2",
+          "text": "直线AB、AC两条"
+        },
+        {
+          "id": "3",
+          "text": "三条边所在直线都是对称轴"
+        }
+      ],
+      "answer": "1",
+      "mathematical_reference_read": "AB=AC且与BC长度不同，只有顶角A的平分线/底边BC的垂直平分线AD是轴；AB、AC、BC不是轴。该三角形不是等边三角形。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "triangle.isosceles.unique-axis",
+      "actual_family_reason": "原族核对矩形中两组对边和中线反射；新任务依据非等边等腰三角形仅有一对等边，固定顶点A并交换底角顶点，排除等边三轴情形。",
+      "phase": "transfer",
+      "representation": "geometry",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8a_15_3_c0_unspecified-angle-cases",
+      "task_sha256": "c03ded15525880dd222ac969f31ed09b5407f728373b3d3f7e853043fc600c0a",
+      "prompt": "一个等腰三角形有一个内角是40°，没有说明它是顶角还是底角。顶角的所有可能值是哪一组？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "只有100°"
+        },
+        {
+          "id": "2",
+          "text": "40°或100°"
+        },
+        {
+          "id": "3",
+          "text": "40°或70°"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "若40°是顶角，顶角为40°；若40°为底角，两底角都40°，顶角100°。两种均有效，不能只取后一种。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "triangle.isosceles.base-angles",
+      "actual_family_reason": "原m8a.15.3-q102已用未知角角色100°分类并排除作底角的分支。新题40°令两种角色均可行，但仍是原组真实包含的角色分类与内角和推理，保守归同族。",
+      "phase": "practice",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8a_16_3_c1_cross-term-parameter",
+      "task_sha256": "b629af26be9445d192695d3a79672b839b03d7c109cc19593b8ea6707c5785a2",
+      "prompt": "已知x²+kx+9=(x+3)²对每个x都成立，k是多少？",
+      "choices": null,
+      "answer": "6",
+      "mathematical_reference_read": "(x+3)²=x²+2·x·3+9，比较一次项系数得k=6。不是只把x²和9各开平方后忽略中间项。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "algebra.formula.perfect-square-cross-term",
+      "actual_family_reason": "右边(x+3)²两项全已给，k仍由前向2ab=6求得；参数名不改变实际方法，因此合回旧中间项族。",
+      "phase": "practice",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8a_17_1_c1_common-perfect-square",
+      "task_sha256": "7c06659a3a9d76181384516dcf3b5d52278afc53af823debd7ed8314a2c7d4b3",
+      "prompt": "把2x³+4x²+2x在实数系数范围内分解到不能再分解，哪项正确？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "2x(x²+2x+1)"
+        },
+        {
+          "id": "2",
+          "text": "2x(x+1)²"
+        },
+        {
+          "id": "3",
+          "text": "2x(x−1)²"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "先提2x得2x(x²+2x+1)，括号为(x+1)²；2x(x+1)²才完成进一步分解。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "factor.common-then-perfect-square",
+      "actual_family_reason": "原族提公因式后使用平方差得到两个不同线性因子；新任务剩余三项须验证中间项2ab，形成重因子完全平方，所需公式和检查条件不同。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8a_17_2_c1_repeated-difference",
+      "task_sha256": "437067f4dc6d6313003cfdac17e0fd4dd9b0bca4d117906c5849ea23e1aa5506",
+      "prompt": "在实数系数范围内把x⁴−16分解到不能再分解，哪项完整？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "(x²−4)(x²+4)"
+        },
+        {
+          "id": "2",
+          "text": "(x−2)²(x+2)²"
+        },
+        {
+          "id": "3",
+          "text": "(x−2)(x+2)(x²+4)"
+        }
+      ],
+      "answer": "3",
+      "mathematical_reference_read": "x⁴−16=(x²−4)(x²+4)=(x−2)(x+2)(x²+4)；x²+4对实数恒正，没有实线性因子。停在第一次平方差不完整。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "factor.repeated-difference-squares",
+      "actual_family_reason": "原族验证三项式是否具备完全平方中间项；新任务对差平方反复分解，并以实数范围判断x²+4不可再作实线性分解。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8b_19_1_c0_domain-intersection",
+      "task_sha256": "e56820eb65ee2bfc5d11615273ada7075854357604aa6b658d4d32baa8979556",
+      "prompt": "使√(x−1)+√(4−x)在实数范围内有意义，x应满足哪项？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "x≥1"
+        },
+        {
+          "id": "2",
+          "text": "1≤x≤4"
+        },
+        {
+          "id": "3",
+          "text": "x≤4"
+        },
+        {
+          "id": "4",
+          "text": "x≤1或x≥4"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "两个根号都要有意义：x−1≥0且4−x≥0，交集为1≤x≤4。只满足其中一个不能使整个和有意义。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "radical.domain.intersect-two-radicands",
+      "actual_family_reason": "原族对一个被开方数建立单一非负条件；新任务多个根式同时存在，必须把两个方向的条件求交，不能只选其中一个或取并。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8b_19_2_c1_conjugate-denominator",
+      "task_sha256": "db5557b3602c13e378229bd9eacae8a56f018d2e7cf252214647828464b2a583",
+      "prompt": "将1/(√3+1)化为分母没有根号的最简形式，哪项正确？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "(√3−1)/2"
+        },
+        {
+          "id": "2",
+          "text": "√3−1"
+        },
+        {
+          "id": "3",
+          "text": "(√3+1)/2"
+        }
+      ],
+      "answer": "1",
+      "mathematical_reference_read": "分子分母同乘√3−1，分母(√3+1)(√3−1)=2，得(√3−1)/2；乘回原分母√3+1可核对分子为1。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "radical.rationalize-binomial-denominator",
+      "actual_family_reason": "原族把根式商合并或提取平方因子；新任务分母是根式与常数之和，不能逐项相除，须借平方差的共轭乘积化为有理分母。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8b_20_1_c1_roof-model",
+      "task_sha256": "dcbdb9cf8faa770d97d68b37cd3b176a625ff14e9fecf73c2d05b406f8b20db6",
+      "prompt": "无挑檐的对称双坡屋顶截面，水平总跨度8米，屋脊比两侧檐口高3米。屋顶一侧坡面的斜宽是多少米？",
+      "choices": null,
+      "answer": "5",
+      "mathematical_reference_read": "对称使半跨度为4米，与顶升3米构成直角边；斜宽√(4²+3²)=5米，不能用总跨度8作直角边。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "pythagoras.roof-half-span-rise",
+      "actual_family_reason": "原族从梯长和离墙距离求未知直角边；屋顶模型须先由对称截面把总跨度减半，再求斜边，模型提取与未知边位置均不同，复用项目已有roof题族。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8b_21_1_c0_forward-angle-sum",
+      "task_sha256": "90dba1022c272254cc42fcfc11f76163d7307f41fdfde247917b909eee824193",
+      "prompt": "一个凸八边形的内角和是多少度？",
+      "choices": null,
+      "answer": "1080",
+      "mathematical_reference_read": "从一个顶点可分成8−2=6个三角形，内角和6×180=1080°。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "polygon.interior-angle-sum.inverse",
+      "actual_family_reason": "旧family虽然命名inverse，已实际包含前向五边形角和题；继续保守复用该粗组，不因方向标签另起族。",
+      "phase": "practice",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8b_22_1_c0_implicit-two-outputs",
+      "task_sha256": "d8db5c658bb25f26d478ff5c48f80b16a51361e6fe63d570a3996ba8806c736b",
+      "prompt": "用关系x²+y²=4描述两个实变量，x允许在[−2,2]内取值，且没有另外限制y正负。y是x的函数吗？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "是，因为有一个等式"
+        },
+        {
+          "id": "2",
+          "text": "不是，因为x=0对应两个y值"
+        },
+        {
+          "id": "3",
+          "text": "是，因为每个y也可找到x"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "取x=0时y²=4，y=2或−2。一个允许输入有两个输出，故这个关系未定义y关于x的函数；若加y≥0是另一个条件。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "function.single-output-per-input",
+      "actual_family_reason": "基线m8b.22.1-q1已给y²=x并以x=1、y=±1否定唯一性；新圆关系在x=0取±2是同一隐式多输出反例，合回旧族。",
+      "phase": "practice",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8b_22_1_c1_choose-variables",
+      "task_sha256": "a6726c683ca98c61659ba43a251518876668839f76632342c74562a7c9df6d19",
+      "prompt": "练习本每本5元，无其他收费；购买本数由顾客先决定，总价随后确定。若建立“总价关于本数”的函数，本题的自变量和因变量应怎样选？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "总价为输入、本数为输出"
+        },
+        {
+          "id": "2",
+          "text": "本数为输入、总价为输出"
+        },
+        {
+          "id": "3",
+          "text": "字母x一定是价格，所以无需看情境"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "按题设建模方向，自变量为购买本数n，因变量为总价y，y=5n。这个选择取决于任务指定的输入输出，不靠字母名字。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "function.input-output.from-context",
+      "actual_family_reason": "沿用已存在的数学结构；本次新增有限结果入口不被命名为不同方法。",
+      "phase": "practice",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8b_22_1_c1_negative-input-value",
+      "task_sha256": "4d2d169c2a2b09d2a133c1cb94125417873b04ea04c9e44df82f712807864ac6",
+      "prompt": "给定函数y=x²−3x，当x=−2时y是多少？",
+      "choices": null,
+      "answer": "10",
+      "mathematical_reference_read": "代入必须给负数加括号：(−2)²−3(−2)=4+6=10。平方项和线性项分开处理符号。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "function.evaluate.negative-input",
+      "actual_family_reason": "情境任务先决定哪个实际量作输入；此任务方向和规则均已给，观察负输入进入不同幂次项后的代数计算，复用两条已存在过程题族。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8b_23_1_c0_parameter-coefficient",
+      "task_sha256": "61eab5a839fa001edfb040c3caf874a56ee4508c7f8e89a317b33158e536cbee",
+      "prompt": "函数y=(a−2)x+3要成为一次函数，实参数a需要满足什么？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "a>2"
+        },
+        {
+          "id": "2",
+          "text": "a≠2"
+        },
+        {
+          "id": "3",
+          "text": "任意a均可"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "一次函数要求x的一次项系数不为0，所以a−2≠0，即a≠2；a=2时为常值函数y=3。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "linear.parameter-nonzero-coefficient",
+      "actual_family_reason": "原族分类已定系数的表达式；新任务需从一次函数的非零系数条件反求参数排除值，并区分恒定退化情形。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8b_23_3_c1_parallel-systems",
+      "task_sha256": "0e5cd38c6edcd0e5e5df51f9c94132894c3dd0f2a677e49f4197f8349cc5d5c5",
+      "prompt": "两直线y=2x+1与y=2x+5所组成的方程组有多少组实数解？",
+      "choices": null,
+      "answer": "0",
+      "mathematical_reference_read": "相减会得到0=4，矛盾；两直线斜率相同截距不同，始终相差4，没有共同点，所以无解。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "linear.parallel-model-comparison",
+      "actual_family_reason": "原族核查两条不同斜率直线的唯一公共点；新任务两斜率相同、截距不同，由恒定非零差证明整个平面上没有交点，关联到无解而非求一个坐标。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8b_23_4_c1_discrete-order-domain",
+      "task_sha256": "2af99d177708c7afbf2180fe046d13a9e2cd75dd595c81deb9933705951ab519",
+      "prompt": "一笔订单包装费5元，每本书3元；只售整本，每单可买1至6本。若y=3x+5，实际输入x的范围是哪项？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "所有实数1≤x≤6"
+        },
+        {
+          "id": "2",
+          "text": "整数1、2、3、4、5、6"
+        },
+        {
+          "id": "3",
+          "text": "所有x≥0"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "x只能为1、2、3、4、5、6；区间1≤x≤6包含2.5等不允许输入，单有上下界不够。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "linear.discrete-domain-critique",
+      "actual_family_reason": "原族由容器排空限制连续时间区间并在边界换规则；新任务数值区间内还有整本约束，图象为离散点集而非连续线段，复用已有单元同族。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8b_24_1_c1_categorical-mode",
+      "task_sha256": "4bfd0f1ea85a74e473d72c44a3fe842e7c394d1dfe921f93c879119bf5d66364",
+      "prompt": "学校要为文艺组准备服装，已统计最常穿的尺码类别S、M、L。为了确定优先准备哪种尺码，最直接参考哪项？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "把S、M、L编号1、2、3后求平均"
+        },
+        {
+          "id": "2",
+          "text": "众数尺码及各类频数"
+        },
+        {
+          "id": "3",
+          "text": "只看最大尺码"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "尺码是类别，频数最多的类别即众数，直接对应优先需求。把S,M,L随意编码后求平均不能保持类别含义。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "statistics.centre.categorical-mode",
+      "actual_family_reason": "原族在数值型数据受极端值影响时比较均值与中位数；新任务为无数值间距的尺码类别，均值无稳定意义，需用频数和众数完成不同类型的数据决策。",
+      "phase": "transfer",
+      "representation": "verbal",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m8b_24_3_c1_same-quartiles-tail",
+      "task_sha256": "1f4aae58cd771bafa1972ac8cd3c988ab37cb1a3d5f6bcacfd7aed55388e9c3b",
+      "prompt": "按“奇数个数据求Q1、Q3时排除总体中位数”的规则，甲为0、2、4、6、8、10、12、14、16；乙只把甲最后的16改为100。哪项正确？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "四分位数都相同，但最大值不同"
+        },
+        {
+          "id": "2",
+          "text": "最大值变了，所以Q3必变"
+        },
+        {
+          "id": "3",
+          "text": "四分位数相同，所以两组每一项都相同"
+        }
+      ],
+      "answer": "1",
+      "mathematical_reference_read": "两组Q2=8，Q1=(2+4)/2=3，Q3=(12+14)/2=13，都不变；最大值却由16变100。三个四分位点不能确定尾部。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "statistics.quartiles.tail-nonidentifiability",
+      "actual_family_reason": "原族用已给Q1/Q3相减比较中间部分跨度；新任务显式构造保持三个四分位点不变而改变尾部的数据，反驳“分位信息决定全部分布”的推断。",
+      "phase": "transfer",
+      "representation": "table",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9a_25_2_c1_parameter-roots",
+      "task_sha256": "e3617429d2c8dcfabecf2743d068ae7a5022099b201f24996a3b61d31815ac3d",
+      "prompt": "方程x²−4x+k=0（k为实数）有两个不同实数根，也就是抛物线y=x²−4x+k与x轴有两个不同交点。k的范围是哪项？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "k<4"
+        },
+        {
+          "id": "2",
+          "text": "k≤4"
+        },
+        {
+          "id": "3",
+          "text": "k>4"
+        }
+      ],
+      "answer": "1",
+      "mathematical_reference_read": "Δ=(−4)²−4k=16−4k。两个不同实根须Δ>0，所以k<4；k=4为重根/相切，k>4无实根/不相交。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "quadratic.discriminant.parameter-boundary",
+      "actual_family_reason": "原族计算定系数判别式后分三种根情况；新任务由要求的根数反推参数不等式，必须严格排除Δ=0的边界。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9a_25_3_c0_two-period-growth",
+      "task_sha256": "b62a81165cb49933dc707fb05bb984ffd63de1cabb6304b579e6226fb58fe618",
+      "prompt": "一种培养样本初始数量100单位，连续两期均按同一个增长率r增长，期末为121单位。r以小数表示。能表达题意的方程是哪项？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "100(1+2r)=121"
+        },
+        {
+          "id": "2",
+          "text": "100(1+r)²=121"
+        },
+        {
+          "id": "3",
+          "text": "100r²=121"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "第一期为100(1+r)，第二期在这个新基数上再乘1+r，得100(1+r)²=121；不是两次都以初始100增加。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "quadratic-equation.model.two-period-growth",
+      "actual_family_reason": "原族以两个不同线性长度的乘积表示面积；新任务按时序把同一比例增长作用于更新后的基数，形成复合乘法而非线性累计。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9a_25_3_c1_inner-width-filter",
+      "task_sha256": "3d6bf2ae0891a3dff8239533a71d6ffa658a504f6807937f48e1567a470c5abc",
+      "prompt": "12米×8米矩形内侧铺等宽边带，剩余内矩形面积60平方米。方程(12−2x)(8−2x)=60的两个根是1、9。x是边带宽，哪项是实际可用的解？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "只有1"
+        },
+        {
+          "id": "2",
+          "text": "1和9都可以，因为都为正"
+        },
+        {
+          "id": "3",
+          "text": "只有9"
+        }
+      ],
+      "answer": "1",
+      "mathematical_reference_read": "需x>0且12−2x>0、8−2x>0，所以0<x<4。x=1有效，x=9使两个内边长都负，尽管乘积等于60也不可用。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "quadratic-equation.model.inner-dimension-constraint",
+      "actual_family_reason": "原族直接排除未知长度的负根；新任务两根均正，必须回到依赖x的另外两个实际尺寸检查，不能把x>0当作完整可行域。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9a_26_1_c1_profit-demand-model",
+      "task_sha256": "7e3e71787cd5b516d78525eda4102ec1cccb0880c3742bd4ad2bfbe2d4ae4426",
+      "prompt": "某商品每件成本8元。售价p元时，在0≤p≤40范围内，课堂用连续需求模型q=120−4(p−10)描述预计销量，无其他费用。关于利润P，哪项关系正确？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "P=p(160−4p)"
+        },
+        {
+          "id": "2",
+          "text": "P=(p−8)(160−4p)"
+        },
+        {
+          "id": "3",
+          "text": "P=120(p−8)"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "每件利润p−8，预计销量160−4p，故P=(p−8)(160−4p)，适用0≤p≤40。这个范围使售价和预计销量非负；模型允许连续预计销量，不是已经实现的整数销售记录。销量乘售价是销售额，不是利润。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "quadratic.profit.price-demand-domain",
+      "actual_family_reason": "原族用固定周长约束消去一条几何边得到面积；新任务由售价同时改变单位利润和需求量，建立两项经营数量的乘积，复用既有项目实际利润题族。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9a_26_2_c0_zeros-point-vertex",
+      "task_sha256": "45280b81f683b2cc71c5f7eae3be2a1e3707fb148b58c47769e86d64bce76516",
+      "prompt": "一条抛物线与x轴交于(1,0)、(5,0)，并经过(0,10)。它的对称轴与顶点是哪项？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "x=3，顶点(3,−4)"
+        },
+        {
+          "id": "2",
+          "text": "x=3，顶点(3,−8)"
+        },
+        {
+          "id": "3",
+          "text": "x=2，顶点(2,−8)"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "两零点关于轴对称，轴x=(1+5)/2=3。设y=a(x−1)(x−5)，代(0,10)得5a=10即a=2；x=3时y=2×2×(−2)=−8。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "quadratic-function.vertex.from-zeros-and-point",
+      "actual_family_reason": "原族已知标准式直接配方；新任务未给系数，须先用零点对称确定轴，再用额外点确定纵向尺度，不能仅由两零点确定顶点高度。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9a_26_2_c1_bounded-maximum",
+      "task_sha256": "e707656eff85f99905cdfa30384a7994b07ae5bcec4e22d94fb9df7e71294b53",
+      "prompt": "函数y=−(x−1)²+4只在2≤x≤4上考虑。在这个范围内最大值是多少？",
+      "choices": null,
+      "answer": "3",
+      "mathematical_reference_read": "全实轴顶点x=1不在允许域。区间内x−1从1增到3，平方递增，y递减，最大在x=2为3，不能报全域上界4。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "quadratic-function.extremum.closed-domain",
+      "actual_family_reason": "原族用负平方项得到整个实轴的可达最大值；新任务域不含顶点，必须先检查可达性再比较区间位置，最大值转移到端点。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9a_26_3_c1_no-root-sign",
+      "task_sha256": "9c5a513a677258bb202337a092d6fa164d1c2718c1c20ad52091f4de7cd9a21a",
+      "prompt": "图中为y=x²+1的抛物线，定义域是所有实数。根据图象并核对解析式，不等式x²+1<0的解集是哪项？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "x<−1或x>1"
+        },
+        {
+          "id": "2",
+          "text": "−1<x<1"
+        },
+        {
+          "id": "3",
+          "text": "无解"
+        }
+      ],
+      "answer": "3",
+      "mathematical_reference_read": "整条抛物线最低点(0,1)也在x轴上方；代数上x²≥0，故x²+1≥1，不存在小于0的x。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "quadratic-function.graph.no-root-constant-sign",
+      "actual_family_reason": "原族利用两个x轴交点划分正负区间；新任务图象无实零点，须从全图位置/最低点判断恒正，不能假设存在两根再取中间区间。",
+      "phase": "transfer",
+      "representation": "graph",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9a_26_4_c0_wall-enclosure",
+      "task_sha256": "736f8d01bba2447bc309d0c7247c4e44b03d2e2056d275a06e5b872db1f23bda",
+      "prompt": "利用足够长的直墙作一边，用24米围栏围出矩形另三边；两条垂墙边长度都为x米，无出入口损耗。最大面积是多少平方米？",
+      "choices": null,
+      "answer": "72",
+      "mathematical_reference_read": "另一边24−2x，0<x<12，A=x(24−2x)=−2(x−6)²+72；x=6在域内，最大72。与四边都用围栏时的约束不同。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "quadratic-function.model.three-sided-enclosure",
+      "actual_family_reason": "原族四边均消耗周长，关系2x+2y=L；本任务墙替代一边，关系2x+y=L，需重新建立约束和面积二次式，复用原自检既有三边围栏族。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9a_29_2_c1_opposite-arcs",
+      "task_sha256": "5af4d0f0c8ee444369e44cf698cce89e021ac7dab8a6d2448226fc5c616686d7",
+      "prompt": "A、B、C、D为同一圆上的四个不同点，C、D位于弦AB所在直线的两侧。已知∠ACB=35°，∠ADB是多少度？",
+      "choices": null,
+      "answer": "145",
+      "mathematical_reference_read": "C和D位于AB两侧，所对的两段AB弧合为整圆，两圆周角和为180°；所以∠ADB=180−35=145°，不能套用同弧角相等。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "circle.inscribed-angle.opposite-arcs-supplement",
+      "actual_family_reason": "原族的实际任务给同一弧的圆心角求圆周角，使用二倍关系。本题给一个圆周角，另一个顶点位于弦的另一侧，两圆周角所对的两段弧合成整圆，需用两圆周角互补；不能直接套用圆心角减半或同弧圆周角相等。",
+      "phase": "transfer",
+      "representation": "geometry",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9a_30_1_c1_two-tangents",
+      "task_sha256": "902df032dca14ccf7d546ba5e259746cb53ad83bfa8441025003be212f9e460d",
+      "prompt": "从圆外一点P向同一圆作两条切线，切点分别为A、B。已知PA=8厘米，PB是多少厘米？",
+      "choices": null,
+      "answer": "8",
+      "mathematical_reference_read": "设圆心O，OA⊥PA、OB⊥PB。两直角三角形共有斜边OP，OA=OB，因此PA²=OP²−OA²=OP²−OB²=PB²，正长度相等，PB=8。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "circle.two-tangents.common-hypotenuse",
+      "actual_family_reason": "原族一个直角三角形的两已知边数值求第三边；新任务半径和OP均未给，需比较两个共享斜边且半径相等的直角三角形消去未知量。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9a_30_2_c0_incenter-angle",
+      "task_sha256": "6eada1d2e7c783674e785924b61c35c140c63235ecf1e01a3e599644defb3e34",
+      "prompt": "△ABC中∠A=40°，I是三条内角平分线的交点。∠BIC是多少度？",
+      "choices": null,
+      "answer": "110",
+      "mathematical_reference_read": "∠IBC=B/2，∠ICB=C/2，B+C=140°。△BIC内角和给∠BIC=180−70=110°；I作为内心不是三条中线交点。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "triangle.incenter.angle-between-bisectors",
+      "actual_family_reason": "原族用内心到三边的垂距相等；新任务从内角平分的角数量关系与三角形内角和推角，不以距离相等代替角的计算。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9a_30_3_c0_regular-angles",
+      "task_sha256": "8aedcb395c876b855b09be1fd8ba11fa90a5bc482b1ff1e8c2d52323d6c28cd1",
+      "prompt": "一个正八边形的相邻两顶点所对中心角和一个内角依次是多少度？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "45°、45°"
+        },
+        {
+          "id": "2",
+          "text": "45°、135°"
+        },
+        {
+          "id": "3",
+          "text": "135°、45°"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "中心角360/8=45°；内角(8−2)×180/8=135°。两角不是同一概念。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "regular-polygon.central-interior-angles",
+      "actual_family_reason": "继续复用同时包含中心角与内角的旧保守题族，不把两公式拆为两个独立族。",
+      "phase": "practice",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9a_30_3_c1_square-radii",
+      "task_sha256": "72c26242dd01510707d98f85080a51471435ac7a22eed1150316bda57b8b2991",
+      "prompt": "边长4厘米的正方形，其外接圆半径与内切圆半径依次是哪项？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "2√2、2"
+        },
+        {
+          "id": "2",
+          "text": "2、2√2"
+        },
+        {
+          "id": "3",
+          "text": "4、2"
+        }
+      ],
+      "answer": "1",
+      "mathematical_reference_read": "外接圆半径为对角线的一半，4√2/2=2√2；内切圆半径为边长一半2。两圆同心但半径不同。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "regular-polygon.inscribed-circumscribed-radii",
+      "actual_family_reason": "复用原自检正多边形内外接半径族；同一正方形问题改成选项不产生新结构。",
+      "phase": "practice",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9b_31_2_3_c0_area-versus-linear",
+      "task_sha256": "ea08cad818b47dda17099b6c6997bc580b9b9c5b69a09cd786df584150d1e146",
+      "prompt": "两个相似三角形对应边的长度比为2:3。它们的面积比是多少？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "2:3"
+        },
+        {
+          "id": "2",
+          "text": "4:9"
+        },
+        {
+          "id": "3",
+          "text": "8:27"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "对应底和对应高都按2:3缩放，面积为底×高/2，所以面积比为4:9；周长和高仍为2:3。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "similarity.linear-versus-area-scaling",
+      "actual_family_reason": "原族对应边、中线或高都按一次比例缩放；面积同时乘底和高两个比例，按平方比例变化，复用原过程已讲面积缩放族。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9b_31_4_c1_nonorigin-centre",
+      "task_sha256": "3725526d7295b749c5f022f16e072a991e71a731da22e25c8149ba324321d518",
+      "prompt": "以O(1,1)为位似中心，位似比为2，点P(3,2)的对应点P′是哪一个？位似方向为从O沿OP同向。",
+      "choices": [
+        {
+          "id": "1",
+          "text": "(6,4)"
+        },
+        {
+          "id": "2",
+          "text": "(5,3)"
+        },
+        {
+          "id": "3",
+          "text": "(4,2)"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "从O到P，横向右2、纵向上1；各放大2倍后从O出发右4、上2，P′=(5,3)。不能直接把P坐标都乘2，因为中心不是原点。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "homothety.coordinates.nonorigin-centre",
+      "actual_family_reason": "原族原点中心可直接乘坐标；新任务中心移到(1,1)，须先减去中心坐标、缩放相对位移再加回，否则把原点误作中心。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9b_32_2_1_c0_hypotenuse-choice",
+      "task_sha256": "9ce7b39c8e94d2c8fb95ee92e414b5c0b6a226daad7cead943d263c686592aab",
+      "prompt": "直角三角形的斜边为10厘米，一个锐角为30°，求这个角的对边。已知sin30°=1/2、cos30°=√3/2、tan30°=1/√3。哪项列式正确？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "10sin30°"
+        },
+        {
+          "id": "2",
+          "text": "10cos30°"
+        },
+        {
+          "id": "3",
+          "text": "10tan30°"
+        }
+      ],
+      "answer": "1",
+      "mathematical_reference_read": "对边/斜边=sin30°，所以对边=10sin30°=5厘米；cos求邻边，tan连接两直角边。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "right-triangle.solve.hypotenuse-angle",
+      "actual_family_reason": "原客观族已知一条直角边求另一条，需正切；此任务斜边已知而所求对边，必须改用正弦连接不同边对，复用原多情形作品的斜边角族。",
+      "phase": "transfer",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9b_33_1_c1_parallel-shadow-ratio",
+      "task_sha256": "90712ef2374a97cb51af615c42612afd710a8b91627436452dc0b319cbfb8897",
+      "prompt": "同一时刻、同一水平地面，太阳光近似平行；两根竖杆高分别2米、5米，2米杆影长3米。5米杆影长多少米？",
+      "choices": null,
+      "answer": "7.5",
+      "mathematical_reference_read": "两直角三角形由同一太阳方向有相等锐角，相似，影长/高度=3/2；5米杆影长5×3/2=7.5。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "projection.parallel-shadow.proportionality",
+      "actual_family_reason": "沿用已存在的数学结构；本次新增有限结果入口不被命名为不同方法。",
+      "phase": "practice",
+      "representation": "symbolic",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9b_33_1_c1_point-source-shadow",
+      "task_sha256": "c47c98e1b1751772323d6cfba276f2dfeef6ff816d5454565a2860c0ba441818",
+      "prompt": "图示点光源灯高6米，竖杆到灯底的水平距离固定4米。只改变杆高：先2米，再3米；地面水平。哪项给出两次影长及其与杆高的关系？",
+      "choices": [
+        {
+          "id": "1",
+          "text": "影长2、3米，始终与杆高成正比例"
+        },
+        {
+          "id": "2",
+          "text": "影长2、4米，在该变化中不成正比例"
+        },
+        {
+          "id": "3",
+          "text": "影长4、6米，始终与杆高成正比例"
+        }
+      ],
+      "answer": "2",
+      "mathematical_reference_read": "相似关系s/h=(4+s)/6，所以s=4h/(6−h)。h2时s2，h3时s4；比值1与4/3不同，固定点光源下不能沿用平行光的恒定影高比。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "projection.point-source.height-shadow-nonlinear",
+      "actual_family_reason": "平行光使两影子三角形共享同一锐角而保持影高比；点光源位置固定、杆高变化时射线角也变，须建立含影长的相似比例，形成h/(H−h)而非恒定倍数。",
+      "phase": "transfer",
+      "representation": "geometry",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    },
+    {
+      "task_id": "v8j_m9b_33_2_2_c1_single-row-cubes",
+      "task_sha256": "36a3609a8c6cdbc844822612332f376becbe524817c045369ffb90e74a39c27d",
+      "prompt": "小正方体无悬空堆叠。图(1)为正视，从左到右柱高为2、1、3格；图(2)为左视，高3格；图(3)为俯视，仅一排连续3格。这个堆叠共有多少个小正方体？",
+      "choices": null,
+      "answer": "6",
+      "mathematical_reference_read": "俯视只有一排，没有前后隐藏的第二层柱位置，正视每个高度就是该格唯一柱高；总数2+1+3=6。与2×2轮廓只约束行列最大值的多解问题不同。",
+      "observation_boundary": "仅记录本题所列条件下的有限结果；不能由选项或数值代替该旧目标其他分项所需的实际过程作品。",
+      "canonical_family_id": "views.cubes.single-row-height-sum",
+      "actual_family_reason": "本题单排俯视排除了前后隐藏柱，逐柱求和与旧worked_example的同一单排高度求和结构相同，复用其已存在的规范族；与多排最大值约束仍有区别，但不是新发明的家族。",
+      "phase": "practice",
+      "representation": "geometry",
+      "decision": "retain_with_stated_observation_boundary",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false
+    }
+  ],
+  "independent_numeric_checks": [
+    {
+      "task_id": "v8j_m7a_1_1_c0_baseline",
+      "task_sha256": "f705c3a2ce6da8a3d189fd7aa9bc8032b6dd0105f5dc486620a3b116aba3680b",
+      "independent_expected": "9",
+      "independent_mathematical_check": "以12℃为参照，记录正向为降温，真实温度应降低3。",
+      "authored_verify_result": {
+        "id": "v8j_m7a_1_1_c0_baseline",
+        "status": "pass",
+        "detail": "12-3 = 9"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m7a_1_1_c1_intersection",
+      "task_sha256": "4d426fe4109e2e8e43bb8465456adb5673c69e24cd62adc8a05dbac218affbe4",
+      "independent_expected": "0",
+      "independent_mathematical_check": "分别构造非负/非正集合，交集只有0。",
+      "authored_verify_result": {
+        "id": "v8j_m7a_1_1_c1_intersection",
+        "status": "pass",
+        "detail": "0 = 0"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m7a_1_2_2_c1_read",
+      "task_sha256": "e20d87d3f149507094473dc93c77f09cb612a0f1af432adcb052ba5aadd8fa3b",
+      "independent_expected": "-3",
+      "independent_mathematical_check": "读取实际SVG中0、2与P的x坐标，以等距比例恢复P数值。",
+      "authored_verify_result": {
+        "id": "v8j_m7a_1_2_2_c1_read",
+        "status": "pass",
+        "detail": "0-3*(2/2) = -3"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m7a_2_3_2_c0_product-normalize",
+      "task_sha256": "2a22d87cc384ba9cac76e170a8692add707f6240c1da80735def050fe4125be3",
+      "independent_expected": "8",
+      "independent_mathematical_check": "将系数积20归一到[1,10)，十次幂指数相应增加1。",
+      "authored_verify_result": {
+        "id": "v8j_m7a_2_3_2_c0_product-normalize",
+        "status": "pass",
+        "detail": "3+4+1 = 8"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m7a_6_3_3_c0_ratio-condition",
+      "task_sha256": "8e414e10d9f8df0083d46f34284658ec3ac73a51e4f9457bbb209c728a3a3fa1",
+      "independent_expected": "30",
+      "independent_mathematical_check": "令余角u，则原锐角90−u，补角90+u=4u，得到u=30；用另一未知量独立列式。",
+      "authored_verify_result": {
+        "id": "v8j_m7a_6_3_3_c0_ratio-condition",
+        "status": "pass",
+        "detail": "90-(4*90-180)/(4-1) = 30"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m9a_27_3_c1_two-stage-time",
+      "task_sha256": "2a6f39e492db7b3678a3c1fd3b206557ee4346c3dbf317b21d2f7245281c29a4",
+      "independent_expected": "20",
+      "independent_mathematical_check": "先段耗2小时，后段可用时间最多3小时，正速度至少20。",
+      "authored_verify_result": {
+        "id": "v8j_m9a_27_3_c1_two-stage-time",
+        "status": "pass",
+        "detail": "60/(5-40/20) = 20"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m9b_33_2_2_c1_minimum-cubes",
+      "task_sha256": "2199043fcf2285aeabf2d126d593d4c93d96d646790e780cb3541724b617079c",
+      "independent_expected": "8",
+      "independent_mathematical_check": "枚举四格正整数高度1至3，逐一限制每行每列最大值为3，再取总高度最小值8。",
+      "authored_verify_result": {
+        "id": "v8j_m9b_33_2_2_c1_minimum-cubes",
+        "status": "pass",
+        "detail": "3+1+1+3 = 8"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m9b_34_1_2_c1_complement",
+      "task_sha256": "11a4dc3b26da0d56fc0c260d95eb06e3ba464ef2ac1ec84ceff5db081e3316a5",
+      "independent_expected": "3/10",
+      "independent_mathematical_check": "两种互斥且穷尽结果总概率1，不要求二者等可能。",
+      "authored_verify_result": {
+        "id": "v8j_m9b_34_1_2_c1_complement",
+        "status": "pass",
+        "detail": "1-0.7 = 3/10"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m9b_34_2_c0_without-replacement",
+      "task_sha256": "dcd4ea24a4288035c607c6b5bbed5fe9a78fa9897f251088ea0616cf108ad56f",
+      "independent_expected": "1/3",
+      "independent_mathematical_check": "枚举三个可区分球的有序不放回二抽，共6结果，两红2个。",
+      "authored_verify_result": {
+        "id": "v8j_m9b_34_2_c0_without-replacement",
+        "status": "pass",
+        "detail": "2/6 = 1/3"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m7b_12_2_1_c1_angle-to-count",
+      "task_sha256": "8ea7291856d38ce8d92cd943c78d3177e167636d1fc2a7a9fb78736e76be7425",
+      "independent_expected": "30",
+      "independent_mathematical_check": "实际扇形90°为整圆四分之一，120人中对应30人。",
+      "authored_verify_result": {
+        "id": "v8j_m7b_12_2_1_c1_angle-to-count",
+        "status": "pass",
+        "detail": "120*90/360 = 30"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m8a_13_3_c0_angle-equation",
+      "task_sha256": "579e386779d24b714bc6b8330a7c6c5d9f1c9dcf5e01eb52f83da5029a9d5790",
+      "independent_expected": "90",
+      "independent_mathematical_check": "核对三正角按1:2:3构成且和180，最大角90。",
+      "authored_verify_result": {
+        "id": "v8j_m8a_13_3_c0_angle-equation",
+        "status": "pass",
+        "detail": "180/(1+2+3)*3 = 90"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m8a_16_3_c1_cross-term-parameter",
+      "task_sha256": "b629af26be9445d192695d3a79672b839b03d7c109cc19593b8ea6707c5785a2",
+      "independent_expected": "6",
+      "independent_mathematical_check": "恒等式在x=1时给1+k+9=16，从而k=6；结合展开可验证对所有x成立。",
+      "authored_verify_result": {
+        "id": "v8j_m8a_16_3_c1_cross-term-parameter",
+        "status": "pass",
+        "detail": "2*3 = 6"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m8b_20_1_c1_roof-model",
+      "task_sha256": "dcbdb9cf8faa770d97d68b37cd3b176a625ff14e9fecf73c2d05b406f8b20db6",
+      "independent_expected": "5",
+      "independent_mathematical_check": "对称总跨度8先减半为4，斜边平方4²+3²=25，正长度5。",
+      "authored_verify_result": {
+        "id": "v8j_m8b_20_1_c1_roof-model",
+        "status": "pass",
+        "detail": "sqrt((8/2)**2+3**2) = 5"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m8b_21_1_c0_forward-angle-sum",
+      "task_sha256": "90dba1022c272254cc42fcfc11f76163d7307f41fdfde247917b909eee824193",
+      "independent_expected": "1080",
+      "independent_mathematical_check": "凸八边形由一个顶点分成六个三角形，内角和1080。",
+      "authored_verify_result": {
+        "id": "v8j_m8b_21_1_c0_forward-angle-sum",
+        "status": "pass",
+        "detail": "(8-2)*180 = 1080"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m8b_22_1_c1_negative-input-value",
+      "task_sha256": "4d2d169c2a2b09d2a133c1cb94125417873b04ea04c9e44df82f712807864ac6",
+      "independent_expected": "10",
+      "independent_mathematical_check": "负输入平方为4，−3乘−2为+6，总值10。",
+      "authored_verify_result": {
+        "id": "v8j_m8b_22_1_c1_negative-input-value",
+        "status": "pass",
+        "detail": "(-2)**2-3*(-2) = 10"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m8b_23_3_c1_parallel-systems",
+      "task_sha256": "0e5cd38c6edcd0e5e5df51f9c94132894c3dd0f2a677e49f4197f8349cc5d5c5",
+      "independent_expected": "0",
+      "independent_mathematical_check": "对任意实数两表达式恒差4，不存在相等输入，共同点数0。",
+      "authored_verify_result": {
+        "id": "v8j_m8b_23_3_c1_parallel-systems",
+        "status": "pass",
+        "detail": "0 = 0"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m9a_26_2_c1_bounded-maximum",
+      "task_sha256": "e707656eff85f99905cdfa30384a7994b07ae5bcec4e22d94fb9df7e71294b53",
+      "independent_expected": "3",
+      "independent_mathematical_check": "允许域内x−1≥1，故y≤3，且x=2达到；无需将有限采样当全域证明。",
+      "authored_verify_result": {
+        "id": "v8j_m9a_26_2_c1_bounded-maximum",
+        "status": "pass",
+        "detail": "-(2-1)**2+4 = 3"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m9a_26_4_c0_wall-enclosure",
+      "task_sha256": "736f8d01bba2447bc309d0c7247c4e44b03d2e2056d275a06e5b872db1f23bda",
+      "independent_expected": "72",
+      "independent_mathematical_check": "2x+y=24转为x+y/2=12，面积xy=2x(12−x)≤72，在x=y/2=6达到。",
+      "authored_verify_result": {
+        "id": "v8j_m9a_26_4_c0_wall-enclosure",
+        "status": "pass",
+        "detail": "6*(24-2*6) = 72"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m9a_29_2_c1_opposite-arcs",
+      "task_sha256": "5af4d0f0c8ee444369e44cf698cce89e021ac7dab8a6d2448226fc5c616686d7",
+      "independent_expected": "145",
+      "independent_mathematical_check": "两圆周角截到的AB弧合为360°，两角和180°。",
+      "authored_verify_result": {
+        "id": "v8j_m9a_29_2_c1_opposite-arcs",
+        "status": "pass",
+        "detail": "180-35 = 145"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m9a_30_1_c1_two-tangents",
+      "task_sha256": "902df032dca14ccf7d546ba5e259746cb53ad83bfa8441025003be212f9e460d",
+      "independent_expected": "8",
+      "independent_mathematical_check": "同斜边OP、同半径且直角，两切线长相等，PB=PA=8。",
+      "authored_verify_result": {
+        "id": "v8j_m9a_30_1_c1_two-tangents",
+        "status": "pass",
+        "detail": "8 = 8"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m9a_30_2_c0_incenter-angle",
+      "task_sha256": "6eada1d2e7c783674e785924b61c35c140c63235ecf1e01a3e599644defb3e34",
+      "independent_expected": "110",
+      "independent_mathematical_check": "B+C=140，角平分后BIC的两小角和70，余角110。",
+      "authored_verify_result": {
+        "id": "v8j_m9a_30_2_c0_incenter-angle",
+        "status": "pass",
+        "detail": "180-(180-40)/2 = 110"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m9b_33_1_c1_parallel-shadow-ratio",
+      "task_sha256": "90712ef2374a97cb51af615c42612afd710a8b91627436452dc0b319cbfb8897",
+      "independent_expected": "15/2",
+      "independent_mathematical_check": "同时间同水平面竖杆用同一阳光方向，影高比3/2保持。",
+      "authored_verify_result": {
+        "id": "v8j_m9b_33_1_c1_parallel-shadow-ratio",
+        "status": "pass",
+        "detail": "5*3/2 = 15/2"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    },
+    {
+      "task_id": "v8j_m9b_33_2_2_c1_single-row-cubes",
+      "task_sha256": "36a3609a8c6cdbc844822612332f376becbe524817c045369ffb90e74a39c27d",
+      "independent_expected": "6",
+      "independent_mathematical_check": "实际SVG正视有6个单位格，俯视只有一排三位置，无前后隐藏柱，所以总6。",
+      "authored_verify_result": {
+        "id": "v8j_m9b_33_2_2_c1_single-row-cubes",
+        "status": "pass",
+        "detail": "2+1+3 = 6"
+      },
+      "correct_answer_contract_status": "correct",
+      "distinct_wrong_answer_contract_status": "wrong"
+    }
+  ],
+  "choice_contract_checks": [
+    {
+      "task_id": "v8j_m7a_1_2_2_c3_consistent-scale",
+      "task_sha256": "b5b7fa7494bdd785b794e444f9dba354f43d1795bee798f7f66cb75cae352b14",
+      "contract_statuses": {
+        "o1": "wrong",
+        "o2": "correct",
+        "o3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7a_1_2_5_c0_constraints",
+      "task_sha256": "f7524762ece614938c5c9159bc9c8c6d7b18dcb639a6b8a2cb26015c72a38a45",
+      "contract_statuses": {
+        "1": "correct",
+        "2": "wrong",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7a_2_1_1_c1_legal-reorder",
+      "task_sha256": "f0a0e6390eba3c3bf8a5abef22b12c675e69caba27755e80fef8274c9b096492",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7a_5_1_2_c0_nonzero-divisor",
+      "task_sha256": "609039ce9351f942151e7193358ccd4f78279a12caf003182c9fa907680d7767",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7a_5_2_c1_find-missed-term",
+      "task_sha256": "8cde2fd8acac76911d6fab6576ce030c296a7f12e58ca619843c074d43a28d51",
+      "contract_statuses": {
+        "1": "correct",
+        "2": "wrong",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7b_7_2_2_c1_circular-step",
+      "task_sha256": "675f1e2785202e4647da85958aa9f307bcc89e90cb16788d7c59b9c0081ad51c",
+      "contract_statuses": {
+        "1": "correct",
+        "2": "wrong",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7b_12_1_2_c0_response-count",
+      "task_sha256": "2fa4d024901647c2717561b639c1ea0dd1e1652d622997215096677ba074f7be",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7b_12_1_2_c1_nonresponse",
+      "task_sha256": "78ebe82edcdc7b0e76859e5da5e6d46daa7531dc34d1a2e773e3360b5c104729",
+      "contract_statuses": {
+        "1": "correct",
+        "2": "wrong",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7b_12_2_1_c0_composition-purpose",
+      "task_sha256": "e1ac11de9ea310a624f5e0c6ab23843a3f88182245bff8c8f8d8234d23d02b27",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m8b_20_2_c1_direction",
+      "task_sha256": "cad89425c04cf7c6f808f66d1a9453bf2e4a684d0432c6c49c82f08d4c29ad9d",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m8b_24_2_c1_unit-comparability",
+      "task_sha256": "b0b5b1903e85792c96baa190a51edc4a0e829eae91683b058d20f0c0a180a70f",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m8b_24_3_c1_iqr-limit",
+      "task_sha256": "d8bf4373ffc1c55c06be3f29a2c162129b2405361c825c35fcf65233e17529dc",
+      "contract_statuses": {
+        "1": "correct",
+        "2": "wrong",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m9a_27_3_c0_fixed-overhead",
+      "task_sha256": "bd3fd862ba5c3d431bcab201be1258b8a35ac16e788bb1adb65020ae451dac0e",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m9b_34_1_1_c1_inclusive-event",
+      "task_sha256": "32e3c4526dc476d423c3cc88fa06db61660d42c30c0d7deaefd40678aa472936",
+      "contract_statuses": {
+        "1": "correct",
+        "2": "wrong",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m9b_34_1_1_c1_ordered-two-stage",
+      "task_sha256": "6ccaf7c27bd165e8b40da1885bff61aa1f406ce464f636b281f0e3c375d523a2",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m9b_34_2_c1_complete-tree",
+      "task_sha256": "a57f1c9e7a8b533bac737d1d0f1c534306d820a3a8699d748959c75bb4015465",
+      "contract_statuses": {
+        "1": "correct",
+        "2": "wrong",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7a_2_2_1_c0_zero-product",
+      "task_sha256": "738af1523f759cd4d444eb9997dc4dc2efa572d582b1e926387bd6ccff2fbbc2",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7a_2_3_3_c0_scientific-precision",
+      "task_sha256": "b51cd45e13cca44c5ad3913bfc920659343a9a6292d3b99b732660b1089d6edc",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong",
+        "4": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7a_4_1_c1_terms-degree-direct",
+      "task_sha256": "5eab4859586ca1189ac848ed8da8a3976c63b9d98335d5a726d1474c54c50957",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7a_4_1_c1_degree-cancellation",
+      "task_sha256": "ed043ddc60831142ef94b839b7c0f9b15812d0b75123256640c884d9a78c420b",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "wrong",
+        "3": "correct"
+      }
+    },
+    {
+      "task_id": "v8j_m7a_5_1_2_c0_multiply-zero-domain",
+      "task_sha256": "10e8b4ad646139d553780ed438d6bc1df948bc88989efd5593b5873a9de3518e",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7a_5_3_c1_integer-admissible",
+      "task_sha256": "a49b01854964e77dc138377f64cd59f1733ab8675c50a76fe44dc134ec76ffbf",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7a_5_3_c1_positive-length",
+      "task_sha256": "a26ad4b48981494924691d245eedc203ad0457181aa2baca0cc64b30b8c27bc2",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "wrong",
+        "3": "correct"
+      }
+    },
+    {
+      "task_id": "v8j_m7b_8_3_c0_decimal-periodicity",
+      "task_sha256": "089a80cd967edcf2b6cf54345e5185431549536d8cdd540ac47ec6461430e389",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7b_10_2_1_c1_unit-coefficient-choice",
+      "task_sha256": "5fab8c01e47f331d493b52f492842aa9c2f7a3ff238daf1986d16b9b07bb2d16",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7b_10_3_c1_noninteger-objects",
+      "task_sha256": "2df6c52025e5a48c71765e3a4a09b0e70eee087ea6b0e5bd24396b6bf12479d5",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7b_11_1_1_c0_strict-budget",
+      "task_sha256": "ea1e2e2c5ac67c912bfc7c156c7320b0e75da5bd03dafd1f4e038d41057eacdb",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7b_12_1_1_c1_population-individual",
+      "task_sha256": "aa0ce71ac0eed50adb5d3325a5634f106356e642293cf9cd3b12b450be34a6b6",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7b_12_2_3_c0_trend-local",
+      "task_sha256": "d8b77a51937105205520dcb9fa0dba918d368bf8834b1375436d31981343cd58",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m7b_12_2_3_c0_unequal-time-rate",
+      "task_sha256": "6350e5d9fcb2c5072799e591888836154809fbe8fe3be7545d994b89b1edf905",
+      "contract_statuses": {
+        "1": "correct",
+        "2": "wrong",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m8a_14_1_c0_side-signature",
+      "task_sha256": "052c0b0eee39ec2ebcf514a08ee122637607b94062914ae88c00e7a47f74c694",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m8a_15_1_c0_isosceles-axis",
+      "task_sha256": "e66ef0c6c947454718a30627525c7794288e88c42e20b2732b3e71f7feed2a50",
+      "contract_statuses": {
+        "1": "correct",
+        "2": "wrong",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m8a_15_3_c0_unspecified-angle-cases",
+      "task_sha256": "c03ded15525880dd222ac969f31ed09b5407f728373b3d3f7e853043fc600c0a",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m8a_17_1_c1_common-perfect-square",
+      "task_sha256": "7c06659a3a9d76181384516dcf3b5d52278afc53af823debd7ed8314a2c7d4b3",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m8a_17_2_c1_repeated-difference",
+      "task_sha256": "437067f4dc6d6313003cfdac17e0fd4dd9b0bca4d117906c5849ea23e1aa5506",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "wrong",
+        "3": "correct"
+      }
+    },
+    {
+      "task_id": "v8j_m8b_19_1_c0_domain-intersection",
+      "task_sha256": "e56820eb65ee2bfc5d11615273ada7075854357604aa6b658d4d32baa8979556",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong",
+        "4": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m8b_19_2_c1_conjugate-denominator",
+      "task_sha256": "db5557b3602c13e378229bd9eacae8a56f018d2e7cf252214647828464b2a583",
+      "contract_statuses": {
+        "1": "correct",
+        "2": "wrong",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m8b_22_1_c0_implicit-two-outputs",
+      "task_sha256": "d8db5c658bb25f26d478ff5c48f80b16a51361e6fe63d570a3996ba8806c736b",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m8b_22_1_c1_choose-variables",
+      "task_sha256": "a6726c683ca98c61659ba43a251518876668839f76632342c74562a7c9df6d19",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m8b_23_1_c0_parameter-coefficient",
+      "task_sha256": "61eab5a839fa001edfb040c3caf874a56ee4508c7f8e89a317b33158e536cbee",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m8b_23_4_c1_discrete-order-domain",
+      "task_sha256": "2af99d177708c7afbf2180fe046d13a9e2cd75dd595c81deb9933705951ab519",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m8b_24_1_c1_categorical-mode",
+      "task_sha256": "4bfd0f1ea85a74e473d72c44a3fe842e7c394d1dfe921f93c879119bf5d66364",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m8b_24_3_c1_same-quartiles-tail",
+      "task_sha256": "1f4aae58cd771bafa1972ac8cd3c988ab37cb1a3d5f6bcacfd7aed55388e9c3b",
+      "contract_statuses": {
+        "1": "correct",
+        "2": "wrong",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m9a_25_2_c1_parameter-roots",
+      "task_sha256": "e3617429d2c8dcfabecf2743d068ae7a5022099b201f24996a3b61d31815ac3d",
+      "contract_statuses": {
+        "1": "correct",
+        "2": "wrong",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m9a_25_3_c0_two-period-growth",
+      "task_sha256": "b62a81165cb49933dc707fb05bb984ffd63de1cabb6304b579e6226fb58fe618",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m9a_25_3_c1_inner-width-filter",
+      "task_sha256": "3d6bf2ae0891a3dff8239533a71d6ffa658a504f6807937f48e1567a470c5abc",
+      "contract_statuses": {
+        "1": "correct",
+        "2": "wrong",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m9a_26_1_c1_profit-demand-model",
+      "task_sha256": "7e3e71787cd5b516d78525eda4102ec1cccb0880c3742bd4ad2bfbe2d4ae4426",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m9a_26_2_c0_zeros-point-vertex",
+      "task_sha256": "45280b81f683b2cc71c5f7eae3be2a1e3707fb148b58c47769e86d64bce76516",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m9a_26_3_c1_no-root-sign",
+      "task_sha256": "9c5a513a677258bb202337a092d6fa164d1c2718c1c20ad52091f4de7cd9a21a",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "wrong",
+        "3": "correct"
+      }
+    },
+    {
+      "task_id": "v8j_m9a_30_3_c0_regular-angles",
+      "task_sha256": "8aedcb395c876b855b09be1fd8ba11fa90a5bc482b1ff1e8c2d52323d6c28cd1",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m9a_30_3_c1_square-radii",
+      "task_sha256": "72c26242dd01510707d98f85080a51471435ac7a22eed1150316bda57b8b2991",
+      "contract_statuses": {
+        "1": "correct",
+        "2": "wrong",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m9b_31_2_3_c0_area-versus-linear",
+      "task_sha256": "ea08cad818b47dda17099b6c6997bc580b9b9c5b69a09cd786df584150d1e146",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m9b_31_4_c1_nonorigin-centre",
+      "task_sha256": "3725526d7295b749c5f022f16e072a991e71a731da22e25c8149ba324321d518",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m9b_32_2_1_c0_hypotenuse-choice",
+      "task_sha256": "9ce7b39c8e94d2c8fb95ee92e414b5c0b6a226daad7cead943d263c686592aab",
+      "contract_statuses": {
+        "1": "correct",
+        "2": "wrong",
+        "3": "wrong"
+      }
+    },
+    {
+      "task_id": "v8j_m9b_33_1_c1_point-source-shadow",
+      "task_sha256": "c47c98e1b1751772323d6cfba276f2dfeef6ff816d5454565a2860c0ba441818",
+      "contract_statuses": {
+        "1": "wrong",
+        "2": "correct",
+        "3": "wrong"
+      }
+    }
+  ],
+  "family_corrections": [
+    {
+      "task_id": "v8j_m8a_16_3_c1_cross-term-parameter",
+      "old_family_id": "algebra.perfect-square.cross-term-parameter",
+      "new_family_id": "algebra.formula.perfect-square-cross-term",
+      "reason": "右边(x+3)²两项全已给，k仍由前向2ab=6求得；参数名不改变实际方法，因此合回旧中间项族。"
+    },
+    {
+      "task_id": "v8j_m8b_22_1_c0_implicit-two-outputs",
+      "old_family_id": "function.implicit-relation.two-outputs",
+      "new_family_id": "function.single-output-per-input",
+      "reason": "基线m8b.22.1-q1已给y²=x并以x=1、y=±1否定唯一性；新圆关系在x=0取±2是同一隐式多输出反例，合回旧族。"
+    },
+    {
+      "task_id": "v8j_m7a_1_2_5_c0_constraints",
+      "old_family_id": "number.rational.order.from-sign-constraints",
+      "new_family_id": "number.rational.compare-equivalent-forms",
+      "reason": "原组m7a.1.2.5-q2和自检实际已用负数<0<正数。新题a<0<b直接由同一符号分类得到，多余绝对值条件及用字母代替数值不产生独立方法。",
+      "existing_family_retained": true,
+      "phase": "practice"
+    },
+    {
+      "task_id": "v8j_m7a_2_2_1_c0_zero-product",
+      "old_family_id": "number.product.zero-absorbing-boundary",
+      "new_family_id": "number.product.negative-parity",
+      "reason": "原组m7a.2.2.1-q2已有(−5)×0×(−9)=0，零因子边界已经在该保守组内。本题继续沿用旧族，不把其名称中的负因子奇偶误读为排除零例。",
+      "existing_family_retained": true,
+      "phase": "practice"
+    },
+    {
+      "task_id": "v8j_m7a_2_3_3_c0_scientific-precision",
+      "old_family_id": "placevalue.approximation.scientific-place-scaling",
+      "new_family_id": "placevalue.approximation.precision",
+      "reason": "原自检已处理2.30×10⁴的末位位值，明确0.01×10⁴=100。新题1.200×10⁴只改变系数保留位，仍是同一实际科学记数法精度规则，合回旧族。",
+      "existing_family_retained": true,
+      "phase": "practice"
+    },
+    {
+      "task_id": "v8j_m7b_12_2_1_c0_composition-purpose",
+      "old_family_id": "statistics.chart-choice.part-whole",
+      "new_family_id": "statistics.chart-choice.ordered-change",
+      "reason": "原组m7b.12.2.1-q1已问部分占总体的百分比应选扇形图，自检也同时讨论时间趋势、类别和构成比例；旧族名不能遮蔽实际已包括的部分—整体分支。",
+      "existing_family_retained": true,
+      "phase": "practice"
+    },
+    {
+      "task_id": "v8j_m7b_8_3_c0_decimal-periodicity",
+      "old_family_id": "number.real.decimal-periodicity",
+      "new_family_id": "number.real.rationality-simplify",
+      "reason": "原q201与自检已将循环小数、根式、分数放在同一有理/无理分类族中，并解释循环与无限不循环。新题显式给完整循环性质仍使用该定义，不将媒介改写计作独立结构。",
+      "existing_family_retained": true,
+      "phase": "practice"
+    },
+    {
+      "task_id": "v8j_m8a_15_3_c0_unspecified-angle-cases",
+      "old_family_id": "triangle.isosceles.unspecified-angle.cases",
+      "new_family_id": "triangle.isosceles.base-angles",
+      "reason": "原m8a.15.3-q102已用未知角角色100°分类并排除作底角的分支。新题40°令两种角色均可行，但仍是原组真实包含的角色分类与内角和推理，保守归同族。",
+      "existing_family_retained": true,
+      "phase": "practice"
+    },
+    {
+      "task_id": "v8j_m7b_12_2_1_c1_angle-to-count",
+      "old_family_id": "statistics.pie.angle-to-count",
+      "new_family_id": "statistics.pie.proportion-to-count",
+      "reason": "原自检已同时以比例计算人数与360°圆心角。本题从图读90°后反求比例是同一整圆比例关系的反向使用，不因角度输入替代百分比而拆族；保留真实读图输入。",
+      "existing_family_retained": true,
+      "phase": "practice"
+    },
+    {
+      "task_id": "v8j_m9b_33_2_2_c1_single-row-cubes",
+      "old_family_id": "views.cubes.single-row-reconstruction",
+      "new_family_id": "views.cubes.single-row-height-sum",
+      "reason": "本题单排俯视排除了前后隐藏柱，逐柱求和与旧worked_example的同一单排高度求和结构相同，复用其已存在的规范族；与多排最大值约束仍有区别，但不是新发明的家族。",
+      "existing_family_retained": true,
+      "phase": "practice"
+    }
+  ],
+  "cross_reviews": [
+    {
+      "path": "docs/reviews/v8-junior-objective-root-review.json",
+      "sha256": "d4840466b65539f5a19a4c1466af59943ce9ce95353414542096b866c2100e7a"
+    },
+    {
+      "path": "docs/reviews/v8-junior-objective-cross-review.json",
+      "sha256": "4490273c5951229eb6eb931f54c944227da9a5385d8615b8efc6878c02cbd183"
+    },
+    {
+      "path": "docs/reviews/v8-junior-visual-observation-review.json",
+      "sha256": "a4552eaa2f785d45f926c7ed35c9a2a52ee0753cd52fd9ab94bf4048490e6d33"
+    }
+  ]
+}

@@ -54,8 +54,12 @@ def learner_payload(resource, values):
     status = values.get("status", "draft")
     if not isinstance(status, str) or status not in {"draft", "submitted"}:
         raise ValueError("作品状态只允许草稿或已提交自查")
-    return {key: copy.deepcopy(resource[key]) for key in
+    result = {key: copy.deepcopy(resource[key]) for key in
             ("kind", "source_ref", "resource_version", "resource_snapshot")} | {
         "draft": copy.deepcopy(draft), "reflection": reflection,
         "self_assessment": copy.deepcopy(assessment), "status": status,
         "assessment_basis": "learner_reported_not_automatic_grade"}
+    if "attachments" in values:
+        from .work_attachments import validate_attachments
+        result["attachments"] = validate_attachments(values["attachments"], fields)
+    return result

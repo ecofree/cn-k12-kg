@@ -464,6 +464,12 @@ def _validate_work_record(row, sessions):
     _require(payload.get("resource_version") == record["resource_version"])
     _require(isinstance(payload.get("resource_snapshot"), dict) and payload["resource_snapshot"])
     _validate_assets(payload["resource_snapshot"])
+    if "attachments" in payload:
+        from .work_attachments import validate_attachments
+        try:
+            validate_attachments(payload["attachments"], {field["id"] for field in payload["resource_snapshot"].get("fields", [])})
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError("备份中的作品附件无法核对：" + str(exc)) from exc
     source = payload.get("source_ref")
     if isinstance(source, str):
         _text(source)

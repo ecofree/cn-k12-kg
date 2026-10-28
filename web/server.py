@@ -231,7 +231,8 @@ def get_catalog():
 
 
 def unit_assets(unit):
-    if unit == _CONTENT.units.get(unit.get("id")):
+    if (unit == _CONTENT.units.get(unit.get("id"))
+            or unit.get("assessment_goal_id") in _CONTENT.catalog.assessment_plans and get_catalog() is _CONTENT.catalog):
         return _CONTENT.assets_for([unit, *unit["tasks"]])
     # Explicit in-process test fixtures can supply their own local assets.
     return session_content.unit_assets(unit)
@@ -250,7 +251,7 @@ def task_metadata(question):
         task = {}
     return {key: copy.deepcopy(task[key]) for key in
             ("resource_version", "skill_ids", "family_id", "family_status", "alignment", "answer_spec",
-             "representation", "purpose", "topic_ids")
+             "representation", "purpose", "topic_ids", "component_ids", "observation_boundary", "reference_family_ids")
             if key in task}
 
 
@@ -399,6 +400,7 @@ def _release_feedback(record, question_ids, events):
                        "family_id": presented_metadata(record, qid).get("family_id"),
                        "family_status": presented_metadata(record, qid).get("family_status", "unclassified"),
                        "payload": {"feedback_policy": record["feedback_policy"],
+                                   "family_ids": copy.deepcopy(presented_metadata(record, qid).get("reference_family_ids", [])),
                                    "evidence": "server_response_available_not_proof_of_reading"}})
 
 
@@ -451,6 +453,20 @@ def _build_session_summary(record: dict) -> dict:
                    "observation_scope": "presented_tasks_only", "independent_mastery_evidence": False,
                    "teacher_review": unit.get("teacher_review", {"status": "pending"}),
                    "incomplete": record["index"] < len(record["task_ids"])}
+        if record.get("assessment_goal_id"):
+            plan = unit["observation_plan"]
+            summary["assessment_goal_id"] = record["assessment_goal_id"]
+            summary["component_results"] = []
+            for component in plan["components"]:
+                entries = [a for a in record["answers"] if a["question_id"] in component["task_ids"]]
+                summary["component_results"].append({"component_id": component["id"],
+                    "statement": component["statement"], "observations": len(entries),
+                    "task_ids": [a["question_id"] for a in entries],
+                    "remaining_task_ids": [tid for tid in component["task_ids"] if tid not in {a["question_id"] for a in entries}],
+                    "status": "not_observed" if not entries else "needs_review" if any(a["status"] == "needs_review" for a in entries)
+                              else "practice_needed" if any(a["status"] != "correct" for a in entries) else "result_recorded",
+                    "independent_mastery_evidence": False})
+            summary["observation_notice"] = "这里只列出本次实际提交的分项。未提交的项目继续保留；过程作品待查看，单题正确不完成复合目标。"
     summary["answers"] = copy.deepcopy(record["answers"])
     summary["context"] = copy.deepcopy(record.get("context", {}))
     summary["created_at"] = record["created_at"]
@@ -520,6 +536,8 @@ def session_content_updates(record):
             route = {"teach": material[6:]}
         elif material.startswith("unit:"):
             route = {"unit": material[5:]}
+        elif material.startswith("assessment:"):
+            route = {"goal": material[len("assessment:"):]}
         row = {"task_id": identity, "status": "updated" if saved.get("resource_version") else "legacy_unverified"}
         if route:
             row["url"] = "/?" + urllib.parse.urlencode(route)
@@ -547,6 +565,7 @@ def session_payload(record: dict) -> dict:
                             "mode": record["mode"], "answered_count": len(record["answers"]),
                             "targets": record.get("engine", {}).get("targets", []),
                             "unit_id": record.get("unit_id"), "created_at": record["created_at"],
+                            "assessment_goal_id": record.get("assessment_goal_id"),
                             "feedback_policy": record["feedback_policy"],
                             "content_sha256": record["content_sha256"],
                             "resource_version": record.get("resource_version", record["content_sha256"]),
@@ -593,7 +612,7 @@ def export_record(record):
     out["answers"] = []
     raw_fields = ("question_id", "prompt", "raw_answer", "normalized_answer", "normalized_answer_format", "objective_ids", "skill_ids", "family_id", "family_status",
                   "presented_at", "answered_at", "duration_ms", "client_elapsed_ms",
-                  "content_sha256", "feedback_available_at", "skipped")
+                  "content_sha256", "feedback_available_at", "skipped", "component_ids", "observation_boundary")
     for entry in record["answers"]:
         shown = {k: copy.deepcopy(entry[k]) for k in raw_fields if k in entry}
         if entry["question_id"] in record["feedback_exposed"]:
@@ -618,7 +637,8 @@ def export_record(record):
             item.update(question=public_question(question), snapshot_status="saved_public_task")
             metadata = presented_metadata(record, qid)
             item["task_metadata"] = {key: copy.deepcopy(metadata[key]) for key in
-                ("resource_version", "skill_ids", "family_id", "family_status", "alignment", "answer_spec")
+                ("resource_version", "skill_ids", "family_id", "family_status", "alignment", "answer_spec",
+                 "component_ids", "observation_boundary")
                 if key in metadata}
             if "answer_spec" in metadata:
                 item["question"]["answer_spec"] = copy.deepcopy(metadata["answer_spec"])
@@ -640,6 +660,14 @@ def export_record(record):
         out["objective_definitions"] = [copy.deepcopy(objective)
             for objective in record.get("unit_snapshot", {}).get("objectives", [])
             if objective["id"] in observed_objectives]
+        if record.get("assessment_goal_id"):
+            out["assessment_goal_id"] = record["assessment_goal_id"]
+            shown_components = {identity for item in out["presented_tasks"]
+                                for identity in item.get("task_metadata", {}).get("component_ids", [])}
+            out["observation_components"] = [{key: copy.deepcopy(component[key]) for key in
+                ("id", "statement", "submission_requirements", "task_ids")}
+                for component in record.get("unit_snapshot", {}).get("observation_plan", {}).get("components", [])
+                if component["id"] in shown_components]
     if record.get("completed_at"):
         out["summary"] = session_summary(record)
         out["verdictText"] = record.get("verdict_snapshot", "这是原内容版本保存的结果，请查看各项目证据。")
@@ -865,6 +893,25 @@ def work_descriptor(values, owner):
             [{"id": "response", "label": "我的过程与修订", "prompt": question["prompt"],
               "initial_value": answer.get("raw_answer", "")}], criteria,
             work_id=work_id, stage=stage)
+        if question.get("diagram"):
+            # A later work visit needs the original figure, including when the
+            # current authoring source has changed or removed it. Never reread
+            # the current asset to fill a missing historical snapshot.
+            diagram = copy.deepcopy(question["diagram"])
+            asset = session_content.session_assets(record).get(diagram["src"])
+            resource["resource_snapshot"].update(diagram=diagram,
+                asset_snapshots={diagram["src"]: copy.deepcopy(asset)} if asset else {})
+        if record.get("assessment_goal_id"):
+            plan = record["unit_snapshot"]["observation_plan"]
+            components = [component for component in plan["components"] if qid in component["task_ids"]]
+            snapshot = resource["resource_snapshot"]
+            snapshot.update(task_ids=[qid], skill_ids=list(question.get("skill_ids", [])),
+                component_ids=[component["id"] for component in components],
+                observation_note=question.get("observation_boundary", ""),
+                assessment_goal_id=record["assessment_goal_id"])
+            snapshot["fields"].extend({"id": component["id"], "label": component["statement"],
+                "prompt": "\n".join(component["submission_requirements"]), "phase": "component"}
+                for component in components)
         if record["kind"] == "support":
             # Reuse the existing owner/revision/idempotency contract for an
             # unsubmitted help-task draft. It is neither a graded answer nor
@@ -1297,7 +1344,8 @@ class Handler(BaseHTTPRequestHandler):
         except ValueError:
             return self._error(400, "请求长度不合法")
         maximum = (profile_recovery.MAX_ENVELOPE_BYTES + 4096
-                   if path in {"/api/profile/restore", "/api/profile/verify-backup"} else 1_000_000)
+                   if path in {"/api/profile/restore", "/api/profile/verify-backup"}
+                   else 2_000_000 if path == "/api/work" else 1_000_000)
         if length < 0 or length > maximum:
             return self._error(413, "请求过大")
         try:
@@ -1517,6 +1565,12 @@ class Handler(BaseHTTPRequestHandler):
             return self._error(400, "模式必须是字符串")
         if "unit_id" in payload and not isinstance(payload["unit_id"], str):
             return self._error(400, "学习单元ID必须是字符串")
+        assessment_goal = payload.get("assessment_goal_id")
+        if "assessment_goal_id" in payload:
+            if (not isinstance(assessment_goal, str) or not assessment_goal
+                    or assessment_goal not in get_catalog().assessment_plans
+                    or "unit_id" in payload or "targets" in payload or payload.get("followup_need_ids")):
+                return self._error(400, "分项观察须指定有效目标，不能混用其他学习范围或关闭旧待观察事项")
         owner = self._owner()
         record = {"id": uuid.uuid4().hex, "owner_id": owner, "mode": mode,
                   "created_at": _now(), "answers": [], "presentations": {}, "question_snapshots": {},
@@ -1553,8 +1607,12 @@ class Handler(BaseHTTPRequestHandler):
                 return self._error(400, "不同原内容版本的后续事项须分别跟进")
             record["source_origin"] = {"unit_id": payload["unit_id"], "need_ids": list(followup_ids),
                 "resource_version": next(iter(versions)), "source_ref": [need["source_ref"] for need in followup_needs]}
-        if payload.get("unit_id"):
-            unit = learning_units().get(payload["unit_id"])
+        if payload.get("unit_id") or assessment_goal:
+            if assessment_goal:
+                from cnkg.assessments import observation_unit
+                unit = observation_unit(get_catalog(), assessment_goal)
+            else:
+                unit = learning_units().get(payload["unit_id"])
             if unit is None or mode not in ("practice", "transfer", "delayed"):
                 return self._error(400, "学习单元或练习阶段不合法")
             task_ids = [t["id"] for t in unit["tasks"] if t["phase"] == mode]
@@ -1576,7 +1634,8 @@ class Handler(BaseHTTPRequestHandler):
                     return self._error(400, "后续观察须对应原事项仍待观察的全部具体目标")
                 focus = required
             if focus:
-                if not set(focus).issubset(get_catalog().units.get(unit["id"], {}).get("skill_ids", [])):
+                unit_skills = unit.get("skill_ids", []) if assessment_goal else get_catalog().units.get(unit["id"], {}).get("skill_ids", [])
+                if not set(focus).issubset(unit_skills):
                     return self._error(400, "所选技能不属于这个单元")
                 from cnkg.learning_needs import task_options
                 selected = task_options(get_catalog(), focus, get_store().planning_records(owner),
@@ -1608,7 +1667,13 @@ class Handler(BaseHTTPRequestHandler):
                           resource_version=get_catalog().units.get(unit["id"], {}).get("resource_version", learning.unit_content_sha256(unit)),
                           grader_sha256=unit_grader_version())
             record["task_metadata"] = {q["id"]: task_metadata(q) for q in unit["tasks"]}
-            resources = ["unit:" + unit["id"]]
+            if assessment_goal:
+                record["assessment_goal_id"] = assessment_goal
+                record["context"]["observation_plan_version"] = unit["resource_version"]
+                record["resource_version"] = unit["resource_version"]
+                resources = ["assessment:" + assessment_goal]
+            else:
+                resources = ["unit:" + unit["id"]]
         else:
             if mode not in engine.MODES:
                 return self._error(400, "未知练习或诊断模式")
@@ -1776,6 +1841,9 @@ class Handler(BaseHTTPRequestHandler):
                  "skill_ids": presented_metadata(record, qid).get("skill_ids", []),
                  "family_id": presented_metadata(record, qid).get("family_id"),
                  "family_status": presented_metadata(record, qid).get("family_status", "unclassified")}
+        if record.get("assessment_goal_id"):
+            entry["component_ids"] = list(presented_metadata(record, qid).get("component_ids", []))
+            entry["observation_boundary"] = presented_metadata(record, qid).get("observation_boundary", "")
         family = entry.get("family_id") if entry["family_status"] == "declared" else None
         related_questions = [qid, *historical_question_ids([family] if family else [])]
         observed = get_store().exposures(record["owner_id"], question_ids=related_questions, family_ids=[family] if family else [])

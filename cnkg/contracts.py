@@ -22,7 +22,7 @@ RESOURCE_KINDS = frozenset({
     "topic", "dependency", "question", "teaching-card", "learning-task",
     "learning-unit", "project", "answer-spec",
     "skills-registry", "catalog-bindings", "catalog",
-    "content-manifest", "question-source", "instructional-support", "curriculum-scope",
+    "content-manifest", "question-source", "instructional-support", "curriculum-scope", "assessment-source",
 })
 
 
@@ -190,6 +190,9 @@ def validate_repository(data_dir=None, *, include_references=True):
                                   for error in validate_resource("question-source", payload))
         except (OSError, ValueError) as exc:
             errors.append(f"content_sources.json: {exc}")
+    from .assessments import load_sources
+    _, observation_errors = load_sources(data)
+    errors.extend(observation_errors)
     # Avoid following malformed structures after the precise schema errors.
     if errors or not include_references:
         return errors

@@ -143,6 +143,26 @@ class ChangeReviewTests(unittest.TestCase):
         paths = {row["path"] for row in report["preview_tasks"]}
         self.assertTrue({"/?scope=1", "/?needs=1", "/?profile=1"} <= paths)
 
+    def test_assessment_figure_only_change_requires_the_exact_goal_preview(self):
+        source = "data/assessments/primary.json"
+        self.catalog["tasks"]["observe"] = {"id": "observe", "source_ref": {"path": source},
+            "skill_ids": ["s1"], "material_id": "assessment:s1"}
+        self.catalog["assessment_plans"] = {"s1": {"skill_id": "s1", "source_path": source,
+            "task_ids": ["observe"]}}
+        self.catalog["materials"] = {"assessment:s1": {"topic_ids": ["t"], "kind": "assessment"}}
+        self.write_json(source, {"goals": [{"skill_id": "s1"}], "tasks": [{"id": "observe",
+            "diagram": {"src": "/static/diagrams/observation.svg", "alt": "任务原图"}}]})
+        self.write_json("data/catalog.json", self.catalog)
+        self.write("web/static/diagrams/observation.svg", '<svg xmlns="http://www.w3.org/2000/svg"><circle cx="1" cy="1" r="1"/></svg>')
+        self.git("add", ".")
+        self.git("-c", "user.name=Test", "-c", "user.email=test@example.invalid", "commit", "-qm", "registered observation figure")
+        base = self.git("rev-parse", "HEAD").strip()
+        self.write("web/static/diagrams/observation.svg", '<svg xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="1" r="1"/></svg>')
+        report = review_changes(self.root, base)
+        self.assertEqual([row["path"] for row in report["files"]], ["web/static/diagrams/observation.svg"])
+        self.assertIn("assessment:s1", report["files"][0]["impact"]["materials"])
+        self.assertIn("/?goal=s1", {row["path"] for row in report["preview_tasks"]})
+
     def test_changed_example_also_impacts_tasks_with_declared_shared_family(self):
         self.catalog["tasks"]["uq"].update(family_id="f", family_status="declared")
         self.write_json("data/catalog.json", self.catalog)

@@ -17,6 +17,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 BUILD = ROOT / "build"
 sys.path.insert(0, str(ROOT / "tools"))
+sys.path.insert(0, str(ROOT))
 
 from validate import VOLUMES  # noqa: E402
 
@@ -189,6 +190,8 @@ def build_snapshot(data_dir=DATA, root_dir=ROOT):
             "fail": review_fail,
             "skip": review_skip,
             "never_reviewed": never_reviewed,
+            "record_source": "data/reviews.json",
+            "missing_record_meaning": "未在旧reviews.json中登记；不表示未在分轮语义审查报告中审读",
             "coverage": pct(len(reviewed), len(questions)),
             "teacher_reviewed": sum(1 for r in reviewed.values() if r.get("teacher_reviewed")),
             "orphaned_records": sum(1 for qid in reviews if qid not in question_ids),
@@ -225,6 +228,22 @@ def build_snapshot(data_dir=DATA, root_dir=ROOT):
         },
         "response_data": response_data(data_dir),
     }
+    # Keep the old review ledger intact. Current source-bound semantic reviews
+    # and observation opportunities are separate evidence with separate limits.
+    snapshot["bound_bank_review"] = {"available": False}
+    snapshot["goal_observation_resources"] = {"available": False}
+    if pathlib.Path(data_dir).resolve() == (pathlib.Path(root_dir) / "data").resolve():
+        if (pathlib.Path(root_dir) / "docs/reviews/v8-bank-review-index.json").is_file():
+            from cnkg.bank_review import check_reviews
+            report = check_reviews(root_dir)
+            snapshot["bound_bank_review"] = {"available": True, "ok": report["ok"],
+                "summary": report["summary"], "errors": report["errors"], "limits": report["limits"]}
+        if (pathlib.Path(data_dir) / "catalog.json").is_file():
+            from cnkg.assessments import report as assessment_report
+            report = assessment_report(read("catalog.json", {}), require_complete=True)
+            snapshot["goal_observation_resources"] = {"available": True, "ok": report["ok"],
+                "summary": report["summary"], "errors": report["errors"], "limits": report["limits"],
+                "scope": "已编译目录的资源可用性；来源一致性另由构建门禁检查，不是学生已掌握数"}
     return snapshot
 
 
@@ -250,9 +269,24 @@ def main(argv=None):
     print(f"题目 {q['total']}：{q['by_type']}；难度 {q['by_difficulty']}")
     print(f"  配有机器验算表达式 {q['verifiable']}（{percent_text(q['verifiable_rate'])}），"
           f"每点 {q['min_per_topic']}–{q['max_per_topic']} 道，均 {q['avg_per_topic']}")
-    print(f"既有复核记录： {r['reviewed']}（pass {r['pass']} / fail {r['fail']} / skip {r['skip']}），"
-          f"覆盖 {percent_text(r['coverage'])}，从未审过 {r['never_reviewed']}，教师审核 {r['teacher_reviewed']}")
+    print(f"旧reviews.json记录： {r['reviewed']}（pass {r['pass']} / fail {r['fail']} / skip {r['skip']}），"
+          f"该台账未记载 {r['never_reviewed']}，该台账教师审核 {r['teacher_reviewed']}")
     print(f"  {r['scope']}")
+    bank = snapshot["bound_bank_review"]
+    if bank["available"]:
+        counts = bank["summary"]
+        print(f"当前版本逐题AI审查绑定：{'通过' if bank['ok'] else '有待解决的错误'}；"
+              f"前轮{counts['previous_round_tasks']}＋本轮{counts['this_round_tasks']}，"
+              f"共{counts['covered_tasks']}/{counts['bank_tasks']}条；隔离{counts['quarantined_tasks']}条仍保留")
+        for error in bank["errors"]:
+            print("  " + error)
+    observations = snapshot["goal_observation_resources"]
+    if observations["available"]:
+        counts = observations["summary"]
+        print(f"逐目标观察计划：{counts['planned_goals']}/{counts['registered_goals']}，"
+              f"分项{counts['components']}，新增任务{counts['new_tasks']}；"
+              f"主题与单元两类客观题族已具备{counts['goals_with_two_objective_families']}，"
+              f"仍不足{counts['objective_breadth_gaps']}；资源可用不等于已取得学生表现")
     if r.get("fixed_pending_recheck"):
         print(f"  其中 {r['fixed_pending_recheck']} 条 fail 已修订，等待复检（verdict 未改写）")
     print(f"先修：{g['edges']} 边（hard {g['hard']} / soft {g['soft']}），根 {g['roots']}，末端 {g['leaves']}，"

@@ -5,6 +5,7 @@
 目标修正任务；本轮30条例外须同时命中固定名单、完整作者对象指纹与
 已审查合同。未入名单的题保留旧复合要求，不能因审查文件存在就放行。
 V7只对四个新增有限目标映射续审，不修改旧V6记录或扩大内容例外名单。
+V8仅续审m2b.3.5-q95的设计难度说明；题面、答案和旧例外名单保持原约束。
 
 运算符数量只是历史算式结构检查，不是实测学生难度。旧生成器继续保持
 整数/小数输出约定；这不表示现行精确判分不支持分数。
@@ -47,6 +48,7 @@ V6_EXACT_CONTENT_OVERRIDES = frozenset({
 V7_MAPPING_CONTINUATIONS = frozenset({
     "m1a.5.5-q95", "m2b.3.2-q95", "m3a.6.2-q95", "m6a.3.3-q95",
 })
+V8_DESCRIPTION_CONTINUATIONS = frozenset({"m2b.3.5-q95"})
 PUBLISHED_REVIEW_FIELDS = (
     "prompt", "answer", "verify", "difficulty", "difficulty_basis",
     "family_id", "variant_id", "representation", "cognitive_demand",
@@ -82,6 +84,8 @@ class TestStep2Questions(unittest.TestCase):
         cls.v6_decisions = {row["id"]: row for row in cls.v6_review["tasks"]}
         cls.v7_review = json.loads((ROOT / "docs/reviews/v7-step-task-review.json").read_text(encoding="utf-8"))
         cls.v7_decisions = {row["id"]: row for row in cls.v7_review["tasks"]}
+        cls.v8_review = json.loads((ROOT / "docs/reviews/v8-step-task-review.json").read_text(encoding="utf-8"))
+        cls.v8_decisions = {row["id"]: row for row in cls.v8_review["tasks"]}
         cls.author_questions = {}
         for source in {row["source"] for row in cls.v6_review["tasks"]}:
             path = Path(source)
@@ -153,7 +157,7 @@ class TestStep2Questions(unittest.TestCase):
         for question in applied:
             qid = question["id"]
             with self.subTest(question=qid):
-                decision = self.v7_decisions.get(qid, self.v6_decisions[qid])
+                decision = self.v8_decisions.get(qid, self.v7_decisions.get(qid, self.v6_decisions[qid]))
                 source, author_question = self.author_questions[qid]
                 self.assertEqual(source, decision["source"])
                 self.assertTrue(_matches_reviewed_source(author_question, decision),
@@ -248,6 +252,33 @@ class TestStep2Questions(unittest.TestCase):
                 source = self.author_questions[qid][1]
                 self.assertTrue(_matches_reviewed_source(source, current))
                 self.assertFalse(_matches_reviewed_source({**source, "answer": "unreviewed answer"}, current))
+
+    def test_v8_description_continuation_preserves_every_mathematical_field(self):
+        self.assertEqual(V8_DESCRIPTION_CONTINUATIONS, set(self.v8_decisions))
+        self.assertEqual(1, len(self.v8_review["tasks"]))
+        self.assertEqual(V6_EXACT_CONTENT_OVERRIDES,
+                         set(self.v8_review["approved_exact_overrides_unchanged"]))
+        self.assertEqual("ai", self.v8_review["reviewer_kind"])
+        self.assertFalse(self.v8_review["independent_teacher_review"])
+        for qid, decision in self.v8_decisions.items():
+            previous = self.v6_decisions[qid]
+            self.assertEqual(previous["current_source_task_sha256"], decision["previous_source_task_sha256"])
+            self.assertEqual(["difficulty_basis"], decision["changed_fields"])
+            self.assertEqual("design_description_only", decision["semantic_change_scope"])
+            self.assertTrue(decision["continued_review_reason"].strip())
+            self.assertEqual(previous["allow_exact_content_override"], decision["allow_exact_content_override"])
+            for field in PUBLISHED_REVIEW_FIELDS:
+                if field != "difficulty_basis":
+                    self.assertEqual(previous["current_contract"][field], decision["current_contract"][field])
+            raw = (ROOT / decision["review_evidence"]).read_bytes()
+            self.assertEqual(hashlib.sha256(raw).hexdigest(), decision["review_evidence_sha256"])
+            evidence = next(row for row in json.loads(raw)["tasks"] if row["id"] == qid)
+            self.assertEqual({"difficulty_basis"}, set(evidence["changed_fields"]))
+            self.assertEqual(evidence["current_source_task_sha256"], decision["current_source_task_sha256"])
+            source = self.author_questions[qid][1]
+            self.assertTrue(_matches_reviewed_source(source, decision))
+            self.assertFalse(_matches_reviewed_source({**source, "answer": "2801"}, decision))
+            self.assertFalse(decision["student_difficulty_calibrated"])
 
     def test_reviewed_exception_does_not_survive_unreviewed_content_changes(self):
         decision = self.v6_decisions["m3a.6.4-q95"]

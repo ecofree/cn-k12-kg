@@ -26,7 +26,8 @@ GRADER_SOURCES = {
     "topic": ("cnkg/engine.py", "cnkg/graph.py", "cnkg/evidence.py", "cnkg/admissions.py", "cnkg/verify.py",
               "cnkg/answers.py", "cnkg/contracts.py", "schema/answer-spec.schema.json"),
 }
-GRADER_SOURCES = {kind: (*sources, "cnkg/task_families.py", "data/task_family_aliases.json", "data/task_family_history.json")
+GRADER_SOURCES = {kind: (*sources, "cnkg/task_families.py", "data/task_family_aliases.json", "data/task_family_history.json",
+                         "data/task_family_transitions.json")
                   for kind, sources in GRADER_SOURCES.items()}
 
 

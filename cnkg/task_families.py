@@ -152,8 +152,74 @@ def load_history(path, *, root):
 HISTORICAL_FAMILIES = load_history(ROOT / "data/task_family_history.json", root=ROOT)
 
 
+def load_task_transitions(path, *, root):
+    """Correct a particular old task's family without merging its old family.
+
+For example, a static missing-part task may have been labelled as a dynamic
+take-away task. Only that task's actual historical exposure may carry forward;
+other tasks with the old label do not become equivalent by association.
+"""
+    root = Path(root).resolve()
+    value = json.loads(Path(path).read_text())
+    if value.get("schema") != 1 or not isinstance(value.get("tasks"), list):
+        raise ValueError("逐题题族迁移须有明确逐题语义审查")
+    bindings = json.loads((root / "data/skills/catalog-bindings.json").read_text())["tasks"]
+    result, sources = {}, {}
+    digest = lambda item: hashlib.sha256(json.dumps(item, ensure_ascii=False, sort_keys=True,
+                                                   separators=(",", ":")).encode()).hexdigest()
+    for row in value["tasks"]:
+        identity, source = row.get("task_id"), row.get("source")
+        previous, current = row.get("baseline_task"), row.get("current_task")
+        if (not isinstance(identity, str) or identity in result or not identity
+                or row.get("use") != "exposure_only" or row.get("reviewer_kind") != "ai"
+                or row.get("independent_teacher_review") is not False
+                or row.get("decision") != "allow_same_structure"
+                or not isinstance(row.get("reason"), str) or not row["reason"].strip()
+                or not isinstance(row.get("baseline_commit"), str)
+                or not re.fullmatch("[a-f0-9]{40}", row["baseline_commit"])
+                or not isinstance(previous, dict) or not isinstance(current, dict)
+                or previous.get("id") != identity or current.get("id") != identity):
+            raise ValueError("逐题题族迁移缺少实际旧题、新题或同结构审查决定")
+        if (not isinstance(source, str) or not source.startswith(("data/content/", "data/question_sources/"))
+                or not source.endswith(".json") or "\\" in source or ".." in Path(source).parts
+                or Path(source).is_absolute() or not (root / source).resolve().is_relative_to(root)):
+            raise ValueError("逐题题族迁移来源越界")
+        current_path = root
+        for part in Path(source).parts:
+            current_path = current_path / part
+            if current_path.is_symlink():
+                raise ValueError("逐题题族迁移来源不得是符号链接")
+        if source not in sources:
+            data = json.loads((root / source).read_text())
+            questions = data.get("questions", []) if isinstance(data, dict) else data
+            sources[source] = {question["id"]: question for question in questions}
+            if len(sources[source]) != len(questions):
+                raise ValueError("逐题题族迁移来源含重复题目身份")
+        if (digest(previous) != row.get("baseline_source_task_sha256")
+                or digest(current) != row.get("current_source_task_sha256")
+                or digest(sources[source].get(identity)) != row.get("current_source_task_sha256")
+                or digest(task_contract(current, bindings.get("bank:" + identity, {}))) != row.get("current_task_contract_sha256")):
+            raise ValueError("逐题题族迁移绑定的题目或判分合同已改变，必须重新审查")
+        old_family, new_family = row.get("historical_family_id"), row.get("canonical")
+        if (not all(isinstance(family, str) and family.strip() and not family.startswith("unclassified:")
+                    and family not in {"unknown", "unclassified"} for family in (old_family, new_family))
+                or canonical_family(old_family) == canonical_family(new_family)
+                or previous.get("family_id") != old_family
+                or canonical_family(current.get("family_id")) != canonical_family(new_family)):
+            raise ValueError("逐题题族迁移必须绑定旧题与当前题实际声明的不同题族")
+        result[identity] = {"historical_family_id": old_family, "canonical": canonical_family(new_family)}
+    return result
+
+
+TASK_TRANSITIONS = load_task_transitions(ROOT / "data/task_family_transitions.json", root=ROOT)
+
+
 def exposure_family(identity, *, question_id=None):
     """Conservative comparison key; never use this to award positive evidence."""
+    transition = TASK_TRANSITIONS.get(question_id)
+    if transition and (not identity or identity in {"unknown", "unclassified"}
+                       or canonical_family(identity) in {canonical_family(transition["historical_family_id"]), transition["canonical"]}):
+        return transition["canonical"]
     if identity in HISTORICAL_FAMILIES:
         return HISTORICAL_FAMILIES[identity]
     if (not identity or identity in {"unknown", "unclassified"}) and question_id:
@@ -167,8 +233,9 @@ def historical_question_ids(identities):
     if isinstance(identities, str):
         raise ValueError("历史曝光查询需要题族ID列表")
     selected = {exposure_family(identity) for identity in identities}
-    return sorted(alias.removeprefix("unclassified:") for alias, family in HISTORICAL_FAMILIES.items()
-                  if canonical_family(family) in selected)
+    return sorted({alias.removeprefix("unclassified:") for alias, family in HISTORICAL_FAMILIES.items()
+                   if canonical_family(family) in selected}
+                  | {identity for identity, row in TASK_TRANSITIONS.items() if row["canonical"] in selected})
 
 
 def equivalent_names(identities):

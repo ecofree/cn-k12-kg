@@ -422,8 +422,16 @@ class FullCatalogTests(unittest.TestCase):
 
     def test_all_active_component_observations_cannot_confirm_or_reject_the_whole_topic(self):
         tasks = [task for task in self.c.tasks.values() if task["availability"] == "active"]
+        assessment_tasks = [task for path in (ROOT / 'data/assessments').glob('*.json')
+                            for task in json.loads(path.read_text())["tasks"]]
+        self.assertTrue(assessment_tasks, "发布内容须有真实的新分项任务，不能只登记空计划")
         self.assertEqual(Counter(task['source_kind'] for task in tasks),
-                         {'bank': 3091, 'self_check': 1608, 'unit': 235, 'project_step': 84})
+                         {'bank': 3091, 'self_check': 1608, 'unit': 235, 'project_step': 84,
+                          'assessment': len(assessment_tasks)})
+        self.assertEqual({task['id'] for task in tasks if task['source_kind'] == 'assessment'},
+                         {task['id'] for task in assessment_tasks})
+        for task in assessment_tasks:
+            self.assertEqual(self.c.task(task['id'])['purpose'], [task['phase']], task['id'])
         self.assertEqual(len(tasks), self.c.coverage['active_tasks'])
         self.assertEqual(len(tasks), sum(self.c.coverage['task_source_counts'].values())
                          - self.c.coverage['quarantined_tasks'])

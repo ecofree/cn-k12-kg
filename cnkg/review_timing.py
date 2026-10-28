@@ -50,7 +50,8 @@ def unit_activity_scope(unit, catalog):
             task = {**task, **tasks.get(identity, {})}
         if task.get("family_status") == "declared" and task.get("family_id"):
             families.add(task["family_id"])
-    resource = "unit:" + unit["id"]
+    resource = ("assessment:" + unit["assessment_goal_id"] if unit.get("assessment_goal_id")
+                else "unit:" + unit["id"])
     families.update(materials.get(resource, {}).get("family_ids", []))
     task_ids.update(historical_question_ids(families))
     return {"resource_ids": [resource, unit["id"]], "question_ids": sorted(task_ids),

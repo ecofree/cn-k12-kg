@@ -4,6 +4,20 @@ window.CNKGWork = (() => {
   const labels = { not_checked: "还没检查", met: "我已做到", partial: "还需补充", revisit: "需要重做" };
   const create = (tag, text, cls) => { const el = document.createElement(tag); if (text != null) el.textContent = text; if (cls) el.className = cls; return el; };
   const identifier = () => globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const attachmentTypes = new Set(["image/png", "image/jpeg", "image/webp", "audio/wav", "audio/webm", "audio/ogg", "audio/mp4"]);
+  function renderAttachment(item, container) {
+    if (!attachmentTypes.has(item.media_type) || typeof item.data_base64 !== "string") return;
+    const row = create("figure", null, "work-attachment");
+    const url = `data:${item.media_type};base64,${item.data_base64}`;
+    if (item.media_type.startsWith("image/")) {
+      const image = create("img"); image.src = url; image.alt = `保存的图稿：${item.filename}`; image.loading = "lazy"; row.append(image);
+    } else {
+      const recording = create("audio"); recording.src = url; recording.controls = true; recording.preload = "none"; row.append(recording);
+    }
+    const caption = create("figcaption", `${item.filename} · ${Math.ceil(item.byte_size / 1024)} KB`);
+    const download = create("a", "下载这份原文件"); download.href = url; download.download = item.filename;
+    row.append(caption, download); container.append(row); return row;
+  }
   function statusBanner() {
     const pending = [...editors].filter(editor => editor.unsaved());
     const banner = document.getElementById("save-notice");
@@ -56,6 +70,7 @@ window.CNKGWork = (() => {
       } else root.append(create("p", "这份作品未保存可恢复的原图示，无法还原；这里不会用当前图示替换。", "muted work-snapshot-notice"));
     }
     const saved = data.work?.payload || {};
+    let attachments = [...(saved.attachments || [])], attachmentRead = null;
     const fields = new Map();
     const referenceStatus = create("p", "", "muted work-reference-status"); referenceStatus.setAttribute("role", "status");
     const support = snapshot.difficulty_support;
@@ -102,6 +117,19 @@ window.CNKGWork = (() => {
       if (missing.length) root.append(create("p", `这里只显示当时实际保存的内容。这份作品未保存${missing.join("、")}，无法还原，也不会用当前材料补写。`, "muted work-snapshot-notice"));
     }
     root.append(referenceStatus);
+    const attachmentPanel = create("details", null, "work-attachments");
+    attachmentPanel.append(create("summary", "保存图稿、操作照片或口头说明录音"),
+      create("p", "文件与本次作品一起保存，可随修订查看和随学习档案备份。文件只作为待查看的过程证据，不自动评分。", "muted"),
+      create("p", "支持 PNG、JPEG、WebP 图片及 WAV、WebM、Ogg、MP4 录音；每个文件最多500 KB，合计750 KB，最多6个。", "muted"));
+    const attachmentField = create("select"), attachmentFieldLabel = create("label", "这份文件对应哪项过程");
+    attachmentField.id = `attachment-field-${identifier()}`; attachmentFieldLabel.htmlFor = attachmentField.id;
+    for (const field of snapshot.fields) { const option = create("option", field.label); option.value = field.id; attachmentField.append(option); }
+    const fileInput = create("input"); fileInput.type = "file"; fileInput.multiple = true; fileInput.accept = [...attachmentTypes].join(",");
+    fileInput.id = `attachment-file-${identifier()}`; const fileLabel = create("label", "选择图稿或录音文件"); fileLabel.htmlFor = fileInput.id;
+    const attachmentMessage = create("p", "", "muted attachment-status"); attachmentMessage.setAttribute("role", "status");
+    const attachmentList = create("div", null, "work-attachment-list");
+    attachmentPanel.append(attachmentFieldLabel, attachmentField, fileLabel, fileInput, attachmentMessage, attachmentList);
+    if (!draftOnly) root.append(attachmentPanel);
     const reflection = create("textarea"); reflection.rows = 3; reflection.maxLength = 8000;
     reflection.id = `reflection-${identifier()}`; reflection.value = saved.reflection || "";
     const self = create("details", null, "self-assessment"); self.append(create("summary", "我的自评与反思"));
@@ -134,18 +162,19 @@ window.CNKGWork = (() => {
     const values = () => ({ draft: Object.fromEntries([...fields].map(([key, input]) => [key, input.value])),
       reflection: reflection.value,
       self_assessment: selections.map((select, index) => ({ criterion_index: index, status: select.value, comment: comments[index].value })).filter(row => row.status !== "not_checked" || row.comment),
-      status: learnerStatus });
+      status: learnerStatus, attachments: [...attachments] });
     lastSaved = JSON.stringify(values());
-    const editor = { root, descriptor, get failed() { return failed; }, unsaved: () => pending !== null || JSON.stringify(values()) !== lastSaved,
+    const editor = { root, descriptor, get failed() { return failed; }, unsaved: () => Boolean(attachmentRead) || pending !== null || JSON.stringify(values()) !== lastSaved,
       value: key => fields.get(key)?.value || "", save: () => persist() };
     editors.add(editor);
     async function persist() {
       clearTimeout(timer);
+      if (attachmentRead) await attachmentRead;
       if (running) { await running; if (!failed && editor.unsaved()) return persist(); return; }
       if (!editor.unsaved() || conflictSeen) return;
       if (!pending) pending = { ...source, resource_id: descriptor.resource_id, expected_revision: revision, request_id: identifier(), ...values() };
       const request = pending;
-      const sent = JSON.stringify({ draft: request.draft, reflection: request.reflection, self_assessment: request.self_assessment, status: request.status });
+      const sent = JSON.stringify({ draft: request.draft, reflection: request.reflection, self_assessment: request.self_assessment, status: request.status, attachments: request.attachments });
       // Keep explicit save/submit intent available while an autosave is in flight.
       // persist() serializes requests; disabling a button mid-pointer click can swallow it.
       controls.setAttribute("aria-busy", "true"); status.textContent = "正在保存…";
@@ -184,6 +213,40 @@ window.CNKGWork = (() => {
     }
     guardReference(supportPanel, "difficulty"); guardReference(hintPanel, "hint"); guardReference(referencePanel, "answer");
     function changed() { learnerStatus = "draft"; clearTimeout(timer); status.textContent = "有修改，等待保存…"; timer = setTimeout(persist, 500); }
+    function showAttachments() {
+      attachmentList.replaceChildren();
+      for (const item of attachments) {
+        const row = renderAttachment(item, attachmentList); if (!row) continue;
+        const field = snapshot.fields.find(field => field.id === item.field_id);
+        row.append(create("p", `对应：${field?.label || "原过程项"}`, "muted"));
+        const remove = create("button", "从本次修订移除", "ghost"); remove.type = "button";
+        remove.addEventListener("click", () => { attachments = attachments.filter(value => value !== item); showAttachments(); changed(); }); row.append(remove);
+      }
+    }
+    showAttachments();
+    fileInput.addEventListener("change", () => {
+      if (attachmentRead) return;
+      const selected = [...fileInput.files], fieldId = attachmentField.value;
+      attachmentMessage.textContent = "正在读取原文件…"; fileInput.disabled = true;
+      attachmentRead = (async () => {
+        if (attachments.length + selected.length > 6) throw new Error("每份作品最多6个附件，已有记录保留。");
+        const additions = [];
+        for (const file of selected) {
+          let mediaType = file.type.split(";", 1)[0]; if (mediaType === "audio/x-wav") mediaType = "audio/wav";
+          if (!attachmentTypes.has(mediaType) || !file.size || file.size > 512000) throw new Error(`${file.name}的类型或大小不符合要求，已有记录保留。`);
+          const bytes = new Uint8Array(await file.arrayBuffer());
+          if (!globalThis.crypto?.subtle) throw new Error("当前浏览器无法核对文件，请从本机服务地址打开后重试；原文字仍可保存。");
+          const sha256 = [...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))].map(value => value.toString(16).padStart(2, "0")).join("");
+          if ([...attachments, ...additions].some(item => item.field_id === fieldId && item.sha256 === sha256)) throw new Error("该过程项已经保存相同文件。");
+          let binary = ""; for (let offset = 0; offset < bytes.length; offset += 32768) binary += String.fromCharCode(...bytes.subarray(offset, offset + 32768));
+          additions.push({ field_id: fieldId, filename: file.name, media_type: mediaType, byte_size: bytes.length, sha256, data_base64: btoa(binary) });
+        }
+        if ([...attachments, ...additions].reduce((sum, item) => sum + item.byte_size, 0) > 768000) throw new Error("合计附件大小超过750 KB，已有记录保留。");
+        attachments = [...attachments, ...additions]; showAttachments(); changed();
+        attachmentMessage.textContent = "原文件已读入，正在随本次修订保存。";
+      })().catch(error => { attachmentMessage.textContent = error.message; })
+        .finally(() => { attachmentRead = null; fileInput.disabled = false; fileInput.value = ""; });
+    });
     for (const input of [...fields.values(), ...comments, reflection]) input.addEventListener("input", changed);
     for (const select of selections) select.addEventListener("change", changed);
     save.addEventListener("click", persist);
@@ -208,6 +271,7 @@ window.CNKGWork = (() => {
           const item = create("details", null, "answer-entry"); item.append(create("summary", `第 ${record.revision} 版 · ${formatTime(record.updated_at)}`));
           for (const field of snapshot.fields) item.append(create("strong", field.label), create("p", record.payload.draft?.[field.id] || "尚未填写", "preserve-lines"));
           if (record.payload.reflection) item.append(create("p", record.payload.reflection, "preserve-lines"));
+          for (const attachment of record.payload.attachments || []) renderAttachment(attachment, item);
           for (const row of record.payload.self_assessment || []) {
             item.append(create("p", `${snapshot.criteria[row.criterion_index]}：${labels[row.status]}`));
             if (row.comment) item.append(create("p", row.comment, "preserve-lines"));

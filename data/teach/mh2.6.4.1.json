@@ -40,10 +40,10 @@
       "title": "能把平行、垂直条件翻译成向量条件",
       "explanation": "翻译几何条件时必须标明向量方向，并在垂直判定中使用非零向量。",
       "self_check": {
-        "prompt": "A、B不同，C、D不同，把AB∥CD与AB⊥CD分别写成向量条件。",
-        "reference_answer": "平行：AB=λCD，λ为非零实数；垂直：AB·CD=0。",
+        "prompt": "A、B不同，C、D不同，且AB、CD是同一平面内两条不同的直线。把AB∥CD与AB⊥CD分别写成方向向量条件。",
+        "reference_answer": "已知两直线不同且方向向量非零，平行等价于向量AB=λ向量CD，λ为非零实数；垂直等价于向量AB·向量CD=0。若取消两直线不同这一前提，方向成比例还可能对应直线重合。",
         "criteria": [
-          "平行倍数与非零条件准确",
+          "平行倍数、方向非零及两直线不同的条件准确",
           "垂直用数量积而非乘积向量"
         ],
         "family_id": "vector.geometry-condition-translation",
@@ -54,9 +54,9 @@
       "difficulty_support": {
         "discriminating_prompt": "AB=0时能用它指明一条直线方向吗？",
         "hint": "先确认两端点不同，再用非零向量表示直线。",
-        "revision_prompt": "把AB∥CD写成AB=λCD并说明λ≠0；把垂直改为点积0，比较两式。"
+        "revision_prompt": "先检查AB、CD是否为两条不同直线及方向向量是否非零，再把AB∥CD写成向量AB=λ向量CD并说明λ≠0；把垂直改为数量积0，比较两式。"
       },
-      "observation_note": "观察几何与向量条件的双向含义；不把零向量当直线方向。"
+      "observation_note": "观察两条不同直线的几何与方向向量条件的双向含义；不把零向量当方向，也不把方向成比例单独当作排除重合的依据。"
     },
     {
       "criterion_index": 1,

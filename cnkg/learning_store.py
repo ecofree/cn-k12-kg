@@ -71,7 +71,7 @@ def _scope(record):
 def _session_summary(record):
     """A compact server-generated summary; no correct answers or full snapshots."""
     fields = ("id", "kind", "unit_id", "mode", "title", "stage", "created_at", "updated_at",
-              "completed_at", "content_sha256", "resource_version", "grader_sha256")
+              "completed_at", "content_sha256", "resource_version", "grader_sha256", "assessment_goal_id")
     result = {key: record[key] for key in fields if key in record}
     result["scope_id"] = _scope(record)
     result["targets"] = record.get("engine", {}).get("targets", record.get("targets", []))
@@ -82,7 +82,7 @@ def _session_summary(record):
                      "family_id", "family_status", "representation", "purpose", "alignment",
                      "content_sha256", "resource_version", "topic_ids", "help_used",
                      "resolution_for_need_ids", "support_kind", "followup_basis", "help_evidence",
-                     "confirmation_eligible", "route_id")
+                     "confirmation_eligible", "route_id", "component_ids", "observation_boundary")
     result["answers"] = []
     for entry in record.get("answers", []):
         metadata = observation_metadata(record, entry)
@@ -134,7 +134,10 @@ def _work_summary(result):
                           or (source if isinstance(source, str) else source["question_id"])),
                    skill_ids=list(snapshot.get("skill_ids", [])), task_ids=list(snapshot.get("task_ids", [])),
                    family_ids=list(snapshot.get("family_ids", [])),
-                   has_draft=any(isinstance(value, str) and value.strip() for value in draft_values),
+                   has_draft=any(isinstance(value, str) and value.strip() for value in draft_values)
+                             or bool(payload.get("attachments")),
+                   attachment_count=len(payload.get("attachments", [])),
+                   component_ids=list(snapshot.get("component_ids", [])),
                    has_reflection=isinstance(reflection, str) and bool(reflection.strip()),
                    self_assessment_reported=bool(assessed),
                    self_assessment_completed=bool(criteria) and len(assessed) == len(criteria),
@@ -658,6 +661,9 @@ class LearningStore:
             raise ValueError("source_ref 必须为稳定 ID 或 session_id/question_id 对象")
         if not isinstance(payload.get("resource_snapshot"), dict) or not payload["resource_snapshot"]:
             raise ValueError("作品必须保存非空内容快照")
+        if "attachments" in payload:
+            from .work_attachments import validate_attachments
+            validate_attachments(payload["attachments"], {field["id"] for field in payload["resource_snapshot"].get("fields", [])})
         serialized = _json(payload)
         if len(serialized.encode("utf-8")) > 2_000_000:
             raise ValueError("作品内容超过 2 MB")

@@ -11,6 +11,7 @@
 | 完整讲解、目标自检和速查参考 | `data/teach/` | Web 材料和目录曝光绑定 |
 | 学习单元、例题、分阶段任务、图示引用 | `data/learning_units/`、`web/static/diagrams/` | `data/catalog.json` 中的单元、任务和材料 |
 | 实践活动、步骤与作品量规 | `data/projects/` | 项目页面、固定步骤任务和作品记录 |
+| 稳定目标的分项计划与补充观察任务 | `data/assessments/*.json` | 具体目标页、分项任务入口和冻结的过程作品 |
 | 固定技能身份和教材位置映射 | `data/skills/registry.json` | 稳定技能及 placement；不按标题或排序重新编号 |
 | 旧任务契约、固定自检/步骤 ID、题族绑定 | `data/skills/catalog-bindings.json` | 编译后的明确任务契约和材料曝光集合 |
 | 退役题目档案 | 清单中 `status: retired` 的 `data/question_sources/*.json` | 完整追溯题库与停用索引；不进入活跃题库 |
@@ -34,7 +35,7 @@ python tools/build_project.py --write  # 重建、登记、编译、内容检查
 python tools/build_project.py --check  # 检查现有来源/产物，不重写作者源或内容库
 ```
 
-`--write` 适合在提交前检查作者改动；完整交付使用 `--release`。内容库及兼容内容清单生成后，最后生成全部发布文件的原始字节清单，再进入验收。已经安装 Playwright 与 Chromium 时，用 `python tools/build_project.py --release --with-browser` 同时验收十二条浏览器学习与内容预览流程。检查命令仍会生成检查报告，这些报告属于可重建的构建输出。
+`--write` 适合在提交前检查作者改动；完整交付使用 `--release`。内容库及兼容内容清单生成后，最后生成全部发布文件的原始字节清单，再进入验收。已经安装 Playwright 与 Chromium 时，用 `python tools/build_project.py --release --with-browser` 同时验收18条浏览器学习与内容预览流程。检查命令仍会生成检查报告，这些报告属于可重建的构建输出。
 
 构建只处理发布内容。匿名学习记录位于 `var/learning.sqlite` 或 `CNKG_LEARNING_DB` 指定位置；它们既不是构建输入，也不是可删除重建的输出。内容库构建会拒绝覆盖含学习会话或事件表的数据库，并在新库构建失败时保留原内容库。
 
@@ -47,6 +48,16 @@ python tools/build_project.py --check  # 检查现有来源/产物，不重写�
 5. 运行构建命令，查看作者文件、注册表和派生目录的差异，一并提交。既有 ID 保留；目标语义变化用新的细目标表达，并保留与原目标的关系。
 
 更多字段规则见 [稳定技能与统一任务目录](catalog-authoring.md) 和 `schema/answer-spec.schema.json`。
+
+### 为既有目标增加分项观察
+
+`data/assessments/` 使用 `schema/assessment-source.schema.json`。每个计划指向已有 `skill_id` 及真实主题、单元或活动，保留原目标身份、措辞与粒度。分项的 `statement` 和 `submission_requirements` 应说明要提交什么；`criteria` 保存供核对的作者标准，不在任务开始前发送可能包含答案的私有示例。
+
+每个新任务通过 `component_ids` 明确对应实际观察的行为；组件中的 `task_ids` 须反向一致。一道题只考最终数量时，不得同时把口头解释、作图或操作分项标成已经观察。多行为目标可沿用原自检题义和题族，增加有独立字段的作品入口；这种入口增加不构成新的客观题族。
+
+两种方法的区别写在 `family_distinctions`，并有实际题目支持。编译器核对题族、身份与链接，数学差异由逐题审读说明。`reference_family_ids` 只列解析确实展示的附带方法，运行时在实际放出解析后才记录这些帮助曝光。`unobserved_aspects` 保留仍需现场操作、完整证明、条件变化或稍后无帮助作答的具体要求。
+
+运行 `python tools/check_assessments.py --require-complete` 可重算全部1,778个计划、分项和客观/过程任务。客观题族不足单独保留，不能用作品数量或改名消除。新计划不会给旧作品补造字段；旧作品和旧会话按实际冻结版本读取，新分项通过新任务另行提交。
 
 ### 每个答案契约只有一个所有者
 
@@ -61,7 +72,7 @@ python tools/build_project.py --check  # 检查现有来源/产物，不重写�
 
 ## 隔离、退役和稳定历史
 
-当前追溯题库保留 3,568 个旧题 ID，其中 477 道不良记忆题与 12 道已确认错目标题进入冻结退役来源。默认 Graph 和 SQLite `questions` 表只包含 3,079 道活跃题；可诊断题为 1,967 道。是否可练、可诊断仍由题目证据政策分别判断。
+最初作者源迁移保留3,568个旧题ID，其中477道不良记忆题与12道已确认错目标题进入冻结退役来源；这组数字描述当时的迁移。当前完整题库为3,584道，其中3,091道可练习、493道隔离、1,731道保留暂定诊断用途。是否可练、可诊断由当前逐题准入分别判断，自动掌握和薄弱确认权限均未因此开放。
 
 12 道错目标题的算术答案本身正确，但与“5 以内加法”“5 以内减法”或“0 的认识和加减法”不符。`data/question_retirements.json` 保存逐题依据、原元数据、修改字段和前后政策；审核类型明确为 AI 作者核对。题干、答案、解析、原教材归属和原 ID 保留，没有把旧题直接改挂到未经验证的目标。
 
@@ -86,3 +97,5 @@ python tools/build_project.py --check  # 检查现有来源/产物，不重写�
 题库用途登记位于 `data/task_admissions.json`。首次迁移只固定历史暂定用途，禁止覆盖重跑。题目语义变化后，使用 `tools/task_admissions.py --record-id ... --purpose ... --evidence-level ... --reviewer ... --reason ...` 逐项核对并登记；需说明题义、答案、条件与观察边界。工具检查答案契约与必要数值复算，不凭解析长度晋级；AI作者登记仍保留教师待审核。
 
 课程服务加载启动时的一致内容快照；作者修改、注册及编译后须重启服务。正在进行的旧学习记录仍按自身冻结内容处理。
+
+全部存量题的语义审查覆盖由 `docs/reviews/v8-bank-review-index.json` 连接上轮908道与本轮2,676道逐题记录。`python tools/check_bank_reviews.py` 检查集合无重复、无遗漏、作者源和评分绑定没有漂移；隔离题仍单列，审读不自动恢复发布。哈希证明记录对应当前版本，具体数学理由仍在逐题报告中。

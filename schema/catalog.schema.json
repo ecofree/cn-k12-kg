@@ -434,7 +434,8 @@
               "bank",
               "self_check",
               "unit",
-              "project_step"
+              "project_step",
+              "assessment"
             ]
           },
           "source_ref": {
@@ -585,6 +586,25 @@
               "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
             },
             "uniqueItems": true
+          },
+          "component_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "observation_boundary": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "family_basis": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
           }
         },
         "required": [
@@ -728,7 +748,8 @@
             "enum": [
               "topic",
               "unit",
-              "project"
+              "project",
+              "assessment"
             ]
           },
           "title": {
@@ -1591,6 +1612,165 @@
     "content_sha256": {
       "type": "string",
       "pattern": "^[0-9a-f]{64}$"
+    },
+    "assessment_plans": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "skill_id": {
+            "type": "string",
+            "pattern": "^sk_[a-f0-9]{20}$"
+          },
+          "source_kind": {
+            "enum": [
+              "topic",
+              "unit",
+              "project"
+            ]
+          },
+          "source_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "assessment_mode": {
+            "enum": [
+              "objective",
+              "mixed",
+              "process"
+            ]
+          },
+          "scope_note": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                },
+                "statement": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "submission_requirements": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "criteria": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "task_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "id",
+                "statement",
+                "submission_requirements",
+                "criteria",
+                "task_ids"
+              ]
+            },
+            "minItems": 1
+          },
+          "task_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "family_distinctions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "left_family_id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                },
+                "right_family_id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              },
+              "required": [
+                "left_family_id",
+                "right_family_id",
+                "reason"
+              ]
+            }
+          },
+          "unobserved_aspects": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "resource_version": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "source_path": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "required": [
+          "skill_id",
+          "source_kind",
+          "source_id",
+          "assessment_mode",
+          "scope_note",
+          "components",
+          "task_ids",
+          "family_distinctions",
+          "unobserved_aspects",
+          "resource_version",
+          "source_path"
+        ]
+      }
     }
   },
   "required": [

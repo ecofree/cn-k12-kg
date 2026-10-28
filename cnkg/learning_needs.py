@@ -510,11 +510,18 @@ def support_routes(catalog, skill_ids, *, preferred_unit=None):
     return prerequisites, routes
 
 
-def task_start_action(catalog, task):
+def task_start_action(catalog, task, *, preferred_skill_id=None):
     """Only return exact, server-checkable navigation; no answer or prompt."""
     tid, material = task.get("id"), task.get("material_id", "")
     if task.get("availability", "active") != "active":
         return None
+    if task.get("source_kind") == "assessment":
+        plans = _section(catalog, "assessment_plans")
+        available = [sid for sid in task.get("skill_ids", []) if tid in plans.get(sid, {}).get("task_ids", [])]
+        sid = preferred_skill_id if preferred_skill_id in available else next(iter(available), None)
+        if sid and task.get("phase") in {"practice", "transfer", "delayed"}:
+            return {"action": "start_session", "assessment_goal_id": sid, "mode": task["phase"],
+                    "focus_skill_ids": [sid], "task_ids": [tid]}
     if task.get("source_kind") == "unit" and material.startswith("unit:"):
         uid = material[5:]
         unit = _section(catalog, "units").get(uid, {})
@@ -589,7 +596,8 @@ def task_options(catalog, skill_ids, records, exposures=None, *, allowed_task_id
                         "help_exposed": bool(helped), "new_representation": bool(representations - seen_representations),
                         "known_representation_ids": sorted(representations), "representation_known": known,
                         "eligible_for_followup": eligible, "phase": task.get("phase"),
-                        "source_kind": task.get("source_kind"), "start_action": task_start_action(catalog, task),
+                        "source_kind": task.get("source_kind"), "start_action": task_start_action(catalog, task,
+                            preferred_skill_id=next((sid for sid in skill_ids if sid in task.get("skill_ids", [])), None)),
                         "independent_evidence": False, "selection_reason": reason})
     options.sort(key=lambda row: (row["repeated_question"], row["repeated_family"], row["help_exposed"],
                                  row["family_status"] != "declared", not row["new_representation"], row["task_id"]))
@@ -639,11 +647,19 @@ def goal_pathway(catalog, skill_id, records=(), *, exposures=None, preferred_uni
                    "已有多种已核对的客观题族，仍只观察这些具体任务；不能据此认定整个目标已经掌握。"),
         "availability_notice": (f"按当前记录，尚有 {len(available)} 种未呈现、未记录同族参考的已知题族可继续观察；实际帮助与间隔仍须核对。" if available else
                                 "当前没有符合未呈现且未记录同族参考条件的已知题族。复习和过程修订仍可继续，待观察事项会保留。")}
+    from .assessments import public_plan
+    observation_plan = public_plan(catalog, skill_id)
+    if observation_plan:
+        for component in observation_plan["components"]:
+            component["tasks"] = [{"task_id": tid, "type": tasks[tid]["type"],
+                                    "start_action": task_start_action(catalog, tasks[tid], preferred_skill_id=skill_id)}
+                                   for tid in component["task_ids"] if tid in tasks]
     return {"schema": 1, "skill_id": skill_id, "statement": skill["statement"],
         "granularity": skill.get("granularity"), "stage": skill.get("stage"),
         "prerequisite_skill_ids": prerequisites, "routes": routes,
         "refines_skill_ids": list(skill.get("refines_skill_ids", [])), "refined_by": refined_by,
         "broader_goals": broader_goals, "observation_opportunities": opportunity,
+        "observation_plan": observation_plan,
         "task_options": options[:20],
         "pending_need_ids": [need["need_id"] for need in needs if skill_id in need.get("skill_ids", [])
                              and need.get("status") in {"open", "deferred"}],

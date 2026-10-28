@@ -14,6 +14,7 @@ const result = { schema: 1, evidence_type: "synthetic_browser_test", journey: ar
 const read = name => JSON.parse(fs.readFileSync(path.join(ROOT, name), "utf8"));
 const answerBank = new Map(read("data/questions.json").map(question => [question.id, question]));
 const authoredCatalog = read("data/catalog.json");
+for (const task of Object.values(authoredCatalog.tasks)) if (task.source_kind === "assessment") answerBank.set(task.id, task);
 for (const filename of fs.readdirSync(path.join(ROOT, "data/learning_units")).filter(name => name.endsWith(".json"))) {
   for (const task of read("data/learning_units/" + filename).tasks) answerBank.set(task.id, task);
 }
@@ -214,12 +215,12 @@ async function openPreviewReference(task, summary, kind, pageStarted) {
 async function openContentPreview(task, first) {
   const target = new URL(task.path, args["base-url"]), entries = [...target.searchParams];
   const routes = { teach: "/api/teach/", unit: "/api/learning/units/", project: "/api/projects/",
-    scope: "/api/quality-scope", needs: "/api/plan", history: "/api/history", profile: "/api/profile" };
+    scope: "/api/quality-scope", needs: "/api/plan", history: "/api/history", profile: "/api/profile", goal: "/api/goal" };
   assert.equal(target.origin, new URL(args["base-url"]).origin);
   assert.equal(target.pathname, "/"); assert.equal(target.hash, ""); assert.equal(entries.length, 1);
   const [kind, id] = entries[0]; assert.ok(Object.hasOwn(routes, kind) && id, "Unknown preview route: " + task.path);
   const material = ["teach", "unit", "project"].includes(kind);
-  assert.equal(task.material_id, material ? (kind === "teach" ? "topic" : kind) + ":" + id : null);
+  assert.equal(task.material_id, material ? (kind === "teach" ? "topic" : kind) + ":" + id : kind === "goal" ? "assessment:" + id : null);
   if (first) await goto();
   const container = { scope: "scope-policy", needs: "needs-list", history: "history-list" }[kind] || kind + "-content";
   // Capture the destination container, not the previous active view: other views
@@ -245,13 +246,14 @@ async function openContentPreview(task, first) {
   try {
     const endpoint = routes[kind] + (material ? encodeURIComponent(id) : "");
     const [body, navigated] = await Promise.all([
-      responseBody(endpoint, kind === "history" ? { limit: "20", offset: "0" } : {}),
+      responseBody(endpoint, kind === "history" ? { limit: "20", offset: "0" } : kind === "goal" ? { skill_id: id } : {}),
       page.evaluate(async ({ kind, id }) => {
         // Await the production route, including its draft-flush and navigation
         // token checks. No mock, synthetic DOM or direct API replacement is used.
         const route = { teach: () => openTeach(id, "replace"), unit: () => openUnit(id, "replace"),
           project: () => openProject(id, "replace"), scope: () => openScope("replace"),
-          needs: () => openNeeds("replace"), history: () => openHistory("replace"), profile: () => openProfile("replace") };
+          needs: () => openNeeds("replace"), history: () => openHistory("replace"), profile: () => openProfile("replace"),
+          goal: () => openGoal(id, null, "replace") };
         return route[kind]();
       }, { kind, id }),
     ]);
@@ -402,6 +404,9 @@ async function openContentPreview(task, first) {
         sessionTitles: text("#history-list > article h3"), workTitles: text("#history-works > article h3"), historyStatus: view.querySelector("#history-status")?.textContent,
         profileTitle: view.querySelector("#profile-content > section > h3")?.textContent,
         profileFields: ["backup-code", "recover-code", "restore-backup"].filter(id => view.querySelector("#" + id)),
+        observationComponents: [...view.querySelectorAll(".observation-component")].map(row => ({ id: row.dataset.componentId,
+          statement: sourceText(row.querySelector("h4")), requirements: [...row.querySelectorAll(":scope > ul > li")].map(sourceText),
+          taskIds: [...row.querySelectorAll("button[data-task-id]")].map(button => button.dataset.taskId) })),
       };
     }, kind);
     const canonical = values => values.map(previewText);
@@ -429,6 +434,21 @@ async function openContentPreview(task, first) {
         assert.equal(editor.fields, displayedFields.length);
         assert.deepEqual(canonical(editor.prompts), canonical(displayedFields.map(field => field.prompt)));
       }
+    } else if (kind === "goal") {
+      assert.equal(body.skill_id, id);
+      const plan = authoredCatalog.assessment_plans[id]; assert.ok(plan && plan.components.length);
+      assert.equal(body.observation_plan.resource_version, plan.resource_version);
+      assert.equal(dom.title, authoredCatalog.skills[id].statement);
+      assert.deepEqual(dom.observationComponents.map(component => component.id), plan.components.map(component => component.id));
+      for (const [index, component] of plan.components.entries()) {
+        const shown = dom.observationComponents[index], apiComponent = body.observation_plan.components[index];
+        assert.equal(previewText(shown.statement), previewText(component.statement));
+        assert.deepEqual(canonical(shown.requirements), canonical(component.submission_requirements));
+        assert.deepEqual(shown.taskIds, apiComponent.tasks.filter(task => task.start_action).map(task => task.task_id));
+        assert.equal(apiComponent.criteria, undefined, "Author reference criteria must not leak through navigation");
+      }
+      assert.equal(body.observation_plan.family_distinctions, undefined);
+      assert.equal(body.independent_mastery_evidence, false);
     } else if (kind === "scope") {
       assert.ok(Array.isArray(body.goals) && body.goals.length);
       assert.deepEqual(dom.scopeIds, body.goals.slice(0, 30).map(goal => "稳定目标ID：" + goal.goal_id));
@@ -449,8 +469,9 @@ async function openContentPreview(task, first) {
       assert.deepEqual(dom.profileFields, ["backup-code", "recover-code", "restore-backup"]);
     }
     return { kind, identity: { requested_url: target.pathname + target.search, rendered_url: new URL(page.url()).pathname + new URL(page.url()).search,
-      response_id: material ? kind === "teach" ? body.topicId : body.id : kind, response_title: dom.title,
+      response_id: material ? kind === "teach" ? body.topicId : body.id : kind === "goal" ? body.skill_id : kind, response_title: dom.title,
       old_destination_detached: previous ? true : null, checked_goal_count: dom.goals.length, checked_self_check_count: checks.length,
+      checked_observation_component_count: dom.observationComponents.length,
       work_descriptors: works.map(row => ({ resource_id: row.descriptor.resource_id, source_ref: row.descriptor.source_ref,
         resource_version: row.descriptor.resource_version, field_count: row.descriptor.resource_snapshot.fields.length })),
       manipulation_version: manipulation?.representation_version || null, api_responses: evidence } };
@@ -1222,6 +1243,82 @@ const journeys = {
     claim("A saved session displays its content-update notice and current-material link without replacing the original task.");
     claim("A missing historical version is described as unverifiable in both session and work views, without claiming that current material changed.");
     claim("An old one-field work names references that were never saved; a missing old summary renders saved answers without fabricated topic or goal conclusions.");
+  },
+
+  async goal_observation_artifacts() {
+    const goalId = authoredCatalog.placements["m1a.1.1"].criterion_skill_ids[0];
+    const plan = authoredCatalog.assessment_plans[goalId];
+    assert.ok(plan && plan.components.length > 1, "This journey requires an actually decomposed goal");
+    const objective = authoredCatalog.tasks.v8p_count_trace, processTask = authoredCatalog.tasks.v8p_count_move_record;
+    assert.ok(plan.task_ids.includes(objective.id) && plan.task_ids.includes(processTask.id));
+    await goto("?goal=" + goalId); await visible("#view-goal");
+    assert.deepEqual(await page.locator(".observation-component").evaluateAll(rows => rows.map(row => row.dataset.componentId)),
+      plan.components.map(component => component.id));
+    let current = await startFrom(page.locator(`.observation-component button[data-task-id="${objective.id}"]`).first(), "practice");
+    assert.equal(current.session.assessment_goal_id, goalId);
+    const objectiveResult = await completeSession(current);
+    assert.ok(objectiveResult.summary.component_results.some(component => component.status === "not_observed"));
+    assert.ok(objectiveResult.summary.component_results.some(component => component.status === "result_recorded"));
+    assert.ok(objectiveResult.summary.component_results.every(component => component.independent_mastery_evidence === false));
+    await page.getByRole("button", { name: "回到目标与分项任务", exact: true }).click();
+    await visible("#view-goal");
+    current = await startFrom(page.locator(`.observation-component button[data-task-id="${processTask.id}"]`).first(), "practice");
+    const sid = current.session.id, componentId = processTask.component_ids[0];
+    const explanation = "合成验收：分别保存重排前后的原始对应记录，仍需查看实际操作。";
+    let editor = page.locator("#process-answer .work-editor");
+    await saveText(editor, page.locator("#process-input"), explanation);
+    const componentText = "合成验收分项：物体的身份和点数顺序分别保留，没有把答案正确视作动作已经核对。";
+    await saveText(editor, editor.locator(".work-field textarea").first(), componentText);
+    await editor.locator(".work-attachments > summary").click();
+    await editor.locator(".work-attachments select").selectOption(componentId);
+    // A real, decodable PNG and a synthetic WAV, not names standing in for files.
+    // These fixtures verify storage/playback availability, not a child's performance.
+    // Complete fixture is kept inline so this journey has no external assets.
+    const imageBytes = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAABI0lEQVR4nO2ayw7CIBBFwfj/v4yLq00rfQAztxRmzoq4MMw5TmOiMaUURubV+wJSfIDeDD/Am/ruMX4PvCcFscBy+7+zLqwB8huTZhh+B3yAA/KtJe0xbwdiCHH7AmUJuI/RxfpgTyHIXn9NxJkRwZc4I9cPSBG8wJYj/YARwQusONcP1CN4gR8l+oFuBC8QQqjRDxQjeIF6/UArgvkCbfqBSgTbBST6gTyC4QJy/UAYwWoBLf1AEsFkAV39oDmCvQIM/aAtgrECPP2gIYKlAmz9oDaCmQL36AdVEWwUuFM/KI9goMD9+kFhhNkL9NIPSiJMXaCvfnAZYd4CT9APziNc/FJP+n+AIvsFnnnv3VvFJ3xIJMy7xKPgA/TGB+jN8AN8ALrRjJQVOWONAAAAAElFTkSuQmCC", "base64");
+    const wav = Buffer.alloc(44 + 1600);
+    wav.write("RIFF"); wav.writeUInt32LE(wav.length - 8, 4); wav.write("WAVEfmt ", 8);
+    wav.writeUInt32LE(16, 16); wav.writeUInt16LE(1, 20); wav.writeUInt16LE(1, 22);
+    wav.writeUInt32LE(8000, 24); wav.writeUInt32LE(16000, 28); wav.writeUInt16LE(2, 32); wav.writeUInt16LE(16, 34);
+    wav.write("data", 36); wav.writeUInt32LE(1600, 40);
+    for (let sample = 0; sample < 800; sample++) wav.writeInt16LE(Math.round(1000 * Math.sin(sample * Math.PI / 10)), 44 + sample * 2);
+    const uploaded = await actionResponse(() => editor.locator('input[type="file"]').setInputFiles([
+      { name: "synthetic-process.png", mimeType: "image/png", buffer: imageBytes },
+      { name: "synthetic-recording.wav", mimeType: "audio/wav", buffer: wav },
+    ]), "/api/work", "POST", response => response.request().postDataJSON().attachments?.length === 2);
+    const resourceId = uploaded.work.resource_id, originalRevision = uploaded.work.revision;
+    assert.deepEqual(uploaded.work.payload.attachments.map(file => file.field_id), [componentId, componentId]);
+    assert.deepEqual(Buffer.from(uploaded.work.payload.attachments[0].data_base64, "base64"), imageBytes);
+    assert.deepEqual(Buffer.from(uploaded.work.payload.attachments[1].data_base64, "base64"), wav);
+    await page.waitForFunction(() => { const image = document.querySelector("#process-answer .work-attachment img"); return image?.complete && image.naturalWidth === 64; });
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await valueEquals("#process-input", explanation);
+    editor = page.locator("#process-answer .work-editor");
+    assert.equal(await editor.locator(".work-field textarea").first().inputValue(), componentText);
+    await editor.locator(".work-attachments > summary").click();
+    assert.equal(await editor.locator(".work-attachment").count(), 2);
+    assert.equal(await editor.locator(".work-attachment audio").count(), 1);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await noHorizontalOverflow("observation_artifacts_390");
+    await page.screenshot({ path: path.join(output, "observation-mobile.png"), fullPage: true });
+    const finished = await completeSession(current);
+    assert.equal(finished.summary.answers[0].status, "needs_review");
+    assert.ok(finished.summary.component_results.every(component => ["needs_review", "not_observed"].includes(component.status)));
+    await goto("?work=" + encodeURIComponent(resourceId)); await visible("#view-work");
+    editor = page.locator("#view-work .work-editor");
+    await editor.locator(".work-attachments > summary").click();
+    await actionResponse(() => editor.getByRole("button", { name: "从本次修订移除", exact: true }).first().click(), "/api/work",
+      "POST", response => response.request().postDataJSON().attachments?.length === 1);
+    const history = await apiRead("/api/work/revisions?resource_id=" + encodeURIComponent(resourceId));
+    assert.equal(history.revisions.find(revision => revision.revision === originalRevision).payload.attachments.length, 2);
+    const exported = await apiRead("/api/export");
+    assert.equal(exported.sessions.find(session => session.id === sid).answers[0].status, "needs_review");
+    result.observations.goal_id = goalId;
+    result.observations.component_ids = plan.components.map(component => component.id);
+    result.observations.attachment_sha256 = uploaded.work.payload.attachments.map(file => file.sha256);
+    result.observations.original_attachment_revision = originalRevision;
+    claim("Goal components launch their exact authored tasks; one correct objective result leaves other components unobserved.");
+    claim("Real PNG and WAV bytes remain bound to a named process component after reload at mobile width.");
+    claim("Removing a file from a later revision preserves the original attachment and the unchanged needs_review grade.");
   },
 
   async self_check_autosave() {

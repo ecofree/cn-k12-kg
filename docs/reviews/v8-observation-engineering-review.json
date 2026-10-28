@@ -1,0 +1,138 @@
+{
+  "schema": 1,
+  "baseline_commit": "2aafccd7cc14ead9d05345374f27662e7d1ab9d9",
+  "reviewer_kind": "ai",
+  "independent_teacher_review": false,
+  "student_validation": false,
+  "scope": "逐目标分项入口、真实过程附件、冻结记录、实际反馈曝光与完整交付门禁的工程审查。数学内容另由各学段逐题及逐目标记录说明。",
+  "decisions": [
+    {
+      "area": "stable_goal_components",
+      "finding": "新增分项有独立提交要求和任务反向绑定；源目标与skill_id保持不变。每个新任务声明具体组件，隔离任务与外来目标不能填充观察。过程任务不进入客观题族统计。",
+      "evidence": [
+        "cnkg/assessments.py",
+        "schema/assessment-source.schema.json",
+        "tests/test_assessments_v8.py"
+      ]
+    },
+    {
+      "area": "task_navigation_and_feedback",
+      "finding": "共享任务从当前目标的分项入口或推荐入口开始，保留该目标的冻结计划；practice即时反馈，transfer和delayed整组后反馈。catalog目的与作者phase一致。阶段标签不生成新鲜性、实际间隔或掌握证据。",
+      "evidence": [
+        "cnkg/learning_needs.py",
+        "cnkg/catalog.py",
+        "web/server.py",
+        "tests/test_assessments_v8.py",
+        "tests/test_catalog.py"
+      ]
+    },
+    {
+      "area": "separate_observations",
+      "finding": "仅列本次实际答过的分项；一个正确客观结果为result_recorded，过程作品为needs_review，未答分项和仍未答任务继续保留。所有新任务均禁止自动确认掌握或薄弱。",
+      "evidence": [
+        "web/server.py",
+        "web/static/app.js",
+        "tests/test_assessments_v8.py",
+        "tests/test_catalog.py"
+      ]
+    },
+    {
+      "area": "real_artifacts",
+      "finding": "保存实际图片与音频字节、类型、长度和SHA-256，并绑定本作品的具体过程字段；拒绝路径名、跨字段、重复、超额及不符类型头的文件。校验文件头和哈希不评价图稿或口头表达的数学内容。",
+      "evidence": [
+        "cnkg/work_attachments.py",
+        "cnkg/portfolio.py",
+        "cnkg/learning_store.py",
+        "web/static/work.js",
+        "tests/test_assessments_v8.py"
+      ]
+    },
+    {
+      "area": "immutable_history_and_recovery",
+      "finding": "删除附件只改变新修订，旧修订原字节可恢复；owner隔离保持。加密完整备份包含各次原字节与过程文本，恢复到新的学习库时逐修订核对。旧无附件的作品不会被凭空补写。",
+      "evidence": [
+        "cnkg/profile_recovery.py",
+        "tests/test_assessments_v8.py",
+        "tests/test_profile_recovery.py"
+      ]
+    },
+    {
+      "area": "frozen_diagrams_and_export",
+      "finding": "后续作品入口从已保存的会话取原SVG字节与原alt；当前图稿改变不能替换旧图。导出只按原会话附上已呈现分项的名称、提交要求与归属，隐藏作者私有判据，不从当前计划回填。",
+      "evidence": [
+        "web/server.py",
+        "tests/test_assessments_v8.py",
+        "tests/test_portfolio_web.py"
+      ]
+    },
+    {
+      "area": "actual_method_exposure",
+      "finding": "解析附带的reference_family_ids取自会话冻结元数据，只在实际释放反馈后记为曝光；迁移组未完成前不提前记录。后来作者新增的方法不能倒填到旧反馈。",
+      "evidence": [
+        "web/server.py",
+        "tests/test_assessments_v8.py"
+      ]
+    },
+    {
+      "area": "task_scoped_family_transition",
+      "finding": "m1b.2.4-q2的静态部分—整体关系用逐题允许转换处理旧曝光，不把整个减去题族并入缺失部分题族；旧作答与正向技能判断不重写。转换账本纳入运行版本。",
+      "evidence": [
+        "cnkg/task_families.py",
+        "data/task_family_transitions.json",
+        "cnkg/runtime_version.py",
+        "tests/test_task_transitions_v8.py",
+        "tests/test_historical_family_exposure_v7.py"
+      ]
+    },
+    {
+      "area": "current_review_status",
+      "finding": "旧reviews.json缺记录不再写成从未审过；当前版本逐题审查按前轮与本轮分别统计，要求确切作者版本、实际数学理由、真实观察边界和AI审核者身份。493条隔离记录不因审读被自动放行。",
+      "evidence": [
+        "cnkg/bank_review.py",
+        "tools/check_bank_reviews.py",
+        "tools/status_report.py",
+        "tests/test_bank_review_v8.py",
+        "tests/test_status_report.py"
+      ]
+    },
+    {
+      "area": "review_and_release",
+      "finding": "影响分析将观察源与单独SVG变化关联到准确目标页面。完整发行要求21核心门禁及18条真实浏览器旅程；新增附件旅程、全量受影响页面、固定提交、清单、日志、截图和bundle恢复均须验证。本文不预先宣告CI通过。",
+      "evidence": [
+        "cnkg/change_review.py",
+        "tools/browser_check.py",
+        "tools/release_check.py",
+        "tools/package_release.py",
+        "tests/test_change_review_v4.py",
+        "tests/test_release_delivery.py",
+        "tests/browser/learning-flow.cjs"
+      ]
+    }
+  ],
+  "validation_scope": {
+    "observed_local_full_regression": "最终冻结内容和当前实现运行1059项，1043项通过、16项按原可选外部数据规则跳过，0失败、0错误；耗时106.343秒。该结果是本地完整回归，最终22门禁与18旅程仍须在同一干净候选上实际执行。",
+    "local_browser": "当前环境的官方Chromium下载端点返回不可用HTML，未运行本地真实浏览器；完整浏览器门禁由既有GitHub CI执行后再核验产物。",
+    "formal_release_status": "required_on_final_clean_commit_not_asserted_by_this_review",
+    "local_regression": {
+      "tests_run": 1059,
+      "passed": 1043,
+      "skipped": 16,
+      "failures": 0,
+      "errors": 0,
+      "elapsed_seconds": 106.343,
+      "log_sha256": "e117fe70e96a125eb9890b2880bf89474ee700a2db9f7eaa7e95aea051850901"
+    },
+    "additional_local_checks": [
+      "完整作者构建通过；所有原题及新观察源合同、数值、组件链接无未解决错误",
+      "当前75项语义审查绑定通过",
+      "课标与既定结构覆盖检查通过",
+      "可重复状态报告成功生成",
+      "app.js、work.js与浏览器旅程脚本语法检查通过"
+    ]
+  },
+  "limits": [
+    "实现与合成测试验证协议和保存行为，不能把未提交的真实过程补造出来。",
+    "AI内容审读、程序验证、独立教师审核与实际学生表现分别记录。",
+    "每个仍不足两类客观题族的目标继续列在原分母内；过程入口不消除该统计事实。"
+  ]
+}
