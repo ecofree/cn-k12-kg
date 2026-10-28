@@ -1,16 +1,16 @@
-name: Apply and verify the reviewed V7 continuation
+name: Apply and verify the reviewed V8 continuation
 on:
   push:
     branches: [codex/cnkg-quality-v6-followup]
 permissions:
   contents: read
 concurrency:
-  group: cnkg-v7-verified-continuation
+  group: cnkg-v8-verified-continuation
   cancel-in-progress: false
 jobs:
   repair:
     if: >-
-      github.repository == 'ecofree/cn-k12-kg' && startsWith(github.event.head_commit.message, 'maintenance: replay V7 continuation ')
+      github.repository == 'ecofree/cn-k12-kg' && startsWith(github.event.head_commit.message, 'maintenance: replay V8 continuation ')
     runs-on: ubuntu-latest
     timeout-minutes: 90
     permissions:
@@ -33,12 +33,12 @@ jobs:
         run: |
           python - <<'PY'
           import base64, hashlib, json, lzma, os, pathlib, re, subprocess, urllib.request
-          baseline = 'de1244557d11a432f53bef00c9a3d094ab756bc8'
+          baseline = '2aafccd7cc14ead9d05345374f27662e7d1ab9d9'
           run = lambda *args: subprocess.check_output(args).decode().strip()
           subprocess.run(['git','merge-base','--is-ancestor',baseline,'HEAD'],check=True)
           assert run('git','diff','--name-only',baseline,'HEAD') == '.github/workflows/v6-verified-replay.yml'
           message = run('git','log','-1','--format=%B')
-          match = re.fullmatch(r'maintenance: replay V7 continuation ([0-9a-f]{40}) ([0-9a-f]{64})',message)
+          match = re.fullmatch(r'maintenance: replay V8 continuation ([0-9a-f]{40}) ([0-9a-f]{64})',message)
           assert match, 'Invalid payload identity'
           def blob(sha):
               assert re.fullmatch(r'[0-9a-f]{40}',sha)
@@ -101,7 +101,7 @@ jobs:
               path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(after);paths.append(name)
           subprocess.run(['git','add','--',*paths],check=True)
           assert set(run('git','diff','--cached','--name-only').splitlines())==set(paths)
-          pathlib.Path(os.environ['RUNNER_TEMP'],'v7-expected-manifest.txt').write_text(payload['release_manifest_sha256'])
+          pathlib.Path(os.environ['RUNNER_TEMP'],'v8-expected-manifest.txt').write_text(payload['release_manifest_sha256'])
           PY
       - name: Install the existing pinned dependencies
         run: |
@@ -115,11 +115,11 @@ jobs:
           python - <<'PY'
           import hashlib, os
           from pathlib import Path
-          expected = Path(os.environ['RUNNER_TEMP'], 'v7-expected-manifest.txt').read_text().strip()
+          expected = Path(os.environ['RUNNER_TEMP'], 'v8-expected-manifest.txt').read_text().strip()
           assert hashlib.sha256(Path('release-manifest.json').read_bytes()).hexdigest() == expected, 'Rebuild differs from reviewed source'
           PY
           git add README.md cnkg data docs schema tests tools web release-manifest.json
-          git -c user.name='cnkg verification' -c user.email='73414735+ecofree@users.noreply.github.com' commit -m 'feat: complete V7 content alignment and learning workflow repairs'
+          git -c user.name='cnkg verification' -c user.email='73414735+ecofree@users.noreply.github.com' commit -m 'feat: complete goal observations and remaining bank semantic reviews'
       - name: Complete every existing release gate on the clean candidate
         run: |
           python tools/release_check.py --with-browser
@@ -132,13 +132,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          git push origin "HEAD:refs/heads/codex/cnkg-verified-v7-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git push origin "HEAD:refs/heads/codex/cnkg-verified-v8-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           python - <<'PY'
           import json, os, subprocess, urllib.request
           head = subprocess.check_output(['git','rev-parse','HEAD']).decode().strip()
           report = json.load(open('build/regression_report.json'))
           assert report['head'] == head and report['delivery_ready'] and report['source_clean']
-          body = json.dumps({'state':'success','context':'V7 full release verification',
+          body = json.dumps({'state':'success','context':'V8 full release verification',
               'description':'All existing core and browser gates passed on this exact commit',
               'target_url':f"https://github.com/ecofree/cn-k12-kg/actions/runs/{os.environ['GITHUB_RUN_ID']}"}).encode()
           req = urllib.request.Request(f'https://api.github.com/repos/ecofree/cn-k12-kg/statuses/{head}', data=body, method='POST', headers={
@@ -149,16 +149,16 @@ jobs:
       - name: Preserve candidate history and verification evidence
         if: always()
         run: |
-          git bundle create "$RUNNER_TEMP/v7-candidate.bundle" --all
-          git rev-parse HEAD > "$RUNNER_TEMP/v7-revision.txt"
+          git bundle create "$RUNNER_TEMP/v8-candidate.bundle" --all
+          git rev-parse HEAD > "$RUNNER_TEMP/v8-revision.txt"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: v7-continuation-verification
+          name: v8-continuation-verification
           retention-days: 14
           path: |
-            ${{ runner.temp }}/v7-candidate.bundle
-            ${{ runner.temp }}/v7-revision.txt
+            ${{ runner.temp }}/v8-candidate.bundle
+            ${{ runner.temp }}/v8-revision.txt
             build/regression_report.*
             build/release-check/*.log
             build/browser-check/report.*
