@@ -32,6 +32,7 @@ def commands(mode, *, with_browser=False):
               ["tools/quality_scope.py", "--check", "--require-complete", "--json", "build/quality-scope.json"],
               ["tools/check_alignment.py", "--check"],
               ["tools/check_assessments.py", "--require-complete"],
+              ["tools/check_assessment_reviews.py"],
               ["tools/check_bank_reviews.py"],
               ["tools/validate.py"], ["tools/verify_questions.py"],
               ["tools/check_math_statements.py", "--check"],

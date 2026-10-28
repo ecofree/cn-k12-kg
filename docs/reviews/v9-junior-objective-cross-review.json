@@ -1,0 +1,313 @@
+{
+  "schema": 1,
+  "reviewer_kind": "ai",
+  "reviewer": "root independent AI cross-read of author output",
+  "independent_teacher_review": false,
+  "student_validation": false,
+  "baseline_commit": "b3e9fa9e49c1e52e7d19ca5c5ba29d87ec164d9b",
+  "source": "data/assessments/junior.json",
+  "source_sha256": "4423913f1394610eb7201428fc6ab668177be2c54026b101a9d70f6a57656c01",
+  "method": "实际逐题阅读题面、所有选项、答案、解释、目标关系与反馈族；逐图查看六张实际SVG渲染并检查关键坐标。原8个有疑问目标的全部任务及既有余份/常数积族成员另行读过。精确数值由独立条件表达式复核。",
+  "resolved_findings": [
+    "文字被标作表图的输入标签改正；真实表格另补SVG。",
+    "余份与常数积题复用已有规范族，避免同义改名重置曝光。",
+    "饼图A/B/C与三视图图号、F/B在可见题干明确对应。",
+    "反馈实际展示的附带方法逐项登记；镜面测高补齐共线和居中条件。"
+  ],
+  "limits": [
+    "AI交叉审读不代表教师独立审核或真实学生已掌握。",
+    "并未再次逐题审查全部旧题；旧版本沿用其明确的历史记录。"
+  ],
+  "tasks": [
+    {
+      "task_id": "v9j_interval_maximum",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "c0c0ad993105a4e8920579d9d34949a05fa92f68a162712c0f37c11448726072",
+      "asset_sha256": {},
+      "mathematical_reason": "对0≤u<v≤1，函数差为(v−u)(6−u−v)>0，故允许区间最大在x=1，值6；不能取不可行顶点x=3。受限可行域与全实数平方非负取等的条件不同。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "quadratic-function.restricted-domain.extremum",
+      "reference_family_ids": [
+        "quadratic-function.extremum.square-bound"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9j_wall_capacity",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "45a2722d84632f6752275399411d068c3ad7d116518f1810f2460f7cb86492f5",
+      "asset_sha256": {},
+      "mathematical_reason": "靠墙边y满足0<y≤6，另两边(20−y)/2。42−y(20−y)/2=(6−y)(14−y)/2≥0，最大42在y=6取得；x=7，两侧共14且全围栏20。已给墙长形成独立可行约束。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "quadratic-function.restricted-domain.extremum",
+      "reference_family_ids": [
+        "quadratic-function.model.three-sided-enclosure"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_coordinate_trapezoid",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "29b1f536f548c3c5c9b6af1bb6193c03f2ae0471f91a9788bb19e0fe5ea8f038",
+      "asset_sha256": {},
+      "mathematical_reason": "AB和CD分别在y=0、y=2上平行；AD竖直，而BC的横坐标变动，二者不平行。只有一组对边平行且AD垂直两底，符合题内明示的直角梯形定义。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "coordinate.quadrilateral.one-parallel-pair",
+      "reference_family_ids": [
+        "coordinate.axis-aligned-quadrilateral"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9j_chart_unequal_groups",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "6705b1a9544edad5ca473a3c0759ed7f4c4b1da7115192d5d6c69b2e2d80fcc7",
+      "asset_sha256": {},
+      "mathematical_reason": "20/40=1/2而15/25=3/5，统一百分比刻度得到50%与60%。直接人数比较或合为一张总饼图都改变比较分母；输入为文字，未将方案描述当成已呈现图表。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "statistics.chart-choice.unequal-group-denominators",
+      "reference_family_ids": [
+        "fraction.part-over-total",
+        "statistics.chart-choice.ordered-change"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_pie_missing_share",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "a093eb8f41dd701f25dd6c788921285c16d792dab0299ffa3720a132a1a4ee8e",
+      "asset_sha256": {
+        "web/static/diagrams/v9-junior-missing-pie-share.svg": "d2289a94ff8c3efa86bc9403244813828ceb487bf4181b2a41671eaa41e3406d"
+      },
+      "mathematical_reason": "互斥穷尽分类给余份1−1/5−7/20=9/20，再乘80得36。实际饼图角度与20%、35%相符，C为步行在可见题干明示。复用旧余份及比例族，保留旧同方法曝光。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "statistics.frequency.residual-and-ratio",
+      "reference_family_ids": [
+        "statistics.pie.proportion-to-count"
+      ],
+      "representation": "graph"
+    },
+    {
+      "task_id": "v9j_inverse_point_consistency",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "2944bd156a70d6a6f9ed777b9ac53ab0a69d44c1e3b89356a7038a27ec4c1949",
+      "asset_sha256": {},
+      "mathematical_reason": "两个点分别要求同一常量k等于12和15，不可能同时成立；平均不满足任一点。复用已有常数积检验族，另记录逐点求k的方法，不按新名称制造未见证据。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "inverse-function.constant-product-test",
+      "reference_family_ids": [
+        "inverse-function.determine-from-point"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9j_parallel_chords_radius",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "fe71d3cd8e561b8f222ab2307397f112feae68c725481416b72452a055fdf427",
+      "asset_sha256": {},
+      "mathematical_reason": "半弦为3和4，异侧弦心距和7。公共半径给h1²−h2²=7，所以距差1，正距离依次4、3，两组半径平方均25。使用两条独立弦的共同半径联立，不仅是单三角形换数。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "circle.parallel-chords.shared-radius",
+      "reference_family_ids": [
+        "circle.perpendicular-chord.half-length",
+        "algebra.formula.difference-squares-structure",
+        "system.elimination.opposite-coefficients"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_stack_three_views",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "e18545aaf9e9ebe9c43dad5e24298ea187e332f82cf462b13df15fc286a9c2c8",
+      "asset_sha256": {
+        "web/static/diagrams/v9-junior-stack-three-views.svg": "49d8a69d050af3890d257a4aebd6035c163693361a931ffcad5a917b47b7febf"
+      },
+      "mathematical_reason": "实际三图分别约束列最高值(2,1)、后前行最高值(1,2)及四格全部占位。只有前(2,1)后(1,1)满足；其他选项分别行高倒置、右列过高、缺一占位。题干已解释图号与F前/B后。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "views.cube-stack.row-column-constraints",
+      "reference_family_ids": [],
+      "representation": "geometry"
+    },
+    {
+      "task_id": "v9j_equation_solution_types",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "1bbc1b1c0f412199a626804772416116f4ece7c80d915f09411d8a0be534a99c",
+      "asset_sha256": {},
+      "mathematical_reason": "第一式展开即同一式，全部实数；第二式消去2x后常量4与5矛盾，无解；第三式2x=10且代回两边16，唯一x=5。只辨认三种解集，不声称已交一般证明。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "equation.solution-set-degeneracy",
+      "reference_family_ids": [
+        "equation.solve-linear"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9j_equation_unit_consistency",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "234707b66d1cde7eb30f0d75de5c6ee34cd3e4dfc8c335dbcbfa218a1fad2814",
+      "asset_sha256": {},
+      "mathematical_reason": "需增加15升，按3升/小时共5小时即300分钟；每分钟率为1/20升，2+t/20=17。正整数5不能修正小时与分钟不配的模型条件。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "equation.model.unit-consistency",
+      "reference_family_ids": [
+        "ratio.unit-rate-projection"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_table_formula_points",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "cba71fc098ab9434cc30904753c048fd23ada6aacd2c36c7aeef7493ac8fa069",
+      "asset_sha256": {
+        "web/static/diagrams/v9-junior-linear-value-table.svg": "f7fcb8db78020b21bbc995b4303f7a8350f0e815191b1525efd2d185706aca58"
+      },
+      "mathematical_reason": "真实两行SVG给(0,1)、(2,5)、(5,11)。两个割线斜率均2、截距1，x=3得7；其余方案与至少一行冲突。图中数据和可访问说明一致，未把文字列表算成表。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "linear.table-to-parameters",
+      "reference_family_ids": [
+        "linear.formula-evaluation"
+      ],
+      "representation": "table"
+    },
+    {
+      "task_id": "v9j_records_single_output",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "0b07b1a9cab656773c81a9306e409ffcdf0a872726f2b8f33e9bc85e461b579a",
+      "asset_sha256": {},
+      "mathematical_reason": "同一允许输入1对应两个不同输出2和3，违反唯一性；无权删行或取平均后声称原点集为函数。记录是符号点集，未标为实际表格。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "function.single-output-check",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9j_frame_selection_response",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "094b779f842da28db48ae45d15d2d317b5f28ddc68415033f33ab0b32bf0956a",
+      "asset_sha256": {},
+      "mathematical_reason": "目标涉及六人，名册只有五人且漏己；随机抽中甲丙戊，有效响应甲丙。戊的未响应与己无入样机会属于不同阶段，随机抽取不修复框遗漏。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "statistics.sample-stage.frame-selection-response",
+      "reference_family_ids": [
+        "statistics.population-sample-frame"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_random_sample_nonresponse",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "b31901ad56151d65f8948b107ea40662867e5e88833806c0c4b9ac7e97774ce3",
+      "asset_sha256": {},
+      "mathematical_reason": "原随机入样12人中只有9份有效响应；另3份便利补入不再遵从原机制。分别保留来源与未响应事实，不把份数相等当机制相同。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "statistics.nonresponse-and-replacement",
+      "reference_family_ids": [],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_centre_and_purpose",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "2da94a017b0e413b542ef3778ef8a1381fbc805824b418128c62069d6c753540",
+      "asset_sha256": {},
+      "mathematical_reason": "两组总和均20、人数5，均值4；各自中间项为1、4。均值描述总量关系而不能确定典型个体或长尾，删去16会改变原数据。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "statistics.equal-mean-different-distribution",
+      "reference_family_ids": [
+        "statistics.mean-from-values",
+        "statistics.median-position"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_sample_population_boundary",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "9fd3c0c66cc13ddaeede0b94dec5402a1b4888f2a8039ff1eb8ad29554cdc559",
+      "asset_sha256": {},
+      "mathematical_reason": "六个样本值合计24、均值4；其余54人的值未给，故总体均值及个体值不确定。已满足随机和完整响应仍不能把样本描述当已调查全体。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "statistics.sample-not-population-certainty",
+      "reference_family_ids": [
+        "statistics.mean-from-values"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_triangle_perimeter_candidates",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "8f483e52a33f557b1995b93c9f7da5e9d4e7183e99e8d5da1a6cbf9394a9fbd3",
+      "asset_sha256": {},
+      "mathematical_reason": "三边10、x、16−x的严格关系给3<x<13，其余两边之和16>10。正整数4至12全部满足，共9；题目明确计x值，交换两边不消去另一个x。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "triangle.perimeter-feasibility",
+      "reference_family_ids": [
+        "triangle.side-feasibility",
+        "inequality.interval.integer-count"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9j_annular_sector_parts",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "dc0318baea3cf775d4aa1f65cf55aad05380ac9f10750c09c11afe39a4601730",
+      "asset_sha256": {
+        "web/static/diagrams/v9-junior-annular-sector.svg": "6be1b4dcb9c67f0d6ff8ff1e1b60724936204a09c1ace16b812f9f13502a9049"
+      },
+      "mathematical_reason": "90°占1/4，外弧3π、内弧2π；同心外内扇形面积9π与4π，相差5π。两个弧与区域面积的单位、包含关系分别核对，实际图的半径和直角匹配。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "sector.annular-region.area-and-arcs",
+      "reference_family_ids": [
+        "sector.arc-versus-area.fraction-of-circle",
+        "sector.area.fraction-of-circle"
+      ],
+      "representation": "geometry"
+    },
+    {
+      "task_id": "v9j_pooled_frequency_model",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "922cd4ed557c62f3878711726816b9e9b591bfa5e7165bf9a72670e6542dc3b3",
+      "asset_sha256": {},
+      "mathematical_reason": "合并正面8+12=20，试验10+30=40，频率1/2；简单均值(4/5+2/5)/2=3/5错误。下一次1/2来自明示均匀独立模型，有限频率相等不证明模型。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "probability.frequency.pooled-batches-stable-model",
+      "reference_family_ids": [
+        "probability.observed-relative-frequency"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_regular_vertex_angles",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "846ef6ea951e3ad7ea2f26adffd3e20f29584901eb062a4e153f0e805f79a354",
+      "asset_sha256": {},
+      "mathematical_reason": "周围90°+2α=360°先给内角135°；相应中心角45°，边数8。周角约束是独立输入，目标的中心角与内角同时求出，局部计算未冒充全局密铺证明。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "仅记录本题指定条件下的选择或数值；完整推理、其他情形与独立保持表现仍需另行观察。",
+      "family_id": "regular-polygon.vertex-tiling-angle-constraint",
+      "reference_family_ids": [
+        "regular-polygon.central-interior-angles",
+        "regular-polygon.interior-angle",
+        "polygon.exterior-angle.inverse-count"
+      ],
+      "representation": "verbal"
+    }
+  ]
+}

@@ -231,12 +231,18 @@ def build_snapshot(data_dir=DATA, root_dir=ROOT):
     # Keep the old review ledger intact. Current source-bound semantic reviews
     # and observation opportunities are separate evidence with separate limits.
     snapshot["bound_bank_review"] = {"available": False}
+    snapshot["bound_assessment_review"] = {"available": False}
     snapshot["goal_observation_resources"] = {"available": False}
     if pathlib.Path(data_dir).resolve() == (pathlib.Path(root_dir) / "data").resolve():
         if (pathlib.Path(root_dir) / "docs/reviews/v8-bank-review-index.json").is_file():
             from cnkg.bank_review import check_reviews
             report = check_reviews(root_dir)
             snapshot["bound_bank_review"] = {"available": True, "ok": report["ok"],
+                "summary": report["summary"], "errors": report["errors"], "limits": report["limits"]}
+        if (pathlib.Path(root_dir) / "docs/reviews/v9-assessment-review-index.json").is_file():
+            from cnkg.assessment_review import check_reviews as check_assessment_reviews
+            report = check_assessment_reviews(root_dir)
+            snapshot["bound_assessment_review"] = {"available": True, "ok": report["ok"],
                 "summary": report["summary"], "errors": report["errors"], "limits": report["limits"]}
         if (pathlib.Path(data_dir) / "catalog.json").is_file():
             from cnkg.assessments import report as assessment_report
@@ -276,15 +282,23 @@ def main(argv=None):
     if bank["available"]:
         counts = bank["summary"]
         print(f"当前版本逐题AI审查绑定：{'通过' if bank['ok'] else '有待解决的错误'}；"
-              f"前轮{counts['previous_round_tasks']}＋本轮{counts['this_round_tasks']}，"
+              f"原索引记录的前期{counts['previous_round_tasks']}＋续审{counts['this_round_tasks']}，"
               f"共{counts['covered_tasks']}/{counts['bank_tasks']}条；隔离{counts['quarantined_tasks']}条仍保留")
         for error in bank["errors"]:
             print("  " + error)
+        print("  上述为已绑定原题版本的历史审读批次，不表示此次重新审读全部原题。")
+    assessment_review = snapshot["bound_assessment_review"]
+    if assessment_review["available"]:
+        counts = assessment_review["summary"]
+        print(f"本轮新增观察任务审读：{counts['new_tasks_reviewed']}/{counts['new_tasks']}；"
+              f"其中客观题交叉核对{counts['new_objective_cross_reviewed']}/{counts['new_objective_tasks']}；"
+              f"原不足目标逐项复查{counts['gap_goals_reviewed']}/{counts['baseline_breadth_gaps']}；"
+              f"绑定{'通过' if assessment_review['ok'] else '有待解决的错误'}")
     observations = snapshot["goal_observation_resources"]
     if observations["available"]:
         counts = observations["summary"]
         print(f"逐目标观察计划：{counts['planned_goals']}/{counts['registered_goals']}，"
-              f"分项{counts['components']}，新增任务{counts['new_tasks']}；"
+              f"分项{counts['components']}，观察任务总数{counts['new_tasks']}；"
               f"主题与单元两类客观题族已具备{counts['goals_with_two_objective_families']}，"
               f"仍不足{counts['objective_breadth_gaps']}；资源可用不等于已取得学生表现")
     if r.get("fixed_pending_recheck"):

@@ -481,7 +481,7 @@ def _freeze_result(record):
     summary = _build_session_summary(record)
     record["summary_snapshot"] = summary
     record["verdict_snapshot"] = (engine.verdict_label(summary) if record["kind"] == "topic" else
-                                  "逐个目标查看本次表现；过程题已保存，可以按量规自查、补充依据并继续修订。")
+                                  "逐个目标查看本次表现；对已提交的过程作品，可以按量规自查、补充依据并继续修订。")
 
 
 def _version_problem(record):

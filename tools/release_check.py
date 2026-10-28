@@ -28,6 +28,7 @@ CHECKS = [
     ('quality_scope', '完整目标范围与实际材料任务对应', ['tools/quality_scope.py', '--check', '--require-complete', '--json', 'build/quality-scope.json']),
     ('alignment', '全部目标支持与全部活跃题的目标、题族、表征、认知和观察边界', ['tools/check_alignment.py', '--check']),
     ('assessments', '全部稳定目标的分项计划、实际任务及保留的观察边界', ['tools/check_assessments.py', '--require-complete']),
+    ('assessment_review', '新增观察任务逐题及交叉审读、原任务与不足分母续接', ['tools/check_assessment_reviews.py']),
     ('bank_review', '全部存量题逐题审读证据及前轮与本轮真实覆盖', ['tools/check_bank_reviews.py']),
     ('semantic_review', '内容语义审查记录与影响清单绑定当前版本', ['tools/check_change_review.py']),
     ('structure', '图、目录、题库与答案结构', ['tools/validate.py']),

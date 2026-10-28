@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "reviewer": "V9 junior agent, independent from root gate implementation",
+  "reviewer_kind": "ai",
+  "independent_teacher_review": false,
+  "student_validation": false,
+  "scope": "只读交叉审查观察任务续审门禁及构建/发布/状态接入；所有变异发生于临时夹具，不修改真实题稿、图示、门禁或测试源。",
+  "decision": "accept_with_limits_after_reproduced_fixes",
+  "reviewed_source_sha256": {
+    "cnkg/assessment_review.py": "94740d773cbf75f80c8bd4c38cdba3ef6cbe3d9cd67cedec7454f549ed78419f",
+    "tools/check_assessment_reviews.py": "1fbc85dbb424984ccacbdf7c0ce7fcf3f717fd4b92632f9bfc15748be453faa2",
+    "tests/test_assessment_review_v9.py": "f57bff83fe7017355d781e33257c7ec6bda461d0439ef427a630ec67a442b9f5",
+    "tools/build_project.py": "f03fc36c10dcf559c816474fc73b8b393fe63a3cb83e0a1a1de7243feea421b0",
+    "tools/release_check.py": "1f052715349fd81976a838752327ec5c9a8811cef22e075bc859613e11ce7a35",
+    "tools/status_report.py": "62924b21dada930bcdd8fd1fff8b2823d1f330d01f9f4d017b5a89a2a65d19c6"
+  },
+  "initial_reproductions": [
+    {
+      "case": "row_scope_override",
+      "before_fix_ok": true,
+      "before_fix_errors": [],
+      "reported_to_root": true
+    },
+    {
+      "case": "cross_whitespace_reason",
+      "before_fix_ok": true,
+      "before_fix_errors": [],
+      "reported_to_root": true
+    },
+    {
+      "case": "same_file_author_and_cross",
+      "before_fix_ok": true,
+      "before_fix_errors": [],
+      "reported_to_root": true
+    },
+    {
+      "case": "diagram_bytes_changed_without_task_change",
+      "before_fix_ok": true,
+      "before_fix_errors": [],
+      "reported_to_root": true
+    }
+  ],
+  "final_independent_probes": [
+    {
+      "case": "row_overrides_honest_report_scope",
+      "control_ok": true,
+      "actual_ok": false,
+      "expected_ok": false,
+      "errors": [
+        "观察任务逐题审读无法核对：AI 审读必须与教师独立审核、真实学生验证分别记录"
+      ],
+      "reason": "报告头为AI且两类验证均false，但行中改称teacher/true/true。当前实现按头与行合并后校验，拒绝行覆盖。",
+      "passed": true
+    },
+    {
+      "case": "cross_mathematical_reason_whitespace",
+      "control_ok": true,
+      "actual_ok": false,
+      "expected_ok": false,
+      "errors": [
+        "new: 交叉数学判断未完成"
+      ],
+      "reason": "仅空格、换行、制表符不构成可审查的数学理由；当前要求非空字符串且strip后非空。",
+      "passed": true
+    },
+    {
+      "case": "same_report_used_for_author_and_cross",
+      "control_ok": true,
+      "actual_ok": false,
+      "expected_ok": false,
+      "errors": [
+        "new: 同一报告不能兼任作者审读和交叉审读"
+      ],
+      "reason": "将同一客观行另存common.json并同时用于作者与交叉，过程行单独存；排除因过程混入cross才失败的干扰，当前明确拒绝同文件兼任。",
+      "passed": true
+    },
+    {
+      "case": "new_svg_bytes_change_same_task_hash",
+      "control_ok": true,
+      "actual_ok": false,
+      "expected_ok": false,
+      "errors": [
+        "new: 逐题审读没有绑定当前实际图示字节",
+        "new: 交叉审读没有绑定当前实际图示字节"
+      ],
+      "reason": "先绑定有效新题及图示SHA，再只改SVG数字5为999，完整task哈希保持相同；当前作者和交叉资产校验均拒绝。",
+      "passed": true
+    },
+    {
+      "case": "old_svg_bytes_change_same_task_hash",
+      "control_ok": true,
+      "actual_ok": false,
+      "expected_ok": false,
+      "errors": [
+        "old: 原题图示字节发生变化，旧审读不能自动继承"
+      ],
+      "reason": "先以原题及其真实SVG哈希构造有效基线，再只替换旧图字节；当前拒绝原审读自动继承。",
+      "passed": true
+    },
+    {
+      "case": "compiled_answer_only_changed_is_external_compile_gate_precondition",
+      "control_ok": true,
+      "actual_ok": true,
+      "expected_ok": true,
+      "errors": [],
+      "reason": "本门禁读取作者源以绑定数学审读，不重复编译器全部内容一致性检查；单改目录answer确实仍通过此子门禁。正式build/release必须先通过compile_catalog --check或先重建目录，这一前提在实际接入顺序中成立。",
+      "passed": true
+    }
+  ],
+  "integration_review": {
+    "build_project": "check/write先处理来源、注册、分层、目录编译，再检查assessment/link与当前审读；release经统一release_check执行，不绕过新门禁。",
+    "release_check": "catalog一致性先于assessment_review；assessment_review返回非零计入总发布失败；完整结果仍需root在集成后的最终版本执行。",
+    "status_report": "有索引时显示审读覆盖、客观交叉及原缺口逐项目标数；保留原题继承、AI与实际学生证据的区别。",
+    "cli": "将完整errors写JSON、打印有限摘要且返回int(not ok)，不会只显示匹配总数而吞掉错误。",
+    "source_paths": "JSON审读文件校验仓库相对路径、禁止..与符号链接并绑定原始字节；新增SVG同样限制明确静态图路径并核对文件字节。"
+  },
+  "preservation_review": "旧源任务逐对象哈希与来源保持；稳定skills、family aliases与原目标全集保持；原任务入口和组件ID不能删除；当前目标计划完整对象哈希包含实际分项要求，缺口目标须逐项出现在报告。",
+  "known_scope_limits": [
+    "程序验证版本、来源、完整性与诚实范围，不证明数学理由正确、不证明任务结构独立，也不证明真实教师或学生已经验证。",
+    "同文件不能同时算作者与交叉是可执行的最小分离规则；文件名或不同AI角色本身仍不构成教师独立审核。",
+    "编译目录内容与作者源是否完全一致由compile_catalog --check承担；此子门禁单独通过不等于完整发布通过。",
+    "历史1912个观察源任务的图示绑定须由root从精确Git基线补齐snapshot并统一索引；本交叉报告检查了旧图替换拒绝的算法与用例，不冒称已重新审查所有旧图数学内容。"
+  ],
+  "unresolved_blocking_findings": [],
+  "root_owned_release_work_remaining": "所有学段最终源、索引、目录、完整回归与真实浏览器功能验收及PR/main合并由root统一完成。"
+}

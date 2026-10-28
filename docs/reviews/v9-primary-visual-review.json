@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "stage": "primary",
+  "baseline_commit": "b3e9fa9e49c1e52e7d19ca5c5ba29d87ec164d9b",
+  "source": "data/assessments/primary.json",
+  "source_sha256": "464689d4cf8b756b87722f33e39ce1f4391c6f033e33e868d12313f5a1ec3349",
+  "reviewer_kind": "ai",
+  "independent_teacher_review": false,
+  "student_validation": false,
+  "student_evidence_created": false,
+  "figures": [
+    {
+      "task_id": "v9p_g241",
+      "source_task_sha256": "cb831c1365571bf66a341e575ead8bfda3e6e25f63240ec6bdc98f572c7491ed",
+      "svg": "web/static/diagrams/v9-primary-measure-angles.svg",
+      "svg_sha256": "69eb5afb45d29608275775b60bc17fdb806de7a4d57df4af04ac304e18407215",
+      "render_tool": "Inkscape",
+      "raster_sha256": "ceb393d5ee23a6e113228df6376af8e5f65935938f51677a828ffde85f3d1018",
+      "inspection": "Actually viewed the 760×320 raster. Both vertices and four rays are visible; labels I/A/O/B and II/C/P/D do not clip or collide. The left angle is acute and right obtuse. No degree answer is printed. Source-vector angle recomputation agrees within 0.000001 degree.",
+      "mathematical_checks": [
+        {
+          "method": "independent atan2 of source SVG endpoint vectors",
+          "inputs": {
+            "ray-oa": [
+              90.0,
+              240.0,
+              290.0,
+              240.0
+            ],
+            "ray-ob": [
+              90.0,
+              240.0,
+              253.830409,
+              125.284713
+            ],
+            "ray-pc": [
+              490.0,
+              240.0,
+              690.0,
+              240.0
+            ],
+            "ray-pd": [
+              490.0,
+              240.0,
+              375.284713,
+              76.169591
+            ]
+          },
+          "actual_degrees": [
+            34.99999991322384,
+            124.99999991322385
+          ],
+          "expected_degrees": [
+            35,
+            125
+          ],
+          "absolute_tolerance": 1e-06,
+          "match": true
+        }
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "task_id": "v9p_g264",
+      "source_task_sha256": "2a5d6bb00574d89bd9075d6f7abd35eda08bcda2d1e0b35ead67381b8838c99f",
+      "svg": "web/static/diagrams/v9-primary-bar-completion.svg",
+      "svg_sha256": "10db8b940093f165d12828b1383136bff79b708e971cecc6468ea614c5373400",
+      "render_tool": "Inkscape",
+      "raster_sha256": "de5060d944e8bc86b8f5f8a34a2e49254c7e1a4290875c40d30ab4eaac1c7466",
+      "inspection": "Actually viewed the 700×430 raster. Equal 0–16 ticks at intervals of 2, people unit, A/B/C labels and shared zero baseline are readable. A reaches 8, C reaches 6, and B remains blank; the answer bar at 12 is not included. Prompt explicitly maps A/B/C to 甲/乙/丙.",
+      "mathematical_checks": [
+        {
+          "method": "independent source SVG baseline, scale and bar-height calculation",
+          "inputs": {
+            "baseline_y": 345,
+            "pixels_per_step": 35,
+            "people_per_step": 2
+          },
+          "actual": [
+            8.0,
+            6.0
+          ],
+          "expected": [
+            8,
+            6
+          ],
+          "match": true
+        }
+      ],
+      "decision": "accept_with_limits"
+    }
+  ]
+}
