@@ -1,16 +1,16 @@
-name: Apply and verify the bounded V6 repair
+name: Apply and verify the reviewed V6 completion
 on:
   push:
     branches: [codex/cnkg-quality-v6-followup]
 permissions:
   contents: read
 concurrency:
-  group: cnkg-v6-verified-repair
+  group: cnkg-v6-verified-completion
   cancel-in-progress: false
 jobs:
   repair:
     if: >-
-      github.repository == 'ecofree/cn-k12-kg' && startsWith(github.event.head_commit.message, 'maintenance: replay V6 ')
+      github.repository == 'ecofree/cn-k12-kg' && startsWith(github.event.head_commit.message, 'maintenance: replay V6 completion ')
     runs-on: ubuntu-latest
     timeout-minutes: 90
     permissions:
@@ -33,12 +33,12 @@ jobs:
         run: |
           python - <<'PY'
           import base64, hashlib, json, lzma, os, pathlib, re, subprocess, urllib.request
-          baseline = 'df0bf1ea0f679c2685bcfe4820a06524da112d9c'
+          baseline = '652bf63212044e50e259f207f650a8d6f0b2b132'
           run = lambda *args: subprocess.check_output(args).decode().strip()
           subprocess.run(['git','merge-base','--is-ancestor',baseline,'HEAD'],check=True)
           assert run('git','diff','--name-only',baseline,'HEAD') == '.github/workflows/v6-verified-replay.yml'
           message = run('git','log','-1','--format=%B')
-          match = re.fullmatch(r'maintenance: replay V6 ([0-9a-f]{40}) ([0-9a-f]{64})',message)
+          match = re.fullmatch(r'maintenance: replay V6 completion ([0-9a-f]{40}) ([0-9a-f]{64})',message)
           assert match, 'Invalid payload identity'
           def blob(sha):
               assert re.fullmatch(r'[0-9a-f]{40}',sha)
@@ -50,10 +50,10 @@ jobs:
           index=json.loads(blob(match[1]))
           assert index['format']=='lzma-chunks-v1' and 1<=len(index['chunks'])<=32
           packed=b''.join(blob(sha) for sha in index['chunks'])
-          assert len(packed)<=2_000_000 and hashlib.sha256(packed).hexdigest()==index['sha256']
+          assert len(packed)<=5_000_000 and hashlib.sha256(packed).hexdigest()==index['sha256']
           decoder=lzma.LZMADecompressor()
-          raw=decoder.decompress(packed,max_length=10_000_001)
-          assert decoder.eof and not decoder.unused_data and len(raw)<=10_000_000
+          raw=decoder.decompress(packed,max_length=50_000_001)
+          assert decoder.eof and not decoder.unused_data and len(raw)<=50_000_000
           assert hashlib.sha256(raw).hexdigest()==match[2]
           payload=json.loads(raw)
           assert payload['schema']==2 and payload['baseline']==baseline
@@ -61,7 +61,7 @@ jobs:
           for entry in payload['files']:
               name=entry['path'];path=pathlib.Path(name)
               assert not path.is_absolute() and '..' not in path.parts
-              assert name.startswith(('cnkg/','data/','docs/','tests/','tools/')) or name=='README.md'
+              assert name.startswith(('cnkg/','data/','docs/','schema/','tests/','tools/','web/')) or name=='README.md'
               assert not name.endswith(('.ttf','.otf','.woff','.woff2','.sqlite','.bundle'))
               assert name not in paths and not path.is_symlink()
               assert path.resolve().is_relative_to(pathlib.Path.cwd().resolve())
@@ -118,14 +118,16 @@ jobs:
           expected = Path(os.environ['RUNNER_TEMP'], 'v6-expected-manifest.txt').read_text().strip()
           assert hashlib.sha256(Path('release-manifest.json').read_bytes()).hexdigest() == expected, 'Rebuild differs from reviewed source'
           PY
-          git add README.md cnkg data docs tests tools release-manifest.json
-          git -c user.name='cnkg verification' -c user.email='73414735+ecofree@users.noreply.github.com' commit -m 'fix: verify V6 math corrections and stable question identities'
+          git add README.md cnkg data docs schema tests tools web release-manifest.json
+          git -c user.name='cnkg verification' -c user.email='73414735+ecofree@users.noreply.github.com' commit -m 'feat: complete reviewed V6 learning support and full-scope recovery'
       - name: Complete every existing release gate on the clean candidate
         run: |
           python tools/release_check.py --with-browser
           python tools/release_manifest.py --check
           git diff --exit-code
           test -z "$(git status --porcelain)"
+      - name: Package the source, history and evidence bound to this candidate
+        run: python tools/package_release.py
       - name: Publish without force and attach the real verification status
         env:
           GH_TOKEN: ${{ github.token }}
@@ -152,7 +154,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: v6-repair-verification
+          name: v6-completion-verification
           retention-days: 14
           path: |
             ${{ runner.temp }}/v6-candidate.bundle
@@ -163,3 +165,7 @@ jobs:
             build/browser-check/*/result.json
             build/browser-check/*/*.png
             build/browser-check/*/*.log
+            build/release/*/delivery.json
+            build/release/*/source.zip
+            build/release/*/current-branch.bundle
+            build/release/*/evidence.zip
