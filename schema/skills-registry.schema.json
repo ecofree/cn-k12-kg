@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cn-k12-kg.local/schema/v1/skills-registry.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "skills": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^sk_[a-f0-9]{20}$"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "granularity": {
+            "type": "string",
+            "enum": [
+              "legacy_composite",
+              "composite",
+              "observable"
+            ]
+          },
+          "stage": {
+            "type": "string",
+            "enum": [
+              "primary",
+              "junior",
+              "senior"
+            ]
+          },
+          "domain": {
+            "type": "string",
+            "minLength": 1
+          },
+          "prerequisite_skill_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "refines_skill_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "id",
+          "statement",
+          "granularity",
+          "stage",
+          "domain",
+          "prerequisite_skill_ids",
+          "refines_skill_ids"
+        ]
+      }
+    },
+    "placements": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "topic_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "criterion_skill_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "topic_id",
+          "criterion_skill_ids"
+        ]
+      }
+    },
+    "objective_skill_ids": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "skills",
+    "placements",
+    "objective_skill_ids"
+  ]
+}

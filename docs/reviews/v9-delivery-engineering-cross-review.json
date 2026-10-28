@@ -1,0 +1,303 @@
+{
+  "schema": 1,
+  "reviewer_kind": "ai",
+  "reviewer_role": "senior_agent_independent_engineering_cross_review",
+  "independent_teacher_review": false,
+  "student_validation": false,
+  "baseline_commit": "b3e9fa9e49c1e52e7d19ca5c5ba29d87ec164d9b",
+  "review_method": "只读源码与基线diff交叉；读取真实任务源和编译目录核对选择/字段。续审读取第一固定候选的现有验收报告、源包并实际查看其结果截图；没有启动新浏览器、运行大套测试、CI或发布动作，也未修改受审代码。",
+  "decision": "accept_copy_fix_with_fixed_candidate_reverification_pending",
+  "actual_browser_execution": "first_candidate_reports_and_screenshot_reviewed_revised_candidate_pending_ci",
+  "reviewed_sources": [
+    {
+      "path": "tests/browser/learning-flow.cjs",
+      "sha256": "8037076e9539d3166c2f6654ffbfad45f6634895b8bc53324b628c87135c2561",
+      "read_scope": "完整阅读V9新增goal_observation_artifacts三学段循环、其V8前置流程、startFrom/fillAnswer/submitAnswer/completeSession、脚本fixture初始化。",
+      "baseline_sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa",
+      "changed_from_baseline": true
+    },
+    {
+      "path": "tools/release_check.py",
+      "sha256": "1f052715349fd81976a838752327ec5c9a8811cef22e075bc859613e11ce7a35",
+      "read_scope": "阅读完整CHECKS顺序与main执行、超时、日志、context和最终ready判断。",
+      "baseline_sha256": "ecc8bfcc1b5795c3d3bd2d76c97607844bd45ddb38ae99a0ec1818633d65c12e",
+      "changed_from_baseline": true
+    },
+    {
+      "path": ".github/workflows/v6-verified-replay.yml",
+      "sha256": "87f1ca8df6b9d0f4d33c7082aa9a796a8d486e459bcbfce81453ebe83258f354",
+      "read_scope": "阅读完整V9工作流并与指定V8基线逐行diff。",
+      "baseline_sha256": "135e1b70ab2bed5ad2aebebb8fee519851d03cadb11b993e2bcb9c5084a56940",
+      "changed_from_baseline": true
+    },
+    {
+      "path": ".github/workflows/core.yml",
+      "sha256": "7b9d5e56c928a7c53957eb39ffc55395a4f59fa9ae632ec0a06caf63a39d5cdc",
+      "read_scope": "阅读完整现有push与pull_request触发及只读token、完整release_check/browser执行。",
+      "baseline_sha256": "7b9d5e56c928a7c53957eb39ffc55395a4f59fa9ae632ec0a06caf63a39d5cdc",
+      "changed_from_baseline": false
+    },
+    {
+      "path": "web/server.py",
+      "sha256": "1e7cc35f8c41d00a0557c19ac022b0081fc893c5260384ca34029d2bce363e3c",
+      "read_scope": "核对session_payload、_create_session、session_summary对应字段、任务/阶段限制及冻结asset快照。 续审独立阅读_freeze_result单行文案变化、session_summary历史快照分支、session_payload与export_record的verdict_snapshot读取，以及_answer的幂等重试和完成冻结调用；从第一候选source.zip逐字比较，除此单行无差异。",
+      "baseline_sha256": "0e4d0573b7d8e7b2da7ed735b848dc1ce662f758f916e0b4d2099e2e8b581e5d",
+      "changed_from_baseline": true
+    },
+    {
+      "path": "web/static/app.js",
+      "sha256": "dc1486d374f9bc691112af8afc8dfcbe8529d74d18b702fd00634510c2e8231b",
+      "read_scope": "核对openGoal过程组件按钮data-task-id与preferred assessment_goal_id/focus_skill_ids传递。",
+      "baseline_sha256": "dc1486d374f9bc691112af8afc8dfcbe8529d74d18b702fd00634510c2e8231b",
+      "changed_from_baseline": false
+    },
+    {
+      "path": "cnkg/learning_needs.py",
+      "sha256": "9d2d507c7050fda4b210f844cdd2bda6ec0a4cc564a82ed9c2d329d24d00635a",
+      "read_scope": "核对task_start_action对assessment任务生成精确目标、phase和单task_id请求。",
+      "baseline_sha256": "9d2d507c7050fda4b210f844cdd2bda6ec0a4cc564a82ed9c2d329d24d00635a",
+      "changed_from_baseline": false
+    },
+    {
+      "path": "cnkg/assessments.py",
+      "sha256": "df545e573834f4e79c4149ff3c6dd38b44ce7269ee18b7c91d12ea175e5db4ef",
+      "read_scope": "核对public_plan过滤参考答案字段与observation_unit适配来源、活动任务及观察限制。",
+      "baseline_sha256": "df545e573834f4e79c4149ff3c6dd38b44ce7269ee18b7c91d12ea175e5db4ef",
+      "changed_from_baseline": false
+    },
+    {
+      "path": "tools/check_assessment_reviews.py",
+      "sha256": "1fbc85dbb424984ccacbdf7c0ce7fcf3f717fd4b92632f9bfc15748be453faa2",
+      "read_scope": "阅读门禁main，错误输出及非零返回码。",
+      "baseline_sha256": null,
+      "changed_from_baseline": true
+    },
+    {
+      "path": "cnkg/assessment_review.py",
+      "sha256": "94740d773cbf75f80c8bd4c38cdba3ef6cbe3d9cd67cedec7454f549ed78419f",
+      "read_scope": "阅读当前任务/旧任务保留、逐题与交叉hash、SVG字节、全不足分母门禁。",
+      "baseline_sha256": null,
+      "changed_from_baseline": true
+    },
+    {
+      "path": "tools/verification_context.py",
+      "sha256": "a21944cf8dc7ab3d9ca89a404380ffb48a7da8efef7651bfd994edd9db655dab",
+      "read_scope": "阅读capture及changes的HEAD、源清洁度与manifest绑定。",
+      "baseline_sha256": "a21944cf8dc7ab3d9ca89a404380ffb48a7da8efef7651bfd994edd9db655dab",
+      "changed_from_baseline": false
+    },
+    {
+      "path": "tools/release_manifest.py",
+      "sha256": "032a00a5fcc905e5ce399d6fd4677803754ca5eb445e8dfa3d6aad5eead6c2c7",
+      "read_scope": "阅读原始字节发布清单规则及路径/符号链接/运行目录限制。",
+      "baseline_sha256": "032a00a5fcc905e5ce399d6fd4677803754ca5eb445e8dfa3d6aad5eead6c2c7",
+      "changed_from_baseline": false
+    },
+    {
+      "path": "tools/browser_check.py",
+      "sha256": "4447a7ac72f11b83a873920aeef0e5e0019e13aebe05a3b74e2bf73ac45ee329",
+      "read_scope": "核对goal_observation_artifacts在默认全部JOURNEYS中，未因新增段只存在于未调度分支。",
+      "baseline_sha256": "4447a7ac72f11b83a873920aeef0e5e0019e13aebe05a3b74e2bf73ac45ee329",
+      "changed_from_baseline": false
+    }
+  ],
+  "selected_v9_browser_tasks": [
+    {
+      "stage": "primary",
+      "task_id": "v9p_g003",
+      "goal_id": "sk_238f6cc073c15bfc9281",
+      "phase": "practice",
+      "type": "choice",
+      "source": "data/assessments/primary.json",
+      "source_task_sha256": "bc2fca82544693de2d4a90623b6a1dc47253f727579d614063e34e6c4d6b78d2",
+      "diagram_src": null,
+      "stage_matches": true,
+      "assessment_plan_contains_task": true,
+      "scope": "从当前已编译目录按新增JS的同一筛选规则只读求出试跑对象；未启动浏览器或替换生产API。"
+    },
+    {
+      "stage": "junior",
+      "task_id": "v9j_table_formula_points",
+      "goal_id": "sk_df614472a27344b9a189",
+      "phase": "transfer",
+      "type": "choice",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "cba71fc098ab9434cc30904753c048fd23ada6aacd2c36c7aeef7493ac8fa069",
+      "diagram_src": "/static/diagrams/v9-junior-linear-value-table.svg",
+      "stage_matches": true,
+      "assessment_plan_contains_task": true,
+      "scope": "从当前已编译目录按新增JS的同一筛选规则只读求出试跑对象；未启动浏览器或替换生产API。"
+    },
+    {
+      "stage": "senior",
+      "task_id": "v9s_growth_graph_increments",
+      "goal_id": "sk_b31b82ce314b495a8668",
+      "phase": "transfer",
+      "type": "choice",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "b99f01a1e32ded469208c8cce5a7e6040043c1d1a1cee56a058ca738d547b4ef",
+      "diagram_src": "/static/diagrams/v9-senior-growth-increments.svg",
+      "stage_matches": true,
+      "assessment_plan_contains_task": true,
+      "scope": "从当前已编译目录按新增JS的同一筛选规则只读求出试跑对象；未启动浏览器或替换生产API。"
+    }
+  ],
+  "findings": [
+    {
+      "id": "exact_goal_task_phase",
+      "status": "pass",
+      "source_refs": [
+        "tests/browser/learning-flow.cjs",
+        "cnkg/learning_needs.py",
+        "web/static/app.js",
+        "web/server.py"
+      ],
+      "finding": "新增段经真实目标页组件按钮启动，按钮data-task-id匹配当前作者题；task_start_action及UI保持单task_ids、目标ID和task.phase，服务端再次检查任务属于所选目标与阶段。",
+      "evidence": "startFrom检查session.mode；新增段检查session.assessment_goal_id与item.question.id。session_payload确实直接公开assessment_goal_id，非需猜测的嵌套字段。初中/高中所选题为transfer，代码没有硬编码成practice。"
+    },
+    {
+      "id": "frozen_answer_and_assets",
+      "status": "pass",
+      "source_refs": [
+        "tests/browser/learning-flow.cjs",
+        "web/server.py",
+        "cnkg/assessments.py"
+      ],
+      "finding": "测试答案从本地作者JSON/catalog fixture读取；目标页及未答题的公开接口不应含answer。新有图题先确认图片可解码及alt一致，再通过fillAnswer验证src为/api/session/<id>/assets/冻结路径。",
+      "evidence": "observation_unit取真实活动assessment任务；服务端保存unit_snapshot、asset_snapshots及content_sha256。fillAnswer并非以当前静态SVG代替冻结会话资源。测试身份标synthetic_browser_test。"
+    },
+    {
+      "id": "session_results_and_mobile",
+      "status": "pass",
+      "source_refs": [
+        "tests/browser/learning-flow.cjs",
+        "web/server.py"
+      ],
+      "finding": "390×844视口在新增循环前已经设置且循环内没有复位，noHorizontalOverflow确实在手机宽度运行。completeSession支持transfer延迟反馈，只有done后的summary才读最终正确状态。",
+      "evidence": "session_summary包含answers与component_results，组件independent_mastery_evidence始终false，与断言一致；前置V8上传/修订段继续保留，未替换旧流程。"
+    },
+    {
+      "id": "new_gate_order_and_failure",
+      "status": "pass",
+      "source_refs": [
+        "tools/release_check.py",
+        "tools/check_assessment_reviews.py",
+        "cnkg/assessment_review.py"
+      ],
+      "finding": "assessment_review紧接assessments，位于bank/semantic、structure、unittest及最后浏览器前；依赖的manifest、registry、catalog检查更早。缺逐题或交叉审读、旧任务改动、失配SVG等均进入错误列表并让命令返回非零。",
+      "evidence": "release_check不因继续收集后续日志而忽略失败，最终all(row.ok)决定ok；--with-browser缺失时delivery_ready为false。新门禁不声称可以自动证明数学语义，只检查明确审读与字节。"
+    },
+    {
+      "id": "main_pull_request_trigger",
+      "status": "pass",
+      "source_refs": [
+        ".github/workflows/core.yml",
+        ".github/workflows/v6-verified-replay.yml"
+      ],
+      "finding": "现有core.yml保留push和pull_request且没有分支过滤，包含以main为base的PR；权限contents:read，运行完整release_check.py --with-browser。V9 replay自身只在指定维护分支push和特定提交消息下启动。",
+      "evidence": "payload工作流不是pull_request_target，不在来自任意PR的上下文运行写权限载入步骤；仅repository-snapshot job限制为push，core job对PR仍可运行。远端分支保护/规则要求未在本次源码审读中作已验证声明。"
+    },
+    {
+      "id": "payload_identity_and_paths",
+      "status": "pass",
+      "source_refs": [
+        ".github/workflows/v6-verified-replay.yml"
+      ],
+      "finding": "V9基线改为指定b3e9fa9；载入前要求该基线为祖先且从基线到触发提交只改变工作流自身。提交消息严格全匹配索引Git blob SHA及原始payload SHA256。固定仓库blob下载后核对blob身份、压缩字节hash、原始解压hash和payload基线。",
+      "evidence": "chunk数1..32、压缩总量≤5MB、解压≤50MB；每个文件核对before/after SHA256。路径限制在作者/代码/文档等允许前缀或README，拒绝绝对路径、..、越界及直接符号链接；payload不允许改.github工作流或根目录依赖锁文件。此限制约束内容与执行顺序，不将SHA本身误称人员身份认证。"
+    },
+    {
+      "id": "rebuild_and_candidate_publication",
+      "status": "pass",
+      "source_refs": [
+        ".github/workflows/v6-verified-replay.yml",
+        "tools/verification_context.py",
+        "tools/release_manifest.py"
+      ],
+      "finding": "payload仅按数据修改文件；执行重建前已核完内容。重建release-manifest SHA须与评审payload声明完全一致，提交干净候选后才跑全套核心+浏览器门禁，再检查manifest与git工作区无差异。",
+      "evidence": "只有全部前置步骤成功才push带运行ID的新候选分支、提交V9 full release verification状态；发布前再次要求报告head等于当前HEAD、delivery_ready且source_clean。工作流没有创建PR或合并main的步骤。"
+    },
+    {
+      "id": "coverage_limit",
+      "status": "limitation",
+      "source_refs": [
+        "tests/browser/learning-flow.cjs"
+      ],
+      "finding": "新增浏览器循环每学段只选择一个真实客观任务，共3条路径；它验证连接与渲染示例，不是全部新增题逐题浏览器作答。全部任务的数学、对象hash与SVG字节覆盖由其他审读/目录门禁承担。",
+      "evidence": "记录的确切task_id/goal_id/phase写入v9_task_paths；初次审查只核对源码。续审读取第一固定候选1390f8d的真实浏览器报告与截图，已证实其18旅程和2293页预览通过；本次文案修订后的固定提交仍须重新完成CI，不能沿用旧候选通过结论。"
+    },
+    {
+      "id": "objective_only_result_copy_followup",
+      "status": "pass_after_source_fix_pending_new_ci",
+      "source_refs": [
+        "web/server.py"
+      ],
+      "finding": "独立实际查看第一候选goal_observation_artifacts/final.png：高中增长图目标只记录一项客观答案，其余过程项均显示0次提交，但顶部仍写“过程题已保存”，确实无依据宣称已有过程作品。新句改为“对已提交的过程作品”后，只说明这类实际作品可自查和修订，不再声称当前会话存在过程提交。",
+      "evidence": "从1390f8d源包读取web/server.py，原SHA为0e4d0573b7d8e7b2da7ed735b848dc1ce662f758f916e0b4d2099e2e8b581e5d；与当前源逐字比较，仅将非topic完成结果中的这一句替换。topic的engine.verdict_label分支、数值/选项判分、summary字段、组件状态和作品存储均未改变。",
+      "previous_text": "逐个目标查看本次表现；过程题已保存，可以按量规自查、补充依据并继续修订。",
+      "reviewed_text": "逐个目标查看本次表现；对已提交的过程作品，可以按量规自查、补充依据并继续修订。",
+      "viewed_screenshot": {
+        "candidate_head": "1390f8d19cd6aa3ba69be8966009f8fbf0aa7e61",
+        "path": "build/browser-check/goal_observation_artifacts/final.png",
+        "sha256": "26c3cdc7f0b55e0d33c2f7317a25a771913bc07b951369477199c7e124617877",
+        "actually_viewed_by_this_reviewer": true
+      }
+    },
+    {
+      "id": "historical_verdict_snapshot_preservation_followup",
+      "status": "pass",
+      "source_refs": [
+        "web/server.py"
+      ],
+      "finding": "修改只影响之后在会话完成时新冻结的非topic结果文字。历史session_payload与export_record仍直接读取原verdict_snapshot，缺该字段则显示保守的原内容版本提示；不会以新句覆盖已经保存的旧文字。",
+      "evidence": "session_summary首先deepcopy原summary_snapshot；已完成且缺summary的非support旧记录仅返回saved_verdict、原answers/state/context及summary_not_saved，不调用_build_session_summary推导新结论。_freeze_result仍仅在创建后无题可做或新答完任务时调用；_answer的相同已提交答案分支直接返回session_payload并保留原grade，不再次freeze。新文案没有修改历史读取、原作品、旧答案或掌握状态。"
+    },
+    {
+      "id": "first_fixed_candidate_not_promoted_followup",
+      "status": "first_candidate_verified_not_promoted_revised_candidate_pending",
+      "source_refs": [
+        "web/server.py",
+        "tests/browser/learning-flow.cjs"
+      ],
+      "finding": "第一固定候选1390f8d的23项顶层门禁、18条浏览器旅程及2293个页面预览均有实际通过报告，两个bundle恢复通过由root报告。因截图发现上述用户可见文案问题，该候选不推广；修订后的候选必须重新固定提交、执行完整CI并核对新截图。",
+      "evidence": "本审读者实际读取并绑定第一候选报告、源包与该截图，不把通过报告等同于所有用户文字均正确；不把第一候选的通过结果转用于已变化的web/server.py。没有在本次续审运行完整测试或执行GitHub动作。"
+    }
+  ],
+  "unresolved_blockers": [],
+  "scope_limits": [
+    "本审读者没有执行新的浏览器会话、单元测试或release_check；已读第一候选成功报告不证明当前文案修订后的固定提交已通过。",
+    "没有查询远端当前PR检查、分支保护或提交状态；合并许可仍需root结合最终真实CI和用户授权判断。",
+    "未修改受审工程代码；如果这些已绑定源字节再改变，应复查相应部分。"
+  ],
+  "first_fixed_candidate_validation": {
+    "head": "1390f8d19cd6aa3ba69be8966009f8fbf0aa7e61",
+    "release_manifest_sha256": "cbadd8f846d433d25e9278f22920f439d0797e4753448c1e5cbf790473a2a765",
+    "top_level_checks_passed": 23,
+    "browser_journeys_passed": 18,
+    "previewed_pages": 2293,
+    "source_clean": true,
+    "reports_read_by_this_reviewer": true,
+    "browser_not_reexecuted_by_this_reviewer": true,
+    "evidence": [
+      {
+        "candidate_path": "build/regression_report.json",
+        "sha256": "bc6ff5aea5c215648fc05e2402be12c6b4c18a196fab143dd6632184caa87ab8"
+      },
+      {
+        "candidate_path": "build/browser-check/report.json",
+        "sha256": "2dd200a2dc23d84e3bb9f4c816f31411bef6b3d7098ca3e1f57ef4cd38506e47"
+      },
+      {
+        "candidate_path": "build/release/1390f8d19cd6/delivery.json",
+        "sha256": "3077a2e87c0c4cd646eee03124704eb1e0fbd18783927b4db8f9d65e50634718"
+      }
+    ],
+    "bundle_restore": {
+      "reported_by": "root",
+      "both_restores_passed": true,
+      "independently_repeated_in_this_review": false
+    },
+    "promotion_decision": "not_promoted_due_to_result_copy_defect",
+    "revised_candidate_validation": "new_fixed_commit_ci_and_result_screenshot_required"
+  }
+}

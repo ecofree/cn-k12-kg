@@ -1,26 +1,22 @@
-"""按册提交内容：把 data/content/<册>.json 合并进 topics / dependencies / questions。
+"""Publish an edited, registered volume through the complete source build.
 
-为什么要单独一层：
-  topics.json 是 300+ 条的合并产物，逐册填内容时手改容易冲突；
-  每册内容独立成文件，既能单独 review，也能幂等重放（已存在的不覆盖题目）。
-
-内容文件格式：
-{
-  "volume": "必修一",
-  "topics": {"mh1.1.1": {"description": "...", "mastery_criteria": ["...", "..."],
-                          "type": "conceptual", "standards": [...], "root_reason": "..."}},
-  "dependencies": [{topicId, prerequisiteId, strength, reason}],
-  "questions": [{id, topicId, difficulty, type, prompt, answer, ...}]
-}
-
-用法：
-    python tools/apply_content.py --file data/content/bx1.json --dry-run
-    python tools/apply_content.py --file data/content/bx1.json
+Historical patches are archived. Replaying an old file, changing glob order,
+or passing --update must never silently restore an old answer. Edit the active
+source named in data/content_sources.json, then use this compatibility command
+or tools/rebuild_data.py. Application items remain authored in app_items.
 """
 from __future__ import annotations
 
+# Historical CLI is fenced before imports or authoring side effects.
+if __name__ == "__main__":
+    import pathlib as _legacy_pathlib
+    import sys as _legacy_sys
+    _legacy_sys.path.insert(0, str(_legacy_pathlib.Path(__file__).resolve().parents[1]))
+    from tools.retired_writer import reject as _reject_retired_writer
+    raise SystemExit(_reject_retired_writer(__file__))
+
+
 import argparse
-import json
 import pathlib
 import sys
 
@@ -28,100 +24,51 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 sys.path.insert(0, str(ROOT))
 
-from cnkg.graph import load_graph  # noqa: E402
+from tools.rebuild_data import (  # noqa: E402
+    OUTPUTS, SourceError, build_data, load_registry, write_json,
+)
 
 
 def dump(path: pathlib.Path, rows: list):
-    lines = ",\n".join(json.dumps(r, ensure_ascii=False, separators=(",", ":")) for r in rows)
-    path.write_text("[\n" + lines + "\n]\n", encoding="utf-8")
+    path = pathlib.Path(path)
+    if path.resolve().is_relative_to((ROOT / "data").resolve()):
+        raise ValueError("历史兼容工具不能写入正式data目录；仅允许隔离的测试fixture")
+    write_json(path, rows)
 
 
-def main():
-    parser = argparse.ArgumentParser()
+def main(argv=None):
+    if DATA.resolve() == (ROOT / "data").resolve():
+        from tools.retired_writer import reject
+        return reject(__file__)
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--file", required=True)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--update", action="store_true",
-                        help="同 id 的题目用内容文件覆盖（默认跳过，防止误改已入库的题）")
-    args = parser.parse_args()
-
-    payload = json.loads(pathlib.Path(args.file).read_text(encoding="utf-8"))
-    volume = payload["volume"]
-    topics = json.loads((DATA / "topics.json").read_text(encoding="utf-8"))
-    deps = json.loads((DATA / "dependencies.json").read_text(encoding="utf-8"))
-    questions = json.loads((DATA / "questions.json").read_text(encoding="utf-8"))
-
-    by_id = {t["id"]: t for t in topics}
-    graph = load_graph()
-    known = set(by_id)
-
-    errors = []
-    filled = 0
-    for tid, patch in payload.get("topics", {}).items():
-        topic = by_id.get(tid)
-        if topic is None:
-            errors.append(f"{tid}: 知识点不存在")
-            continue
-        if topic["volume"] != volume:
-            errors.append(f"{tid}: 不属于 {volume}")
-            continue
-        if not patch.get("mastery_criteria") or len(patch["mastery_criteria"]) < 2:
-            errors.append(f"{tid}: mastery_criteria 至少 2 条")
-            continue
-        topic.update(patch)
-        topic["review_status"] = "draft"
-        filled += 1
-
-    new_deps = []
-    existing_pairs = {(d["topicId"], d["prerequisiteId"]) for d in deps}
-    for edge in payload.get("dependencies", []):
-        a, b = edge["topicId"], edge["prerequisiteId"]
-        if a not in known or b not in known:
-            errors.append(f"边 {a} <- {b}: 端点不存在")
-            continue
-        if (a, b) in existing_pairs:
-            continue
-        if edge.get("strength") not in ("hard", "soft") or not edge.get("reason"):
-            errors.append(f"边 {a} <- {b}: 缺少 strength 或 reason")
-            continue
-        existing_pairs.add((a, b))
-        new_deps.append(edge)
-        deps.append(edge)
-
-    existing_q = {q["id"]: i for i, q in enumerate(questions)}
-    new_q = []
-    for q in payload.get("questions", []):
-        if q["id"] in existing_q:
-            if not args.update:
-                continue
-            questions[existing_q[q["id"]]] = q   # 显式 --update 时才覆盖
-            new_q.append(q)
-            continue
-        if q.get("topicId") not in known:
-            errors.append(f"{q['id']}: topicId 不存在")
-            continue
-        if not graph.by_id[q["topicId"]]:
-            errors.append(f"{q['id']}: topicId 无效")
-            continue
-        existing_q[q["id"]] = len(questions)
-        new_q.append(q)
-        questions.append(q)
-
-    if errors:
-        print("合并失败：")
-        for err in errors:
-            print("  -", err)
-        return 1
-
-    print(f"{volume}: 更新知识点 {filled}，新增先修边 {len(new_deps)}，新增题目 {len(new_q)}")
-    if args.dry_run:
+                        help="兼容旧命令；仍须通过登记来源的完整重建，不允许重放历史补丁")
+    args = parser.parse_args(argv)
+    try:
+        registry = load_registry(DATA)
+        path = pathlib.Path(args.file).resolve()
+        sources = {(DATA / source["path"]).resolve(): source
+                   for source in registry["content_sources"]}
+        if path not in sources:
+            raise SourceError("该文件不是生效来源；历史补丁不能直接重放。"
+                              "请编辑 content_sources.json 登记的册次文件。")
+        rebuilt, _ = build_data(DATA)
+        print(f"{sources[path]['volume']}: 全量来源构建通过；"
+              f"知识点 {len(rebuilt['topics.json'])}，"
+              f"先修边 {len(rebuilt['dependencies.json'])}，"
+              f"题目 {len(rebuilt['questions.json'])}")
+        print("该检查确认来源一致性；不表示题目已通过独立学科审阅。")
+        if args.dry_run:
+            return 0
+        for name in OUTPUTS:
+            dump(DATA / name, rebuilt[name])
+        print("已从全部登记来源写入 topics.json / dependencies.json / questions.json")
         return 0
-
-    dump(DATA / "topics.json", topics)
-    dump(DATA / "dependencies.json", deps)
-    dump(DATA / "questions.json", questions)
-    print("已写入 topics.json / dependencies.json / questions.json")
-    print("下一步：python tools/validate.py && python tools/verify_questions.py")
-    return 0
+    except (SourceError, OSError, ValueError, KeyError) as exc:
+        print(f"合并失败：{exc}", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":

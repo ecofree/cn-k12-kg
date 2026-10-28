@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "id": "senior_measurement_bounds",
+  "title": "课程补充：测高模型与测量范围",
+  "stage": "senior",
+  "coverage_kind": "curriculum_supplement",
+  "outline_refs": [],
+  "topic_ids": [
+    "mh1.5.2.1",
+    "mh1.4.5.3"
+  ],
+  "standard_ids": [
+    "cms-2017:H.FU.03",
+    "cms-2017:H.FU.04"
+  ],
+  "standard_alignment_note": "本项目是作者新增的课程补充活动，教材节点仅用于相关主题导航，不声称原教材含有同名项目。目标按实际涉及内容对应课标；模拟数据、计算与活动步骤为原创，教师独立审核和真实学习效果验证仍待进行。",
+  "task_brief": "用两组给定的模拟测量研究同一根竖直标杆高度，无需开展实地采集。方案甲：水平距离d=10.0米、视线仰角θ=45°、眼高e=1.50米；给定测量范围d∈[9.8,10.2]、θ∈[44°,46°]、e∈[1.45,1.55]。方案乙：同一时刻竖直参照杆高h=1.50米、杆影s=1.20米、目标影S=9.20米；给定h∈[1.49,1.51]、s∈[1.18,1.22]、S∈[9.1,9.3]。建立H=e+d tanθ和H=hS/s，比较中心估计及由这些范围推出的包围区间，指出哪些几何条件失败时计算将失效。",
+  "duration_hint": "3课时，每课时约45分钟：建图与假设、计算与界、比较与修订。",
+  "objectives": [
+    {
+      "id": "senior_measurement_bounds:o1",
+      "statement": "能将两种测高情境画为标明单位和角度的几何图，写出地面水平、标杆竖直与参照条件。"
+    },
+    {
+      "id": "senior_measurement_bounds:o2",
+      "statement": "能从直角三角形和相似关系推导两种高度模型，检查水平距离、视线距离与眼高的不同角色。"
+    },
+    {
+      "id": "senior_measurement_bounds:o3",
+      "statement": "能用各变量单调性计算给定测量范围下的保守包围区间，区分测量界与统计置信区间。"
+    },
+    {
+      "id": "senior_measurement_bounds:o4",
+      "statement": "能比较两个方案的一致程度和敏感因素，说明不一致时先检查假设与记录而非任意取平均。"
+    }
+  ],
+  "materials": [
+    "任务给出的两组模拟记录及明确范围，不把它们写成学生实测。",
+    "方格纸、计算器（角度模式为度）；测量条件检查表。",
+    "保留中心值、下界、上界与取整方向的计算表。"
+  ],
+  "steps": [
+    {
+      "title": "画图并标假设",
+      "objective_ids": [
+        "senior_measurement_bounds:o1",
+        "senior_measurement_bounds:o2"
+      ],
+      "instructions": "画目标竖杆、水平地面、观察眼位置及水平基线；仰角从眼的水平线量起，d为水平距离。影长图注明两杆竖直、同一水平地面、同一时刻光线近似平行；本任务把它们作为模型前提。",
+      "deliverable": "两张带单位的示意图和假设清单。",
+      "family_id": "measurement.height-geometry-assumptions",
+      "variant_id": "senior_measurement_bounds:step-0",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "观察两张自主图示的水平距离、眼高、同刻平行光与竖直条件；纸面尺寸不是真实测量。"
+    },
+    {
+      "title": "求中心估计并复核模型",
+      "objective_ids": [
+        "senior_measurement_bounds:o2"
+      ],
+      "instructions": "先用直角三角形求眼以上高度d tanθ，再加e。影长法用相似三角形对应边比得到H/S=h/s。代中心值，检查两法单位同为米；不得把斜视线长度直接当d。",
+      "deliverable": "两条模型推导与中心估计。",
+      "family_id": "measurement.tangent-similarity-models",
+      "variant_id": "senior_measurement_bounds:step-1",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "alignment_note": "观察从直角和相似关系推导两式再代数值，两个中心值相同不能替代模型核查。"
+    },
+    {
+      "title": "从给定范围推包围区间",
+      "objective_ids": [
+        "senior_measurement_bounds:o3"
+      ],
+      "instructions": "在本题正量和第一象限角度范围内，H=e+d tanθ随e、d、θ增加而增加；影长式随h、S增加而增加、随s增加而减小。分别代最小和最大端点。输出保守区间时下界向下、上界向上舍入到0.01米，保留未取整值。",
+      "deliverable": "上下界计算和舍入依据。",
+      "family_id": "measurement.monotonic-interval-bounds",
+      "variant_id": "senior_measurement_bounds:step-2",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "alignment_note": "观察正量范围内单调方向与向外舍入；所求是给定范围的保守界，不是统计置信区间。"
+    },
+    {
+      "title": "比较、辨错与修订",
+      "objective_ids": [
+        "senior_measurement_bounds:o1",
+        "senior_measurement_bounds:o3",
+        "senior_measurement_bounds:o4"
+      ],
+      "instructions": "检查两区间是否有交叠，解释交叠只是与假设相容，不证明真实高度已被验证。若一组报告相距很远，先问是否忘加眼高、角度模式错、地面不平或不是同一时刻影长。提出改变一个输入范围的敏感性比较，保留原计算和修订理由。",
+      "deliverable": "一致性讨论、误差辨别问答与修订稿。",
+      "family_id": "measurement.assumption-check-and-sensitivity",
+      "variant_id": "senior_measurement_bounds:step-3",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "alignment_note": "观察区间交叠解释、敏感输入与原稿保留；不以平均两结果掩盖模型冲突。"
+    }
+  ],
+  "deliverables": [
+    "带测量口径与单位的几何示意图",
+    "两种高度公式的推导",
+    "中心值及保守包围区间计算表",
+    "模型假设、敏感性比较、原稿与修订记录"
+  ],
+  "rubric": [
+    {
+      "objective_ids": [
+        "senior_measurement_bounds:o1"
+      ],
+      "criterion": "假设、量的定义与模拟来源明确。",
+      "points": 2,
+      "example": "d为水平距离，θ从水平线量，e为眼高；影长采用同刻、同水平面、竖杆、近似平行光线条件。"
+    },
+    {
+      "objective_ids": [
+        "senior_measurement_bounds:o2"
+      ],
+      "criterion": "模型推导与中心值正确。",
+      "points": 2,
+      "example": "H=1.5+10tan45°=11.5米；H=1.5×9.2/1.2=11.5米。"
+    },
+    {
+      "objective_ids": [
+        "senior_measurement_bounds:o3"
+      ],
+      "criterion": "范围传播与性质解释正确。",
+      "points": 2,
+      "example": "甲约[10.91,12.12]米，乙约[11.11,11.91]米；为给定误差范围和模型条件下的保守界，不是95%置信区间。"
+    },
+    {
+      "objective_ids": [
+        "senior_measurement_bounds:o4"
+      ],
+      "criterion": "比较与修订有具体依据。",
+      "points": 2,
+      "example": "区间交叠不证明真值或假设正确；先查水平距离和眼高等口径，再决定怎样改善输入精度。"
+    }
+  ],
+  "teacher_reference_solution": {
+    "scenario": "两套为同一标杆编写的教学模拟记录；本题各输入范围是给定界，没有概率覆盖率声明。",
+    "steps": [
+      "中心估计甲为1.50+10tan45°=11.50米，乙为1.50×9.20/1.20=11.50米。",
+      "甲下界1.45+9.8tan44°≈10.91374999，上界1.55+10.2tan46°≈12.11240920；保守舍入为[10.91,12.12]米。",
+      "乙下界1.49×9.1/1.22≈11.11393443，上界1.51×9.3/1.18≈11.90084746；保守舍入为[11.11,11.91]米。",
+      "在独立指定的矩形输入范围内按单调性取端点是保守包围做法；实际输入是否能同时达到这些端点可能使界偏宽，不可宣称界内所有值等可能。",
+      "如果只将仰角范围从[44°,46°]收紧为[44.5°,45.5°]，其余范围不变，甲的包围区间会收窄；这类比较帮助选择改进测量的环节。"
+    ],
+    "conclusion": "两套模拟测量在给定几何假设下得到相同中心估计且区间交叠；结果是条件性的范围传播练习，不能替代对真实测量条件的检查。"
+  },
+  "teacher_notes": [
+    "若答案正好为10米，先问是否漏加眼高；若差几十倍，先检查计算器角度/弧度模式与长度单位。",
+    "不要把“两个答案接近”当模型正确的充分证据，也不要把模拟范围写成置信区间。",
+    "可用纸面模型完成；后续若换实测，必须重新记录几何条件和误差范围，不沿用模拟答案。"
+  ],
+  "assessment_note": "共8分，各目标分别依据作品评分：0分为缺失或关键关系错误；1分为部分正确但缺条件、核对或解释；2分为结论、过程与限制均可核查。算对一项不抵消其他目标缺口；先记录原稿和具体反馈，再提交修订稿。自评与组内讨论不等同于独立教师审核或真实学生效果验证。",
+  "review_status": "draft",
+  "author_type": "ai",
+  "teacher_review": {
+    "status": "pending"
+  },
+  "provenance": {
+    "kind": "original_activity",
+    "outline_used_for": "topic_navigation_only",
+    "textbook_text_reproduced": false
+  }
+}

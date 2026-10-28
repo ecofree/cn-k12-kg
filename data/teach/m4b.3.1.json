@@ -1,0 +1,185 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "三个角能怎样分类？三根任意长度的小棒都能围成三角形吗？",
+  "definition": "按角，三角形分锐角、直角、钝角三类；按边，可看是否等腰、等边，其中等边是特殊的等腰。三角形内角和180°，任意两边之和严格大于第三边才能围成三角形。",
+  "why": "把三角形三个角拼在同一点可观察到平角，严格论证可借平行线。两段线要经第三个顶点绕行，长度和必须大于直接连两端的第三边；相等时只能排成直线。",
+  "when_to_use": [
+    "根据角度或边长给三角形分类",
+    "已知两角求第三角，或判断三边能否成三角形"
+  ],
+  "steps": [
+    "先说明按角还是按边分类，避免把两种标准混成互斥选项。",
+    "角度题用180°减已知两角，再检查角为正。",
+    "边长题先取最长边，检查较短两边之和是否大于它。"
+  ],
+  "worked_example": {
+    "prompt": "三角形两角40°和65°，第三角多少？边长2、3、5能成三角形吗？",
+    "steps": [
+      "第三角180−40−65=75°，三个角都锐，是锐角三角形。",
+      "2+3=5，不是严格大于，因此三边不能围成三角形。"
+    ],
+    "answer": "第三角75°；2、3、5不能成三角形",
+    "family_id": "geometry.triangle-angle-sum",
+    "variant_id": "m4b.3.1:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "geometry.triangle-side-inequality"
+    ]
+  },
+  "pitfalls": [
+    "一个三角形可以同时是等腰和直角，两者分类标准不同。",
+    "两边之和等于第三边时是直线，不是三角形。"
+  ],
+  "check": "先独立完成下面各项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m4b.3.1",
+  "name": "三角形",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能按角或边给三角形分类",
+      "explanation": "按角看最大角，按边看相等边数；两个分类可以同时描述。",
+      "self_check": {
+        "prompt": "两角为45°、45°的三角形，按角与按边分别怎样分类？",
+        "reference_answer": "第三角90°，按角是直角三角形；两个角相等，对应两边相等，是等腰三角形。",
+        "criteria": [
+          "内角和求90°",
+          "说明等腰直角两种属性"
+        ],
+        "family_id": "geometry.triangle-classification",
+        "variant_id": "m4b.3.1:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.triangle-angle-sum"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“直角”和“等腰”是否在按同一个标准分类？一个三角形能同时符合吗？",
+        "hint": "先算最大角90°按角分类，再看相等两角对应等边按边分类，两张标签分别记录。",
+        "revision_prompt": "两角为40°、70°的三角形求第三角，再分别按角和边分类，说明哪些条件支持答案。"
+      },
+      "observation_note": "观察分类标准可并存；不能把锐角、等腰等不同标准混成互斥选项。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用内角和与三边关系解决问题",
+      "explanation": "内角和与三边关系分别处理角度和长度，不可互相替代。",
+      "self_check": {
+        "prompt": "两角35°、85°，第三角多少？边长4、5、10可否围成？",
+        "reference_answer": "第三角60°；4+5=9<10，不能围成。",
+        "criteria": [
+          "第三角60°",
+          "严格三角形不等式判断"
+        ],
+        "family_id": "geometry.triangle-angle-sum",
+        "variant_id": "m4b.3.1:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.triangle-side-inequality"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "4、5、10中最长边是哪条？两条短边合起来能到达它两端吗？",
+        "hint": "角度用180°减去两已知角；长度另用4+5与10比较，两项条件分开。",
+        "revision_prompt": "求两角50°、60°的第三角，并判断3、4、7能否围三角形，强调相等时仍不成立。"
+      },
+      "observation_note": "观察内角和与严格三边关系；角度合格不自动证明任意所给边长能构成三角形。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能识别三角形三边固定后形状确定的稳定性",
+      "explanation": "三根长度固定的杆首尾连接成非退化三角形，连接点不滑动、杆长不变时，形状不能像四边形框架那样任意剪切。这里的稳定性有固定边长和连接点条件，不能用来保证任意三根杆一定能组成三角形。",
+      "self_check": {
+        "prompt": "三根定长杆已连接成三角形，若不改杆长、不让接头滑动，能像四边形框架一样推斜改变形状吗？说明使用的条件。",
+        "reference_answer": "不能任意推斜改变三角形形状；三边长度和连接点固定。是否能先拼成三角形仍要满足三边关系。",
+        "criteria": [
+          "识别三角形的稳定性",
+          "明确杆长与接头固定",
+          "没有把稳定性当成三边可拼接条件"
+        ],
+        "family_id": "geometry.triangle-rigidity",
+        "variant_id": "m4b.3.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只识别性质，不观察边角分类、内角和或三边不等式。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "你在尝试变形时有没有拉长杆子或让接点移动？",
+        "hint": "先检查三条边和三个接头是否固定；只有这些条件保持才能谈本题稳定性。",
+        "revision_prompt": "在记录中分别写“能否拼成”与“已拼成后能否任意变形”，给这两个问题各标需检查的条件。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由三角形两个内角求第三个内角",
+      "explanation": "平面三角形三个内角和为180°。已知两个内角时，第三角由180°减去这两角得到；使用的是内角，不能混入外角。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：一块三角形装饰板两内角分别为38°和72°，第三内角是多少度？\n写出每个问题的答案，并用算式、画图或文字说明怎样得到。用过提示或参考的地方也记下来。",
+        "reference_answer": "情境1参考：70。180−38−72=70度。",
+        "criteria": [
+          "使用两个内角并核对三角和180°",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "geometry.triangle-angle-sum",
+        "variant_id": "m4b.3.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "仅观察所提交的数值、名称或方案；不把未提交的列式、解释、作图及选择算法过程记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "已给角是否确实是三角形内角？你有没有只减去其中一个？",
+        "hint": "把三个内角的和先写为180°，将两个已知角放入等式再求余下角。",
+        "revision_prompt": "先回答这个辨别问题：已给角是否确实是三角形内角？你有没有只减去其中一个？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；使用两个内角并核对三角和180°。"
+      }
+    },
+    {
+      "criterion_index": 4,
+      "title": "能判断三根给定长度能否围成非退化三角形",
+      "explanation": "非退化三角形要求任意两边之和严格大于第三边。给定三段时只需重点核对较短两边之和是否严格超过最长边；等于时会拉成一条直线。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：制作三角形支架，有3厘米、4厘米、7厘米三根直杆，连接端点且不弯折，能围成三角形吗？ 可选：o1．能，因为有3根；o2．不能，因为3+4=7只能拉成直线；o3．能，而且是直角三角形。\n写出每个问题的答案，并用算式、画图或文字说明怎样得到。用过提示或参考的地方也记下来。",
+        "reference_answer": "情境1参考：不能，因为3+4=7只能拉成直线。3+4=7不严格大于最长边，退化为直线不能围成三角形。",
+        "criteria": [
+          "严格不等式及退化边界判断正确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "geometry.triangle-inequality",
+        "variant_id": "m4b.3.1:self-check:4:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "仅观察所提交的数值、名称或方案；不把未提交的列式、解释、作图及选择算法过程记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你把“大于”放宽成了“大于或等于”吗？",
+        "hint": "先找最长边，再把两条短边的和与它比较，特别检查相等边界。",
+        "revision_prompt": "先回答这个辨别问题：你把“大于”放宽成了“大于或等于”吗？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；严格不等式及退化边界判断正确。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m4b.3.1-q1",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m4b.3.1-q101",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m4b.3.1-q102",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

@@ -1,0 +1,5079 @@
+{
+  "schema": 1,
+  "baseline_commit": "2aafccd7cc14ead9d05345374f27662e7d1ab9d9",
+  "assessment_source_sha256": "aaf8ff3a2f24d10d947a2261c5e38a83ab9d69ed3cf65b7f23c2b541fb7b0b8e",
+  "reviewer": "AI assistant",
+  "independent_teacher_review": false,
+  "student_effectiveness_evidence": false,
+  "counts": {
+    "tasks": 118
+  },
+  "method": "逐题审读实际题面、所有选项、答案、解释和目标内结构理由；代表性计算由独立枚举、坐标或精确数回归复核。003明确两个不同元素；108明确r>0。",
+  "tasks": [
+    {
+      "task_id": "v8s_objective_001",
+      "task_content_sha256": "594e047b83f2f1bccfcec9cc931a939a4ea2f1904fb7bcffad5e821655039925",
+      "family_id": "sets.empty-versus-undefined",
+      "canonical_family_id": "sets.empty-versus-undefined",
+      "prompt": "限定论域为实数。甲写“满足x²=−1的所有x”，乙写“我心目中很大的数”且没有给“大”的标准。哪项准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "两者都因元素无限而不能构成集合。"
+        },
+        {
+          "id": "o2",
+          "text": "甲的成员条件明确，得到空集；乙的标准尚不明确。"
+        },
+        {
+          "id": "o3",
+          "text": "甲没有元素，所以不能构成集合；乙可以。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "甲的成员条件明确，得到空集；乙的标准尚不明确。",
+      "mathematical_review": "实数平方非负，甲没有满足者，但空集仍是集合；乙没有给成员判定规则。空与不确定是不同问题。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_afcc511ff3a4488a9881",
+          "statement": "能判断一组对象能否构成集合",
+          "original_objective_families": [
+            "sets.membership-rule"
+          ],
+          "current_objective_families": [
+            "sets.empty-versus-undefined",
+            "sets.membership-rule"
+          ],
+          "structural_reason": "原成员规则题主要辨别判定标准；本题同时要求用无解条件辨别“确定的空集”与“规则未定义”，不能以没有成员判作不成集合。",
+          "only_observed_action": "区分明确无解的成员条件与未给清楚的标准"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_002",
+      "task_content_sha256": "800b4fb1f43a5f0ee2de109577f27b8d79a9ce8fa7a00f7c1ab15eba41f4c808",
+      "family_id": "sets.finite-indexed-image-enumeration",
+      "canonical_family_id": "sets.finite-indexed-image-enumeration",
+      "prompt": "把集合M={2k+1 | k∈Z且−1≤k≤2}改用列举法，哪项准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "{−1,0,1,2}"
+        },
+        {
+          "id": "o2",
+          "text": "{1,3,5}"
+        },
+        {
+          "id": "o3",
+          "text": "{−1,1,3,5}"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "{−1,1,3,5}",
+      "mathematical_review": "允许指标k为−1、0、1、2；逐一经2k+1映射为−1、1、3、5。列举的是输出元素，不是指标。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_6670030e61d04293908f",
+          "statement": "能用列举法或描述法表示给定集合",
+          "original_objective_families": [
+            "sets.equation-solution-notation"
+          ],
+          "current_objective_families": [
+            "sets.equation-solution-notation",
+            "sets.finite-indexed-image-enumeration"
+          ],
+          "structural_reason": "原族从方程解集写集合；这里要区分有限指标域与映射像，遍历指标再产生元素，非换方程系数。",
+          "only_observed_action": "将有界整数指标的像改成元素列举"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_003",
+      "task_content_sha256": "156728b5e73a1310eea02f2bc013f4177757dfa9bf19c9f5ae65fd8034024ba4",
+      "family_id": "sets.enumerate-subsets",
+      "canonical_family_id": "sets.enumerate-subsets",
+      "prompt": "a、b是两个不同元素，给定S={a,b}。哪份清单恰好列出S的全部子集且无重复？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "∅，{a}，{b}，{a,b}"
+        },
+        {
+          "id": "o2",
+          "text": "{a}，{b}，{a,b}"
+        },
+        {
+          "id": "o3",
+          "text": "∅，{a}，{b}，{a,b}，{{a,b}}"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "∅，{a}，{b}，{a,b}",
+      "mathematical_review": "每个子集的元素必须来自S。四种选取是全不选、只a、只b、全选；{{a,b}}的唯一元素是集合{a,b}，不是S的元素。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_e093f04dcfe24fc0bb93",
+          "statement": "能写出给定集合的全部子集",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "sets.enumerate-subsets"
+          ],
+          "structural_reason": "本目标原无客观族；本任务沿用枚举子集结构，只补可核对机会，不把选择清单当成已自行列全。",
+          "only_observed_action": "检验一份子集清单是否完整且元素层级正确"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_004",
+      "task_content_sha256": "f695434e1ff0a8d45b2bf0f7fa926604aa48fad468ab6e5252b61a31f2fd30c2",
+      "family_id": "logic.implication-through-set-difference",
+      "canonical_family_id": "logic.implication-through-set-difference",
+      "prompt": "论域为实数。P：x²=1；Q：x>0。用两个解集的差集检验推出关系，哪项准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "P与Q相互推出。"
+        },
+        {
+          "id": "o2",
+          "text": "P不能推出Q，Q也不能推出P。"
+        },
+        {
+          "id": "o3",
+          "text": "P能推出Q，Q不能推出P。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "P不能推出Q，Q也不能推出P。",
+      "mathematical_review": "P的解集{−1,1}含不在Q中的−1，故P不推出Q；Q含不在P中的2，故Q不推出P。两个方向各需自己的包含关系。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_46d8d2ba547a44f6bea5",
+          "statement": "能用集合包含解释推出关系",
+          "original_objective_families": [
+            "logic.implication-as-inclusion"
+          ],
+          "current_objective_families": [
+            "logic.implication-as-inclusion",
+            "logic.implication-through-set-difference"
+          ],
+          "structural_reason": "原包含题以区间阈值的嵌套确定方向；此处两解集不嵌套，必须分别寻找两个方向的差集反例。",
+          "only_observed_action": "用两个方向的集合反例检验推出关系"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_005",
+      "task_content_sha256": "579d49cb49970b1c0152ece7aa56572b597d3faff9a2653bccb19f16f849c98d",
+      "family_id": "logic.negate-quantified-conjunction",
+      "canonical_family_id": "logic.negate-quantified-conjunction",
+      "prompt": "命题为“对每个实数x，都有x>0且x²>1”。它的完整否定是哪项？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "存在实数x，使x≤0且x²≤1。"
+        },
+        {
+          "id": "o2",
+          "text": "对每个实数x，都有x≤0或x²≤1。"
+        },
+        {
+          "id": "o3",
+          "text": "存在实数x，使x≤0或x²≤1。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "存在实数x，使x≤0或x²≤1。",
+      "mathematical_review": "否定全称改为同论域的存在，否定两个条件同时成立时用“或”，两个严格不等式的否定均包含等号。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_4666f0fac7fb4f6086ae",
+          "statement": "能写出含一个量词命题的否定",
+          "original_objective_families": [
+            "logic.negate-quantifier"
+          ],
+          "current_objective_families": [
+            "logic.negate-quantified-conjunction",
+            "logic.negate-quantifier"
+          ],
+          "structural_reason": "原单量词单谓词否定之外，本题还包含合取谓词的德摩根变换，两个逻辑层必须同时处理。",
+          "only_observed_action": "同时处理量词和复合谓词的否定"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_006",
+      "task_content_sha256": "05931c571634b65c250eec5853455f6c52b4da7355267dd5256761183a2184e2",
+      "family_id": "logic.quantified-negation-witness",
+      "canonical_family_id": "logic.quantified-negation-witness",
+      "prompt": "论域为{−1,0,1}。P：“所有x都有x²=1”；Q是P的完整否定。哪项给出正确真值及依据？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "P假、Q真，x=0是反例也是Q的见证。"
+        },
+        {
+          "id": "o2",
+          "text": "P真、Q假，因为有两个数满足x²=1。"
+        },
+        {
+          "id": "o3",
+          "text": "P假、Q也假，因为多数数满足P的谓词。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "P假、Q真，x=0是反例也是Q的见证。",
+      "mathematical_review": "全称命题要求每个输入满足，0²=0不等于1使P假；同一个0使“存在x使x²≠1”为真，比例多数不能代替全称。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_cad77e8ded4f458ba2d6",
+          "statement": "能判断原命题与否定的真假关系",
+          "original_objective_families": [
+            "logic.negation-truth"
+          ],
+          "current_objective_families": [
+            "logic.negation-truth",
+            "logic.quantified-negation-witness"
+          ],
+          "structural_reason": "原族识别命题与否定的真值规律；这里须从有限论域找实际反例，建立全称失败与存在见证的对应。",
+          "only_observed_action": "用有限论域的实际见证核验命题与否定真值"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_007",
+      "task_content_sha256": "f0c6f3f8e589e9dea0c46a9079b23ff110c2240496101a0f8096c8df40521439",
+      "family_id": "quadratic.repeated-root-sign",
+      "canonical_family_id": "quadratic.repeated-root-sign",
+      "prompt": "f(x)=−(x−2)²。关于方程f(x)=0、不等式f(x)>0及图像的对应，哪项完整正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "零点有两个不同值；正值解在两根之间。"
+        },
+        {
+          "id": "o2",
+          "text": "零点仅2；严格正值解集为空；图像在x=2触及x轴，其余在轴下。"
+        },
+        {
+          "id": "o3",
+          "text": "零点仅2；正值解为x≠2；图像其余在轴上方。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "零点仅2；严格正值解集为空；图像在x=2触及x轴，其余在轴下。",
+      "mathematical_review": "平方非负而前有负号，f≤0，仅x=2等于0；重根处触及而非穿过x轴。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_858bedfb39f94052846c",
+          "statement": "能说明二次函数、方程、不等式三者的对应关系",
+          "original_objective_families": [
+            "quadratic.no-real-root-sign"
+          ],
+          "current_objective_families": [
+            "quadratic.no-real-root-sign",
+            "quadratic.repeated-root-sign"
+          ],
+          "structural_reason": "原无实根符号族无交点；此任务处理重根的接触、等号单点和严格符号空集，图像交点机制不同。",
+          "only_observed_action": "将重根、严格符号与图像接触关系对应"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_008",
+      "task_content_sha256": "b583059ecd06e8a6e45f254a76af1431925f03556423603aad925498c4906c29",
+      "family_id": "function.parity-domain",
+      "canonical_family_id": "function.parity-domain",
+      "prompt": "f(x)=x³，定义域只取(−1,2)。按奇偶函数的标准定义，f属于哪种情形？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "奇函数，因为代数式(−x)³=−x³。"
+        },
+        {
+          "id": "o2",
+          "text": "偶函数，因为区间同时含正数和负数。"
+        },
+        {
+          "id": "o3",
+          "text": "既非奇函数也非偶函数，因为定义域不关于0对称。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "既非奇函数也非偶函数，因为定义域不关于0对称。",
+      "mathematical_review": "例如3/2在定义域，−3/2不在；不能对每个域内x配上−x。公式的形式不补足域条件。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_d8779a43ff2e40cd9b59",
+          "statement": "能判断函数的奇偶性",
+          "original_objective_families": [
+            "function.parity-substitution"
+          ],
+          "current_objective_families": [
+            "function.parity-domain",
+            "function.parity-substitution"
+          ],
+          "structural_reason": "原代入f(−x)族以对称定义域为前提；此题要先检查函数域是否允许对称配对，代数恒等式不能替代。",
+          "only_observed_action": "在代数式与定义域两项条件下判断奇偶性"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_009",
+      "task_content_sha256": "aaa53c09dc40cbcd644572bbaf75fab6e814d47483e960528cc3b3dac96291e4",
+      "family_id": "model.rectangle-fixed-perimeter",
+      "canonical_family_id": "model.rectangle-fixed-perimeter",
+      "prompt": "四边共用24米围栏围成长方形，边长都为正。设一边x米，哪份面积模型与范围同时正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "S=x(12−x)，0<x<12。"
+        },
+        {
+          "id": "o2",
+          "text": "S=x(24−x)，0<x<24。"
+        },
+        {
+          "id": "o3",
+          "text": "S=x(12−x)，x为任意实数。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "S=x(12−x)，0<x<12。",
+      "mathematical_review": "周长2x+2y=24给y=12−x，两边正给0<x<12，面积是xy。这里模型建立与正长度限制共同检查。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_e5c589e61c8e40e08191",
+          "statement": "能把实际问题转化为函数模型",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "model.piecewise-stock-capacity",
+            "model.rectangle-fixed-perimeter"
+          ],
+          "structural_reason": "沿用原自检固定四边周长结构；新增客观机会，不声称换周长构成新族。",
+          "only_observed_action": "识别固定周长下同时满足数量关系与范围的面积模型"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_010",
+      "task_content_sha256": "9c37b3620ae31b1b448a3ad72ced8fdb92bb660c9a01e7cb0be1dfc1078ccd41",
+      "family_id": "model.piecewise-stock-capacity",
+      "canonical_family_id": "model.piecewise-stock-capacity",
+      "prompt": "空箱容量30升，以每分钟4升注水；装满即停止，之后水量保持不变。t为开始后的非负分钟数，哪份水量V模型正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "0≤t≤30时V=4t，t>30时V=30。"
+        },
+        {
+          "id": "o2",
+          "text": "0≤t≤7.5时V=4t，t>7.5时V=30。"
+        },
+        {
+          "id": "o3",
+          "text": "所有t≥0都用V=4t。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "0≤t≤7.5时V=4t，t>7.5时V=30。",
+      "mathematical_review": "达到容量的时刻由4t=30得7.5；停止后净流入为0。容量约束改变函数结构，不能无限延长最初增长式。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_e5c589e61c8e40e08191",
+          "statement": "能把实际问题转化为函数模型",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "model.piecewise-stock-capacity",
+            "model.rectangle-fixed-perimeter"
+          ],
+          "structural_reason": "相对于固定周长的静态乘积模型，本题由流入守恒和停止规则建立随时间变化的分段模型，约束来源及函数结构均不同。",
+          "only_observed_action": "将容量触发停止的过程转化为分段模型"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_011",
+      "task_content_sha256": "e8fbea2dca514d6474f698fae4c94900481c17ded7239a386b7df84246e1733f",
+      "family_id": "model.integer-capacity-domain",
+      "canonical_family_id": "model.integer-capacity-domain",
+      "prompt": "租车按整辆安排，每辆最多坐8人；共有25人，每人须有座位，最多可租5辆。令n为车辆数，哪个集合是可行定义域？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "[25/8,5]"
+        },
+        {
+          "id": "o2",
+          "text": "{3,4,5}"
+        },
+        {
+          "id": "o3",
+          "text": "{4,5}"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "{4,5}",
+      "mathematical_review": "容量要求8n≥25，且n为正整数、n≤5，因此4或5；连续区间含非整车辆，3辆也不足25座。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_ca25d463ef80489eb22d",
+          "statement": "能根据实际意义确定定义域并解释结果",
+          "original_objective_families": [
+            "model.feasible-domain"
+          ],
+          "current_objective_families": [
+            "model.feasible-domain",
+            "model.integer-capacity-domain"
+          ],
+          "structural_reason": "原正长度模型给连续开区间；此处整数性、容量下界与资源上界同时限制定义域，非数值替换。",
+          "only_observed_action": "结合离散数量与双侧资源限制确定可行域"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_012",
+      "task_content_sha256": "3aca53f3e2e89ee6c0084c94f706c6d513c39904259595883c661faac6876f1f",
+      "family_id": "radical.denominator-rationalization",
+      "canonical_family_id": "radical.denominator-rationalization",
+      "prompt": "将1/(√3−1)化简为分母不含根号的形式，哪项正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "(√3+1)/2"
+        },
+        {
+          "id": "o2",
+          "text": "(√3−1)/2"
+        },
+        {
+          "id": "o3",
+          "text": "√3+1"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "(√3+1)/2",
+      "mathematical_review": "分子分母同乘√3+1，分母为3−1=2；分母非零。此处使用共轭乘积消去根号。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_d7b30cbf4c7346fb80b0",
+          "statement": "能化简简单的根式",
+          "original_objective_families": [
+            "radical.square-absolute-value"
+          ],
+          "current_objective_families": [
+            "radical.denominator-rationalization",
+            "radical.square-absolute-value"
+          ],
+          "structural_reason": "原族处理√(a²)=|a|的符号；本题处理分母根式的共轭消元，所用恒等关系和目标形式不同。",
+          "only_observed_action": "核对共轭有理化的等价变形"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_013",
+      "task_content_sha256": "1936321b6a0516b8d773105740f9285d128d262a198e6f26cb4dc9def6da3ab7",
+      "family_id": "power.exponent-identity-domain",
+      "canonical_family_id": "power.exponent-identity-domain",
+      "prompt": "在实数范围，比较(√a)²与√(a²)。哪项在各自有意义时完整正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "两者都只对a>0有意义。"
+        },
+        {
+          "id": "o2",
+          "text": "前者要求a≥0且等于a；后者对任意实数a有意义且等于|a|。"
+        },
+        {
+          "id": "o3",
+          "text": "两者对任意实数a都有意义且都等于a。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "前者要求a≥0且等于a；后者对任意实数a有意义且等于|a|。",
+      "mathematical_review": "先开平方要求非负，后平方非负则可对任意a开主平方根。次序改变定义条件；a<0时后者为−a。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_708732e990c343b99209",
+          "statement": "能运用运算性质化简指数式",
+          "original_objective_families": [
+            "power.same-base-laws"
+          ],
+          "current_objective_families": [
+            "power.exponent-identity-domain",
+            "power.same-base-laws"
+          ],
+          "structural_reason": "原同底幂运算依赖已满足的合法条件；此题核查根与平方的复合次序及实数域，检验形式消约的边界。",
+          "only_observed_action": "检查幂与根式复合运算的定义域和结果"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_014",
+      "task_content_sha256": "2b998bdc68f6c950c00ea7d119239f9e7811c7711502dc4c5f0f8bcfec50a01d",
+      "family_id": "exponential.parameter-admissibility",
+      "canonical_family_id": "exponential.parameter-admissibility",
+      "prompt": "要使y=(a−1)^x成为在全体实数上定义的标准指数函数，实数参数a应满足哪项？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "a>1。"
+        },
+        {
+          "id": "o2",
+          "text": "a>2。"
+        },
+        {
+          "id": "o3",
+          "text": "a>1且a≠2。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "a>1且a≠2。",
+      "mathematical_review": "标准指数底数b需b>0且b≠1；b=a−1给a>1且a≠2。0<b<1仍是合法指数函数。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_9c5ba174da4b413882ec",
+          "statement": "能判断一个函数是否为指数函数",
+          "original_objective_families": [
+            "exponential.recognize-form"
+          ],
+          "current_objective_families": [
+            "exponential.parameter-admissibility",
+            "exponential.recognize-form"
+          ],
+          "structural_reason": "原题从已给表达式识别指数形式；此题把底数条件转成参数可行集合，必须保留合法递减区并排除常函数。",
+          "only_observed_action": "将指数底数条件转成参数限制"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_015",
+      "task_content_sha256": "2ee784efcb62d59b8391828789978b8e5e2d02a650d563070b2659674df21520",
+      "family_id": "logarithm.power-law-domain",
+      "canonical_family_id": "logarithm.power-law-domain",
+      "prompt": "g(x)=ln(x²)。哪项是在g的整个定义域上成立的等价表达？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "g(x)=2ln|x|，x≠0。"
+        },
+        {
+          "id": "o2",
+          "text": "g(x)=2lnx，x≠0。"
+        },
+        {
+          "id": "o3",
+          "text": "g(x)=lnx+ln(−x)，x≠0。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "g(x)=2ln|x|，x≠0。",
+      "mathematical_review": "x²>0给x≠0；|x|正，所以2ln|x|覆盖正负两侧。lnx只在正数侧有定义，最后一式两个对数没有共同实数域。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_f79177dc800d42b29854",
+          "statement": "能用法则化简对数式",
+          "original_objective_families": [
+            "logarithm.product-quotient-laws"
+          ],
+          "current_objective_families": [
+            "logarithm.power-law-domain",
+            "logarithm.product-quotient-laws"
+          ],
+          "structural_reason": "原乘商法则题使用正真数；本题平方真数允许负输入，要求同时保持幂法则与原函数域，不能形式提指数后缩域。",
+          "only_observed_action": "核验对数幂法则变形是否保留完整定义域"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_016",
+      "task_content_sha256": "363823bd465751450f302c83a18244ebff9b0012bf312664c26b1740300dd222",
+      "family_id": "logarithm.change-base-chain-product",
+      "canonical_family_id": "logarithm.change-base-chain-product",
+      "prompt": "计算log₂3 · log₃8。哪项正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "6"
+        },
+        {
+          "id": "o2",
+          "text": "3"
+        },
+        {
+          "id": "o3",
+          "text": "log₂24"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "3",
+      "mathematical_review": "换成自然对数后(ln3/ln2)(ln8/ln3)=ln8/ln2=3；中间底数与真数可约去。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_6f396b64d8ee430ebbe5",
+          "statement": "能用换底公式求值",
+          "original_objective_families": [
+            "logarithm.change-base"
+          ],
+          "current_objective_families": [
+            "logarithm.change-base",
+            "logarithm.change-base-chain-product"
+          ],
+          "structural_reason": "原单个对数换底求值之外，本题跨底数链式乘积需要识别中间量消去，不是同一个简单幂值换数字。",
+          "only_observed_action": "通过统一底数核验跨底数对数乘积"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_017",
+      "task_content_sha256": "16bb2eec4f8323fd7906c8ebe7c63ebc176ec3698a496b2b2a07c5d14dba9cef",
+      "family_id": "logarithm.domain-denominator",
+      "canonical_family_id": "logarithm.domain-denominator",
+      "prompt": "求f(x)=log₂(x+3)/(x−1)的定义域，哪项正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "(−3,+∞)"
+        },
+        {
+          "id": "o2",
+          "text": "[−3,1)∪(1,+∞)"
+        },
+        {
+          "id": "o3",
+          "text": "(−3,1)∪(1,+∞)"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "(−3,1)∪(1,+∞)",
+      "mathematical_review": "真数x+3>0给x>−3，分母另要求x≠1；两个限制取交，不包含真数0。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_fc2677b0f5bd48c0b34f",
+          "statement": "能求对数函数的定义域",
+          "original_objective_families": [
+            "logarithm.domain-positive"
+          ],
+          "current_objective_families": [
+            "logarithm.domain-denominator",
+            "logarithm.domain-positive"
+          ],
+          "structural_reason": "原单一真数正条件之外，新增分母零点排除造成断开的定义域；处理的是两种不同合法性条件。",
+          "only_observed_action": "同时应用真数和分母限制求定义域"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_018",
+      "task_content_sha256": "62f97f997fdfafc94bca3c77ce5245496752a72ec7a900f7fd2e10de1237f916",
+      "family_id": "function.inverse-restricted-domain-range",
+      "canonical_family_id": "function.inverse-restricted-domain-range",
+      "prompt": "f(x)=2^x只在x≥0上研究。若交换输入输出得到反函数g，哪项是g的正确表达式和定义域？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "g(x)=log₂x，定义域[1,+∞)。"
+        },
+        {
+          "id": "o2",
+          "text": "g(x)=log₂x，定义域(0,+∞)。"
+        },
+        {
+          "id": "o3",
+          "text": "g(x)=2^(−x)，定义域[0,+∞)。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "g(x)=log₂x，定义域[1,+∞)。",
+      "mathematical_review": "原函数在x≥0的值域为[1,+∞)，它成为反函数的定义域；反函数不是取倒数。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_8fbfc4680b8c4eaf9a9d",
+          "statement": "能说明它与指数函数的关系",
+          "original_objective_families": [
+            "logarithm.inverse-coordinates"
+          ],
+          "current_objective_families": [
+            "function.inverse-restricted-domain-range",
+            "logarithm.inverse-coordinates"
+          ],
+          "structural_reason": "原交换一个点的坐标之外，本题交换整段定义域与值域并保留限制，检验指数与对数互逆的范围。",
+          "only_observed_action": "把指数函数受限值域对应到反函数定义域"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_019",
+      "task_content_sha256": "23d6609d9e8b1f76ceb7fa0e4878024d1c292e574658c3d4de29df086d3142ed",
+      "family_id": "root.even-root-no-sign-change",
+      "canonical_family_id": "root.even-root-no-sign-change",
+      "prompt": "f(x)=(x−1)²在[0,2]连续，端点均为正。哪项准确说明异号夹根二分法的边界？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "连续就保证只要取中点一定产生异号端点。"
+        },
+        {
+          "id": "o2",
+          "text": "不能仅按端点异号保证启动该流程，但函数仍在1处有零点。"
+        },
+        {
+          "id": "o3",
+          "text": "端点同号证明整个区间没有零点。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "不能仅按端点异号保证启动该流程，但函数仍在1处有零点。",
+      "mathematical_review": "1是二重根，函数在两侧保持非负；连续加端点异号是存在保证，缺少异号并不推出无根。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_70a847cca9944cce818c",
+          "statement": "能说明二分法为什么需要端点异号",
+          "original_objective_families": [
+            "root.bisection-discontinuity"
+          ],
+          "current_objective_families": [
+            "root.bisection-discontinuity",
+            "root.even-root-no-sign-change"
+          ],
+          "structural_reason": "原不连续异号反例说明连续前提不可删；本题连续且有偶重根但端点同号，说明充分保证不能反用为必要条件。",
+          "only_observed_action": "区分异号夹根的充分条件与有根的必要条件"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_020",
+      "task_content_sha256": "91e20807c732ef4de589cea52317906ada44ad6b23025a8199c5ed3f0a0378d5",
+      "family_id": "model.constant-second-difference-choice",
+      "canonical_family_id": "model.constant-second-difference-choice",
+      "prompt": "等间隔输入x=0,1,2,3，对应y=1,2,5,10。仅作为下一步待检验候选，哪个最符合这些有限数据？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "一次候选，因为每次都增加。"
+        },
+        {
+          "id": "o2",
+          "text": "指数候选，因为数值越来越大。"
+        },
+        {
+          "id": "o3",
+          "text": "二次候选y=x²+1。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "二次候选y=x²+1。",
+      "mathematical_review": "一阶差1,3,5不恒定，二阶差2,2恒定；给定二次式在四点相符。有限数据只支持候选，不能证明以后必成立。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_c4bc20f4925048928646",
+          "statement": "能由增长特征选择合适的模型",
+          "original_objective_families": [
+            "model.constant-difference-ratio"
+          ],
+          "current_objective_families": [
+            "model.constant-difference-ratio",
+            "model.constant-second-difference-choice"
+          ],
+          "structural_reason": "原比较恒定差与恒定比的线性/指数结构；此题需要二阶差分识别二次候选，同时保留有限点的模型边界。",
+          "only_observed_action": "用二阶差分而非仅上升趋势选择候选模型"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_021",
+      "task_content_sha256": "633dda9c44bbf1855a4104b4a458274ce7d435b61ccee4a936afa800ef0e8ece",
+      "family_id": "trig.one-ratio-with-quadrant",
+      "canonical_family_id": "trig.one-ratio-with-quadrant",
+      "prompt": "tanα=−3/4，且α的终边在第二象限。哪组sinα、cosα正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "3/5，−4/5。"
+        },
+        {
+          "id": "o2",
+          "text": "−3/5，4/5。"
+        },
+        {
+          "id": "o3",
+          "text": "3/4，−4/3。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "3/5，−4/5。",
+      "mathematical_review": "第二象限正弦正余弦负；两者比为−3/4且平方和为1，故正弦3/5、余弦−4/5。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_892b50ab597d46d5b27f",
+          "statement": "能由一个三角函数值求其余两个",
+          "original_objective_families": [
+            "trig.one-ratio-with-quadrant"
+          ],
+          "current_objective_families": [
+            "trig.one-ratio-sign-ambiguity",
+            "trig.one-ratio-with-quadrant"
+          ],
+          "structural_reason": "仍是一个三角比加象限求其余的原结构，保留原family；不能因改为给正切就自动计为第二个独立族。",
+          "only_observed_action": "由给定正切与象限核对另外两个三角函数值"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_022",
+      "task_content_sha256": "216e2547523bd18ffadf500b921d057268cf2210de9bd0201e2c037dd2502688",
+      "family_id": "trig.circular-height-model",
+      "canonical_family_id": "trig.circular-height-model",
+      "prompt": "竖直摩天轮中心高12米、半径8米，匀速周期40秒，t=0在最高点。哪项高度模型符合这些条件？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "h(t)=8+12cos(πt/40)。"
+        },
+        {
+          "id": "o2",
+          "text": "h(t)=12+8cos(πt/20)。"
+        },
+        {
+          "id": "o3",
+          "text": "h(t)=12+8sin(πt/20)。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "h(t)=12+8cos(πt/20)。",
+      "mathematical_review": "中线12、振幅8、角频率2π/40=π/20；从最高点出发对应余弦初值1。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_3a0c4e5fc9c847d5b55b",
+          "statement": "能把圆周运动抽象为三角函数模型",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "trig.circular-height-model",
+            "trig.circular-height-piecewise-phase"
+          ],
+          "structural_reason": "沿用原圆周高度模型族；本题只补模型核对的客观机会，换数值不记新族。",
+          "only_observed_action": "核对周期、圆心、半径与初始位置共同限定的高度模型"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_023",
+      "task_content_sha256": "eda0b33ada57f282b49d7ed5c8feb4e47c26f5e1bc26435364f82c77e29251c5",
+      "family_id": "trig.periodic-prediction-limit",
+      "canonical_family_id": "trig.periodic-prediction-limit",
+      "prompt": "给定模型h(t)=5+2cos(πt/6)，建模观测范围为0≤t≤12小时。关于t=24的计算与解释，哪项准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "公式给出7，所以任何环境下24小时实际一定是7。"
+        },
+        {
+          "id": "o2",
+          "text": "范围外就连代入的数学值也不存在。"
+        },
+        {
+          "id": "o3",
+          "text": "公式给出7，但在范围外的真实高度仍需新资料检验。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "公式给出7，但在范围外的真实高度仍需新资料检验。",
+      "mathematical_review": "cos4π=1，所以公式值7；模型的数学定义域和经观察支持的适用范围不同。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_8cf6dad35559439d8c51",
+          "statement": "能由模型解释并预测实际量",
+          "original_objective_families": [
+            "trig.composite-point-evaluation"
+          ],
+          "current_objective_families": [
+            "trig.composite-point-evaluation",
+            "trig.periodic-prediction-limit"
+          ],
+          "structural_reason": "原族只计算给定复合三角式的单点值；此题同时辨别周期外推算值与模型证据范围，不能用算对替代预测保证。",
+          "only_observed_action": "区分周期模型的代入值与外推结论的依据"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_024",
+      "task_content_sha256": "242935fc9e36519a8d34b4e5606fe56c9f89936ee23137fe7797a944ca8547ac",
+      "family_id": "vector.endpoint-translation-equality",
+      "canonical_family_id": "vector.endpoint-translation-equality",
+      "prompt": "A=(1,2)、B=(4,6)、C=(−2,1)、D=(1,5)。关于向量AB与CD，哪项正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "两向量相等，虽然起点不同。"
+        },
+        {
+          "id": "o2",
+          "text": "两向量不相等，因为起点不同。"
+        },
+        {
+          "id": "o3",
+          "text": "两向量反向，因为C的横坐标为负。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "两向量相等，虽然起点不同。",
+      "mathematical_review": "AB=(3,4)，CD=(3,4)，自由向量相等取决于相同位移；点的位置和坐标符号不是向量相等或方向的判据。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_a09c577de3984d80aa7c",
+          "statement": "能判断两个向量是否相等或共线",
+          "original_objective_families": [
+            "vector.equal-opposite-collinear"
+          ],
+          "current_objective_families": [
+            "vector.endpoint-translation-equality",
+            "vector.equal-opposite-collinear"
+          ],
+          "structural_reason": "原题直接给模与方向比较；本题先从两组端点恢复位移，再检验平移下的向量相等，加入位置与自由向量的区别。",
+          "only_observed_action": "由两组端点核对自由向量是否相等"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_025",
+      "task_content_sha256": "4396c3633ef06c99bb309728c87622978f749e52e4918fb8bc13b3ecd4d05485",
+      "family_id": "vector.scalar-direction-parameter",
+      "canonical_family_id": "vector.scalar-direction-parameter",
+      "prompt": "a为非零向量，b=(m−2)a。若b与a反向，实数m应满足哪项？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "m>2。"
+        },
+        {
+          "id": "o2",
+          "text": "m<2。"
+        },
+        {
+          "id": "o3",
+          "text": "m≤2。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "m<2。",
+      "mathematical_review": "反向要求数乘系数m−2严格为负。m=2时b为零向量，不能作为与a反向的非零向量。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_85681902654544f884bb",
+          "statement": "能由 λ 的符号判断数乘向量的方向",
+          "original_objective_families": [
+            "vector.scalar-sign-direction"
+          ],
+          "current_objective_families": [
+            "vector.scalar-direction-parameter",
+            "vector.scalar-sign-direction"
+          ],
+          "structural_reason": "原题从给定数乘系数读方向；此题由方向条件反求参数范围，并排除导致零向量的边界。",
+          "only_observed_action": "由反向条件反求数乘参数的有效范围"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_026",
+      "task_content_sha256": "5df01532eb81a473656bcd8084409d2a2571ba34442af032076b8c48d64589f0",
+      "family_id": "vector.norm-identity-perpendicular",
+      "canonical_family_id": "vector.norm-identity-perpendicular",
+      "prompt": "a、b均非零，且|a+b|²=|a−b|²。可以确定哪一结论？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "a=b。"
+        },
+        {
+          "id": "o2",
+          "text": "a与b同向。"
+        },
+        {
+          "id": "o3",
+          "text": "a⊥b。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "a⊥b。",
+      "mathematical_review": "两边展开相减得到4a·b=0；非零条件使数量积为0等价于垂直。模相等条件并未要求两向量相等。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_9cde8aa357e549f4a858",
+          "statement": "能用数量积判断垂直关系",
+          "original_objective_families": [
+            "vector.nonzero-dot-perpendicular"
+          ],
+          "current_objective_families": [
+            "vector.nonzero-dot-perpendicular",
+            "vector.norm-identity-perpendicular"
+          ],
+          "structural_reason": "原题直接计算或读取数量积；本题要从两个和差向量的模平方关系恢复交叉项，再应用垂直判据。",
+          "only_observed_action": "从和差向量模平方关系判断垂直"
+        },
+        {
+          "skill_id": "sk_4c69587c0c7149e88499",
+          "statement": "能用数量积判断垂直",
+          "original_objective_families": [
+            "vector.nonzero-dot-perpendicular"
+          ],
+          "current_objective_families": [
+            "vector.nonzero-dot-perpendicular",
+            "vector.norm-identity-perpendicular"
+          ],
+          "structural_reason": "原题直接计算或读取数量积；本题要从两个和差向量的模平方关系恢复交叉项，再应用垂直判据。",
+          "only_observed_action": "从和差向量模平方关系判断垂直"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_027",
+      "task_content_sha256": "90d0eb2abfafb2145d609b65f0fa8817900c332a1e01498e85143aa1fdeece49",
+      "family_id": "vector.basis-dependent-nonunique-coefficients",
+      "canonical_family_id": "vector.basis-dependent-nonunique-coefficients",
+      "prompt": "e₁=(1,0)，e₂=(2,0)。向量(2,0)可写成2e₁+0e₂，也可写成0e₁+e₂。这说明什么？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "两向量共线导致系数不唯一，不能作为平面基底。"
+        },
+        {
+          "id": "o2",
+          "text": "任意一组平面基底的表示系数都不唯一。"
+        },
+        {
+          "id": "o3",
+          "text": "(2,0)不能由这两个向量表示。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "两向量共线导致系数不唯一，不能作为平面基底。",
+      "mathematical_review": "e₂=2e₁使同一向量有不同系数，同时无法生成非零纵坐标。此处不满足基底的不共线前提。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_13aae7eddf2a4637abc3",
+          "statement": "能说明基底必须不共线",
+          "original_objective_families": [
+            "vector.basis-noncollinearity"
+          ],
+          "current_objective_families": [
+            "vector.basis-dependent-nonunique-coefficients",
+            "vector.basis-noncollinearity"
+          ],
+          "structural_reason": "原题直接检验共线与否；此题从同一向量的两组不同表示暴露线性相关与唯一性失败，观察的反证材料不同。",
+          "only_observed_action": "由表示不唯一解释共线向量为何不是平面基底"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_028",
+      "task_content_sha256": "ebdf692663d3ea4ebe1e0e44f0615ecb57463af6e264a1dd5c4bb85f18289def",
+      "family_id": "vector.parallelogram-fourth-vertex",
+      "canonical_family_id": "vector.parallelogram-fourth-vertex",
+      "prompt": "A=(0,1)、B=(3,2)、C=(5,6)是平行四边形的连续三个顶点。满足AB=DC的D是哪一点？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "(−2,−5)"
+        },
+        {
+          "id": "o2",
+          "text": "(2,5)"
+        },
+        {
+          "id": "o3",
+          "text": "(8,7)"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "(2,5)",
+      "mathematical_review": "向量AB=(3,1)，而DC=C−D；令C−D=(3,1)得D=(2,5)。连续顶点及向量方向不能颠倒。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_e6d84035c25044c58674",
+          "statement": "能由坐标判断向量关系",
+          "original_objective_families": [
+            "vector.coordinate-opposites"
+          ],
+          "current_objective_families": [
+            "vector.coordinate-opposites",
+            "vector.parallelogram-fourth-vertex"
+          ],
+          "structural_reason": "原族由给定向量坐标识别互为相反；本题从顶点顺序和相等边向量反求缺点，须区分点与差向量。",
+          "only_observed_action": "根据顶点顺序与相等向量求缺失顶点"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_029",
+      "task_content_sha256": "b954bde8150537e49aa30c6a1c1d962fa349c19456586c1dcd6fc645927f300f",
+      "family_id": "vector.coordinate-angle",
+      "canonical_family_id": "vector.coordinate-angle",
+      "prompt": "非零向量a=(1,0)、b=(1,√3)。它们的夹角是多少？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "30°"
+        },
+        {
+          "id": "o2",
+          "text": "120°"
+        },
+        {
+          "id": "o3",
+          "text": "60°"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "60°",
+      "mathematical_review": "数量积1，模为1和2，余弦1/2；向量夹角在[0°,180°]，所以60°。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_49f7845f6f5f427c89ee",
+          "statement": "能用坐标判断垂直并求夹角",
+          "original_objective_families": [
+            "vector.perpendicular-parameter"
+          ],
+          "current_objective_families": [
+            "vector.coordinate-angle",
+            "vector.perpendicular-parameter"
+          ],
+          "structural_reason": "原垂直参数族利用点积为0求未知量；本题两个向量全给定，须按模归一化数量积再确定非直角夹角。",
+          "only_observed_action": "由非零向量的坐标求非直角夹角"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_030",
+      "task_content_sha256": "984dff71c3f710bc8c00dc8543e03febb46ce62c1cc4ea205d0b2f0568ca6108",
+      "family_id": "triangle.select-rule-ssa-ambiguity",
+      "canonical_family_id": "triangle.select-rule-ssa-ambiguity",
+      "prompt": "三角形中A=30°，对边a=1，另边b=√2。关于角B，哪项正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "正弦定理给sinB=√2/2，B可为45°或135°，两者均使A+B<180°。"
+        },
+        {
+          "id": "o2",
+          "text": "必须用余弦定理直接唯一求出B=45°。"
+        },
+        {
+          "id": "o3",
+          "text": "B只能135°，因为b>a。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "正弦定理给sinB=√2/2，B可为45°或135°，两者均使A+B<180°。",
+      "mathematical_review": "已知一组对边角和另一边，正弦定理给sinB=b sinA/a=√2/2。两候选均满足三角形角和，SSA会有两解。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_ebade384db5a4aad93de",
+          "statement": "能判断何时用正弦定理、何时用余弦定理",
+          "original_objective_families": [
+            "triangle.theorem-choice-sss"
+          ],
+          "current_objective_families": [
+            "triangle.select-rule-ssa-ambiguity",
+            "triangle.theorem-choice-sss"
+          ],
+          "structural_reason": "原三边定角用余弦定理并唯一确定角；此题为非夹角两边角，正弦反求存在补角歧义，不能按SSS结构处理。",
+          "only_observed_action": "在非夹角两边一角资料下检查正弦定理的多解"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_031",
+      "task_content_sha256": "92ca387d7ad3d407c0fac8422dab903c9858185f9c31a937952886abc566f2d4",
+      "family_id": "complex.conjugate-equality-parameter",
+      "canonical_family_id": "complex.conjugate-equality-parameter",
+      "prompt": "a、b是实数，z=a+bi满足z+2共轭(z)=6−i。a、b分别是多少？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "a=6，b=−1。"
+        },
+        {
+          "id": "o2",
+          "text": "a=2，b=1。"
+        },
+        {
+          "id": "o3",
+          "text": "a=2，b=−1。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "a=2，b=1。",
+      "mathematical_review": "共轭(z)=a−bi，左侧3a−bi，复数相等给3a=6、−b=−1，所以a=2、b=1。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_1861ba52c312474ca55c",
+          "statement": "能用复数相等求参数",
+          "original_objective_families": [
+            "complex.equality-parameter"
+          ],
+          "current_objective_families": [
+            "complex.conjugate-equality-parameter",
+            "complex.equality-parameter"
+          ],
+          "structural_reason": "原直接读代数式实虚部的参数相等；本题未知复数与其共轭耦合，要先展开共轭的符号变化再比较分量。",
+          "only_observed_action": "把含共轭的复数等式转成实参数条件"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_032",
+      "task_content_sha256": "f679accbd00d6bfd01fd35dd417b953d3584f49bc973482994be582b289f20e7",
+      "family_id": "complex.division-parameter-domain",
+      "canonical_family_id": "complex.division-parameter-domain",
+      "prompt": "t为实数。把(1+i)/(t+i)化为a+bi，哪项对所有实数t成立？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "a=(t−1)/(t²−1)，b=(t+1)/(t²−1)。"
+        },
+        {
+          "id": "o2",
+          "text": "a=1/t，b=1。"
+        },
+        {
+          "id": "o3",
+          "text": "a=(t+1)/(t²+1)，b=(t−1)/(t²+1)。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "a=(t+1)/(t²+1)，b=(t−1)/(t²+1)。",
+      "mathematical_review": "同乘t−i得到(t+1)+(t−1)i，分母t²+1恒正。参数范围内无零分母，不能分别把实部和虚部相除。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_8496e6e45bf843c4a6f4",
+          "statement": "能把复数除法化为 a+bi 的形式",
+          "original_objective_families": [
+            "complex.conjugate-division"
+          ],
+          "current_objective_families": [
+            "complex.conjugate-division",
+            "complex.division-parameter-domain"
+          ],
+          "structural_reason": "原定值共轭除法之外，本题保留实参数，需得到两个有理函数并检验整个参数域的零分母条件。",
+          "only_observed_action": "核对含实参数复数除法的实虚部及分母条件"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_033",
+      "task_content_sha256": "4fe95c77afeebb68a5c39821e5e3b8529529abbdef14ffa0103b710e5ef5446c",
+      "family_id": "complex.polar-negative-prefactor",
+      "canonical_family_id": "complex.polar-negative-prefactor",
+      "prompt": "z=−2(cos30°+i sin30°)。要求模为正、辐角取[0°,360°)，正确读法是哪项？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "模2，辐角210°。"
+        },
+        {
+          "id": "o2",
+          "text": "模−2，辐角30°。"
+        },
+        {
+          "id": "o3",
+          "text": "模2，辐角330°。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "模2，辐角210°。",
+      "mathematical_review": "负号使方向转半圈；模须非负且此处非零，故2。30°加180°得210°。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_2e26bf35592947f5a689",
+          "statement": "能由三角形式读出模与辐角",
+          "original_objective_families": [
+            "complex.polar-modulus-read"
+          ],
+          "current_objective_families": [
+            "complex.polar-modulus-read",
+            "complex.polar-negative-prefactor"
+          ],
+          "structural_reason": "原正模标准三角式可直接读取；此题给负前因子，必须规范化模并同步改变方向，不能照抄系数。",
+          "only_observed_action": "把非标准负前因子的三角式转成合法模与辐角"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_034",
+      "task_content_sha256": "1b62bef37f04491a60140cc96401d3793459f11a8ef8b0fea1827baa95a2204f",
+      "family_id": "complex.polar-quotient",
+      "canonical_family_id": "complex.polar-quotient",
+      "prompt": "z₁模为6、一个辐角为150°，z₂模为2、一个辐角为30°。z₁/z₂的模与一个辐角是什么？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "3，180°。"
+        },
+        {
+          "id": "o2",
+          "text": "3，120°。"
+        },
+        {
+          "id": "o3",
+          "text": "12，180°。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "3，120°。",
+      "mathematical_review": "除法的模相除、辐角相减，分母模2非零；得到3与120°，整周等价的角也可表示同一复数。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_0d7b8d1095204d30bab4",
+          "statement": "能用三角形式进行乘除运算",
+          "original_objective_families": [
+            "complex.polar-product"
+          ],
+          "current_objective_families": [
+            "complex.polar-product",
+            "complex.polar-quotient"
+          ],
+          "structural_reason": "原乘积族做模相乘与角相加；此任务为非零复数除法，逆向缩放且作角差，并有分母非零前提。",
+          "only_observed_action": "按非零复数除法核对模与辐角"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_035",
+      "task_content_sha256": "6ab07d04899f009d5062469f0e784e579808c07bb5ff75014493255a9a48e731",
+      "family_id": "complex.multiply-rotation-scale",
+      "canonical_family_id": "complex.multiply-rotation-scale",
+      "prompt": "非零复数z对应原点外一点，乘以−2i后相对于原点怎样变化？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "长度变为2倍，逆时针转90°。"
+        },
+        {
+          "id": "o2",
+          "text": "长度变为−2倍，方向不变。"
+        },
+        {
+          "id": "o3",
+          "text": "长度变为2倍，顺时针转90°。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "长度变为2倍，顺时针转90°。",
+      "mathematical_review": "−2i模2，辐角可取−90°；乘法模相乘角相加，因此顺时针直角旋转并伸长。长度不能为负。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_7314d7f8b62c40e990b9",
+          "statement": "能说明乘除运算的几何意义",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "complex.multiply-rotation-scale",
+            "complex.reciprocal-polar-geometry"
+          ],
+          "structural_reason": "沿用原乘法旋转伸缩结构，给本来只有作品的目标增加客观核对；不因选择形式宣称新数学族。",
+          "only_observed_action": "解释乘非零纯虚数的旋转与伸缩"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_036",
+      "task_content_sha256": "d2cb3c6a50ca5caa05d7de6b4a0346b1ffe1534e9d3ce90b5468bf3793d9755d",
+      "family_id": "solid.prism.base-height-volume",
+      "canonical_family_id": "solid.prism.base-height-volume",
+      "prompt": "斜棱柱的底面积12平方厘米，侧棱长10厘米，两底面垂直距离6厘米。体积是多少？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "72立方厘米。"
+        },
+        {
+          "id": "o2",
+          "text": "120立方厘米。"
+        },
+        {
+          "id": "o3",
+          "text": "24立方厘米。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "72立方厘米。",
+      "mathematical_review": "棱柱体积用底面积乘垂直高，12×6=72；侧棱长不是高，也没有棱锥的三分之一因子。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_a3aabdb388654a1583e2",
+          "statement": "能计算棱柱、棱锥的体积",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "solid.prism.base-height-volume",
+            "solid.pyramid.base-height-volume"
+          ],
+          "structural_reason": "补棱柱底面积与垂直高结构；不会把侧棱数字或选择格式当作不同题族。",
+          "only_observed_action": "在斜棱柱中选对垂直高计算体积"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_037",
+      "task_content_sha256": "f70b09b51f39ea093e689666555463bc015b77345c25a25736174be79108628e",
+      "family_id": "solid.pyramid.base-height-volume",
+      "canonical_family_id": "solid.pyramid.base-height-volume",
+      "prompt": "三棱锥的底面是直角三角形，两直角边4厘米、9厘米；棱锥垂直高5厘米。体积是多少？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "60立方厘米。"
+        },
+        {
+          "id": "o2",
+          "text": "30立方厘米。"
+        },
+        {
+          "id": "o3",
+          "text": "90立方厘米。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "30立方厘米。",
+      "mathematical_review": "先求三角形底面积4×9/2=18，再用棱锥体积18×5/3=30；两个除法分别来自平面底形与立体体积。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_a3aabdb388654a1583e2",
+          "statement": "能计算棱柱、棱锥的体积",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "solid.prism.base-height-volume",
+            "solid.pyramid.base-height-volume"
+          ],
+          "structural_reason": "与棱柱底面积乘高相比，棱锥须从给定底边构造底面积，再用同底同高三分之一，立体结构与系数依据不同。",
+          "only_observed_action": "区分底面面积和棱锥体积的两层计算"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_038",
+      "task_content_sha256": "763bf57566ee76d2f51e9e159a08e2e70faa1a376b1e5481ea6ea1df5c4e8d7b",
+      "family_id": "space.parallel-direction-vectors",
+      "canonical_family_id": "space.parallel-direction-vectors",
+      "prompt": "空间两条不同直线的非零方向向量为(1,2,−1)与(−2,−4,2)。仅据这些条件可确定什么？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "两直线异面。"
+        },
+        {
+          "id": "o2",
+          "text": "两直线垂直。"
+        },
+        {
+          "id": "o3",
+          "text": "两直线平行。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "两直线平行。",
+      "mathematical_review": "第二向量为第一的−2倍，方向平行；直线不同排除重合，故两直线平行，不能因向量反向就称异面。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_91e6286355f5431889e1",
+          "statement": "能判断空间两直线是否平行",
+          "original_objective_families": [
+            "space.parallel-transitivity"
+          ],
+          "current_objective_families": [
+            "space.parallel-direction-vectors",
+            "space.parallel-transitivity"
+          ],
+          "structural_reason": "原族经共同平行线传递平行关系；此任务从三维方向分量的比例建立方向一致，并用不同直线条件排除重合。",
+          "only_observed_action": "由三维方向比例与不同直线条件判断平行"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_039",
+      "task_content_sha256": "fe7a5856c059ecd929b05cff3d1caed2fed0bb1037f1c3dccf547f03afddce11",
+      "family_id": "space.dihedral-oriented-halfplanes",
+      "canonical_family_id": "space.dihedral-oriented-halfplanes",
+      "prompt": "二面角的棱为l。O在l上，OA、OB分别处在指定两个半平面内且垂直l，∠AOB=120°。下面哪项是这个指定二面角的平面角？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "120°，不能为了取锐角擅自将OB反向。"
+        },
+        {
+          "id": "o2",
+          "text": "60°，平面角必须不大于90°。"
+        },
+        {
+          "id": "o3",
+          "text": "0°，因为OA、OB都垂直l。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "120°，不能为了取锐角擅自将OB反向。",
+      "mathematical_review": "二面角指定的是两个半平面，其平面角由各半平面中的垂棱射线确定；换一条反向射线会换成补二面角。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_75bdab7af650462cbb70",
+          "statement": "能找出二面角的平面角",
+          "original_objective_families": [
+            "space.dihedral-normal-section-construction"
+          ],
+          "current_objective_families": [
+            "space.dihedral-normal-section-construction",
+            "space.dihedral-oriented-halfplanes"
+          ],
+          "structural_reason": "原族着重构造垂棱截面；此题给构造后必须保留指定半平面的朝向，区分二面角与无向两平面的较小夹角。",
+          "only_observed_action": "在平面角构造中保留指定半平面的方向"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_040",
+      "task_content_sha256": "ecc2c1999ee054c610a649747e72125359edf4d6ecc313298ce8b6c3d501948e",
+      "family_id": "sampling.integer-allocation-rounding",
+      "canonical_family_id": "sampling.integer-allocation-rounding",
+      "prompt": "三层人数为3、3、4，拟按比例分配5个名额。若要求每层名额为整数，哪项准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "三层都分1人即可称精确按比例。"
+        },
+        {
+          "id": "o2",
+          "text": "理想配额为1.5、1.5、2，无法全部精确按比例；需公开取整及并列处理规则并使合计仍为5。"
+        },
+        {
+          "id": "o3",
+          "text": "四舍五入得2、2、2，已完成5人分配。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "理想配额为1.5、1.5、2，无法全部精确按比例；需公开取整及并列处理规则并使合计仍为5。",
+      "mathematical_review": "配额5×各层人数/10给1.5、1.5、2；前两层不可能各取半人。独立四舍五入总数为6，必须处理总数约束，近似分配不能冒称精确。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_389b6d162ab244399aac",
+          "statement": "能按比例计算各层样本量",
+          "original_objective_families": [
+            "sampling.proportional-allocation"
+          ],
+          "current_objective_families": [
+            "sampling.integer-allocation-rounding",
+            "sampling.proportional-allocation"
+          ],
+          "structural_reason": "原比例分配各配额是整数；本题考查比例与整数、总额三者冲突，需辨认取整规则及总数守恒的边界。",
+          "only_observed_action": "识别比例配额与整数样本量之间的约束"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_041",
+      "task_content_sha256": "9dd4838952c134e30bc7c5a752eed5d11c1e905892993a9db6fe8584d1367389",
+      "family_id": "statistics.survey-nonresponse-protocol",
+      "canonical_family_id": "statistics.survey-nonresponse-protocol",
+      "prompt": "公司白班800人、夜班200人，已按比例随机邀请80名白班和20名夜班员工。夜班只有5人回复。为估计全体员工某特征比例，下一步哪项合理？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "把夜班未回复的15人都记为没有该特征。"
+        },
+        {
+          "id": "o2",
+          "text": "直接把全部回复者的比例当作随机邀请100人的比例。"
+        },
+        {
+          "id": "o3",
+          "text": "保留邀请与回复记录，检查两班不回复机制并补访；报告处理办法和估计限制。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "保留邀请与回复记录，检查两班不回复机制并补访；报告处理办法和估计限制。",
+      "mathematical_review": "未回复不是测得的否定值，原邀请设计也不会自动保证响应样本代表性。应记录分层回复、核查缺失机制并公开补访或分析方法。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_cc99ef40a35844a1beeb",
+          "statement": "能设计一个完整的统计分析流程",
+          "original_objective_families": [
+            "statistics.analysis-workflow-order"
+          ],
+          "current_objective_families": [
+            "statistics.analysis-workflow-order",
+            "statistics.survey-nonresponse-protocol"
+          ],
+          "structural_reason": "原流程排序只问步骤先后；此任务在实际执行后出现分层不回复，要求决定缺失记录与推断限制的处理，不能套用原抽样名义。",
+          "only_observed_action": "在统计流程中处理有分层差异的不回复"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_042",
+      "task_content_sha256": "3d0d6085bafeb0c23e3c9eb9c21cfbea0e8a5b5213a06c8f4364142654fbf879",
+      "family_id": "probability.sum-one-not-complement",
+      "canonical_family_id": "probability.sum-one-not-complement",
+      "prompt": "从标号1、2、3、4的四张卡等可能抽一张，A={1,2}，B={2,3}。虽然P(A)+P(B)=1，A、B的关系是哪项？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "不互斥，也不对立。"
+        },
+        {
+          "id": "o2",
+          "text": "互为对立，因为概率和为1。"
+        },
+        {
+          "id": "o3",
+          "text": "互斥但不对立。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "不互斥，也不对立。",
+      "mathematical_review": "交集含2，并集缺4；概率相加等于1不能替代交空、并全集两个条件。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_786c708ae8df45e69aa5",
+          "statement": "能判断两个事件是否互斥或对立",
+          "original_objective_families": [
+            "probability.mutual-exclusive-not-complement"
+          ],
+          "current_objective_families": [
+            "probability.mutual-exclusive-not-complement",
+            "probability.sum-one-not-complement"
+          ],
+          "structural_reason": "原由事件集合直接检验互斥但不穷尽；此题以概率和为1构造误推对立的反例，必须恢复重叠和遗漏。",
+          "only_observed_action": "检验概率和为一是否足以推出对立事件"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_043",
+      "task_content_sha256": "5b1ff46a3a81c093bf321af59aeca21d6d8cc9890da6eb3e1ad76f9715629920",
+      "family_id": "probability.finite-biased-mechanism",
+      "canonical_family_id": "probability.finite-biased-mechanism",
+      "prompt": "装置每次只显示红或蓝，已明确红的概率3/4、蓝的概率1/4。把“红”“蓝”作为两个样本点，能否直接按1/2逐点计数求概率？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "能；两种颜色名称不同所以各一半。"
+        },
+        {
+          "id": "o2",
+          "text": "不能；样本点有限但不等可能。"
+        },
+        {
+          "id": "o3",
+          "text": "能；只要有限就必须等可能。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "不能；样本点有限但不等可能。",
+      "mathematical_review": "古典等权计数需要样本点等可能。本题概率机制直接给不等权，有限性不足以推出均匀。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_69c49bb7a6ab4605b68c",
+          "statement": "能判断一个概型是否为古典概型",
+          "original_objective_families": [
+            "probability.unequal-coarsened-outcomes"
+          ],
+          "current_objective_families": [
+            "probability.finite-biased-mechanism",
+            "probability.unequal-coarsened-outcomes"
+          ],
+          "structural_reason": "原族把均匀底层结果粗化成不等频的和；本题即使未粗化，生成机制本身也不均匀，等权失效的来源不同。",
+          "only_observed_action": "区分有限样本空间与机制保证的等可能性"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_044",
+      "task_content_sha256": "4d98dcc362b5585a3eeb17a2e1ab177ddac40ad6b10f2682e5297625c9a66297",
+      "family_id": "probability.enumerated-independence",
+      "canonical_family_id": "probability.enumerated-independence",
+      "prompt": "掷一次公平六面骰，A={2,4,6}，B={3,6}。A、B独立吗？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "不独立，因为来自同一次试验。"
+        },
+        {
+          "id": "o2",
+          "text": "不独立，因为有共同样本点。"
+        },
+        {
+          "id": "o3",
+          "text": "独立，交集概率1/6等于(1/2)(1/3)。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "独立，交集概率1/6等于(1/2)(1/3)。",
+      "mathematical_review": "A、B分别有3、2个点，交只有6。边际乘积与交相等。独立不要求事件来自不同试验或交集为空。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_0c2c4b9cf8b84cefbf15",
+          "statement": "能判断两个事件是否独立",
+          "original_objective_families": [
+            "probability.without-replacement"
+          ],
+          "current_objective_families": [
+            "probability.enumerated-independence",
+            "probability.without-replacement"
+          ],
+          "structural_reason": "原不放回抽样通过剩余库存判断概率改变；此题在一个共同有限样本空间中枚举边际与交，构造同次试验仍独立的情形。",
+          "only_observed_action": "用同次试验的样本点枚举检验独立"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_045",
+      "task_content_sha256": "72097da2d0079fab7407134abc048e7c2e9ebf94372e27e42aa7d915035a47bc",
+      "family_id": "probability.zero-probability-boundary",
+      "canonical_family_id": "probability.zero-probability-boundary",
+      "prompt": "A是不可能事件，P(B)=0.6。按P(A∩B)=P(A)P(B)的定义，A、B可以同时互斥且独立吗？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "可以；交概率与乘积都是0。"
+        },
+        {
+          "id": "o2",
+          "text": "不可以；所有互斥事件都不独立。"
+        },
+        {
+          "id": "o3",
+          "text": "无法判断；必须用P(B|A)除以P(A)。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "可以；交概率与乘积都是0。",
+      "mathematical_review": "不可能事件交任何事件为空，故互斥；交概率0等于0×0.6，所以独立。P(A)=0不能用于条件概率商。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_bf7385daa3bd49f49b46",
+          "statement": "能区分独立与互斥",
+          "original_objective_families": [
+            "probability.independence-vs-exclusive"
+          ],
+          "current_objective_families": [
+            "probability.independence-vs-exclusive",
+            "probability.zero-probability-boundary"
+          ],
+          "structural_reason": "原两个正概率互斥事件的乘积不为0；本题处理不可能事件使乘积归零的边界，改变“互斥排除独立”的适用条件。",
+          "only_observed_action": "检验互斥与独立在零概率边界的关系"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_046",
+      "task_content_sha256": "742e7d0797308cef73d986e04050b85f7c95eadbc00638ba0177be55c521c423",
+      "family_id": "probability.frequency-estimate-fluctuation",
+      "canonical_family_id": "probability.frequency-estimate-fluctuation",
+      "prompt": "同机制试验10次成功9次，用频率估计成功概率。再试1次成功后，估值变为10/11。只凭这些记录能否保证新估值更接近真实概率？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "能；成功次数越多真实概率就越大。"
+        },
+        {
+          "id": "o2",
+          "text": "不能；新估值上升，但真实概率未知，误差可能增也可能减。"
+        },
+        {
+          "id": "o3",
+          "text": "能；只要样本量增大一次，误差必严格减小。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "不能；新估值上升，但真实概率未知，误差可能增也可能减。",
+      "mathematical_review": "原估值0.9，新值约0.909。若真实概率0.9则反而远离；若真实概率0.95则更接近，两种模型都可能产生该记录。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_4c35767988714f0b82cb",
+          "statement": "能用频率估计概率",
+          "original_objective_families": [
+            "probability.empirical-frequency"
+          ],
+          "current_objective_families": [
+            "probability.empirical-frequency",
+            "probability.frequency-estimate-fluctuation"
+          ],
+          "structural_reason": "原族只计算次数除总数；本题比较更新估计与未知真值的误差方向，要求区分频率更新和必然改进的声称。",
+          "only_observed_action": "解释追加观测后频率估计的误差方向是否确定"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_047",
+      "task_content_sha256": "04c67991719eea07583567036acce3f99d6575d56c63900a83154a1f0283b431",
+      "family_id": "probability.simulation-model-bias",
+      "canonical_family_id": "probability.simulation-model-bias",
+      "prompt": "要模拟2红1白中不放回抽2球且至少抽到一白，程序却每次抽后都放回。增加到很多轮后，应怎样解释所得频率？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "轮数足够就必自动变成不放回模型的概率。"
+        },
+        {
+          "id": "o2",
+          "text": "所有模拟频率都没有任何可解释对象。"
+        },
+        {
+          "id": "o3",
+          "text": "它估计的是放回模型的概率，增大轮数不能修正所模拟机制。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "它估计的是放回模型的概率，增大轮数不能修正所模拟机制。",
+      "mathematical_review": "正确不放回成功概率2/3；错误放回模型为1−(2/3)²=5/9。多跑可估错模型更稳定，不能改变程序机制。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_f1266fae48184d009e6d",
+          "statement": "能用模拟结果估计概率",
+          "original_objective_families": [
+            "probability.simulation-frequency-estimate"
+          ],
+          "current_objective_families": [
+            "probability.simulation-frequency-estimate",
+            "probability.simulation-model-bias"
+          ],
+          "structural_reason": "原族从给定模拟次数算频率；此题必须检查记录对应哪一个生成模型，区分随机误差与机制偏差。",
+          "only_observed_action": "将模拟估计值与实际运行的随机机制对应"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_048",
+      "task_content_sha256": "0a48ed0e5b1238cdbd0b472b91bb2dc238892a5936577f9be2e9a99bab948003",
+      "family_id": "vector.linear-combination-expand",
+      "canonical_family_id": "vector.linear-combination-expand",
+      "prompt": "a、b为空间向量，化简2(a−3b)−(a+b)。哪项正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "a−7b"
+        },
+        {
+          "id": "o2",
+          "text": "a−5b"
+        },
+        {
+          "id": "o3",
+          "text": "3a−5b"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "a−7b",
+      "mathematical_review": "分配并保留外层负号，2a−6b−a−b=a−7b。向量同类项可按标量系数合并。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_27bb2532d4eb4c189c5c",
+          "statement": "能进行空间向量的线性运算",
+          "original_objective_families": [
+            "vector.coordinate-linear-equation"
+          ],
+          "current_objective_families": [
+            "vector.coordinate-linear-equation",
+            "vector.linear-combination-expand"
+          ],
+          "structural_reason": "原族由坐标向量等式求未知坐标；本题未给坐标而对任意向量作形式线性展开，检查分配与括号的代数结构。",
+          "only_observed_action": "对任意空间向量化简嵌套线性组合"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_049",
+      "task_content_sha256": "f38cffd5be1451c3a5220cda352d79995b6c7e5d0bb876cdb9de97d734de793a",
+      "family_id": "vector.coplanar-span",
+      "canonical_family_id": "vector.coplanar-span",
+      "prompt": "a=(1,0,0)、b=(0,1,0)、c=(2,−3,4)。三向量能否平移后放在同一平面内？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "能，因为c的第一、二坐标可用a、b组合。"
+        },
+        {
+          "id": "o2",
+          "text": "不能，a、b张成z=0平面，c的第三分量不为0。"
+        },
+        {
+          "id": "o3",
+          "text": "能，只要它们都是三维向量。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "不能，a、b张成z=0平面，c的第三分量不为0。",
+      "mathematical_review": "a、b独立且张成唯一平面z=0；任何xa+yb第三分量都为0，无法表示c。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_7fcdc6974cc0486196c2",
+          "statement": "能判断三个向量是否共面",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "vector.coplanar-span",
+            "vector.coplanarity-dependent-pair-boundary"
+          ],
+          "structural_reason": "沿用已审读自检的空间张成判断，补一个客观机会，换坐标不计独立新族。",
+          "only_observed_action": "用两个独立向量的张成平面检验第三向量"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_050",
+      "task_content_sha256": "409754fa83023f31e45dd5ad5343936da5c90c6f30f97a4faad3a9026f4e94e0",
+      "family_id": "vector.coplanarity-dependent-pair-boundary",
+      "canonical_family_id": "vector.coplanarity-dependent-pair-boundary",
+      "prompt": "a=(1,0,0)、b=(2,0,0)、c=(0,0,1)。虽然c不能写成xa+yb，下列判断哪项准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "三向量必不共面，因为c不在前两个的线性张成中。"
+        },
+        {
+          "id": "o2",
+          "text": "三个向量因两两都不共线而构成空间基底。"
+        },
+        {
+          "id": "o3",
+          "text": "三向量仍共面，都在xz平面；前两个共线，不能用它们张成整个候选平面。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "三向量仍共面，都在xz平面；前两个共线，不能用它们张成整个候选平面。",
+      "mathematical_review": "a、b只张成x轴，c不在这条轴上，但三向量都位于y=0平面。以c是否在span(a,b)判断三者共面时，需先知a、b不共线。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_7fcdc6974cc0486196c2",
+          "statement": "能判断三个向量是否共面",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "vector.coplanar-span",
+            "vector.coplanarity-dependent-pair-boundary"
+          ],
+          "structural_reason": "相对独立前两向量张成二维平面的结构，本题前两向量秩不足；判据的前提失败，不能把不在一维张成中当作三维不共面。",
+          "only_observed_action": "检查共面判据中前两个向量独立的前提"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_051",
+      "task_content_sha256": "5e2f1dc74eede109d50ca859a3b0f6b1d202d1defba7cd96d239aac688ffbaa6",
+      "family_id": "vector.spatial-basis-parameter",
+      "canonical_family_id": "vector.spatial-basis-parameter",
+      "prompt": "e₁=(1,0,0)、e₂=(0,1,0)、e₃=(t,t,t−1)。三者构成空间基底的实数参数条件是哪项？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "t≠1。"
+        },
+        {
+          "id": "o2",
+          "text": "t≠0。"
+        },
+        {
+          "id": "o3",
+          "text": "所有实数t都可以。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "t≠1。",
+      "mathematical_review": "前两向量张成z=0；第三分量t−1非零时e₃离开该平面，反之共面。t=0时e₃=(0,0,−1)合法。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_323ae80767e04986accb",
+          "statement": "能判断三个向量能否构成基底",
+          "original_objective_families": [
+            "vector.spatial-basis-noncoplanar"
+          ],
+          "current_objective_families": [
+            "vector.spatial-basis-noncoplanar",
+            "vector.spatial-basis-parameter"
+          ],
+          "structural_reason": "原给定三向量直接检验非共面；此题保留参数并求使秩降为二维的例外集合，须说明所有其余参数为何都可作基底。",
+          "only_observed_action": "由参数控制的第三方向确定空间基底条件"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_052",
+      "task_content_sha256": "86a91e49fe5944492c2ed15bad39c04fa7807c005f5f84a8c2d9a3ae63f71136",
+      "family_id": "space.point-plane-derived-normal",
+      "canonical_family_id": "space.point-plane-derived-normal",
+      "prompt": "平面经过O=(0,0,0)、A=(1,1,0)、B=(0,1,1)。求P=(1,0,0)到此面的距离，哪项计算路线与结果正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "P到O长1，所以点面距离必为1。"
+        },
+        {
+          "id": "o2",
+          "text": "取法向量(1,−1,1)，距离为1/√3。"
+        },
+        {
+          "id": "o3",
+          "text": "取面内向量OA为法向量，距离为1/√2。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "取法向量(1,−1,1)，距离为1/√3。",
+      "mathematical_review": "(1,−1,1)同时与OA、OB垂直且非零，两面内向量不共线；面过原点，投影长|P·n|/|n|=1/√3。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_aa3e2ab382ae4807abcf",
+          "statement": "能用向量求点到平面的距离",
+          "original_objective_families": [
+            "space.point-plane-vector-distance"
+          ],
+          "current_objective_families": [
+            "space.point-plane-derived-normal",
+            "space.point-plane-vector-distance"
+          ],
+          "structural_reason": "原任务给定平面法向或可直接读取的方程；此题先由两独立面内方向建立法向量，再做投影，不能把面内向量或到任一点距离当垂距。",
+          "only_observed_action": "先从面内方向建立法向量再求点面距离"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_053",
+      "task_content_sha256": "323133609cc490fe688852aec00e84607fb87b98aeed81c7a72fe88b3ffbb1c6",
+      "family_id": "space.line-line-unoriented-angle",
+      "canonical_family_id": "space.line-line-unoriented-angle",
+      "prompt": "两条空间直线的方向向量分别为a=(1,0,0)、b=(−1,1,0)。求两条无向直线的较小夹角，哪项准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "135°，任何方向向量夹角就是两直线较小角。"
+        },
+        {
+          "id": "o2",
+          "text": "90°，因为两向量坐标不同。"
+        },
+        {
+          "id": "o3",
+          "text": "45°，须把方向向量的135°换成对应较小线角。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "45°，须把方向向量的135°换成对应较小线角。",
+      "mathematical_review": "a·b=−1，两模1、√2，方向夹角135°；直线不定向，较小角取45°，相当于数量积绝对值归一化。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_eb808ea87239489987d4",
+          "statement": "能把空间角转化为向量夹角",
+          "original_objective_families": [
+            "space.line-plane-angle-normal-relation"
+          ],
+          "current_objective_families": [
+            "space.line-line-unoriented-angle",
+            "space.line-plane-angle-normal-relation"
+          ],
+          "structural_reason": "原线面角用方向与法向量的余角关系；此题为无向线线角，须消除方向选择造成的补角，几何对象及角度转换规则不同。",
+          "only_observed_action": "区分方向向量夹角和无向直线较小夹角"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_054",
+      "task_content_sha256": "3e0b79e839467d9f3b2908cf8db29822c62358f3f8561cb98984fe6b6dcd2f2d",
+      "family_id": "line.perpendicular-vertical-case",
+      "canonical_family_id": "line.perpendicular-vertical-case",
+      "prompt": "过点(−2,3)且垂直于直线y=5的直线是什么？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "x=−2。"
+        },
+        {
+          "id": "o2",
+          "text": "y=3。"
+        },
+        {
+          "id": "o3",
+          "text": "y=−x+1。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "x=−2。",
+      "mathematical_review": "y=5为水平线，垂线必须竖直并经过横坐标−2。有限斜率乘积为−1的公式不能覆盖竖直线。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_5bd6c128c85945a8ae68",
+          "statement": "能用斜率判断垂直",
+          "original_objective_families": [
+            "line.perpendicular-slope"
+          ],
+          "current_objective_families": [
+            "line.perpendicular-slope",
+            "line.perpendicular-vertical-case"
+          ],
+          "structural_reason": "原已知非零有限斜率求负倒数；此题已知斜率0，垂线斜率不存在，须转用水平/竖直关系。",
+          "only_observed_action": "在零斜率边界确定垂线方程"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_055",
+      "task_content_sha256": "5e3f574ef9d42be9cb087ab52c5f7bab4444c1aa68766bf672b10fdb89e05af2",
+      "family_id": "line.normal-to-point-slope",
+      "canonical_family_id": "line.normal-to-point-slope",
+      "prompt": "一条直线经过(2,1)，非零法向量为(1,2)。哪项是它的点斜式？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "y+1=−(x+2)/2。"
+        },
+        {
+          "id": "o2",
+          "text": "y−1=−(x−2)/2。"
+        },
+        {
+          "id": "o3",
+          "text": "y−1=2(x−2)。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "y−1=−(x−2)/2。",
+      "mathematical_review": "方向可取(2,−1)，与法向量数量积0，斜率−1/2；再代指定点写点斜式。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_3ae69af12d3842769fe6",
+          "statement": "能写出点斜式方程",
+          "original_objective_families": [
+            "line.point-slope-equation"
+          ],
+          "current_objective_families": [
+            "line.normal-to-point-slope",
+            "line.point-slope-equation"
+          ],
+          "structural_reason": "原任务直接给斜率与点；此题给法向信息，先转成垂直方向的斜率再构造点斜式，输入关系不同。",
+          "only_observed_action": "由法向量推得斜率并核对点斜式"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_056",
+      "task_content_sha256": "46e785b961af31a101d94281aa2274c38322bddfbe7a1cf8a73233c985d920dd",
+      "family_id": "line.parameter-point-slope-admissibility",
+      "canonical_family_id": "line.parameter-point-slope-admissibility",
+      "prompt": "直线x+(m−1)y−2=0。当实数m取何范围时，它能写成有限斜率的y−y₀=k(x−x₀)形式？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "所有实数m。"
+        },
+        {
+          "id": "o2",
+          "text": "只有m=1。"
+        },
+        {
+          "id": "o3",
+          "text": "m≠1。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "m≠1。",
+      "mathematical_review": "m≠1时可解y，斜率−1/(m−1)；m=1时为x=2的竖直线。一次项x系数恒1，任何m仍是一条直线。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_dcd3238e2d3748ada82f",
+          "statement": "能说出点斜式的适用范围",
+          "original_objective_families": [
+            "line.point-slope-domain"
+          ],
+          "current_objective_families": [
+            "line.parameter-point-slope-admissibility",
+            "line.point-slope-domain"
+          ],
+          "structural_reason": "原从一条给定竖直线判断点斜式边界；此题需对参数直线族识别哪些成员可解成y的单值线性式，给出完整可用参数域。",
+          "only_observed_action": "对参数直线族确定有限斜率表示的适用成员"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_057",
+      "task_content_sha256": "27466416475e7312e706ed823fae628a92afac5a16a08f069a6fbfff6963519b",
+      "family_id": "line.two-point-equation",
+      "canonical_family_id": "line.two-point-equation",
+      "prompt": "过A=(−1,2)、B=(3,−2)的直线，哪项两点式正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "(y−2)/(−4)=(x+1)/4。"
+        },
+        {
+          "id": "o2",
+          "text": "(y+2)/(−4)=(x−1)/4。"
+        },
+        {
+          "id": "o3",
+          "text": "(y−2)/4=(x+1)/4。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "(y−2)/(−4)=(x+1)/4。",
+      "mathematical_review": "纵差−2−2=−4，横差3−(−1)=4，两个分子使用同一参照点A，代两点均成立。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_e6a076ee450648eca107",
+          "statement": "能写出两点式方程",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "line.two-point-equation"
+          ],
+          "structural_reason": "沿用两点式构造族，补原来只有过程任务的客观核对；不将不同坐标算不同族。",
+          "only_observed_action": "核对两点式中的同一参照点与坐标差方向"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_058",
+      "task_content_sha256": "b9debe46af4e5f825f0a4bd4720f37f648546705721a254c395f2a6d2415ab46",
+      "family_id": "line.intersection-degenerate-system",
+      "canonical_family_id": "line.intersection-degenerate-system",
+      "prompt": "联立l₁:x+2y=3和l₂:2x+4y=8求交点。消元后得到什么，交点集合怎样？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "得到唯一交点(0,0)。"
+        },
+        {
+          "id": "o2",
+          "text": "得到0=2的矛盾，因此交点集合为空。"
+        },
+        {
+          "id": "o3",
+          "text": "得到0=0，因此有无穷多个交点。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "得到0=2的矛盾，因此交点集合为空。",
+      "mathematical_review": "第一式乘2给2x+4y=6，与第二式相减为0=2；系数方向相同而常数不一致，两线平行无交点。这里展示的是消元所得矛盾，不是成立的数学等式。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_e279eece7586452aaf6d",
+          "statement": "能求两直线的交点坐标",
+          "original_objective_families": [
+            "line.intersection-linear-system"
+          ],
+          "current_objective_families": [
+            "line.intersection-degenerate-system",
+            "line.intersection-linear-system"
+          ],
+          "structural_reason": "原唯一交点族有满秩方程组；此题系数行相关而常数不相容，求交点必须允许无解并辨别矛盾与恒等。",
+          "only_observed_action": "由不相容线性方程组判断交点集合为空"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_059",
+      "task_content_sha256": "d1e214c7bb334499c09134f5cbf58a9794c07d9cfd4df1ff18d85fe78df10a4c",
+      "family_id": "circle.line-substitution-discriminant",
+      "canonical_family_id": "circle.line-substitution-discriminant",
+      "prompt": "圆x²+y²=5与直线y=x+4联立，消元得2x²+8x+11=0。哪项正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "判别式0，直线与圆相切。"
+        },
+        {
+          "id": "o2",
+          "text": "判别式24>0，直线与圆相交两点。"
+        },
+        {
+          "id": "o3",
+          "text": "判别式−24<0，没有实交点，直线与圆相离。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "判别式−24<0，没有实交点，直线与圆相离。",
+      "mathematical_review": "Δ=8²−4×2×11=−24，故没有实数x；由代入关系也无实点同时满足两式。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_6ca42b0665d94f6bbc3c",
+          "statement": "能用 d 与 r 判断位置关系",
+          "original_objective_families": [
+            "circle.line-distance-position"
+          ],
+          "current_objective_families": [
+            "circle.line-distance-position",
+            "circle.line-substitution-discriminant"
+          ],
+          "structural_reason": "原族计算圆心到直线的几何距离与半径比较；此题用消元后的二次方程实根数确定公共点，证明对象及运算链不同。",
+          "only_observed_action": "用联立方程的判别式判断线圆公共点"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_060",
+      "task_content_sha256": "a0ad74ad1873784c5db32561420d44ab9253de24a9f3005499855725edf46dd6",
+      "family_id": "circle.radical-axis-without-common-chord",
+      "canonical_family_id": "circle.radical-axis-without-common-chord",
+      "prompt": "两圆x²+y²=1和(x−4)²+y²=1的方程相减可得x=2。能把x=2称为这两圆的公共弦所在直线吗？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "不能，两圆相离没有公共弦；x=2只是等幂线。"
+        },
+        {
+          "id": "o2",
+          "text": "能，相减所得直线一定穿过两个公共点。"
+        },
+        {
+          "id": "o3",
+          "text": "不能，因为相减必须产生二次方程。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "不能，两圆相离没有公共弦；x=2只是等幂线。",
+      "mathematical_review": "圆心距4大于半径和2，两圆无交点。相减只保留两个表达式相等的必要条件，不自动保证有点同时在两圆上。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_d1f78e88499447aba1ff",
+          "statement": "能求公共弦所在直线方程",
+          "original_objective_families": [
+            "circle.radical-axis-intersection"
+          ],
+          "current_objective_families": [
+            "circle.radical-axis-intersection",
+            "circle.radical-axis-without-common-chord"
+          ],
+          "structural_reason": "原实际相交两圆可将根轴解释为公共弦线；本题相减仍有直线但几何交集为空，检验消去方程后的存在前提。",
+          "only_observed_action": "在求公共弦线前核对两圆确有交点"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_061",
+      "task_content_sha256": "7784cbb3ba95fdbfb4b8a10c4ecee2fa0e4b579654eab4f53e54cf33f82913e9",
+      "family_id": "hyperbola.translated-asymptotes",
+      "canonical_family_id": "hyperbola.translated-asymptotes",
+      "prompt": "双曲线(x−2)²/9−(y+1)²/4=1的两条渐近线是哪组？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "y+1=±(3/2)(x−2)。"
+        },
+        {
+          "id": "o2",
+          "text": "y+1=±(2/3)(x−2)。"
+        },
+        {
+          "id": "o3",
+          "text": "y=±(2/3)x。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "y+1=±(2/3)(x−2)。",
+      "mathematical_review": "平移坐标X=x−2、Y=y+1后为X²/9−Y²/4=1，渐近线Y=±2X/3；还原坐标须经过中心(2,−1)。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_6149954e556f43e38132",
+          "statement": "能写出双曲线的渐近线",
+          "original_objective_families": [
+            "hyperbola.asymptote-equation"
+          ],
+          "current_objective_families": [
+            "hyperbola.asymptote-equation",
+            "hyperbola.translated-asymptotes"
+          ],
+          "structural_reason": "原中心在原点直接按半轴写渐近线；此题要在平移坐标中确定方向并还原中心，不能只保留斜率。",
+          "only_observed_action": "把平移后的双曲线渐近方向还原为两条直线"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_062",
+      "task_content_sha256": "2f6006bbac0be6967c6b29187f12949d4f54a08c4a3992c59b0215d67c2f2c02",
+      "family_id": "hyperbola.eccentricity-from-asymptote",
+      "canonical_family_id": "hyperbola.eccentricity-from-asymptote",
+      "prompt": "双曲线x²/a²−y²/b²=1中a,b>0，一条渐近线斜率为2。离心率e是多少？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "2。"
+        },
+        {
+          "id": "o2",
+          "text": "√3。"
+        },
+        {
+          "id": "o3",
+          "text": "√5。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "√5。",
+      "mathematical_review": "正渐近线斜率b/a=2；e²=c²/a²=(a²+b²)/a²=1+4=5，e>1取√5。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_794d7b5c689a4137a3c6",
+          "statement": "能求双曲线的离心率",
+          "original_objective_families": [
+            "hyperbola.eccentricity"
+          ],
+          "current_objective_families": [
+            "hyperbola.eccentricity",
+            "hyperbola.eccentricity-from-asymptote"
+          ],
+          "structural_reason": "原已知半轴直接算半焦距与离心率；此题只有形状比例信息，要将渐近斜率转为b/a再建立无尺度离心率关系。",
+          "only_observed_action": "由渐近方向比例反求双曲线离心率"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_063",
+      "task_content_sha256": "257a2a084d39a72fac45b57f943c35e0199f6b064c40c93cb2ebdacd90b68e5f",
+      "family_id": "parabola.translated-focus-directrix",
+      "canonical_family_id": "parabola.translated-focus-directrix",
+      "prompt": "抛物线(x−2)²=−8(y+1)的焦点和准线是哪组？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "焦点(2,−3)，准线y=1。"
+        },
+        {
+          "id": "o2",
+          "text": "焦点(0,−2)，准线y=2。"
+        },
+        {
+          "id": "o3",
+          "text": "焦点(2,1)，准线y=−3。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "焦点(2,−3)，准线y=1。",
+      "mathematical_review": "顶点(2,−1)，开口向下；在X=x−2,Y=y+1下为X²=−8Y，焦点距顶点2向下，准线在顶点上方2。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_9f60c31efccd41eaa2ce",
+          "statement": "能由方程写出焦点与准线",
+          "original_objective_families": [
+            "parabola.equation-focus-directrix"
+          ],
+          "current_objective_families": [
+            "parabola.equation-focus-directrix",
+            "parabola.translated-focus-directrix"
+          ],
+          "structural_reason": "原顶点原点的系数读取族；此题必须同时处理平移中心、轴向及有向焦距，不能直接把标准坐标当作原坐标。",
+          "only_observed_action": "由平移的抛物线方程还原焦点与准线"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_064",
+      "task_content_sha256": "fdfffb9191508ce538b69922da961dc5ebbdbddcfad986c7f8d8e2f09211635f",
+      "family_id": "sequence.piecewise-index-evaluation",
+      "canonical_family_id": "sequence.piecewise-index-evaluation",
+      "prompt": "数列对正整数n定义：n为奇数时aₙ=n，n为偶数时aₙ=−n²。a₃与a₄是哪组？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "3，−4。"
+        },
+        {
+          "id": "o2",
+          "text": "3，−16。"
+        },
+        {
+          "id": "o3",
+          "text": "−9，4。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "3，−16。",
+      "mathematical_review": "先按项号奇偶选择分段，3取n段得3，4取−n²段得−16；不能按项值的正负选择公式。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_6ec96efb455a48b38d48",
+          "statement": "能由通项公式写出数列的项",
+          "original_objective_families": [
+            "sequence.general-term-evaluation"
+          ],
+          "current_objective_families": [
+            "sequence.general-term-evaluation",
+            "sequence.piecewise-index-evaluation"
+          ],
+          "structural_reason": "原单一通项直接代入；此题通项包含按指标奇偶的分段选择，先确定适用规则再求值。",
+          "only_observed_action": "按指标条件选择数列通项的适用分段"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_065",
+      "task_content_sha256": "03ae65858cf99afaf3b24b437185de4013b4642c9b4fa2976c0d8e9c41e2880d",
+      "family_id": "sequence.finite-prefix-not-arithmetic-proof",
+      "canonical_family_id": "sequence.finite-prefix-not-arithmetic-proof",
+      "prompt": "只给无限数列前三项2、4、6，没有通项或递推规则。能否断定整个数列是等差数列？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "能；前两个相邻差相同已经足够。"
+        },
+        {
+          "id": "o2",
+          "text": "能；所有递增数列都是等差。"
+        },
+        {
+          "id": "o3",
+          "text": "不能；第四项及后续可能破坏恒定差。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "不能；第四项及后续可能破坏恒定差。",
+      "mathematical_review": "2,4,6,8,…可继续等差，2,4,6,100,…却不等差；两者都符合给定前三项。全体相邻差条件不能由有限前缀证明。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_a16f266673684b3e8bd7",
+          "statement": "能判断一个数列是否为等差数列",
+          "original_objective_families": [
+            "sequence.arithmetic-constant-difference"
+          ],
+          "current_objective_families": [
+            "sequence.arithmetic-constant-difference",
+            "sequence.finite-prefix-not-arithmetic-proof"
+          ],
+          "structural_reason": "原任务有通项可检验任意n的相邻差；本题信息仅为有限前缀，须识别全称定义所缺的后续规则。",
+          "only_observed_action": "区分有限前缀规律与整个数列的等差结论"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_066",
+      "task_content_sha256": "939b4b105ef37ea3e66621c9f89ca57d6dc2ff20c6c8d99bd18b7228a088494b",
+      "family_id": "sequence.arithmetic-two-index-term",
+      "canonical_family_id": "sequence.arithmetic-two-index-term",
+      "prompt": "等差数列a₃=7、a₈=22。a₁₀等于多少？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "28。"
+        },
+        {
+          "id": "o2",
+          "text": "30。"
+        },
+        {
+          "id": "o3",
+          "text": "37。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "28。",
+      "mathematical_review": "5个项距对应差15，公差3；从第8项再走2个项距，a₁₀=22+6=28。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_6746108b2a344733a1be",
+          "statement": "能用通项公式求指定项",
+          "original_objective_families": [
+            "sequence.arithmetic-term"
+          ],
+          "current_objective_families": [
+            "sequence.arithmetic-term",
+            "sequence.arithmetic-two-index-term"
+          ],
+          "structural_reason": "原由已给首项与公差直接求项；本题需先由两个非首项和项号间隔恢复公差，再推到目标项。",
+          "only_observed_action": "从两个非首项恢复变化率并求另一个指定项"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_067",
+      "task_content_sha256": "9862a0ddf84a5fd36c8888111235459072080672ed7b0771abd892d02c06aadc",
+      "family_id": "sequence.geometric-recurrence-parameter",
+      "canonical_family_id": "sequence.geometric-recurrence-parameter",
+      "prompt": "实参数t定义a₁=t，aₙ₊₁=(t−1)aₙ。按各项非零、相邻比为同一非零常数的定义，何时构成等比数列？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "只需t≠1。"
+        },
+        {
+          "id": "o2",
+          "text": "t≠0且t≠1。"
+        },
+        {
+          "id": "o3",
+          "text": "只需t≠0。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "t≠0且t≠1。",
+      "mathematical_review": "首项t不能为0，公比t−1不能为0；两条件满足时所有项非零，且相邻比恒t−1。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_66a84801c0aa4feab056",
+          "statement": "能判断一个数列是否为等比数列",
+          "original_objective_families": [
+            "sequence.geometric-nonzero-definition"
+          ],
+          "current_objective_families": [
+            "sequence.geometric-nonzero-definition",
+            "sequence.geometric-recurrence-parameter"
+          ],
+          "structural_reason": "原由已写出的通项求相邻比；本题给参数递推，须检验初值与更新系数怎样共同保证无限各项非零。",
+          "only_observed_action": "从参数递推和初值判断等比数列的合法范围"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_068",
+      "task_content_sha256": "8f12fe9caba081803c02c9e8d3019a602cdaf20164d1135675715026e291edb3",
+      "family_id": "derivative.sum-domain-restricted-functions",
+      "canonical_family_id": "derivative.sum-domain-restricted-functions",
+      "prompt": "f(x)=lnx+1/x。在原函数的定义域内，导函数是哪项？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "f′(x)=1/x+1/x²，x≠0。"
+        },
+        {
+          "id": "o2",
+          "text": "f′(x)=1/x−1/x²，所有实数都可以。"
+        },
+        {
+          "id": "o3",
+          "text": "f′(x)=1/x−1/x²，x>0。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "f′(x)=1/x−1/x²，x>0。",
+      "mathematical_review": "原式要求x>0；和的导数为两个导数相加，lnx给1/x，x⁻¹给−x⁻²。导函数代数式可在更多位置计算也不扩大原函数域。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_adc70f435b344d46ac82",
+          "statement": "能用和差法则求导",
+          "original_objective_families": [
+            "derivative.sum-difference-polynomial"
+          ],
+          "current_objective_families": [
+            "derivative.sum-difference-polynomial",
+            "derivative.sum-domain-restricted-functions"
+          ],
+          "structural_reason": "原族在多项式全实数域逐项求导；本题混合对数与负幂，须同时应用不同基本公式并保留交集定义域。",
+          "only_observed_action": "对受定义域限制的函数和逐项求导"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_069",
+      "task_content_sha256": "724aed7990f7f93e113b591e60fc4c1008853f9b994c275619fabeafb1c9ee28",
+      "family_id": "derivative.identify-composition-nonlinear",
+      "canonical_family_id": "derivative.identify-composition-nonlinear",
+      "prompt": "将y=√(1+x²)写成y=f(u)、u=g(x)的两层复合，哪组能准确还原原式？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "u=1+x²，y=√u。"
+        },
+        {
+          "id": "o2",
+          "text": "u=√x，y=1+u²。"
+        },
+        {
+          "id": "o3",
+          "text": "u=x²，y=1+√u。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "u=1+x²，y=√u。",
+      "mathematical_review": "外层根号必须作用于完整的1+x²；其他分解分别得到1+x（仅部分域）或1+|x|，不是原函数。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_64a3b31d78044811b1d3",
+          "statement": "能识别复合函数的内外层",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "derivative.identify-composition-nonlinear"
+          ],
+          "structural_reason": "补原来只有过程的内外层识别目标；非线性内层仍保持同一复合识别族，不把层内系数变化当作独立性。",
+          "only_observed_action": "检验所选内外层能否还原完整复合函数"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_070",
+      "task_content_sha256": "9b6b8d382937d247b2107077fc1dd3ffd326309ed02f5620201cfd87b2a11549",
+      "family_id": "counting.leading-zero-restricted-enumeration",
+      "canonical_family_id": "counting.leading-zero-restricted-enumeration",
+      "prompt": "用0、1、2中两个不同数字组成两位整数。哪份列表无重复且完整？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "10，12，20，21，11，22。"
+        },
+        {
+          "id": "o2",
+          "text": "10，12，20，21。"
+        },
+        {
+          "id": "o3",
+          "text": "01，02，10，12，20，21。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "10，12，20，21。",
+      "mathematical_review": "十位只能1或2；十位1时个位0或2，十位2时个位0或1。首位0不是两位整数，重复数字也不允许。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_9f96aaa91c23448f9917",
+          "statement": "能列出简单的排列结果",
+          "original_objective_families": [
+            "counting.complete-ordered-enumeration"
+          ],
+          "current_objective_families": [
+            "counting.complete-ordered-enumeration",
+            "counting.leading-zero-restricted-enumeration"
+          ],
+          "structural_reason": "原族每个位置都可从相同非零数字集排列；本题首位与后位的可选集合不相同，必须处理位置性禁用而非统一乘积列表。",
+          "only_observed_action": "列举带首位限制的无重复排列"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_071",
+      "task_content_sha256": "5131fb5a3227415475ca23d94316cf993eded43f3e8b94635fbef27f44e8712e",
+      "family_id": "counting.adjacency-complement",
+      "canonical_family_id": "counting.adjacency-complement",
+      "prompt": "甲、乙、丙、丁、戊五人排一行，要求甲乙不相邻。共有多少种不同队列？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "96种。"
+        },
+        {
+          "id": "o2",
+          "text": "48种。"
+        },
+        {
+          "id": "o3",
+          "text": "72种。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "72种。",
+      "mathematical_review": "全排列120。甲乙相邻时视作一块，与另三人共4!种块序，块内2种，合48；不相邻120−48=72。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_649917b7292845c4ac8c",
+          "statement": "能处理带限制条件的排列问题",
+          "original_objective_families": [
+            "counting.forbidden-person-first-role"
+          ],
+          "current_objective_families": [
+            "counting.adjacency-complement",
+            "counting.forbidden-person-first-role"
+          ],
+          "structural_reason": "原限制某人不能担任第一角色，禁用只依赖单个位置；本题约束两人的相邻关系，须处理成块及块内顺序或等价插空结构。",
+          "only_observed_action": "处理两人相邻关系限制的排列计数"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_072",
+      "task_content_sha256": "6ce53fcb534c2eeb376f5428b462629c17df54a4124acab72e6b895cd4b29365",
+      "family_id": "counting.unordered-result-equivalence",
+      "canonical_family_id": "counting.unordered-result-equivalence",
+      "prompt": "从甲、乙、丙三人选两名地位相同的志愿者。记录中写“甲乙”和“乙甲”，应怎样处理？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "它们是同一个小组，组合计数中只算一次。"
+        },
+        {
+          "id": "o2",
+          "text": "它们是两个小组，因为书写顺序不同。"
+        },
+        {
+          "id": "o3",
+          "text": "它们都不允许，因为必须有不同职务。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "它们是同一个小组，组合计数中只算一次。",
+      "mathematical_review": "结果是被选人的无序集合，交换记录顺序不改变选择；任务没有额外角色，所以不能计成有序安排。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_1fcfc2d1f1ca4770a00c",
+          "statement": "能判断一个问题是否为组合问题",
+          "original_objective_families": [
+            "counting.combination-count"
+          ],
+          "current_objective_families": [
+            "counting.combination-count",
+            "counting.unordered-result-equivalence"
+          ],
+          "structural_reason": "原客观任务只计算组合数；本题直接检验两个记录是否代表同一个结果，以输出等价关系判断是否组合，不靠套值。",
+          "only_observed_action": "根据结果是否受顺序影响判断无序选择"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_073",
+      "task_content_sha256": "4697815eb8d8e5abdbf1d13a41e588f98fb570af0435a9bd42b26af59063f3ad",
+      "family_id": "counting.role-order-classification",
+      "canonical_family_id": "counting.role-order-classification",
+      "prompt": "同样从5人选出2人，方案甲只组成无职务小组，方案乙指定组长和记录员。关于交换被选两人的顺序，哪项正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "两方案都会产生新结果。"
+        },
+        {
+          "id": "o2",
+          "text": "甲不产生新结果，乙会改变职责安排。"
+        },
+        {
+          "id": "o3",
+          "text": "两方案都不产生新结果。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "甲不产生新结果，乙会改变职责安排。",
+      "mathematical_review": "无职务小组只保留成员集合；不同职务是可区分位置，交换人选改变结果。两者差别先在结果定义，不在人数。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_b6d38dfcda9941a0b072",
+          "statement": "能区分排列与组合",
+          "original_objective_families": [
+            "counting.permutation-combination-quotient"
+          ],
+          "current_objective_families": [
+            "counting.permutation-combination-quotient",
+            "counting.role-order-classification"
+          ],
+          "structural_reason": "原族用排列数与组合数的阶乘商关系求数值；本题要求从角色结构判断交换是否改变结果，是模型分类而非代入商公式。",
+          "only_observed_action": "用角色可区分性判断排列与组合"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_074",
+      "task_content_sha256": "0ef6b3eb31d1f4591bc1919f530ed38219d90f0f18e69a1810b484fbbf218a6b",
+      "family_id": "binomial.symmetry-index-constraint",
+      "canonical_family_id": "binomial.symmetry-index-constraint",
+      "prompt": "在(a+b)^8中，k与k+2是两个不同的指标，且C₈ᵏ=C₈ᵏ⁺²。合法整数k为多少？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "4。"
+        },
+        {
+          "id": "o2",
+          "text": "2。"
+        },
+        {
+          "id": "o3",
+          "text": "3。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "3。",
+      "mathematical_review": "系数列为1、8、28、56、70、56、28、8、1；相距2且相等的对应指标为3与5，关于4对称。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_23aece890a5a4ebfaa75",
+          "statement": "能说出二项式系数的对称性",
+          "original_objective_families": [
+            "binomial.coefficient-symmetry"
+          ],
+          "current_objective_families": [
+            "binomial.coefficient-symmetry",
+            "binomial.symmetry-index-constraint"
+          ],
+          "structural_reason": "原族正向识别C(n,r)=C(n,n−r)；此题由一对未知相等指标及间距反求其位置，须结合合法指标和对称中心。",
+          "only_observed_action": "根据对称系数的指标间距反求位置"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_075",
+      "task_content_sha256": "eea8dff1d9c9c4437c7030fff7865442d8e1e44c1cf195fb9f46a7834e0ac4ac",
+      "family_id": "probability.conditional-to-joint",
+      "canonical_family_id": "probability.conditional-to-joint",
+      "prompt": "P(A)=0.4，P(B|A)=0.5。哪项正确区分P(B|A)与P(A∩B)？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "条件概率为0.5，联合概率为0.2。"
+        },
+        {
+          "id": "o2",
+          "text": "两者都是0.5。"
+        },
+        {
+          "id": "o3",
+          "text": "条件概率为0.2，联合概率为0.5。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "条件概率为0.5，联合概率为0.2。",
+      "mathematical_review": "交事件概率P(A)P(B|A)=0.2；0.5的条件总体为A已发生的部分，0.2仍以原样本空间为基准。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_4148891dbdc74481842e",
+          "statement": "能区分 P(B|A) 与 P(AB)",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "probability.conditional-to-joint",
+            "probability.conditional-versus-joint-table"
+          ],
+          "structural_reason": "沿用原条件到联合结构，补原来只有作品的客观机会；与逆向由联合除条件不可混称同一个任务。",
+          "only_observed_action": "区分条件群体中的比例与原空间中的联合概率"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_076",
+      "task_content_sha256": "a054b5e5f3947aea1430fff25009ae844d105e4e48ab9a0402d454340e9ed94e",
+      "family_id": "probability.conditional-versus-joint-table",
+      "canonical_family_id": "probability.conditional-versus-joint-table",
+      "prompt": "完整卡组共20张，10张有A标记，其中6张同时有B标记。等可能抽1张。P(B|A)与P(A∩B)依次为多少？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "两者都为3/5。"
+        },
+        {
+          "id": "o2",
+          "text": "3/5与3/10。"
+        },
+        {
+          "id": "o3",
+          "text": "3/10与3/5。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "3/5与3/10。",
+      "mathematical_review": "条件A后共有10张可选，目标6张，得6/10；原空间20张中同时有两标记6张，得6/20。两种分母不能互换。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_4148891dbdc74481842e",
+          "statement": "能区分 P(B|A) 与 P(AB)",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "probability.conditional-to-joint",
+            "probability.conditional-versus-joint-table"
+          ],
+          "structural_reason": "相对已给边际与条件概率再乘得联合，本题从完整交叉频数重建两个不同分母的比例；有限总体计数与概率公式输入的结构不同。",
+          "only_observed_action": "从完整交叉频数区分条件比例和联合比例"
+        },
+        {
+          "skill_id": "sk_4158c3f2f26946d8a485",
+          "statement": "能由列联表读出条件比例",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "probability.conditional-versus-joint-table"
+          ],
+          "structural_reason": "相对已给边际与条件概率再乘得联合，本题从完整交叉频数重建两个不同分母的比例；有限总体计数与概率公式输入的结构不同。",
+          "only_observed_action": "从完整交叉频数区分条件比例和联合比例"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_077",
+      "task_content_sha256": "cf32546bfd295a7d7a4d3db97f9b456edf1e3a695a016b8ae42c030205fd5155",
+      "family_id": "probability.partition-by-first-success",
+      "canonical_family_id": "probability.partition-by-first-success",
+      "prompt": "按先后进行两次尝试，每次成败均可能。要把全部结果分成互斥且穷尽的类别，哪份划分正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "第一次成功；第二次成功；两次都失败。"
+        },
+        {
+          "id": "o2",
+          "text": "至少一次成功；恰好一次成功；两次都失败。"
+        },
+        {
+          "id": "o3",
+          "text": "第一次成功；第一次失败且第二次成功；两次都失败。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "第一次成功；第一次失败且第二次成功；两次都失败。",
+      "mathematical_review": "正确划分按首次成功的位置并补上全败；第一类含成成、成败，第二类败成，第三类败败。其他方案类别互有重叠。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_6d01878f129f4fde908d",
+          "statement": "能把问题分解为互斥情形",
+          "original_objective_families": [
+            "probability.exhaustive-disjoint-partition"
+          ],
+          "current_objective_families": [
+            "probability.exhaustive-disjoint-partition",
+            "probability.partition-by-first-success"
+          ],
+          "structural_reason": "原族按同时存在的两个标签取交与补完成划分；此题按事件发生的先后和首次成功建立停止位置分类，避免第二成功与第一成功重叠。",
+          "only_observed_action": "以首次发生的位置建立互斥且穷尽的情形"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_078",
+      "task_content_sha256": "2088faf9a9698f434c52dafb836e1caf84ea97b9a4d384f766326ef0280b9c2d",
+      "family_id": "probability.total-probability-inverse-weight",
+      "canonical_family_id": "probability.total-probability-inverse-weight",
+      "prompt": "先随机选袋A或B。A袋红球率0.6，B袋红球率0.1，抽球均在所选袋内等可能。已知最终红球概率为0.35，选A袋的概率是多少？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "0.5。"
+        },
+        {
+          "id": "o2",
+          "text": "0.35。"
+        },
+        {
+          "id": "o3",
+          "text": "0.25。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "0.5。",
+      "mathematical_review": "设选A权重w，完整两来源给0.6w+0.1(1−w)=0.35，解w=0.5；这是来源权重，不是给定抽红后的后验概率。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_e06d974a8e3a4ad38fca",
+          "statement": "能用全概率公式计算概率",
+          "original_objective_families": [
+            "probability.total-probability-two-strata"
+          ],
+          "current_objective_families": [
+            "probability.total-probability-inverse-weight",
+            "probability.total-probability-two-strata"
+          ],
+          "structural_reason": "原两层权重已给后正向求总概率；本题已给总体率，使用全概率的混合约束反求来源权重，且区别后验条件概率。",
+          "only_observed_action": "用全概率混合约束反求来源权重"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_079",
+      "task_content_sha256": "5f3adb96b3afa05eccbdd4b11b1887d0d4a13d80ed72821eb33c14a4fe2f3dc6",
+      "family_id": "probability.binomial-distribution-construction",
+      "canonical_family_id": "probability.binomial-distribution-construction",
+      "prompt": "独立掷两枚标记为甲、乙的公平硬币，X为正面数。完整分布列是哪项？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "X=1,2，对应概率1/2,1/2。"
+        },
+        {
+          "id": "o2",
+          "text": "X=0,1,2，对应概率1/4,1/2,1/4。"
+        },
+        {
+          "id": "o3",
+          "text": "X=0,1,2，对应概率1/3,1/3,1/3。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "X=0,1,2，对应概率1/4,1/2,1/4。",
+      "mathematical_review": "四个等可能有序结果反反、正反、反正、正正分别产生0、1、1、2；独立积空间中相同计数要合并。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_a8ffa3ed55b5426797d1",
+          "statement": "能写出离散型随机变量的分布列",
+          "original_objective_families": [
+            "probability.transformed-discrete-mass"
+          ],
+          "current_objective_families": [
+            "probability.binomial-distribution-construction",
+            "probability.transformed-discrete-mass"
+          ],
+          "structural_reason": "原由单个六面结果的函数映射合并取值；本题先构造两个独立试验的积空间，再汇总成功次数，需同时处理独立序列权重与合并。",
+          "only_observed_action": "从独立积空间汇总成功次数的完整分布"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_080",
+      "task_content_sha256": "67fe2303e84d29b2cb856670ffb05e57a0dbd177405f9b5238dc559982368807",
+      "family_id": "distribution.same-mean-stability",
+      "canonical_family_id": "distribution.same-mean-stability",
+      "prompt": "两种模型：甲的产量恒为10；乙的产量以各1/2概率取8或12。若只用方差描述波动，哪项正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "乙平均产量更高，所以更稳定。"
+        },
+        {
+          "id": "o2",
+          "text": "均值相同就说明稳定性相同。"
+        },
+        {
+          "id": "o3",
+          "text": "均值都为10，甲方差0、乙方差4，甲更稳定。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "均值都为10，甲方差0、乙方差4，甲更稳定。",
+      "mathematical_review": "乙均值(8+12)/2=10，离差平方期望(4+4)/2=4；甲恒定方差0。结论只针对给定模型中的波动，不保证综合优劣。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_7e8eab52beec456ea772",
+          "statement": "能比较两组数据的稳定性",
+          "original_objective_families": [
+            "statistics.comparable-sample-stability"
+          ],
+          "current_objective_families": [
+            "distribution.same-mean-stability",
+            "statistics.comparable-sample-stability"
+          ],
+          "structural_reason": "原族比较已观测有限样本的离差；此题比较完整概率分布与退化常量模型的理论方差，权重和结论对象不同。",
+          "only_observed_action": "在给定概率模型中比较相同均值下的波动"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_081",
+      "task_content_sha256": "b1c239022bb2fa2a3ae442ae9d8b04078fad4e1c2af704d001fad3f93d9a947e",
+      "family_id": "probability.stopping-time-support",
+      "canonical_family_id": "probability.stopping-time-support",
+      "prompt": "每次射击独立且命中率1/2，一直射到第一次命中为止，X记录总射击次数。能否直接把X当作固定n的二项分布？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "不能；试验次数由结果决定，X可取任意正整数。"
+        },
+        {
+          "id": "o2",
+          "text": "能；只要独立且概率相同就是二项分布。"
+        },
+        {
+          "id": "o3",
+          "text": "能；固定取n=1，因为最后只命中一次。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "不能；试验次数由结果决定，X可取任意正整数。",
+      "mathematical_review": "这里没有预先固定试验次数，X数的是停止时的总次数；任意正整数k都可由先失败k−1次再成功产生。二项变量数固定n次中的成功个数。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_c0fc3b83662d4af4a1c1",
+          "statement": "能判断一个问题是否服从二项分布",
+          "original_objective_families": [
+            "probability.binomial-mechanism-conditions"
+          ],
+          "current_objective_families": [
+            "probability.binomial-mechanism-conditions",
+            "probability.stopping-time-support"
+          ],
+          "structural_reason": "原检查固定轮数试验是否独立同率；本题机制是随机停止，变量支持及所计对象改变，不能仅凭独立同率套二项。",
+          "only_observed_action": "区分固定轮数成功计数与首次成功的停止次数"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_082",
+      "task_content_sha256": "9fe43a49287b8975f0a4283e68b2bec8104a81a2947606dfa827c417c0d83416",
+      "family_id": "probability.replacement-exceeds-inventory",
+      "canonical_family_id": "probability.replacement-exceeds-inventory",
+      "prompt": "袋中1红4白，摸球后放回并混匀，独立抽3次，X为红球次数。能否用总体5、红球1、样本3的不放回超几何模型？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "能；只要每次随机就与是否放回无关。"
+        },
+        {
+          "id": "o2",
+          "text": "不能；放回时X=2或3可能，不放回模型至多1红。"
+        },
+        {
+          "id": "o3",
+          "text": "能；袋里一直有5球，所以就是该超几何分布。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "不能；放回时X=2或3可能，不放回模型至多1红。",
+      "mathematical_review": "放回允许同一红球在不同轮重复入样，3次全红概率(1/5)³>0。固定库存的不放回三件样本不可能含2件红球，支持已不同。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_8d262d30779f45f6a0da",
+          "statement": "能判断超几何分布的适用场景",
+          "original_objective_families": [
+            "probability.hypergeometric-uniform-subsets"
+          ],
+          "current_objective_families": [
+            "probability.hypergeometric-uniform-subsets",
+            "probability.replacement-exceeds-inventory"
+          ],
+          "structural_reason": "原完整均匀子集机制检查等可能；此题通过重复入样改变可行取值支持来区分放回与固定库存抽样，不只是更换球数。",
+          "only_observed_action": "用可行成功次数检验超几何抽样机制是否适用"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_083",
+      "task_content_sha256": "58b747c9cfc5aa60e4335e49eac38eb7ca7fd3ffa234d2b67080e7bb2af94e47",
+      "family_id": "statistics.scatter-grouped-versus-pooled",
+      "canonical_family_id": "statistics.scatter-grouped-versus-pooled",
+      "prompt": "观察附图全部六个点，并保留图上的甲、乙组标签。哪项对样本方向的描述准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "全体总体下降，所以每组内部也一定下降。"
+        },
+        {
+          "id": "o2",
+          "text": "每组内部上升，所以全体总体也一定上升。"
+        },
+        {
+          "id": "o3",
+          "text": "全体点总体呈下降趋势，但甲组与乙组各自内部都呈上升趋势。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "全体点总体呈下降趋势，但甲组与乙组各自内部都呈上升趋势。",
+      "mathematical_review": "甲(1,8),(2,9),(3,10)，乙(7,1),(8,2),(9,3)。各组随x增大y增大；两组中心由左上到右下，全样本交叉离差和为−59，整体负向。样本方向取决于所比较的群体，不能推出因果。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_e555f456c0eb48baa7e4",
+          "statement": "能由散点图判断相关方向",
+          "original_objective_families": [
+            "statistics.scatter-direction"
+          ],
+          "current_objective_families": [
+            "statistics.scatter-direction",
+            "statistics.scatter-grouped-versus-pooled"
+          ],
+          "structural_reason": "原单组散点读取一个总体方向；此题在同一图中比较条件组内方向与合并方向，两种聚合层级可相反，不能把局部方向直接推广全体。",
+          "only_observed_action": "分别读取组内与合并样本的相关方向"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_084",
+      "task_content_sha256": "2ca9307a08fb878d393f1c9d4e8de274a3cc5d1bae972862cb1c30c91400f220",
+      "family_id": "statistics.finite-fit-versus-deterministic-law",
+      "canonical_family_id": "statistics.finite-fit-versus-deterministic-law",
+      "prompt": "四条观测(1,1)、(2,4)、(3,9)、(4,16)都落在y=x²上。单凭这四条记录，能否断言真实过程对所有x都确定地满足y=x²？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "不能；它是符合当前有限记录的函数候选，还需机制和新数据支持。"
+        },
+        {
+          "id": "o2",
+          "text": "能；四个点符合就证明所有输入唯一按此式输出。"
+        },
+        {
+          "id": "o3",
+          "text": "不能；任何有限数据都不允许提出函数候选。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "不能；它是符合当前有限记录的函数候选，还需机制和新数据支持。",
+      "mathematical_review": "有限样本可与多个函数及有噪声机制相容，例如加上经过四输入均为0的多项式项仍通过这四点。吻合样本不等于建立总体确定关系。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_f496530367f94e0290d0",
+          "statement": "能区分相关关系与函数关系",
+          "original_objective_families": [
+            "statistics.function-versus-statistical-association"
+          ],
+          "current_objective_families": [
+            "statistics.finite-fit-versus-deterministic-law",
+            "statistics.function-versus-statistical-association"
+          ],
+          "structural_reason": "原从明确数学公式与有波动现实关系作分类；本题仅有有限拟合资料，检验从样本完美吻合推到确定函数规律的证据越界。",
+          "only_observed_action": "区分样本拟合关系与已证实的确定函数机制"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_085",
+      "task_content_sha256": "e37d864a6a51ba715f82fe764fc9abc2053f037459de471ebf86a9df8312f955",
+      "family_id": "statistics.correlation-affine-transformation",
+      "canonical_family_id": "statistics.correlation-affine-transformation",
+      "prompt": "非退化成对样本相关系数r=0.6。只将y改记为y*=100−2y，x保持不变。新相关方向和线性强度怎样？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "r*仍0.6，因为所有单位变换都不改变符号。"
+        },
+        {
+          "id": "o2",
+          "text": "r*为−0.6，方向反转，绝对值表示的强度不变。"
+        },
+        {
+          "id": "o3",
+          "text": "r*为100−2×0.6=98.8。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "r*为−0.6，方向反转，绝对值表示的强度不变。",
+      "mathematical_review": "平移消失于中心化；y离差乘−2使交叉离差和变号，模归一化抵消系数大小，所以r*=−r。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_3b5da359f60940e7bcd5",
+          "statement": "能由 r 判断线性相关的强弱与方向",
+          "original_objective_families": [
+            "statistics.correlation-sign-and-domain"
+          ],
+          "current_objective_families": [
+            "statistics.correlation-affine-transformation",
+            "statistics.correlation-sign-and-domain"
+          ],
+          "structural_reason": "原直接读取给定r的符号绝对值；此题需追踪变量仿射变换怎样影响中心化和标准化，再解释方向与强度。",
+          "only_observed_action": "核对变量反向缩放后的相关系数含义"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_086",
+      "task_content_sha256": "ec529794a6ed9307a19dbed93eca8cc401b69f560c40612b0cfbc8398dee1be9",
+      "family_id": "statistics.zero-correlation-scale-dependence",
+      "canonical_family_id": "statistics.zero-correlation-scale-dependence",
+      "prompt": "四条样本为(−1,−1)、(−1,1)、(1,−2)、(1,2)。两变量均值为0，交叉离差和也为0。哪项解释准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "r=0证明y与x无任何关系。"
+        },
+        {
+          "id": "o2",
+          "text": "r未定义，因为交叉离差和为0。"
+        },
+        {
+          "id": "o3",
+          "text": "r=0，但y的绝对值随x分组而改变，不能说没有任何关系。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "r=0，但y的绝对值随x分组而改变，不能说没有任何关系。",
+      "mathematical_review": "Sxx=4、Syy=10均非零，故r=0；x=−1时|y|=1，x=1时|y|=2，条件波动不同。零线性相关不等于独立或没有关系。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_8687a185a2504af79177",
+          "statement": "能说明 r=0 不等于没有关系",
+          "original_objective_families": [
+            "statistics.zero-correlation-nonlinearity"
+          ],
+          "current_objective_families": [
+            "statistics.zero-correlation-nonlinearity",
+            "statistics.zero-correlation-scale-dependence"
+          ],
+          "structural_reason": "原U形反例表现为确定的非线性均值曲线；此题组内均值都为0而条件幅度不同，没有单值y=f(x)，仍可有依赖。",
+          "only_observed_action": "在零线性相关时识别条件波动的关系"
+        },
+        {
+          "skill_id": "sk_1b0f1ee692b348f18fa5",
+          "statement": "能根据样本相关系数和散点形状解释线性趋势，区分零线性相关与未定义的相关系数。",
+          "original_objective_families": [
+            "statistics.correlation-sign-and-domain"
+          ],
+          "current_objective_families": [
+            "statistics.correlation-sign-and-domain",
+            "statistics.zero-correlation-scale-dependence"
+          ],
+          "structural_reason": "原U形反例表现为确定的非线性均值曲线；此题组内均值都为0而条件幅度不同，没有单值y=f(x)，仍可有依赖。",
+          "only_observed_action": "在零线性相关时识别条件波动的关系"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_087",
+      "task_content_sha256": "acddaea61ccb160d5659711df91ce512efe7fbb68f0354d263cd116a37ecec52",
+      "family_id": "statistics.centred-regression-parameter-meaning",
+      "canonical_family_id": "statistics.centred-regression-parameter-meaning",
+      "prompt": "预测式ŷ=12+3(x−4)，x单位为小时，ŷ单位为件。哪项参数解释准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "12是x=4时的预测量；每增加1小时预测增加3件。"
+        },
+        {
+          "id": "o2",
+          "text": "12是x=0时的预测量；每小时增加4件。"
+        },
+        {
+          "id": "o3",
+          "text": "3是相关系数，12是均值的必然真实值。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "12是x=4时的预测量；每增加1小时预测增加3件。",
+      "mathematical_review": "模型以x=4为中心写成，代该输入得到12；斜率3件/小时。展开为3x，原坐标纵截距是0，不能直接把最外常数都叫截距。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_8c8e25c739d74665ae4e",
+          "statement": "能解释回归模型中各参数的意义",
+          "original_objective_families": [
+            "statistics.regression-parameter-interpretation"
+          ],
+          "current_objective_families": [
+            "statistics.centred-regression-parameter-meaning",
+            "statistics.regression-parameter-interpretation"
+          ],
+          "structural_reason": "原标准a+bx式直接读截距与斜率；此题采用中心化输入，常数对应参考输入而非x=0，须区分参数化方式。",
+          "only_observed_action": "解释以非零参考输入中心化的线性模型参数"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_088",
+      "task_content_sha256": "325a5ec91cf2f698e68e6212cf50f3e47d4f4febabc192139fe5a5c6887eb6bc",
+      "family_id": "statistics.constant-ols-loss-minimization",
+      "canonical_family_id": "statistics.constant-ols-loss-minimization",
+      "prompt": "用常数模型ŷ=c拟合观测y=1、2、6，c可为任意实数。按最小二乘原则应取哪个c？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "4。"
+        },
+        {
+          "id": "o2",
+          "text": "3。"
+        },
+        {
+          "id": "o3",
+          "text": "2。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "3。",
+      "mathematical_review": "平方损失(c−1)²+(c−2)²+(c−6)²=3(c−3)²+14，在c=3最小。c=2为中位数但不最小化这个平方损失。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_a0cc526f7d234633a3b3",
+          "statement": "能说明最小二乘的思想",
+          "original_objective_families": [
+            "statistics.least-squares-loss"
+          ],
+          "current_objective_families": [
+            "statistics.constant-ols-loss-minimization",
+            "statistics.least-squares-loss"
+          ],
+          "structural_reason": "原仅比较两个候选的已给残差平方和；此题在连续参数c中找全局最小损失，并区分平方损失与其他误差标准。",
+          "only_observed_action": "根据平方损失选择可变常数模型的最优参数"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_089",
+      "task_content_sha256": "bdd3afea752d5b765cba6a163c9b09180ca5ae6a3410454bd2ae6b07394c93ab",
+      "family_id": "statistics.ols-centre-underdetermines-slope",
+      "canonical_family_id": "statistics.ols-centre-underdetermines-slope",
+      "prompt": "某非退化x样本的含截距一元最小二乘线经过样本中心(0,5)，已知截距为5。只凭这些信息能唯一求斜率吗？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "能，斜率必为0。"
+        },
+        {
+          "id": "o2",
+          "text": "能，斜率必为5。"
+        },
+        {
+          "id": "o3",
+          "text": "不能；中心条件在此成为恒等条件，仍需交叉离差等资料。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "不能；中心条件在此成为恒等条件，仍需交叉离差等资料。",
+      "mathematical_review": "a+b x̄=ȳ变成5+b×0=5，对任何b成立。数据(−1,4),(1,6)斜率1，数据(−1,3),(1,7)斜率2，都满足同一中心截距。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_61417ef66936477cacbd",
+          "statement": "能利用回归直线过样本中心点求参数",
+          "original_objective_families": [
+            "statistics.ols-intercept-from-centre"
+          ],
+          "current_objective_families": [
+            "statistics.ols-centre-underdetermines-slope",
+            "statistics.ols-intercept-from-centre"
+          ],
+          "structural_reason": "原已给斜率由中心求截距；此题反向信息不足且中心横坐标为0，须识别单一中心关系何时不能唯一确定参数。",
+          "only_observed_action": "检验样本中心资料是否足以唯一确定拟合参数"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_090",
+      "task_content_sha256": "b9440da184ca1ef916c78a367011875e4706d569cd48bfc5eec454ca61f4127e",
+      "family_id": "statistics.two-way-from-individual-records",
+      "canonical_family_id": "statistics.two-way-from-individual-records",
+      "prompt": "六人记录依次为：甲组参加、甲组参加、甲组未参加、乙组参加、乙组未参加、乙组未参加。以组别为行、参加/未参加为列，内部频数是哪表？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "甲行2,1；乙行1,2。"
+        },
+        {
+          "id": "o2",
+          "text": "甲行3,3；乙行3,3。"
+        },
+        {
+          "id": "o3",
+          "text": "甲行2,2；乙行1,1。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "甲行2,1；乙行1,2。",
+      "mathematical_review": "逐人按两个分类共同归格：甲3人中参加2，乙3人中参加1；内部四格2+1+1+2=6，每人仅一格。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_9ef96c516a4143b99d00",
+          "statement": "能根据数据列出列联表",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "statistics.two-way-from-individual-records",
+            "statistics.two-way-reconstruct-from-margins"
+          ],
+          "structural_reason": "原目标只有自检表格构造；本题从逐人双标签记录汇总交叉频数，实际计数而非只给出表格用途。",
+          "only_observed_action": "将逐人双分类记录汇总成内部频数表"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_091",
+      "task_content_sha256": "acdcabab6589b15f71fc5ffa22a3c0e5dad85a982ac2e678b88412fc80569dc1",
+      "family_id": "statistics.two-way-reconstruct-from-margins",
+      "canonical_family_id": "statistics.two-way-reconstruct-from-margins",
+      "prompt": "甲组10人、乙组20人，共有12人参加；甲组中4人参加。按甲/乙两行、参加/未参加两列，哪份内部表满足全部资料？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "甲行4,6；乙行12,8。"
+        },
+        {
+          "id": "o2",
+          "text": "甲行4,6；乙行8,12。"
+        },
+        {
+          "id": "o3",
+          "text": "甲行4,10；乙行12,20。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "甲行4,6；乙行8,12。",
+      "mathematical_review": "甲未参加10−4=6，乙参加12−4=8，乙未参加20−8=12；四格和30，参加列和12。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_9ef96c516a4143b99d00",
+          "statement": "能根据数据列出列联表",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "statistics.two-way-from-individual-records",
+            "statistics.two-way-reconstruct-from-margins"
+          ],
+          "structural_reason": "与逐人标签汇总不同，本题由行列边际和一个内部格解出其他格，需要用相互一致的计数约束而非逐条分类。",
+          "only_observed_action": "从边际合计与已知格重建列联表"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_092",
+      "task_content_sha256": "d62a29266ff18bf31def08f977d44be8fa0fb0477a048f13f40cbe5255838ff4",
+      "family_id": "chi-square.zero-margin-boundary",
+      "canonical_family_id": "chi-square.zero-margin-boundary",
+      "prompt": "2×2观测表两行为(3,0)与(4,0)。直接套用各格(O−E)²/E的Pearson χ²公式时，哪项准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "所有偏差都为0，所以可以宣告总体独立。"
+        },
+        {
+          "id": "o2",
+          "text": "总人数为7，所以无须检查各格期望频数。"
+        },
+        {
+          "id": "o3",
+          "text": "第二列期望频数为0，出现零分母，不能直接把此表当作通常有效2×2检验。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "第二列期望频数为0，出现零分母，不能直接把此表当作通常有效2×2检验。",
+      "mathematical_review": "列合计为7和0，第二列各格独立期望均0。公式项为0/0而无定义，不能用0代替；数据实际未覆盖两个列类别。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_98d3db5b6c7944e6be9e",
+          "statement": "能计算 χ² 统计量",
+          "original_objective_families": [
+            "chi-square.expected-count-statistic"
+          ],
+          "current_objective_families": [
+            "chi-square.expected-count-statistic",
+            "chi-square.zero-margin-boundary"
+          ],
+          "structural_reason": "原所有边际为正的统计量计算；本题零边际使期望分母消失，需要先检查统计量是否有定义，而非机械计算后作推断。",
+          "only_observed_action": "计算卡方统计量前检查零边际与期望分母"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_093",
+      "task_content_sha256": "8c7b9f76090fe1f1d53a0fd25b79aec48d0d014d33a6d84bce8e980d7aebfc4e",
+      "family_id": "derivative.discontinuous-sign-counterexample",
+      "canonical_family_id": "derivative.discontinuous-sign-counterexample",
+      "prompt": "定义f(x)=x²（x≠0），f(0)=100。0两侧导数为2x，左负右正。0实际属于哪种情形？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "局部极大值点；附近非零x的函数值小于100。"
+        },
+        {
+          "id": "o2",
+          "text": "局部极小值点；只需导数负变正即可。"
+        },
+        {
+          "id": "o3",
+          "text": "既无极大也无极小；不可导点绝不可能有极值。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "局部极大值点；附近非零x的函数值小于100。",
+      "mathematical_review": "当0<|x|<1时，f(x)=x²<1<100=f(0)。中间不连续，所以不能用两侧导数符号忽略该点真实函数值。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_20f78e7d9cb348dc932a",
+          "statement": "能结合连续性、导数两侧符号或定义判断内点极值，不把所有导数零点都当作极值。",
+          "original_objective_families": [
+            "derivative.graph-vs-function-value"
+          ],
+          "current_objective_families": [
+            "derivative.discontinuous-sign-counterexample",
+            "derivative.graph-vs-function-value"
+          ],
+          "structural_reason": "原导函数图判定默认函数在转折处满足相应连续可导条件；本题保持两侧导数而改变该点值，构成符号规则适用条件的实质反例。",
+          "only_observed_action": "在不连续点用实际函数值检验极值"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_094",
+      "task_content_sha256": "65e09e407b917c4e750e6a9e64ebde39bec8c1fa96ea87a2e268f5b501af5c6f",
+      "family_id": "derivative.optimization-domain",
+      "canonical_family_id": "derivative.optimization-domain",
+      "prompt": "用24米绳子围一个四边均用绳的长方形，边长为正。设一边x，使用导数求最大面积。哪项模型与最大结果一致？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "A=x(12−x)，允许x=0的退化图形才有最大值。"
+        },
+        {
+          "id": "o2",
+          "text": "A=x(12−x)，0<x<12，x=6时最大36平方米。"
+        },
+        {
+          "id": "o3",
+          "text": "A=x(24−x)，0<x<24，x=12时最大144平方米。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "A=x(12−x)，0<x<12，x=6时最大36平方米。",
+      "mathematical_review": "周长约束给另一边12−x，正长度域0<x<12。导数12−2x在6左正右负，6在允许域内，得到全域最大36。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_b8bda29d848e45988796",
+          "statement": "能在给定闭区间或实际定义域内比较候选点与端点，区分局部极值和全局最值。",
+          "original_objective_families": [
+            "derivative.closed-interval-extrema"
+          ],
+          "current_objective_families": [
+            "derivative.closed-interval-extrema",
+            "derivative.optimization-domain"
+          ],
+          "structural_reason": "原闭区间题已给函数与候选驻点，只需比较数值；此题先从周长与正边长建立函数及开可行域，再用导数说明最值可达。",
+          "only_observed_action": "从实际约束建立可行域并判断最值可达"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_095",
+      "task_content_sha256": "9405c10f86f8a9e3b0d8b93ca3cd717c25b529bdca2fc147dbd1dc4c43cb3cfd",
+      "family_id": "probability.two-way-table-independence",
+      "canonical_family_id": "probability.two-way-table-independence",
+      "prompt": "从完整20张等可能卡中抽1张，四类为：A且B有6张，仅A有4张，仅B有6张，两者都无有4张。哪项是充分且准确的独立性依据？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "A与B标记名字不同，所以必独立。"
+        },
+        {
+          "id": "o2",
+          "text": "抽一张卡不可能产生独立事件。"
+        },
+        {
+          "id": "o3",
+          "text": "P(A)=1/2、P(B)=3/5，交为3/10，恰等于乘积，所以独立。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "P(A)=1/2、P(B)=3/5，交为3/10，恰等于乘积，所以独立。",
+      "mathematical_review": "完整卡组给精确联合概率：A10/20，B12/20，交6/20；乘积3/10与交相等。不是从抽样频率拟合后断言总体独立。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_7c30781f54d6415d9242",
+          "statement": "能从随机机制或给定联合分布判断独立性依据是否充分，不由边际概率或名称不同自行补出独立。",
+          "original_objective_families": [
+            "probability.coupled-mechanism"
+          ],
+          "current_objective_families": [
+            "probability.coupled-mechanism",
+            "probability.two-way-table-independence"
+          ],
+          "structural_reason": "原复制机制显式联动导致不独立；此题不依赖两次发生过程，而从完整有限联合表精确检验乘积条件。",
+          "only_observed_action": "依据完整联合表而非名称判断独立性资料是否充分"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_096",
+      "task_content_sha256": "b3e5a056f75df65c0ce0bfc267916705e8b4e8df5466a58fcd503163f44406d2",
+      "family_id": "statistics.no-intercept-r-squared-counterexample",
+      "canonical_family_id": "statistics.no-intercept-r-squared-counterexample",
+      "prompt": "两点(1,3)、(2,4)的样本r=1。强制过原点拟合ŷ=2.2x；明确用中心化R²=1−SSE/SST，SST=Σ(y−ȳ)²。R²是多少？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "−0.6。"
+        },
+        {
+          "id": "o2",
+          "text": "1。"
+        },
+        {
+          "id": "o3",
+          "text": "0.6。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "−0.6。",
+      "mathematical_review": "ȳ=3.5，SST=0.5；残差0.8、−0.4，SSE=0.8，故1−0.8/0.5=−0.6。未拟合截距时不能套用R²=r²；本题已明确所用中心化定义。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_0c69aba40d864b15a801",
+          "statement": "能在明确的含截距一元最小二乘条件下解释R²=r²，区分样本解释变异、残差比例与因果或预测准确率。",
+          "original_objective_families": [
+            "statistics.r-squared-interpretation"
+          ],
+          "current_objective_families": [
+            "statistics.no-intercept-r-squared-counterexample",
+            "statistics.r-squared-interpretation"
+          ],
+          "structural_reason": "原含截距一元OLS用R²=r²解释样本变异；本题强制过原点改变优化约束，须回到明确的平方和定义，恒等关系可失败。",
+          "only_observed_action": "在不满足含截距条件时按定义核对决定系数"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_097",
+      "task_content_sha256": "c1c1db42f115fa1fdc16816c6baf909597855e58d81874ac6d5e05a97a14535a",
+      "family_id": "statistics.observational-causality",
+      "canonical_family_id": "statistics.observational-causality",
+      "prompt": "某月度观察资料中气温、冰饮销量和游泳人数都上升。仅凭销量与人数相关，能否断定提高销量会使游泳人数增加？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "能；只要相关系数大于0.8就无需其他证据。"
+        },
+        {
+          "id": "o2",
+          "text": "不能；气温等共同因素及研究设计仍需考虑。"
+        },
+        {
+          "id": "o3",
+          "text": "能；任何正相关都证明单向因果。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "不能；气温等共同因素及研究设计仍需考虑。",
+      "mathematical_review": "共同变化与气温同时影响两者的机制相容。没有隔离混杂或干预等额外证据，相关本身不能确定改变销量的因果效果。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_36c4439e1ad34baa8fd2",
+          "statement": "能对基于观察数据的预测说明样本范围与关联证据的限制，指出外推或因果推断所需的额外依据。",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "statistics.extrapolation-boundary",
+            "statistics.observational-causality"
+          ],
+          "structural_reason": "为原过程目标补观察性关联的客观辨别机会；因果限制属于证据来源与混杂问题，和预测输入超出样本范围是不同结构。",
+          "only_observed_action": "限定观察性关联能支持的因果结论"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_098",
+      "task_content_sha256": "291511202e8d4b9b506595307a383c42d70fb4505276110fa23fb56185e2a185",
+      "family_id": "statistics.extrapolation-boundary",
+      "canonical_family_id": "statistics.extrapolation-boundary",
+      "prompt": "仅用0≤x≤10的观测拟合ŷ=2x+1。把x=100代入得201，对这个结果哪项说明准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "代入正确就保证x=100时实际值恰为201。"
+        },
+        {
+          "id": "o2",
+          "text": "范围外的公式值必须改为0。"
+        },
+        {
+          "id": "o3",
+          "text": "201是公式值，但远离观测范围，实际预测需额外证据。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "201是公式值，但远离观测范围，实际预测需额外证据。",
+      "mathematical_review": "数学表达式可代入100，得到201；真实机制是否保持、误差是否适用以及外推范围均未由原样本确认。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_36c4439e1ad34baa8fd2",
+          "statement": "能对基于观察数据的预测说明样本范围与关联证据的限制，指出外推或因果推断所需的额外依据。",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "statistics.extrapolation-boundary",
+            "statistics.observational-causality"
+          ],
+          "structural_reason": "相对于观察相关能否说明干预效果，本题即使接受原范围内拟合仍须检查远距离外推，限制来自输入范围和机制稳定性。",
+          "only_observed_action": "区分范围外代入值与有证据支持的预测"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_099",
+      "task_content_sha256": "069e4723fced43ae2c7029d7b1e8def9262adf2f09dcc1433616ad1e532b5b8b",
+      "family_id": "function.piecewise-boundary-composition",
+      "canonical_family_id": "function.piecewise-boundary-composition",
+      "prompt": "f(x)=3（x≤1），f(x)=x+1（x>1）。求f(f(1))，哪项准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "4。"
+        },
+        {
+          "id": "o2",
+          "text": "3。"
+        },
+        {
+          "id": "o3",
+          "text": "2。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "4。",
+      "mathematical_review": "内层输入1按含等号的第一段得3；外层完整输入为3>1，使用第二段得到4。若把等号错分到第二段，会得到另一个结果。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_c42672fcafca4ebd996e",
+          "statement": "能求分段函数在分界点处的函数值",
+          "original_objective_families": [
+            "function.piecewise-boundary"
+          ],
+          "current_objective_families": [
+            "function.piecewise-boundary",
+            "function.piecewise-boundary-composition"
+          ],
+          "structural_reason": "原直接给一个边界输入；此题外层输入由内层输出决定，必须在复合链的每次调用重新检验分段边界，而非把输入表达式整体套同一段。",
+          "only_observed_action": "逐层核对复合调用时分段边界的所属"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_100",
+      "task_content_sha256": "167ff290fe24fcd0d87d609c3c53dd55c98441828fe090589d1c3010d5355e61",
+      "family_id": "power.even-exponent-cross-sign-constraint",
+      "canonical_family_id": "power.even-exponent-cross-sign-constraint",
+      "prompt": "已知a<0<b且a+b>0。比较a⁴与b⁴，哪项必成立？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "a⁴=b⁴。"
+        },
+        {
+          "id": "o2",
+          "text": "a⁴<b⁴。"
+        },
+        {
+          "id": "o3",
+          "text": "a⁴>b⁴。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "a⁴<b⁴。",
+      "mathematical_review": "a+b>0给b>−a=|a|，且b=|b|；对非负量四次幂保序，a⁴=|a|⁴<b⁴。不能直接把a<b当作偶次幂在全实数域递增。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_8b0bc32d32ea4c6f8193",
+          "statement": "能比较同指数幂的大小",
+          "original_objective_families": [
+            "power.compare-on-interval"
+          ],
+          "current_objective_families": [
+            "power.compare-on-interval",
+            "power.even-exponent-cross-sign-constraint"
+          ],
+          "structural_reason": "原在单调区间比较同指数幂；此题底数跨零，须先由额外约束比较绝对值，再进入非负单调分支。",
+          "only_observed_action": "在底数跨零时根据约束比较偶次幂"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_101",
+      "task_content_sha256": "e4a8fb6f9dd2358ee7e7a207b04958a3dbb24fff356e1a6656a1cddf7dd4bc35",
+      "family_id": "exponential.base-region-from-order",
+      "canonical_family_id": "exponential.base-region-from-order",
+      "prompt": "a>0且a≠1，已知a²>a⁵。a的范围及a⁻¹与a的大小，哪项正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "a>1，且a⁻¹>a。"
+        },
+        {
+          "id": "o2",
+          "text": "0<a<1，且a⁻¹<a。"
+        },
+        {
+          "id": "o3",
+          "text": "0<a<1，且a⁻¹>a。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "0<a<1，且a⁻¹>a。",
+      "mathematical_review": "较小指数2反而给较大值，底数须在(0,1)；该范围同底指数递减，−1<1所以a⁻¹>a。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_61b5e35d22234e94834a",
+          "statement": "能比较同底指数幂的大小",
+          "original_objective_families": [
+            "exponential.same-base-order"
+          ],
+          "current_objective_families": [
+            "exponential.base-region-from-order",
+            "exponential.same-base-order"
+          ],
+          "structural_reason": "原已知底数的单调方向再比较指数；此题先由一个幂的不等关系反推底数分区，再把获得的方向用于新的指数比较。",
+          "only_observed_action": "由幂的排序确定底数区间并进行后续比较"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_102",
+      "task_content_sha256": "b59be225fcfca618ea41ce609ceeb4b21bd1f6733380ddd5151e903c83d5f49b",
+      "family_id": "root.bisection-exact-root-stop",
+      "canonical_family_id": "root.bisection-exact-root-stop",
+      "prompt": "对连续函数f(x)=x−1，在夹根区间[0,2]取中点1，算得f(1)=0。此时正确操作是哪项？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "已命中精确零点1，可停止；不必强行选择左右异号半区间。"
+        },
+        {
+          "id": "o2",
+          "text": "必须保留[1,2]，因为每轮都要固定舍左半。"
+        },
+        {
+          "id": "o3",
+          "text": "必须继续，因为二分法永远不可能得到精确根。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "已命中精确零点1，可停止；不必强行选择左右异号半区间。",
+      "mathematical_review": "二分流程先检查中点是否为零；命中即得到精确解。异号选择只用于中点非零时的分支，零不能当正号或负号。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_a9db63dfee9b490aa156",
+          "statement": "能按二分法步骤缩小区间",
+          "original_objective_families": [
+            "root.bisection-sign-selection"
+          ],
+          "current_objective_families": [
+            "root.bisection-exact-root-stop",
+            "root.bisection-sign-selection"
+          ],
+          "structural_reason": "原中点非零时由符号选择保留半区；此题进入精确命中的终止分支，所需流程动作不同于继续缩区间。",
+          "only_observed_action": "在二分流程命中零点时选择正确终止动作"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_103",
+      "task_content_sha256": "dd470949a1faaef752f6ddc8007dfb559062dc1312700df46a7a4491d5576d05",
+      "family_id": "trig.moving-interval-maximum",
+      "canonical_family_id": "trig.moving-interval-maximum",
+      "prompt": "0≤a≤π，研究sinx在[a,a+π/2]上的最大值M(a)。哪项正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "对所有a都有M=sin a。"
+        },
+        {
+          "id": "o2",
+          "text": "0≤a≤π/2时M=1；π/2<a≤π时M=sin a。"
+        },
+        {
+          "id": "o3",
+          "text": "对所有a都有M=1。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "0≤a≤π/2时M=1；π/2<a≤π时M=sin a。",
+      "mathematical_review": "当a≤π/2，区间包含峰值位置π/2；当a>π/2，区间落在[π/2,3π/2]的递减段，最大在左端。端点a=π/2两式一致。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_136a87651ba74e1bac48",
+          "statement": "能求给定区间上的最值",
+          "original_objective_families": [
+            "trig.restricted-interval-extremum"
+          ],
+          "current_objective_families": [
+            "trig.moving-interval-maximum",
+            "trig.restricted-interval-extremum"
+          ],
+          "structural_reason": "原在固定区间检查端点和峰值；此题区间随参数移动，须依据峰值进入或离开区间分段描述最值函数。",
+          "only_observed_action": "随区间端点变化检查三角函数峰值是否可取"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_104",
+      "task_content_sha256": "9b5d0d7b7b138556122536e9c22f5a6be73f7c3238565288d73f25ef0a7f93a1",
+      "family_id": "trig.tangent-odd-symmetry",
+      "canonical_family_id": "trig.tangent-odd-symmetry",
+      "prompt": "tanx的定义域D为所有x≠π/2+kπ（k为整数）。关于奇偶性哪项准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "函数不在全部实数上有定义，所以不可能为奇函数。"
+        },
+        {
+          "id": "o2",
+          "text": "tan在每个连续分支递增，所以必为偶函数。"
+        },
+        {
+          "id": "o3",
+          "text": "D关于0对称，且tan(−x)=−tanx，所以tan在D上为奇函数。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "D关于0对称，且tan(−x)=−tanx，所以tan在D上为奇函数。",
+      "mathematical_review": "排除点的相反数仍是排除点；允许点成对。正弦奇、余弦偶且分母非零给tan(−x)=−tanx。单调性不能代替奇偶判据。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_96b49a45d6094ce5b21b",
+          "statement": "能判断其单调性与奇偶性",
+          "original_objective_families": [
+            "trig.tangent-branch-monotonicity"
+          ],
+          "current_objective_families": [
+            "trig.tangent-branch-monotonicity",
+            "trig.tangent-odd-symmetry"
+          ],
+          "structural_reason": "原客观族只观察同一正切分支的单调顺序；此题检验全定义域的对称配对和奇性恒等式，是该复合目标的另一数学行为。",
+          "only_observed_action": "同时检查正切定义域对称性和奇性等式"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_105",
+      "task_content_sha256": "42833aa8d3b2e72254b937ef6881cf2e2c7028e90a03890a988ab24de853e2bf",
+      "family_id": "trig.sine-difference-exact-value",
+      "canonical_family_id": "trig.sine-difference-exact-value",
+      "prompt": "用差角公式求sin15°的精确值，哪项正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "(√6−√2)/4"
+        },
+        {
+          "id": "o2",
+          "text": "(√6+√2)/4"
+        },
+        {
+          "id": "o3",
+          "text": "(√6−√2)/2"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "(√6−√2)/4",
+      "mathematical_review": "15°=45°−30°；sin差角交叉配对为sin45°cos30°−cos45°sin30°，得(√6−√2)/4。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_5a5b88bbcd624ef9bf85",
+          "statement": "能用公式求非特殊角的三角函数值",
+          "original_objective_families": [
+            "trig.cosine-difference-formula"
+          ],
+          "current_objective_families": [
+            "trig.cosine-difference-formula",
+            "trig.sine-difference-exact-value"
+          ],
+          "structural_reason": "原余弦差角族配对余弦乘积与正弦乘积且为加号；此题正弦差角是交叉配对并作差，公式结构不同，非只改角度数值。",
+          "only_observed_action": "按正弦差角公式保持交叉配对与符号求精确值"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_106",
+      "task_content_sha256": "9ea0630c0a4bf42c91d34d12741fe356a3e2b9c4f5decd7dc5edd0983e8070cc",
+      "family_id": "trig.circular-height-piecewise-phase",
+      "canonical_family_id": "trig.circular-height-piecewise-phase",
+      "prompt": "圆心高10米、半径2米，座舱从最高点出发沿同一方向转动。前5秒匀速转半圈，接着10秒匀速转另半圈。只研究0≤t≤15。哪份模型准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "h=10+2cosθ，其中第二段仍用θ=π(t−5)/10，从角0重新开始。"
+        },
+        {
+          "id": "o2",
+          "text": "h=10+2cosθ，其中0≤t≤5时θ=πt/5；5<t≤15时θ=π+π(t−5)/10。"
+        },
+        {
+          "id": "o3",
+          "text": "h=10+2cos(2πt/15)，整个时段角速度都相同。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "h=10+2cosθ，其中0≤t≤5时θ=πt/5；5<t≤15时θ=π+π(t−5)/10。",
+      "mathematical_review": "前段角速π/5，后段π/10，第二段应接续已转的π；在t=5两段均给角π、最低高度8。总一圈15秒不意味着全程匀角速。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_3a0c4e5fc9c847d5b55b",
+          "statement": "能把圆周运动抽象为三角函数模型",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "trig.circular-height-model",
+            "trig.circular-height-piecewise-phase"
+          ],
+          "structural_reason": "原匀速圆周用单个线性相位；本题速度分段变化且相位须连续接续，周期总长不足以确定一个固定角频率公式。",
+          "only_observed_action": "根据分段角速度建立连续接续的圆周高度模型"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_107",
+      "task_content_sha256": "7292015e210840b2dfc32782fca6fbf99532babfafb8e872e650be6c78054635",
+      "family_id": "trig.reflection-shift-order",
+      "canonical_family_id": "trig.reflection-shift-order",
+      "prompt": "从y=sinx出发，哪组按顺序的图像操作得到y=sin(π/3−x)？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "先向右平移π/3，再关于y轴反射。"
+        },
+        {
+          "id": "o2",
+          "text": "先关于x轴反射，再向左平移π/3。"
+        },
+        {
+          "id": "o3",
+          "text": "先关于y轴反射，再向右平移π/3。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "先关于y轴反射，再向右平移π/3。",
+      "mathematical_review": "关于y轴反射给sin(−x)，向右平移a须以x−a代x，得sin(−(x−a))=sin(a−x)。另两路得到sin(−x−a)，一般不同。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_2516e04e5fc3447e9b99",
+          "statement": "能描述图象变换的顺序",
+          "original_objective_families": [
+            "trig.horizontal-scale-shift-order"
+          ],
+          "current_objective_families": [
+            "trig.horizontal-scale-shift-order",
+            "trig.reflection-shift-order"
+          ],
+          "structural_reason": "原正比例水平压缩与平移次序；本题包含方向反射，输入符号翻转使平移方向随组合次序改变，需要代数核验非交换性。",
+          "only_observed_action": "核对反射与平移的先后如何改变函数输入"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_108",
+      "task_content_sha256": "b0b519d62ace20bbb34a43057a978b3a4c4594c46a79b681ebb2726510bc3785",
+      "family_id": "complex.reciprocal-polar-geometry",
+      "canonical_family_id": "complex.reciprocal-polar-geometry",
+      "prompt": "对任意非零复数z=r(cosθ+i sinθ)，其中r>0，取倒数1/z。哪项同时给出模和一个辐角？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "模为1/r，辐角可取−θ。"
+        },
+        {
+          "id": "o2",
+          "text": "模仍r，辐角仍θ。"
+        },
+        {
+          "id": "o3",
+          "text": "模为−r，辐角为θ+180°。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "模为1/r，辐角可取−θ。",
+      "mathematical_review": "倒数需与原数相乘得1，因此模乘积为1、角和为整周；1/z=(1/r)(cos(−θ)+i sin(−θ))。缩放比例依赖原模，不是固定倍数伸缩。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_7314d7f8b62c40e990b9",
+          "statement": "能说明乘除运算的几何意义",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "complex.multiply-rotation-scale",
+            "complex.reciprocal-polar-geometry"
+          ],
+          "structural_reason": "原乘以一个固定复数是统一旋转伸缩；本题对每个输入取倒数，半径反演且角反向，变换依赖输入r并排除原点。",
+          "only_observed_action": "解释非零复数取倒数的模与方向变换"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_109",
+      "task_content_sha256": "9dfebe4225eb2a5ce847db771b70aa6ec5c1478045835de5dc03d39095997d61",
+      "family_id": "sequence.arithmetic-sum-from-prefixes",
+      "canonical_family_id": "sequence.arithmetic-sum-from-prefixes",
+      "prompt": "某等差数列前2项和S₂=8，前4项和S₄=24。求前6项和S₆，哪项正确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "36。"
+        },
+        {
+          "id": "o2",
+          "text": "48。"
+        },
+        {
+          "id": "o3",
+          "text": "40。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "48。",
+      "mathematical_review": "设首项a、公差d，2a+d=8，4a+6d=24，解d=2、a=3；S₆=6a+15d=48。已知的是前缀和，不能当作第2、4项。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_a2c040e33e3443789aad",
+          "statement": "能用求和公式计算前 n 项和",
+          "original_objective_families": [
+            "sequence.arithmetic-sum"
+          ],
+          "current_objective_families": [
+            "sequence.arithmetic-sum",
+            "sequence.arithmetic-sum-from-prefixes"
+          ],
+          "structural_reason": "原首项、公差或末项已给，直接求前n项和；本题由两个前缀和建立线性约束恢复数列，再计算另一个前缀和。",
+          "only_observed_action": "从已知前缀和恢复等差关系并计算新的和"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_110",
+      "task_content_sha256": "c40a0514b7af431e9e125ce2c4b9bc9e229e6fbdf9337bf2320ea837a0cd532b",
+      "family_id": "derivative.average-rate-concatenation",
+      "canonical_family_id": "derivative.average-rate-concatenation",
+      "prompt": "同一个函数f在[0,2]的平均变化率为3，在[2,3]的平均变化率为9。f在[0,3]的平均变化率是多少？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "6。"
+        },
+        {
+          "id": "o2",
+          "text": "12。"
+        },
+        {
+          "id": "o3",
+          "text": "5。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "5。",
+      "mathematical_review": "前段函数值增加2×3=6，后段增加1×9=9，合计变化15；全区间长度3，平均变化率15/3=5。不同长度区间的变化率不能直接平均。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_aa6bd32ade9f4096845f",
+          "statement": "能计算函数在区间上的平均变化率",
+          "original_objective_families": [
+            "derivative.average-change-rate"
+          ],
+          "current_objective_families": [
+            "derivative.average-change-rate",
+            "derivative.average-rate-concatenation"
+          ],
+          "structural_reason": "原由函数公式代两端值再作差商；本题仅给相邻子区间变化率，须按各区间长度还原变化量并汇总，是差商的拼接结构。",
+          "only_observed_action": "按子区间长度合成整个区间的平均变化率"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_111",
+      "task_content_sha256": "0bf5a6a9535d9c39ae26519ce6ea804210cc807c4af6434f19781c9407bb0bcf",
+      "family_id": "function.monotonicity-disconnected-counterexample",
+      "canonical_family_id": "function.monotonicity-disconnected-counterexample",
+      "prompt": "f(x)=1/x，定义域为全体非零实数。有人说“x增大时函数一定减小，所以在整个定义域严格递减”。用定义核对，哪项准确？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "错误；−1<1但f(−1)<f(1)，不满足整个定义域严格递减的比较要求。"
+        },
+        {
+          "id": "o2",
+          "text": "正确；只需看两个输入都为正的情形。"
+        },
+        {
+          "id": "o3",
+          "text": "正确；只需取一对函数值下降的点。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "错误；−1<1但f(−1)<f(1)，不满足整个定义域严格递减的比较要求。",
+      "mathematical_review": "严格递减要求对定义域中任意a<b都有f(a)>f(b)。跨0的允许点对给相反顺序，足以否定全域结论；两半轴可分别递减。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_f84b5c6476024be99dd0",
+          "statement": "能用定义判断简单函数的单调性",
+          "original_objective_families": [
+            "function.monotonicity-definition"
+          ],
+          "current_objective_families": [
+            "function.monotonicity-definition",
+            "function.monotonicity-disconnected-counterexample"
+          ],
+          "structural_reason": "原任务用通式差值证明一个连续区间的全称顺序；此题定义域断开，需要在全称比较中找跨段反例，局部成立不能代替全域。",
+          "only_observed_action": "用定义域中的反例检验整体单调声称"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_112",
+      "task_content_sha256": "7269a4e4720f5713c563721a1ca5119cd447e97b8d126b03e4c6a9b42ab93caa",
+      "family_id": "sampling.overlapping-groups-not-strata",
+      "canonical_family_id": "sampling.overlapping-groups-not-strata",
+      "prompt": "调查全校学生，拟把“男生”和“足球社成员”当作两个层，并各随机抽取。仅这个分组能构成覆盖全校的分层抽样吗？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "能；每组内部随机就补足了覆盖与互斥条件。"
+        },
+        {
+          "id": "o2",
+          "text": "不能保证；两组可能重叠且遗漏既非男生又非社员的人。"
+        },
+        {
+          "id": "o3",
+          "text": "能；只要组名不同就是两个互斥层。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "不能保证；两组可能重叠且遗漏既非男生又非社员的人。",
+      "mathematical_review": "男社员同时属于两组，非男且非社员不属于任一组；分层需把总体划成互斥且穷尽的类别，层内随机不能修复错误分组。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_f08e0d90834f4add9ab0",
+          "statement": "能判断何时应使用分层抽样",
+          "original_objective_families": [
+            "sampling.stratification-choice"
+          ],
+          "current_objective_families": [
+            "sampling.overlapping-groups-not-strata",
+            "sampling.stratification-choice"
+          ],
+          "structural_reason": "原判断分层变量与调查指标的关联及层间差异；此题先检验分组是否构成总体的分割，涉及重叠和遗漏的集合结构。",
+          "only_observed_action": "检验候选分层是否互斥且覆盖总体"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_113",
+      "task_content_sha256": "9f6c3b36ab108390368884c9fa035960cb87f9d4fdfdbf3b8d42eabbe7ff584a",
+      "family_id": "statistics.percentile-ties-interpretation",
+      "canonical_family_id": "statistics.percentile-ties-interpretation",
+      "prompt": "四个观测均为80。按本课“整数位置取相邻两项平均”的约定，第75百分位数为80。严格低于80的观测占多少，能否据分位名认定恰好75%严格低于它？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "严格低于比例必为75%。"
+        },
+        {
+          "id": "o2",
+          "text": "分位数存在并列时就没有定义。"
+        },
+        {
+          "id": "o3",
+          "text": "严格低于比例为0，不能作恰好75%的断言。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "严格低于比例为0，不能作恰好75%的断言。",
+      "mathematical_review": "排序后四项相等；第75百分位位置3，第三、四项平均仍80，但无观测严格小于80。累计位置与严格不等的实际人数不同。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_c24a3ac238024e02966c",
+          "statement": "能说明百分位数的含义",
+          "original_objective_families": [
+            "statistics.percentile-order-properties"
+          ],
+          "current_objective_families": [
+            "statistics.percentile-order-properties",
+            "statistics.percentile-ties-interpretation"
+          ],
+          "structural_reason": "原比较不同百分位的有序关系和极值界；此题给全部并列数据，需区分分位位置算法与严格低于比例，体现并列边界。",
+          "only_observed_action": "在并列观测中解释百分位与严格比较比例的区别"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_114",
+      "task_content_sha256": "a541a7caef26d7249b00fbae1c80bf4078b296bf679d6794fa43c50d69d5be95",
+      "family_id": "trig.one-ratio-sign-ambiguity",
+      "canonical_family_id": "trig.one-ratio-sign-ambiguity",
+      "prompt": "已知sinα=3/5，没有给α的象限。下列哪项完整列出(cosα,tanα)的可能组合？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "(4/5,3/4)或(−4/5,−3/4)。"
+        },
+        {
+          "id": "o2",
+          "text": "只有(4/5,3/4)。"
+        },
+        {
+          "id": "o3",
+          "text": "cosα与tanα的正负可以独立选择，共四种。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "(4/5,3/4)或(−4/5,−3/4)。",
+      "mathematical_review": "平方关系给cosα=±4/5；sin为正，tan=sin/cos使其符号与cos相同，两个符号成对。缺少象限时不能只取主平方根。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_892b50ab597d46d5b27f",
+          "statement": "能由一个三角函数值求其余两个",
+          "original_objective_families": [
+            "trig.one-ratio-with-quadrant"
+          ],
+          "current_objective_families": [
+            "trig.one-ratio-sign-ambiguity",
+            "trig.one-ratio-with-quadrant"
+          ],
+          "structural_reason": "原一个比值加象限可唯一确定符号；本题缺少象限，必须保留两组相互配合的可能解并辨别信息不足，而非生成单一数值。",
+          "only_observed_action": "在未给象限时保留三角比的全部合法符号组合"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_115",
+      "task_content_sha256": "b87695b27697bf8132ee75029f14848026db39e7fa0348e6e7efb8f82e489160",
+      "family_id": "trig.half-turn-reflection-identities",
+      "canonical_family_id": "trig.half-turn-reflection-identities",
+      "prompt": "对任意实数α，sin(π−α)和cos(π−α)依次等于什么？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "cosα与sinα。"
+        },
+        {
+          "id": "o2",
+          "text": "sinα与−cosα。"
+        },
+        {
+          "id": "o3",
+          "text": "−sinα与−cosα。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "sinα与−cosα。",
+      "mathematical_review": "单位圆上两终边点关于y轴对称，纵坐标不变、横坐标反号；因此正弦保留，余弦变号。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_86d33a9fbd6d4f699c89",
+          "statement": "能选择正确的诱导公式化简",
+          "original_objective_families": [
+            "trig.cofunction-identity"
+          ],
+          "current_objective_families": [
+            "trig.cofunction-identity",
+            "trig.half-turn-reflection-identities"
+          ],
+          "structural_reason": "原余函数族把正余弦角色交换；此题对应关于y轴的反射，函数种类保留但横纵坐标符号变化不同，不能沿用互换规则。",
+          "only_observed_action": "根据单位圆反射关系选择保持函数种类的诱导公式"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_116",
+      "task_content_sha256": "f252a664158506d4f8ca0a2bfb9bc04a32a4211bed325964b71851bf581ea524",
+      "family_id": "solid.cone.surface-versus-volume",
+      "canonical_family_id": "solid.cone.surface-versus-volume",
+      "prompt": "一个封闭直圆锥底半径3厘米、垂直高4厘米、母线长5厘米。总表面积与体积依次是哪组？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "15π平方厘米与12π立方厘米。"
+        },
+        {
+          "id": "o2",
+          "text": "24π立方厘米与12π平方厘米。"
+        },
+        {
+          "id": "o3",
+          "text": "24π平方厘米与12π立方厘米。"
+        }
+      ],
+      "answer": "o3",
+      "correct_choice_text": "24π平方厘米与12π立方厘米。",
+      "mathematical_review": "总表面积为底面积9π加侧面积15π，合24π；体积为(1/3)×9π×4=12π。母线用于侧面，高用于体积，量纲不同。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_6e27195d06db4d5c8781",
+          "statement": "能区分表面积与体积的公式",
+          "original_objective_families": [
+            "solid.area-volume-scaling"
+          ],
+          "current_objective_families": [
+            "solid.area-volume-scaling",
+            "solid.cone.surface-versus-volume"
+          ],
+          "structural_reason": "原族只按整体缩放比较面积与体积倍率；此题需要辨认边界由哪些面构成，并分别使用母线和垂直高计算两个不同量。",
+          "only_observed_action": "在封闭圆锥中区分表面积组成与体积公式"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_117",
+      "task_content_sha256": "2339b58d1d5d2652cc3169af8a874973461197275cdf84e76a4a8d28a59876ca",
+      "family_id": "sampling.random-digits-without-replacement",
+      "canonical_family_id": "sampling.random-digits-without-replacement",
+      "prompt": "编号01至12，按给定规则依次读随机数对，范围外或重复均舍弃，选满4人立即停止。记录05、14、05、00、12、03、09、07，正确入选名单是哪组？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "05、12、03、09。"
+        },
+        {
+          "id": "o2",
+          "text": "05、05、12、03。"
+        },
+        {
+          "id": "o3",
+          "text": "05、12、03、09、07。"
+        }
+      ],
+      "answer": "o1",
+      "correct_choice_text": "05、12、03、09。",
+      "mathematical_review": "14和00超范围，第二个05重复，均舍弃；到09时已有4个不同有效编号，因此07不再进入样本。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_7e0cb87742074b189ad1",
+          "statement": "能用随机数法抽取样本",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "sampling.random-digits-without-replacement",
+            "sampling.random-priority-order"
+          ],
+          "structural_reason": "沿用原随机数顺序筛选结构，补实际流程的客观核对；再次出现同样记录也不算未见结构。",
+          "only_observed_action": "执行带越界、重复和停止规则的随机数抽样"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    },
+    {
+      "task_id": "v8s_objective_118",
+      "task_content_sha256": "8c7f0b5f53f30919ce26097f27d23118575d21846abad7e3c804477cfab8d5ff",
+      "family_id": "sampling.random-priority-order",
+      "canonical_family_id": "sampling.random-priority-order",
+      "prompt": "另一随机数抽样方案先独立地给每人生成同分布连续随机优先数，取数值最小的2人；本次无并列。甲0.7、乙0.2、丙0.9、丁0.1。应选谁？",
+      "all_choices": [
+        {
+          "id": "o1",
+          "text": "甲、丙，因为优先数较大。"
+        },
+        {
+          "id": "o2",
+          "text": "乙、丁。"
+        },
+        {
+          "id": "o3",
+          "text": "甲、乙，因为先看到他们。"
+        }
+      ],
+      "answer": "o2",
+      "correct_choice_text": "乙、丁。",
+      "mathematical_review": "排序丁0.1、乙0.2、甲0.7、丙0.9，取前两人。各人使用同一独立连续机制使次序交换对称；本题只核对这次执行，不以一次名单证明随机源。",
+      "target_reviews": [
+        {
+          "skill_id": "sk_7e0cb87742074b189ad1",
+          "statement": "能用随机数法抽取样本",
+          "original_objective_families": [],
+          "current_objective_families": [
+            "sampling.random-digits-without-replacement",
+            "sampling.random-priority-order"
+          ],
+          "structural_reason": "原方法从编号流逐次筛除重复和越界；此法给所有个体同机制优先数后整体排序，无放回由取不同个体的前两位实现，算法结构不同。",
+          "only_observed_action": "按预先给定的随机优先数排序规则抽样"
+        }
+      ],
+      "observation_boundary": "只记录本题选择结果；未提交的计算过程、作图、证明和模型执行不由选对推定。帮助记录与稍后观察分别保留，不自动完成父目标。",
+      "ai_authored_and_self_reviewed": true,
+      "independent_teacher_review": false,
+      "actual_student_response_or_effectiveness": false
+    }
+  ]
+}

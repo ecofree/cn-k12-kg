@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "review_kind": "ai_delivery_documentation_boundary_review",
+  "reviewer": {
+    "type": "ai",
+    "agent": "/root/v4_profile_recovery",
+    "independent_from_document_author": false,
+    "note": "文档修订者逐项对照实际实现进行 AI 自查；不代表独立教师审核或真实学生效果验证。"
+  },
+  "reviewed_at": "2026-10-26T16:07:07.407292+00:00",
+  "base_commit": "dda16826ea8fc2c2860a54a6bf358167c4604c4c",
+  "status": "documentation_boundary_clarified_pending_final_fixed_version_acceptance",
+  "scope": "仅澄清源码 ZIP 的构建运行/无 Git 检查，与需要真实基线历史的固定版本语义及发行验收的区别；未修改产品或测试。",
+  "method": [
+    "实际读取 README 与 release-workflow 的运行、交付包和验收段落，再对照构建命令选择、发布清单的无 Git 路径、语义审查的 Git 读取和正式打包条件。",
+    "实际阅读两份文档的最终 git diff，检查命令、分支名、链接及限制说明，没有执行构建、测试、浏览器、验收或打包。",
+    "给每个修改文件记录原始字节 SHA-256、具体语义检查及对应发现；当前冻结提交以后的正式结果由根任务重新验收。"
+  ],
+  "implementation_sources": [
+    {
+      "path": "tools/build_project.py",
+      "sha256": "8108a3ed24ffca561fde144fd842014550f5833dcba76cd37ecc5f413d3a85d0",
+      "functions_read": [
+        "commands",
+        "run_steps"
+      ]
+    },
+    {
+      "path": "tools/release_manifest.py",
+      "sha256": "032a00a5fcc905e5ce399d6fd4677803754ca5eb445e8dfa3d6aad5eead6c2c7",
+      "functions_read": [
+        "is_repository_root",
+        "source_paths",
+        "_portable_paths"
+      ]
+    },
+    {
+      "path": "tools/release_check.py",
+      "sha256": "f968532cb9e50c34055c4df11ae537323797e6af9c5a8d79d4b641fe5a720250",
+      "functions_read": [
+        "CHECKS",
+        "main"
+      ]
+    },
+    {
+      "path": "tools/check_change_review.py",
+      "sha256": "855e072283271bf5cb2f96f326ec1297ae329bbd8f5ba1def770717487cf5910",
+      "functions_read": [
+        "main"
+      ]
+    },
+    {
+      "path": "cnkg/change_review.py",
+      "sha256": "2fa6e27bb984925542b208f65f5da899ee89721fb2152cba89286a60f69e396f",
+      "functions_read": [
+        "_git",
+        "review_changes"
+      ]
+    },
+    {
+      "path": "tools/verification_context.py",
+      "sha256": "a21944cf8dc7ab3d9ca89a404380ffb48a7da8efef7651bfd994edd9db655dab",
+      "functions_read": [
+        "capture"
+      ]
+    },
+    {
+      "path": "tools/package_release.py",
+      "sha256": "526beb09c43652d2bfd683de29b1782517a0483ac8d9cba86f1a75863bd90773",
+      "functions_read": [
+        "identity",
+        "collect_evidence",
+        "verify_bundle_restore"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "DELIVERY-DOCS-01",
+      "status": "clarified",
+      "severity": "documentation_boundary",
+      "paths": [
+        "README.md",
+        "docs/release-workflow.md"
+      ],
+      "finding": "源码 ZIP 可构建和运行，但不含真实 Git 基线；通用验收命令包含 Git 基线审查，必须明确使用条件。"
+    }
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "ad6f2d633f57da7df01672790ba97283accbedd78c6b1522adfc224017206e31",
+      "semantic_checks": [
+        "核对“先运行”的安装、build_project --write 和 web/server.py 命令保持原样；源码 ZIP 的本地构建与运行入口未改变。",
+        "核对新增说明将 build_project --check 等不依赖 Git 历史的检查，与完整固定版本验收明确区分；release_check 的语义审查实际需要真实基线提交。",
+        "核对完整验收命令前已要求保留真实基线历史的 Git 仓库，并链接到 bundle 克隆说明，未将解压 ZIP 描述为具备 Git 历史。",
+        "核对没有新增通过声明：此处只说明怎样运行，未将当前文档修改后的正式验收写为已通过，也未声称教师审核或学生效果验证。"
+      ],
+      "findings": [
+        {
+          "id": "DELIVERY-DOCS-01",
+          "status": "clarified",
+          "finding": "原 README 在通用启动说明后直接列完整 release_check 命令，未向源码 ZIP 使用者说明 Git 基线要求。",
+          "resolution": "在命令前明确源码 ZIP 可构建运行和做无 Git 历史检查；完整固定版本验收须使用保留基线历史的仓库，并指向 bundle 克隆步骤。"
+        }
+      ]
+    },
+    {
+      "path": "docs/release-workflow.md",
+      "sha256": "711862dc9a1b482673e8fff04205755253895fe24a1f1748d8e5efe4c4cf5c81",
+      "semantic_checks": [
+        "核对工具 build_project.commands：write/check 的资源构建与检查路径不包含 check_change_review；release 模式才调用 release_check。保留 ZIP 的构建运行和 build_project --check 说明。",
+        "核对 release_manifest.is_repository_root/source_paths：没有自身 .git 时独立扫描可发布文件，不借用父仓库身份；原发布清单说明保留。",
+        "核对 release_check.CHECKS 包含 tools/check_change_review.py；该入口调用 change_review.review_changes，以 git rev-parse/git diff/git show 读取 current.json 的真实基线。文档现明确 release_check 的两种模式均需要这些历史。",
+        "核对 bundle 克隆命令的分支 codex/cnkg-quality-v4 与当前分支一致；保留已有仓库导入新分支的步骤，不要求覆盖已有分支。",
+        "核对 package_release.identity：正式打包另要求真实仓库根、完整非浅历史、干净附着分支与有效清单；collect_evidence/打包路径绑定通过报告和提交，文档未降低这些门禁。"
+      ],
+      "findings": [
+        {
+          "id": "DELIVERY-DOCS-01",
+          "status": "clarified",
+          "finding": "原“解压目录可以进行功能验收”未区分无 Git 内容检查与包含 Git 基线的固定版本语义验收，容易被误读为只在最终打包时才需要 Git。",
+          "resolution": "明确列出无 Git 检查命令，并单独说明 release_check 及 --with-browser 的基线历史要求；正式包仍要求完整可达历史、干净提交与绑定报告。"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "kind": "read_only_source_and_document_review",
+    "tests_executed": false,
+    "build_executed": false,
+    "browser_executed": false,
+    "packaging_executed": false,
+    "no_product_or_test_changes": true
+  },
+  "deferred_by_user": [
+    "independent_teacher_review",
+    "real_student_effect_validation"
+  ]
+}

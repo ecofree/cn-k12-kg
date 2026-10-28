@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m1b.3.7",
+  "name": "100以内简单的加、减法（整十数加减整十数、整十数加一位数和相应的减法）",
+  "tier": "tool",
+  "hook": "30+20与30+2分别是多少？为什么不同？",
+  "definition": "整十数由几个十组成。整十数加减整十数，可先算几个十；整十数加一位数或相应减法，要分清十与一。",
+  "why": "30+20是3个十与2个十合成5个十，即50；30+2是3个十与2个一合成32。相同数字2，因单位不同结果不同。",
+  "conditions": [
+    "范围在100以内；整十数按十为单位。",
+    "一位数表示几个一，不能直接当成几个十。"
+  ],
+  "representation_note": "小棒每10根一捆，用整捆与散棒对比30+20和30+2。",
+  "when_to_use": [
+    "范围在100以内；整十数按十为单位。",
+    "一位数表示几个一，不能直接当成几个十。"
+  ],
+  "steps": [
+    "给每个数说出计数单位。",
+    "十与十相加减，结果仍按十计。",
+    "若是单个一，就在个位增加或减少，不改变十的单位。",
+    "把几个十、几个一合起来写出结果。"
+  ],
+  "worked_example": {
+    "prompt": "30+20与30+2分别是多少？为什么不同？",
+    "steps": [
+      "30+20：3个十+2个十=5个十，得50。",
+      "30+2：3个十与2个一，得32。"
+    ],
+    "answer": "50；32",
+    "family_id": "primary.base-ten.tens-add-sub",
+    "variant_id": "m1b.3.7:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "把30+2算成50，是把2个一当2个十。",
+    "算完3+2后漏写十这个单位，就把50误写成5。"
+  ],
+  "practice": [
+    {
+      "id": "m1b.3.7-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m1b.3.7-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "整十数相加减时，可把小捆当计数单位：60−20是6捆减2捆，剩4捆，即40；总量范围要仍在100以内。",
+      "observation_note": "本项观察整十数加减正确、十与一混合时不混单位；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "口算20+40、80−30、50+7、57−7。",
+        "reference_answer": "依次为60、50、57、50。",
+        "criteria": [
+          "整十数加减正确",
+          "十与一混合时不混单位"
+        ],
+        "family_id": "primary.base-ten.tens-add-sub",
+        "variant_id": "m1b.3.7:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "placevalue.compose.from-units"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "50+7中的7根应放在十的一栏还是一的一栏？",
+        "hint": "把7根散棒与5捆分开放，只有整捆才是十。",
+        "revision_prompt": "给每个加减数标注“个十”或“个一”后重算。"
+      },
+      "criterion_index": 0,
+      "title": "能口算整十数的加减"
+    },
+    {
+      "explanation": "按几个十计算，要把乘十的位值带回来。“7−3=4”只得到有4个十，不是4个一；所以70−30=40。",
+      "observation_note": "本项观察计数单位始终为十、把4个十写成40；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "用“几个十”完整说明70−30，不能只报4或40。",
+        "reference_answer": "70是7个十，30是3个十，7个十去掉3个十剩4个十，所以是40。",
+        "criteria": [
+          "计数单位始终为十",
+          "把4个十写成40"
+        ],
+        "family_id": "primary.base-ten.tens-add-sub",
+        "variant_id": "m1b.3.7:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "placevalue.ten-adjacent-units"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "剩4捆、每捆10根，能写成4根吗？",
+        "hint": "数捆数以后还要说明每捆代表10。",
+        "revision_prompt": "在7−3=4旁补上“个十”，再把最后数量写成40根。"
+      },
+      "criterion_index": 1,
+      "title": "能说清按“几个十”计算的方法"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

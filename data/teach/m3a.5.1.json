@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3a.5.1",
+  "name": "线段、射线、直线的概念",
+  "tier": "tool",
+  "hook": "纸上两条一样长的直画痕，一条带箭头，一条两端有点，含义相同吗？",
+  "definition": "线段有两个端点，完整长度有限；射线有一个端点并向一个方向无限延伸；直线无端点且向两个方向无限延伸。端点与延伸约定决定类别。",
+  "why": "有限纸面不能真正画出无限长度，所以用符号说明继续方向。比较三类时数的是数学端点，不是画痕边界；线段可以量完整长度，另外两类只能量其中选出的线段。",
+  "conditions": [
+    "区分纸上模型和它代表的无限延伸对象。",
+    "本卡三类图形均在同一平面并且是直的。"
+  ],
+  "representation_note": "画AB线段、从A经过B的射线、经过A与B的直线，使用端点点号和延伸箭头。",
+  "when_to_use": [
+    "区分纸上模型和它代表的无限延伸对象。",
+    "本卡三类图形均在同一平面并且是直的。"
+  ],
+  "steps": [
+    "看有没有明确的起点与终点。",
+    "读延伸箭头是单侧还是双侧。",
+    "说类别、端点数和延伸性，并给反例检查。"
+  ],
+  "worked_example": {
+    "prompt": "从A经过B还可一直延伸的图形，是线段AB吗？",
+    "steps": [
+      "A是起点，但B不是停止点。",
+      "一端固定、另一端无限延伸，符合射线。"
+    ],
+    "answer": "射线AB。",
+    "family_id": "geometry.endpoints-and-extension",
+    "variant_id": "m3a.5.1:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "B只是射线上一点时不能当终点。",
+    "相同画痕长度不说明两条射线的完整长度相等或有限。"
+  ],
+  "practice": [
+    {
+      "id": "m3a.5.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3a.5.1-q3",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "区分类别看端点和允许延伸方向，不看画痕长短。连接A与B的有限部分是线段，从A过B继续的是射线。",
+      "observation_note": "观察模型区别；只写名称还未展示端点理解。",
+      "self_check": {
+        "prompt": "画端点为A、B的线段，再画从A过B的射线，解释B在两图中的不同作用。",
+        "reference_answer": "线段中B是终点，射线中B是途经点，射线继续延伸。",
+        "criteria": [
+          "两图符号不同",
+          "说明B的角色"
+        ],
+        "family_id": "geometry.endpoints-and-extension",
+        "variant_id": "m3a.5.1:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "若射线经过B后还能画下去，B能称第二端点吗？",
+        "hint": "端点是停止的位置，经过点不是。",
+        "revision_prompt": "重新标出唯一端点A并在B外加延伸箭头。"
+      },
+      "criterion_index": 0,
+      "title": "能区分线段、射线、直线"
+    },
+    {
+      "explanation": "三者端点数依次2、1、0；延伸性依次有限、单向无限、双向无限。要同时报告这两列。",
+      "observation_note": "观察联合描述；纸面线长不是完整长度证据。",
+      "self_check": {
+        "prompt": "制作三行表，列线段、射线、直线的端点数、延伸方向、能否测完整长度。",
+        "reference_answer": "线段2端有限可测；射线1端单向无限；直线0端双向无限，后二者完整长度不可测。",
+        "criteria": [
+          "三类端点数正确",
+          "延伸性与可测性一致"
+        ],
+        "family_id": "geometry.endpoints-and-extension",
+        "variant_id": "m3a.5.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.segment-ray-line-finiteness"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "尺子量出直线画痕8厘米，能称直线长8厘米吗？",
+        "hint": "8厘米只量到了纸上截取的一段。",
+        "revision_prompt": "在表中把“不能量”改完整为“不能量无限整体，可量其中线段”。"
+      },
+      "criterion_index": 1,
+      "title": "能说出各自的端点个数与延伸性"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

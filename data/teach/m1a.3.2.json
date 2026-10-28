@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "摸一摸盒子、圆柱罐和球，它们表面的形状有什么不同？",
+  "definition": "可从平面形状、曲面和能否稳定叠放等特征辨认常见立体。长方体有6个长方形面（可有正方形面），正方体有6个相同正方形面；圆柱有两个圆形平面和一个曲面，球的表面是曲面。",
+  "why": "观察一个方向常会漏掉背面或底面。按相对的面配对数，长方体上下面、前后面、左右面各一对，共6个面。圆柱和球含曲面，不能把曲面当作多边形平面来数。",
+  "when_to_use": [
+    "需要根据表面的形状辨认一个盒子",
+    "数立体表面的组成时，容易漏掉看不见的面"
+  ],
+  "steps": [
+    "先摸或观察有没有平面、曲面。",
+    "对于盒子，按上/下、前/后、左/右配对数面。",
+    "核对各面的形状，说明图形名称及判断依据。"
+  ],
+  "worked_example": {
+    "prompt": "一个立体有6个完全相同的正方形面，是什么？共有几对相对面？",
+    "steps": [
+      "6个相同正方形面围成正方体。",
+      "把6个面两两配成相对面，得到3对。"
+    ],
+    "answer": "正方体，3对相对面",
+    "family_id": "geometry.solid-classify-features",
+    "variant_id": "m1a.3.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "长方体不能简单说“每个面都不是正方形”。",
+    "本卡把“面数”用于长方体和正方体；圆柱的曲面须另说。"
+  ],
+  "check": "先独立完成下面两项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m1a.3.2",
+  "name": "解决问题",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能依据面的特征判断立体图形",
+      "explanation": "是否有曲面、平面的形状和数量可联合辨认立体，单看一个正方形面不够。",
+      "self_check": {
+        "prompt": "甲有6个相同正方形面；乙有两个圆形平面和一个曲面。分别是什么？",
+        "reference_answer": "甲是正方体，乙是圆柱；两者表面的形状与组成不同。",
+        "criteria": [
+          "名称正确",
+          "分别指出支持判断的表面特征"
+        ],
+        "family_id": "geometry.solid-classify-features",
+        "variant_id": "m1a.3.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.cuboid-face-edge-vertex-count",
+          "geometry.cylinder-surface-count"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "只看到一个正方形面就能断定是正方体吗？其余面还需看什么？",
+        "hint": "转动模型，检查六个面是否都是同样大的正方形；圆柱还要检查两个圆面和曲面。",
+        "revision_prompt": "找一个有正方形端面的长盒与正方体，分别指出支持命名的多个面，再辨认一只圆柱模型。"
+      },
+      "observation_note": "观察依据多个表面特征辨认；口头名称正确不证明已经检查隐藏表面。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能数出简单立体图形的面数",
+      "explanation": "数长方体的面时，把看见和看不见的面一起计入。",
+      "self_check": {
+        "prompt": "一个长方体盒子，前、右、上三个面可见。它总共有几个面，怎样数？",
+        "reference_answer": "共6个面：前后、左右、上下各2个。",
+        "criteria": [
+          "答案6",
+          "按三对相对面解释而不是只数可见面"
+        ],
+        "family_id": "geometry.cuboid-face-edge-vertex-count",
+        "variant_id": "m1a.3.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "盒子的背面、左面和底面没看见，是不是就不存在？",
+        "hint": "用可转动的空盒，把碰过的面贴小标签；前后、左右、上下成三对。",
+        "revision_prompt": "换一个长方体盒，按相对面配对计数，留下六个面各自的标记或展开记录。"
+      },
+      "observation_note": "观察无重复计数全部六面；不推广为所有立体都有六面。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m1a.3.2-q101",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1a.3.2-q102",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1a.3.2-q3",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

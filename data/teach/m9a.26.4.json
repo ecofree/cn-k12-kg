@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m9a.26.4",
+  "name": "实际问题与二次函数",
+  "tier": "core",
+  "hook": "算出最优宽度8米，但场地只允许到5米，怎样重新决定最优方案？",
+  "definition": "用二次函数解决最值问题（面积最大、利润最大等），先建立函数模型，再配方或用顶点公式求最值，并检验自变量取值是否在实际范围内。",
+  "why": "平方项控制离顶点的损失，但实际问题只允许一段自变量。若顶点在范围内可取顶点值；若不在，应根据该区间的增减性比较端点。最大代数值只有被允许且能实现时才是实际最值。",
+  "when_to_use": [
+    "面积或收益由二次函数描述",
+    "需要在材料、容量或整数等约束下选最优"
+  ],
+  "steps": [
+    "从数量关系建立二次模型和可行域",
+    "配方定位顶点并检查能否取到",
+    "必要时比较边界或相邻可行整数，再检验原条件"
+  ],
+  "worked_example": {
+    "prompt": "用24米围栏围长方形，求最大面积（平方米）。",
+    "answer": "36",
+    "steps": [
+      "设宽x，长12−x，0<x<12，面积S=x(12−x)=−(x−6)²+36。",
+      "x=6在范围内，平方项可为0，所以最大面积36，方案为6米×6米。"
+    ],
+    "verify": "6*6",
+    "family_id": "quadratic-function.model.fixed-perimeter",
+    "variant_id": "m9a.26.4:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "model"
+  },
+  "pitfalls": [
+    "不能只报抛物线顶点而不检查自变量限制。",
+    "若自变量要求整数，顶点为小数时需比较附近可行整数。"
+  ],
+  "check": "独立完成并解释：三边围栏共20米，另一边靠墙，设两条垂直墙的边各x米。列面积函数及范围并求最值。；某活动收益模型R=−(x−8)²+100（元），实际参数限制为0≤x≤5。最大收益是多少元？ 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能建立二次函数模型求实际问题的最值",
+      "explanation": "先表示各实际量，再把限制写进模型，配方才有应用意义。",
+      "self_check": {
+        "prompt": "三边围栏共20米，另一边靠墙，设两条垂直墙的边各x米。列面积函数及范围并求最值。",
+        "reference_answer": "另一边20−2x>0，故0<x<10；S=x(20−2x)=−2(x−5)²+50，x=5时最大50。",
+        "criteria": [
+          "两条相同边计为2x",
+          "范围及顶点可行性均说明"
+        ],
+        "family_id": "quadratic-function.model.three-sided-enclosure",
+        "variant_id": "m9a.26.4:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "model",
+        "reference_family_ids": [
+          "quadratic-function.complete-square.vertex"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "两条垂墙边都长x，剩下那条是20−x还是20−2x？",
+        "hint": "先在草图给三段逐一标长度，求正值范围再用面积公式。",
+        "revision_prompt": "配方S=−2(x−5)²+50，核对x=5、沿墙对边10，三边总长20且面积50。"
+      },
+      "observation_note": "观察情境建模、取值范围、最值和实物方案一致；墙长若另有限制必须增加条件。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能说明最值点是否落在自变量允许范围内",
+      "explanation": "受限区间内最值可能在边界，必须解释顶点为何不可取。",
+      "self_check": {
+        "prompt": "某活动收益模型R=−(x−8)²+100（元），实际参数限制为0≤x≤5。最大收益是多少元？ 请写出判断或计算依据。",
+        "reference_answer": "顶点x=8不在允许范围内。区间[0,5]上x越接近8，平方项越小，R越大，因此在x=5取最大值−9+100=91元。",
+        "criteria": [
+          "顶点8超出范围",
+          "在x=5取得91"
+        ],
+        "family_id": "quadratic-function.restricted-domain.extremum",
+        "variant_id": "m9a.26.4:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "形式顶点x=8不允许取，能仍把100元写为最大收益吗？",
+        "hint": "比较允许区间内各x到8的距离，最靠近的端点5使平方最小。",
+        "revision_prompt": "计算R(0)=36、R(5)=91，说明[0,5]上随x增大更接近8，最大91。"
+      },
+      "observation_note": "观察实际定义域限制优先于顶点公式；端点必须可取，且不能无理由只算两端。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能代入已给二次函数实际模型求数值",
+      "explanation": "函数关系和输入值都已给出时，将同一个输入代入式中所有x，再按运算顺序求输出。面积、销售额、利润分别有自己的意义和单位；利润式中的单件利润与销量都可能含x，不能只替换一处。给定价格处的利润不等于最大利润。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：某商品每件成本 40 元，售价 x 元时每天卖出 (100-x) 件，每天利润 y=(x-40)(100-x) 元。售价 70 元时每天的利润是多少元？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：900。利润模型已给，x70时(70−40)(100−70)=900。",
+        "criteria": [
+          "完整代入所有自变量并按原模型计算指定输出，单位与面积、销售额或利润情境一致",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "quadratic-function.given-formula.evaluate",
+        "variant_id": "m9a.26.4:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "模型已经给出且售价已定；不是自主建模或求最值。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "函数式里每一处x都换成了给定值吗？题目是求这个输入的输出，还是要求寻找最优输入？",
+        "hint": "先给输入值做一个标记，逐一替换所有x；若式子由两个因式相乘组成，先分别算出两个因式并写清各自含义。",
+        "revision_prompt": "先回答这个辨别问题：函数式里每一处x都换成了给定值吗？题目是求这个输入的输出，还是要求寻找最优输入？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；完整代入所有自变量并按原模型计算指定输出，单位与面积、销售额或利润情境一致。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由给定长度三边围栏条件求长方形最大面积",
+      "explanation": "靠墙一边不围时，设垂直墙的两条边各为x、篱笆总长为L，另一条需围边为L−2x，面积为x(L−2x)。正边长要求0<x<L/2，配方得面积为−2(x−L/4)²+L²/8，最大值在可行的x=L/4取得。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：用 20 米长的篱笆靠墙围一块长方形菜地（靠墙的一边不围），这块菜地的最大面积是多少平方米？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：50。三边2x+y20，A=x(20−2x)=−2(x−5)²+50；0<x<10，x5可行，最大50。",
+        "criteria": [
+          "三边长度、面积乘积、正边长范围及等号可行性一致",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "quadratic-function.model.three-sided-enclosure",
+        "variant_id": "m9a.26.4:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只交最大面积，不据此确认提交了模型构造或可行域检查过程。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "总长计了三条边还是四条边？哪条尺寸在总长度中出现两次？",
+        "hint": "先画出不需篱笆的靠墙边，再给另三条标x、x、L−2x，写面积并检验顶点两边均为正。",
+        "revision_prompt": "先回答这个辨别问题：总长计了三条边还是四条边？哪条尺寸在总长度中出现两次？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；三边长度、面积乘积、正边长范围及等号可行性一致。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m9a.26.4-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.26.4-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.26.4-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

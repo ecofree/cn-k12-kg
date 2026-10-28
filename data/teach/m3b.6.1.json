@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3b.6.1",
+  "name": "认识小数",
+  "tier": "tool",
+  "hook": "把1米平均分10份，取3份，用小数怎样写？",
+  "definition": "小数由整数部分、小数点和小数部分组成。小数点后一位表示十分位，一位小数0.3表示3/10；1.3是1个一和3个十分之一，也等于13/10。",
+  "why": "把单位分成10等份，每份0.1，数3份就是0.3；超过完整1后继续数，13份0.1为1.3。读小数时整数部分按整数读，小数点后逐个数字读。",
+  "conditions": [
+    "一位小数以十分之一为计数单位，整体单位要明确。",
+    "金额或长度情境先统一到题目指定单位再写小数。"
+  ],
+  "representation_note": "十等分纸条与数位表对应，整数部分放完整条，十分位放余下小段。",
+  "when_to_use": [
+    "一位小数以十分之一为计数单位，整体单位要明确。",
+    "金额或长度情境先统一到题目指定单位再写小数。"
+  ],
+  "steps": [
+    "找小数点，分清左右两部分。",
+    "读写整数部分与逐个小数数字。",
+    "将一位小数拆成几个0.1或写成十分之几。"
+  ],
+  "worked_example": {
+    "prompt": "3元5角写成以元为单位的小数。",
+    "steps": [
+      "1角是1/10元，5角为0.5元。",
+      "3元加0.5元为3.5元。"
+    ],
+    "answer": "3.5",
+    "family_id": "decimal.tenths-money-representation",
+    "variant_id": "m3b.6.1:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "verify": "3+5/10"
+  },
+  "pitfalls": [
+    "小数点后不是像整数那样连读，0.5读零点五。",
+    "1.3不是3/10，整数部分1也要计入。"
+  ],
+  "practice": [
+    {
+      "id": "m3b.6.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3b.6.1-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "小数点区分整数部分与小数部分。读写保留位置，包括必要的0；3.5整数部分3，小数部分5，十分位是5。",
+      "observation_note": "观察一位小数结构，不代表已掌握所有多位小数数位。",
+      "self_check": {
+        "prompt": "读出并写出2.4和0.7，指出各部分名称，再说小数点是否算一个数字。",
+        "reference_answer": "二点四、零点七；左侧整数部分、右侧小数部分，小数点为分界符。",
+        "criteria": [
+          "读写正确",
+          "部分与符号名称清楚"
+        ],
+        "family_id": "decimal.read-write-place-values",
+        "variant_id": "m3b.6.1:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "decimal.digit-place-value"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "0.7的0能否不说明就忽略成7？",
+        "hint": "7是七个一，0.7是七个十分之一。",
+        "revision_prompt": "在数位表里填0与7，再读出完整数。"
+      },
+      "criterion_index": 0,
+      "title": "能读写小数并说出各部分的名称"
+    },
+    {
+      "explanation": "每个0.1是一份十分之一，0.8为8/10，1.2为12/10。分母10对应每个整体分10份。",
+      "observation_note": "观察十分单位累计，不能漏掉大于1时的整数部分。",
+      "self_check": {
+        "prompt": "用十分之一纸条表示0.6和1.4，分别写成十分之几。",
+        "reference_answer": "0.6=6/10；1.4=14/10，由14个0.1组成。",
+        "criteria": [
+          "表示包含完整单位",
+          "小数分数对应正确"
+        ],
+        "family_id": "decimal.fraction-unit-representation",
+        "variant_id": "m3b.6.1:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "decimal.tenths-and-whole-composition",
+          "fraction.all-parts-make-whole"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "1.4只写4/10，漏掉哪一部分？",
+        "hint": "一个完整1等于10个十分之一。",
+        "revision_prompt": "将1条完整条分成10小段，与4段合计14。"
+      },
+      "criterion_index": 1,
+      "title": "知道一位小数与十分之几的对应关系"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

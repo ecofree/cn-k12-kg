@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8b.24.2",
+  "name": "数据的离散程度",
+  "tier": "core",
+  "hook": "两组成绩平均数相同，为什么一组忽高忽低，另一组却很稳定？",
+  "definition": "方差与标准差刻画数据偏离平均数的程度，方差越大波动越大；方差等于各数据与平均数之差的平方的平均数。",
+  "why": "平均数概括中心，不能反映离中心的远近。偏差直接相加会互相抵消，平方后非负，取平方偏差的平均得到方差；同尺度数据中方差越小，围绕均值的波动越小。",
+  "when_to_use": [
+    "两组均值接近但需比较稳定性",
+    "需要量化数据离平均水平有多远"
+  ],
+  "steps": [
+    "先求数据平均数",
+    "逐个算与均值差的平方并相加",
+    "按本题约定除以n，再在同单位条件下比较"
+  ],
+  "worked_example": {
+    "prompt": "比较甲组4、5、6与乙组1、5、9的方差，均按除以n计算。",
+    "answer": "甲2/3，乙32/3，甲更稳定",
+    "steps": [
+      "两组均值都是5；甲的平方偏差和为1+0+1=2，方差2/3。",
+      "乙的平方偏差和16+0+16=32，方差32/3，所以甲更集中。"
+    ],
+    "family_id": "statistics.variance-comparison",
+    "variant_id": "m8b.24.2:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "statistics.variance-from-values"
+    ]
+  },
+  "pitfalls": [
+    "方差不是普通偏差的平均，普通偏差总和为0。",
+    "方差单位是原单位的平方，不同量纲数据不能直接比较数值。"
+  ],
+  "check": "先独立完成本页各项自检，保留计算或判断过程；再逐项核对参考与观察边界，按具体困难修订。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能计算一组数据的方差",
+      "explanation": "本课程此处方差使用1/n乘平方离差和，需先算均值。",
+      "self_check": {
+        "prompt": "数据2、4、6的方差按除以数据个数n的公式计算，结果是多少？用最简分数表示。 请写出判断或计算依据。",
+        "reference_answer": "平均数为4，方差=[(2−4)²+(4−4)²+(6−4)²]/3=8/3。",
+        "criteria": [
+          "均值4",
+          "平方离差和8再除3"
+        ],
+        "family_id": "statistics.variance-from-values",
+        "variant_id": "m8b.24.2:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "观察均值、每个离差的平方、求和与除以n的完整过程；最终8/3正确仍需确认没有先把正负离差抵消，也不能混用n−1公式。",
+      "difficulty_support": {
+        "discriminating_prompt": "2、4、6对均值4的离差是−2、0、2，和为0，为什么方差不是0？",
+        "hint": "方差先平方，再求平均；平方离差是4、0、4，不能先加成0后再平方。",
+        "revision_prompt": "按“数值—离差—平方离差”列三行，再写8÷3；用单位平方说明结果，不把样本估计公式混入本题。"
+      }
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用方差比较两组数据的稳定性",
+      "explanation": "稳定性比较要同量纲并说明围绕各自均值的波动。",
+      "self_check": {
+        "prompt": "甲乙两组成绩的平均数都为80，方差分别为4和25。哪组数据围绕平均数更集中？ 备选：A. 甲组；B. 乙组；C. 仅由平均数相同即可断定一样集中 请写出判断或计算依据。",
+        "reference_answer": "在相同量纲和比较条件下，甲的方差4小于乙的25，说明甲的平方离差平均更小，数据更集中。 正确选项内容：甲组。",
+        "criteria": [
+          "比较4与25",
+          "不把均值高低误当稳定性"
+        ],
+        "family_id": "statistics.variance-comparison",
+        "variant_id": "m8b.24.2:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "观察在同一背景、同一量纲和相同计算口径下比较离散程度；方差小不等于平均水平更高，也不保证未来每次都更稳定。",
+      "difficulty_support": {
+        "discriminating_prompt": "平均数都80、方差4和25，能说甲的成绩一定比乙高吗？",
+        "hint": "方差比较的是围绕均值的波动；平均水平仍由均值等位置指标描述。",
+        "revision_prompt": "先分别写“位置相同”和“甲更集中”两句，再给同单位的原始数据举例核对，删去关于未来必然表现的承诺。"
+      }
+    },
+    {
+      "criterion_index": 2,
+      "title": "能计算已给数据的算术平均数",
+      "explanation": "可比数值的算术平均数是总和除实际数据个数，每个值计一次。已规定用均值作达标线时，只是在执行规则，是否合理仍须另外讨论。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：数据 1、2、3、4、5 的平均数是多少？（只填数字）\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：3。和15个数5，均值3。",
+        "criteria": [
+          "数据总和与个数相对应且保留规则来源",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "statistics.mean-from-values",
+        "variant_id": "m8b.24.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "分母是否等于实际数据个数？规则是题目给出的，还是你自行提出的？",
+        "hint": "先逐个编号数据，合计后除以编号总数，再标明执行的是给定规则。",
+        "revision_prompt": "先回答这个辨别问题：分母是否等于实际数据个数？规则是题目给出的，还是你自行提出的？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；数据总和与个数相对应且保留规则来源。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8b.24.2-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.24.2-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.24.2-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "diagram": {
+    "src": "/static/diagrams/statistics-v5-same-mean-spread.svg",
+    "alt": "两个同尺度数轴以分钟计。甲为4、5、6，乙为1、5、9；均值都是5，虚线标出均值，乙的两端距均值更远。"
+  },
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

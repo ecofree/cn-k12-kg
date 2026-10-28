@@ -1,0 +1,1339 @@
+{
+  "schema": 1,
+  "review_kind": "ai_targeted_scope_catalog_contract_admission_review",
+  "reviewer": {
+    "type": "ai",
+    "agent": "/root/v4_learning_decisions",
+    "independent_from_all_implementations": false,
+    "relationship_notice": "逐文件明确交叉审查、作者自查及参与题族归并；不是独立教师审核。"
+  },
+  "reviewed_at": "2026-10-26T14:25:42.082406+00:00",
+  "baseline_commit": "9f0471009f13590beee850ca5dd4999ff64d14fd",
+  "review_status": "reviewed",
+  "decision": "accept_reviewed_scope_with_stated_limits",
+  "teacher_review": "deferred_by_user",
+  "real_student_effect_validation": "deferred_by_user",
+  "scope": {
+    "bound_files": 21,
+    "full_repository_audit": false,
+    "focus": [
+      "承诺分母不缩减",
+      "平均数分类与稳定身份",
+      "任务与有效例题题族区别",
+      "课程补充不伪装教材原活动",
+      "准入用途不自动提级",
+      "Schema和语义门的职责边界"
+    ],
+    "not_claimed": [
+      "3568道旧题逐题重新学科审核",
+      "全部原有477主题重新逐字审读",
+      "教师批准",
+      "真实学生效果",
+      "未执行的浏览器验证"
+    ]
+  },
+  "methods": [
+    "使用真实git show/diff读取9f047100基线，未把当前生成清单当历史基线。",
+    "大JSON全量解析并核身份、映射、字段与用途差异；只对本轮语义变化及指定风险作人类可读逐项复核。",
+    "复读修改函数上下文及新Schema，实际运行范围退化、准入防自动提级与结构/引用反例。",
+    "区分旧binding未改和作者声明使有效family改变；核21条本轮合并记录与9个既有例题的实际差异。",
+    "文件哈希绑定实际读取版本；最终两项局部性能优化完成后再核其隔离与scope语义。"
+  ],
+  "findings": [
+    {
+      "id": "SCOPE-01",
+      "status": "verified_preserved_denominator",
+      "detail": "477主题/954目标、342core/135tool全部保持；14单元104目标保留。3新补充项目增加12目标，总计1124，没有以降格或删目标完成材料指标。"
+    },
+    {
+      "id": "SCOPE-02",
+      "status": "verified_explicit_classification_correction",
+      "detail": "m4b.6.1平均数只修domain/theme，并同步两个原skill domain；旧ID、目标、placement不变。"
+    },
+    {
+      "id": "SCOPE-03",
+      "status": "verified_explicit_family_changes_with_old_identity_preserved",
+      "detail": "旧任务/例题binding保持，但9个已有例题的有效family和variant新增；另21条同结构合并属于本轮新例题。注册唯一性和family声明都不证明独立性。"
+    },
+    {
+      "id": "SCOPE-04",
+      "status": "verified_supplement_boundary",
+      "detail": "3新增高中项目以curriculum_supplement、空outline_refs、真实高中topic_ids和topic_navigation_only来源说明登记，不虚增教材原活动覆盖。"
+    },
+    {
+      "id": "SCOPE-05",
+      "status": "verified_provisional_use_migration_without_promotion",
+      "detail": "3568准入policy逐题与原目录对应8字段一致，全部basis仍为非独立迁移；内容变化会使旧登记失配，文字长度不提升发布题用途。"
+    },
+    {
+      "id": "SCOPE-06",
+      "severity": "medium",
+      "status": "fixed_and_verified",
+      "path": "cnkg/quality_scope.py",
+      "problem": "课程范围对不带_admission的raw bank调用question_policy，因此仍用legacy用途。未来显式禁练而题面不变时，范围页可能继续把该题列作练习，与发布准入不一致。",
+      "reproduction": {
+        "method": "patch only explicit admission record in memory; raw question unchanged; no author file writes",
+        "question_id": "m1a.1.1-q1",
+        "reviewed_source_sha256": "ae31f900270b6e06363247b85765bfeb4ff50fbb135e568b286d8ea86baf5327",
+        "manifest_read_count": 0,
+        "admitted_practice_policy": false,
+        "scope_practice_refs": [
+          [
+            "m1a.1.1",
+            0
+          ],
+          [
+            "m1a.1.1",
+            1
+          ]
+        ],
+        "reproduced": true
+      },
+      "fix": "复用admissions.policies验证source/resolved哈希后取登记policy；每report读取并局部缓存准入与答案binding，源版本纳入这两文件。已发布缺登记或过期登记失败，不静默回到legacy；无catalog/准入的临时fixture保持兼容。",
+      "authorship": "根任务发现风险；本代理确认与实际复现并提出最小方案；v4_profile_recovery限定实现；本代理复读和独立复验。"
+    }
+  ],
+  "unresolved_blocking_defects": [],
+  "measured_inventory": {
+    "topics": {
+      "before": 477,
+      "after": 477,
+      "added": [],
+      "removed": [],
+      "changed": [
+        {
+          "key": "m4b.6.1",
+          "fields": [
+            "domain",
+            "theme"
+          ]
+        }
+      ],
+      "criteria_unchanged": true,
+      "tiers_unchanged": true,
+      "tiers": {
+        "tool": 135,
+        "core": 342
+      }
+    },
+    "registry": {
+      "skills": {
+        "before": 1112,
+        "after": 1124,
+        "added": [
+          "sk_151830f611524a9b9a0c",
+          "sk_2032f904c8124b63ab5e",
+          "sk_2ce6846177a44f88a441",
+          "sk_3289fe946a8d4a859423",
+          "sk_53f2246b7be941cd9717",
+          "sk_621960ff598741c1be34",
+          "sk_991a129fd9d54e468a26",
+          "sk_d4498c3aa3024c3cb297",
+          "sk_d523afb017534e6d83d5",
+          "sk_d7fa0d4c702b47a29ec7",
+          "sk_e23ccfff6aed4f64b373",
+          "sk_eb2a9803b7254c10b6a5"
+        ],
+        "removed": [],
+        "changed": [
+          {
+            "key": "sk_3c96fdff452b40f080b1",
+            "fields": [
+              "domain"
+            ]
+          },
+          {
+            "key": "sk_4c614d80f2ee4c3b9c30",
+            "fields": [
+              "domain"
+            ]
+          }
+        ]
+      },
+      "placements": {
+        "before": 477,
+        "after": 477,
+        "added": [],
+        "removed": [],
+        "changed": []
+      },
+      "objective_skill_ids": {
+        "before": 158,
+        "after": 170,
+        "added": [
+          "senior_measurement_bounds:o1",
+          "senior_measurement_bounds:o2",
+          "senior_measurement_bounds:o3",
+          "senior_measurement_bounds:o4",
+          "senior_model_comparison:o1",
+          "senior_model_comparison:o2",
+          "senior_model_comparison:o3",
+          "senior_model_comparison:o4",
+          "senior_probability_simulation:o1",
+          "senior_probability_simulation:o2",
+          "senior_probability_simulation:o3",
+          "senior_probability_simulation:o4"
+        ],
+        "removed": [],
+        "changed": []
+      }
+    },
+    "bindings": {
+      "tasks": {
+        "before": 4546,
+        "after": 4837,
+        "added_count": 291,
+        "removed": [],
+        "changed_count": 0,
+        "changed_fields": {}
+      },
+      "examples": {
+        "before": 406,
+        "after": 533,
+        "added_count": 127,
+        "removed": [],
+        "changed_count": 0,
+        "changed_fields": {}
+      },
+      "families": {
+        "before": 7,
+        "after": 7,
+        "added_count": 0,
+        "removed": [],
+        "changed_count": 0,
+        "changed_fields": {}
+      }
+    },
+    "scope": {
+      "subject": "mathematics",
+      "scope": "中国小学至高中数学：现有23册教材导航及明确登记的目标、单元和活动；不声明覆盖所有学科或未登记课程目标。",
+      "completion_boundary": "材料齐备、活动完成、自评达到与独立掌握分别记录；教师审核和真实学生效果验证继续暂缓。",
+      "roles": {
+        "core": {
+          "label": "核心学习",
+          "learner_requirement": "所选课程范围内的目标均需学习；阅读解释、完成任务、处理未解决事项，再按需要观察迁移与间隔表现。",
+          "author_requirement": "每个目标有具体解释、学习过程、目标自检与评价依据、练习和可保存的修订入口；课程单元另有定向支持及各阶段任务。"
+        },
+        "foundation_support": {
+          "label": "基础支持",
+          "learner_requirement": "按前置要求或已记录困难使用；需能解释基础意义、完成针对任务并保留困难，不要求把所有基础内容反复完成一遍。",
+          "author_requirement": "每个登记基础目标仍须有完整可教材料、具体自检和修订支持；簇速查只作辅助，不能代替目标材料或降低承诺。"
+        },
+        "extension": {
+          "label": "扩展活动",
+          "learner_requirement": "可以选择参加；一旦选择，按活动目标留下过程、作品、自评与修订，不以完成所有扩展项目作为核心课程完成条件。",
+          "author_requirement": "每个活动目标有对应操作步骤、成果要求、量规与反馈修订路径，明确数据和推断边界。"
+        }
+      },
+      "groups": {
+        "topics": {
+          "resources": 477,
+          "goals": 954,
+          "roles": {
+            "foundation_support": 135,
+            "core": 342
+          }
+        },
+        "units": {
+          "resources": 14,
+          "goals": 104,
+          "roles": {
+            "core": 14
+          }
+        },
+        "projects": {
+          "resources": 21,
+          "goals": 66,
+          "roles": {
+            "extension": 21
+          }
+        }
+      },
+      "foundation_goals_by_stage": {
+        "primary": 248,
+        "junior": 16,
+        "senior": 6
+      }
+    },
+    "supplements": [
+      {
+        "id": "senior_measurement_bounds",
+        "coverage_kind": "curriculum_supplement",
+        "outline_refs": [],
+        "topic_ids": [
+          "mh1.5.2.1",
+          "mh1.4.5.3"
+        ],
+        "topic_stages": [
+          10,
+          10
+        ],
+        "provenance": {
+          "kind": "original_activity",
+          "outline_used_for": "topic_navigation_only",
+          "textbook_text_reproduced": false
+        },
+        "objective_ids": [
+          "senior_measurement_bounds:o1",
+          "senior_measurement_bounds:o2",
+          "senior_measurement_bounds:o3",
+          "senior_measurement_bounds:o4"
+        ]
+      },
+      {
+        "id": "senior_model_comparison",
+        "coverage_kind": "curriculum_supplement",
+        "outline_refs": [],
+        "topic_ids": [
+          "mh1.4.5.3",
+          "mh5.8.2.1",
+          "mh5.8.2.2"
+        ],
+        "topic_stages": [
+          10,
+          12,
+          12
+        ],
+        "provenance": {
+          "kind": "original_activity",
+          "outline_used_for": "topic_navigation_only",
+          "textbook_text_reproduced": false
+        },
+        "objective_ids": [
+          "senior_model_comparison:o1",
+          "senior_model_comparison:o2",
+          "senior_model_comparison:o3",
+          "senior_model_comparison:o4"
+        ]
+      },
+      {
+        "id": "senior_probability_simulation",
+        "coverage_kind": "curriculum_supplement",
+        "outline_refs": [],
+        "topic_ids": [
+          "mh2.10.2",
+          "mh2.10.3.2"
+        ],
+        "topic_stages": [
+          10,
+          10
+        ],
+        "provenance": {
+          "kind": "original_activity",
+          "outline_used_for": "topic_navigation_only",
+          "textbook_text_reproduced": false
+        },
+        "objective_ids": [
+          "senior_probability_simulation:o1",
+          "senior_probability_simulation:o2",
+          "senior_probability_simulation:o3",
+          "senior_probability_simulation:o4"
+        ]
+      }
+    ],
+    "admissions": {
+      "schema": 1,
+      "tasks": 3568,
+      "bank": 3568,
+      "identities_match": true,
+      "basis_methods": {
+        "v3_provisional_policy_migration": 3568
+      },
+      "independent_review_values": {
+        "False": 3568
+      },
+      "policy_counts": {
+        "practice_eligible": 3079,
+        "diagnosis_eligible": 1967,
+        "may_confirm_mastery": 1967,
+        "may_judge_weak": 1869
+      },
+      "old_catalog_policy_counts": {
+        "practice_eligible": 3079,
+        "diagnosis_eligible": 1967,
+        "may_confirm_mastery": 1967,
+        "may_judge_weak": 1869
+      },
+      "question_bytes_unchanged": true,
+      "policy_changed_vs_old_catalog_fields": []
+    },
+    "new_task_sources": {
+      "self_check": 270,
+      "unit": 9,
+      "project_step": 12
+    }
+  },
+  "effective_existing_example_family_changes": [
+    {
+      "path": "data/teach/m1a.1.4.json",
+      "binding_key": "example:topic:m1a.1.4",
+      "binding_unchanged": true,
+      "before_effective_families": [
+        "unclassified:ex_8585003e107b4a60952e"
+      ],
+      "after_effective_families": [
+        "primary.parts.fixed-total"
+      ],
+      "before_variant_id": null,
+      "after_variant_id": "m1a.1.4:worked-v4"
+    },
+    {
+      "path": "data/teach/m1a.1.5.json",
+      "binding_key": "example:topic:m1a.1.5",
+      "binding_unchanged": true,
+      "before_effective_families": [
+        "unclassified:ex_07979aa0f7a94add8343"
+      ],
+      "after_effective_families": [
+        "primary.add.combine-parts"
+      ],
+      "before_variant_id": null,
+      "after_variant_id": "m1a.1.5:worked-v4"
+    },
+    {
+      "path": "data/teach/m1a.1.6.json",
+      "binding_key": "example:topic:m1a.1.6",
+      "binding_unchanged": true,
+      "before_effective_families": [
+        "unclassified:ex_1d967ab2f60f4d3dbafb"
+      ],
+      "after_effective_families": [
+        "primary.subtract.remove-part"
+      ],
+      "before_variant_id": null,
+      "after_variant_id": "m1a.1.6:worked-v4"
+    },
+    {
+      "path": "data/teach/m1a.1.7.json",
+      "binding_key": "example:topic:m1a.1.7",
+      "binding_unchanged": true,
+      "before_effective_families": [
+        "unclassified:ex_3fccca27aad846c5ac9f"
+      ],
+      "after_effective_families": [
+        "primary.zero.add-subtract"
+      ],
+      "before_variant_id": null,
+      "after_variant_id": "m1a.1.7:worked-v4"
+    },
+    {
+      "path": "data/teach/m1a.2.10.json",
+      "binding_key": "example:topic:m1a.2.10",
+      "binding_unchanged": true,
+      "before_effective_families": [
+        "unclassified:ex_775564602cb041428216"
+      ],
+      "after_effective_families": [
+        "primary.ten.complements"
+      ],
+      "before_variant_id": null,
+      "after_variant_id": "m1a.2.10:worked-v4"
+    },
+    {
+      "path": "data/teach/m1a.2.4.json",
+      "binding_key": "example:topic:m1a.2.4",
+      "binding_unchanged": true,
+      "before_effective_families": [
+        "unclassified:ex_0ae397228c9e4beb864d"
+      ],
+      "after_effective_families": [
+        "primary.parts.fixed-total"
+      ],
+      "before_variant_id": null,
+      "after_variant_id": "m1a.2.4:worked-v4"
+    },
+    {
+      "path": "data/teach/m1a.5.1.json",
+      "binding_key": "example:topic:m1a.5.1",
+      "binding_unchanged": true,
+      "before_effective_families": [
+        "unclassified:ex_0448281931884f0fb4b0"
+      ],
+      "after_effective_families": [
+        "primary.add.make-ten"
+      ],
+      "before_variant_id": null,
+      "after_variant_id": "m1a.5.1:worked-v4"
+    },
+    {
+      "path": "data/teach/m1b.2.1.json",
+      "binding_key": "example:topic:m1b.2.1",
+      "binding_unchanged": true,
+      "before_effective_families": [
+        "unclassified:ex_48685385a4374fd8ba72"
+      ],
+      "after_effective_families": [
+        "primary.subtract.break-ten"
+      ],
+      "before_variant_id": null,
+      "after_variant_id": "m1b.2.1:worked-v4"
+    },
+    {
+      "path": "data/teach/m3a.4.7.json",
+      "binding_key": "example:topic:m3a.4.7",
+      "binding_unchanged": true,
+      "before_effective_families": [
+        "unclassified:ex_2b5db4bba9fe4c4eb76e"
+      ],
+      "after_effective_families": [
+        "primary.multiply.estimate-upper-budget"
+      ],
+      "before_variant_id": null,
+      "after_variant_id": "m3a.4.7:worked-v4"
+    }
+  ],
+  "within_v4_family_decision_checks": [
+    {
+      "key": "example:topic:m1a.1.1",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m1a.2.1",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m1a.2.2",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m1a.2.3",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m1a.2.9",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m1a.4.1",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m1b.3.3",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m4a.1.2",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m1a.4.2",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m1b.3.1",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m2b.3.1",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m4a.1.1",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m1b.3.2",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m2b.3.3",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m2b.3.4",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m7a.2.3.3",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m6a.4.1",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m6a.4.2",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m7a.1.1",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:m7b.12.1.2",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    },
+    {
+      "key": "example:topic:mh2.9.1.2",
+      "new_relative_to_baseline": true,
+      "matches_binding": true,
+      "matches_author_family": true,
+      "variant_matches": true
+    }
+  ],
+  "executed_validation_in_this_review": [
+    {
+      "command": "python -m unittest tests.test_quality_scope_v4.QualityScopeTests",
+      "tests_run": 4,
+      "result": "passed",
+      "phase": "局部性能优化前；验证当前完整分母、引用、缺材料和篡改清单的行为"
+    },
+    {
+      "command": "python -m unittest tests.test_instruction_v4.ExplicitAdmissionTest",
+      "tests_run": 2,
+      "result": "passed"
+    },
+    {
+      "command": "python tools/task_admissions.py --check",
+      "result": "passed",
+      "bank_records": 3568
+    },
+    {
+      "method": "实际内存资源变体调用validate_resource/check_project/check_supports，未修改作者文件",
+      "result": "passed",
+      "assertions": {
+        "scope_schema_valid": true,
+        "supplement_valid": true,
+        "reject_supplement_nonempty_outline_refs": true,
+        "reject_supplement_missing_coverage_kind": true,
+        "reject_supplement_empty_topic_ids": true,
+        "reject_supplement_misstated_outline_provenance": true,
+        "unit_with_support_schema_valid": true,
+        "support_semantic_valid": true,
+        "reject_duplicate_hint_level": true,
+        "reject_unknown_followup_task": true,
+        "new_card_fields_schema_valid": true,
+        "reject_incomplete_difficulty_support": true
+      }
+    },
+    {
+      "method": "逐键比较真实基线JSON与当前JSON",
+      "result": "passed",
+      "assertions": [
+        "旧477主题和954目标保留",
+        "tier映射未变",
+        "旧1112技能和477placement保留",
+        "旧4546任务/406例题binding保留",
+        "新21题族决策与当前作者/登记/variant一致",
+        "3568准入政策8字段逐题不扩张"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "cnkg/catalog.py",
+      "sha256": "17f53b29814e21c80b875c9d928617b6436dab6dabe2dcee2cd3c1243ed719fb",
+      "size": 34376,
+      "lines": 652,
+      "baseline_sha256": "888ddba665c3aaa42d6580c575248b63e6c3f42fab79bdb616e87988e6a54ac0",
+      "change": "modified",
+      "review_relation": "ai_cross_review",
+      "read_extent": "逐段核对本轮diff；阅读load_catalog、Catalog复制边界及compile_catalog中来源、稳定映射、任务、例题、项目和版本相关路径。未宣称对全部历史编译器逐行重新证明。",
+      "reviewed_symbols_or_fields": [
+        "Catalog",
+        "load_catalog",
+        "compile_catalog admission_rows",
+        "metadata",
+        "add_task",
+        "example_families",
+        "add_material",
+        "compiled_projects",
+        "coverage_report"
+      ],
+      "semantic_checks": [
+        "task_admissions纳入目录源指纹；存在登记时题目ID集合必须精确匹配，policies同时核原题和显式答案契约解析后的指纹。元数据迁移不能扩大practice/diagnosis用途。",
+        "metadata仍要求预先登记稳定ID；bank和unit的作者ID不得改号，项目步骤source_anchor变动要求显式核对。作者family/variant声明覆盖初次登记，但进入新任务/材料版本；不会回写旧会话。",
+        "补充项目的topic_ids进入project_step任务与project材料；outline_refs不被生成或伪造。每个项目目标仍通过objective_skill_ids取得实际技能。",
+        "声明题族与注册数量不被当作独立性；add_family.independence_established和任务independent_evidence均保持false，topic_only也不自动映射所有目标。",
+        "最终所有权优化另按实际diff及隔离回归核对：读取新JSON对象的内部加载路径省去重复复制，普通构造与公开访问仍保持调用方隔离；内容散列与来源散列校验不减少。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "本记录核目录、身份和用途连接，不替代所有旧题的逐题学科审核；最终编译和整版验收由发布门另行记录。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "cnkg/contracts.py",
+      "sha256": "b0a6d6e2b88c14b77b50256fe020743df50193421b35c7b457f15a66b5d0722f",
+      "size": 12736,
+      "lines": 270,
+      "baseline_sha256": "7445952b29bc37a9ed3aab36a9c4f0d9bbdb181a8c6eabb61958c5fac87de02d",
+      "change": "modified",
+      "review_relation": "ai_cross_review",
+      "read_extent": "完整270行模块及相对基线改动已读；重点本地Schema登记、repository入口和引用校验。",
+      "reviewed_symbols_or_fields": [
+        "RESOURCE_KINDS",
+        "_validators",
+        "validate_resource",
+        "validate_repository",
+        "_reference_errors"
+      ],
+      "semantic_checks": [
+        "新增instructional-support和curriculum-scope契约进入同一本地registry；引用只从本地Schema取得，未知远程引用不会自动联网获取。",
+        "存在curriculum_scope.json时repository验证其结构；目标角色与来源清单的逐项相等由quality_scope门检查，二者职责没有混为一项自动质量结论。",
+        "项目topic_ids、步骤/量规的objective_ids继续参与实际引用检查；教学卡目标下标与原mastery_criteria标题必须对应。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "Schema通过仅保证结构和明确引用；材料数学语义、未解决事项和学习效果不由这个模块证明。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "cnkg/evidence.py",
+      "sha256": "ac509912c85ceec16ce0881e407b0b35985d22702019b61ebced8a5037a8822a",
+      "size": 28566,
+      "lines": 634,
+      "baseline_sha256": "8db91a9a3ac4249b66424c61c0b176373b9439201c8023535b7bba07c8d99a9c",
+      "change": "modified",
+      "review_relation": "ai_cross_review",
+      "read_extent": "本轮新增question_policy分派及原策略改名diff全部已读；复读question_content_sha256、may_confirm_mastery、_legacy_question_policy相关尾部，未重新逐行审查此前全部证据溯源算法。",
+      "reviewed_symbols_or_fields": [
+        "question_policy",
+        "_legacy_question_policy",
+        "question_content_sha256",
+        "may_confirm_mastery"
+      ],
+      "semantic_checks": [
+        "有_admission的发布题先使用版本绑定的runtime_policy；修改解释或条件使指纹失配时返回不可诊断/不可练习，不继续用旧的文字长度分级补授用途。",
+        "无发布快照的兼容输入保留_legacy_question_policy；旧隔离、坏选项、机械记忆题独立复核要求及实际复算失败的限制未被删掉。",
+        "已实际执行两项准入回归：加长解释不能提升已发布题；改变题面条件必须显式重核准入。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "legacy策略仍服务未带快照的兼容/合成输入；不能把其字段名may_confirm_mastery解释成已建立跨任务独立掌握。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "cnkg/graph.py",
+      "sha256": "16a4573d4aa3d61cec299a0d1e5cb1a2f3bc48d3f743049fac34fb5eccacc805",
+      "size": 11991,
+      "lines": 268,
+      "baseline_sha256": "87e7322c1da0c5934839077a8600205b080b7ac1e4117693211ebed6a055dcc4",
+      "change": "modified",
+      "review_relation": "ai_cross_review",
+      "read_extent": "相对基线全部5行变化及load_graph完整函数已读；未宣称本轮重审Graph的全部遍历算法。",
+      "reviewed_symbols_or_fields": [
+        "load_graph active bank path",
+        "_admission snapshot",
+        "retired_questions_by_id",
+        "external collision protection"
+      ],
+      "semantic_checks": [
+        "从已校验catalog取得唯一答案契约后再计算准入指纹，快照policy对应同一解析后的题目；CLI和Web读取的发布题用途一致。",
+        "目录隔离题仍从可练集合移出但保留retired_questions_by_id；原题ID没有因此释放给外部题冒用。",
+        "可选外部题仍走原过滤与冲突改名，不因新增自有题准入快照获得自有题policy。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "本次未逐题审核可选外部题库；外部题默认关闭的边界保持。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "cnkg/learning.py",
+      "sha256": "add0c3743fbfa6601cd5d334709e08c937287741eef4de556697b7b7df6d5d26",
+      "size": 19701,
+      "lines": 404,
+      "baseline_sha256": "aee51408762100fd7c750a2d7f6b400dc7f960ab7342431f0d2f6731ee3659f3",
+      "change": "modified",
+      "review_relation": "ai_cross_review",
+      "read_extent": "相对基线新增check_supports调用已读；复读check_unit的目标、讲解、任务阶段、评分、图示及教师状态验证路径。",
+      "reviewed_symbols_or_fields": [
+        "check_unit",
+        "instruction.check_supports integration"
+      ],
+      "semantic_checks": [
+        "单元校验现在继续进入逐目标支持检查；不是只让Schema接受一个未核内容的instructional_support字段。",
+        "支持检查验证1/2/3级提示顺序、诊断与指导的显式答案契约、选项反馈以及followup_task_ids确实观察同一objective；实际重复提示级与不存在的后续任务均被拒绝。",
+        "原每目标practice及transfer/delayed观察要求、教师身份/哈希要求保留；缺整个支持包的旧资源兼容由quality_scope的targeted_support缺口门补充，不冒称Schema本身强制所有旧资源升级。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "支持内容的教学充分性由另份104支持内容审查记录覆盖；本文件仅核调用与约束连接。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "cnkg/projects.py",
+      "sha256": "1d53fd9986e78ee68e53019b207f67f01212d977f04de11cc8e93e06ce77f47a",
+      "size": 10900,
+      "lines": 227,
+      "baseline_sha256": "7e4fc1fb96925f3d6b2ebe42ab176f9b44f2e73c98f27918f9e1e40b5cd8b1b1",
+      "change": "modified",
+      "review_relation": "ai_cross_review",
+      "read_extent": "本轮完整diff、check_project补充类型分支、load_projects新增引用检查及公开投影已读；既有步骤/量规与教师审核约束作上下文复读。",
+      "reviewed_symbols_or_fields": [
+        "check_project coverage_kind",
+        "load_projects topic_ids",
+        "project_content_sha256",
+        "public_project"
+      ],
+      "semantic_checks": [
+        "curriculum_supplement必须outline_refs=[]、真实非空topic_ids、outline_used_for=topic_navigation_only；原outline_activity仍必须指向真实目录活动并匹配学段。",
+        "load_projects为补充项目核对topics.json中的ID，不能仅凭字符串看起来像教材ID就声称覆盖。当前3补充项目的7个引用均为实际高中主题。",
+        "项目仍需每目标的步骤与量规证据；reviewed状态不得替代有效独立教师身份及当前内容哈希。公开投影继续隐藏教师参考答案。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "这些topic_ids说明主题导航关系，不说明是教材原有项目；具体任务数学已由另份项目内容复核覆盖。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "cnkg/quality_scope.py",
+      "sha256": "a52c5a5b840194a0928d939f787254d7282b51ba1b48f8b270c5e49b6cc90cb2",
+      "size": 20686,
+      "lines": 289,
+      "baseline_sha256": null,
+      "change": "new_source",
+      "review_relation": "author_self_review_with_separate_optimization_cross_review",
+      "read_extent": "本代理是初始模块作者；完整模块及最终局部缓存优化已复读，明确为作者自查。",
+      "reviewed_symbols_or_fields": [
+        "ROLE_REQUIREMENTS",
+        "scope_manifest",
+        "build_scope_report",
+        "ref",
+        "row_base",
+        "summary and gap aggregation"
+      ],
+      "semantic_checks": [
+        "scope_manifest逐一从topics/tiers及稳定registry映射建立目标清单；build_scope_report使用真实当前来源生成分母，保存manifest缺项或降格会报错，不能让材料缺失的目标从报表消失。",
+        "实际分母为23册477主题954目标，其中684核心/270基础；另有14单元104目标和21自愿项目66目标，共1124。所有原主题/目标/角色未缩减。",
+        "只有criterion_index与原目标标题一致的objective_coverage才给逐目标解释、自检和量规引用；簇covers、同主题练习及阅读参考均不能替代明确目标观察。",
+        "每行有实际源JSON pointer、文件sha、API入口、过程/任务/修订路径与观察边界；单元逐目标缺practice/transfer/delayed或针对支持会列缺口。",
+        "materials_ready被明确限定为作者材料结构齐备；全行independent_mastery_evidence=false，教师与学生效果状态没有自动通过。",
+        "最终ref缓存仅在单次report内复用相对路径与原始文件哈希；公开引用仍各自拥有正确pointer、resource_kind、resource_id，缓存不会抹掉逐目标边界。",
+        "本次发现并复现SCOPE-06：仅显式禁练而题面未变时，旧raw question_policy仍把题列作练习。最终修复改为复用admissions.policies校验原/解析后指纹并读取登记用途；失配不得legacy回退，准入与binding文件也纳入source_version。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "这是作者自查和结构证据矩阵，不是独立教师质量认证。既有核心材料的完整数学复核也不由本报表自动完成。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "cnkg/session_content.py",
+      "sha256": "3c86704692c981007f7b2b69b65e0dba780e6a242a0751e8fe12c14fe7040da7",
+      "size": 4756,
+      "lines": 118,
+      "baseline_sha256": "8f60515145ef01cfaa2c225d4349f72ee0f2b61274c9ca4f5c6122c7155ed565",
+      "change": "modified",
+      "review_relation": "ai_cross_review",
+      "read_extent": "完整118行模块及graph_snapshot的assets参数变化已读。",
+      "reviewed_symbols_or_fields": [
+        "graph_snapshot",
+        "capture_assets",
+        "restore_graph",
+        "public_diagram",
+        "asset_bytes"
+      ],
+      "semantic_checks": [
+        "graph_snapshot新增由调用方提供冻结assets的路径，按实际范围内题目的diagram.src选取并deepcopy；有冻结素材时不重新从当前磁盘换入图示。",
+        "topics、questions、dependencies、tiers仍深复制；恢复图使用保存快照，评分代码版本另行校验，未以新目录重新解释旧题。",
+        "会话图示读取仍要求题目已经presented，核base64字节及sha256；快照图示不会被任意文件名取出。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "owner授权在HTTP/Store入口而非此纯快照模块；不是对所有API隔离的独立证明。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "data/content/sixia.json",
+      "sha256": "82e3186d280912f330662933cd3a3ca6e97b3c9307838198267b542ad209b9cf",
+      "size": 29578,
+      "lines": 932,
+      "baseline_sha256": "3fa745dda511ae3536bb8f3415869590aa2b5a7277b1ac7a123c8e520e57c3c9",
+      "change": "modified",
+      "review_relation": "ai_cross_review",
+      "read_extent": "与基线JSON diff逐字段核对，改动仅m4b.6.1的domain和theme；未声称重新审完本册全部题面。",
+      "reviewed_symbols_or_fields": [
+        "topics[id=m4b.6.1].domain",
+        "topics[id=m4b.6.1].theme"
+      ],
+      "semantic_checks": [
+        "平均数从数与代数/数与式修正到统计与概率/抽样与数据分析，与本主题“计算平均数、说明极端值影响”两目标相符。",
+        "id、名称、教材位置、目标文字、题目与答案未因分类修正改变；与data/topics.json的对应记录一致。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "领域分类修正不是新目标认定或学段提级。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "data/curriculum_scope.json",
+      "sha256": "82a34f25e50af30ce75e504bf9bc6952b72ad0f0082af257fc14b823c016cd7a",
+      "size": 310321,
+      "lines": 10699,
+      "baseline_sha256": null,
+      "change": "new_source",
+      "review_relation": "author_self_review_of_generated_explicit_manifest",
+      "read_extent": "本代理建立的显式清单；全量解析所有主题、单元、项目及目标，与真实来源和稳定身份映射比较。",
+      "reviewed_symbols_or_fields": [
+        "subject/scope",
+        "roles",
+        "topics",
+        "units",
+        "projects",
+        "completion_boundary"
+      ],
+      "semantic_checks": [
+        "subject仅承诺mathematics；文字明确现有23册导航及已登记目标，不宣称已覆盖所有K12学科。",
+        "原477主题、954目标及342core/135tool角色逐项保留；248小学、16初中、6高中基础目标均列入分母，没有因为材料刚补齐而把tool提升为core。",
+        "14核心单元104目标继续保留；新增3课程补充项目12目标使项目由18项54目标变为21项66目标，角色均extension且自愿参加。",
+        "核心、基础支持、扩展的作者要求和学习者完成要求分别陈述；材料齐备、完成、自评达到、独立掌握分开。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "生成清单记录承诺范围，不代表已通过独立教学验证；之后任何增删改仍要显式更新并语义审查。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "data/skills/catalog-bindings.json",
+      "sha256": "98759306ee2fef298cd89828929857a45a7a79c4cf86a06efa17bb8a280f0f5b",
+      "size": 2093416,
+      "lines": 70265,
+      "baseline_sha256": "26d72d328326cf5c791e3c6ad2bb124977c35e2a75093bccf9322287b7662b3a",
+      "change": "modified",
+      "review_relation": "ai_cross_review_with_contributed_new_example_family_decisions",
+      "read_extent": "全量解析并逐键比较基线，核全部新增记录类别、旧ID保持、例题作者覆盖关系；本代理参与21项新增例题题族归并，不将该部分称为独立审查。",
+      "reviewed_symbols_or_fields": [
+        "tasks",
+        "examples",
+        "families",
+        "project_step source_anchor",
+        "worked_example author overrides"
+      ],
+      "semantic_checks": [
+        "原4546个任务登记和406个例题binding条目逐键保持；新增291任务=270基础目标自检+9单元任务+12项目步骤，全部task id唯一，未删除旧登记。",
+        "新增127例题登记，不能将这一数量当独立题族数量；21项本轮同结构归并的key、family_ids、variant与v4-family-decisions逐条一致，21条均不属于基线406个旧例题。",
+        "注册条目保持不等于有效family不变：9个既有例题（8基础卡和m3a.4.7）新增作者family/variant声明，编译器按作者字段覆盖旧unclassified绑定。报告附完整before/after，不隐瞒该语义变化。",
+        "m3a.4.7从unclassified:ex_2b5db4bba9fe4c4eb76e变为primary.multiply.estimate-upper-budget，新增variant=m3a.4.7:worked-v4；原内容与新版本分别保存，旧题族历史不被重写。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "未分类任务不会因稳定ID唯一而成为独立证据；已声明family也不是教师确认的经验独立性。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "data/skills/registry.json",
+      "sha256": "0974c948f68c275a5be33bd911ffa455ed9800d8ccf19cf19d9de113eb326f2a",
+      "size": 440752,
+      "lines": 13681,
+      "baseline_sha256": "5464e8c18c691a81218ffb030b0257bc4b0e017b315b72318eab3d7e24172040",
+      "change": "modified",
+      "review_relation": "ai_cross_review",
+      "read_extent": "全量解析skills/placements/objective_skill_ids并逐键比较基线，阅读所有新增12条技能陈述。",
+      "reviewed_symbols_or_fields": [
+        "skills",
+        "placements",
+        "objective_skill_ids"
+      ],
+      "semantic_checks": [
+        "1112个旧skill ID全部保留；477个placement和既有158个单元/项目目标映射逐项不变，未借标题相似重新分配身份。",
+        "只有平均数原两技能sk_3c96fdff452b40f080b1、sk_4c614d80f2ee4c3b9c30的domain随主题修正；statement和粒度不变。",
+        "新增12个senior/composite/综合实践技能分别映射3补充项目o1..o4，目标涵盖测高假设与区间、模型与保留检验、概率机制与模拟边界；无旧目标删除或自动细粒度宣称。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "legacy_composite/composite计数不等于已拆解为全部可独立判定的微技能。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "data/task_admissions.json",
+      "sha256": "4e82f5f9154645bd3312b35e11e5f3e68b3923119fc3c76e6ffc7167be28207a",
+      "size": 4247609,
+      "lines": 107045,
+      "baseline_sha256": null,
+      "change": "new_source",
+      "review_relation": "ai_cross_review_of_complete_migration_inventory",
+      "read_extent": "全量3568条登记的ID、指纹和用途契约已用真实check执行；8个policy字段逐题与基线编译目录比较。未逐题重新进行数学语义审核。",
+      "reviewed_symbols_or_fields": [
+        "schema",
+        "tasks.*.source_sha256",
+        "resolved_sha256",
+        "source_policy",
+        "policy",
+        "basis"
+      ],
+      "semantic_checks": [
+        "登记ID集合与3568个自有题精确相等，原questions.json字节相对基线未变；source与resolved指纹核查全部通过。",
+        "逐题8个policy字段与基线一致；可练3079、可筛查1967、may_judge_weak 1869均未扩张。基线目录额外的independent_evidence=false是编译派生字段，比较时单独说明而非误报全部用途变更。",
+        "全部basis.method=v3_provisional_policy_migration且independent_review=false；迁移固定历史暂定用途，不给题库补造教师审核。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "迁移基线不是3568道题的新数学背书；这些题的既有缺陷或观察范围仍须按明确变更再次核对。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "data/topics.json",
+      "sha256": "b6a1bd793b03370c79c9039cefbb99f61973c68ed0c6373e462766f6e8b022a6",
+      "size": 711474,
+      "lines": 24133,
+      "baseline_sha256": "b7ad305f589a258d96a12614221f3af5a2e212fc6fdb1f0693012e5183c9f0e6",
+      "change": "modified",
+      "review_relation": "ai_cross_review",
+      "read_extent": "全量477行的ID、目标、角色对应和字段diff核查；人工复读唯一改动m4b.6.1。",
+      "reviewed_symbols_or_fields": [
+        "id set",
+        "mastery_criteria",
+        "m4b.6.1 domain/theme"
+      ],
+      "semantic_checks": [
+        "主题ID集合及所有mastery_criteria与基线完全相同；没有删主题、删目标、合并文字或降格来减少完成分母。",
+        "唯一字段变化是平均数的domain/theme，已与data/content/sixia.json和稳定技能domain同步。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "本次只审这轮分类变化和范围保持，不冒称再次逐字审完全部477主题的原学科陈述。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "schema/curriculum-scope.schema.json",
+      "sha256": "447f6931b8e80ad1a7f203f1992a324938a34b487bc696a3394a68e18518201a",
+      "size": 4349,
+      "lines": 219,
+      "baseline_sha256": null,
+      "change": "new_source",
+      "review_relation": "author_self_review",
+      "read_extent": "本代理作者自查；完整219行新Schema与对应清单生成逻辑复读。",
+      "reviewed_symbols_or_fields": [
+        "$id",
+        "roles",
+        "$defs/goal",
+        "$defs/topic",
+        "$defs/resource",
+        "additionalProperties"
+      ],
+      "semantic_checks": [
+        "顶层固定schema=1、subject=mathematics，三角色均必填且禁止未知字段；每个主题/资源要求目标与身份、学段、角色。",
+        "稳定目标ID、目标陈述、criterion_index/objective_id可被记录；目标与真实来源完全一致由build_scope_report补充检查，不把Schema合法性当作完整范围。",
+        "当前1124目标清单通过实际Schema验证；降格/删除清单目标的4项范围回归明确拒绝并保留真实分母。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "Schema不独自验证重复业务身份或角色政策；需要与真实来源比较及编译身份门一起执行。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "schema/instructional-support.schema.json",
+      "sha256": "6bb67293b756b365e0e69be6982aa14e159161056a8b2531d155e02efaaf440d",
+      "size": 9093,
+      "lines": 322,
+      "baseline_sha256": null,
+      "change": "new_source",
+      "review_relation": "ai_cross_review",
+      "read_extent": "完整322行新Schema已读，并与check_supports执行约束逐项核对。",
+      "reviewed_symbols_or_fields": [
+        "supports.items",
+        "diagnostic",
+        "guided_task",
+        "hints",
+        "branch_hints",
+        "followup_task_ids"
+      ],
+      "semantic_checks": [
+        "每个支持要求稳定id、objective_id、具体困难假设、观察边界、诊断、三级提示、指导任务和真实后续任务列表。诊断/指导显式引用同一答案契约Schema。",
+        "提示级别结构限制1..3，选项可含辨别反馈和下一提示级；必须按1/2/3排列、分支选项有效及后续任务观察同目标由check_supports语义校验保证。",
+        "实际重复级别及不存在的followup被语义校验拒绝；Schema本身未误称已识别学习者错误原因。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "假设只是待辨别可能困难；字段存在或一次选项表现不能建立心理诊断或独立掌握。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "schema/learning-unit.schema.json",
+      "sha256": "9034393ffed49785dcd81e1bff7fd7696a00ac2018f1bae2e6a9dede93d518ea",
+      "size": 4844,
+      "lines": 193,
+      "baseline_sha256": "31b38e0423a357e43acaa6966cb166d4a82fdbb5e9fcd21077bdf4965cc498e7",
+      "change": "modified",
+      "review_relation": "ai_cross_review",
+      "read_extent": "完整193行当前Schema与仅新增instructional_support引用的基线diff已读。",
+      "reviewed_symbols_or_fields": [
+        "properties.instructional_support",
+        "required",
+        "objectives/tasks/explanation"
+      ],
+      "semantic_checks": [
+        "新增字段引用本地instructional-support契约；既有目标、conditions/counterexample、worked_examples、tasks和teacher_review要求没有放松。",
+        "支持包字段为兼容旧资源保持可选，发布完整性由check_supports加quality_scope --require-complete组合要求；当前带支持单元的实际Schema验证通过。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "仅Schema验证不等于三阶段及逐目标支持完整，必须同时执行语义与范围门。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "schema/project.schema.json",
+      "sha256": "842456671552ff85c2f4ecf77d679bc86ac213b510287e7cdb35168452352a02",
+      "size": 7161,
+      "lines": 322,
+      "baseline_sha256": "90267a100f3840c4b8cd1c837d5ae6d0172272a8984facdb95e6ef1437a14d5e",
+      "change": "modified",
+      "review_relation": "ai_cross_review",
+      "read_extent": "完整322行Schema及新增coverage_kind条件分支已读；对4种伪覆盖/缺少关联变体实际验证。",
+      "reviewed_symbols_or_fields": [
+        "coverage_kind",
+        "topic_ids",
+        "provenance.outline_used_for",
+        "allOf if/then/else"
+      ],
+      "semantic_checks": [
+        "outline_refs顶层minItems改为0仅为补充项目提供通路；if/then要求其为空、topic_ids与provenance存在、目录用途只作导航；else仍要求至少一个目录活动。",
+        "topic_ids须非空且唯一，provenance继续明示原创活动和未复制教材正文，不能把补充项目伪装成目录原活动。",
+        "非空outline_refs、删coverage_kind后仍空outline、空topic_ids、错误provenance四类反例都被Schema及check_project拒绝。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "Schema不判断某个主题实际适不适合此项目；当前3项目的具体引用另经内容审查与真实ID检查。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "schema/teaching-card.schema.json",
+      "sha256": "0a117acee55cca315db3ceef348bbc8e111280da34d51813394941f26c34bdb5",
+      "size": 6626,
+      "lines": 288,
+      "baseline_sha256": "f74d8b6597999e9b7508c832e12c1b9210e2f3bece629f6c143c987b3085d875",
+      "change": "modified",
+      "review_relation": "ai_cross_review",
+      "read_extent": "完整288行当前Schema与新增45行字段契约diff已读。",
+      "reviewed_symbols_or_fields": [
+        "objective_coverage.observation_note",
+        "difficulty_support",
+        "conditions",
+        "representation_note"
+      ],
+      "semantic_checks": [
+        "新增逐目标observation_note和困难支持三项discriminating_prompt/hint/revision_prompt；提供difficulty_support时三项必须完整，不能只留空支持对象。",
+        "新增conditions非空列表和representation_note说明，原worked_example、自检和核心目标覆盖要求没有删除。",
+        "真实新卡通过验证；移除difficulty_support.hint的反例失败。tool仍可在兼容Schema中无objective_coverage，但完整课程范围门会把逐目标材料列为缺口。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "新增字段没有被当作内容质量自动通过开关；解释、适龄性和错误支持的实际语义仍需人工或AI明确审读。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "tools/quality_scope.py",
+      "sha256": "982e5bd03cd7f16fbc47110010996c90c61137059f941e3d2360769171785713",
+      "size": 1650,
+      "lines": 35,
+      "baseline_sha256": null,
+      "change": "new_source",
+      "review_relation": "author_self_review",
+      "read_extent": "本代理作者自查；完整35行CLI已读。",
+      "reviewed_symbols_or_fields": [
+        "--write-manifest",
+        "--check",
+        "--require-complete",
+        "--json",
+        "return code"
+      ],
+      "semantic_checks": [
+        "只有显式--write-manifest写课程清单；普通check/report不悄悄把变化后的目标重新设为已认可基线。",
+        "manifest不一致始终返回非零，--require-complete进一步要求真实目标材料无缺口；--json导出逐目标资源证据。",
+        "--check是兼容的明确检查入口，普通运行也建立报表和一致性判断；完成门并不依赖命令旗标名自动宣告通过。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "写清单是作者操作，仍需真正审查范围增删改；CLI只报告结构证据而不批准教育效果。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "tools/task_admissions.py",
+      "sha256": "14522dc3e7023932429ecdcddf0b06c8f6c4bf776f3bc712ec007fa0f540f4a5",
+      "size": 6491,
+      "lines": 105,
+      "baseline_sha256": null,
+      "change": "new_source",
+      "review_relation": "ai_cross_review",
+      "read_extent": "完整105行新增CLI已读；实际对3568题运行--check。",
+      "reviewed_symbols_or_fields": [
+        "check",
+        "--snapshot-baseline",
+        "--record-id",
+        "--purpose",
+        "--evidence-level",
+        "previous_decisions"
+      ],
+      "semantic_checks": [
+        "首次snapshot仅固定旧策略，已有登记时拒绝覆盖重跑；--check核ID全集及每题原/解析后哈希，当前执行PASS。",
+        "单题新准入必须给用途、证据等级、审核者和具体理由；非隔离题需参考答案通过显式契约，verified仅限可复算数值题，bare不能筛查。",
+        "解释非空只是入口条件，不按长度自动增级；policies再次检查硬排除。登记保留previous_decisions，并始终标independent_review=false和reviewer_pending=true。"
+      ],
+      "unresolved_blocking_defects": [],
+      "limits": [
+        "审核者字段和理由是可审查作者声明，不等于已经验证独立教师资格；本工具不代替语义判断。"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    }
+  ],
+  "supporting_evidence_refs": [
+    {
+      "path": "docs/reviews/v4-family-decisions.json",
+      "sha256": "494e1bca08a9e70cb377cb6f0867d5f41dd579e7f4259d9885fd660ddfd330b3",
+      "scope": "21项本轮例题同结构归并；该记录的before为本轮中间状态，不误称9f047100基线。"
+    }
+  ],
+  "limits": [
+    "本报告是AI定向复核并明确包含作者自查，不能替代独立教师或学生效果验证。",
+    "结构齐备、目标映射、稳定身份、准入用途和真实教学成效属于不同证据层。",
+    "程序核对读取了大JSON全部记录，不冒称逐条重新读完3568题的题义；原题的质量边界保留。",
+    "实际页面与前端版本由根任务的浏览器和固定发布验收另行绑定。"
+  ],
+  "final_optimization_review": {
+    "reviewer": "/root/v4_learning_decisions",
+    "bound_code_sha256": {
+      "cnkg/catalog.py": "17f53b29814e21c80b875c9d928617b6436dab6dabe2dcee2cd3c1243ed719fb",
+      "cnkg/quality_scope.py": "a52c5a5b840194a0928d939f787254d7282b51ba1b48f8b270c5e49b6cc90cb2"
+    },
+    "reviewed_implementation": [
+      "Catalog._from_owned_payload/_initialize及load_catalog完整源码：payload+source校验后内部独占接收；公共constructor及全部快照accessor保持deepcopy",
+      "quality_scope.ref局部file_refs缓存：只缓存relative/hash，每次返回新引用字典、保留pointer和resource身份",
+      "quality_scope.practice_policy局部qid缓存：读取显式resolved policy并验原题/答案契约指纹；不共享跨report缓存",
+      "questions.json/task_admissions.json/skills/catalog-bindings.json都进入报告source_version；有catalog无准入表拒绝回退"
+    ],
+    "independently_executed_tests": [
+      {
+        "command": "python -m unittest tests.test_catalog.CatalogFixtureTests.test_public_constructor_and_accessors_keep_nested_payloads_independent tests.test_catalog.CatalogFixtureTests.test_loaded_catalogs_are_isolated_and_every_load_revalidates_bytes",
+        "tests_run": 2,
+        "result": "passed"
+      },
+      {
+        "command": "python -m unittest tests.test_quality_scope_v4.ScopeReadIsolationTests",
+        "tests_run": 7,
+        "result": "passed"
+      }
+    ],
+    "same_reproduction_after_fix": {
+      "method": "repeat the same explicit-ban-only reproduction on the frozen fix; raw question unchanged",
+      "question_id": "m1a.1.1-q1",
+      "reviewed_source_sha256": "a52c5a5b840194a0928d939f787254d7282b51ba1b48f8b270c5e49b6cc90cb2",
+      "manifest_read_count": 1,
+      "source_policy_still_practice_eligible": true,
+      "resolved_policy_practice_eligible": false,
+      "scope_practice_refs": [],
+      "summary": {
+        "topic_count": 477,
+        "volume_count": 23,
+        "topic_goals": 954,
+        "core_topics": 342,
+        "foundation_topics": 135,
+        "unit_goals": 104,
+        "project_goals": 66,
+        "total_goals": 1124,
+        "materials_ready": 1124,
+        "incomplete": 0
+      },
+      "manifest_valid": true,
+      "fixed": true
+    },
+    "implementer_reported_validation": {
+      "agent": "/root/v4_profile_recovery",
+      "command": "python -m unittest tests.test_quality_scope_v4",
+      "tests_run": 14,
+      "result": "passed",
+      "attribution": "实现代理报告，另由本审核代理独立复跑7项隔离/准入测试及真实1124目标复现；不冒充全部14项由本代理执行。"
+    },
+    "performance_limit": "仅确认省去独占payload的重复复制及单report重复path/hash/policy计算；环境运行时间波动，不宣称测得可归因的墙钟提速。"
+  }
+}

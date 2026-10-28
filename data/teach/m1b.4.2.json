@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m1b.4.2",
+  "name": "口算减法",
+  "tier": "tool",
+  "hook": "口算42−7，并说明为什么十位不再是4。",
+  "definition": "两位数减一位数先看个位；个位不够减，拆1个十成10个一。减整十数时减去几个十，个位保持不变。",
+  "why": "42−7只有2个一，不够拿7个，就从4个十中拆1个十，变成3个十与12个一；12−7=5，合成35。",
+  "conditions": [
+    "结果非负、数量在100以内。",
+    "退位表示把一个十换成十个一，总量不变。"
+  ],
+  "representation_note": "整捆与散棒两栏表示退位前后，清楚标出十位少1、个位多10。",
+  "when_to_use": [
+    "结果非负、数量在100以内。",
+    "退位表示把一个十换成十个一，总量不变。"
+  ],
+  "steps": [
+    "辨认减去的是一还是十。",
+    "减一位数，先看个位够不够。",
+    "不够时把十位减少1，个位增加10再减。",
+    "减整十数只减少十的数量，并用加法检查。"
+  ],
+  "worked_example": {
+    "prompt": "口算42−7，并说明为什么十位不再是4。",
+    "steps": [
+      "拆1个十后，42变成3个十与12个一。",
+      "12−7=5，剩3个十与5个一，得35。",
+      "35+7=42。"
+    ],
+    "answer": "35",
+    "family_id": "primary.base-ten.subtract-one-digit-or-tens",
+    "variant_id": "m1b.4.2:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "verify": "42-7"
+  },
+  "pitfalls": [
+    "个位借来10却仍保留原十位，会把42−7算成45。",
+    "减去30是去掉3个十，不能只从个位减3。"
+  ],
+  "practice": [
+    {
+      "id": "m1b.4.2-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m1b.4.2-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "个位够减可直接算，如47−5=42；个位不够时拆十，如43−8=3个十加13−8个一，得35。",
+      "observation_note": "本项观察两题结果正确、退位后十位减少1；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "计算58−4与51−6，写出退位题十位剩几个十。",
+        "reference_answer": "58−4=54；51−6=45，拆1个十后十位剩4个十。",
+        "criteria": [
+          "两题结果正确",
+          "退位后十位减少1"
+        ],
+        "family_id": "primary.base-ten.subtract-one-digit-or-tens",
+        "variant_id": "m1b.4.2:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "placevalue.regroup-ten-ones",
+          "subtraction.break-ten"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "51拆出1个十以后，还能保留5个十吗？",
+        "hint": "先把1捆移到个位并拆开，再数未拆的捆数。",
+        "revision_prompt": "画出51变成4个十和11个一，重新减去6个一。"
+      },
+      "criterion_index": 0,
+      "title": "能口算两位数减一位数（含退位）"
+    },
+    {
+      "explanation": "减整十数是在十位取走整捆，例如76−30是7个十减3个十，6个一不变，得到46。",
+      "observation_note": "本项观察两题不混位、按单位解释减法；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "算76−30与76−3，说清减掉的3分别是哪种单位。",
+        "reference_answer": "76−30=46，去掉3个十；76−3=73，去掉3个一。",
+        "criteria": [
+          "两题不混位",
+          "按单位解释减法"
+        ],
+        "family_id": "primary.base-ten.subtract-one-digit-or-tens",
+        "variant_id": "m1b.4.2:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.subtraction-addition-inverse",
+          "placevalue.compose.from-units"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "在76根小棒里去掉30根，取3捆还是3根？",
+        "hint": "把要减的数量先摆出来，再从相同单位的栏取走。",
+        "revision_prompt": "对两道题分别圈出被拿走的部分，并写加法检查。"
+      },
+      "criterion_index": 1,
+      "title": "能口算两位数减整十数"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "schema": 1,
+  "reviewer_kind": "ai",
+  "reviewer": "root independent AI cross-read of author output",
+  "independent_teacher_review": false,
+  "student_validation": false,
+  "baseline_commit": "b3e9fa9e49c1e52e7d19ca5c5ba29d87ec164d9b",
+  "source": "data/assessments/junior.json",
+  "source_sha256": "4423913f1394610eb7201428fc6ab668177be2c54026b101a9d70f6a57656c01",
+  "method": "实际逐题阅读题面、所有选项、答案、解释、目标关系与反馈族；逐图查看六张实际SVG渲染并检查关键坐标。原8个有疑问目标的全部任务及既有余份/常数积族成员另行读过。精确数值由独立条件表达式复核。",
+  "resolved_findings": [
+    "文字被标作表图的输入标签改正；真实表格另补SVG。",
+    "余份与常数积题复用已有规范族，避免同义改名重置曝光。",
+    "饼图A/B/C与三视图图号、F/B在可见题干明确对应。",
+    "反馈实际展示的附带方法逐项登记；镜面测高补齐共线和居中条件。"
+  ],
+  "limits": [
+    "AI交叉审读不代表教师独立审核或真实学生已掌握。",
+    "并未再次逐题审查全部旧题；旧版本沿用其明确的历史记录。"
+  ],
+  "tasks": [
+    {
+      "task_id": "v9j_mirror_height_work",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "93b2529eb60f990c8087ba024bb7edb04a52548d945ceb88b8a85791a1afe28c",
+      "asset_sha256": {},
+      "mathematical_reason": "已补物底、镜点、眼垂足共线且镜点居中。两个直角与反射等角给AA，对应H/D=h/d；样例1.5×10/2=7.5。要求真实图、三个地面/眼高测量字段并区分未实施，不能以参考数据冒充实测。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只保存实际提交的作品、步骤与修订；未提交部分保持未观察，量规记录不自动判定目标掌握。",
+      "family_id": "similarity.mirror-measurement.design-and-aa",
+      "reference_family_ids": [
+        "similarity.aa.ordered-correspondence"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_equal_area_counterexample_work",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "0dc22b1aa0a80035e36c10cfcd055a7f7500d0ac060401431a4af999115550cd",
+      "asset_sha256": {},
+      "mathematical_reason": "选D(3,4)，共底6、同高4，面积12；原边4、6、√52与新边5、5、6不相同。D(6,4)为镜像全等的警示正确，实际图与边角反证都需提交。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只保存实际提交的作品、步骤与修订；未提交部分保持未观察，量规记录不自动判定目标掌握。",
+      "family_id": "triangle.equal-area.noncongruence-construction",
+      "reference_family_ids": [
+        "coordinate.triangle-area-axis-base",
+        "pythagoras.find-hypotenuse"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9j_exterior_angle_proof_work",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "aa59bbce80c4800ff93db40ff2cc408d3760c807972845bfec51824dce98df1f",
+      "asset_sha256": {},
+      "mathematical_reason": "延长BC经过C确保外角与C内角互补；内角和消去C给外角=A+B。非退化保证A、B均正，故分别严格大于，不推出大于相邻C。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只保存实际提交的作品、步骤与修订；未提交部分保持未观察，量规记录不自动判定目标掌握。",
+      "family_id": "triangle.exterior-angle.proof-chain",
+      "reference_family_ids": [
+        "triangle.interior-angle-sum",
+        "geometry.right-straight-full-turn"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_cube_stack_drawing_work",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "1a41fd73ca8be60785a2ccd732e6f2a9c1e2acd58330f993727141f1d1303d31",
+      "asset_sha256": {},
+      "mathematical_reason": "前后柱高按指定方向取最大值，主视(2,3,1)、左视后前(2,3)、俯视全2×3。图稿、方向和最高值记录缺一仍未完成对应过程。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只保存实际提交的作品、步骤与修订；未提交部分保持未观察，量规记录不自动判定目标掌握。",
+      "family_id": "views.cube-stack.construct-projections",
+      "reference_family_ids": [
+        "views.cube-stack.row-column-constraints"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_obtuse_altitude_work",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "7875dc8411190b3be9393138a182c6cc6ec2c909e0da4d148508dcfaf0abd4d6",
+      "asset_sha256": {
+        "web/static/diagrams/v9-junior-obtuse-triangle-work.svg": "1d30013a89e215b56c903eb360d5ebd289b0d6bb5971689e278d4b758450a519"
+      },
+      "mathematical_reason": "实图BC水平、A在B左上，垂足应在B左延长线上。高是到对边所在直线的垂线段，AB斜线不能替代，必须查看真实图和直角标记。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只保存实际提交的作品、步骤与修订；未提交部分保持未观察，量规记录不自动判定目标掌握。",
+      "family_id": "triangle.altitude.perpendicular-line",
+      "reference_family_ids": [],
+      "representation": "geometry"
+    },
+    {
+      "task_id": "v9j_angle_bisector_construction_work",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "3021d53a972d25bb5e0a13003795f58d621940f170a55419d8d1638e5cc372c6",
+      "asset_sha256": {
+        "web/static/diagrams/v9-junior-obtuse-triangle-work.svg": "1d30013a89e215b56c903eb360d5ebd289b0d6bb5971689e278d4b758450a519"
+      },
+      "mathematical_reason": "AE=AF、EP=FP、AP公共给SSS，角内AP与BC交D可证BAD=DAC。中点只给中线；无等腰条件不能替代角平分。实际圆弧或工具过程需留存。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只保存实际提交的作品、步骤与修订；未提交部分保持未观察，量规记录不自动判定目标掌握。",
+      "family_id": "triangle.bisector.equal-angles",
+      "reference_family_ids": [
+        "congruence.sss.common-side"
+      ],
+      "representation": "geometry"
+    },
+    {
+      "task_id": "v9j_parallel_steps_work",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "3a09dfa5c57119e913d711b8472ca4d483d51518c8905f1a95cd4da71abbe7bc",
+      "asset_sha256": {},
+      "mathematical_reason": "不同交点处各垂直同一截线，所选同位角均90°，用同位角判定推出平行。须标确切角并使用判定方向，不能先引用平行性质循环证明。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只保存实际提交的作品、步骤与修订；未提交部分保持未观察，量规记录不自动判定目标掌握。",
+      "family_id": "proof.parallel.common-perpendicular",
+      "reference_family_ids": [
+        "parallel.criteria.angle-pairs"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_parallelogram_opposite_sides_work",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "69a0ab5a589a81c9da7bfccaeb27a4e6cea7a866e216de9aa70b13ea1228f50c",
+      "asset_sha256": {},
+      "mathematical_reason": "对角线AC公共且两组对边相等，△ABC≌△CDA。BAC=DCA与BCA=DAC分别给两组对边平行，凸性及对应点顺序清楚，最终类型来自定义。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只保存实际提交的作品、步骤与修订；未提交部分保持未观察，量规记录不自动判定目标掌握。",
+      "family_id": "parallelogram.opposite-sides.sss-proof",
+      "reference_family_ids": [
+        "congruence.sss.common-side",
+        "parallel.criteria.angle-pairs"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_two_sided_balance_work",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "1bc1a83c60f5452bab7a9bfd9bda2b5d8720f8bf4f8e0b88bf6f787bfefb2e85",
+      "asset_sha256": {
+        "web/static/diagrams/v9-junior-two-sided-balance.svg": "0eab2358bd9aa4b0da7fb85314640151c9101e00bc27a550c4e84e460c25fec3"
+      },
+      "mathematical_reason": "实图左3盒+2、右1盒+10，等臂支点到两吊点均150个SVG单位。设单盒x，3x+2=x+10得4，原两盘均14。静态图不是学生已经操作；需实际步骤或图稿与代回记录。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只保存实际提交的作品、步骤与修订；未提交部分保持未观察，量规记录不自动判定目标掌握。",
+      "family_id": "equation.balance-model",
+      "reference_family_ids": [
+        "equation.solve-linear",
+        "equation.solution.substitution-check"
+      ],
+      "representation": "manipulative"
+    },
+    {
+      "task_id": "v9j_parallel_chords_work",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "5bf0278136e9572545b73f9961740b8142daf8a9fea5a41b92e32db2a590e0c8",
+      "asset_sha256": {},
+      "mathematical_reason": "与数值题同一双弦系统；图须给半弦3、4、距离和7及共同半径。半径5，若圆心在同侧则距离关系变差，原和式不能照搬，量规要求说明此条件。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只保存实际提交的作品、步骤与修订；未提交部分保持未观察，量规记录不自动判定目标掌握。",
+      "family_id": "circle.parallel-chords.shared-radius",
+      "reference_family_ids": [
+        "circle.perpendicular-chord.half-length",
+        "algebra.formula.difference-squares-structure",
+        "system.elimination.opposite-coefficients"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_frequency_report_work",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "399f0d1accd6567c5ce2d4ab4cea729bca1608b74a22b78f9e0edba99af535e8",
+      "asset_sha256": {},
+      "mathematical_reason": "原两批频率0.8、0.4，合并0.5；各批按10/40和30/40加权。原计数表、概率模型依据和有限样本的证明界限分别提交，书面/录音不由选择结果替代。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只保存实际提交的作品、步骤与修订；未提交部分保持未观察，量规记录不自动判定目标掌握。",
+      "family_id": "probability.frequency.pooled-batches-stable-model",
+      "reference_family_ids": [
+        "probability.observed-relative-frequency"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9j_annular_sector_work",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "091c8d93547fdd9a200c645747e6ac668b55ba6791bdd392e190eaac664bffed",
+      "asset_sha256": {
+        "web/static/diagrams/v9-junior-annular-sector.svg": "6be1b4dcb9c67f0d6ff8ff1e1b60724936204a09c1ace16b812f9f13502a9049"
+      },
+      "mathematical_reason": "弧3π与2π，两条直边各2；面积9π减4π得5π。图中需实际标出两弧、直边与挖去区域，面积相减来自包含关系，不用弧差替代。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只保存实际提交的作品、步骤与修订；未提交部分保持未观察，量规记录不自动判定目标掌握。",
+      "family_id": "sector.annular-region.area-and-arcs",
+      "reference_family_ids": [
+        "sector.arc-versus-area.fraction-of-circle",
+        "sector.area.fraction-of-circle"
+      ],
+      "representation": "geometry"
+    },
+    {
+      "task_id": "v9j_regular_vertex_work",
+      "source": "data/assessments/junior.json",
+      "source_task_sha256": "0a2d0c7e0790c82af8f6af8748e3eed00c9170002d858428e2a8e37989b7e493",
+      "asset_sha256": {},
+      "mathematical_reason": "顶点附近90°与两个135°合周角，中心角在各多边形中心为45°、边数8。要求画出拼接顶点和中心的区别，局部必要条件未当作全平面构造。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只保存实际提交的作品、步骤与修订；未提交部分保持未观察，量规记录不自动判定目标掌握。",
+      "family_id": "regular-polygon.vertex-tiling-angle-constraint",
+      "reference_family_ids": [
+        "regular-polygon.central-interior-angles",
+        "regular-polygon.interior-angle",
+        "polygon.exterior-angle.inverse-count"
+      ],
+      "representation": "verbal"
+    }
+  ]
+}

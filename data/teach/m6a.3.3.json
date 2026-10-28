@@ -1,52 +1,145 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m6a.3.3",
- "name": "一个数除以分数",
- "tier": "core",
- "hook": "16÷4/5=20，比 16 还大。除法不是让数变小吗？",
- "definition": "一个数除以分数，等于乘这个分数的倒数；除以一个小于 1 的数，商比原数大。",
- "why": "16÷4/5 问的是「16 里面有几个 4/5」。每份不到 1，份数自然比 16 多，所以结果更大。除以一个小于 1 的数，等于问「能装几份」，份数一定超过原数。",
- "when_to_use": [
-  "除数是分数，被除数是整数或分数",
-  "「每份是几分之几，能分几份」这类问题",
-  "已知部分求整体（部分 ÷ 它占的几分之几）"
- ],
- "steps": [
-  "把除号改成乘号",
-  "把除数写成它的倒数（分子分母交换）",
-  "先约分再乘",
-  "判断结果该比被除数大还是小，检查是否合理"
- ],
- "worked_example": {
-  "prompt": "16÷4/5=？",
-  "verify": "16/(4/5)",
-  "answer": "20",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "hand",
+  "topicId": "m6a.3.3",
+  "name": "一个数除以分数",
+  "tier": "core",
+  "hook": "16÷(4/5)=20，比16还大。为何除以一个比1小的正数时，商反而变大？",
+  "definition": "除数非零时，一个数除以分数等于乘这个分数的倒数。对正被除数，除以0到1之间的正数，商比被除数大；不满足这些条件时不能套用大小口诀。",
+  "why": "利用商不变规律，把被除数与除数同时乘除数的倒数，除数就变为1，商等于原被除数乘该倒数。这也解释了为什么只倒转除数、除数不能为0；用结果乘回原除数可检验。",
+  "when_to_use": [
+    "除数是分数，被除数是整数或分数",
+    "「每份是几分之几，能分几份」这类问题",
+    "已知部分求整体（部分 ÷ 它占的几分之几）"
+  ],
   "steps": [
-   "除以 4/5 等于乘 5/4。",
-   "16×5/4：16 和 4 约分得 4。",
-   "4×5=20 袋。结果比 16 大，符合「每份不到 1」的预期。"
+    "先确认除数不为0，分子分母合法；再进行倒数转换。",
+    "把除号改成乘号",
+    "把除数写成它的倒数（分子分母交换）",
+    "先约分再乘",
+    "判断结果该比被除数大还是小，检查是否合理"
+  ],
+  "worked_example": {
+    "prompt": "计算16÷(4/5)，说明只把哪个数取倒数。",
+    "verify": "16/(4/5)",
+    "answer": "20",
+    "steps": [
+      "4/5非0，除以4/5等于乘它的倒数5/4。",
+      "16×(5/4)中16与4约分，得到4×5。",
+      "4×5=20；20×(4/5)=16，乘回检查正确。正被除数除以小于1的正数，结果会比原数大。"
+    ],
+    "family_id": "fraction.divide-by-fraction",
+    "variant_id": "m6a.3.3:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "fraction.multiply-fractions"
+    ]
+  },
+  "pitfalls": [
+    "把被除数也取倒数，改变了原除法。",
+    "忽略除数为0时没有定义。",
+    "未检查正负与范围条件，就断言商一定比被除数大。"
+  ],
+  "practice": [
+    {
+      "id": "m6a.3.3-q1",
+      "note": "除以几分之一，等于乘几"
+    },
+    {
+      "id": "m6a.3.3-q2",
+      "note": "分数除以分数，先取倒数再约分"
+    },
+    {
+      "id": "m6a.3.3-q95",
+      "note": "已知总量和每份量，求份数"
+    }
+  ],
+  "check": "能解释「除以 4/5 等于乘 5/4」，并说明商为什么变大。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能计算分数除以分数",
+      "explanation": "除数须非零；除以分数a/b等于乘b/a，只取除数的倒数。",
+      "self_check": {
+        "prompt": "计算(3/4)÷(2/5)并验算。",
+        "reference_answer": "(3/4)×(5/2)=15/8；(15/8)×(2/5)=3/4。",
+        "criteria": [
+          "倒数对象正确",
+          "乘回检验"
+        ],
+        "family_id": "fraction.divide-by-fraction",
+        "variant_id": "m6a.3.3:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.multiply-fractions",
+          "fraction.reciprocal-product-one"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "(3/4)÷(2/5)中哪一个数是除数？把两个分数都倒过来还能保持原关系吗？",
+        "hint": "只把非零除数2/5变成倒数5/2；检验所得商乘原除数能否回到3/4。",
+        "revision_prompt": "计算(5/6)÷(3/4)，圈出原除数与其倒数，完成后用乘法恢复5/6。"
+      },
+      "observation_note": "观察只倒转非零除数与逆运算检验；文字规则不能说明所有分式情形都合法。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能说明“除以一个数等于乘它的倒数”的道理",
+      "explanation": "被除数和除数同乘除数的倒数，把除数变成1，商不变。",
+      "self_check": {
+        "prompt": "用商不变规律解释x÷(2/3)=x×(3/2)。",
+        "reference_answer": "被除数与除数同时乘3/2，商不变，得(x×3/2)÷((2/3)×3/2)=(x×3/2)÷1。",
+        "criteria": [
+          "同时乘同一非零数",
+          "除数变1"
+        ],
+        "family_id": "fraction.division-common-scaling-proof",
+        "variant_id": "m6a.3.3:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.divide-by-fraction",
+          "fraction.reciprocal-zero-exclusion"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "除数2/3乘3/2变1时，被除数x有没有也乘3/2？若只改变除数会怎样？",
+        "hint": "将同乘动作同时写在除式两边的两个量上，随后除以1才等于新的被除数。",
+        "revision_prompt": "用4÷(2/5)具体展示两量同乘5/2，再把方法用于一般被除数，说明除数为0不能这样做。"
+      },
+      "observation_note": "观察商不变规律推导及非零条件；只会背“乘倒数”还没有解释来源。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能求整数整体中包含多少个给定分数量",
+      "explanation": "给出总量和每份的分数量，份数等于总量除以每份量。把除以分数转换为乘它的倒数，再用份数乘每份量核对回总量；若题目说整体的几分之几，必须明确基准始终是原整体还是不断变化的剩余量。",
+      "self_check": {
+        "prompt": "有4米绳，每段2/3米，正好用完，可分几段？再说明“每次取原来总量的1/4”和“每次取剩余量的1/4”是否相同。",
+        "reference_answer": "4÷(2/3)=4×(3/2)=6段，6×(2/3)=4米。原量的1/4每次固定，剩余量的1/4会变小，不能混作同一模型。",
+        "criteria": [
+          "用总量除以每段量",
+          "段数为6并能乘回4米",
+          "区分原整体与剩余量作基准"
+        ],
+        "family_id": "fraction.measure-groups-by-fraction",
+        "variant_id": "m6a.3.3:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "被除数为整数，不把结果替代分数除分数或倒数法的解释。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "分数描述每段多少米，还是剩余总量的比例？基准有没有随每次操作变化？",
+        "hint": "先给分数补上单位或基准：每段2/3米是固定量，可以用4÷(2/3)。",
+        "revision_prompt": "用3米、每段3/4米重新求段数并乘回核对，明确这是固定长度的等量分组。"
+      }
+    }
   ]
- },
- "pitfalls": [
-  "只把分子分母中的一个交换，写成乘 5/4 之外的怪形式。",
-  "把被除数也取倒数。",
-  "结果比被除数小却不觉察——除以小于 1 的数，商一定变大。"
- ],
- "practice": [
-  {
-   "id": "m6a.3.3-q1",
-   "note": "除以几分之一，等于乘几"
-  },
-  {
-   "id": "m6a.3.3-q2",
-   "note": "分数除以分数，先取倒数再约分"
-  },
-  {
-   "id": "m6a.3.3-q95",
-   "note": "已知总量和每份量，求份数"
-  }
- ],
- "check": "能解释「除以 4/5 等于乘 5/4」，并说明商为什么变大。"
 }

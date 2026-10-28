@@ -1,0 +1,177 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.9.1.1",
+  "name": "平面直角坐标系的概念",
+  "tier": "core",
+  "hook": "剧场里的“第3排第5座”和“第5排第3座”会指向同一个位置吗？",
+  "definition": "平面直角坐标系由两条互相垂直、原点重合的数轴组成，点的坐标是有序实数对，按横纵坐标的符号分属四个象限。",
+  "why": "平面位置需要两个独立方向的信息。有序数对约定先横后纵，使一个坐标对对应唯一位置；坐标的正负决定所在半平面，若某坐标为0，点就在另一坐标轴上。",
+  "when_to_use": [
+    "给出点的位置要写有序数对",
+    "已知坐标要判断象限或轴上位置"
+  ],
+  "steps": [
+    "标好原点、轴正方向和单位长度",
+    "先沿x方向定位再沿y方向定位",
+    "据坐标符号判断象限，并单独处理零坐标"
+  ],
+  "worked_example": {
+    "prompt": "描出P(−2,3)，说明它所在象限。",
+    "answer": "第二象限",
+    "steps": [
+      "从原点向左2个单位再向上3个单位可定位P。",
+      "横坐标负、纵坐标正，所以P在第二象限。"
+    ],
+    "family_id": "coordinate.plot-and-read-ordered-pair",
+    "variant_id": "m7b.9.1.1:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "坐标(x,y)不能随意交换顺序。",
+    "坐标轴上的点不属于任何象限。"
+  ],
+  "check": "独立完成并解释：画坐标系，描P(−3,2)；再在原点右4个单位、下1个单位处标Q，并写Q的坐标。；判断A(0,−4)、B(−2,−3)、C(5,0)的位置。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能由点写出坐标、由坐标描出点",
+      "explanation": "坐标先横后纵；描点先沿横向再沿纵向定位，读点按同一约定逆向进行。",
+      "self_check": {
+        "prompt": "画坐标系，描P(−3,2)；再在原点右4个单位、下1个单位处标Q，并写Q的坐标。",
+        "reference_answer": "P在左3上2的位置；Q=(4,−1)。两轴应有原点、正方向与单位长度，坐标均先横后纵。",
+        "criteria": [
+          "P描在正确位置",
+          "由位置读出Q(4,−1)并标轴的约定"
+        ],
+        "family_id": "coordinate.plot-and-read-ordered-pair",
+        "variant_id": "m7b.9.1.1:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "(−3,2)中的−3控制左右还是上下？Q在下方时哪个数为负？",
+        "hint": "先横后纵；把点分别向两轴作投影读取各自刻度。",
+        "revision_prompt": "另描(2,−3)，与(−3,2)对照，标清原点、两轴方向及每轴单位。"
+      },
+      "observation_note": "观察实际描点与读点的双向对应；只写坐标不能代替正确作图。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能判断点所在的象限或坐标轴",
+      "explanation": "象限由两个非零坐标的符号决定，零坐标指示轴上。",
+      "self_check": {
+        "prompt": "判断A(0,−4)、B(−2,−3)、C(5,0)的位置。",
+        "reference_answer": "A在y轴负半轴，B在第三象限，C在x轴正半轴。",
+        "criteria": [
+          "轴上两点不说象限",
+          "B判断为第三象限"
+        ],
+        "family_id": "coordinate.quadrant-axis-boundary",
+        "variant_id": "m7b.9.1.1:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "坐标中有0的点是否属于某个象限？",
+        "hint": "先检查是否有0：x=0在y轴，y=0在x轴；两者都非0才判象限。",
+        "revision_prompt": "分类(−4,0)、(0,0)、(3,−2)，说明原点同时在两轴且不属任何象限。"
+      },
+      "observation_note": "观察轴上与象限内的边界区分；符号口诀仅对两个非零坐标适用。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由同横坐标或同纵坐标的两点求距离",
+      "explanation": "同横坐标的两点位于一条竖直线上，距离是纵坐标差的绝对值；同纵坐标时对应横坐标差。只需一维距离，不必使用尚未需要的斜向距离公式。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：在平面直角坐标系中，点 A 的坐标是 (-2,3)，点 B 的坐标是 (-2,-1)。A、B 两点之间的距离是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：4。同横坐标，距离3−(−1)=4。",
+        "criteria": [
+          "选对变化坐标并给出非负长度",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "coordinate.axis-aligned-distance",
+        "variant_id": "m7b.9.1.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "两个点哪一个坐标相同？另一个坐标差是否要取非负值？",
+        "hint": "沿共同的坐标线标两端点，再用较大变化坐标减较小坐标。",
+        "revision_prompt": "先回答这个辨别问题：两个点哪一个坐标相同？另一个坐标差是否要取非负值？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；选对变化坐标并给出非负长度。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由沿坐标轴的正方形三个顶点求第四个顶点坐标",
+      "explanation": "边沿坐标轴的正方形相邻顶点只改变一个坐标。已给三顶点时，核对等长且垂直的相邻边，第四点由尚未配对的横纵坐标组合得到。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：正方形的三个顶点坐标分别是 (0,0)、(4,0)、(0,4)。第四个顶点的坐标是什么？（写成 (x,y) 的形式）\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：(4,4)。两条邻边分别沿坐标轴，第四角(4,4)。",
+        "criteria": [
+          "第四顶点与三点组成等边且直角的四边形",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "coordinate.axis-aligned-square-completion",
+        "variant_id": "m7b.9.1.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你把对角线当成邻边，或把已有顶点再次写出了吗？",
+        "hint": "先标出共用同一个顶点的两条轴向边，再作两条平行线相交确定第四点。",
+        "revision_prompt": "先回答这个辨别问题：你把对角线当成邻边，或把已有顶点再次写出了吗？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；第四顶点与三点组成等边且直角的四边形。"
+      }
+    },
+    {
+      "criterion_index": 4,
+      "title": "能由象限与到两坐标轴的距离求坐标的指定组合",
+      "explanation": "到x轴的距离是纵坐标绝对值，到y轴的距离是横坐标绝对值。象限决定符号；第二象限横负纵正，再求题目指定的和或其他组合。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：点 P 在第二象限，它到 x 轴的距离是 3，到 y 轴的距离是 4。P 的横坐标与纵坐标之和是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：-1。象限II和到轴距离确定(-4,3)，和−1。",
+        "criteria": [
+          "轴距对应分量与象限符号同时正确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "coordinate.quadrant-distances-aggregate",
+        "variant_id": "m7b.9.1.1:self-check:4:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "到x轴的距离应给x还是y？第二象限哪一个坐标为负？",
+        "hint": "把两项距离分别填入|y|和|x|，按象限补符号后才做运算。",
+        "revision_prompt": "先回答这个辨别问题：到x轴的距离应给x还是y？第二象限哪一个坐标为负？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；轴距对应分量与象限符号同时正确。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.9.1.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.9.1.1-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.9.1.1-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

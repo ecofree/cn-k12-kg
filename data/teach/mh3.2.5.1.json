@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh3.2.5.1",
+  "name": "直线与圆的位置关系",
+  "tier": "core",
+  "hook": "直线逐渐靠近一个圆，会从没有交点变为相切，再穿成一条弦；转折只取决于圆心到直线的距离。",
+  "definition": "设圆半径r>0，圆心到直线距离d：d>r相离，d=r相切，d<r相交。相交弦长L=2√(r²-d²)。圆上一点T处的切线垂直CT；对圆(x-a)²+(y-b)²=r²，切线为(x_T-a)(x-a)+(y_T-b)(y-b)=r²。",
+  "why": "圆心到弦的垂足平分弦，半弦、垂距与半径构成直角三角形，因此有半弦²+d²=r²。d=r时半弦为0，两交点合为切点；切线方向与半径垂直，由数量积为0推得切线方程。",
+  "when_to_use": [
+    "判断直线与圆有几个公共点",
+    "求弦长、切线或包含参数的相切条件"
+  ],
+  "steps": [
+    "读圆心半径，把直线化一般式并计算d。",
+    "比较d与r确定位置；有弦时用勾股关系求长度。",
+    "求切线时检查切点在圆上，再用半径垂直切线或点式公式。"
+  ],
+  "worked_example": {
+    "prompt": "圆x²+y²=25与直线y=3相交，求弦长。",
+    "steps": [
+      "圆心O、半径5，圆心到y=3的距离d=3。",
+      "半弦=√(25-9)=4，故弦长2×4=8；交点为(±4,3)。"
+    ],
+    "answer": "8",
+    "verify": "2*(25-9)**0.5",
+    "family_id": "circle.chord-from-distance",
+    "variant_id": "mh3.2.5.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "弦长公式中的根式给半弦，最后要乘2。",
+    "套切点公式前必须验证点在圆上；圆外点代入该式通常得到接触弦所在直线而不是一条切线。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用 d 与 r 判断位置关系",
+      "explanation": "d与r比较能避开解二次方程，适用于任意方向直线。",
+      "self_check": {
+        "prompt": "判断x²+y²=4与3x+4y=11的位置关系。",
+        "reference_answer": "d=11/5=2.2>r=2，故相离、没有公共点。",
+        "criteria": [
+          "距离11/5",
+          "严格大于半径并判相离"
+        ],
+        "family_id": "circle.line-distance-position",
+        "variant_id": "mh3.2.5.1:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "比较的是d与r还是d与r²？",
+        "hint": "两者都应为长度，先从圆方程读出半径。",
+        "revision_prompt": "圆x²+y²=9与y=2、3、4分别相交、相切、相离，写d和r。"
+      },
+      "observation_note": "观察距离比较与三种边界；图看似接触不足以判相切。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能求弦长与切线方程",
+      "explanation": "弦长用垂径定理；切线用半径垂直，两者的方向依据不同。",
+      "self_check": {
+        "prompt": "求圆x²+y²=25在T=(3,4)处的切线，并求直线x=3所截弦长。",
+        "reference_answer": "T在圆上；切线3x+4y=25。x=3的垂距为3，弦长2√(25-9)=8。",
+        "criteria": [
+          "切线经过T且垂直OT",
+          "弦长8并含乘2"
+        ],
+        "family_id": "circle.tangent-and-chord",
+        "variant_id": "mh3.2.5.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "弦长为何需要把√(r²-d²)乘2？切线能沿半径吗？",
+        "hint": "垂径平分弦；切线在切点垂直半径。",
+        "revision_prompt": "圆x²+y²=25在(0,5)切线y=5；直线y=4弦长6，用交点(±3,4)核验。"
+      },
+      "observation_note": "观察切点条件、垂直和半弦；不能对圆外点直接套圆上切线式。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由圆的标准方程读出半径",
+      "explanation": "标准圆方程(x−a)²+(y−b)²=r²的右边给半径平方，半径取其正平方根。坐标单位不变，半径不是右边常数本身；若右边为0只是一个点，不能当作非退化圆。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：圆 x²+y²=4 的半径是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：2。x²+y²=4，r=√4=2，取正半径。",
+        "criteria": [
+          "由标准方程右端的正数开正平方根求半径",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "circle.standard-form-read",
+        "variant_id": "mh3.2.5.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "右边4表示r还是r²？负根能作为长度吗？",
+        "hint": "将方程与标准形逐项对应，单独写r²已知，再取正根并平方回查。",
+        "revision_prompt": "先回答这个辨别问题：右边4表示r还是r²？负根能作为长度吗？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；由标准方程右端的正数开正平方根求半径。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由半径和圆心到弦的距离求弦长",
+      "explanation": "圆心到弦的垂线平分弦。半径r、圆心到弦的距离d和半弦组成直角三角形，所以半弦长√(r²−d²)，全弦要再乘2；实际相交成非零弦需d<r。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：圆半径 5，圆心到一条直线的距离是 4。这条直线被圆截得的弦长是多少？\n情境2：圆半径 13，圆心到一条直线的距离是 5。这条直线被圆截得的弦长是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：6。弦长2√(25−16)=6。\n情境2参考：24。弦长2√(169−25)=24。",
+        "criteria": [
+          "在相交条件下由半径和垂距求半弦再加倍",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "circle.chord-from-radius-distance",
+        "variant_id": "mh3.2.5.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "勾股得到的是整条弦还是半条？直线到圆心的距离是否小于半径？",
+        "hint": "连圆心到弦一端并作垂足，标清半弦，求出后把两半合并。",
+        "revision_prompt": "先回答这个辨别问题：勾股得到的是整条弦还是半条？直线到圆心的距离是否小于半径？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；在相交条件下由半径和垂距求半弦再加倍。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh3.2.5.1-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：圆x²+y²=169与直线y=5相交，求所截弦长。"
+    },
+    {
+      "id": "mh3.2.5.1-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：圆心(1,2)、半径3，直线y=5与圆的位置关系是什么？"
+    },
+    {
+      "id": "mh3.2.5.1-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：圆x²+y²=25在点(0,5)处的切线是什么？"
+    }
+  ],
+  "check": "独立完成并写出依据：判断x²+y²=4与3x+4y=11的位置关系。；求圆x²+y²=25在T=(3,4)处的切线，并求直线x=3所截弦长。",
+  "conditions": [
+    "切点必须在圆上；相交弦长以d<r为前提。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

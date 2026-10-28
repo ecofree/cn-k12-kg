@@ -1,52 +1,177 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m6a.4.3",
- "name": "负数的应用",
- "tier": "core",
- "hook": "温度从 -2℃ 上升 5℃，为什么是 3℃，不是 -7℃？",
- "definition": "在数轴上，负数在 0 的左边、正数在 0 的右边；左边的数总比右边的数小，所以 -3<-1。",
- "why": "负数表示「相反方向的量」：零下、亏欠、地下。上升是往数轴右边走，从 -2 往右走 5 格，落在 3；如果往左走，才是更冷的 -7。方向决定加减。",
- "when_to_use": [
-  "温度、海拔、盈亏、收支这类有相反意义的量",
-  "比较两个负数的大小",
-  "在数轴上表示或移动"
- ],
- "steps": [
-  "先画数轴，标出 0",
-  "负数标在 0 左边",
-  "上升/增加向右，下降/减少向左",
-  "比较时越靠左的数越小"
- ],
- "worked_example": {
-  "prompt": "温度从 -2℃ 上升 5℃，是多少℃？",
-  "verify": "-2+5",
-  "answer": "3",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "hand",
+  "topicId": "m6a.4.3",
+  "name": "负数的应用",
+  "tier": "core",
+  "hook": "温度从 -2℃ 上升 5℃，为什么是 3℃，不是 -7℃？",
+  "definition": "本卡约定数轴向右为正、刻度间距相同；负数在0左侧、正数在0右侧。在这一约定下，越靠左的数越小，例如−3<−1。",
+  "why": "负数表示「相反方向的量」：零下、亏欠、地下。上升是往数轴右边走，从 -2 往右走 5 格，落在 3；如果往左走，才是更冷的 -7。方向决定加减。",
+  "when_to_use": [
+    "温度、海拔、盈亏、收支这类有相反意义的量",
+    "比较两个负数的大小",
+    "在数轴上表示或移动"
+  ],
   "steps": [
-   "画数轴，找到 -2 的位置（0 左边 2 格）。",
-   "上升 5℃，就是向右走 5 格。",
-   "从 -2 向右 5 格落在 3，所以是 3℃。"
-  ]
- },
- "pitfalls": [
-  "认为 -3 > -1，因为 3 比 1 大。",
-  "把「上升」当成更冷，越加越小。",
-  "-2℃ 按 2 来算，得出 7℃。"
- ],
- "practice": [
-  {
-   "id": "m6a.4.3-q2",
-   "note": "从负数往上加"
+    "画数轴，标原点0、向右的正方向及单位长度。",
+    "负数标在 0 左边",
+    "上升/增加向右，下降/减少向左",
+    "比较时越靠左的数越小"
+  ],
+  "worked_example": {
+    "prompt": "借助本课等距数轴，说明温度从−2℃上升5℃后是多少℃。标起点与终点，再数单位间隔。",
+    "verify": "-2+5",
+    "answer": "3",
+    "steps": [
+      "画数轴，找到 -2 的位置（0 左边 2 格）。",
+      "上升 5℃，就是向右走 5 格。",
+      "从 -2 向右 5 格落在 3，所以是 3℃。"
+    ],
+    "family_id": "number.signed-change-number-line",
+    "variant_id": "m6a.4.3:worked_example:v6",
+    "representation": "geometry",
+    "cognitive_demand": "explain",
+    "diagram": {
+      "src": "/static/diagrams/primary-v6-signed-number-line.svg",
+      "alt": "向右为正、0为原点的数轴，从−8至8，各相邻刻度相差1。"
+    },
+    "reference_family_ids": [
+      "number.locate-signed-number"
+    ]
   },
-  {
-   "id": "m6a.4.3-q1",
-   "note": "数轴上谁在左边"
+  "pitfalls": [
+    "认为 -3 > -1，因为 3 比 1 大。",
+    "把「上升」当成更冷，越加越小。",
+    "-2℃ 按 2 来算，得出 7℃。"
+  ],
+  "practice": [
+    {
+      "id": "m6a.4.3-q2",
+      "note": "从负数往上加"
+    },
+    {
+      "id": "m6a.4.3-q1",
+      "note": "数轴上谁在左边"
+    }
+  ],
+  "check": "先完成本卡“在数轴上表示正负数”的目标自检，核对−3、0、2的位置；再完成“比较两个负数大小”的自检，用左右顺序解释比较依据。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   },
-  {
-   "id": "m6a.4.3-q9",
-   "note": "辨析：负数在 0 的哪一边"
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能在数轴上表示正负数",
+      "explanation": "数轴须有原点、正方向和单位长度，相反数位于原点两侧且距原点相等。",
+      "self_check": {
+        "prompt": "在附图数轴上用不同颜色标−3、0、2，并按从左到右写出顺序；另画一条自己的数轴标同样三点，注明原点、正方向和单位长度。",
+        "reference_answer": "左至右−3、0、2；−3在原点左3单位，2在右2单位。",
+        "criteria": [
+          "三要素完整",
+          "位置与方向正确"
+        ],
+        "family_id": "number.locate-signed-number",
+        "variant_id": "m6a.4.3:criterion:0:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-signed-number-line.svg",
+          "alt": "向右为正、0为原点的数轴，从−8至8，各相邻刻度相差1。"
+        },
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "数轴上每一格是否一样长？−3应在原点左边第3格还是右边？",
+        "hint": "先约定向右为正，原点0与单位格长写清，再沿相反方向数3个单位。",
+        "revision_prompt": "在同一刻度上标−4、−1、0、3，另用每格2个单位重标−4与2，说明格数随单位长度改变。"
+      },
+      "observation_note": "观察原点、正向、等距单位与定位；不说明正方向时不能仅凭左右判断正负。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能比较两个负数的大小",
+      "explanation": "两个负数比较，离0越远的负数越小，数轴左边的数更小。",
+      "self_check": {
+        "prompt": "比较−7与−2，解释理由。",
+        "reference_answer": "−7<−2；在向右为正的数轴上，−7在−2左边。两者都在0左侧，−7离0更远，表示的数更小。",
+        "criteria": [
+          "不等号正确",
+          "数轴或负数意义解释"
+        ],
+        "family_id": "number.compare-negative",
+        "variant_id": "m6a.4.3:criterion:1:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-signed-number-line.svg",
+          "alt": "向右为正、0为原点的数轴，从−8至8，各相邻刻度相差1。"
+        },
+        "reference_family_ids": [
+          "number.locate-signed-number",
+          "number.signed-change-number-line"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "零下7℃与零下2℃哪个更冷？数字7较大是否意味着温度更高？",
+        "hint": "在向右为正的数轴标两点，−7在−2左边；同为负数时离0更远的位置更小。",
+        "revision_prompt": "比较−6与−1，再将两温度各上升1℃比较，保留数轴或温度解释。"
+      },
+      "observation_note": "观察负数大小与正数直觉的区别；这里不要求使用初中才系统学习的绝对值术语。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能求两个给定有符号数值之间的差距",
+      "explanation": "两数之间的距离是较大值减较小值，跨越0时可把两侧到0的长度合计。距离非负；楼层模型是否含0层必须按题目编号约定。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：某天哈尔滨的最高气温是 -8℃，广州的最高气温是 15℃。两地最高气温相差多少摄氏度？\n情境2：在一个把地面层编号为0的楼层模型中，向上一层编号加1，向下一层编号减1。电梯从编号-2的层到编号+5的层，一共上升了几个层间距离？\n写出每个问题的答案，并用算式、画图或文字说明怎样得到。用过提示或参考的地方也记下来。",
+        "reference_answer": "情境1参考：23。15−(−8)=23℃。\n情境2参考：7。明确含0层模型，5−(−2)=7个层间距离。",
+        "criteria": [
+          "端点差距、方向与编号约定不混淆",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "numberline.distance-between-values",
+        "variant_id": "m6a.4.3:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "没有实际数轴作图，也没有比较两个负数大小。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你算的是有方向的变化还是非负的差距？编号是否明确含0？",
+        "hint": "先把两端与0的位置排好，按相邻间隔计长度，不仅数端点个数。",
+        "revision_prompt": "先回答这个辨别问题：你算的是有方向的变化还是非负的差距？编号是否明确含0？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；端点差距、方向与编号约定不混淆。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能把带正负号的多次变化合成为净变化量",
+      "explanation": "收入等正变化与支出等负变化应按符号累加得到净变化。净变化为负表示余额减少，并不等于知道最终余额；还需要原余额才能求终值。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：妈妈用记账软件记收支：收入 200 元记作 +200 元，支出记作负数。本月依次记了 +200、-150、-80，账户余额一共变化了多少元？\n写出每个问题的答案，并用算式、画图或文字说明怎样得到。用过提示或参考的地方也记下来。",
+        "reference_answer": "情境1参考：-30。200−150−80=−30元，表示净减少30。",
+        "criteria": [
+          "净变化的符号和终值含义区分",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "number.signed-net-change",
+        "variant_id": "m6a.4.3:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "仅观察所提交的数值、名称或方案；不把未提交的列式、解释、作图及选择算法过程记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你把负变化的金额绝对值相加了吗？问题给了原余额吗？",
+        "hint": "先分别合计增加与减少，再比较二者；结果保留正负含义。",
+        "revision_prompt": "先回答这个辨别问题：你把负变化的金额绝对值相加了吗？问题给了原余额吗？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；净变化的符号和终值含义区分。"
+      }
+    }
+  ],
+  "diagram": {
+    "src": "/static/diagrams/primary-v6-signed-number-line.svg",
+    "alt": "向右为正、0为原点的数轴，从−8至8，各相邻刻度相差1。"
   }
- ],
- "check": "能在数轴上标出 -3 和 -1，并说出 -3 更小、为什么。"
 }

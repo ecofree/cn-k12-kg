@@ -1,0 +1,436 @@
+{
+  "schema": 1,
+  "review_kind": "ai_targeted_runtime_semantic_review",
+  "reviewer": {
+    "type": "ai",
+    "agent": "/root/v4_learning_decisions",
+    "independent_from_all_implementations": false,
+    "relationship_notice": "逐文件区分交叉审查和本代理实现后的定向自审；不冒充独立教师或第三方安全认证。"
+  },
+  "reviewed_at": "2026-10-26T13:58:37.289028+00:00",
+  "baseline_commit": "9f0471009f13590beee850ca5dd4999ff64d14fd",
+  "review_status": "reviewed",
+  "decision": "accept_reviewed_runtime_scope_with_stated_limits",
+  "teacher_review": "deferred_by_user",
+  "real_student_effect_validation": "deferred_by_user",
+  "scope": {
+    "bound_files": 9,
+    "focus": [
+      "证据与后续任务闭环",
+      "冻结内容和运行版本",
+      "所有者隔离",
+      "旧事项持续保留",
+      "修订及帮助的观察边界"
+    ],
+    "full_repository_audit": false,
+    "frontend_hashes_included": false,
+    "frontend_notice": "根任务正在修订前端加载/保存竞态和分数不变量措辞。本记录不绑定web/static内任何前端文件，也不提前认可其最终版本；真实页面由浏览器验收单独覆盖。"
+  },
+  "methods": [
+    "定向阅读当前运行模块、HTTP资源解析与owner查询路径，并按每个文件列出实际阅读函数和限制。",
+    "对“磁盘已变、Python函数未重载”的风险先使用只读mock复现，随后实现启动冻结版本并运行针对性回归。",
+    "复查操作表征版本修复的配置/验证/绘图字节绑定、API双版本校验和历史快照保留；未把源码检查标成已完成浏览器验收。",
+    "核查允许的10+10状态及修正后的Math.floor(total/10)、total%10表达式，确认结果为2个十和0个一；前端最终哈希和页面验证另列。",
+    "对本代理学习事项、安排、持久化实现复读关键路径，并引用本会话已经实际执行的回归；不会仅凭测试文件存在宣称测试通过。",
+    "报告写入后重查所有绑定文件SHA256，保证当前审查记录未绑定写入期间已变化的文件。"
+  ],
+  "findings": [
+    {
+      "id": "RT-01",
+      "severity": "high",
+      "status": "fixed_and_verified_by_targeted_regressions",
+      "paths": [
+        "cnkg/instruction.py",
+        "web/server.py",
+        "cnkg/runtime_version.py"
+      ],
+      "problem": "原grader_version在每次查询时读取磁盘源文件。服务仍运行已import的旧函数，但部署/编辑后的新会话会被贴上新磁盘代码版本；重启后可能在新规则下误认其可续答。legacy graph_version的首次查询也有同类风险。",
+      "reproduction": {
+        "method": "mock pathlib.Path.read_bytes，保留实际instruction.grade_answer对象不变后创建新支持活动。",
+        "before_fix_observed": {
+          "loaded_grader_function_unchanged": true,
+          "on_disk_version_changed": true,
+          "new_session_stamped_disk_version": true,
+          "new_session_resume_problem": null
+        }
+      },
+      "fix": "依赖导入后、接收学习请求前冻结源身份；server捕获在ContentRepository耗时构建之前。支持、单元、主题及legacy图版本均使用本进程冻结值，重启才获得新源身份。",
+      "verification": [
+        "tests/test_runtime_version_v4.py的5项回归已执行通过。",
+        "磁盘修改后新活动仍写原版本；模拟新进程版本不同可阻止错误续答；原快照与答案未被改写。",
+        "既有patch.object(server, topic_grader_version)续答测试语义保持。"
+      ]
+    },
+    {
+      "id": "RT-02",
+      "severity": "high",
+      "status": "fixed_and_source_rechecked",
+      "paths": [
+        "cnkg/manipulatives.py",
+        "web/server.py"
+      ],
+      "problem": "原操作记录只绑定unit resource_version。配置、指导提示、数值范围或绘图逻辑变化而单元作者源不变时，旧state仍会被当作同一表征自动恢复。",
+      "fix": "新增独立representation_version，绑定CONFIG、验证源码和本进程实际冻结的renderer字节；记录保存representation_snapshot。保存请求核对两个版本，读取同版本判断也同时核对两者。",
+      "verification": [
+        "已逐项阅读新representation_version/snapshot/public_config/renderer_bytes和GET/POST /api/manipulative。",
+        "保存事件保留旧配置、表征版本和原始state；版本失配不会删除历史事件，也不会在GET中标记same_version。"
+      ],
+      "browser_verification_claimed_here": false,
+      "separate_acceptance": "根任务的真实HTTP/浏览器及固定版本验收记录。"
+    },
+    {
+      "id": "RT-03",
+      "severity": "medium",
+      "status": "fixed_expression_rechecked_final_frontend_acceptance_separate",
+      "paths": [
+        "cnkg/manipulatives.py"
+      ],
+      "related_unbound_path": "web/static/manipulatives.js",
+      "problem": "合法状态a=10,b=10时，原页面固定写“1个十和10个一”，与两框满十和应继续十进的教学表达不符。",
+      "fix": "改用Math.floor(total/10)表示整十个数、total%10表示剩余个位；20得到2个十和0个一。",
+      "verification": {
+        "allowed_state_checked": {
+          "a": 10,
+          "b": 10
+        },
+        "rechecked_expression": "Math.floor(total / 10), total % 10",
+        "expected_result": {
+          "tens": 2,
+          "ones": 0
+        }
+      },
+      "frontend_sha256_intentionally_omitted": true,
+      "browser_verification_claimed_here": false,
+      "separate_acceptance": "前端仍有并行修订；最终实际页面表现由根任务单独绑定版本验收。"
+    }
+  ],
+  "earlier_learning_decision_regressions_rechecked_in_design": [
+    "已完成的答错topic会话仍有后续任务，创建新会话不会丢掉其need。",
+    "较早阶段的needs_review过程题保留具体session/question入口；换阶段、换版本不能无依据清除。",
+    "partial/revisit/not_checked与met具有不同后续行为；自评修订不重判旧题，也不被称为掌握。",
+    "超1000条历史仍参与规划；明确暂缓仅改变待办状态，owner隔离与事件来源保留。"
+  ],
+  "executed_validation_in_this_session": [
+    {
+      "command": "python -m unittest tests.test_runtime_version_v4 tests.test_instruction_v4",
+      "tests_run": 14,
+      "result": "passed",
+      "execution_scope": "最终runtime冻结修复后执行；5项版本回归加9项instruction/admission回归。"
+    },
+    {
+      "command": "python -m unittest tests.test_learning_needs_v4 tests.test_planner tests.test_learning_store_v2 tests.test_review_integrity",
+      "tests_run": 54,
+      "result": "passed",
+      "execution_scope": "本轮第一批学习事项实现冻结时实际执行；最终整版再次验收由根任务完成。"
+    }
+  ],
+  "supporting_test_files": [
+    {
+      "path": "tests/test_runtime_version_v4.py",
+      "sha256": "eca282080861d4973d26f1c5384aa7907c120a2f0c2162b2def090cc147d9b0b"
+    },
+    {
+      "path": "tests/test_instruction_v4.py",
+      "sha256": "2e474ab263cee06ef3db880a2378ffe173b14a581b6a7c96f295b6582f14d2d1"
+    },
+    {
+      "path": "tests/test_learning_needs_v4.py",
+      "sha256": "fc6773acd1f2669b7616bce55d2b537f7aa0cccad477123810ad0858102214c3"
+    }
+  ],
+  "files": [
+    {
+      "path": "cnkg/instruction.py",
+      "review_relation": "cross_review_with_a_scoped_runtime_version_fix_by_this_reviewer",
+      "read_extent": "完整模块已读；运行版本接入为本代理修复，其余支持活动为交叉审查。",
+      "reviewed_symbols": [
+        "check_supports",
+        "support_index",
+        "_public_question",
+        "_event",
+        "_present",
+        "create",
+        "grader_version",
+        "version_problem",
+        "public_session",
+        "answer",
+        "hint"
+      ],
+      "semantic_checks": [
+        "创建活动时核对支持目标的skill_id与原事项一致；多个旧内容版本不能合并到一次清除操作。原事项版本和当前支持内容版本分开保存。",
+        "诊断、指导、终末确认的任务与元数据均存入快照；公开题面不包含正确答案、未选选项的辨别反馈或尚未打开的提示。",
+        "每个回答保留help_used=true；只有终末confirmation行写入resolution_for_need_ids，是否实际关闭事项再由learning_needs核对正确结果、完成时间、来源版本与技能。",
+        "提示、答题、反馈产生题目/题族曝光；参考已提供不被表述为确实阅读或独立掌握。原题评分没有被支持任务覆盖。",
+        "快照、题目、元数据、图示字节及判分版本分别检查；无效输入不推进index，重交旧题号不能覆盖原答案。",
+        "判分版本现在从导入时捕获的_GRADER_RUNTIME取得，后续请求不重新读取判分源文件给旧函数贴新标签。"
+      ],
+      "related_findings": [
+        "RT-01"
+      ],
+      "limits": [
+        "owner范围由HTTP入口和LearningStore查询提供；该模块自身不接收浏览器凭据，也不能单独证明调用者已经筛选owner。",
+        "支持后的正确只是一项有帮助的后续观察，不能替代独立测验或量规过程审核。"
+      ],
+      "sha256": "eef639f1c9dd066d8c11131abf672ea196a04368d2e1e66830c280454363b518",
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "cnkg/admissions.py",
+      "review_relation": "ai_cross_review",
+      "read_extent": "完整71行模块已读。",
+      "reviewed_symbols": [
+        "fingerprint",
+        "policies",
+        "runtime_policy"
+      ],
+      "semantic_checks": [
+        "准入登记同时核对原题与解析后题目的内容散列，题干条件、答案契约或用途改变会使原登记失配。",
+        "明确核查诊断/练习/判弱等布尔用途的一致关系；显式登记不能覆盖作者禁止诊断或练习的声明。",
+        "隔离、损坏、计算失败、被拒证据及需独立审查的机械记忆题仍受硬排除；增加解析长度不能直接提升已发布题的用途。",
+        "运行快照内容失配或准入契约不全时回退为不可诊断/不可练习，并保留待审说明。"
+      ],
+      "related_findings": [],
+      "limits": [
+        "本次检查用途与版本绑定逻辑；没有以准入记录的结构通过冒充每一道旧题的数学、学科或教师审核。",
+        "未对全部外部题库或全部历史准入登记重新逐条审读。"
+      ],
+      "sha256": "71de7522af39a220cb2023a8ea93e4a3b43a102c8c26adeb5d78d484c96c6a0d",
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "cnkg/content_repository.py",
+      "review_relation": "ai_cross_review",
+      "read_extent": "完整59行模块已读。",
+      "reviewed_symbols": [
+        "ContentRepository.__init__",
+        "topic_card",
+        "assets_for",
+        "asset_bytes"
+      ],
+      "semantic_checks": [
+        "同一次启动加载目录、图、单元、项目、讲解卡和课程范围；单元/项目集合与编译目录不一致时拒绝启动。",
+        "读取完作者资源后再次逐项核对目录登记的源散列，启动期间源变化不会被静默当作同一内容版本接受。",
+        "已登记SVG字节随本进程固定；对外返回卡和资产使用复制，后续磁盘内容编辑不直接换掉已加载的讲解资源。",
+        "读取资源与学习数据库保存分离；内容构建没有在本模块清空或重算学习会话。"
+      ],
+      "related_findings": [],
+      "limits": [
+        "这是已登记作者资源的一致性检查，不是任意外部文件或热重载系统的完整事务证明。",
+        "嵌套的load_catalog/load_graph/quality_scope等模块未在这份运行审查中逐行重新审完；其专门校验与固定版本验收另列。"
+      ],
+      "sha256": "00663071e0c5d86a4194268ee4926968001433a123c5a82d7e11f04194a823a0",
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "cnkg/runtime_version.py",
+      "review_relation": "implementation_and_targeted_self_review",
+      "read_extent": "完整模块由本代理实现并审读。",
+      "reviewed_symbols": [
+        "GRADER_SOURCES",
+        "FrozenRuntimeVersion.capture",
+        "FrozenRuntimeVersion.changed_sources",
+        "freeze_grader"
+      ],
+      "semantic_checks": [
+        "capture在模块初始化阶段执行，生成不可变源散列元组与固定version；第一次学习请求到来时不会重新捕获当前磁盘版本。",
+        "support、unit、topic保留原有源文件组和散列编码格式，代码搬迁本身不造成不必要的旧会话失效。",
+        "changed_sources可以报告磁盘漂移，但不会改写已捕获版本或历史会话；新进程重新捕获新版本。",
+        "捕获路径限制在指定项目目录内，版本来源不能为空；已有公开判分版本函数仍可由回归测试patch。"
+      ],
+      "related_findings": [
+        "RT-01"
+      ],
+      "limits": [
+        "运行约定是导入依赖后立即捕获，服务保持该代码直至重启；不支持在进程内手工reload或替换判分函数后继续沿用旧标识。",
+        "这是本代理实现后的定向自审与测试，不声称由独立第三方完成。"
+      ],
+      "sha256": "08f8116f171a39a945ffce2c1ed0af59043d95fa77f23fd39e045cd40c9ba338",
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "cnkg/learning_needs.py",
+      "review_relation": "implementation_and_targeted_self_review",
+      "read_extent": "本轮实现后再次完整审读当前336行模块。",
+      "reviewed_symbols": [
+        "observation_metadata",
+        "need_identity",
+        "work_is_reviewed",
+        "derive_needs",
+        "skill_evidence",
+        "support_routes",
+        "task_options"
+      ],
+      "semantic_checks": [
+        "事项由完整历史观察生成；稳定need_id绑定类型、来源和原资源版本，新会话、新阶段或新内容版本没有删除旧事项的分支。",
+        "观察元数据只从原快照、原task_metadata与原答案读取，不拿当前题目重判旧答案或补造旧技能归属。",
+        "答错/跳过事项只由时间更晚且同题同版本正确，或显式关联、完成且技能覆盖的支持终末正确关闭，并保留具体来源与非独立证据声明。",
+        "过程题的修订需要逐条量规met；partial、revisit、not_checked继续保留。关闭只标learner_reported_revision，原needs_review评分不改变。",
+        "有关联事项的指导中间错误附在原事项下；无关联的支持活动保留一个可恢复入口，终末确认才结束该有界事项。",
+        "明确暂缓仍保留事件与来源；技能观察没有生成掌握分数。前置技能关系实际参与支持路径，任务排序考虑已见题目、声明题族、表征及帮助曝光。"
+      ],
+      "related_findings": [],
+      "limits": [
+        "调用方必须提供owner筛选后的完整历史；该纯计算模块不负责鉴权。",
+        "旧记录缺少版本、时间或技能元数据时不补造独立证据；自评达到仍属于学习者报告。"
+      ],
+      "sha256": "7139e3e949262ad0dc155bafec10b8f7531c66ba500da09713485197640a7527",
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "cnkg/planner.py",
+      "review_relation": "implementation_and_targeted_self_review",
+      "read_extent": "本轮实现后再次完整审读当前349行模块。",
+      "reviewed_symbols": [
+        "_observed_completion",
+        "plan"
+      ],
+      "semantic_checks": [
+        "先对所有输入历史生成learning_needs，后构建展示建议；建议列表limit不会截断完整事项清单或只保留最新阶段。",
+        "已完成但答错的topic会话具有practice入口；早期过程题仍具有来源session/question的自查入口，后续单元阶段不遮掉它。",
+        "作品提交不等于量规已达成；有partial/revisit的已提交作品仍安排修订，作品不能冒充正式阶段完成。",
+        "旧内容活动通过冻结版本和resume_blocked区分是否可继续；内容更新另开新版本学习路径，同时保持原事项及来源。",
+        "技能前置关系用于同单元/跨单元支持路径；下一题附题族、表征与帮助记录的选择依据。",
+        "1/3/7天仅是产品默认；间隔推进统计qualified_review，不因立即重复或支持活动完成而自动晋级，不声称独立掌握。"
+      ],
+      "related_findings": [],
+      "limits": [
+        "安排是规则建议，不是经过真实学生效果验证的自适应模型。",
+        "创建复测时的最新相关活动及实际安静间隔，由HTTP入口和review_timing最终重新核对；建议到期本身不能证明独立复测有效。"
+      ],
+      "sha256": "511d84b87ddb096ddbfe3c2951a4a51b133a5b8bde86ec45f03e1663dfd67ebd",
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "cnkg/learning_store.py",
+      "review_relation": "implementation_and_targeted_self_review",
+      "read_extent": "本轮实现并复读下列持久化、摘要、迁移及查询函数；不以本记录声称完成数据库引擎或所有故障模式的全面审计。",
+      "reviewed_symbols": [
+        "_scope",
+        "_session_summary",
+        "_work_summary",
+        "LearningStore.__init__",
+        "_connect",
+        "_migrate_v2",
+        "_migrate_v3",
+        "_migrate_v4",
+        "load",
+        "records",
+        "planning_records",
+        "need_states",
+        "set_need_state",
+        "latest_scope_records",
+        "_family",
+        "_index_exposure",
+        "_insert_events",
+        "save",
+        "events",
+        "latest_material",
+        "latest_resource_event",
+        "latest_scope_activity",
+        "exposures",
+        "load_work",
+        "save_work",
+        "works",
+        "work_history"
+      ],
+      "semantic_checks": [
+        "session、event、work、work revision和exposure的对外查询均绑定owner；会话更新同时校验owner与期望revision。",
+        "planning_records没有1000条分页上限，也不只取最新阶段；普通历史页面的分页不作为学习事项推导的数据源。",
+        "v4只重建summary_json；原record_json、事件、资源版本、ID与不可变作品修订行保持原样。迁移在BEGIN IMMEDIATE中执行并验证失败回滚。",
+        "作品摘要分别保留逐量规状态、未解决索引、revision_needed和all_criteria_met，填写过自评与全部自报达到是不同字段。",
+        "暂缓/重开核对owner拥有的实际need_id，要求理由并追加事件；不提供手工改成掌握或删除原问题的动作。",
+        "作品保存使用expected_revision与request_id，重放相同请求返回原修订，不同内容复用ID或改写来源/快照/版本会冲突。",
+        "曝光索引保留呈现、回答、反馈、材料和参考计数及时间；最近相关活动同时查询资源与题目/题族曝光，不用客户端传来的旧会话绕过间隔。"
+      ],
+      "related_findings": [],
+      "limits": [
+        "服务层负责验证允许写入的资源和事件；直接任意调用底层库不等同于经过HTTP入口。",
+        "本记录没有重做密码学备份模块的完整安全审计，也没有进行生产负载、断电或跨进程压力验证。"
+      ],
+      "sha256": "03bce1c9c689fec6dd0a222ad5cc8c007622da3a914ed9b9a44a438fd854fa52",
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "cnkg/manipulatives.py",
+      "review_relation": "ai_cross_review",
+      "read_extent": "最初38行模块与修复后的完整72行模块均已读；前端文件不在本记录的哈希绑定范围。",
+      "reviewed_symbols": [
+        "CONFIG",
+        "_VERSIONS",
+        "representation_version",
+        "snapshot",
+        "public_config",
+        "renderer_bytes",
+        "validate_state"
+      ],
+      "semantic_checks": [
+        "操作状态严格匹配该表征字段；整数检查排除布尔值，分数分母/分子、图表数值/轴起点和一次函数参数范围受约束。",
+        "独立representation_version绑定配置、验证源码散列及本进程冻结的renderer字节散列。",
+        "snapshot保存原配置和两个代码散列；返回配置用深复制，renderer_bytes对应本进程实际提供的绘图入口。",
+        "操作记录和解释明确标为非独立、非自动计分；HTTP入口另核单元版本与表征版本。"
+      ],
+      "related_findings": [
+        "RT-02",
+        "RT-03"
+      ],
+      "limits": [
+        "此文件的版本合同已核对；前端加载/保存竞态与分数不变量措辞仍由根任务修订并单独浏览器验收，不在这里提前宣称通过。"
+      ],
+      "sha256": "d7780644cad6c7350f10d30542349b816f6cd5d300b4e334e9911fa748f8025e",
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    },
+    {
+      "path": "web/server.py",
+      "review_relation": "targeted_ai_cross_review_with_scoped_runtime_version_fix_by_this_reviewer",
+      "read_extent": "定向接口和函数审查；未声称当前1396行全部逐行独立审核。",
+      "reviewed_symbols": [
+        "启动时_UNIT_GRADER_RUNTIME/_TOPIC_GRADER_RUNTIME及静态快照初始化",
+        "graph_version/unit_grader_version/topic_grader_version/_version_problem",
+        "work_descriptor/session_summary/_freeze_result/session_payload/history_entry/export_record/export_works",
+        "Handler._owner/_profile_response/_material/_work_exposure/_provided_tasks/_session_response_exposure/_static",
+        "Handler.do_GET: /api/session/:id、会话assets、history、plan、work/works/work/revisions、export、manipulative、learning/units/:id",
+        "Handler.do_POST: learning-needs/state、support/start、support/answer、support/hint、manipulative、work、exposure",
+        "Handler._create_session/Handler._answer"
+      ],
+      "semantic_checks": [
+        "浏览器身份由ProfileRecovery解析；会话、作品、支持活动、事项和图示的读取均经当前owner查询，客户端提供的session_id/need_id不能直接跨档案使用。",
+        "支持活动从服务端单元/目录/owner历史解析支持项与关联事项，客户端不能提交自定义正确答案、内容快照或任意解决标记。",
+        "计划读取完整planning_records和无分页作品摘要；不同学段视图不删除总learning_needs。",
+        "会话及作品快照在服务端产生；普通导出只提供已呈现任务及已放出反馈，未作答任务和参考答案没有按内部快照直接公开。",
+        "复测前置会话由服务器选择最近完成的同范围记录，并结合最新材料、参考、题目、答案和反馈活动核对实际间隔。",
+        "启动判分源捕获位于ContentRepository构建之前；三个判分版本函数包括首次调用的legacy graph_version均读取冻结源。",
+        "操作保存同时验证unit resource_version与representation_version，保存representation_snapshot；GET same_version要求两个版本同时匹配，旧事件没有被清除。",
+        "学习材料请求/再次提供/反馈/提示产生曝光；文字声明区分提供内容、实际阅读、完成和独立掌握。"
+      ],
+      "related_findings": [
+        "RT-01",
+        "RT-02"
+      ],
+      "limits": [
+        "未对题目树全部展示逻辑、所有HTTP异常输入组合、所有外部静态资源或ProfileRecovery内部实现作全面审查。",
+        "此次定向源码与单元回归不替代根任务真实HTTP、浏览器、完整备份恢复和固定版本总验收。"
+      ],
+      "sha256": "1bb728cebf401fc5928456ecad624969ad745a81723d7b9aa3afac013c7bee31",
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_stated_limits"
+    }
+  ],
+  "limits": [
+    "本记录是有明确范围的AI语义/实现审查，不是全仓库安全审计、生产认证、教师审核或真实学生效果验证。",
+    "未读取或未重新完整读取的模块范围已逐文件注明，不因文件有一个SHA256就宣称全文件每行都获独立批准。",
+    "源码检查、定向回归与真实浏览器验收是不同证据；本记录没有代替根任务宣称所有HTTP和UI流程已经通过。",
+    "web/static内前端文件正在并行修订，全部排除于本记录哈希绑定之外；包含RT-03相关表达式的最终页面另有版本验收。",
+    "直接调用底层纯函数需由调用方遵守owner筛选与完整历史合同；这里审查的是现有HTTP入口对该合同的使用。",
+    "学习材料、回答、帮助、作品自评和真实间隔均只是特定记录证据，不能自动推断长期独立掌握或教学效果。"
+  ],
+  "fixed_version_release_acceptance": "recorded_separately_by_root_after_final_source_freeze",
+  "review_binding_sha256": "7935ba8115386af1550fc41b9aa214a1e6a7991a28061b14cbe3343fbb8dcf53"
+}

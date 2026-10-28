@@ -1,37 +1,23 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://example.local/cn-k12-kg/topic.schema.json",
-  "title": "知识点",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cn-k12-kg.local/schema/v1/topic.schema.json",
+  "title": "Textbook navigation topic v1",
+  "description": "Version 1 authoring contract. JSON Schema is the structural authority; reference and mathematical checks remain separate. Existing records without an optional schema_version are v1; unknown explicit versions are rejected.",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "id",
-    "name",
-    "volume",
-    "chapter",
-    "section",
-    "grade",
-    "semester",
-    "domain",
-    "theme",
-    "type",
-    "description",
-    "mastery_criteria",
-    "standards",
-    "curriculum_version",
-    "edition",
-    "review_status",
-    "external"
-  ],
   "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
     "id": {
       "type": "string",
       "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
     },
     "name": {
       "type": "string",
-      "minLength": 2,
-      "maxLength": 40
+      "minLength": 1,
+      "pattern": "\\S"
     },
     "volume": {
       "type": "string",
@@ -63,11 +49,13 @@
     },
     "chapter": {
       "type": "string",
-      "minLength": 3
+      "minLength": 1,
+      "pattern": "\\S"
     },
     "section": {
       "type": "string",
-      "pattern": "^[0-9]+(\\.[0-9]+)+ "
+      "minLength": 1,
+      "pattern": "\\S"
     },
     "grade": {
       "type": "integer",
@@ -106,36 +94,27 @@
       ]
     },
     "type": {
-      "type": "string",
-      "enum": [
-        "conceptual",
-        "procedural",
-        "reasoning",
-        "application",
-        "modeling"
-      ]
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/topicType"
     },
     "description": {
       "type": "string",
-      "minLength": 10
+      "minLength": 1,
+      "pattern": "\\S"
     },
     "mastery_criteria": {
       "type": "array",
-      "minItems": 2,
       "items": {
         "type": "string",
-        "minLength": 4
-      }
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "minItems": 1
     },
     "standards": {
       "type": "array",
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "id",
-          "confidence"
-        ],
         "properties": {
           "id": {
             "type": "string",
@@ -149,10 +128,17 @@
             ]
           },
           "note": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
           }
-        }
-      }
+        },
+        "required": [
+          "id",
+          "confidence"
+        ]
+      },
+      "minItems": 0
     },
     "curriculum_version": {
       "type": "string",
@@ -168,12 +154,7 @@
       ]
     },
     "review_status": {
-      "type": "string",
-      "enum": [
-        "draft",
-        "reviewed",
-        "rejected"
-      ]
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/reviewStatus"
     },
     "external": {
       "type": "boolean",
@@ -181,7 +162,111 @@
     },
     "root_reason": {
       "type": "string",
-      "minLength": 8
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "exam_scope": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "included",
+        "excluded"
+      ]
+    },
+    "exam_scope_evidence": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/examScopeEvidence"
+    },
+    "exam_scope_note": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "transition_note": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "source_observation": {
+      "type": "string",
+      "enum": [
+        "found",
+        "not_found_in_scanned_sources",
+        "source_unavailable",
+        "not_checked"
+      ]
+    },
+    "source_observation_evidence": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/sourceObservationEvidence"
     }
-  }
+  },
+  "required": [
+    "id",
+    "name",
+    "volume",
+    "chapter",
+    "section",
+    "grade",
+    "semester",
+    "domain",
+    "theme",
+    "type",
+    "curriculum_version",
+    "edition",
+    "review_status",
+    "external"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "review_status": {
+            "enum": [
+              "draft",
+              "reviewed"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "description",
+          "mastery_criteria",
+          "standards"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "exam_scope": {
+            "enum": [
+              "included",
+              "excluded"
+            ]
+          }
+        },
+        "required": [
+          "exam_scope"
+        ]
+      },
+      "then": {
+        "required": [
+          "exam_scope_evidence"
+        ],
+        "properties": {
+          "exam_scope_evidence": {
+            "required": [
+              "source_url",
+              "scope_reference"
+            ],
+            "properties": {
+              "method": {
+                "const": "explicit_scope"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }

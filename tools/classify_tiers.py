@@ -22,6 +22,9 @@ DATA = ROOT / "data"
 
 def main() -> int:
     ap = argparse.ArgumentParser()
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--check", action="store_true", help="核对当前派生分层，不写文件或报告")
+    mode.add_argument("--write", action="store_true", help="按当前主题目标重建派生分层（默认）")
     ap.add_argument("--out", default="data/topic_tiers.json")
     ap.add_argument("--json", default="build/tier_report.json")
     ap.add_argument("--csv", default="build/tier_review.csv")
@@ -32,6 +35,12 @@ def main() -> int:
 
     data = tiers.build(topics)
     out_path = ROOT / args.out
+    if args.check:
+        if not out_path.is_file() or json.loads(out_path.read_text(encoding="utf-8")) != data:
+            print("分层资料与当前主题目标不一致；运行 tools/classify_tiers.py --write 更新派生资料。", file=sys.stderr)
+            return 1
+        print(f"分层资料一致：{len(data['topics'])}个主题；学习需求不是掌握状态。")
+        return 0
     out_path.write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n",
                         encoding="utf-8")
 
@@ -54,6 +63,8 @@ def main() -> int:
             "name": t.get("name"),
             "type": t.get("type"),
             "tier": info["tier"],
+            "fluency": info["fluency"],
+            "understanding": info["understanding"],
             "cluster": info["cluster"],
             "practice_target": info["practice_target"],
             "own_questions": qcnt[t["id"]],
@@ -87,6 +98,12 @@ def main() -> int:
     report = {
         "generated_by": "tools/classify_tiers.py",
         "by_stage": {f"{st}_{k}": v for (st, k), v in per.items()},
+        "axis_scope": data["axis_scope"],
+        "axes": {
+            "fluency": sum(i["fluency"] for i in by_topic.values()),
+            "understanding": sum(i["understanding"] for i in by_topic.values()),
+            "both": sum(i["fluency"] and i["understanding"] for i in by_topic.values()),
+        },
         "clusters": cl,
         "workload": {
             st: {

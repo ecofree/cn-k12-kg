@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m9a.25.1",
+  "name": "一元二次方程的概念",
+  "tier": "core",
+  "hook": "原方程看见x²就一定是二次方程吗？若两边的x²抵消呢？",
+  "definition": "只含一个未知数、未知数的最高次数是 2 的整式方程叫一元二次方程，一般形式为 ax²+bx+c=0（a≠0），其中 a、b、c 分别是二次项、一次项系数和常数项。",
+  "why": "方程类别取决于化简后真实的最高次数。移项合并后写成ax²+bx+c=0且a≠0，才保留二次项；若a为0，二次结构消失，后续二次公式也不能使用。",
+  "when_to_use": [
+    "需要判断方程次数或读系数",
+    "含参数可能使二次项系数变成0"
+  ],
+  "steps": [
+    "展开移项并合并同类项",
+    "确认只有一个未知数且为整式方程",
+    "按a、b、c读取系数并检查a≠0"
+  ],
+  "worked_example": {
+    "prompt": "把3x(x−2)=x+4化为一般形式并指出系数。",
+    "answer": "3x²−7x−4=0；a=3，b=−7，c=−4",
+    "steps": [
+      "展开左边为3x²−6x，将右边移到左侧得3x²−7x−4=0。",
+      "按次数比较，a=3、b=−7、c=−4，a非零，所以是一元二次方程。"
+    ],
+    "family_id": "quadratic-equation.standard-form.coefficients",
+    "variant_id": "m9a.25.1:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
+  },
+  "pitfalls": [
+    "系数包括前面的正负号，b不一定是正数。",
+    "看见原式有平方项不能替代化简后的次数检查。"
+  ],
+  "check": "独立完成并解释：方程(x+1)²=x²+5化简后属于哪一类方程？ 备选：A. 一元二次方程；B. 一元一次方程；C. 恒等式 请写出判断或计算依据。；把方程2x²+3=5x化为ax²+bx+c=0的一般形式，求一次项系数b。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断一个方程是否为一元二次方程",
+      "explanation": "先合并再看最高次数，不能只凭某处出现x²判断。",
+      "self_check": {
+        "prompt": "方程(x+1)²=x²+5化简后属于哪一类方程？ 备选：A. 一元二次方程；B. 一元一次方程；C. 恒等式 请写出判断或计算依据。",
+        "reference_answer": "展开得x²+2x+1=x²+5，消去两边x²后为2x−4=0，最高次数为1，因此是一元一次方程。 正确选项内容：一元一次方程。",
+        "criteria": [
+          "两边平方项抵消",
+          "得到一次方程"
+        ],
+        "family_id": "quadratic-equation.classify-after-cancellation",
+        "variant_id": "m9a.25.1:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "原式出现x²就一定是二次方程吗？移到同一边后二次项剩多少？",
+        "hint": "先展开并合并，分类看化简后的最高非零次数。",
+        "revision_prompt": "比较(x+1)²=x²+5与(x+1)²=5，说明前者一次、后者二次的原因。"
+      },
+      "observation_note": "观察消项后分类与二次系数非零；不能按原式外观定次数。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能把方程化为一般形式并指出各项系数",
+      "explanation": "一般形式右边为0，三类系数按项对应。",
+      "self_check": {
+        "prompt": "把方程2x²+3=5x化为ax²+bx+c=0的一般形式，求一次项系数b。 请写出判断或计算依据。",
+        "reference_answer": "移项得2x²−5x+3=0，与一般形式比较，a=2、b=−5、c=3，一次项系数包含负号。",
+        "criteria": [
+          "正确移项为−5x",
+          "b=−5"
+        ],
+        "family_id": "quadratic-equation.standard-form.coefficients",
+        "variant_id": "m9a.25.1:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "右边的5x移到左边后，b是5还是−5？",
+        "hint": "把右边化为0，再按x²、x、常数三列读取带符号系数。",
+        "revision_prompt": "将3x²=2−x写3x²+x−2=0，读a=3、b=1、c=−2，并说明省略x项时b=0。"
+      },
+      "observation_note": "观察一般式与带符号系数；只说b不能代替完整标准化过程。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能按指定变量值计算给定二次表达式的值",
+      "explanation": "给定二次表达式后，先把每一处同名字母替换成同一个已知数，再按括号、乘方、乘除、加减的顺序计算。x(x+3)中的两个x都要代入，括号外的x还要与整个括号相乘；这里不是求方程的未知解。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：一块长方形菜地的宽是x米，长比宽多3米，面积可表示为x(x+3)平方米。当x=5时，这个表达式的值是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：40。改为不给结果的表达式代值5(5+3)=40。",
+        "criteria": [
+          "所有x取同一给定值，完整保留括号外乘法，并将结果对应为面积值",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "algebra.evaluate.quadratic-expression",
+        "variant_id": "m9a.25.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "x(x+3)中的两处x都替换了吗？你求的是给定表达式的值，还是在解一个题目并未给出的方程？",
+        "hint": "先分别写出括号外的数和括号内的和，再把这两个量相乘；用长乘宽的单位关系核对。",
+        "revision_prompt": "先回答这个辨别问题：x(x+3)中的两处x都替换了吗？你求的是给定表达式的值，还是在解一个题目并未给出的方程？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；所有x取同一给定值，完整保留括号外乘法，并将结果对应为面积值。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能展开两个一次因式的乘积并指出一次项系数",
+      "explanation": "两个一次因式相乘时，每项都要与另一括号的每项相乘，再合并同类项。整理成x²+bx+c=0后，b是一次项前带符号的数；出现−x时系数是−1，不是没有系数，也不是常数项。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：把方程 (x+2)(x-3)=0 展开成一般形式 x^2+bx+c=0。一次项系数 b 是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：-1。(x+2)(x−3)=x²−x−6，b−1。",
+        "criteria": [
+          "一次项由交叉乘积合并得到，系数带原有符号且与常数项区别",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "quadratic-equation.linear-coefficient-after-expansion",
+        "variant_id": "m9a.25.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你把括号中两个常数的积当成一次项系数了吗？−x前省略的数字是什么？",
+        "hint": "列出x·x、x·(−3)、2·x、2·(−3)四项，先合并含一次x的两项，再与bx逐项对照。",
+        "revision_prompt": "先回答这个辨别问题：你把括号中两个常数的积当成一次项系数了吗？−x前省略的数字是什么？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；一次项由交叉乘积合并得到，系数带原有符号且与常数项区别。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m9a.25.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.25.1-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.25.1-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

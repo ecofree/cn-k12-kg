@@ -1,0 +1,314 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "652bf63212044e50e259f207f650a8d6f0b2b132",
+  "reviewer": "ChatGPT AI author review",
+  "reviewer_kind": "ai",
+  "independent_review": false,
+  "date": "2026-10-28",
+  "teacher_review": "deferred_by_user",
+  "student_effect_validation": "deferred_by_user",
+  "scope": "诊断结果的实际观察范围、未作答先修、后续计划的证据归属，以及旧记录兼容；不代表教师审核、真实学生效果或全课程语义认证。",
+  "files": [
+    {
+      "path": "cnkg/engine.py",
+      "sha256": "65e419a1e756cbb7ded6894c45997b3da84049ff0296cd33f5af4d65618c9b37"
+    },
+    {
+      "path": "cnkg/planner.py",
+      "sha256": "e3d87a1bf360352fbd7cf8ab88d4f2004e3584ebf38a9661893cb3a8d240dc16"
+    },
+    {
+      "path": "tests/test_engine.py",
+      "sha256": "f764b6eb0dbcdb7bcd12810567392c296c273ff9b536a24a5370ef520e98f926"
+    },
+    {
+      "path": "tests/test_diagnostic_contract.py",
+      "sha256": "064c13dae680736ce8c21f9dbced29b6a1e6caac1640cfffbc55c737821d6083"
+    },
+    {
+      "path": "tests/test_planner.py",
+      "sha256": "44cb67d357622afad1725a60def7fcc5d18866b6b42077490f2f46f9d2fd296e"
+    },
+    {
+      "path": "tests/test_quality_v5_decisions.py",
+      "sha256": "830f9cb5f6af869bc1429161e20710ef11eeabe60bb1fe1e125d6584b8fc807f"
+    },
+    {
+      "path": "tests/test_goal_observation_v6.py",
+      "sha256": "a691cbd5b4f49cfc0226f4163966fc3dec603ee0ba369fa11f172d928c5983c0"
+    },
+    {
+      "path": "tests/test_prerequisite_observation_v6.py",
+      "sha256": "44980259cac851b49d00f6d2d39f45a9e071e66cba6c92cdeab8ed0c35a8b3c0"
+    },
+    {
+      "path": "tests/browser/prerequisite-plan.cjs",
+      "sha256": "191b9dc660db24a913e378177ff63cce1b4f0fdbb1c3e3c82411e2e3954c07c7"
+    },
+    {
+      "path": "web/static/work.js",
+      "sha256": "db0193e767afe79ac5f97dcbb1cdd547ee7a4f513fa5a2bb0647491645bea728"
+    },
+    {
+      "path": "web/static/app.js",
+      "sha256": "c556061360ecc972ba8ddfb157b6a3c661b9a003630228981503b61ed235b7b2"
+    },
+    {
+      "path": "tests/browser/learning-flow.cjs",
+      "sha256": "7a9bf47bfc73e1fa5ddf75e0ded13a38f3d752aba613234aacccd128dea0e279"
+    },
+    {
+      "path": "web/server.py",
+      "sha256": "58b5bcace0dd8d624dbb7b8aac320526829472e2b5c94e145c71bafe1e6f990b"
+    },
+    {
+      "path": "tests/test_portfolio_web.py",
+      "sha256": "9243a9d5323a86bd9e27ee30e34a94291982ae53731ed571f19f7d7ac7e6d053"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "remove_ancestor_assumption",
+      "finding": "两道后继题答对会把未作答hard祖先标为assumed；assumed属于终态，随后其他目标的错误回溯会跳过这个共享先修。",
+      "change": "新会话只为实际作答的目标记录状态，未作答祖先保持未测；不把所有祖先自动排成必须补学的队列。",
+      "counterexamples": [
+        "test_correct_target_keeps_unasked_ancestors_untested_without_mandatory_relearning",
+        "test_successful_sibling_does_not_prevent_shared_prerequisite_check"
+      ]
+    },
+    {
+      "id": "bound_topic_observation",
+      "finding": "入选题库或算式可复算不能证明观察了整主题；同族换数也不能作为第二种结构。",
+      "change": "显式核对主topic的合法目标位置、全部声明目标的观察范围、已登记的不同题族和已知表征。缺失时保留原答题结果，同时返回insufficient_evidence；一题筛查不形成整个主题判断。",
+      "counterexamples": [
+        "test_same_structure_with_changed_numbers_is_not_two_independent_observations",
+        "test_distinct_tasks_still_cannot_cover_an_unobserved_goal",
+        "test_two_wrong_answers_of_one_structure_cannot_mark_the_topic_weak_or_descend",
+        "test_single_screening_answer_keeps_the_rest_of_the_topic_pending"
+      ],
+      "limit": "这些条件只是避免已知过度推断的必要检查，不是掌握的充分条件；内部mastered状态名为兼容保留，summary始终明确independent_mastery_evidence=false。生产题的准入继续由独立的显式登记限制，本改动没有扩大任何准入。"
+    },
+    {
+      "id": "validate_goal_mapping",
+      "finding": "布尔下标、越界下标、次要topic沿用主topic下标或占位元数据会造成虚假覆盖。",
+      "change": "确认题选择与记录使用同一个主topic目标映射检查；未知题族/表征不会被标签包装成已核对证据。",
+      "counterexamples": [
+        "test_invalid_criterion_positions_do_not_count_as_observed_goals",
+        "test_secondary_topic_membership_does_not_reinterpret_primary_criterion_indices",
+        "test_placeholder_structure_or_representation_is_never_qualified_by_a_label"
+      ]
+    },
+    {
+      "id": "prefer_real_confirmation_difference",
+      "finding": "只改变答案格式和数字可能仍是同一种方法，且遗漏另一目标。",
+      "change": "保持题目原准入与难度边界，优先作者明确登记的不同题族和未观察目标；经登记的历史别名按同族比较。",
+      "counterexamples": [
+        "test_confirmation_prefers_different_structure_and_unobserved_goal",
+        "test_renamed_structure_does_not_count_as_a_second_observation"
+      ],
+      "limit": "程序不根据标题或题号猜测题族语义，题族登记仍需实际作者复核。"
+    },
+    {
+      "id": "direct_prerequisite_attempts",
+      "finding": "完成某个含有先修目标的单元会隐藏从未答过的目标；skip或未知结果也会被当成已有观察。",
+      "change": "当前计划分别使用单元活动和具体目标的真实作答；跳过、未放出的反馈、旧单元版本以及仅容器完成不能移除未观察的先修。已完成容器仍可提供检查其未答目标的入口。",
+      "counterexamples": [
+        "test_finished_container_does_not_hide_an_unanswered_explicit_or_related_skill",
+        "test_skip_unknown_and_private_feedback_do_not_count_as_observed_answers",
+        "test_old_version_answer_stays_visible_without_removing_current_version_check",
+        "test_current_task_remapping_cannot_invent_an_old_skill_observation"
+      ],
+      "limit": "答错、过程回答或有帮助的回答仍是实际观察，原结果与帮助属性不变；它们不等于已经掌握，具体未解决事项继续保留。"
+    },
+    {
+      "id": "preserve_original_records",
+      "finding": "取消旧推断不能变成用新规则重判历史记录，旧assumed也不能成为当前先修证据。",
+      "change": "旧结果快照保留；运行指纹不符的未完成会话明确阻止继续判分；当前计划只读冻结任务与实际answers，不从历史engine.state补造技能观察。",
+      "counterexamples": [
+        "test_legacy_assumed_is_retained_as_history_without_becoming_tested",
+        "test_old_runtime_blocks_resume_and_frozen_summary_is_not_recomputed",
+        "test_legacy_assumed_without_an_answer_never_satisfies_current_prerequisite"
+      ],
+      "display_requirement": "结果表把assumed列标为“旧推断（未实测）”，并明确旧推断仅是历史记录。"
+    }
+  ],
+  "targeted_validation": [
+    {
+      "command": "python -m unittest tests.test_goal_observation_v6 tests.test_family_aliases_v6 tests.test_planner tests.test_learning_needs_v4 -q",
+      "tests_run": 49,
+      "passed": 49,
+      "skipped": 0,
+      "result": "passed",
+      "evidence_type": "synthetic_regression"
+    },
+    {
+      "tests": [
+        "test_correct_target_keeps_unasked_ancestors_untested_without_mandatory_relearning",
+        "test_successful_sibling_does_not_prevent_shared_prerequisite_check",
+        "test_legacy_assumed_is_retained_as_history_without_becoming_tested"
+      ],
+      "tests_run": 3,
+      "passed": 3,
+      "skipped": 0,
+      "result": "passed",
+      "evidence_type": "synthetic_regression"
+    },
+    {
+      "command": "node --check tests/browser/prerequisite-plan.cjs",
+      "result": "passed",
+      "evidence_type": "javascript_syntax_only"
+    }
+  ],
+  "browser_journey": {
+    "name": "prerequisite_plan",
+    "script": "tests/browser/prerequisite-plan.cjs",
+    "method": "通过真实目标卡完成单道抽样任务，检查高中回归单元仍保留未作答波动目标，点击首页具体目标入口；另完成真实主题检查核对未测祖先、历史推断说明及390px布局。",
+    "claim_boundary": "这是使用作者答案的合成浏览器流程，不是学生效果证据；执行结果另由固定版本browser-check报告记录。",
+    "local_execution": "not_run_chromium_unavailable; parent will execute registered journey in clean GitHub release verification"
+  },
+  "final_release_evidence": "整体内容构建、全量回归、HTTP、真实浏览器和打包验收以同一干净提交绑定的build/regression_report.json及build/browser-check/report.json为准，不从局部通过推断全量通过。",
+  "integration_attempts": [
+    {
+      "command": "python -m unittest tests.test_prerequisite_observation_v6 tests.test_engine tests.test_planner tests.test_learning_needs_v4 tests.test_diagnostic_contract tests.test_goal_observation_v6 tests.test_family_aliases_v6 -q",
+      "tests_run": 101,
+      "failures": 1,
+      "skipped": 1,
+      "result": "stale_assertion_corrected_not_yet_reverified",
+      "detail": "唯一失败是生产准入 reason 的旧 reviewed_component_not_complete_topic 常量，已同步为正式 bounded_component_observation_not_whole_topic；权限 false 和观察范围语义未失败。"
+    },
+    {
+      "command": "same targeted integration command after reason correction",
+      "tests_run": 73,
+      "errors": 5,
+      "result": "blocked_by_catalog_freshness_guard",
+      "detail": "根代理同时写入已审查题族别名，当前目录源哈希与尚未重编译的 catalog 不同；目录守卫明确拒绝。根代理将重编译并在固定提交执行最终全量验收，未将此次中间状态记为通过。"
+    }
+  ],
+  "family_alias_review": {
+    "reviewed_old_families": 32,
+    "candidate_pairs": 35,
+    "accepted_pairs": 13,
+    "rejected_pairs": 22,
+    "method": "非小学、概率、统计候选按当前作者源和旧 V6 草稿逐题比较实际条件、解法、要求与进阶边界，根代理合并其他两线审查后维护正式 alias 登记。",
+    "limit": "旧题族部分题完全同题改名，不能由此证明宽族与其简单子集全局等价；本记录非独立教师审查。"
+  },
+  "goal_support_review": {
+    "scope": "652bf632 到当前 goal-support 保存、提示/答案曝光、历史 self_check 冻结、版本提示、loading/409 与 owner 隔离；未修改 server。",
+    "findings_fixed": [
+      {
+        "id": "draft_changes_while_reference_request_pending",
+        "priority": "P2",
+        "original_reproduction": "第一次草稿保存成功后延迟 reference 请求；继续修改并令新保存503/409；旧 handler 在 reference 成功后仍展开，unsaved=true。使用实际 work.js handler 的 Node VM 最小 DOM 运行确认。",
+        "change": "work.js 与 app.js 在 reference 请求成功后再次 flushAll，保存等待期间所有编辑器的新改动；失败或冲突时保留输入、保持关闭，成功后才展开。输入区在等待期间继续可编辑。",
+        "browser_regression": "goal_support_revision：真实请求延迟期间的草稿网络写入失败；以及另一 HTTP 写入制造真实409；均检查未展开、最新输入保留、恢复保存后的版本历史。",
+        "exposure_limit": "若服务端已经记录一次 reference 事件，而随后草稿保存失败，事件保留为保守的帮助曝光；不因面板未展开而抹掉已返回参考的暴露可能性，也不称为学生已阅读。"
+      },
+      {
+        "id": "legacy_version_unknown_is_not_confirmed_update",
+        "priority": "P3",
+        "original_reproduction": "当前题与原题快照相同，仅旧记录缺少 task_metadata.resource_version 时，行状态 legacy_unverified 原被前端描述为已有新版。",
+        "change": "会话按各行真实状态分别展示 updated/unavailable 与 legacy_unverified；作品 legacy_unverified 只说明旧逐题版本缺失、暂时无法核对，不断言材料更新。",
+        "browser_regression": "goal_support_revision：分别模拟 session/work 的 legacy_unverified 响应，断言显示缺版本且无法确认，不显示已有新版；保留真实 updated 提示检查。"
+      }
+    ],
+    "read_only_server_checks": {
+      "method": "真实 work_descriptor/work_current_content/portfolio.learner_payload 的隔离内存核对，无端口，不冒充 HTTP 或浏览器验收。",
+      "passed_cases": [
+        "新题面/提示/参考变化后按原 resource_id 恢复完全相同快照",
+        "自有 resource_id 优先于矛盾 kind/topic/source_ref",
+        "其他 owner 仅凭 resource_id 无法读取",
+        "其他 owner 的公开 selector 只能构建当前公共任务，不能读取私密草稿",
+        "旧单字段作品不静默增补提示/参考或 work_schema"
+      ]
+    },
+    "local_validation": {
+      "javascript_syntax": [
+        "web/static/work.js",
+        "web/static/app.js",
+        "tests/browser/learning-flow.cjs"
+      ],
+      "syntax_result": "passed",
+      "runtime_method": "Node VM 执行实际 work.js 与 app.js trackReference 函数，最小 DOM 和延迟请求控制，不是浏览器验收。",
+      "runtime_cases": [
+        {
+          "handler": "work_reference",
+          "later_save": "503",
+          "expected": "closed_and_latest_input_unsaved",
+          "result": "passed"
+        },
+        {
+          "handler": "work_reference",
+          "later_save": "409",
+          "expected": "closed_and_latest_input_unsaved",
+          "result": "passed"
+        },
+        {
+          "handler": "work_reference",
+          "later_save": "success",
+          "expected": "open_after_latest_input_saved",
+          "result": "passed"
+        },
+        {
+          "handler": "material_reference",
+          "later_save": "503",
+          "expected": "closed_and_latest_input_unsaved",
+          "result": "passed"
+        },
+        {
+          "handler": "material_reference",
+          "later_save": "409",
+          "expected": "closed_and_latest_input_unsaved",
+          "result": "passed"
+        },
+        {
+          "handler": "material_reference",
+          "later_save": "success",
+          "expected": "open_after_latest_input_saved",
+          "result": "passed"
+        }
+      ],
+      "diff_check": "passed",
+      "notice_runtime_cases": {
+        "session_cases": [
+          "legacy_unverified only",
+          "updated only",
+          "unavailable only",
+          "updated + legacy_unverified"
+        ],
+        "work_cases": [
+          "legacy_unverified",
+          "updated"
+        ],
+        "tests_run": 6,
+        "result": "passed",
+        "method": "Node VM runs actual renderSessionContentUpdate and work.mount with a minimal DOM; not browser acceptance."
+      }
+    },
+    "browser_execution": "未在本地运行：没有 Chromium；已把真实交互回归加入现有 goal_support_revision，最终结果由根代理固定提交 CI 提供。"
+  },
+  "work_exposure_review": {
+    "finding": "真实 HTTP 全量回归发现 self_check 的 family_ids 同时包括实际复合任务与附带参考族，_work_exposure 原将它们全部计入 question_presented，造成附带参考被误记为作答任务呈现。",
+    "change": "新 self_check 快照冻结 presentation_family_ids，只取 actual task 的 declared family；question_presented 仅使用该字段。family_ids 仍冻结全部参考族，descriptor 中已返回参考答案，因此 material_provided 保守记录全部参考族。reference_count 仍只在实际参考请求时增加。",
+    "versioning": "presentation_family_ids 显式进入 work resource_version hash；新曝光契约不会与前一 schema-2 作品共享ID。浏览器 exhaustive preview 同步核对该字段及版本hash。",
+    "legacy": "缺少新字段的旧作品保持原快照 family_ids fallback；不从当前 catalog 补写或重新分类旧记录。已记录的旧事件和作品payload不变。显式空列表则不触发旧 fallback。",
+    "real_fixture": "m5b.4.1 目标1自检实际族为 geometry.cuboid-area-versus-volume；4个附带参考族仍记录材料可用，但 presentation_count=0、reference_count=0。实际体积题 m5b.4.1-q1 和表面积题 m5b.4.1-q2 经参考族曝光排除，不能再假称未见；不虚构复合族有bank同族题。",
+    "regressions": [
+      "test_opening_self_check_editor_records_exact_task_and_declared_family_exposure",
+      "test_undeclared_self_check_family_does_not_fall_back_to_reference_presentations",
+      "test_legacy_work_exposure_uses_its_frozen_family_fallback_and_distinct_identity"
+    ],
+    "validation": {
+      "command": "python -m unittest tests.test_portfolio_web tests.test_quality_v4_web -q",
+      "tests_run": 28,
+      "passed": 28,
+      "skipped": 0,
+      "failures": 0,
+      "result": "passed",
+      "evidence_type": "synthetic_real_http_regression",
+      "method": "真实 localhost HTTP 服务、隔离临时数据库与浏览器cookie测试客户端；使用作者内容和合成记录，不代表学生效果。",
+      "javascript_syntax": "node --check tests/browser/learning-flow.cjs passed",
+      "diff_check": "passed"
+    },
+    "browser_execution": "expectedVersion 静态契约已同步；本地没有Chromium，未宣称浏览器运行通过。"
+  }
+}

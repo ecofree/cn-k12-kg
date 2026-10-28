@@ -1,0 +1,147 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m4a.2.2",
+  "name": "角的度量",
+  "tier": "tool",
+  "hook": "量角器有两圈相反的数字，应该从哪一圈开始读？",
+  "definition": "量角器把半圆分成180度。量角先将中心对顶点、零刻度线对一边，再从这条边所在的0开始读另一边；画角则先画基准射线，再标目标度数。",
+  "why": "内外两圈是从相反方向起算的刻度。同一条边可能指60也指120，必须依所选基准0决定；顶点或基准线没对齐会让读数失去对应角。",
+  "conditions": [
+    "使用0至180°的量角器测量本范围内的角。",
+    "绘图与测量均需标明顶点、基准边和起读的0。"
+  ],
+  "representation_note": "准备量角器、直尺与铅笔，在纸上标O和一条射线；用弧线标开口方向。",
+  "when_to_use": [
+    "使用0至180°的量角器测量本范围内的角。",
+    "绘图与测量均需标明顶点、基准边和起读的0。"
+  ],
+  "steps": [
+    "中心对顶点，零线对基准边。",
+    "从该边对应的0沿刻度读到另一边。",
+    "画角时在目标刻度打点，用直尺从顶点连成射线。",
+    "估计是锐角还是钝角，作为读错圈的检查。"
+  ],
+  "worked_example": {
+    "prompt": "基准边向右，另一边对应从右侧0起的60°、从左侧0起的120°，应读多少？",
+    "steps": [
+      "右向基准使用右端0。",
+      "沿该圈到另一边是60，且图为锐角。"
+    ],
+    "answer": "60",
+    "family_id": "geometry.protractor-zero-selection",
+    "variant_id": "m4a.2.2:worked-v4",
+    "representation": "geometry",
+    "cognitive_demand": "explain",
+    "verify": "60",
+    "diagram": {
+      "src": "/static/diagrams/primary-v6-protractor.svg",
+      "alt": "量角器中心O，基准边向右，另一边到从右侧0起的60刻度；同一刻线反向从左读为120。两圈方向相反。"
+    }
+  },
+  "pitfalls": [
+    "不能见到哪个数字清楚就读哪个圈。",
+    "画角打点后要从顶点连线，不从量角器边缘随意连接。"
+  ],
+  "practice": [
+    {
+      "id": "m4a.2.2-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m4a.2.2-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成各项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "读数必须对应同一个中心和起读零线。先粗判角型，再精读能发现把锐角读成钝角的错误。 配图提供双圈错读对照：基准边向右，对应的0从右开始，读60°；若从相反零点开始会误读120°。",
+      "observation_note": "观察实际测量动作和记录；没有给定图不能预设唯一数值。",
+      "self_check": {
+        "prompt": "用量角器测两个自画角（一锐一钝），记录中心、零线、刻度圈和读数，交换同伴复核。",
+        "reference_answer": "具体度数依实际图；对齐正确，锐角读数小于90，钝角在90与180之间，复核在绘图精度范围一致。",
+        "criteria": [
+          "中心和零线对齐",
+          "刻度圈与角型一致"
+        ],
+        "family_id": "geometry.protractor-zero-selection",
+        "variant_id": "m4a.2.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.protractor-placement"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "基准从右侧0开始，为什么不能读左侧0那一圈？",
+        "hint": "两圈从相反方向数相同刻度。",
+        "revision_prompt": "在错读圈旁标“非本次起点”，重新写读数。"
+      },
+      "criterion_index": 0,
+      "title": "能量出指定角的度数"
+    },
+    {
+      "explanation": "画给定角须先确定顶点、基准边，再标目标刻度点。仅画两条看起来相交的线不能保证指定度数。",
+      "observation_note": "观察作图及检验，手绘近似不能声称绝对精确。",
+      "self_check": {
+        "prompt": "以O为顶点画70°角，再用量角器按量角步骤复测，保留标点。",
+        "reference_answer": "从基准0起标70°并从O连线，复测约70°，误差按工具精度说明。",
+        "criteria": [
+          "基准与标点步骤完整",
+          "复测支持70°"
+        ],
+        "family_id": "geometry.construct-specified-angle",
+        "variant_id": "m4a.2.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.angle-label-components",
+          "geometry.protractor-zero-selection"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "你连线从O出发了吗，还是从70刻度附近另一处？",
+        "hint": "角的两边必须共用顶点O。",
+        "revision_prompt": "擦改错误连线但保留原标点说明，重新复测。"
+      },
+      "criterion_index": 1,
+      "title": "能按给定度数画出角"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能识别平角等分180份的每份为1度",
+      "explanation": "一个平角是180°。把它平均分成180份，每一份对应的角为1°；单位角的大小由等分确定，不由角的边画得长或短决定。",
+      "self_check": {
+        "prompt": "把平角平均分成180份，每份是多少度？取相邻的5份合在一起是多少度？说明不是在量真实图上的角。",
+        "reference_answer": "每份1°，相邻5份合为5°；这是按角度单位定义计算，没有用量角器读取另一个角。",
+        "criteria": [
+          "单位角为1°",
+          "5份合为5°",
+          "区分定义与测量行为"
+        ],
+        "family_id": "geometry.degree-definition",
+        "variant_id": "m4a.2.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只识别角度单位定义，未实际测角或画角。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "180表示总份数，还是每一小份本身的度数？",
+        "hint": "总角180°平均分给180份，用180÷180求一份。",
+        "revision_prompt": "把两份和十份分别换成度数，再画长短不同的两条边说明边长不决定角度。"
+      }
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "diagram": {
+    "src": "/static/diagrams/primary-v6-protractor.svg",
+    "alt": "量角器中心O，基准边向右，另一边到从右侧0起的60刻度；同一刻线反向从左读为120。两圈方向相反。"
+  }
+}

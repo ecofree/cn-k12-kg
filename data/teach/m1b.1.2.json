@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "两张同样大的正方形纸，沿完整的一条边拼在一起，会得到什么？",
+  "definition": "平面图形拼组时，要说明原图形是否同样大小、怎样接边，以及是否允许重叠。两相同正方形沿整边并排可拼成长方形；两个完全相同的直角三角形可按特定方式拼成长方形。",
+  "why": "拼后的外轮廓决定新图形的名称，内部接缝不算外边。两正方形并排后，长是原边长的两倍、宽是原边长，所以它是长方形而非正方形。",
+  "when_to_use": [
+    "给出相同图形，要求无重叠地接边拼组",
+    "判断拼后图形名称，要观察外轮廓"
+  ],
+  "steps": [
+    "核对形状大小，确定哪些边能够完全重合。",
+    "不重叠地拼好，描出外轮廓。",
+    "数外轮廓的边并检查角、边长，给新图形命名。"
+  ],
+  "worked_example": {
+    "prompt": "两个边长2厘米的正方形沿整边并排，外轮廓是什么？",
+    "steps": [
+      "共有一个接缝，接缝不算外轮廓。",
+      "外轮廓长4厘米、宽2厘米，四个角都是直角，是长方形。"
+    ],
+    "answer": "长方形，长4厘米、宽2厘米",
+    "family_id": "geometry.square-tiling-boundary",
+    "variant_id": "m1b.1.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "只在一个顶点相接，不会自动拼成一个长方形。",
+    "两三角形拼成长方形要有直角等条件，任意两个三角形不行。"
+  ],
+  "check": "先独立完成下面各项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m1b.1.2",
+  "name": "图形的拼组",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用相同图形拼出新图形",
+      "explanation": "给出拼法时要写清接哪条边，而不只写“放一起”。",
+      "self_check": {
+        "prompt": "用4个相同正方形拼一个大正方形，说明摆法。",
+        "reference_answer": "每行2个，摆相同的2行，边对齐，无空隙无重叠。",
+        "criteria": [
+          "2行2列",
+          "完整接边无空隙"
+        ],
+        "family_id": "geometry.square-tiling-boundary",
+        "variant_id": "m1b.1.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.join-squares-rectangle",
+          "geometry.square-array-count"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "四个正方形只把四个角碰在一起，外面会成为一个大正方形吗？",
+        "hint": "把整条边对齐，先摆两块一行，再在下方摆同样一行，描外轮廓。",
+        "revision_prompt": "将四块先排一行再排成两行，比较外轮廓的长和宽，说明哪一种是正方形。"
+      },
+      "observation_note": "观察真实接边、无空隙和外轮廓；只说“两行两列”不能证明已完成拼组。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能说出拼组后图形的名称",
+      "explanation": "新图形名称由外轮廓的特征判断，接缝不增加边数。",
+      "self_check": {
+        "prompt": "3个相同正方形沿整边排成一行，外轮廓是什么？",
+        "reference_answer": "长方形；长为小正方形边长的3倍，宽为1倍，有4个直角。",
+        "criteria": [
+          "判断为长方形",
+          "说明外边和角的特征"
+        ],
+        "family_id": "geometry.square-tiling-boundary",
+        "variant_id": "m1b.1.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.join-squares-outer-boundary",
+          "geometry.join-squares-rectangle"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "拼好后内部两条接缝算新图形的外边吗？",
+        "hint": "用手指只沿最外圈走一周，忽略里面的接缝；四个转角均为直角。",
+        "revision_prompt": "把两个同样正方形沿整边拼好，描外轮廓，再说名称与长、宽各含几个小边。"
+      },
+      "observation_note": "观察按外轮廓命名；不同大小的纸片是否仍能拼成该形状需重新检查。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由给定正方形纸片阵列的行数和每行张数求总张数",
+      "explanation": "相同正方形纸片按完整行列无缝排列，每行张数相同。先数一行，再合计每一行，不能把行数和列数直接当总张数相加。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：要用相同正方形纸无缝拼一个大正方形，每行排2张，排同样2行，共要几张？\n写出每个问题的答案。可以用小棒、画图或算式说明你怎样想；用了提示或参考，也记下来。",
+        "reference_answer": "情境1参考：4。每行2张、2行，2×2=4张。",
+        "criteria": [
+          "按完整阵列逐张计数，不把边长格数当总数",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "geometry.square-array-count",
+        "variant_id": "m1b.1.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "仅观察所提交的数值、名称或方案；不把未提交的列式、解释、作图及选择算法过程记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你数的是格子总数，还是只数了外边缘的位置？",
+        "hint": "画出题目指定的每一行纸片，给每张编号；先用点数核对排列。",
+        "revision_prompt": "先回答这个辨别问题：你数的是格子总数，还是只数了外边缘的位置？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；按完整阵列逐张计数，不把边长格数当总数。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m1b.1.2-q101",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1b.1.2-q102",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1b.1.2-q2",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

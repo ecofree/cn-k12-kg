@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3a.3.5",
+  "name": "认识质量单位",
+  "tier": "tool",
+  "hook": "一袋米的标签写5，没写单位，能知道它多重吗？",
+  "definition": "克、千克、吨是质量单位，1千克=1000克，1吨=1000千克。数字必须配单位；选择单位要结合物体质量的量级和测量工具。",
+  "why": "同样质量用克计数会比用千克多1000倍。橡皮这样的物品常用克，一袋大米常用千克，大量货物可用吨；这是表达方便的选择，不是对象只能用某一个单位。",
+  "conditions": [
+    "只在质量单位间换算，不与米等长度单位混用。",
+    "估计单位应给出合理量级，具体质量以称量或题设为准。"
+  ],
+  "representation_note": "用标明单位的包装或模拟秤读数建立参照，画克—千克—吨的两级1000关系。",
+  "when_to_use": [
+    "只在质量单位间换算，不与米等长度单位混用。",
+    "估计单位应给出合理量级，具体质量以称量或题设为准。"
+  ],
+  "steps": [
+    "先辨认量的是质量而非长度。",
+    "按量级选择克、千克或吨并读取单位。",
+    "换算时每跨一级按1000，回代核对。"
+  ],
+  "worked_example": {
+    "prompt": "2千克350克共多少克？",
+    "steps": [
+      "2千克=2000克。",
+      "2000+350=2350克。"
+    ],
+    "answer": "2350",
+    "family_id": "measure.mass-unit-conversion",
+    "variant_id": "m3a.3.5:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "verify": "2*1000+350"
+  },
+  "pitfalls": [
+    "一吨是1000千克，不是1000克。",
+    "“5”没有单位不能作为完整质量记录。"
+  ],
+  "practice": [
+    {
+      "id": "m3a.3.5-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3a.3.5-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "吨到千克、千克到克各乘1000；吨到克跨两级，应乘1000000。关系取决于单位而非物品名字。",
+      "observation_note": "观察进率与层级，未要求大数笔算速度。",
+      "self_check": {
+        "prompt": "写出3千克等于多少克、2吨等于多少千克，再说明1吨为什么不是1000克。",
+        "reference_answer": "3000克、2000千克；1吨是1000千克，每千克又1000克。",
+        "criteria": [
+          "两个进率正确",
+          "能区分跨一级与两级"
+        ],
+        "family_id": "measure.mass-unit-conversion",
+        "variant_id": "m3a.3.5:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "1000克合多少千克，距离1吨还差哪个层级？",
+        "hint": "1000克只有1千克。",
+        "revision_prompt": "用两条×1000箭头重画单位链。"
+      },
+      "criterion_index": 0,
+      "title": "知道克、千克、吨之间的进率"
+    },
+    {
+      "explanation": "选择单位看尺度，实测不能只凭外观保证准确。书包常写若干千克，一枚小金属夹常用克，整车货物可用吨。",
+      "observation_note": "观察单位合理性，物体例子是量级参照而非统一固定质量。",
+      "self_check": {
+        "prompt": "为一块橡皮、一袋5千克米、约3吨货物选择方便单位，并说明标签上的5若换成克是多少。",
+        "reference_answer": "橡皮用克；米用千克；货物用吨；5千克=5000克。",
+        "criteria": [
+          "单位选择合理",
+          "说明质量仍以题设或称量为准"
+        ],
+        "family_id": "measure.mass-unit-choice",
+        "variant_id": "m3a.3.5:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "measure.mass-unit-conversion"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "同样写5，5克与5千克差多少倍？",
+        "hint": "一个千克含1000克。",
+        "revision_prompt": "给所有漏单位的记录补单位，再检查量级。"
+      },
+      "criterion_index": 1,
+      "title": "能根据物体轻重选择质量单位"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

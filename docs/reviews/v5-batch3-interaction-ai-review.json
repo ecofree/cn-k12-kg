@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "reviewer_kind": "ai",
+  "reviewer": "root-integration-with-independent-agent-cross-review",
+  "base_commit": "c905d0f",
+  "review_status": "development_reviewed_fixed_release_pending",
+  "reviewed_at": "2026-10-27T02:13:58+00:00",
+  "independent_teacher_review": "deferred_by_user",
+  "real_student_effect_validation": "deferred_by_user",
+  "scope": {
+    "manipulatives": 4,
+    "observable_prediction": "one model-specific prediction under saved conditions",
+    "ten_frame": "unique physical-token taps, keyboard and touch",
+    "mastery_inference": false
+  },
+  "findings": [
+    {
+      "id": "V5-I01",
+      "finding": "原操作工具在留下预测之前已显示结果，不能保留真实的先预测过程。",
+      "action": "预测API先保存原输入、条件、精确模型比较、内容和渲染快照，随后界面显示结果；修改条件后需新预测。统计与函数说明限定为当前数据平均数与选定x的输出。",
+      "boundary": "反馈由服务返回的时间不是实际注意或独立理解的证据。"
+    },
+    {
+      "id": "V5-I02",
+      "finding": "重复点同一片与幂等重试不能增加物体数或抹掉原点数。交叉浏览器曾复现同一预测重试清空两片记录。",
+      "action": "保存原tap_sequence；unique_count按不同物体身份计算，重复操作另列。只有预测身份改变才重新点数，同一ID的重试保留taps。",
+      "counterexample": "[0,0,1,1]为两个物体、两次重复；旧ID重试保留2，新ID开始新一轮。"
+    },
+    {
+      "id": "V5-I03",
+      "finding": "纯预测草稿并未展示图表，却被旧保存分支记成reference_opened。",
+      "action": "纯草稿POST与GET只保存/读取草稿，不新增参考、作答、掌握或问题解决事件。预测反馈、重试返回反馈与历史反馈读取按真实返回时间记接触。",
+      "boundary": "保存未写完文字不运行数学判定。"
+    },
+    {
+      "id": "V5-I04",
+      "finding": "把整个单元题族用于每个操作会误称展示了尚未提供的方法。",
+      "action": "四个CONFIG显式列出实际参考族并冻结在预测中。分数仅partition-refinement，统计为平均数与刻度，函数为分类边界、代入与点图，十格框为数量合成与十格结构。旧记录缺映射保持未知，不借新目录补猜。",
+      "boundary": "重开旧内容使用原版本与原族，只更新时间，不重算原反馈。"
+    },
+    {
+      "id": "V5-I05",
+      "finding": "离开页面或重装后不能丢掉尚未提交的预测、解释与错误尝试。",
+      "action": "预测草稿、条件、操作和解释自动保存并注册统一flush；失败阻挡站内导航并提示刷新风险，成功重试才继续。完整加密备份恢复原操作与规则；读到待继续预测以事件seq比较，避免同秒错误排序。",
+      "boundary": "正在输入但尚未成功写到服务端的内容仍须留在原页面重试，不宣称离线云同步。"
+    },
+    {
+      "id": "V5-I06",
+      "finding": "新增截图已由浏览器生成，打包器的旧白名单会拒绝备份/点数图，也遗漏方程专用图。",
+      "action": "浏览器证据清单与打包允许清单同时纳入profile-health、counting-prediction、steps-desktop、steps-mobile；保留哈希、当前提交、完整旅程、实际页面集合的严格核验。",
+      "boundary": "没有扩大到失败trace、个人数据库或未绑定截图。"
+    }
+  ],
+  "validation": {
+    "http_and_model": {
+      "tests": 12,
+      "result": "passed",
+      "log": "build/v5-batch3-manipulations-final.log"
+    },
+    "browser": {
+      "journey": "scope_and_manipulatives",
+      "passed": true,
+      "elapsed_seconds": 11.64,
+      "report": "build/v5-batch3-manipulations-ready/report.json",
+      "scope": "Actual pre-result hiding, wrong prediction, duplicate taps, same-ID retry, save/reload, 390px and readable counting screenshot."
+    },
+    "independent_http": {
+      "synthetic": true,
+      "checks": [
+        "Draft-only POST and GET add no reference exposure.",
+        "Same timestamp preserves prediction-before-operation order; same-ID retry adds no prediction; repeated token IDs count once.",
+        "Foreign owner and a different state cannot borrow the saved prediction.",
+        "GET old feedback uses frozen families and old content version at actual current time; original saved payload remains exact and backup freshness becomes changed.",
+        "Fresh-install import matches its snapshot before viewing; rereading frozen feedback adds truthful new exposure without changing the restored operation.",
+        "One response exposing two different saved/pending predictions records each original identity once.",
+        "Historical missing family mapping remains unknown; current catalog/config families are never invented for it.",
+        "These interactions add no scored answer event or automatic mastery decision."
+      ],
+      "ok": true,
+      "completed_at": "2026-10-27T02:11:25+00:00"
+    },
+    "independent_browser": {
+      "synthetic": true,
+      "checks": [
+        "Repeated unchanged prediction preserves the same identity, both counted tokens and saved unique_count=2.",
+        "An actually revised prediction gets a new identity and intentionally begins a fresh counting round.",
+        "Failed saves still block navigation and retain text; successful retry saves before navigation."
+      ],
+      "errors": [],
+      "ok": true,
+      "browser_version": "151.0.7922.34",
+      "completed_at": "2026-10-27T02:11:52.200Z"
+    },
+    "package_regressions": {
+      "tests": 18,
+      "passed": true,
+      "log": "build/v5-batch3-package-tests.log"
+    },
+    "source_change_since_development_browser": "Final ten-frame introductory prose was shortened for children after the development browser checks. The final fixed-commit suite must rerun on those exact bytes.",
+    "fixed_release": "pending clean commit, current manifest and complete browser/content preview"
+  },
+  "source_sha256": {
+    "cnkg/manipulatives.py": "bb3b0a093b1f0b1f3f029fc811ac9ba35dc44fe1cbdce944d21f38535c6a17c3",
+    "web/static/manipulatives.js": "c77247816025bf0c5ac7e8350f6dc2923404f7c1d4e5a912f45225a0cadf335f",
+    "web/server.py": "50592e7f554b46a8f6f73f0466b96dda929a4dacbcf2877c3149e9911400ed76",
+    "web/static/work.js": "a49aca913f7249ce57ebbb5574f7563a450c5d7a5c28006639e935289ce2ddae",
+    "tests/test_manipulations_v5.py": "ca181ada07a336b50e23181a9f1ea45261254d0ea0c5c30a05b327d63266f8e1",
+    "tests/browser/learning-flow.cjs": "fcb8aa810617c08f3ca5b46d9df6a566e3a18c565ef7fbe9939c850b7d6354af",
+    "tools/browser_check.py": "18b00889018c273defd6a1dbc42be4b9410ba19251b0c1a3318680c3f2ec1994",
+    "tools/package_release.py": "3502068f12f8c3cc59047a35e2462a263b68bf2a442377d429c737346ef6e3d6"
+  },
+  "limitations": [
+    "Only four authored representations and bounded predictions; no general manipulative construction or free geometry proof.",
+    "Pointing actions are browser-reported learning records, not verified independent assessment.",
+    "No teacher or real-student outcome conclusion; final release must be separately bound to its exact commit."
+  ]
+}

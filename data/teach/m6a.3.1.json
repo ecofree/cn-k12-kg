@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m6a.3.1",
+  "name": "倒数的认识",
+  "tier": "tool",
+  "hook": "两个数相加等于1，与两个数相乘等于1，是同一关系吗？",
+  "definition": "乘积为1的两个数互为倒数。非零分数a/b的倒数是b/a，非零整数n的倒数是1/n；1的倒数仍是1，0没有倒数。",
+  "why": "a/b×b/a中的非零因子约去得到1，所以交换分子分母有依据。对0而言，不论乘哪个数都得0，无法得到1；倒数是两个数之间的关系，不能省去乘积检验。",
+  "conditions": [
+    "本卡讨论正分数、非零整数和0的边界。",
+    "原数及求倒数后的分母必须非0。"
+  ],
+  "representation_note": "将原数、候选倒数、乘积排三列表；把整数先写成分母1的分数。",
+  "when_to_use": [
+    "本卡讨论正分数、非零整数和0的边界。",
+    "原数及求倒数后的分母必须非0。"
+  ],
+  "steps": [
+    "确认原数是否为0。",
+    "分数交换分子分母，整数先写成n/1。",
+    "相乘检验1，区分倒数与相加凑1。"
+  ],
+  "worked_example": {
+    "prompt": "求5的倒数并检查。",
+    "steps": [
+      "5=5/1，交换得1/5。",
+      "5×1/5=1。"
+    ],
+    "answer": "1/5",
+    "family_id": "fraction.reciprocal-product-one",
+    "variant_id": "m6a.3.1:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "verify": "1/5"
+  },
+  "pitfalls": [
+    "1/3和2/3相加为1，但乘积不是1，不互为倒数。",
+    "0不能写成1/0作为一个合法倒数。"
+  ],
+  "practice": [
+    {
+      "id": "m6a.3.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m6a.3.1-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "倒数依据乘积1，而不是和1或符号相反。分数与整数都可统一成分数后交换。",
+      "observation_note": "观察求法与定义，尤其保留1这个自为倒数的例子。",
+      "self_check": {
+        "prompt": "求3/7、4、1的倒数，并逐一乘回检验。",
+        "reference_answer": "7/3、1/4、1；对应乘积都1。",
+        "criteria": [
+          "三个倒数正确",
+          "乘积检验完整"
+        ],
+        "family_id": "fraction.reciprocal-product-one",
+        "variant_id": "m6a.3.1:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.multiply-fractions"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "1必须找一个不同的数作倒数吗？",
+        "hint": "定义只要求乘积1，没有要求两数不同。",
+        "revision_prompt": "补写1×1=1，改正把1排除的判断。"
+      },
+      "criterion_index": 0,
+      "title": "能求分数、整数的倒数"
+    },
+    {
+      "explanation": "若0有倒数x，应满足0×x=1；但任意数乘0都是0，矛盾。所以不存在，不是写一个无定义的1/0。",
+      "observation_note": "观察两个错误的不同原因，不靠背“0没有”省略解释。",
+      "self_check": {
+        "prompt": "反驳“0的倒数是0”和“0的倒数是1/0”，分别用定义或分母条件说明。",
+        "reference_answer": "0×0=0不是1；1/0无定义，两种说法都错。",
+        "criteria": [
+          "用乘积定义排除0",
+          "指出零分母无定义"
+        ],
+        "family_id": "fraction.reciprocal-zero-exclusion",
+        "variant_id": "m6a.3.1:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.zero-product",
+          "fraction.reciprocal-product-one"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "候选倒数无论多大，0乘它会变成1吗？",
+        "hint": "乘0仍是0。",
+        "revision_prompt": "写出假设0×x=1与实际0×x=0，标明矛盾。"
+      },
+      "criterion_index": 1,
+      "title": "知道 0 没有倒数"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

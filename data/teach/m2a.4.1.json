@@ -1,0 +1,145 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2a.4.1",
+  "name": "认识厘米及用厘米量",
+  "tier": "tool",
+  "hook": "尺子上的0刻度掉了一截，还能量一条线段吗？",
+  "definition": "厘米是长度单位。尺上相邻整数厘米刻度间通常相差1厘米；量长度是求两端间的距离，不是把最右端数字直接当长度。1米=100厘米。",
+  "why": "从0对齐时末端读数恰好等于长度；若从2厘米刻度起到7厘米刻度，走过5个厘米间隔，长度是7−2。刻度线的条数与间隔数不同。",
+  "conditions": [
+    "用厘米刻度均匀且单位明确的直尺测量。",
+    "尺边沿被测长度放直，端点与所读刻度清楚对应。"
+  ],
+  "representation_note": "把物体一端对0，再故意对2厘米重复测量，比较末端读数和长度的区别。",
+  "when_to_use": [
+    "用厘米刻度均匀且单位明确的直尺测量。",
+    "尺边沿被测长度放直，端点与所读刻度清楚对应。"
+  ],
+  "steps": [
+    "尺子放直，找起点刻度。",
+    "读另一端刻度并求差。",
+    "写厘米单位，重复测量核对；认识100厘米组成1米。"
+  ],
+  "worked_example": {
+    "prompt": "读附图甲，线段两端分别对准尺的3厘米和9厘米刻度，长多少厘米？为什么不能直接把9当长度？",
+    "steps": [
+      "甲从3厘米刻度起量，不是从0起量。",
+      "9−3=6厘米；数过的6个1厘米间隔才是长度。"
+    ],
+    "answer": "6",
+    "family_id": "measure.ruler-offset-length",
+    "variant_id": "m2a.4.1:worked-v4",
+    "representation": "geometry",
+    "cognitive_demand": "explain",
+    "verify": "9-3",
+    "diagram": {
+      "src": "/static/diagrams/primary-v6-ruler-offset.svg",
+      "alt": "甲线段两端对3和9厘米；乙线段两端对0和5厘米。每相邻整数刻度相差1厘米，屏幕缩放不改变标注单位。"
+    }
+  },
+  "pitfalls": [
+    "从非0刻度起量要减起点。",
+    "数刻度间隔，不把两个端点都算成长度单位。"
+  ],
+  "practice": [
+    {
+      "id": "m2a.4.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m2a.4.1-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成各项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "正确测量先让尺与线段同方向，读起止刻度差。写下数字和单位才能表达长度。",
+      "observation_note": "观察测量动作和读数差；实测图未给尺寸时不要求预设数值。",
+      "self_check": {
+        "prompt": "先读配图甲与乙各长几厘米，说明怎样读数；再自己画一条线段，实际用尺量并记录起止读数。",
+        "reference_answer": "甲9−3=6厘米，乙5−0=5厘米；实测自己所画线段的值按真实读数报告，需尺与线段同方向、对应两端。",
+        "criteria": [
+          "尺与端点对应",
+          "起止差与厘米单位正确"
+        ],
+        "family_id": "measure.ruler-offset-length",
+        "variant_id": "m2a.4.1:criterion:0:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-ruler-offset.svg",
+          "alt": "甲线段两端对3和9厘米；乙线段两端对0和5厘米。每相邻整数刻度相差1厘米，屏幕缩放不改变标注单位。"
+        },
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "尺起点为3时，右端读9能直接写长9厘米吗？",
+        "hint": "数3到9之间经过的1厘米间隔。",
+        "revision_prompt": "用减法重写长度，再换0刻度对齐验证。"
+      },
+      "criterion_index": 0,
+      "title": "能用厘米作单位量物体长度"
+    },
+    {
+      "explanation": "米与厘米计量同一种长度，1米长可分成100个1厘米。长度不变，只改变单位与计数。",
+      "observation_note": "观察进率理解与整数倍应用，不是实际量遍100格的速度。",
+      "self_check": {
+        "prompt": "用一条1米示意带分10段，每段10厘米，说明共有多少厘米；再填2米有多少厘米。",
+        "reference_answer": "10×10=100厘米，2米=200厘米。",
+        "criteria": [
+          "说明100的来源",
+          "2米正确换算"
+        ],
+        "family_id": "measure.metres-centimetres",
+        "variant_id": "m2a.4.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "一米只分10段，每段都一定是1厘米吗？",
+        "hint": "本题每段10厘米，总长10×10厘米。",
+        "revision_prompt": "给每段标10厘米，补全米与厘米的两种标记。"
+      },
+      "criterion_index": 1,
+      "title": "知道 1 米=100 厘米"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能按物体尺度选择合适的常用长度单位",
+      "explanation": "长度单位应与尺度和所需细致程度相适应。较短的日常物体常用厘米，更薄的小量常用毫米；选择单位并没有实际测出长度，也不等于完成单位换算。",
+      "self_check": {
+        "prompt": "给“铅笔长约18（厘米/米）”和“薄片厚约2（毫米/米）”分别选择合适单位，并说明大单位为什么不合适。",
+        "reference_answer": "铅笔选厘米，薄片选毫米；18米的铅笔和2米厚的薄片不符合题中日常物体的尺度。这里没有作真实测量。",
+        "criteria": [
+          "铅笔选择厘米",
+          "薄片选择毫米",
+          "把单位选择与真实测量区分"
+        ],
+        "family_id": "measure.select-length-unit",
+        "variant_id": "m2a.4.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "不确认实际测量或米厘米单位换算。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "18米与18厘米，哪个与桌面上一支普通铅笔的尺度相近？",
+        "hint": "想一米尺的长度，再比较铅笔和薄片，先判断量级。",
+        "revision_prompt": "为课桌长约1（米/毫米）选单位，并在记录中注明仍需尺量才能得真实长度。"
+      }
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "diagram": {
+    "src": "/static/diagrams/primary-v6-ruler-offset.svg",
+    "alt": "甲线段两端对3和9厘米；乙线段两端对0和5厘米。每相邻整数刻度相差1厘米，屏幕缩放不改变标注单位。"
+  }
+}

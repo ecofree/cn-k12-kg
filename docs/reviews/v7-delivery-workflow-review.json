@@ -1,0 +1,222 @@
+{
+  "schema": 1,
+  "review": "V7 exact-source replay, candidate delivery and independent artifact verification",
+  "created_at": "2026-10-28T03:21:13+00:00",
+  "reviewer_kind": "ai",
+  "independent_review": false,
+  "baseline_commit": "de1244557d11a432f53bef00c9a3d094ab756bc8",
+  "status": "first_real_v7_ci_failure_identified_browser_contract_assertion_fixed_reverification_pending",
+  "repository_code_sha256": {
+    ".github/workflows/v6-verified-replay.yml": "bd35b462dae08654861eed899a43e20c84d5e0e57c1c3aacf17457d31fe747dc",
+    "tools/release_check.py": "a6bb160610c6ac21ee9c0e28d41220355ece61ab95c9efe1c9c1b7aabdf43d2b",
+    "tools/package_release.py": "3502068f12f8c3cc59047a35e2462a263b68bf2a442377d429c737346ef6e3d6",
+    "tools/verification_context.py": "a21944cf8dc7ab3d9ca89a404380ffb48a7da8efef7651bfd994edd9db655dab",
+    "tools/browser_check.py": "f8fb0e4406caa3ef77b899fc55c44b12fb31d488200affabbcc9371e0d55bd0f",
+    "tools/build_project.py": "366b945ea73d1bc6b889045738bf588143e4b471a00f32629e4f7cb2cada8417",
+    "tools/release_manifest.py": "032a00a5fcc905e5ce399d6fd4677803754ca5eb445e8dfa3d6aad5eead6c2c7"
+  },
+  "scratch_helper_sha256": {
+    "build_v7_payload.py": "69535f779d86edba6c013c4ecf283037fcefa11d45bee8bbb9f3f9eb3f8dc99f",
+    "verify_v7_artifact.py": "e986ab4567b84639e31d9ff44b3c8d5c2503a740124a3ad76c75bc3bdb7b3f01"
+  },
+  "scope_modified": [
+    ".github/workflows/v6-verified-replay.yml",
+    "scratch:verify_v7_artifact.py"
+  ],
+  "findings": [
+    {
+      "id": "candidate-rerun-ref-collision",
+      "severity": "medium",
+      "status": "fixed",
+      "before": "候选分支只含 GITHUB_RUN_ID；同一次 workflow 的不同 attempt 可能生成不同提交，非force推送到同一个已有候选ref会失败。此为静态可达失败路径，本次没有触发远端重跑。",
+      "after": "候选ref为 codex/cnkg-verified-v7-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}，仍使用普通git push且不写原followup分支。"
+    },
+    {
+      "id": "independent-artifact-identity-and-bundle-proof",
+      "severity": "medium",
+      "status": "fixed",
+      "before": "scratch验证器的outer ZIP digest可省略，候选HEAD只取自包内文本；信任delivery内restore/fsck布尔声明，没有实际恢复bundle，也未把嵌套证据报告与顶层报告逐字节关联。现有CI package本身已有实际恢复检查，但下载后的独立核验不完整。",
+      "after": "验证器必须显式传入来自所选run/ref的ZIP SHA256与candidate SHA。顶层三报告、revision文本、delivery报告hash、evidence-index及内外core/browser报告字节交叉核对；源码ZIP严格匹配本地manifest文件清单、字节、大小和hash。两个bundle均在临时隔离目录真实clone、bundle verify、fsck，核对HEAD、完整历史、manifest原始字节，并从恢复HEAD重新git archive逐文件比较。",
+      "path_boundaries": "外层及嵌套ZIP拒绝重复/非规范路径、绝对路径、父目录跳转和符号链接；核心日志、浏览器目录及文件读取受相对路径边界限制；交付必须正好包含source.zip、current-branch.bundle、evidence.zip三个带hash产物。"
+    },
+    {
+      "id": "stale-v6-fixed-preview-count",
+      "severity": "medium",
+      "status": "fixed",
+      "before": "scratch验证器沿用旧版本的固定516页比较；本轮实生成影响清单为500页，会错误拒绝本轮完整预览。",
+      "after": "移除固定页数。必须有非空expected_paths，预期路径自身无重复；观察路径数量与去重数量均等于预期数量，路径集合精确相同，内容fingerprint相同。因版本变更产生的合法影响范围变化可通过，遗漏、重复或范围外页面仍拒绝。",
+      "validation": "500条预览的隔离正fixture及原有8个拒绝案例已经实际重跑，9/9符合预期；另只读核对当前真实影响清单383文件、500唯一预览路径及fp8400156d…d6833，不宣称真实CI或浏览器已运行。"
+    }
+  ],
+  "reviewed_flow": [
+    {
+      "step": "baseline_and_control_commit",
+      "result": "workflow硬编码de1244557d11基线，必须为HEAD祖先；基线到控制提交的唯一变更须为该workflow。提交消息必须完整匹配payload blob SHA与raw SHA256，不能接受附加自由文本。"
+    },
+    {
+      "step": "payload",
+      "result": "Git blob identity、压缩字节SHA、raw SHA及逐文件before/after SHA逐层校验；限制32 chunks、5MB压缩/50MB解压，拒绝尾随压缩数据。恢复仅允许README及cnkg/data/docs/schema/tests/tools/web，禁止绝对路径/父跳转/符号链接/目录外解析；实际固定基线没有symlink。缓存区文件集合须恰等于payload所列集合。"
+    },
+    {
+      "step": "local_builder",
+      "result": "build_v7_payload.py从同一固定基线与非忽略新增源选择文件；排除workflow及明确派生文件，逐文件本地replay后字节相等才输出。JSON结构补丁保留键序并验证精确序列化。最终payload仍须在全部源/报告/manifest定稿后重新生成，本次未执行构造器或上传payload。"
+    },
+    {
+      "step": "rebuild_and_identity",
+      "result": "重建后release-manifest原始字节SHA必须匹配payload声明，再提交候选。manifest包含workflow本身。后续package要求非shallow、attached branch、clean tree和当前有效manifest；若实际checkout为detached会拒绝打包，不会假报成功或推送候选。"
+    },
+    {
+      "step": "release_gates",
+      "result": "CHECKS实际为19个内容/工程检查；--with-browser追加1个browser总门禁，共20。browser未传--journey，故执行声明的17项。非零返回码与timeout都失败；开始/结束HEAD、manifest、source状态及浏览器输入hash绑定，不能把core-only执行称完整交付。"
+    },
+    {
+      "step": "package",
+      "result": "package_release要求同HEAD/manifest的完整通过报告与所需检查集合，校验日志、截图、result.json和当前语义预览范围；source.zip仅包含manifest文件，当前分支bundle真实恢复/fsck，打包结束再次核对源与证据未变。没有生成GitHub Release或合并PR。"
+    },
+    {
+      "step": "candidate_only",
+      "result": "只有门禁及package步骤成功后才以非force push推临时候选ref，并把实际当前报告head与clean/delivery_ready再校验后写专用verification status。工作流不直接更新原followup。失败时always收集bundle/report仅为保留诊断，不能据artifact存在宣称通过。"
+    },
+    {
+      "step": "final_publication_boundary",
+      "result": "由root在取得所选run的artifact digest及临时候选SHA、完成下载后独立核验之后，再经连接器非force更新原followup。此动作尚未发生于本次审查；Draft PR 1保持未合并。"
+    },
+    {
+      "step": "no_replay_loop_or_approval_bypass",
+      "result": "候选ref不匹配此workflow的branch过滤；最终feature提交消息也不匹配maintenance replay前缀，因此不会形成重放循环。专用V7验证状态不替代普通PR CI；若普通CI返回action_required，仍须原样报告并按现有审批机制处理，不改审批控制或伪造那个检查结果。"
+    }
+  ],
+  "local_validation": {
+    "scope": "isolated synthetic Git/ZIP fixtures for the verifier only; not actual V7 CI or browser execution",
+    "command": "/workspace/scratch/cdd6c485d2b6/cnkg-venv/bin/python /tmp/cnkg_v7_artifact_verifier_smoke.py",
+    "fixture_script_sha256": "7b8d59bb1d560bfa00dc47a421c8434455e3085a12b2d2d9bda175b862a5930a",
+    "cases": 9,
+    "all_expected_outcomes_observed": true,
+    "valid_case": "Temporary fixture with 500 preview entries, an exact manifest and two real Git bundles accepted after two isolated clones/fsck and source-byte comparisons; the eight existing rejection cases also rejected as expected.",
+    "rejected_cases": [
+      "missing required external identities",
+      "wrong outer ZIP digest",
+      "wrong candidate commit",
+      "corrupt current-branch bundle despite updated enclosing artifact hash",
+      "corrupt candidate bundle",
+      "delivery report hash mismatch",
+      "nested report bytes changed with all enclosing file hashes recomputed",
+      "archive parent traversal"
+    ],
+    "static_checks": {
+      "release_core_declarations": 19,
+      "release_total_with_browser": 20,
+      "browser_journey_declarations": 17,
+      "baseline_symlinks": 0,
+      "manifest_includes_workflow": true,
+      "scratch_python_syntax": "valid",
+      "workflow_diff_whitespace_check": "passed"
+    },
+    "actual_v7_workflow_run_performed": false,
+    "actual_v7_artifact_verified": false,
+    "remote_mutation_performed": false,
+    "teacher_review_performed": false,
+    "real_student_effect_validation_performed": false,
+    "checked_at": "2026-10-28T03:29:53+00:00",
+    "fixture_preview_entries": 500,
+    "impact_snapshot_read": {
+      "path": "build/content-review.json",
+      "sha256": "80f561d444dda61acd2a33cb8fd92bd9e48c0433d77910c27079be0a979bf4ce",
+      "changed_files": 383,
+      "preview_entries": 500,
+      "unique_preview_paths": 500,
+      "content_fingerprint": "8400156dce82cb5546841b92d57b5e99eb1dc2df3c51392975299e609a6d6833",
+      "actual_preview_execution": false
+    }
+  },
+  "artifact_verifier_usage": "python verify_v7_artifact.py ARCHIVE NEW_DIRECTORY SOURCE_ROOT ZIP_SHA256 CANDIDATE_SHA",
+  "pending": [
+    "完成剩余源/测试修订后重新生成manifest及精确payload。",
+    "实际V7候选CI、20门禁和17浏览器执行结果须等该run结束再确认。",
+    "artifact ZIP digest与candidate SHA必须来自可信的所选GitHub run/ref，不可从下载包自己的声明中取值来作外部预期。",
+    "最终非force更新及普通PR CI状态由root继续核验；本报告不宣称PR批准或已发布。"
+  ],
+  "helper_validation_history": [
+    {
+      "recorded_at": "2026-10-28T03:21:13+00:00",
+      "verifier_sha256": "28156abd4b2c353b809799bf44e00b0160cb736f7f1953d1105a4facba77076d",
+      "local_validation": {
+        "scope": "isolated synthetic Git/ZIP fixtures for the verifier only; not actual V7 CI or browser execution",
+        "command": "/workspace/scratch/cdd6c485d2b6/cnkg-venv/bin/python /tmp/cnkg_v7_artifact_verifier_smoke.py",
+        "fixture_script_sha256": "daed6469f855e7c4a41acc59ec94357d4c8c91938a5d18a1e0ed6c4104c05cfc",
+        "cases": 9,
+        "all_expected_outcomes_observed": true,
+        "valid_case": "Temporary fixture repository, exact manifest and two real Git bundles accepted after two isolated clones/fsck and source-byte comparisons.",
+        "rejected_cases": [
+          "missing required external identities",
+          "wrong outer ZIP digest",
+          "wrong candidate commit",
+          "corrupt current-branch bundle despite updated enclosing artifact hash",
+          "corrupt candidate bundle",
+          "delivery report hash mismatch",
+          "nested report bytes changed with all enclosing file hashes recomputed",
+          "archive parent traversal"
+        ],
+        "static_checks": {
+          "release_core_declarations": 19,
+          "release_total_with_browser": 20,
+          "browser_journey_declarations": 17,
+          "baseline_symlinks": 0,
+          "manifest_includes_workflow": true,
+          "scratch_python_syntax": "valid",
+          "workflow_diff_whitespace_check": "passed"
+        },
+        "actual_v7_workflow_run_performed": false,
+        "actual_v7_artifact_verified": false,
+        "remote_mutation_performed": false,
+        "teacher_review_performed": false,
+        "real_student_effect_validation_performed": false
+      },
+      "notice": "保留移除旧516页常量之前的工具验证时间点；不代表真实V7浏览器执行。"
+    }
+  ],
+  "updated_at": "2026-10-28T03:52:14+00:00",
+  "first_real_ci_followup": {
+    "recorded_at": "2026-10-28T03:52:14+00:00",
+    "reviewer_kind": "ai",
+    "previous_status": "static_review_fixes_and_local_verifier_fixtures_complete_actual_v7_ci_and_delivery_verification_pending",
+    "run_id": 40627983572,
+    "run_url": "https://github.com/ecofree/cn-k12-kg/actions/runs/40627983572",
+    "candidate_head": "3b6ba6d810cfcc9c2c1545138b3874b0c667bcbb",
+    "artifact_id": 12790671427,
+    "artifact_sha256": "6d1de925416de19d4ec77c8318aba647644eab6a30134734e7bf64e633dfba91",
+    "core_report_sha256": "19d22b95be27060b490719aac1664a7eccf8532848a05af057e53dc3d565db31",
+    "browser_report_sha256": "93654c4cf64299397ec9b1833f6b98d18cea2f2a58a7b303113813ba034cfc13",
+    "actual_result": {
+      "core_gates_passed": 19,
+      "browser_journeys_passed": 16,
+      "browser_journeys_failed": 1,
+      "preview_pages_passed": 500,
+      "package_skipped": true,
+      "candidate_staging_skipped": true,
+      "delivery_ready": false
+    },
+    "failure": "scope_and_manipulatives 在完成算盘目标导航后将自检数量写死为2；实际作者源与DOM为3，3 !== 2使后续四类操作流程尚未执行。没有脚本或服务器错误，不据此认定整旅程通过。",
+    "reviewed_fix": "仅修改该旅程的目标导航与自检断言，核对m2b.3.2及真实目标身份、原两项和新增千百组成数目标、全部自检提示。新增目标4200/4000有单独观察边界。后续四类操作组件的预测、保存、恢复、键盘和手机布局断言逐字保留；未删除或放宽数量门槛。",
+    "test_file": "tests/browser/learning-flow.cjs",
+    "test_before_sha256": "ae819c8db4ba69c8d0dccb524d9fb80413fd2654d10fa99394d674d94eafd50c",
+    "test_after_sha256": "39f77dec367d168c66e6b3e440333d603783acca54082dc6dd418ec1bb5068a0",
+    "unchanged_author_source": {
+      "path": "data/teach/m2b.3.2.json",
+      "sha256": "37463a328a8dd42556af4505c118f82de1b4b85170a4eb12888f657b31a20662",
+      "criteria": [
+        "知道相邻计数单位间的进率是 10",
+        "能用算盘表示万以内的数",
+        "能根据千位和百位上的数量组成万以内的数"
+      ]
+    },
+    "local_validation": {
+      "node_syntax": "passed",
+      "git_diff_whitespace": "passed",
+      "later_manipulative_assertions_unchanged": true,
+      "actual_repaired_browser_run": false
+    },
+    "next_gate": "在新固定提交和新发布清单上重新执行全部20门禁、17浏览器旅程与当前500页面；只有实际全部通过并完成独立包核验后才推广候选。",
+    "point_in_time_notice": "此前local_validation和reviewed_flow保留各自审查时间点，不将旧的未运行声明或本次失败改写成成功。"
+  }
+}

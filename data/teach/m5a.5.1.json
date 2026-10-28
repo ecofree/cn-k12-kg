@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m5a.5.1",
+  "name": "用字母表示数和数量关系",
+  "tier": "tool",
+  "hook": "一支笔a元，买3支，为什么总价写3a而不是a3？",
+  "definition": "字母可以表示数与数量关系。数与字母、字母与字母相乘可省乘号，通常数写前面，如3×a=3a、a×b=ab；加减号不能随意省，a+a=2a与a×a=a²不同。",
+  "why": "一个式子既保留数量关系又能代入不同值。单价a元、数量x支时总价ax元；3a表示a取3倍，若写成a+3则表示多3，作用不同，代入数值可检查简写含义。",
+  "conditions": [
+    "先说明字母代表的量、单位与允许取值。",
+    "省略只用于规定的乘法写法，数字与数字相乘仍写乘号。"
+  ],
+  "representation_note": "把字母式和带乘号的展开式并排，在量表上标单价、数量、总价。",
+  "when_to_use": [
+    "先说明字母代表的量、单位与允许取值。",
+    "省略只用于规定的乘法写法，数字与数字相乘仍写乘号。"
+  ],
+  "steps": [
+    "设字母并写意义和单位。",
+    "按数量关系列含字母式。",
+    "规范简写，再代一个具体数核对原关系。"
+  ],
+  "worked_example": {
+    "prompt": "每本a元，买4本另付2元包装费，怎样表示总价？",
+    "steps": [
+      "书费4×a=4a元。",
+      "包装费只付一次，总价4a+2元。"
+    ],
+    "answer": "4a+2元。",
+    "family_id": "algebra.quantity-expression-with-fixed-fee",
+    "variant_id": "m5a.5.1:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "ratio.unit-rate-projection"
+    ]
+  },
+  "pitfalls": [
+    "4a是4乘a，不是4加a或四位数。",
+    "a²是a×a，不是2a。"
+  ],
+  "practice": [
+    {
+      "id": "m5a.5.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m5a.5.1-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成各项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "未知数先有明确含义，其他数量用它的运算关系表示。固定费与按件费应分开。",
+      "observation_note": "观察数量建模与检验，不仅观察式子简写。",
+      "self_check": {
+        "prompt": "小红有a本书，小青比她多5本，二人合计多少本？写式并代a=3检查。",
+        "reference_answer": "a+(a+5)=2a+5；a=3时共11本。",
+        "criteria": [
+          "两人数量表达正确",
+          "代值核对关系"
+        ],
+        "family_id": "algebra.quantity-expression-with-fixed-fee",
+        "variant_id": "m5a.5.1:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "algebra.evaluate-given-expression",
+          "primary.compare.quantity-then-total"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“多5本”是两个人都各多5，还是只定义小青？",
+        "hint": "先列小红a、小青a+5两行。",
+        "revision_prompt": "从两行相加重建总式，删除重复加的5。"
+      },
+      "criterion_index": 0,
+      "title": "能用含字母的式子表示数量关系"
+    },
+    {
+      "explanation": "省乘号有约定：3×b写3b，a×b写ab；加法a+b不能写ab，a×a写a²而a+a写2a。",
+      "observation_note": "观察语义区别；数值例子只检验一个取值，解释须回到运算。",
+      "self_check": {
+        "prompt": "简写5×x、m×n、a×a、a+a，再解释a=4时后两式的值为何不同。",
+        "reference_answer": "5x、mn、a²、2a；a=4时16与8。",
+        "criteria": [
+          "简写规范",
+          "平方与两倍区分"
+        ],
+        "family_id": "algebra.product-sum-notation",
+        "variant_id": "m5a.5.1:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "algebra.evaluate-given-expression"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "a²和2a都出现2，为什么运算不同？",
+        "hint": "把两者分别还原为a×a和a+a。",
+        "revision_prompt": "重写展开式后代a=4逐个核算。"
+      },
+      "criterion_index": 1,
+      "title": "能正确写出字母式子的简写形式"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能将已给字母值代入指定式子求数值",
+      "explanation": "已知字母值时，把同一个字母每次都替换成给定数，再按原式运算顺序计算。3a表示3乘a，不是把数字3和a的值拼在一起；求值不等于自己建立关系式。",
+      "self_check": {
+        "prompt": "已给a=4、b=7，求2a+b和a×b。写出替换后的算式，不另换字母的值。",
+        "reference_answer": "2a+b=2×4+7=15；a×b=4×7=28。",
+        "criteria": [
+          "字母替换一致",
+          "乘法先于加法",
+          "两值为15和28"
+        ],
+        "family_id": "algebra.evaluate-given-expression",
+        "variant_id": "m5a.5.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "关系式已给，不观察自主表示数量关系或代数简写。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "你把2a写成24，还是写成2×4？",
+        "hint": "先把隐含的乘号补出，再用括号放入字母值，最后计算。",
+        "revision_prompt": "将a改为5、b仍为7，重新求两式，圈出变化的是哪些代入位置。"
+      }
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

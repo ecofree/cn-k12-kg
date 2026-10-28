@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh4.5.2.3",
+  "name": "简单复合函数的导数",
+  "tier": "core",
+  "hook": "温度随时间变化，体积又随温度变化；体积对时间的变化率应乘上温度变化的速度，这就是链式法则。",
+  "definition": "复合函数y=f(g(x))若内层g在x处可导，外层f在g(x)处可导，则y′=f′(g(x))g′(x)。计算时先对外层求导、保留内层，再乘内层导数。本单元按课标把操作任务限定为内层ax+b，即[f(ax+b)]′=af′(ax+b)。可导条件与原定义域都要满足，如ln(2x+1)要求2x+1>0。",
+  "why": "当输入x变化Δx，内层先变化Δu，外层再变化Δy，局部变化比例可写成(Δy/Δu)(Δu/Δx)，极限对应两级变化率相乘；严格链式定理也覆盖内层增量为0的情形。因此内层并非x本身时，漏乘g′会忽略一次缩放。",
+  "when_to_use": [
+    "幂、指数、对数、三角函数的内部还含另一个表达式",
+    "函数形如(ax+b)ⁿ、sin(ax+b)、ln(g(x))等"
+  ],
+  "steps": [
+    "用u=g(x)标记内层，明确外层y=f(u)及定义域。",
+    "求dy/du，在结果中保留u的原结构。",
+    "乘du/dx，再把u换回g(x)，必要时整理。"
+  ],
+  "worked_example": {
+    "prompt": "f(x)=(2x-1)³，求f′(1)。",
+    "steps": [
+      "内层u=2x-1，u′=2；外层u³的导数为3u²。",
+      "f′(x)=3(2x-1)²×2=6(2x-1)²。",
+      "代x=1，f′(1)=6。"
+    ],
+    "answer": "6",
+    "verify": "3*(2*1-1)**2*2",
+    "family_id": "derivative.chain-affine",
+    "variant_id": "mh4.5.2.3:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "(2x-1)³的导数不是3(2x-1)²，必须再乘2。",
+    "对数求导后不能扩大原函数定义域；ln(2x+1)仍要求x>-1/2。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能识别复合函数的内外层",
+      "explanation": "分清内外层有助于决定先用哪个导数公式，当前操作范围为线性内层。",
+      "self_check": {
+        "prompt": "将y=sin(3x+1)写成两层并求各层导数。",
+        "reference_answer": "u=3x+1、y=sinu；du/dx=3，dy/du=cosu。",
+        "criteria": [
+          "内层3x+1、外层sin正确",
+          "两层导数分别正确"
+        ],
+        "family_id": "derivative.identify-composition-affine",
+        "variant_id": "mh4.5.2.3:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "sin(3x+1)的外层是sin还是3x+1？",
+        "hint": "先把内层整体叫u，外层是对u所做的操作。",
+        "revision_prompt": "对(2x-5)⁴写u=2x-5、y=u⁴，两层导数2与4u³。"
+      },
+      "observation_note": "观察内外层分解；本卡操作范围限定线性内层。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用链式法则求导",
+      "explanation": "总导数是两级导数的乘积，并须落在原定义域。",
+      "self_check": {
+        "prompt": "求y=ln(3x+2)的导函数与定义域。",
+        "reference_answer": "y′=3/(3x+2)，原定义域为x>-2/3。",
+        "criteria": [
+          "分子含内层导数3",
+          "定义域为严格不等式"
+        ],
+        "family_id": "derivative.chain-affine-domain",
+        "variant_id": "mh4.5.2.3:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "ln(3x+2)求导分子漏3会怎样？定义域还保留吗？",
+        "hint": "外层1/u乘内层导数3，原真数须严格正。",
+        "revision_prompt": "求ln(5-2x)导数-2/(5-2x)，定义域x<5/2，注意内层负号。"
+      },
+      "observation_note": "观察内层系数、外层与原定义域；不能把所有链式任务都算在本范围内。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能识别复合函数求导所用规则的名称",
+      "explanation": "复合函数把一个函数的输出送进另一个函数，例如y=F(g(x))。在相应可导条件下，其求导使用链式法则：外层在内层值处求导，再乘内层导数。认出规则名称只是本题所收的识别行为，并不表示已经完成任意复合式的实际求导。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：复合函数求导使用的法则是哪一个？ 可选：o1．乘积法则；o2．商法则；o3．和法则；o4．链式法则。\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：链式法则。复合函数逐层求导所用规则名称为链式法则。",
+        "criteria": [
+          "将函数嵌套的复合关系对应到链式法则名称，不混作乘积或和差规则",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "derivative.chain-rule-name-recall",
+        "variant_id": "mh4.5.2.3:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "外面一个函数包着里面一个函数，属于复合关系还是两个函数直接相乘？对应规则名称是什么？",
+        "hint": "用一个中间变量u=g(x)标出“x→u→y”两层依赖，将逐层求导并相乘的过程与规则名称对应。",
+        "revision_prompt": "先回答这个辨别问题：外面一个函数包着里面一个函数，属于复合关系还是两个函数直接相乘？对应规则名称是什么？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；将函数嵌套的复合关系对应到链式法则名称，不混作乘积或和差规则。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能求一次式的正整数幂在指定点的导数值",
+      "explanation": "对f(x)=(ax+b)ⁿ求导，可把ax+b作为内层，先求外层幂的导数n(ax+b)ⁿ⁻¹，再乘内层导数a。代入指定点应在求导之后，指数减1与内层系数均不能漏；低次式也可先展开求导，最终数值不自动证明选择并写出了链式法则。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：函数 f(x)=(2x+1)^2，求 f'(1) 的值。\n情境2：函数 f(x)=(3x-1)^3，求 f'(1) 的值。\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：12。f′=4(2x+1)，x1为12。\n情境2参考：36。f′=9(3x−1)²，x1为36。",
+        "criteria": [
+          "完整处理外层指数与内层系数后求导数点值，保留实际采用方法的记录边界",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "derivative.linear-inner-power-chain",
+        "variant_id": "mh4.5.2.3:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "这些低次多项式也可先展开求导，单一数值输出不证明学生选择并正确书写了链式法则。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "外层幂求导后指数有没有减1？内层是2x+1或3x−1时，是否还分别漏乘了2或3？",
+        "hint": "分别写“外层幂导数”和“内层一次式导数”两个因子，完整相乘后再代入所给x；可用展开后的多项式核对同一数值。",
+        "revision_prompt": "先回答这个辨别问题：外层幂求导后指数有没有减1？内层是2x+1或3x−1时，是否还分别漏乘了2或3？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；完整处理外层指数与内层系数后求导数点值，保留实际采用方法的记录边界。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh4.5.2.3-q101",
+      "note": "完成后对照解析检查条件、步骤和结果：函数 f(x)=(2x+1)^2，求 f'(1) 的值。"
+    },
+    {
+      "id": "mh4.5.2.3-q102",
+      "note": "完成后对照解析检查条件、步骤和结果：函数 f(x)=(3x-1)^3，求 f'(1) 的值。"
+    },
+    {
+      "id": "mh4.5.2.3-q1",
+      "note": "完成后对照解析检查条件、步骤和结果：函数 y=(2x+1)² 的导数在 x=0 处的值是多少？"
+    }
+  ],
+  "check": "独立完成并写出依据：将y=sin(3x+1)写成两层并求各层导数。；求y=ln(3x+2)的导函数与定义域。",
+  "conditions": [
+    "内层ax+b，内外层在相应点可导；原定义域保留。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

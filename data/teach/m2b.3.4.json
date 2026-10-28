@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "topicId": "m2b.3.4",
+  "name": "万以内数的大小比较与近似数",
+  "tier": "tool",
+  "author": "ai",
+  "author_type": "ai",
+  "review_status": "draft",
+  "hook": "3980与4010哪个更大？3986约有几百，又该看哪一位？",
+  "definition": "万以内数比较大小，先看位数；位数相同则从最高位逐位比较。按四舍五入取近似数时，先确定保留到哪一位，看它右边一位决定舍去还是进1，并用≈表示近似关系。",
+  "why": "4010的千位4大于3980的千位3，所以无需被3980较大的后几位迷惑。3986取到百位要看十位8，向百位进1，得到4000；近似数与原数相近，通常不相等。",
+  "when_to_use": [
+    "需要把实物、数位或图示中的数量说清楚。",
+    "需要核对自己的读数、写数或表示方法。"
+  ],
+  "steps": [
+    "比较时先按位数和最高位查找第一个不同位。",
+    "取近似数时先圈保留位。",
+    "看右邻位，小于5舍去、达到5进1。",
+    "把低位改成0，检查连锁进位并写≈。"
+  ],
+  "worked_example": {
+    "prompt": "3986四舍五入到百位是多少？",
+    "steps": [
+      "保留百位9，看十位8，需进1。",
+      "39个百进成40个百，结果4000。"
+    ],
+    "answer": "4000",
+    "verify": "40*100",
+    "family_id": "placevalue.round.to-specified-position",
+    "variant_id": "m2b.3.4:worked-example-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "比较位数相同的数时从个位开始。",
+    "求近似数没有指定保留位，或写等号假装数值未变。"
+  ],
+  "practice": [
+    {
+      "id": "m2b.3.4-q1",
+      "note": "结合实物或数位说明结果；自检量规另列。"
+    },
+    {
+      "id": "m2b.3.4-q2",
+      "note": "结合实物或数位说明结果；自检量规另列。"
+    }
+  ],
+  "check": "逐项目标完成下面的操作或解释，先留下过程，再对照量规修改；记录仍不确定的地方。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能比较万以内数的大小",
+      "explanation": "比较同位数的数，从高位开始，第一个不同位就能决定大小；后面低位不能推翻。",
+      "self_check": {
+        "prompt": "比较3980与4010、7060与7090，并说明在哪一位决定。",
+        "reference_answer": "3980<4010，由千位3<4决定；7060<7090，千百相同，由十位6<9决定。",
+        "criteria": [
+          "比较正确",
+          "说明首个不同的数位"
+        ],
+        "family_id": "placevalue.compare-integers",
+        "variant_id": "m2b.3.4:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "observation_note": "观察万以内按位比较，不直接说明会比较不同单位的测量数。",
+      "difficulty_support": {
+        "discriminating_prompt": "已经在千位分出大小，还要用个位改结果吗？",
+        "hint": "把相同的前面数位划掉，圈第一个不同位。",
+        "revision_prompt": "按从高到低次序重写比较理由。"
+      }
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用四舍五入求近似数",
+      "explanation": "同一个数取到不同位置可能得到不同近似结果，所以先说精确到十、百还是千。进位后需检查位数和占位0。",
+      "self_check": {
+        "prompt": "将2346分别四舍五入到十位、百位，写出带≈的结果，并解释看的是哪一位。",
+        "reference_answer": "2346≈2350（到十位，看个位6）；2346≈2300（到百位，看十位4）。",
+        "criteria": [
+          "指定保留位与下一位对应",
+          "结果与近似符号正确"
+        ],
+        "family_id": "placevalue.round.to-specified-position",
+        "variant_id": "m2b.3.4:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "observation_note": "只观察约定四舍五入；不表示所有生活估计都必须这样取数。",
+      "difficulty_support": {
+        "discriminating_prompt": "到百位要看个位6还是十位4？",
+        "hint": "只看保留位紧右的一位。",
+        "revision_prompt": "标出保留位与决定取舍位，重新写近似式。"
+      }
+    }
+  ],
+  "conditions": [
+    "比较前单位一致；近似必须说明保留位。"
+  ],
+  "representation_note": "数位表与相邻整十、整百刻度。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

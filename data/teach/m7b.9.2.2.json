@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.9.2.2",
+  "name": "用坐标表示平移",
+  "tier": "core",
+  "hook": "若一个顶点的坐标变化为(+3,−2)，其他顶点为什么必须同样变化？",
+  "definition": "点向右（左）平移 a 个单位，横坐标加（减）a；向上（下）平移 b 个单位，纵坐标加（减）b。图形的平移即所有顶点同向同距平移。",
+  "why": "平移让所有点的位移完全相同，坐标差记录了横、纵方向的位移。若不同顶点的增量不同，边长或形状通常会变化，不能代表同一次平移。",
+  "when_to_use": [
+    "图形平移前后给出顶点坐标",
+    "从一对对应点反推整幅图形移动"
+  ],
+  "steps": [
+    "先求或读出横纵坐标的改变量",
+    "把同一改变量加到每个点上",
+    "以另一对应点检查变化是否一致"
+  ],
+  "worked_example": {
+    "prompt": "A(1,2)平移到A′(4,1)，B(−2,0)同样平移到何处？",
+    "answer": "B′(1,−1)",
+    "steps": [
+      "A的横坐标增3，纵坐标减1，所以整图向右3、向下1。",
+      "B也作同样变化，B′=(−2+3,0−1)=(1,−1)。"
+    ],
+    "family_id": "coordinate.translation.infer-vector",
+    "variant_id": "m7b.9.2.2:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "向左、向下是减去正的距离，不是给坐标一律变号。",
+    "反推位移应用新坐标减原坐标，次序颠倒会反向。"
+  ],
+  "check": "独立完成并解释：点P(−2,5)向右平移4个单位、向下平移3个单位，写出P′的坐标。 请写出判断或计算依据。；图形平移时A(−1,4)对应A′(2,−2)。按“右a，下b”的格式写出平移方式。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能写出平移后点的坐标",
+      "explanation": "横纵变化互不混淆，右加左减、上加下减。",
+      "self_check": {
+        "prompt": "点P(−2,5)向右平移4个单位、向下平移3个单位，写出P′的坐标。 请写出判断或计算依据。",
+        "reference_answer": "向右使横坐标加4，向下使纵坐标减3，所以P′=(−2+4,5−3)=(2,2)。",
+        "criteria": [
+          "x加4",
+          "y减3"
+        ],
+        "family_id": "coordinate.translation.apply-vector",
+        "variant_id": "m7b.9.2.2:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "右4、下3分别改变哪个坐标？负横坐标加4是否仍负？",
+        "hint": "横纵分开写−2+4和5−3，再合成有序数对。",
+        "revision_prompt": "把Q(3,−1)作同样平移得到(7,−4)，比较两点坐标变化完全一致。"
+      },
+      "observation_note": "观察固定平移量在不同点上的一致作用；单点正确仍需多点核对整图平移。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能由坐标变化反推平移方向与距离",
+      "explanation": "坐标差描述同一次平移，方向由差的正负决定。",
+      "self_check": {
+        "prompt": "图形平移时A(−1,4)对应A′(2,−2)。按“右a，下b”的格式写出平移方式。 请写出判断或计算依据。",
+        "reference_answer": "横坐标增加2−(−1)=3，纵坐标减少4−(−2)=6，所以向右3、向下6。",
+        "criteria": [
+          "新减旧分别得3和−6",
+          "翻译成右3下6"
+        ],
+        "family_id": "coordinate.translation.infer-vector",
+        "variant_id": "m7b.9.2.2:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "coordinate.translation.apply-vector"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "用旧坐标减新坐标会得到哪一个方向？",
+        "hint": "从起点到终点的变化始终是新减旧，负号再译为左或下。",
+        "revision_prompt": "用所得右3下6移动B(0,1)到(3,−5)，再逆移返回验证。"
+      },
+      "observation_note": "观察位移方向、分量与逆检验；“右3下6”描述分量，不把路径长9当直线位移长度。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能求平移后的轴向线段长度",
+      "explanation": "平移给每个点增加同一个位移，因此两端点的相对位置和线段长度不变。求平移后的轴向线段长，可直接求原线段的坐标差。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：线段 AB 的两个端点是 A(1,2)、B(4,2)。把线段整体向上平移 3 个单位，得到线段 A′B′。A′B′ 的长度是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：3。线段长度4−1=3，平移后不变。",
+        "criteria": [
+          "整体平移保持相对位置与长度",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "translation.length-invariance",
+        "variant_id": "m7b.9.2.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "两个端点是不是同时平移相同距离？位移量为什么不加在线段长上？",
+        "hint": "分别给两个端点加同一位移，再相减观察公共位移抵消。",
+        "revision_prompt": "先回答这个辨别问题：两个端点是不是同时平移相同距离？位移量为什么不加在线段长上？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；整体平移保持相对位置与长度。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由平移方向距离和终点坐标还原起点的指定坐标分量",
+      "explanation": "平移终点等于起点加位移，逆求起点则从终点减去位移。向左位移为负，减去这个负位移等于向右还原；只问横坐标时竖直变化不影响答案。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：点 P 先向左平移 3 个单位、再向上平移 2 个单位，得到点 P′(1,5)。点 P 的横坐标是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：4。终点横坐标1由原横坐标减3，原为4。",
+        "criteria": [
+          "逆向还原位移方向且分清横纵分量",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "coordinate.translation.inverse-component",
+        "variant_id": "m7b.9.2.2:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "由终点还原向左3，应该再向左还是向右？",
+        "hint": "写终点横坐标=起点横坐标−3，再解原横坐标并正向验证。",
+        "revision_prompt": "先回答这个辨别问题：由终点还原向左3，应该再向左还是向右？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；逆向还原位移方向且分清横纵分量。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.9.2.2-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.9.2.2-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.9.2.2-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

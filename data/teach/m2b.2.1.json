@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2b.2.1",
+  "name": "倍的认识",
+  "tier": "tool",
+  "hook": "红花3朵，蓝花朵数是红花的3倍，蓝花几朵？",
+  "definition": "“倍”表示比较关系：把一个数量看作一份，另一个数量包含这样的几份，就说它是前一个数量的几倍。求一个数的几倍，用这个数乘倍数。",
+  "why": "红花3朵看作一份，蓝花有3组这样的3朵，共9朵，就说蓝花朵数是红花的3倍。“3倍”不是多3朵，而是有3份。",
+  "conditions": [
+    "先明确作为1份的数量；本卡基准数与倍数均为正整数。",
+    "倍数说明比较关系，实际结果要带对应数量单位。"
+  ],
+  "representation_note": "用相同大小的分组圈或等长段表示一份，比较时始终保留基准的一份。",
+  "when_to_use": [
+    "先明确作为1份的数量；本卡基准数与倍数均为正整数。",
+    "倍数说明比较关系，实际结果要带对应数量单位。"
+  ],
+  "steps": [
+    "明确把哪个数量看作1份。",
+    "把另一个数量按同样的每份数分组或画等长段。",
+    "数有这样的几份，说明倍数关系。",
+    "求几倍的量时写一份数×份数，并带数量单位作答。"
+  ],
+  "worked_example": {
+    "prompt": "红花3朵，蓝花朵数是红花的3倍，蓝花几朵？",
+    "steps": [
+      "红花3朵看作1份，蓝花有同样的3份。",
+      "3×3=9（朵），不是3+3=6。"
+    ],
+    "answer": "9",
+    "family_id": "primary.multiply.multiplicative-comparison",
+    "variant_id": "m2b.2.1:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "verify": "3*3"
+  },
+  "pitfalls": [
+    "把“3倍”看成“多3”，混淆相同份数与相差数量。",
+    "说“是3倍”却不说明是谁的3倍，比较基准不清。"
+  ],
+  "practice": [
+    {
+      "id": "m2b.2.1-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m2b.2.1-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "倍数一定依赖基准。小棒一行2根、另一行8根，把2根看作1份，8根分成4份，所以8是2的4倍；若基准改成4，倍数就变成2。",
+      "observation_note": "本项观察明确一份的基准、基准改变后倍数相应改变；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "一组3个圆片，另一组12个。把3看作1份，12是3的几倍？若基准换成6呢？",
+        "reference_answer": "12包含4份3，是3的4倍；12包含2份6，是6的2倍。",
+        "criteria": [
+          "明确一份的基准",
+          "基准改变后倍数相应改变"
+        ],
+        "family_id": "comparison.multiplicative-factor",
+        "variant_id": "m2b.2.1:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.divide.group-count"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“一份”现在规定为3个还是6个？",
+        "hint": "先圈出基准数量，再用相同大小的圈分较多的一组。",
+        "revision_prompt": "分别画每份3个与每份6个的两种分组，补全“谁是谁的几倍”。"
+      },
+      "criterion_index": 0,
+      "title": "能说出“倍”表示两个数的比较关系"
+    },
+    {
+      "explanation": "求一个数的几倍，是求若干相同份的合计。4的5倍表示5份4，写4×5=20；结果20是实际数量，倍数5一般不带物体单位。",
+      "observation_note": "本项观察按相同5份列乘法、数量单位与倍数区别正确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "小兰有4枚贴纸，小明的枚数是她的5倍。小明有几枚？解释为何不用4+5。",
+        "reference_answer": "4×5=20枚；5倍是5份4枚，不是比4枚多5枚。",
+        "criteria": [
+          "按相同5份列乘法",
+          "数量单位与倍数区别正确"
+        ],
+        "family_id": "primary.multiply.multiplicative-comparison",
+        "variant_id": "m2b.2.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.equal-groups",
+          "primary.multiply.repeated-addition"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "5倍中的5表示5枚贴纸，还是有5份与小兰一样多？",
+        "hint": "画5个同样的框，每框先放4枚。",
+        "revision_prompt": "把4+5改画成5份4，数总量并重写乘法式。"
+      },
+      "criterion_index": 1,
+      "title": "能用乘法求一个数的几倍"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

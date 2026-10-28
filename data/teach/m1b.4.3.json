@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "12块饼干每人分3块，连续减去的每一个3表示什么？",
+  "definition": "按每组同样多进行分配，可以每分一组就减一次。减去几次，表示已分出几组；最后的数表示未分出的剩余数量。剩余不足一组时不能再完整分一组。",
+  "why": "每次分配使总量减少固定数量，连续减法就记录了这一过程。数减号的次数得到完整组数，但零不是新的一组，最后一次减到0时应停止。",
+  "when_to_use": [
+    "每份数量相同，问可以分给多少人",
+    "用连减记录分配过程并识别不足一份的余量"
+  ],
+  "steps": [
+    "写出总数和每份数量，确认每份固定。",
+    "每分一份减一次，记录剩余数。",
+    "剩余不足一份时停下，数完整分配次数并说明余量。"
+  ],
+  "worked_example": {
+    "prompt": "12块饼干，每人3块，能分给几人？",
+    "steps": [
+      "12−3=9，9−3=6，6−3=3，3−3=0。",
+      "共减4次，表示分给4人，正好分完。"
+    ],
+    "answer": "4",
+    "verify": "12/3",
+    "family_id": "primary.divide.repeated-subtraction",
+    "variant_id": "m1b.4.3:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "不要把最后剩0也算成一个人。",
+    "剩2块而每人分3块时，不能说还能完整分给1人。"
+  ],
+  "check": "先独立完成下面各项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m1b.4.3",
+  "name": "用连减解决问题",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用连减解决按群分配的问题",
+      "explanation": "每减一次表示完成一次等量分配，剩余不足每份数就停止。",
+      "self_check": {
+        "prompt": "10个苹果，每袋装3个。用连减说明能装满几袋、剩几个。",
+        "reference_answer": "10−3=7，7−3=4，4−3=1；装满3袋，剩1个。",
+        "criteria": [
+          "每次减3",
+          "区分满袋数3和余数1"
+        ],
+        "family_id": "primary.divide.repeated-subtraction",
+        "variant_id": "m1b.4.3:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "10个苹果每袋3个，剩1个时还能装满下一袋吗？“剩1”是1袋还是1个？",
+        "hint": "每减3就在旁边画一只满袋；剩余数写在“个”栏，袋数另数图标。",
+        "revision_prompt": "13个苹果每袋4个，连续减并把满袋数、剩余个数分两栏记录，再把苹果合回检查13。"
+      },
+      "observation_note": "观察等量分组次数与余量区分；不要求用尚未学习的除法竖式。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能正确进行连减计算",
+      "explanation": "连减从前一步的结果继续，不能每次都从总数重新减。",
+      "self_check": {
+        "prompt": "15支笔先给甲4支，再给乙4支，再给丙4支，还剩几支？",
+        "reference_answer": "15−4−4−4=3（支），中间结果为11、7、3。",
+        "criteria": [
+          "按顺序连减",
+          "结果3"
+        ],
+        "family_id": "primary.change.sequential-add-subtract",
+        "variant_id": "m1b.4.3:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "第二次给出4支后，应该从15还是从11继续减？",
+        "hint": "每一步画箭头连接剩余数，下一步只从上一步留下的数量取走。",
+        "revision_prompt": "14支笔分三次各给3支，写每次剩余数，再把三次给出的与最后剩下的合回14。"
+      },
+      "observation_note": "观察逐次减少的计算链；最终3支正确不能说明中间三次都正确。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能求给定总量最多包含多少个完整等量组",
+      "explanation": "每取出一份固定数量就完成一组。反复取到不足一份时停止；剩余不足一份不能再计一组完整对象。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：13块饼干，每人分4块，只给能分到完整4块的人，用连减能分给几人？\n写出每个问题的答案。可以用小棒、画图或算式说明你怎样想；用了提示或参考，也记下来。",
+        "reference_answer": "情境1参考：3。13依次减4得9、5、1，三份完整4块，余1不能再成份。",
+        "criteria": [
+          "完整组数与不足一组的余量区分",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "primary.divide.repeated-subtraction",
+        "variant_id": "m1b.4.3:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "可以用连减求得3，但只收人数不能确认学生确实用了连减。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "剩余数量已经少于每份要求，为什么还能再分一份？",
+        "hint": "每减去一份画一个标记，同时记余下多少；只有真的取够一份才增加组数。",
+        "revision_prompt": "先回答这个辨别问题：剩余数量已经少于每份要求，为什么还能再分一份？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；完整组数与不足一组的余量区分。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m1b.4.3-q1",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1b.4.3-q101",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1b.4.3-q102",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

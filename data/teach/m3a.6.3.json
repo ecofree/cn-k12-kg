@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3a.6.3",
+  "name": "认识几分之几",
+  "tier": "tool",
+  "hook": "八等份中的三份，为什么分数要写成3/8而不是8/3？",
+  "definition": "把一个整体平均分成若干份，取其中几份，可用几分之几表示。分母是整体的等分份数，分子是取的份数；本卡主要表示一个整体以内的部分。",
+  "why": "同样大的小份作为计数单位，分母确定每份大小，分子累计取了多少份。只改分子会改变取份数，只改分母会改变份单位，因此两个位置不能随意交换。",
+  "conditions": [
+    "一个整体固定且每份在比较量上相等。",
+    "本卡取份来自该整体；符号中的分母非0。"
+  ],
+  "representation_note": "用均匀方格纸涂若干格，分别标全部等份和所取等份。",
+  "when_to_use": [
+    "一个整体固定且每份在比较量上相等。",
+    "本卡取份来自该整体；符号中的分母非0。"
+  ],
+  "steps": [
+    "确定单位“1”并数总等份。",
+    "数涂色或所取的份数。",
+    "按取份数/总份数书写并口述。"
+  ],
+  "worked_example": {
+    "prompt": "长方形平均分10格，涂7格，用分数表示。",
+    "steps": [
+      "总等份10作分母。",
+      "涂7份作分子。"
+    ],
+    "answer": "7/10",
+    "family_id": "fraction.part-count-over-equal-whole",
+    "variant_id": "m3a.6.3:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "verify": "7/10"
+  },
+  "pitfalls": [
+    "把分子分母倒置会改变表示。",
+    "图中格大小不等时不能单凭格数直接写面积占比。"
+  ],
+  "practice": [
+    {
+      "id": "m3a.6.3-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3a.6.3-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "从图读分数先核对平均分条件，再分别数全部份与所取份。没有涂色的格也属于整体。",
+      "observation_note": "观察由图到符号及前提，不是只数颜色块。",
+      "self_check": {
+        "prompt": "画一个8等份长方形涂5份，再读写它的分数；若另画8块不等面积，能照搬5/8吗？",
+        "reference_answer": "前者5/8；后者仅凭块数不能确定5/8面积。",
+        "criteria": [
+          "图与分数一致",
+          "能检查不等份反例"
+        ],
+        "family_id": "fraction.part-count-over-equal-whole",
+        "variant_id": "m3a.6.3:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.equal-partition-condition"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "分母为什么要包含未涂的3份？",
+        "hint": "分母说完整单位怎样分，不只说选出的部分。",
+        "revision_prompt": "给全部8格编号，涂色5格再圈出整体。"
+      },
+      "criterion_index": 0,
+      "title": "能由图形写出几分之几"
+    },
+    {
+      "explanation": "3/7表示把单位平均分7份，取3份；每份1/7，3份为三个1/7。分子数份，分母给每份的单位。",
+      "observation_note": "观察分子分母职责，口述须带同一整体。",
+      "self_check": {
+        "prompt": "解释4/9的4和9，写出一份大小，再说明它由几个这样的单位份组成。",
+        "reference_answer": "9等份中取4，一份1/9，4/9由4个1/9组成。",
+        "criteria": [
+          "分母等分含义",
+          "分子累计份数"
+        ],
+        "family_id": "fraction.part-count-over-equal-whole",
+        "variant_id": "m3a.6.3:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.unit-fraction-partition"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "4/9是一份分成4还是一共分9份？",
+        "hint": "先看分母9，再看取的4。",
+        "revision_prompt": "补画9等份并用4个箭头指所取份。"
+      },
+      "criterion_index": 1,
+      "title": "能说出分子分母分别表示什么"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

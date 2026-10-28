@@ -1,0 +1,171 @@
+name: Apply and verify the reviewed V9 continuation
+on:
+  push:
+    branches: [codex/cnkg-quality-v6-followup]
+permissions:
+  contents: read
+concurrency:
+  group: cnkg-v9-verified-continuation
+  cancel-in-progress: false
+jobs:
+  repair:
+    if: >-
+      github.repository == 'ecofree/cn-k12-kg' && startsWith(github.event.head_commit.message, 'maintenance: replay V9 continuation ')
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write
+      statuses: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Apply the exact reviewed patch against its declared parent
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import base64, hashlib, json, lzma, os, pathlib, re, subprocess, urllib.request
+          baseline = 'b3e9fa9e49c1e52e7d19ca5c5ba29d87ec164d9b'
+          run = lambda *args: subprocess.check_output(args).decode().strip()
+          subprocess.run(['git','merge-base','--is-ancestor',baseline,'HEAD'],check=True)
+          assert run('git','diff','--name-only',baseline,'HEAD') == '.github/workflows/v6-verified-replay.yml'
+          message = run('git','log','-1','--format=%B')
+          match = re.fullmatch(r'maintenance: replay V9 continuation ([0-9a-f]{40}) ([0-9a-f]{64})',message)
+          assert match, 'Invalid payload identity'
+          def blob(sha):
+              assert re.fullmatch(r'[0-9a-f]{40}',sha)
+              req=urllib.request.Request('https://api.github.com/repos/ecofree/cn-k12-kg/git/blobs/'+sha,headers={
+                  'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+              with urllib.request.urlopen(req,timeout=60) as response: value=json.load(response)
+              assert value['sha']==sha and value['encoding']=='base64'
+              return base64.b64decode(value['content'])
+          index=json.loads(blob(match[1]))
+          assert index['format']=='lzma-chunks-v1' and 1<=len(index['chunks'])<=32
+          packed=b''.join(blob(sha) for sha in index['chunks'])
+          assert len(packed)<=5_000_000 and hashlib.sha256(packed).hexdigest()==index['sha256']
+          decoder=lzma.LZMADecompressor()
+          raw=decoder.decompress(packed,max_length=50_000_001)
+          assert decoder.eof and not decoder.unused_data and len(raw)<=50_000_000
+          assert hashlib.sha256(raw).hexdigest()==match[2]
+          payload=json.loads(raw)
+          assert payload['schema']==2 and payload['baseline']==baseline
+          paths=[]
+          for entry in payload['files']:
+              name=entry['path'];path=pathlib.Path(name)
+              assert not path.is_absolute() and '..' not in path.parts
+              assert name.startswith(('cnkg/','data/','docs/','schema/','tests/','tools/','web/')) or name=='README.md'
+              assert not name.endswith(('.ttf','.otf','.woff','.woff2','.sqlite','.bundle'))
+              assert name not in paths and not path.is_symlink()
+              assert path.resolve().is_relative_to(pathlib.Path.cwd().resolve())
+              before=path.read_bytes() if path.exists() else None
+              assert (hashlib.sha256(before).hexdigest() if before is not None else None)==entry['before'],name
+              if 'text' in entry:
+                  after=entry['text'].encode('utf-8')
+              elif 'lines' in entry:
+                  lines=before.decode('utf-8').splitlines(keepends=True)
+                  edits=entry['lines'];last=0
+                  for lo,hi,values in edits:
+                      assert last<=lo<=hi<=len(lines) and all(isinstance(v,str) for v in values)
+                      last=hi
+                  for lo,hi,values in reversed(edits):lines[lo:hi]=values
+                  after=''.join(lines).encode('utf-8')
+              else:
+                  data=json.loads(before)
+                  for kind,parts,*values in entry['ops']:
+                      if kind=='order':
+                          target=data
+                          for key in parts:target=target[key]
+                          assert set(values[0])==set(target) and len(values[0])==len(target)
+                          reordered={key:target[key] for key in values[0]};target.clear();target.update(reordered)
+                          continue
+                      if not parts:
+                          assert kind=='replace';data=values[0];continue
+                      parent=data
+                      for key in parts[:-1]:parent=parent[key]
+                      key=parts[-1]
+                      if kind=='remove':del parent[key]
+                      elif kind=='add' and isinstance(parent,list):parent.insert(key,values[0])
+                      else:
+                          assert kind in {'add','replace'};parent[key]=values[0]
+                  assert entry['indent'] in (1,2)
+                  after=(json.dumps(data,ensure_ascii=False,indent=entry['indent'])+'\n').encode('utf-8')
+              assert hashlib.sha256(after).hexdigest()==entry['after'],name
+              path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(after);paths.append(name)
+          subprocess.run(['git','add','--',*paths],check=True)
+          assert set(run('git','diff','--cached','--name-only').splitlines())==set(paths)
+          pathlib.Path(os.environ['RUNNER_TEMP'],'v9-expected-manifest.txt').write_text(payload['release_manifest_sha256'])
+          PY
+      - name: Install the existing pinned dependencies
+        run: |
+          python -m pip install -r requirements-dev.txt
+          npm ci
+          npx playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Rebuild derived resources and commit the exact candidate
+        run: |
+          python tools/build_project.py --write
+          python - <<'PY'
+          import hashlib, os
+          from pathlib import Path
+          expected = Path(os.environ['RUNNER_TEMP'], 'v9-expected-manifest.txt').read_text().strip()
+          assert hashlib.sha256(Path('release-manifest.json').read_bytes()).hexdigest() == expected, 'Rebuild differs from reviewed source'
+          PY
+          git add README.md cnkg data docs schema tests tools web release-manifest.json
+          git -c user.name='cnkg verification' -c user.email='73414735+ecofree@users.noreply.github.com' commit -m 'feat: review remaining goal gaps and bind new assessment evidence'
+      - name: Complete every existing release gate on the clean candidate
+        run: |
+          python tools/release_check.py --with-browser
+          python tools/release_manifest.py --check
+          git diff --exit-code
+          test -z "$(git status --porcelain)"
+      - name: Package the source, history and evidence bound to this candidate
+        run: python tools/package_release.py
+      - name: Stage the verified candidate and attach its actual verification status
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git push origin "HEAD:refs/heads/codex/cnkg-verified-v9-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          python - <<'PY'
+          import json, os, subprocess, urllib.request
+          head = subprocess.check_output(['git','rev-parse','HEAD']).decode().strip()
+          report = json.load(open('build/regression_report.json'))
+          assert report['head'] == head and report['delivery_ready'] and report['source_clean']
+          body = json.dumps({'state':'success','context':'V9 full release verification',
+              'description':'All existing core and browser gates passed on this exact commit',
+              'target_url':f"https://github.com/ecofree/cn-k12-kg/actions/runs/{os.environ['GITHUB_RUN_ID']}"}).encode()
+          req = urllib.request.Request(f'https://api.github.com/repos/ecofree/cn-k12-kg/statuses/{head}', data=body, method='POST', headers={
+              'Authorization':'Bearer '+os.environ['GH_TOKEN'], 'Content-Type':'application/json'})
+          with urllib.request.urlopen(req, timeout=60) as response:
+              assert response.status == 201
+          PY
+      - name: Preserve candidate history and verification evidence
+        if: always()
+        run: |
+          git bundle create "$RUNNER_TEMP/v9-candidate.bundle" --all
+          git rev-parse HEAD > "$RUNNER_TEMP/v9-revision.txt"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v9-continuation-verification
+          retention-days: 14
+          path: |
+            ${{ runner.temp }}/v9-candidate.bundle
+            ${{ runner.temp }}/v9-revision.txt
+            build/regression_report.*
+            build/release-check/*.log
+            build/browser-check/report.*
+            build/browser-check/*/result.json
+            build/browser-check/*/*.png
+            build/browser-check/*/*.log
+            build/release/*/delivery.json
+            build/release/*/source.zip
+            build/release/*/current-branch.bundle
+            build/release/*/evidence.zip

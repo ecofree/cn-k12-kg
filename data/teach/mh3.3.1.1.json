@@ -1,0 +1,179 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh3.3.1.1",
+  "name": "椭圆及其标准方程",
+  "tier": "core",
+  "hook": "用一根长度固定的线绕住两个图钉并拉紧画线，笔尖到两个图钉的距离和保持不变，形成椭圆。",
+  "definition": "平面内到两个不同定点F₁、F₂的距离和等于常数2a，且2a>|F₁F₂|=2c>0的点轨迹为椭圆。焦点在x轴时方程x²/a²+y²/b²=1，其中a>b>0、c²=a²-b²；焦点在y轴时交换x、y。距离和等于焦距时退化为焦点间线段，小于焦距无点。",
+  "why": "取焦点(±c,0)，令两焦距为r₁、r₂。由r₁+r₂=2a及r₁²-r₂²=4cx，得r₁=a+cx/a、r₂=a-cx/a；代回r₁²=(x+c)²+y²，整理得x²/a²+y²/(a²-c²)=1。a>c保证b²>0，也避免退化。",
+  "when_to_use": [
+    "题目给动点到两个定点的距离和",
+    "由焦点、长轴长或圆锥曲线方程确定a、b、c"
+  ],
+  "steps": [
+    "识别距离和常数2a与焦距2c，检查a>c>0。",
+    "按焦点连线确定长轴方向，并用b²=a²-c²求第三参数。",
+    "写对应标准式，代入已知点和定义检查。"
+  ],
+  "worked_example": {
+    "prompt": "焦点为(-3,0)、(3,0)，动点到两焦点距离和为10，求轨迹方程。",
+    "steps": [
+      "2c=6、2a=10，所以c=3、a=5，且a>c。",
+      "b²=a²-c²=25-9=16；焦点在x轴，故x²/25+y²/16=1。"
+    ],
+    "answer": "x²/25+y²/16=1。",
+    "family_id": "ellipse.from-foci-distance-sum",
+    "variant_id": "mh3.3.1.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "方程中较大的分母才是a²；不能固定把x²下方当a²。",
+    "距离和等于焦距时只得到线段，不能用b=0写含零分母的椭圆方程。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能由定义判断椭圆",
+      "explanation": "三角不等式保证距离和至少为焦距，严格大于时才形成非退化椭圆。",
+      "self_check": {
+        "prompt": "焦点距离为6，分别判断距离和为8、6、4的轨迹。",
+        "reference_answer": "8时为椭圆；6时为连接两焦点的闭线段；4时没有点。",
+        "criteria": [
+          "说明三角不等式",
+          "三种情形均正确"
+        ],
+        "family_id": "ellipse.distance-sum-degeneracy",
+        "variant_id": "mh3.3.1.1:criterion-0",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "距离和恰等于两焦点距离时为何不是椭圆？",
+        "hint": "三角不等式取等使动点落在两焦点间线段。",
+        "revision_prompt": "焦距8，和10为椭圆、和8为闭线段、和6无点，分别说明。"
+      },
+      "observation_note": "观察严格条件和退化；不能只看“距离和定值”识别椭圆。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能写出椭圆的标准方程并求 a、b、c",
+      "explanation": "a是长半轴而非任意分母的根，焦距参数由差平方得到。",
+      "self_check": {
+        "prompt": "椭圆x²/9+y²/25=1的a、b、c与焦点是什么？",
+        "reference_answer": "a=5、b=3、c=4；长轴在y轴，焦点(0,±4)。",
+        "criteria": [
+          "a、b按大小识别",
+          "c²=25-9且焦点方向正确"
+        ],
+        "family_id": "ellipse.axes-foci-parameters",
+        "variant_id": "mh3.3.1.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "y项分母较大时a还对应x轴吗？",
+        "hint": "a是长半轴，随较大分母对应方向。",
+        "revision_prompt": "x²/16+y²/25=1给a=5,b=4,c=3，焦点(0,±3)。"
+      },
+      "observation_note": "观察大小、差平方和方向；不按字母x机械对应a。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能识别椭圆长短半轴与半焦距的平方关系",
+      "explanation": "非退化椭圆记长半轴a、短半轴b、半焦距c，满足a²=b²+c²，且a≥b>0。焦点相异时a>b且c>0；a是三者中最大者，不要与双曲线c²=a²+b²混淆。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：椭圆中 a、b、c 的关系是什么？ 可选：o1．a²=b²+c²；o2．c²=a²+b²；o3．b²=a²+c²；o4．a=b+c。\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：a²=b²+c²。长半轴a、短半轴b、半焦距c满足a²=b²+c²。",
+        "criteria": [
+          "按椭圆参数约定识别长半轴平方等于另两者平方和",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "ellipse.semifocal-relation-recall",
+        "variant_id": "mh3.3.1.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "a、b、c分别是哪一种半长度？本题是椭圆还是双曲线？",
+        "hint": "给参数标长半轴、短半轴、半焦距，先判断最大量，再核对平方关系。",
+        "revision_prompt": "先回答这个辨别问题：a、b、c分别是哪一种半长度？本题是椭圆还是双曲线？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；按椭圆参数约定识别长半轴平方等于另两者平方和。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由标准椭圆方程求焦距",
+      "explanation": "中心在原点的标准椭圆方程中，较大的分母为长半轴平方a²，较小为b²，半焦距c=√(a²−b²)。焦距表示两个焦点之间的距离，是2c；读方程中的平方参数后不要再次平方，也不要漏掉倍数2。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：某卫星运行轨道的投影曲线方程是 x^2/25+y^2/9=1（单位：万千米）。这条椭圆轨道的焦距是多少万千米？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：8。a²25,b²9,c4，焦距2c8。",
+        "criteria": [
+          "从标准椭圆平方参数求半焦距并正确转换为两焦点距离",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "ellipse.standard-semiaxes-foci",
+        "variant_id": "mh3.3.1.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "25与9已经是半轴平方还是半轴长？题目问半焦距还是焦距？",
+        "hint": "先列a²、b²、c²，再取正根求c，最后按所问决定是否乘2并保留坐标单位。",
+        "revision_prompt": "先回答这个辨别问题：25与9已经是半轴平方还是半轴长？题目问半焦距还是焦距？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；从标准椭圆平方参数求半焦距并正确转换为两焦点距离。"
+      }
+    },
+    {
+      "criterion_index": 4,
+      "title": "能由中心在原点的轴向椭圆两半轴长求焦距平方",
+      "explanation": "中心在原点、焦点在x轴的椭圆，其正x轴交点给长半轴a，正y轴交点给短半轴b。先用c²=a²−b²求半焦距平方；两焦点距离为2c，所以焦距平方是4c²，不是2c²。中心与轴向条件缺一时不能这样直接读取。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：一个椭圆的中心在原点，焦点在x轴上，且经过点(3,0)与(0,2)。这个椭圆焦距的平方是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：20。补中心原点后两轴交点确定a3,b2，焦距平方4(9−4)=20。",
+        "criteria": [
+          "由明确中心及轴向读取两半轴，焦距平方取4(a²−b²)",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "ellipse.axis-intercepts-focal-distance-squared",
+        "variant_id": "mh3.3.1.1:self-check:4:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "已给轴上点为何可以直接作半轴端点？求(2c)²时系数2是否也平方？",
+        "hint": "先把中心和轴向条件写在图旁，标a、b，再依次写c²与4c²。",
+        "revision_prompt": "先回答这个辨别问题：已给轴上点为何可以直接作半轴端点？求(2c)²时系数2是否也平方？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；由明确中心及轴向读取两半轴，焦距平方取4(a²−b²)。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh3.3.1.1-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：椭圆焦点为(±4,0)，距离和为10，标准方程中y²的分母是多少？"
+    },
+    {
+      "id": "mh3.3.1.1-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：两定点距离为8，动点到两定点距离和也为8，其轨迹是什么？"
+    },
+    {
+      "id": "mh3.3.1.1-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：椭圆x²/36+y²/20=1的焦距2c是多少？"
+    }
+  ],
+  "check": "独立完成并写出依据：焦点距离为6，分别判断距离和为8、6、4的轨迹。；椭圆x²/9+y²/25=1的a、b、c与焦点是什么？",
+  "conditions": [
+    "两焦点不同；距离和严格大于焦距，a>b>0。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

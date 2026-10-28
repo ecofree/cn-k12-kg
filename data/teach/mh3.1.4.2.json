@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh3.1.4.2",
+  "name": "用空间向量研究距离、夹角问题",
+  "tier": "core",
+  "hook": "从楼上点P到一面斜墙，真正的最短距离是垂线段；任意连接墙上点的向量，只需取法向分量就能得到它。",
+  "definition": "P到平面α的距离为d=|PQ·n|/|n|，Q为平面内任一点，n为非零法向量。直线的方向向量v非零，线面夹角φ∈[0,π/2]满足sinφ=|v·n|/(|v||n|)。两条直线取非零方向向量u、v，较小夹角θ∈[0,π/2]满足cosθ=|u·v|/(|u||v|)，平行时为0；二面角须按所选半平面确认，不能一律取绝对值。",
+  "why": "PQ可分为平面内分量和法向分量，前者与n数量积为0，因此数量积除以|n|正好提取有向垂距，绝对值消除方向。线面角与线和法向的锐角互余，故使用正弦。二面角的两个半平面则可能指定钝角，需要额外方向判断。",
+  "when_to_use": [
+    "已知一个点与平面的坐标信息，求最短距离",
+    "将异面直线角、线面角或二面角转为向量计算"
+  ],
+  "steps": [
+    "先辨认题目要求哪一种几何角或距离，并写出范围。",
+    "求非零方向向量或法向量，代入对应投影公式。",
+    "检查绝对值与正弦/余弦是否符合几何对象；二面角用图或半平面方向复核。"
+  ],
+  "worked_example": {
+    "prompt": "求点P=(1,2,3)到平面x+2y+2z=2的距离。",
+    "steps": [
+      "法向量n=(1,2,2)，|n|=3。选平面上Q=(2,0,0)。",
+      "QP=(-1,2,3)，QP·n=-1+4+6=9。",
+      "垂距=|9|/3=3。"
+    ],
+    "answer": "3",
+    "verify": "((1+2*2+2*3-2)**2)**0.5/(1+4+4)**0.5",
+    "family_id": "space.point-plane-normal-distance",
+    "variant_id": "mh3.1.4.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "线面角公式是sinφ，直接把数量积商当作cosφ会取到余角。",
+    "二面角可能是钝角；法向量任意反向会改其夹角，不能不看半平面就当作二面角。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用向量求点到平面的距离",
+      "explanation": "点到面距离只保留法向投影，平面上选哪个Q都得到同一结果。",
+      "self_check": {
+        "prompt": "求P=(0,0,5)到平面z=2的距离并用投影解释。",
+        "reference_answer": "n=(0,0,1)、Q=(0,0,2)，QP=(0,0,3)，d=|QP·n|/|n|=3。",
+        "criteria": [
+          "选择面内点和非零法向量",
+          "投影长度为3"
+        ],
+        "family_id": "space.point-plane-normal-distance",
+        "variant_id": "mh3.1.4.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "点积为负时距离也为负吗？",
+        "hint": "法向正反任取，取绝对值并除法向量长度消除尺度。",
+        "revision_prompt": "P=(0,0,-1)到z=2距离3；换法向量(0,0,-2)仍得3。"
+      },
+      "observation_note": "观察正射影长度与尺度不变；不把点到面内任意点距离当垂距。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能把空间角转化为向量夹角",
+      "explanation": "线面角取0到90°，所以使用数量积绝对值和正弦。",
+      "self_check": {
+        "prompt": "方向v=(1,0,1)的直线与xy平面夹角是多少？",
+        "reference_answer": "法向量n=(0,0,1)，sinφ=1/√2，φ=45°。",
+        "criteria": [
+          "使用xy平面法向量",
+          "用sin并给45°"
+        ],
+        "family_id": "space.line-plane-angle-normal",
+        "variant_id": "mh3.1.4.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "v与法向量夹角的余弦为何等于线面角的正弦？",
+        "hint": "法向垂直平面，相关锐角互余；取绝对值保证范围。",
+        "revision_prompt": "v=(0,0,1)对xy平面给sinφ=1，φ=90°；v=(1,0,0)给0°。"
+      },
+      "observation_note": "观察法向、余角和边界；二面角不能机械套同一个绝对值规则。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能识别点到平面距离公式中的法向量符号",
+      "explanation": "点P到平面α的距离可写为|AP·n|/|n|，其中A取α内任一点，n为α的非零法向量。分子投影到法向方向、分母消除法向量长度比例；n不是点P本身或平面内任意直线。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：点 P 到平面 α 的距离公式中，n 表示什么？ 可选：o1．平面内任一直线；o2．平面的法向量；o3．点 P 的坐标；o4．坐标原点。\n情境2：点到平面距离公式中，n 表示什么？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：平面的法向量。d=|AP·n|/|n|中n为平面法向量。\n情境2参考：法向量。n是非零法向量，A须在平面内。",
+        "criteria": [
+          "在点面距离公式中准确识别n为非零法向量",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "space.point-plane-normal-recall",
+        "variant_id": "mh3.1.4.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "公式里的n应垂直于平面还是位于平面内？若n为零向量，分母是否有意义？",
+        "hint": "给公式中P、A、n逐个注明身份，核对A在平面上且n是非零法向量。",
+        "revision_prompt": "先回答这个辨别问题：公式里的n应垂直于平面还是位于平面内？若n为零向量，分母是否有意义？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；在点面距离公式中准确识别n为非零法向量。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh3.1.4.2-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：求点P=(2,0,4)到平面z=1的距离。"
+    },
+    {
+      "id": "mh3.1.4.2-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：点P=(1,1,1)到平面2x+y+2z=11的距离是多少？"
+    },
+    {
+      "id": "mh3.1.4.2-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：直线方向v=(0,1,1)，平面为z=0，线面夹角φ满足哪一式？"
+    }
+  ],
+  "check": "独立完成并写出依据：求P=(0,0,5)到平面z=2的距离并用投影解释。；方向v=(1,0,1)的直线与xy平面夹角是多少？",
+  "conditions": [
+    "距离非负；线面角0至90°；二面角按指定半平面确定。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

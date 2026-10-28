@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3b.1.1",
+  "name": "生活中的运动现象",
+  "tier": "tool",
+  "hook": "推抽屉、转门扇和对折纸片，分别是在观察什么？",
+  "definition": "平移是图形沿同一方向整体移动相同距离；旋转是绕固定中心转动。轴对称是图形能沿一条直线对折使两部分重合的性质，不是与前两者相同的运动名称。",
+  "why": "平移时每个点走相同方向和距离，形状朝向不转；旋转时点绕中心运动。对折重合则检查图形两侧是否一一对应，不能仅因左右看起来相似就认轴对称。",
+  "conditions": [
+    "用固定形状模型观察一次明确的平移或旋转。",
+    "判断轴对称要检查整个平面图形能否沿直线完全重合。"
+  ],
+  "representation_note": "用纸片推移、固定一点转动，再用另一张纸片对折检查对称，分别记录动作与性质。",
+  "when_to_use": [
+    "用固定形状模型观察一次明确的平移或旋转。",
+    "判断轴对称要检查整个平面图形能否沿直线完全重合。"
+  ],
+  "steps": [
+    "先看有没有固定转动中心。",
+    "若整体沿同向同距移动，辨为平移；绕中心转动辨为旋转。",
+    "另用对折检验轴对称，说明对称轴在哪里。"
+  ],
+  "worked_example": {
+    "prompt": "抽屉沿轨道拉出、门扇绕合页打开，各属什么运动？",
+    "steps": [
+      "抽屉各点沿同方向移动，朝向不转。",
+      "门扇绕合页转动，位置和朝向随角度改变。"
+    ],
+    "answer": "抽屉平移，门扇旋转。",
+    "family_id": "geometry.motion-classify",
+    "variant_id": "m3b.1.1:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "轴对称是图形性质，不把它说成一种日常移动。",
+    "只看一个点路径不一定能判整个物体的运动。"
+  ],
+  "practice": [
+    {
+      "id": "m3b.1.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3b.1.1-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "观察整个图形的点怎样移动。平移各点同向同距，旋转须指出中心，转动方向不能省略。",
+      "observation_note": "观察动作结构，不把推拉物品名称机械套用到所有运动。",
+      "self_check": {
+        "prompt": "用纸片演示向右移3格和绕一个顶点转动，两次分别命名并说依据。",
+        "reference_answer": "第一次平移，第二次旋转，依据是整体同向同距与固定中心。",
+        "criteria": [
+          "名称与动作对应",
+          "给出区别依据"
+        ],
+        "family_id": "geometry.motion-classify",
+        "variant_id": "m3b.1.1:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.rotation-parameters",
+          "geometry.translation-invariants"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把三角片向右搬时同时转了一点，还是纯平移吗？",
+        "hint": "追踪两条边的方向是否保持。",
+        "revision_prompt": "重做不转动的移动，并标出一个固定中心的转动。"
+      },
+      "criterion_index": 0,
+      "title": "能辨认生活中的平移与旋转现象"
+    },
+    {
+      "explanation": "轴对称要求存在一条直线，对折后两部分完全重合；只在局部相同或大致相似不够。",
+      "observation_note": "观察实际对折结果；未找到一条不自动证明没有，需检查给定图的候选。",
+      "self_check": {
+        "prompt": "用正方形纸片沿一条对角线折叠，再用不对称纸片尝试，说明判断标准。",
+        "reference_answer": "正方形沿对角线可重合；不对称纸片若找不到完全重合折线，不能仅凭外观说对称。",
+        "criteria": [
+          "检查完全重合",
+          "指出候选对称轴"
+        ],
+        "family_id": "geometry.reflection-fold-test",
+        "variant_id": "m3b.1.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "对折后有一个角露出，还能称整图沿该线对称吗？",
+        "hint": "沿边逐点检查，而非只看两块面积相等。",
+        "revision_prompt": "描下未重合部分，修改判断或换候选折线再试。"
+      },
+      "criterion_index": 1,
+      "title": "能判断图形是否轴对称"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

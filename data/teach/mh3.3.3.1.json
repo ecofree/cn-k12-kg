@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh3.3.3.1",
+  "name": "抛物线及其标准方程",
+  "tier": "core",
+  "hook": "点到一个固定灯源与一条固定墙线同样远，所有这样的点组成抛物线；灯源必须不在墙线上。",
+  "definition": "平面内到定点F与不经过F的定直线l距离相等的点轨迹为抛物线，F为焦点、l为准线。标准式y²=2px（p>0）的焦点为(p/2,0)、准线x=-p/2；x²=2py开口向上，负号对应向左或向下。若定点落在定直线上，等距轨迹退化为过该点且垂直于该线的直线。",
+  "why": "设F=(p/2,0)、准线x=-p/2。等距条件√[(x-p/2)²+y²]=|x+p/2|，平方化简得y²=2px。因p>0，方程自动要求x≥0，反向代入等距关系也成立。p是焦点到准线的距离，不是焦点到顶点的距离。",
+  "when_to_use": [
+    "动点到固定点与固定直线等距",
+    "只有一个变量平方，需读焦点准线和开口方向"
+  ],
+  "steps": [
+    "辨认平方变量和一次变量，整理成±2p的标准形式。",
+    "比较系数求p>0，按一次变量方向写焦点和准线。",
+    "用等距定义核对焦点、准线与顶点的相对位置。"
+  ],
+  "worked_example": {
+    "prompt": "求抛物线y²=8x的焦点和准线。",
+    "steps": [
+      "2p=8，故p=4，焦点到顶点距离p/2=2。",
+      "开口沿x正方向，焦点(2,0)，准线x=-2。"
+    ],
+    "answer": "焦点(2,0)，准线x=-2。",
+    "family_id": "parabola.coefficient-focus-directrix",
+    "variant_id": "mh3.3.3.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "方程系数8是2p，不能直接把焦点写成(4,0)或(8,0)。",
+    "定义中定点不得在准线上，否则不是非退化抛物线。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能由定义判断抛物线",
+      "explanation": "先检查焦点不在准线，再把点到线距离写成垂距。",
+      "self_check": {
+        "prompt": "到F=(0,2)与直线y=-2等距的点形成什么曲线？写方程。",
+        "reference_answer": "F不在准线上；√[x²+(y-2)²]=|y+2|，平方得x²=8y，是开口向上的抛物线。",
+        "criteria": [
+          "写出正确点线距离",
+          "推出x²=8y"
+        ],
+        "family_id": "parabola.focus-directrix-definition",
+        "variant_id": "mh3.3.3.1:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "prove"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "到准线y=-2的距离能不加绝对值写y+2吗？",
+        "hint": "点线距离为|y+2|，平方后再检查所得曲线使y≥0。",
+        "revision_prompt": "从F=(1,0)、准线x=-1写√((x-1)²+y²)=|x+1|，化为y²=4x。"
+      },
+      "observation_note": "观察点线等距方程及合法变形；焦点不能在准线上。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能由方程写出焦点与准线",
+      "explanation": "焦点沿一次变量轴，准线在顶点另一侧。",
+      "self_check": {
+        "prompt": "抛物线x²=-12y的焦点和准线是什么？",
+        "reference_answer": "2p=12、p=6，开口向下；焦点(0,-3)，准线y=3。",
+        "criteria": [
+          "系数分两次读取",
+          "焦点准线方向正确"
+        ],
+        "family_id": "parabola.coefficient-focus-directrix",
+        "variant_id": "mh3.3.3.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "y²=8x的焦点横坐标是8、4还是2？",
+        "hint": "标准式系数2p=8，焦点为p/2，因此系数要除4。",
+        "revision_prompt": "对y²=-20x给焦点(-5,0)、准线x=5；由符号确定开口。"
+      },
+      "observation_note": "观察两次系数读取和方向；不以平方变量猜焦点所在轴。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由标准抛物线方程求焦点到准线的距离",
+      "explanation": "采用y²=2px且p>0的标准记法，焦点为(p/2,0)、准线为x=−p/2，所以焦点到准线距离为p。先将x的系数与2p对应再除2，不能把p/2误作该距离；另一记法y²=4ax中的参数a与p含义不同。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：某探照灯反射面的截面是抛物线 y^2=8x。焦点到准线的距离是多少？\n情境2：某抛物线 y^2=12x。它的焦点到准线的距离是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：4。y²=8x，2p8，p4就是焦点到准线距离。\n情境2参考：6。y²=12x，p6，焦点到准线距离6。",
+        "criteria": [
+          "统一标准参数记法，由x系数的一半求焦点到准线距离",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "parabola.focus-directrix-separation",
+        "variant_id": "mh3.3.3.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "题目要焦点离原点的距离还是焦点到准线的距离？方程系数对应2p还是p？",
+        "hint": "先读出2p，再标焦点和准线在x轴两侧各距原点p/2，合计两段。",
+        "revision_prompt": "先回答这个辨别问题：题目要焦点离原点的距离还是焦点到准线的距离？方程系数对应2p还是p？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；统一标准参数记法，由x系数的一半求焦点到准线距离。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh3.3.3.1-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：抛物线y²=20x的焦点横坐标是多少？"
+    },
+    {
+      "id": "mh3.3.3.1-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：抛物线x²=-16y的准线为y=c，求c。"
+    },
+    {
+      "id": "mh3.3.3.1-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：定点F在定直线l上时，到F与l等距的点轨迹是什么？"
+    }
+  ],
+  "check": "独立完成并写出依据：到F=(0,2)与直线y=-2等距的点形成什么曲线？写方程。；抛物线x²=-12y的焦点和准线是什么？",
+  "conditions": [
+    "焦点不在准线上；标准式p>0，开口由符号与平方变量决定。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

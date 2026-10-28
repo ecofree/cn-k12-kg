@@ -1,0 +1,716 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cn-k12-kg.local/schema/v1/assessment-source.schema.json",
+  "title": "Authored observations for stable goals",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "stage": {
+      "enum": [
+        "primary",
+        "junior",
+        "senior"
+      ]
+    },
+    "baseline_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "goals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "skill_id": {
+            "type": "string",
+            "pattern": "^sk_[a-f0-9]{20}$"
+          },
+          "source_kind": {
+            "enum": [
+              "topic",
+              "unit",
+              "project"
+            ]
+          },
+          "source_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "assessment_mode": {
+            "enum": [
+              "objective",
+              "mixed",
+              "process"
+            ]
+          },
+          "scope_note": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                },
+                "statement": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "submission_requirements": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "criteria": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "task_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "id",
+                "statement",
+                "submission_requirements",
+                "criteria",
+                "task_ids"
+              ]
+            },
+            "minItems": 1
+          },
+          "task_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "family_distinctions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "left_family_id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                },
+                "right_family_id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              },
+              "required": [
+                "left_family_id",
+                "right_family_id",
+                "reason"
+              ]
+            }
+          },
+          "unobserved_aspects": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "skill_id",
+          "source_kind",
+          "source_id",
+          "assessment_mode",
+          "scope_note",
+          "components",
+          "task_ids",
+          "family_distinctions",
+          "unobserved_aspects"
+        ]
+      },
+      "minItems": 1
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "objective_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "phase": {
+            "type": "string",
+            "enum": [
+              "practice",
+              "transfer",
+              "delayed"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "numeric",
+              "choice",
+              "short",
+              "rubric"
+            ]
+          },
+          "prompt": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "explanation": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "feedback": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "correct": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "incorrect": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            },
+            "required": [
+              "correct",
+              "incorrect"
+            ]
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/choice"
+            },
+            "minItems": 2
+          },
+          "answer": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "verify": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "rubric": {
+            "type": "array",
+            "items": {
+              "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/rubricRow"
+            },
+            "minItems": 1
+          },
+          "diagram": {
+            "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/diagram"
+          },
+          "accept": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "minItems": 0
+          },
+          "answer_spec": {
+            "$ref": "https://cn-k12-kg.local/schema/v1/answer-spec.schema.json"
+          },
+          "family_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "reference_family_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "variant_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "representation": {
+            "type": "string",
+            "enum": [
+              "verbal",
+              "symbolic",
+              "number_line",
+              "area_model",
+              "table",
+              "graph",
+              "geometry",
+              "manipulative",
+              "mixed"
+            ]
+          },
+          "cognitive_demand": {
+            "type": "string",
+            "enum": [
+              "recall",
+              "execute",
+              "explain",
+              "choose_strategy",
+              "prove",
+              "model"
+            ]
+          },
+          "skill_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^sk_[a-f0-9]{20}$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "component_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "topic_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          },
+          "alignment_note": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "observation_boundary": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "family_basis": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "required": [
+          "id",
+          "objective_ids",
+          "phase",
+          "type",
+          "prompt",
+          "explanation",
+          "feedback",
+          "skill_ids",
+          "component_ids",
+          "topic_ids",
+          "alignment_note",
+          "observation_boundary",
+          "family_basis",
+          "answer_spec",
+          "family_id",
+          "variant_id",
+          "representation",
+          "cognitive_demand"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "rubric"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "rubric"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "answer"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "verify"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "choices"
+                    ]
+                  }
+                ]
+              }
+            },
+            "else": {
+              "required": [
+                "answer"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "numeric"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "verify"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "choice"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "choices"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "short"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "accept"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "numeric"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "answer_spec": {
+                  "properties": {
+                    "kind": {
+                      "const": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "choice"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "answer_spec": {
+                  "properties": {
+                    "kind": {
+                      "const": "choice"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "rubric"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "answer_spec": {
+                  "properties": {
+                    "kind": {
+                      "const": "rubric"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "short"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "answer_spec": {
+                  "properties": {
+                    "kind": {
+                      "not": {
+                        "enum": [
+                          "choice",
+                          "rubric"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "stage",
+    "baseline_commit",
+    "goals",
+    "tasks"
+  ],
+  "$defs": {
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "skill_id": {
+          "type": "string",
+          "pattern": "^sk_[a-f0-9]{20}$"
+        },
+        "source_kind": {
+          "enum": [
+            "topic",
+            "unit",
+            "project"
+          ]
+        },
+        "source_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "assessment_mode": {
+          "enum": [
+            "objective",
+            "mixed",
+            "process"
+          ]
+        },
+        "scope_note": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+              },
+              "statement": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "submission_requirements": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "criteria": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "task_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "id",
+              "statement",
+              "submission_requirements",
+              "criteria",
+              "task_ids"
+            ]
+          },
+          "minItems": 1
+        },
+        "task_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "family_distinctions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "left_family_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+              },
+              "right_family_id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            },
+            "required": [
+              "left_family_id",
+              "right_family_id",
+              "reason"
+            ]
+          }
+        },
+        "unobserved_aspects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "skill_id",
+        "source_kind",
+        "source_id",
+        "assessment_mode",
+        "scope_note",
+        "components",
+        "task_ids",
+        "family_distinctions",
+        "unobserved_aspects"
+      ]
+    }
+  }
+}

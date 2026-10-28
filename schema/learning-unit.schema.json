@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cn-k12-kg.local/schema/v1/learning-unit.schema.json",
+  "title": "Learning unit v1",
+  "description": "Version 1 authoring contract. JSON Schema is the structural authority; reference and mathematical checks remain separate. Existing records without an optional schema_version are v1; unknown explicit versions are rejected.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "type": "integer",
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "stage": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/stage"
+    },
+    "topic_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "prerequisite_topic_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "standard_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(cms-2022:[1-4]\\.(NA|GE|SP|CP)\\.\\d{2}|cms-2017:H\\.(PR|FU|GA|PS|MM)\\.\\d{2})$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "review_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "reviewed",
+        "rejected"
+      ]
+    },
+    "author_type": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/authorType"
+    },
+    "objectives": {
+      "type": "array",
+      "items": {
+        "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/objective"
+      },
+      "minItems": 1
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "minItems": 0
+    },
+    "explanation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "intuition": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "reasoning": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 1
+        },
+        "counterexample": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "intuition",
+        "reasoning",
+        "conditions",
+        "counterexample"
+      ]
+    },
+    "worked_examples": {
+      "type": "array",
+      "items": {
+        "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/workedExample"
+      },
+      "minItems": 1
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "$ref": "https://cn-k12-kg.local/schema/v1/learning-task.schema.json"
+      },
+      "minItems": 1
+    },
+    "teacher_review": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/teacherReview"
+    },
+    "coverage_note": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "standard_alignment": {
+      "type": "array",
+      "items": {
+        "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/standardAlignment"
+      },
+      "minItems": 0
+    },
+    "diagram": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/diagram"
+    },
+    "coverage_kind": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "navigation_note": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "prerequisite_unit_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+      },
+      "uniqueItems": true
+    },
+    "prerequisite_objective_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+      },
+      "uniqueItems": true
+    },
+    "instructional_support": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/instructional-support.schema.json"
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "title",
+    "stage",
+    "topic_ids",
+    "standard_ids",
+    "review_status",
+    "author_type",
+    "objectives",
+    "prerequisites",
+    "explanation",
+    "worked_examples",
+    "tasks",
+    "teacher_review"
+  ]
+}

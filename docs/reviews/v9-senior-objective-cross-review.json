@@ -1,0 +1,632 @@
+{
+  "schema": 1,
+  "reviewer_kind": "ai",
+  "reviewer": "root independent AI cross-read of author output",
+  "independent_teacher_review": false,
+  "student_validation": false,
+  "baseline_commit": "b3e9fa9e49c1e52e7d19ca5c5ba29d87ec164d9b",
+  "source": "data/assessments/senior.json",
+  "source_sha256": "2e4bd9332943bfd7f6635d7364b0274f927f3d4c5b0332029dcea9576adee3cc",
+  "method": "逐项阅读47道新客观题和30个新过程任务的题面、选项、答案/量规、解释、边界与题族依据；另实际查看四张SVG的渲染图。独立按题设计算关键有理数、最值与方程，不以作者校验字符串代替数学检查。",
+  "resolved_findings": [
+    "有限墙长与初中相同关系统一复用受限定义域极值规范族，保留原围栏模型曝光。",
+    "图例A/B、表头英文含义写入可见中文题干，并核对实际图与替代文本一致。",
+    "文字模型的输入表示改为verbal；不把题目要求作图误标为已提供图。"
+  ],
+  "limits": [
+    "AI交叉核对不代表教师独立审核。",
+    "未观察真实学生作品或效果；量规作品和选择正确都不自动认定独立掌握。",
+    "原题沿用版本绑定的历史审读，本文件只报告本轮新任务。"
+  ],
+  "tasks": [
+    {
+      "task_id": "v9s_growth_graph_increments",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "b99f01a1e32ded469208c8cce5a7e6040043c1d1a1cee56a058ca738d547b4ef",
+      "asset_sha256": {
+        "web/static/diagrams/v9-senior-growth-increments.svg": "abf189e06f336aa9fd5a2676dd538cb161911a93da670a2f2ad9e5682aa0dc3f"
+      },
+      "mathematical_reason": "同尺度实际图中甲为1、3、5、7，差为2、2、2；乙为1、2、4、8，差为1、2、4。差分比较不同于旧族的局部高度与未来次序判断，四点也不确定全域模型。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "growth.compare-table-and-graph",
+      "reference_family_ids": [],
+      "representation": "graph"
+    },
+    {
+      "task_id": "v9s_half_angle_quadrant_sheets",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "04711172cc61437797cb4b7af947d28dbc6049cfc0f755440e0acbd4c04b2cb0",
+      "asset_sha256": {},
+      "mathematical_reason": "α=2kπ+θ且π/2<θ<π，故α/2=kπ+θ/2。k偶时在第一象限、奇时第三象限，不因终边第二象限就排除多周有向角。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "angle.half-angle-quadrant-sheets",
+      "reference_family_ids": [
+        "angle.coterminal-integer-turns",
+        "angle.quadrant-and-axis"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_arbitrary_angle_terminal_point",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "d35fb9f7db2d88fe77df81fae38a9fe98de1705e4795af3c77b903625493db21",
+      "asset_sha256": {},
+      "mathematical_reason": "点(−5,12)到原点距离13，余弦按横坐标除以半径为−5/13。终边坐标比不是旧特殊角约化求值的重复，负号和非单位圆条件保留。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "trig.terminal-point-ratios",
+      "reference_family_ids": [
+        "pythagoras.find-hypotenuse"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_pyramid_slant_and_vertical_height",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "656a11e88e5de94e10f9722a8d167df2485abca5744554a3f9430e181f63a9cb",
+      "asset_sha256": {},
+      "mathematical_reason": "正方形边6给面内中点距3，斜高5和垂高成直角三角形，垂高4；底面积36，体积36×4/3=48。不能把面内斜高直接代入锥体公式。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "solid.pyramid.height-discrimination",
+      "reference_family_ids": [
+        "pythagoras.find-leg",
+        "solid.pyramid.base-height-volume"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_finite_set_nested_elements",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "be857c46633d1484ab28ea070802b12e153aa475afeadccf74ada6f080851b51",
+      "asset_sha256": {},
+      "mathematical_reason": "最外层元素为1、{1}、{1,2}；{2,1}与{1,2}同集，不重复计数，故3个。数字与含该数字的集合不同。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "sets.finite-cardinality",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_empty_integer_interval",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "678a9aab039e44881c904861704fd6ed717e61d1b6e72173a4188d39234b9faa",
+      "asset_sha256": {},
+      "mathematical_reason": "2.1<x<2.9中没有整数；开区间非空不意味着整数子集非空。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "sets.integer-interval-cardinality",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_leading_zero_codes",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "018a3eb62456269a8d9d704190763480eb31d669740e0f6edc7ad64067b1f9f1",
+      "asset_sha256": {},
+      "mathematical_reason": "长度2编码允许首位0且不得重复，首位3种、次位2种，共6；不能按两位十进制数排除首位0。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "counting.permutation-count",
+      "reference_family_ids": [],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_empty_set_proper_subsets",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "4f072e66a1f99d2a30352247c38deaa8b1ad751eb9359852ecd185513f9981d0",
+      "asset_sha256": {},
+      "mathematical_reason": "空集唯一子集是它自身，排除自身后没有真子集，计数0。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "sets.proper-subset-count",
+      "reference_family_ids": [
+        "sets.subset-count"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_strict_nonstrict_threshold",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "2fc87f76933013833e6083911173030a19ca6ded05aadb9fd1693fbcaa86a111",
+      "asset_sha256": {},
+      "mathematical_reason": "x>a推出x≥3要求a≥3；a=3时反向在x=3处失败，因此充分而不必要，最小整数a为3。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "logic.strict-threshold-parameter",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_quadratic_degenerate_parameter",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "2e5adca48d862f3fa34c082ddfb25d5ce74ffee590569f5ee52d5d3c3ba69d3d",
+      "asset_sha256": {},
+      "mathematical_reason": "二次性先要求m≠0，判别式为4m；重根判别式0只给m=0，此时原式变成−1=0，故无合格参数。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "quadratic.discriminant-equal-root-parameter",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_existential_singleton_conflict",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "c2bc72194cceee47e82f9226776d50eda34d4187b2939ea57c5d1cedb2df3274",
+      "asset_sha256": {},
+      "mathematical_reason": "单元素集合{2}上的存在与全称平方不等式取同一真值；要求存在为真而全称为假互相矛盾，参数个数0。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "logic.existential-not-universal-range",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_negative_linear_inequality",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "3c9f655dcbc6cdf5dd740640f94cc586bba501c1bc21da8f84ba81a7dd03c2a8",
+      "asset_sha256": {},
+      "mathematical_reason": "5−2x≥9移项得−2x≥4，再除负数翻转为x≤−2；端点应包含。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "inequality.linear-solve",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_zero_factor_inverse_price",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "526c83bd3c4928321fa28d970c63d77e39cc1f961daf1934b38007d1e50e479e",
+      "asset_sha256": {},
+      "mathematical_reason": "正原价乘1.2再乘0总为0，任意正原价都满足，不能唯一反推，也不能除以零。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "percentage.inverse-successive-change",
+      "reference_family_ids": [],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_integer_rectangle_maximum",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "6c038b1a437c74edbad0bd75b15ced27b36cb558bca9c4f74212bb583fbbbc44",
+      "asset_sha256": {},
+      "mathematical_reason": "周长14给正整数两边和7，互换去重后(1,6)、(2,5)、(3,4)面积6、10、12；实数边长3.5不在允许范围。仍保留原固定周长族。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "quadratic-function.model.fixed-perimeter",
+      "reference_family_ids": [],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_limited_wall_enclosure",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "6ccdd3e67a88af31b5c9de56e1b14861570007e77477f8a9dae3d64525c460de",
+      "asset_sha256": {},
+      "mathematical_reason": "靠墙边y有0<y≤1，另两边各(8−y)/2。面积y(8−y)/2在此区间递增，最大7/2；顶点y=4不可行。与初中有限墙长题统一复用受限定义域极值族。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "quadratic-function.restricted-domain.extremum",
+      "reference_family_ids": [
+        "quadratic-function.model.three-sided-enclosure"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_zero_length_feasible_interval",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "44a7c1bfc9de12ece189dcc2d2d5af46bd2095a4a2c517551d6f13038bdc68c5",
+      "asset_sha256": {},
+      "mathematical_reason": "−(x−2)²≥0与平方为0等价，只能x=2；闭区间[2,2]长度0，而解集含一个点，两者不混。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "quadratic.inequality-sign",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_exact_continuation_weight",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "cb82062fdd227b4ec5eaea77774a98dc631c0c40be30ff885a905c3621e10dbb",
+      "asset_sha256": {},
+      "mathematical_reason": "总4千克除去首重1千克，续重正好3千克，8+3×3=17；恰为整数时不再进位。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "money.tiered-ceiling-charge",
+      "reference_family_ids": [],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_flat_base_fare_inverse",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "69adbf9481681c92b6c423c3141aba5204f3271659577eaa899ff28faf6b52db",
+      "asset_sha256": {},
+      "mathematical_reason": "0<d≤3均收10，超过3按正费率加价；账单10只能限定整个起步区间，无法确定唯一距离。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "money.inverse-tiered-linear-charge",
+      "reference_family_ids": [],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_quadratic_vertex_outside_interval",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "dee8a653ea1f0517986988db570c77962402077f173ebd5c83cec89b3b018974",
+      "asset_sha256": {},
+      "mathematical_reason": "16−(x−4)²在[5,6]随x下降，左端得15、右端12，顶点4不可行。复用受限定义域族。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "quadratic-function.restricted-domain.extremum",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_negative_base_integer_power",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "7709b22914363f1b61cc88d78628d9f9858e71ad09dd74785c04d7f7ff84a2aa",
+      "asset_sha256": {},
+      "mathematical_reason": "(−2)^(−3)=1/(−8)=−1/8；奇次幂负号保留，指数负号表示倒数。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "power.point-evaluation",
+      "reference_family_ids": [
+        "power.negative-exponent.reciprocal-law"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_context_integer_domain",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "71eb4266377f21cdb079c1a218f8c9752670f7715c16a07db4fabc4ee7c1e713",
+      "asset_sha256": {},
+      "mathematical_reason": "整盒、允许不买、最多5盒共同给整数集合{0,1,2,3,4,5}；代数式可代实数不代表情境允许。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "model.domain-purpose-recall",
+      "reference_family_ids": [],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_discontinuous_sign_change",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "4d88bfdf2e9023b4183fe771d38d0690a520cf30a54b169f0c64acf5133695bc",
+      "asset_sha256": {},
+      "mathematical_reason": "函数只取−1与1，0处定义为1，故没有零点；异号端点缺少区间连续条件，不能调用存在保证。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "root.bisection-condition-recall",
+      "reference_family_ids": [
+        "root.existence-theorem-recall"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_shifted_full_cycle_zero_count",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "22e256d066847077233fadbbc242e4f904bde165dc84cfa1700a6d505131933c",
+      "asset_sha256": {},
+      "mathematical_reason": "sin零点kπ在[π/2,5π/2]内只有π、2π，两个端点均取1，共2个；完整闭周期不固定零点数为3。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "trig.sine-cycle-zero-count",
+      "reference_family_ids": [
+        "trig.axis-point-value"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_negative_signed_difference_norm",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "4e926e2554ad515784d93c755431ecbfe1607c2d9177cdfc1a718357aa33bbda",
+      "asset_sha256": {},
+      "mathematical_reason": "同向长度3减5给反向长度2的差向量；模为|3−5|=2，不是负数。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "vector.collinear-difference-magnitude",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_negative_axis_route",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "5346d10221948fd8a8a3704167964463f3793191aed04d55c18bab8d0a6127c1",
+      "asset_sha256": {},
+      "mathematical_reason": "从(0,0)到(−3,4)的轴向路必须累计至少3与4米，按先西后北可取得7；直线5不合路线限制。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "coordinate.axis-aligned-path-total",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_perpendicular_nonzero_parameter",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "180c68e677afb32c7693e3d8b0e1d871cfe1f9bd0e4cc46b52b1291a82434136",
+      "asset_sha256": {},
+      "mathematical_reason": "点积恒0，但a=(t,0)非零还须t≠0；题设显式非零排除0。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "vector.perpendicular-parameter",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_negative_imaginary_conjugate_distance",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "aea1be8bb2406bd16a06c3affd5f07c400124913314b124004e3249bccbaa63f",
+      "asset_sha256": {},
+      "mathematical_reason": "共轭两点(2,−3)、(2,3)竖直相距6；一般为2|虚部|，不能给负距离。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "complex.conjugate-point-distance",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_obtuse_dihedral_projection",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "efe23c8776c1fbd784440c72ac592049430d82719d0c9e1a1b041ad6a87ccb4a",
+      "asset_sha256": {},
+      "mathematical_reason": "截取垂棱的平面，长4与另一面的有向投影为4cos120°=−2，完整平面上的长度取绝对值为2。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "space.dihedral.perpendicular-segment-projection",
+      "reference_family_ids": [
+        "trig.reduce-and-evaluate"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_right_dihedral_inverse_projection",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "fc6c5e5432b23ec7cf09523b8dedbabac1d4516a5015f826a6bfe902b2b72add",
+      "asset_sha256": {},
+      "mathematical_reason": "垂直两面且线段垂棱，正投影退为点；任意正原长都得0，分母cos90°为0不能反演。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "space.dihedral.inverse-projection-length",
+      "reference_family_ids": [
+        "trig.axis-point-value"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_median_ties_strict_fraction",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "769f47ca2647bb4f7b844782cfbb5fb0c7ddecdd946bee76602d61b0f3258e2a",
+      "asset_sha256": {},
+      "mathematical_reason": "四个数2、2、2、8的中位数2，严格小于2的观测0个，所以0%；重复值使严格小于的比例不必50%。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "statistics.median-percentile-recall",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_negative_variance_scaling",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "67279a1c8a1d7b7a42ed11f670914e4956042fdab00d6c3144356f3f79f8986b",
+      "asset_sha256": {},
+      "mathematical_reason": "离差随负二倍变换，离差平方均变四倍，方差四倍且仍非负。原方差正使倍数有定义。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "statistics.variance-scale-square",
+      "reference_family_ids": [],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_empty_event_mutual_exclusion",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "21dcd2c7f9a50545d8d884fe20d1550e5a7db4cd43a40b6e1cb5e7c9bdd82428",
+      "asset_sha256": {},
+      "mathematical_reason": "空集与{1}交为空，故互斥；并集{1}未穷尽{1,2,3}，故不是对立事件。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "probability.mutual-exclusive-complement-recall",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_negative_plane_distance",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "7a030c70777cd809777b5802d4deb1a7f963c165f1360648f7b7d0e39964f9df",
+      "asset_sha256": {},
+      "mathematical_reason": "垂足(4,−3,0)，点到xOy面的距离|−5|=5；√50是原点距离，两者不同。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "space.coordinate-plane-distance",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_signed_intercept_sum",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "5f72407cfe1a108cbfe8a3c4324e148885c0651e376637d6d7f0e9184dcbddc7",
+      "asset_sha256": {},
+      "mathematical_reason": "x−y=4给横截距4、纵截距−4，带符号相加0，不能取长度之和8。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "line.general-equation-intercepts",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_negative_intercept_triangle_area",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "1468aa13dbad06eda48fab3681c8a7399444dd8570a966c5b600479cd6ee90b7",
+      "asset_sha256": {},
+      "mathematical_reason": "截点(4,0)、(0,−4)到原点的边长均4，面积4×4/2=8；负坐标不产生负面积。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "line.axes-intercept-triangle-area",
+      "reference_family_ids": [
+        "line.general-equation-intercepts"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_common_chord_outside_centres",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "724a82cd83324299f78853f85f12d849fa8f523ec851242cfc70baa67487163c",
+      "asset_sha256": {},
+      "mathematical_reason": "两圆相减给−4x+4=7，弦线x=−3/4在圆心连线外侧；半弦平方9−9/16=135/16，整弦3√15/2，符合1<2<7的相交条件。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "circle.common-chord-length",
+      "reference_family_ids": [
+        "circle.chord-from-center-distance",
+        "circle.radical-axis-intersection"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_left_opening_parabola_distance",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "edd056d860eab538856583e326fe35351c0440bbebdf4ee72e5fc2aa8fad9120",
+      "asset_sha256": {},
+      "mathematical_reason": "y²=−8x对应焦点(−2,0)、准线x=2，距离4；开口方向只改变位置符号。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "parabola.focus-directrix-separation",
+      "reference_family_ids": [
+        "parabola.equation-focus-directrix"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_sequence_noninteger_index",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "692b3b7fccaed44bbe332e8c9a2a58ad7aca96d84a0b5ab01e99ef998d7fb338",
+      "asset_sha256": {},
+      "mathematical_reason": "n(n−1)是两相邻整数之积必偶，不可能为奇数15，且项序号须正整数；第5项20不是15。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "sequence.inverse-index-positive-integer",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_zero_sequence_not_geometric",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "1f8b50b9b6ae87d069d9744fd2024265bcdc05b43820e1afad4c55f5ead52c75",
+      "asset_sha256": {},
+      "mathematical_reason": "题内已明确非零项及相邻比定义，零列涉及0作分母故不合；另两列公比分别−1、2。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "sequence.geometric-ratio-recall",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_posterior_unequal_source_rates",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "1f99453f124a94ec516525684ed94f5316e78a4cc0e02a74ad452f4019b8b5e6",
+      "asset_sha256": {},
+      "mathematical_reason": "两来源次品份额为(1/5)(1/10)=1/50与(4/5)(1/20)=1/25，前者除总3/50得1/3；不能混联合与条件。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "probability.posterior-source-from-rates",
+      "reference_family_ids": [
+        "probability.conditional.joint-over-condition",
+        "probability.total-probability-two-strata"
+      ],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_biased_binomial_point",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "0fe5459a6725bc10ba09844ba5e414c48955908dea124eba50306657b2eddfb6",
+      "asset_sha256": {},
+      "mathematical_reason": "恰好一次成功有3个位置，每种概率(1/4)(3/4)²=9/64，总27/64；明确独立同概率。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "probability.binomial-point-mass",
+      "reference_family_ids": [],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_impossible_hypergeometric_count",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "2cdda45da047d2ba2de8aa69a86eebcbea42058dc0c8159e6a9e1618298cef50",
+      "asset_sha256": {},
+      "mathematical_reason": "总体次品仅2件，无放回不可能抽到3件，目标事件空集，概率0；先检查计数可行域。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "probability.hypergeometric-point-mass",
+      "reference_family_ids": [],
+      "representation": "verbal"
+    },
+    {
+      "task_id": "v9s_scatter_increasing_curvature",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "9596f65676ce04b918cdb2012ed7ff5dfa3ddcc318f2cdb3562a5346177c6727",
+      "asset_sha256": {
+        "web/static/diagrams/v9-senior-scatter-curvature.svg": "4ddc2022f6ed7056d1f0db1d273c2217000b00872003e50ca37e8caa0721aa63"
+      },
+      "mathematical_reason": "实图五点(0,0)、(1,1)、(2,4)、(3,9)、(4,16)，同横步长纵增量1、3、5、7，整体上升且弯曲；不推出总体或因果。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "statistics.scatter-nonlinearity",
+      "reference_family_ids": [],
+      "representation": "graph"
+    },
+    {
+      "task_id": "v9s_r_squared_scope",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "13f17e26b321f4b3bfe0f72f4959522df46fd36715e8eb9e81de9e2d128a80c2",
+      "asset_sha256": {},
+      "mathematical_reason": "题设同样本含截距一元OLS保证R²=r²=1/4，解释样本内相对均值离差平方和比例；不给未来命中率或因果份额。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "statistics.r-squared-interpretation",
+      "reference_family_ids": [],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_centre_not_sufficient_for_ols",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "4a0239049e74b8a060f04472b3ffbbbc67ec6bbc2a04371ec6651079524aeea5",
+      "asset_sha256": {},
+      "mathematical_reason": "两线确过(1,2/3)，甲残差平方和2/3，乙8/3；存在更小损失即否定乙最优。过中心是必要性质而非充分判据。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "statistics.ols-centre-property",
+      "reference_family_ids": [
+        "statistics.least-squares-loss",
+        "statistics.signed-residual"
+      ],
+      "representation": "symbolic"
+    },
+    {
+      "task_id": "v9s_read_common_origin_difference",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "c9e4f774dcf0922398a257fd372893e1b09849724279a1a30a4c4a0b088cc864",
+      "asset_sha256": {
+        "web/static/diagrams/v9-senior-common-origin-vectors.svg": "4fc4171a0c4110400cbf8a66f91396082d38be468e4153f557a3b2aa482e2c3d"
+      },
+      "mathematical_reason": "实际共起点图无预画差箭头；OQ+QP=OP，故a−b为Q指P，灰线不带方向。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "vector.common-origin-difference-direction",
+      "reference_family_ids": [
+        "vector.add-head-to-tail"
+      ],
+      "representation": "geometry"
+    },
+    {
+      "task_id": "v9s_zero_row_conditional_proportion",
+      "source": "data/assessments/senior.json",
+      "source_task_sha256": "3a6ddef691722b574dece96f6d896b65e1dc4d0a4ed4570f754dd8c2ec65b6af",
+      "asset_sha256": {
+        "web/static/diagrams/v9-senior-zero-row-contingency.svg": "6da1b7f3286ec824688a283fcaa5d9e9025b2dc6247694d2d71f7aea03d20151"
+      },
+      "mathematical_reason": "实表A行全零，总参加2；A组参加比例0/0未定义，参加者中A为0/2=0。零记录与缺失数据已区别。",
+      "decision": "accept_with_limits",
+      "observation_boundary": "只观察本题的选择结果；图稿、推导、解释和对整个目标的独立完成情况须分别查看。看过提示或参考后的修订保留帮助记录。",
+      "family_id": "probability.conditional-versus-joint-table",
+      "reference_family_ids": [],
+      "representation": "table"
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "桌子大约有几厘米长？先知道一把尺或一张纸的长度有什么帮助？",
+  "definition": "估量是借助已知长度的参照物，判断目标大约含几个这样的长度。估量结果应写“大约”，再与实际测量比较；不能把粗略估计当成精确测量。",
+  "why": "相同参照长度可以重复铺在目标长度上，若大约铺得下4段20厘米，就约为80厘米。参照物长度不准、段间有空隙或重叠，都会影响估量结果。",
+  "when_to_use": [
+    "没有直接测量工具但有熟悉的长度参照",
+    "对别人给出的长度估计判断是否合理"
+  ],
+  "steps": [
+    "选择大小相近且已知长度的参照物。",
+    "估计能连续摆几段，避免明显重叠或空隙。",
+    "计算近似长度，说明误差来源，有条件再实测。"
+  ],
+  "worked_example": {
+    "prompt": "一条桌边约等于4段20厘米长的尺子，桌边约多长？",
+    "steps": [
+      "一段约20厘米，桌边大约含4段。",
+      "20×4=80（厘米），桌边约80厘米。"
+    ],
+    "answer": "80",
+    "verify": "20*4",
+    "family_id": "measure.reference-length-estimate",
+    "variant_id": "m2a.4.4:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "估长桌用1毫米作参照太细，误差会累积。",
+    "课桌长80米明显不合生活尺度，应检查单位。"
+  ],
+  "check": "先独立完成下面各项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m2a.4.4",
+  "name": "用估量解决问题",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能借助参照物估测长度",
+      "explanation": "选择长度已知且适合目标尺度的物品作为参照。",
+      "self_check": {
+        "prompt": "用20厘米长的书估桌边约为5本书长。怎样得到估计？",
+        "reference_answer": "20×5=100厘米，约1米；说明书沿边连续排放的估计。",
+        "criteria": [
+          "参照20厘米明确",
+          "估计约100厘米"
+        ],
+        "family_id": "measure.reference-length-estimate",
+        "variant_id": "m2a.4.4:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "measure.ruler-offset-length"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "5本书是重叠着量、留空隙量，还是边接边量？哪一种更接近桌边长度？",
+        "hint": "用一本已量为20厘米的书连续平移作参照，每次对齐前一段的终点。",
+        "revision_prompt": "先估另一条桌边约几本20厘米书长，写“大约”，再用尺测量并记录差多少。"
+      },
+      "observation_note": "观察有依据的估长及与实测比较；估算值不当作精确测量结果。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能判断估测结果是否合理",
+      "explanation": "合理性要用数量级和参照比较，不能只凭感觉说对错。",
+      "self_check": {
+        "prompt": "同一桌边估成1米与10米，哪个更合理？给出依据。",
+        "reference_answer": "1米更合理，因为约5本20厘米的书长约100厘米；10米要50本，远超观察。",
+        "criteria": [
+          "选择1米",
+          "引用参照而非无依据判断"
+        ],
+        "family_id": "measure.estimate-order-of-magnitude",
+        "variant_id": "m2a.4.4:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "measure.metres-centimetres",
+          "measure.reference-length-estimate"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "10米要摆多少本20厘米的书？与眼前约5本长的桌边相符吗？",
+        "hint": "1米是100厘米，约含5本；10米是1000厘米，约含50本，先比较数量级。",
+        "revision_prompt": "面对约4本20厘米长的柜边，比较80厘米与8米两个估计，说明哪一个与参照一致。"
+      },
+      "observation_note": "观察用参照和单位辨别数量级；不能只说“看起来像”而没有尺度依据。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能按已给参照长度及估计倍数计算近似长度",
+      "explanation": "参照物长度或每单位时间路程已经给定时，可据倍数估算总量。近似输入仍给近似结果；题干给出的倍数不等于学生自己完成了目测。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：已知一本书长20厘米，桌边目测大约等于这本书长度的4倍，桌边约多少厘米？\n写出每个问题的答案。可以用小棒、画图或算式说明你怎样想；用了提示或参考，也记下来。",
+        "reference_answer": "情境1参考：80。已给20厘米与约4倍，20×4≈80厘米。",
+        "criteria": [
+          "已给参照与份数相乘并正确处理近似和单位",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "measure.reference-length-estimate",
+        "variant_id": "m2a.4.4:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "倍数已由题干给出，不观察学生独立目测或选择参照物。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "计算结果是否保留了近似含义？厘米、分米、米有没有统一？",
+        "hint": "先写一个参照单位对应的近似长度，再累计指定的份数，最后统一题目要求的单位。",
+        "revision_prompt": "先回答这个辨别问题：计算结果是否保留了近似含义？厘米、分米、米有没有统一？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；已给参照与份数相乘并正确处理近似和单位。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m2a.4.4-q101",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m2a.4.4-q3",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m2a.4.4-q1",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

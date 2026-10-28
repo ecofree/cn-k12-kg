@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2a.5.2",
+  "name": "8的乘法口诀",
+  "tier": "tool",
+  "hook": "7排座椅，每排8把，共几把？56把每排8把可摆几排？",
+  "definition": "8的乘法口诀是：一八得八、二八十六、三八二十四、四八三十二、五八四十、六八四十八、七八五十六、八八六十四。",
+  "why": "每组8个，从1组到8组总数每次增加8。易忘六八四十八时，可从五八四十再加8，而不是把相近的四十二或五十六随便填入。",
+  "conditions": [
+    "使用一八至八八的口诀及能整除的相应除法。"
+  ],
+  "representation_note": "每行8个的点阵与“组数／总数”表对应，避免只记尾数。",
+  "when_to_use": [
+    "求1至8组、每组8个的总数，或从相邻一组推算容易忘记的口诀。",
+    "用8的口诀给出的总数平均分，求缺少的另一个乘数。"
+  ],
+  "steps": [
+    "用每行8个的点阵列出各组总数。",
+    "把份数与积连成完整口诀。",
+    "打乱顺序求积，并解释容易混淆的一句。",
+    "除法补出缺少的乘数，用积检查。"
+  ],
+  "worked_example": {
+    "prompt": "7排座椅，每排8把，共几把？56把每排8把可摆几排？",
+    "steps": [
+      "七八五十六，8×7=56把。",
+      "8×7=56，所以56÷8=7排。"
+    ],
+    "answer": "56把；7排",
+    "family_id": "primary.table-eight.equal-groups",
+    "variant_id": "m2a.5.2:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "division.fact-family",
+      "primary.divide.group-count",
+      "primary.multiply.equal-groups"
+    ]
+  },
+  "pitfalls": [
+    "把七八五十六误记成六八五十六，先检查份数与积是否对应。",
+    "除数8和商7可以相乘检查，但不能因此随意交换原问题里的单位。"
+  ],
+  "practice": [
+    {
+      "id": "m2a.5.2-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m2a.5.2-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "八句口诀可按每次加8联系：24、32、40、48、56、64每相邻两项都差8。记忆必须保留前面的组数。",
+      "observation_note": "本项观察八句完整、两次增加一份8解释正确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。文字输入或自报不能直接验证实际口头背诵与读音；本项书面结果不自动证明能口头熟练背诵。",
+      "self_check": {
+        "prompt": "说全8的口诀；再从六八四十八推导七八五十六和八八六十四。",
+        "reference_answer": "一八得八、二八十六、三八二十四、四八三十二、五八四十、六八四十八、七八五十六、八八六十四；48+8=56，56+8=64。",
+        "criteria": [
+          "八句完整",
+          "两次增加一份8解释正确"
+        ],
+        "family_id": "primary.multiply.table-facts",
+        "variant_id": "m2a.5.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.equal-groups"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "六组8与七组8相比，增加7个还是8个？",
+        "hint": "组数增加1，但每组固定8个。",
+        "revision_prompt": "给易混的两句各画组数，并标明多出的完整8个。"
+      },
+      "criterion_index": 0,
+      "title": "能背诵 8 的乘法口诀"
+    },
+    {
+      "explanation": "三八二十四能支持8×3=24、24÷8=3与24÷3=8。求商只填缺少乘数，已知被除数与除数要保留。",
+      "observation_note": "本项观察三题正确、检查式乘回被除数；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "计算8×6、32÷8、56÷7，并写一条乘法检查式。",
+        "reference_answer": "48、4、8；例如8×7=56检查56÷7=8。",
+        "criteria": [
+          "三题正确",
+          "检查式乘回被除数"
+        ],
+        "family_id": "primary.multiply.table-facts",
+        "variant_id": "m2a.5.2:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "division.fact-family"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "32÷8的商4为什么不是口诀的末尾32？",
+        "hint": "因为32已经是总数，未知的是有几组8。",
+        "revision_prompt": "把32分成每组8的圈，数圈并把商填回乘法空格。"
+      },
+      "criterion_index": 1,
+      "title": "能用 8 的口诀求积与求商"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

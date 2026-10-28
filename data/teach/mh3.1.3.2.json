@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh3.1.3.2",
+  "name": "空间向量运算的坐标表示",
+  "tier": "core",
+  "hook": "两点在不同楼层时，平面上的距离少算了一段高度；三坐标的向量运算把三个方向同时纳入计算。",
+  "definition": "在空间标准正交单位基底中，a=(a₁,a₂,a₃)、b=(b₁,b₂,b₃)逐坐标相加、相减和数乘；a·b=a₁b₁+a₂b₂+a₃b₃，|a|=√(a₁²+a₂²+a₃²)。非零向量夹角满足cosθ=(a·b)/(|a||b|)。AB的坐标等于B-A。",
+  "why": "把a、b按正交单位向量展开，异轴基向量的数量积为0，同轴为1，数量积只剩三个对应坐标的乘积之和。令b=a便得三维勾股公式。若基底不正交或不是单位长度，这些简式不能直接照搬。",
+  "when_to_use": [
+    "已知空间点坐标，要求位移、距离或夹角",
+    "几何证明已建立空间直角坐标系，需要把关系转为代数"
+  ],
+  "steps": [
+    "由终点减起点写方向向量，逐坐标运算。",
+    "用平方和求模、对应坐标乘积和求数量积。",
+    "求夹角先检查模非零，再算余弦并确定角的范围。"
+  ],
+  "worked_example": {
+    "prompt": "A=(1,0,2)，B=(3,-1,4)，求|AB|。",
+    "steps": [
+      "AB=B-A=(2,-1,2)，不能把两个端点的模直接相减。",
+      "|AB|=√(2²+(-1)²+2²)=√9=3。"
+    ],
+    "answer": "3",
+    "verify": "(2**2+(-1)**2+2**2)**0.5",
+    "family_id": "vector.norm-cartesian",
+    "variant_id": "mh3.1.3.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "AB=B-A而不是A-B；反向虽不改长度，却会改变数量积和向量夹角。",
+    "求cosθ时分母是两模乘积，不能写成两模平方和。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能进行空间向量的坐标运算",
+      "explanation": "线性运算分别在三个坐标位置执行；每项都要保留符号。",
+      "self_check": {
+        "prompt": "a=(1,-2,3)、b=(2,1,-1)，求2a-b。",
+        "reference_answer": "2a-b=(2,-4,6)-(2,1,-1)=(0,-5,7)。",
+        "criteria": [
+          "三坐标均数乘",
+          "减去负数得到第三坐标7"
+        ],
+        "family_id": "vector.linear-combination-cartesian",
+        "variant_id": "mh3.1.3.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2a-b的第三分量为何6-(-1)=7？",
+        "hint": "每个坐标执行同一表达式，括号先保留。",
+        "revision_prompt": "a=(2,0,-1),b=(-1,3,2)，3a+b=(5,3,-1)，逐分量代回。"
+      },
+      "observation_note": "观察三分量线性运算；一个分量正确不能确认整个向量。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能由坐标求模与夹角",
+      "explanation": "长度和夹角来自数量积，角度必须与余弦符号相符。",
+      "self_check": {
+        "prompt": "a=(1,1,0)、b=(1,0,1)，求两向量夹角。",
+        "reference_answer": "a·b=1，两模均为√2，cosθ=1/2，所以θ=60°。",
+        "criteria": [
+          "模和数量积正确",
+          "余弦1/2并取60°"
+        ],
+        "family_id": "vector.angle-and-perpendicular-cartesian",
+        "variant_id": "mh3.1.3.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "点积1是否就意味着夹角0°？",
+        "hint": "余弦还要除以两模之积；这里分母是2。",
+        "revision_prompt": "对(1,0,0)与(1,1,1)，cosθ=1/√3，保留该精确关系而不误认60°。"
+      },
+      "observation_note": "观察归一化和角范围；非正交基底不能直接用坐标点积式。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由两个非零空间向量的坐标求夹角的余弦值",
+      "explanation": "两个非零向量的夹角θ在0°到180°之间，cosθ=(a·b)/(|a||b|)。直角坐标下，数量积将所有对应分量乘积相加，两模分别由各自全部分量平方和开方求得；二维用两项，三维用三项。向量夹角的余弦保留数量积正负，不能套用求两直线较小角时取绝对值的规则。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：已知 a=(1,1,0)，b=(0,1,1)。a 与 b 夹角余弦值是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：0.5。点积1，两个模皆√2，cosθ=1/2，不收角度或两个模。",
+        "criteria": [
+          "在非零向量条件下以完整坐标求数量积和模乘积，保留符号并输出所问夹角余弦值",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "vector.coordinate-angle",
+        "variant_id": "mh3.1.3.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "两个向量是否均非零，三维的第三分量有没有计入？所求是向量夹角的余弦，还是两直线的较小夹角？",
+        "hint": "分别列数量积、第一向量模平方、第二向量模平方三行；各行计入全部对应分量，再用数量积除两模的乘积，检查结果在−1到1之间。",
+        "revision_prompt": "先回答这个辨别问题：两个向量是否均非零，三维的第三分量有没有计入？所求是向量夹角的余弦，还是两直线的较小夹角？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；在非零向量条件下以完整坐标求数量积和模乘积，保留符号并输出所问夹角余弦值。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh3.1.3.2-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：a=(2,-1,3)、b=(-1,4,2)，求向量2a-b的第二坐标。"
+    },
+    {
+      "id": "mh3.1.3.2-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：A=(1,-2,0)、B=(3,1,6)，求向量AB的模。"
+    },
+    {
+      "id": "mh3.1.3.2-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：a=(1,2,2)、b=(2,-1,2)，求a·b。"
+    }
+  ],
+  "check": "独立完成并写出依据：a=(1,-2,3)、b=(2,1,-1)，求2a-b。；a=(1,1,0)、b=(1,0,1)，求两向量夹角。",
+  "conditions": [
+    "点积与模坐标公式使用正交单位基底；两方向非零。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

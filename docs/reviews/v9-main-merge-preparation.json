@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "reviewer_kind": "ai",
+  "independent_teacher_review": false,
+  "student_validation": false,
+  "observed_at": "2026-10-28T08:28:11Z",
+  "baseline_commit": "b3e9fa9e49c1e52e7d19ca5c5ba29d87ec164d9b",
+  "main_snapshot": {
+    "sha": "b771cac73206498dcbe83d5f39132586f93982cc",
+    "protected": false,
+    "repository_rulesets": [],
+    "main_is_ancestor_of_baseline": true,
+    "ahead_by": 40,
+    "behind_by": 0
+  },
+  "pull_request_snapshot": {
+    "number": 1,
+    "state": "open",
+    "draft": true,
+    "base": "main",
+    "review_count": 0,
+    "retargeted_at": "2026-10-28T08:51:17Z"
+  },
+  "decision": "main_target_prepared_final_candidate_verification_pending",
+  "required_final_observations": [
+    "复查 main 和 PR head 未发生未审变化。",
+    "PR已改为main；推送同一已验证候选后实际运行面向main的PR CI。",
+    "检查 GitHub merge 预览的 tree 与候选一致，并核对该预览和普通 push CI 均通过。",
+    "实际合并须使用 merge 方法并传 expected_head_sha；不要使用会改写被引用基线的 squash 或 rebase。"
+  ],
+  "merge_method_reason": "当前 docs/reviews/current.json 指向确切 Git 基线。check_change_review 与交付包需读取该历史；current-branch.bundle 仅携带当前分支的可达历史。普通 merge 可使已审基线继续可达，不需要改写原审查记录。",
+  "authorization_boundary": "用户本轮询问完成后是否可以合并主分支。此记录检查并准备可审阅候选，不代表已经写入 main。",
+  "source_urls": [
+    "https://api.github.com/repos/ecofree/cn-k12-kg/branches/main",
+    "https://api.github.com/repos/ecofree/cn-k12-kg/rulesets",
+    "https://api.github.com/repos/ecofree/cn-k12-kg/pulls/1/reviews",
+    "https://api.github.com/repos/ecofree/cn-k12-kg/compare/b771cac73206498dcbe83d5f39132586f93982cc...b3e9fa9e49c1e52e7d19ca5c5ba29d87ec164d9b"
+  ],
+  "status": "final_candidate_and_main_target_ci_pending"
+}

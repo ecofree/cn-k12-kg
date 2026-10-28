@@ -1,0 +1,333 @@
+{
+  "schema": 1,
+  "review_kind": "ai_cross_review_final_integration",
+  "reviewer": {
+    "type": "ai",
+    "agent": "/root/v4_teaching_content",
+    "relationship": "cross_reviewer_not_business_fix_author",
+    "participation": "参与修复方案边界建议；只读业务diff、上下文与实际执行日志。本次只编写此审查记录，没有编写业务修复，也没有启动测试。",
+    "independent_teacher_review": false
+  },
+  "reviewed_at": "2026-10-26T15:12:56+00:00",
+  "baseline_commit": "0c3af48fe4fbb4e1feae160c05b2ed384037460b",
+  "review_status": "reviewed",
+  "decision": "accept_targeted_fixes_pending_new_fixed_release_verification",
+  "teacher_review": "deferred_by_user",
+  "real_student_effect_validation": "deferred_by_user",
+  "scope": {
+    "changed_code_and_test_files": 7,
+    "bound_read_files": 7,
+    "full_repository_audit": false,
+    "full_suite_executed_by_reviewer": false,
+    "browser_executed_by_reviewer": false,
+    "source_binding": "本报告绑定所列文件当前原始字节，不将仍为修复前HEAD的提交号当修复已验收证明。",
+    "covered": [
+      "旧草稿候选饥饿与完整needs",
+      "同类作品时间排序和明确暂缓",
+      "未发布评分的公开观测投影",
+      "hidden correct不得提前公开resolve",
+      "state/support普通导出的同一可见边界",
+      "原始记录与完整加密备份保留",
+      "本轮中止浏览器产物与旅程静态影响"
+    ],
+    "supporting_context_files_read": 6
+  },
+  "methods": [
+    "逐行阅读相对0c3af48的7文件diff及相关数据来源/调用上下文。",
+    "核对原失败测试断言未删改变弱，并逐条阅读新增反例。",
+    "实际读取A的33项及1项HTTP日志、B的8项HTTP日志的最终结果和相关请求，记录执行者与日志SHA。",
+    "读取中止运行的self_check_autosave result、HTTP/browser日志、failure截图及trace.network时序；与root报告的主动SIGTERM相互核对。",
+    "只读核对12条现有浏览器旅程对needs、反馈和候选排序的依赖，不将静态阅读称作测试通过。"
+  ],
+  "findings": [
+    {
+      "id": "INT-01",
+      "origin": "root_full_suite_failure_and_A_followup",
+      "problem": "旧草稿与大量仅not_checked的提交作品被同级或更低优先级排序，再按资源ID截取12项，旧草稿失去首页继续入口。",
+      "resolution": "按实际未完成内容、明确自报困难和未核对分别调度，时间正规化且未知时间排后；原needs账本不截断。",
+      "cross_review_result": "修复与故障原因对应；实际33项窄测及原HTTP单例通过，原断言增强，未发现新的实质问题。",
+      "status": "fixed_with_targeted_evidence",
+      "paths": [
+        "cnkg/planner.py",
+        "cnkg/learning_needs.py",
+        "tests/test_planner.py",
+        "tests/test_learning_web.py"
+      ]
+    },
+    {
+      "id": "INT-02",
+      "origin": "A_same_path_followup_authorized_by_root",
+      "problem": "显式暂缓的work_revision可能从普通草稿fallback重新进入推荐。",
+      "resolution": "仅在推荐入口排除对应deferred资源，保留原need、量规和状态；reopen恢复同一身份继续入口。",
+      "cross_review_result": "代码不删除账本；未自评及partial两种状态有针对性回归，输入未被改写。",
+      "status": "fixed_with_targeted_evidence",
+      "paths": [
+        "cnkg/planner.py",
+        "tests/test_planner.py"
+      ]
+    },
+    {
+      "id": "INT-03",
+      "origin": "root_full_suite_failure_and_B_followup",
+      "problem": "公开plan直接消费内部摘要，可暴露未完成延迟反馈任务的wrong或correct；隐藏correct还能提前关闭旧need或通过state/support接口表现间接暴露。",
+      "resolution": "以实际反馈释放记录形成只读公开投影，所有公开needs入口一致；未发布评分不用于生成/计数/关闭需要，中性曝光继续参与后续选题。普通事件导出同样过滤，原记录与加密备份保留。",
+      "cross_review_result": "wrong隐藏、hidden-correct不闭合与不阻断旧公开状态操作、猜ID被拒、完成后原ID恢复、practice即时反馈、两安装恢复后保密均有真实HTTP断言和8项PASS日志。",
+      "status": "fixed_with_targeted_evidence",
+      "paths": [
+        "cnkg/learning_needs.py",
+        "web/server.py",
+        "tests/test_portfolio_web.py",
+        "tests/test_quality_v4_web.py"
+      ]
+    }
+  ],
+  "new_unresolved_findings": [],
+  "tests": {
+    "targeted_runs": [
+      {
+        "id": "planner_and_needs",
+        "executed_by": "/root/v4_learning_decisions",
+        "reviewer_action": "read_actual_log_not_rerun",
+        "result": "passed",
+        "tests": 33,
+        "duration_seconds": 38.763,
+        "log_path": "/tmp/cnkg-v4-final-planner-needs-tests.log",
+        "log_sha256": "217e97145eb4c1aeea48a94d81bd4027bba3e02f1b6d29f734d16f69db7134fd",
+        "terminal_summary": "Ran 33 tests in 38.763s\n\nOK",
+        "storage_notice": "本地针对性执行日志；不替代最终干净提交的全套发行证据包。",
+        "reported_command": "/workspace/scratch/cdd6c485d2b6/cnkg-venv/bin/python -m unittest tests.test_planner tests.test_learning_needs_v4"
+      },
+      {
+        "id": "old_draft_http",
+        "executed_by": "/root/v4_learning_decisions",
+        "reviewer_action": "read_actual_log_not_rerun",
+        "result": "passed",
+        "tests": 1,
+        "duration_seconds": 33.793,
+        "log_path": "/tmp/cnkg-v4-final-planner-http-test.log",
+        "log_sha256": "ee4c6caddc9e10bac067d9e89e47f1700bafafd8f0357c5acefb6f51910b5f36",
+        "terminal_summary": "Ran 1 test in 33.793s\n\nOK",
+        "storage_notice": "本地针对性执行日志；不替代最终干净提交的全套发行证据包。",
+        "reported_command": "/workspace/scratch/cdd6c485d2b6/cnkg-venv/bin/python -m unittest tests.test_learning_web.LearningWebTest.test_plan_does_not_drop_old_drafts_behind_1000_newer_submitted_works"
+      },
+      {
+        "id": "public_feedback_http",
+        "executed_by": "/root/v4_profile_recovery",
+        "reviewer_action": "read_actual_log_not_rerun",
+        "result": "passed",
+        "tests": 8,
+        "duration_seconds": 21.747,
+        "log_path": "/tmp/cnkg-v4-final-deferred-tests.log",
+        "log_sha256": "39762b51624291b5b688129215de66eb2e74ceb86fd4014fae65fc9c7b7313d8",
+        "terminal_summary": "Ran 8 tests in 21.747s\n\nOK",
+        "storage_notice": "本地针对性执行日志；不替代最终干净提交的全套发行证据包。",
+        "observed_test_selection": [
+          [
+            "test_deferred_work_plan_and_export_do_not_reveal_answer_or_correctness",
+            "test_portfolio_web.PortfolioWebTests.test_deferred_work_plan_and_export_do_not_reveal_answer_or_correctness"
+          ],
+          [
+            "test_hidden_correct_answer_does_not_resolve_or_block_public_state_of_old_need",
+            "test_portfolio_web.PortfolioWebTests.test_hidden_correct_answer_does_not_resolve_or_block_public_state_of_old_need"
+          ],
+          [
+            "test_delayed_session_keeps_wrong_feedback_private_until_completion",
+            "test_portfolio_web.PortfolioWebTests.test_delayed_session_keeps_wrong_feedback_private_until_completion"
+          ],
+          [
+            "test_immediate_practice_feedback_stays_visible_before_session_finishes",
+            "test_portfolio_web.PortfolioWebTests.test_immediate_practice_feedback_stays_visible_before_session_finishes"
+          ],
+          [
+            "test_focused_selection_observes_only_explicit_goals_and_records_its_basis",
+            "test_quality_v4_web.QualityV4HTTPTest.test_focused_selection_observes_only_explicit_goals_and_records_its_basis"
+          ],
+          [
+            "test_foreign_support_is_private_and_recovery_revokes_old_browser_alias",
+            "test_quality_v4_web.QualityV4HTTPTest.test_foreign_support_is_private_and_recovery_revokes_old_browser_alias"
+          ],
+          [
+            "test_http_backup_restores_support_snapshot_and_need_events_to_new_installation",
+            "test_quality_v4_web.QualityV4HTTPTest.test_http_backup_restores_support_snapshot_and_need_events_to_new_installation"
+          ],
+          [
+            "test_manipulation_roundtrip_is_version_bound_and_not_a_score",
+            "test_quality_v4_web.QualityV4HTTPTest.test_manipulation_roundtrip_is_version_bound_and_not_a_score"
+          ]
+        ],
+        "reported_command": "/workspace/scratch/cdd6c485d2b6/cnkg-venv/bin/python -u -m unittest test_portfolio_web.PortfolioWebTests.test_deferred_work_plan_and_export_do_not_reveal_answer_or_correctness test_portfolio_web.PortfolioWebTests.test_hidden_correct_answer_does_not_resolve_or_block_public_state_of_old_need test_portfolio_web.PortfolioWebTests.test_delayed_session_keeps_wrong_feedback_private_until_completion test_portfolio_web.PortfolioWebTests.test_immediate_practice_feedback_stays_visible_before_session_finishes test_quality_v4_web -v",
+        "reported_environment": {
+          "PYTHONPATH": "tests",
+          "cwd": "repository_root"
+        }
+      }
+    ],
+    "total_targeted_test_executions": 42,
+    "count_notice": "33项planner/needs、1项旧草稿HTTP和8项反馈/恢复HTTP为三个不同选择；不混入旧维护42项或中止的全套705项。",
+    "previous_full_suite": {
+      "commit": "0c3af48fe4fbb4e1feae160c05b2ed384037460b",
+      "tests": 705,
+      "failures": 2,
+      "skipped": 16,
+      "result": "failed_then_stopped_by_root",
+      "not_current_pass_evidence": true
+    },
+    "next_full_fixed_release": "pending_root_execution_after_source_review_and_manifest_regeneration"
+  },
+  "browser_observations": [
+    {
+      "id": "OBS-01",
+      "kind": "operator_interruption_not_confirmed_product_defect",
+      "facts": [
+        "2026-10-26T14:55:02.957Z和02.959Z，两个self-check恢复GET为200。",
+        "2026-10-26T14:55:06.581Z，/api/work自动保存POST在trace.network中为status -1、net::ERR_CONNECTION_REFUSED。",
+        "随后15秒等待response超时，14:55:24留下失败产物；截图仍保留草稿并显示Failed to fetch，script_errors/server_errors均为空。",
+        "root明确报告在14:55左右主动SIGTERM终止release进程组；runner内HTTP随之退出，独立Node会话仍可能等响应。",
+        "当时完整browser/report.json和regression_report.json不存在；其他7个成功result时间在11:40至11:43，不能用于本轮验收。"
+      ],
+      "conclusion": "时序和进程隔离机制支持主动中止诱发的连接失败；不能据此断言autosave独立故障，也不能断言本轮浏览器通过。",
+      "retained_artifact_notice": "这些中止产物位于可重跑覆盖的build路径，本报告记录实际观察与限制，不把它们绑定为最终发行成功证据。"
+    }
+  ],
+  "files": [
+    {
+      "path": "cnkg/planner.py",
+      "sha256": "3a92cb356b738832fd85457af9627465ed4c545ad747a57cb27447f5058e33f0",
+      "read_extent": "本轮全部diff及原有阶段、支持、复测和作品候选上下文。",
+      "findings": [
+        "实际内容由has_draft、has_reflection或self_assessment_reported判定；未完成内容80、明确partial/revisit76、仅未核对35，空壳不取80；活跃会话90与到期复测100保持。",
+        "完整needs不受12项next_steps截取影响；真实量规、need_ids和source_refs保留；未核对不被称为答错或已证明困难。",
+        "同类作品用解析后的updated_at、created_at排序；未知或无时区时间排后，ID作稳定平局判断。显式deferred作品不绕过普通草稿fallback，reopen恢复原身份入口。"
+      ],
+      "related_findings": [
+        "INT-01",
+        "INT-02"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_limits"
+    },
+    {
+      "path": "cnkg/learning_needs.py",
+      "sha256": "b3e7c08ddf29c3cc968167142e2908af6269d5f6d6e228964c18fc7941709a2c",
+      "read_extent": "本轮全部diff、need_identity、derive_needs、skill_evidence和task_options相关完整控制流。",
+      "findings": [
+        "public_learning_records深复制原记录，再对白名单中性作答元数据加_feedback_pending；不原地修改原answers、记录或事件。",
+        "_observations默认忽略pending；独立支持活动的失败汇总同样忽略pending，因此隐藏correct不参与旧need关闭，隐藏wrong不生成公开need或对错计数。",
+        "task_options显式include_pending且只读取已见题、题族、表征等信息，不能将未发布评分的已做题当未见新题。",
+        "work_status、source_completed、revision_basis及notice只是准确区分草稿、未核对和自报困难；need_identity仍只使用原kind、source_ref、resource_version。"
+      ],
+      "related_findings": [
+        "INT-01",
+        "INT-03"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_limits"
+    },
+    {
+      "path": "web/server.py",
+      "sha256": "888daa9b25202295db772e5fb9214937d75f3e277d5a36cd140ca0d7b19217f5",
+      "read_extent": "本轮全部diff，公开计划/state/support/export端点、反馈释放、版本限制、公开作品和POST锁上下文。",
+      "findings": [
+        "public_learning_inputs对已完成compact scope按既有完成即发布契约处理；未完成逐一取原record的feedback_exposed，缺记录保守隐藏且标记不能续做，不按kind/mode猜可见性。",
+        "plan、state和support均使用公开可见needs；state直接按公开视图验证并写同类审计event，避免内部隐藏correct已resolve导致拒绝请求而泄露。",
+        "未发布session_task作品不进入公开需要判断；普通导出保留原始作答文本，过滤未发布评分及旧隐藏need事件。加密backup/restore端点保持原服务调用。",
+        "公开投影只读；真实暂缓/重开仍在POST会话锁内显式写事件，没有重写原始评分或迁移原作品。"
+      ],
+      "related_findings": [
+        "INT-03"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_limits"
+    },
+    {
+      "path": "tests/test_planner.py",
+      "sha256": "0ba094887373f7e565deecc292ae0420ea8d21173ae046ff6033f9de98481a89",
+      "read_extent": "六个新增方法和真实_work_summary helper的全部diff，以及相关既有排序/阶段/作品测试。",
+      "findings": [
+        "构造真实not_checked摘要，覆盖有/无量规旧草稿、1000项提交、正常limit、反向ID和输入顺序、不同时区与未知时间。",
+        "明确partial/revisit、空草稿壳、活跃会话优先、defer/reopen原need_id及输入未被改变均有具体断言。"
+      ],
+      "related_findings": [
+        "INT-01",
+        "INT-02"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_limits"
+    },
+    {
+      "path": "tests/test_learning_web.py",
+      "sha256": "9d8ad260555afc24c879868a0be95713c1caaf23cf8644f77546656197b838b0",
+      "read_extent": "原1000提交作品HTTP失败案例及本轮新增断言，未声称复核全文件。",
+      "findings": [
+        "保留旧草稿必须出现与其他owner不得出现的原断言；增加12项窗口、旧草稿第一、分类依据和完整1001项needs身份集合。"
+      ],
+      "related_findings": [
+        "INT-01"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_limits"
+    },
+    {
+      "path": "tests/test_portfolio_web.py",
+      "sha256": "2a9f4c80567d35530a7bec8bae04ee1bcba7ffd88a76556ee785ddc5b53c72db",
+      "read_extent": "本轮全部diff、HTTP fixture和原deferred公开边界测试上下文，未声称复核其余全部旧测试。",
+      "findings": [
+        "原始不得泄露答案/解释/wrong/summary断言全部保留，增强plan need_counts和skill_evidence为空、猜need_id的state/support同返回404。",
+        "验证隐藏correct不提前resolve旧need，公开defer/reopen与support仍可用；整组完成后原need通过具体后来作答闭合且旧wrong评分保留。",
+        "验证普通事件导出剔除旧隐藏need与注入的answer_submitted私有字段，原存储仍完整；delayed隐藏、practice即时可见分别测试。"
+      ],
+      "related_findings": [
+        "INT-03"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_limits"
+    },
+    {
+      "path": "tests/test_quality_v4_web.py",
+      "sha256": "ee56599b14bf0090f5f631d12a03ee685fc68cb491d85a78836ef181f8c76d8e",
+      "read_extent": "完整当前4个HTTP方法及新增恢复边界diff。",
+      "findings": [
+        "两个独立真实HTTP服务和SQLite安装间导入加密备份；新增未完成transfer的原record完整相等、公开投影继续隐藏、完成后恢复原wrong观察。",
+        "保留原支持快照、暂缓事件、操作快照与版本、身份撤销和重复导入409等既有断言，没有以新行为削弱原恢复契约。"
+      ],
+      "related_findings": [
+        "INT-03"
+      ],
+      "review_status": "reviewed",
+      "decision": "accept_reviewed_scope_with_limits"
+    }
+  ],
+  "limits": [
+    "本审查为AI交叉审，仅覆盖列出的diff和明确上下文，不是全仓安全审计、教师独立审核或真实学生效果验证。",
+    "本审查者未启动任何测试；PASS来自已实际读取且标注执行者的针对性日志。",
+    "完整全套回归、12条浏览器旅程和正式包门禁必须由root在新的固定干净提交上重新运行；本报告不代替它们。",
+    "只读投影保障公开反馈隔离；完整加密备份有意保留内部原始记录，符合本地学习资产恢复用途。",
+    "SHA256绑定阅读版本，不自动证明语义判断；源文件后续改变需重新审查绑定。"
+  ],
+  "supporting_read_scope": [
+    {
+      "path": "tests/test_learning_needs_v4.py",
+      "read_extent": "完整14个既有needs/store测试；本轮未改。"
+    },
+    {
+      "path": "cnkg/learning_store.py",
+      "read_extent": "_session_summary、_work_summary、planning_records、need_states、set_need_state及事务/默认路径相关段落；本轮未改。"
+    },
+    {
+      "path": "cnkg/profile_recovery.py",
+      "read_extent": "backup、restore、_TABLE_COLUMNS、加密/载荷验证及原始记录插入路径；本轮未改。"
+    },
+    {
+      "path": "cnkg/instruction.py",
+      "read_extent": "支持答题的原始答案、feedback_exposed和终结确认写入段落；本轮未改。"
+    },
+    {
+      "path": "tools/browser_check.py",
+      "read_extent": "完整当前runner、旅程清单、进程/HTTP隔离、报告生成及版本绑定路径；本轮未改。"
+    },
+    {
+      "path": "tests/browser/learning-flow.cjs",
+      "read_extent": "12个journey函数及共用saveText、submitAnswer、completeSession等辅助函数；未做本轮执行或全局浏览器认证。"
+    }
+  ]
+}

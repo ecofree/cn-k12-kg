@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2b.4.2",
+  "name": "减法",
+  "tier": "tool",
+  "hook": "计算403−178，写出跨过0退位后的各位数量。",
+  "definition": "万以内整数减法按同数位相减，从个位开始；不够减时向左边一位换来10个本单位。若相邻位是0，要继续向更高位换取。",
+  "why": "403−178的十位是0，先从4个百中拿1个百换成10个十，再拿其中1个十换给个位。于是403写成3个百、9个十和13个一，总量不变。",
+  "conditions": [
+    "被减数与减数在万以内，被减数不小于减数。",
+    "跨0退位时每一级交换都保持总量相同。"
+  ],
+  "representation_note": "竖式旁写退位后的等值拆分，尤其标出中间0变10再变9的两步。",
+  "when_to_use": [
+    "被减数与减数在万以内，被减数不小于减数。",
+    "跨0退位时每一级交换都保持总量相同。"
+  ],
+  "steps": [
+    "相同数位对齐，从个位看够不够减。",
+    "不够时逐级向左换，记录每一位换出后的新数量。",
+    "经过0的一位先得到10个本单位，再转出1个，就剩9个。",
+    "按改变后的数字逐列减，用差加减数检查。"
+  ],
+  "worked_example": {
+    "prompt": "计算403−178，写出跨过0退位后的各位数量。",
+    "steps": [
+      "403先变成3个百、10个十、3个一。",
+      "再变成3个百、9个十、13个一。",
+      "个位13−8=5，十位9−7=2，百位3−1=2，得225。"
+    ],
+    "answer": "225",
+    "family_id": "primary.base-ten.column-subtract-regroup",
+    "variant_id": "m2b.4.2:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "verify": "403-178"
+  },
+  "pitfalls": [
+    "跨过0后把十位写成10又不减去借给个位的1，会多10。",
+    "高位已经换出1，却在减法时用原数字，结果会偏大。"
+  ],
+  "practice": [
+    {
+      "id": "m2b.4.2-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m2b.4.2-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "不论是否退位，每一列都只能同单位相减。例如8765−2432中，千、百、十、个依次对应，算得6333。",
+      "observation_note": "本项观察数位对应正确、计算3552正确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "列竖式计算5864−2312，说明减数的3与哪一位对齐。",
+        "reference_answer": "个位4−2=2，十位6−1=5，百位8−3=5，千位5−2=3，得3552；3在百位，与8对齐。",
+        "criteria": [
+          "数位对应正确",
+          "计算3552正确"
+        ],
+        "family_id": "arithmetic.place-value-column-subtraction",
+        "variant_id": "m2b.4.2:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "placevalue.compose.from-units"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2312的3表示3个百，应从8个百还是6个十中减？",
+        "hint": "在每一列上方标出计数单位再计算。",
+        "revision_prompt": "重新标千百十个，检查每次相减的两个数字是否同单位。"
+      },
+      "criterion_index": 0,
+      "title": "能列竖式计算万以内减法"
+    },
+    {
+      "explanation": "连续退位特别要保留中间位的变化。700−268可依次换成6个百、10个十、0个一，再换成6个百、9个十、10个一。",
+      "observation_note": "本项观察跨零逐级交换清楚、按6、9、10计算；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "计算700−268，说清个位得到10后十位为什么剩9。",
+        "reference_answer": "1个百换成10个十，其中1个十又换为10个一，所以十位剩9；10−8=2，9−6=3，6−2=4，得432。",
+        "criteria": [
+          "跨零逐级交换清楚",
+          "按6、9、10计算"
+        ],
+        "family_id": "arithmetic.place-value-column-subtraction",
+        "variant_id": "m2b.4.2:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.place-value-column-addition",
+          "placevalue.ten-adjacent-units"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "10个十中拿1个十给个位，还剩10个十吗？",
+        "hint": "每次换出一份都要在本位减1，不能只让低位增加。",
+        "revision_prompt": "重写700的等值拆分6百+9十+10一，再用432+268检验。"
+      },
+      "criterion_index": 1,
+      "title": "能正确处理连续退位"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

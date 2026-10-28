@@ -1,54 +1,159 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m7a.6.3.2",
- "name": "角的比较与运算",
- "tier": "core",
- "hook": "∠AOB=90°，OC 在里面，OD 又平分 ∠BOC。求 ∠AOD 时为什么要先求 ∠BOC？",
- "definition": "角的大小可以比较、可以相加相减。从一个角的顶点出发，把这个角分成两个相等的角的射线，叫这个角的平分线，此时每个角都等于原角的一半。",
- "why": "角平分线的作用是「把不知道的角换成知道的一半」。∠AOD 不是现成的角，它等于 ∠AOC 加上 ∠COD，而 ∠COD 要靠平分 ∠BOC 才能得到。所以做题的顺序是先算出被平分的大角，再取一半，最后把两段拼起来——角的加减法本质上就是线段的加减法。",
- "when_to_use": [
-  "出现「平分」「角平分线」",
-  "要求的角由两个角拼成，或等于两个角之差",
-  "图中有多条射线，需要判断哪段角加哪段角",
-  "给出角的比例或倍数关系"
- ],
- "steps": [
-  "先在图上标出已知角，用弧线标清是哪两段",
-  "把要求的角拆成已知角或已知角的一半的和差",
-  "遇到平分线就先算大角，再除以 2",
-  "回看：要求的角不能大于整个大角"
- ],
- "worked_example": {
-  "prompt": "∠AOB=90°，射线 OC 在 ∠AOB 内部，∠AOC=32°，OD 平分 ∠BOC。∠AOD 是多少度？",
-  "verify": "32+(90-32)/2",
-  "answer": "61",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "hand",
+  "topicId": "m7a.6.3.2",
+  "name": "角的比较与运算",
+  "tier": "core",
+  "hook": "∠AOB=90°，OC 在里面，OD 又平分 ∠BOC。求 ∠AOD 时为什么要先求 ∠BOC？",
+  "definition": "角的大小可以比较、可以相加相减。从一个角的顶点出发，把这个角分成两个相等的角的射线，叫这个角的平分线，此时每个角都等于原角的一半。",
+  "why": "角平分线的作用是「把不知道的角换成知道的一半」。∠AOD 不是现成的角，它等于 ∠AOC 加上 ∠COD，而 ∠COD 要靠平分 ∠BOC 才能得到。所以做题的顺序是先算出被平分的大角，再取一半，最后把两段拼起来——角的加减法本质上就是线段的加减法。",
+  "when_to_use": [
+    "出现「平分」「角平分线」",
+    "要求的角由两个角拼成，或等于两个角之差",
+    "图中有多条射线，需要判断哪段角加哪段角",
+    "给出角的比例或倍数关系"
+  ],
   "steps": [
-   "先求 ∠BOC：它等于整个角减去 ∠AOC，90-32=58°。",
-   "OD 平分 ∠BOC，所以 ∠COD 是 58÷2=29°。",
-   "∠AOD 由 ∠AOC 与 ∠COD 拼成：32+29=61°。"
-  ]
- },
- "pitfalls": [
-  "求 ∠AOD 时只用了 ∠AOC，忘了加上 ∠COD。",
-  "把「OD 平分 ∠BOC」当成「OD 平分 ∠AOB」。",
-  "角和差算反：用 ∠BOC 减去 ∠AOC 却当成加上。",
-  "不画图，凭字母顺序猜哪个角大。"
- ],
- "practice": [
-  {
-   "id": "m7a.6.3.2-q1",
-   "note": "角平分线：大角除以 2"
+    "先在图上标出已知角，用弧线标清是哪两段",
+    "把要求的角拆成已知角或已知角的一半的和差",
+    "遇到平分线就先算大角，再除以 2",
+    "回看：要求的角不能大于整个大角"
+  ],
+  "worked_example": {
+    "prompt": "∠AOB=90°，射线 OC 在 ∠AOB 内部，∠AOC=32°，OD 平分 ∠BOC。∠AOD 是多少度？",
+    "verify": "32+(90-32)/2",
+    "answer": "61",
+    "steps": [
+      "先求 ∠BOC：它等于整个角减去 ∠AOC，90-32=58°。",
+      "OD 平分 ∠BOC，所以 ∠COD 是 58÷2=29°。",
+      "∠AOD 由 ∠AOC 与 ∠COD 拼成：32+29=61°。"
+    ],
+    "family_id": "angle.internal-bisector.composite-angle",
+    "variant_id": "m7a.6.3.2:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
-  {
-   "id": "m7a.6.3.2-q2",
-   "note": "两角相加：直接合并"
-  },
-  {
-   "id": "m7a.6.3.2-q101",
-   "note": "两层结构：先求被平分的角，再拼回去"
+  "pitfalls": [
+    "求 ∠AOD 时只用了 ∠AOC，忘了加上 ∠COD。",
+    "把「OD 平分 ∠BOC」当成「OD 平分 ∠AOB」。",
+    "角和差算反：用 ∠BOC 减去 ∠AOC 却当成加上。",
+    "不画图，凭字母顺序猜哪个角大。"
+  ],
+  "practice": [
+    {
+      "id": "m7a.6.3.2-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7a.6.3.2-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7a.6.3.2-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "check": "能在图上把要求的角拆成「已知角 + 已知角的一半」，并说清每一步用的是哪条信息。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能进行角的和差计算",
+      "explanation": "只有射线位于角的内部时，大角才是两个相邻小角之和；先确定相对位置。",
+      "self_check": {
+        "prompt": "OC在∠AOB内部，∠AOB=80°、∠AOC=35°，求∠COB。",
+        "reference_answer": "∠COB=80°−35°=45°。",
+        "criteria": [
+          "利用OC在内部",
+          "列角的差正确"
+        ],
+        "family_id": "angle.internal-ray.difference",
+        "variant_id": "m7a.6.3.2:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "若OC在∠AOB外部，还能直接用80−35求∠COB吗？",
+        "hint": "先画射线次序；内部条件保证∠AOB=∠AOC+∠COB。",
+        "revision_prompt": "用∠AOB=110°、∠AOC=42°且OC在内部作草图求68°，在等式旁标明位置依据。"
+      },
+      "observation_note": "观察内部分角与和差关系；没有位置条件的同样数值可能对应不同结果。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用角平分线求角的度数",
+      "explanation": "角平分线把一个角分为两部分且两角相等，必须保留射线在角内部的条件。",
+      "self_check": {
+        "prompt": "OD平分∠AOB，∠AOB=76°，求∠AOD。",
+        "reference_answer": "∠AOD=∠DOB=76°÷2=38°。",
+        "criteria": [
+          "角平分线给出相等关系",
+          "正确除以2"
+        ],
+        "family_id": "angle.bisector.half-angle",
+        "variant_id": "m7a.6.3.2:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "从顶点画出的任意内部射线都能平分76°吗？",
+        "hint": "角平分线必须同时在内部并分成相等两角，写∠AOD=∠DOB。",
+        "revision_prompt": "已知OD为平分线且∠AOD=27°，反求∠AOB=54°；与任意内部射线作对比。"
+      },
+      "observation_note": "观察平分线定义到数量关系的转换；仅除以2不能证明任意射线是平分线。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能识别角大小与画出的边长无关",
+      "explanation": "角由同端点的两条射线形成，大小由张开程度决定。画在纸上的边长只是射线的一部分，延长或缩短所画部分不会改变张开程度。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：下列说法正确的是哪一个？ 可选：o1．角的大小与边的长短无关；o2．角的两边越长，角越大；o3．角一定小于 90°；o4．角的大小与边的长短有关。\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：角的大小与边的长短无关。两边张开程度决定角大小，截画长度不影响。",
+        "criteria": [
+          "角度与所画边长区别明确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "angle.size-not-drawn-side-length",
+        "variant_id": "m7a.6.3.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "只把两条边画长，没有旋转射线，张口会变大吗？",
+        "hint": "固定顶点与两边方向，先延长再缩短边的显示长度，比较开口方向。",
+        "revision_prompt": "先回答这个辨别问题：只把两条边画长，没有旋转射线，张口会变大吗？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；角度与所画边长区别明确。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由同一角的余角与补角之间的数量关系求原角",
+      "explanation": "设原角为x度，它的余角为90−x，补角为180−x。把题目给出的倍数或和的关系写在这两个量之间，解后核对余角条件及原关系。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：一个角的补角是它余角的 4 倍。这个角是多少度？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：60。180−x=4(90−x)，x60°。",
+        "criteria": [
+          "原角、余角、补角三者及关系式对应",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "angle.complement-supplement-linear-relation",
+        "variant_id": "m7a.6.3.2:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "余角和补角分别从90还是180减去原角？",
+        "hint": "先单独写三个角的表达式，再将文字中的和或倍数关系连接起来。",
+        "revision_prompt": "先回答这个辨别问题：余角和补角分别从90还是180减去原角？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；原角、余角、补角三者及关系式对应。"
+      }
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "能在图上把要求的角拆成「已知角 + 已知角的一半」，并说清每一步用的是哪条信息。"
 }

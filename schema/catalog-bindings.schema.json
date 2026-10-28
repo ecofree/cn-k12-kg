@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cn-k12-kg.local/schema/v1/catalog-bindings.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "tasks": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "answer_spec": {
+            "$ref": "https://cn-k12-kg.local/schema/v1/answer-spec.schema.json"
+          },
+          "family_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "variant_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "family_status": {
+            "type": "string",
+            "enum": [
+              "declared",
+              "unclassified"
+            ]
+          },
+          "representation": {
+            "type": "string",
+            "enum": [
+              "verbal",
+              "symbolic",
+              "number_line",
+              "area_model",
+              "table",
+              "graph",
+              "geometry",
+              "manipulative",
+              "mixed",
+              "unknown"
+            ]
+          },
+          "cognitive_demand": {
+            "type": "string",
+            "enum": [
+              "recall",
+              "execute",
+              "explain",
+              "choose_strategy",
+              "prove",
+              "model",
+              "unknown"
+            ]
+          },
+          "source_anchor": {
+            "type": "string",
+            "minLength": 1
+          },
+          "answer_spec_source": {
+            "type": "string",
+            "enum": [
+              "binding",
+              "author"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "family_id",
+          "variant_id",
+          "family_status",
+          "representation",
+          "cognitive_demand",
+          "answer_spec_source"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "answer_spec_source": {
+                  "const": "binding"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "answer_spec"
+              ]
+            },
+            "else": {
+              "not": {
+                "required": [
+                  "answer_spec"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "examples": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "family_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uniqueItems": true
+          },
+          "family_status": {
+            "type": "string",
+            "enum": [
+              "declared",
+              "unclassified"
+            ]
+          }
+        },
+        "required": [
+          "family_ids",
+          "family_status"
+        ]
+      }
+    },
+    "families": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "declared",
+              "unclassified"
+            ]
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "author_audit",
+              "author_declared",
+              "same_prompt_migration",
+              "unclassified"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "basis",
+          "description"
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "tasks",
+    "examples",
+    "families"
+  ]
+}

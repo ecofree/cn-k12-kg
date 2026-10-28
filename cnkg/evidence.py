@@ -15,11 +15,11 @@
 
 ## 五级证据（互斥，按最强证据定级）
 
-    verified      有独立复算：解析里的算式能重算通，且重算结果与答案一致。
-                  这是唯一"不依赖出题人自述"的证据。
+    verified      给定算式与答案计算一致；不能证明题干建模、题义或教学适切性正确。
+                  机器复算不等于独立教师审核。
     corroborated  跨源同题：同一道题在另一个来源出现，且答案一致。
                   两条独立来源同时错的概率低（但同源转载不算）。
-    explained     解析是完整推导，且结句（故选 X / 答案为 X）与答案一致。
+    explained     解析具有推导信号，且结句（故选 X / 答案为 X）与答案一致。
                   比 bare 强，但它仍是"作者自述"，不是独立证据。
     bare          只有答案，没有可用的推导。可用于练习，不应用于判薄弱。
     broken        结构残缺（选项空缺/重复、答案不在选项里），直接隔离。
@@ -34,16 +34,18 @@
 - 学生**不会**，答案错 → 学生蒙对但被判对 → 漏诊。
   这也是错，但漏诊只会让这一次诊断少发现一个问题，不会把根因指错。
 
-所以 `bare` 级的题不是"不能用"，而是**只能单向用**：
-答对可以算通过，答错不足以判薄弱（见 `may_judge_weak`）。
-把这条写进代码，比在文档里写"谨慎使用"有用。
+bare 只保留为待审核练习材料，不能确认掌握或判薄弱；explained 的错答
+也不能判薄弱。question_policy 是图索引和状态机共同使用的运行时门槛。
 """
 from __future__ import annotations
 
 import ast
 import hashlib
+import json
 import operator
 import re
+from fractions import Fraction
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 # 证据强度排序（越大越强）
 LEVEL_RANK = {
@@ -115,16 +117,121 @@ _WS = re.compile(r"\s+")
 def norm_stem(text: str) -> str:
     """题干归一化：用于跨源同题识别。
 
-    只去掉排版差异（空白、LaTeX、标点、全半角），**保留全部数字**——
-    把数字也去掉会让「3+5」和「4+6」撞成同一题。
+    保守地统一排版，保留运算符、括号、大小写、关系符与小数点。
+    无法证明等价的写法保持不同；漏掉一组候选比误把不同题目互证更安全。
+    这里不能复用 delatex 的 π 小数近似，也不能使用 NFKC 把上标压成正文。
     """
-    s = delatex(text).lower()
-    s = re.sub(r"[^0-9a-z\u4e00-\u9fff]+", "", s)
-    return _WS.sub("", s)
+    s = str(text or "")
+    s = s.translate({code: code - 0xFEE0 for code in range(0xFF01, 0xFF5F)})
+    s = s.translate(str.maketrans({"−": "-", "﹣": "-", "×": "*", "÷": "/",
+                                  "≤": "<=", "≥": ">=", "≠": "!="}))
+    for pattern, replacement in (
+        (r"\\left\s*", ""), (r"\\right\s*", ""),
+        (r"\\times\b|\\cdot\b", "*"), (r"\\div\b", "/"),
+        (r"\\leq?\b", "<="), (r"\\geq?\b", ">="), (r"\\neq?\b", "!="),
+        (r"\\pi\b", "π"), (r"\\,|\\;|\\!|\\quad\b|\\qquad\b", ""),
+    ):
+        s = re.sub(pattern, lambda _match, value=replacement: value, s)
+    for _ in range(3):
+        changed = _FRAC.sub(r"(\1)/(\2)", s)
+        if changed == s:
+            break
+        s = changed
+    # 成对数学定界符只影响排版；单独的美元符号可能表示金额，保留。
+    s = re.sub(r"\$([^$]+)\$", r"\1", s)
+    s = s.replace(r"\(", "").replace(r"\)", "").replace(r"\[", "").replace(r"\]", "")
+    # 保留数字/字母串之间的分隔，避免 "1 2" 与 "12"、"a b" 与 "ab" 混同。
+    s = _WS.sub(" ", s).strip()
+    s = re.sub(r"(?<![A-Za-z0-9]) | (?![A-Za-z0-9])", "", s)
+    return s.rstrip("。")
 
 
 def stem_hash(text: str) -> str:
-    return hashlib.sha1(norm_stem(text).encode("utf-8")).hexdigest()[:16]
+    return hashlib.sha256(norm_stem(text).encode("utf-8")).hexdigest()
+
+
+def item_fingerprint(q: dict) -> str:
+    """同题候选的内容键，不包括答案与来源，也不依赖选项顺序/ID。"""
+    payload = {
+        "type": q.get("type"),
+        "prompt": norm_stem(q.get("prompt", "")),
+        "choices": sorted(norm_stem(c.get("text", "")) for c in q.get("choices") or []),
+        "diagram": q.get("diagram"),
+        "images": q.get("images"),
+    }
+    return hashlib.sha256(json.dumps(payload, ensure_ascii=False, sort_keys=True,
+                                     separators=(",", ":")).encode("utf-8")).hexdigest()
+
+
+def canonical_answer(q: dict) -> str:
+    """互证使用的保守答案表示；只对有界纯数值做精确有理数归一。"""
+    text = norm_stem(answer_text(q))
+    if q.get("type") == "numeric" and len(text) <= 128:
+        number = r"[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d{1,3})?"
+        if re.fullmatch(rf"{number}(?:/{number})?", text):
+            exponents = re.findall(r"[eE]([+-]?\d+)", text)
+            if all(abs(int(exp)) <= 100 for exp in exponents):
+                try:
+                    parts = text.split("/")
+                    value = Fraction(parts[0])
+                    if len(parts) == 2:
+                        value /= Fraction(parts[1])
+                    return f"rational:{value.numerator}/{value.denominator}"
+                except (ValueError, ZeroDivisionError, OverflowError):
+                    pass
+    return "text:" + text
+
+
+def answer_fingerprint(q: dict) -> str:
+    return hashlib.sha256(canonical_answer(q).encode("utf-8")).hexdigest()
+
+
+def source_lineage(q: dict) -> set[str]:
+    """返回可追溯答案来源根；聚合站名称不代替独立来源依据。"""
+    provenance = q.get("provenance")
+    if not isinstance(provenance, dict):
+        return set()
+    origin = provenance.get("origin_id")
+    url = provenance.get("source_url")
+    derived = provenance.get("derived_from", [])
+    if (not isinstance(origin, str) or not origin.strip()
+            or not isinstance(url, str)
+            or not isinstance(derived, list)
+            or any(not isinstance(item, str) or not item.strip() for item in derived)):
+        return set()
+    try:
+        parsed = urlsplit(url)
+    except ValueError:
+        return set()
+    if parsed.scheme not in ("http", "https") or not parsed.netloc:
+        return set()
+    query = urlencode(sorted((k, v) for k, v in parse_qsl(parsed.query, keep_blank_values=True)
+                             if not k.lower().startswith("utm_")
+                             and k.lower() not in {"fbclid", "gclid"}))
+    canonical_url = urlunsplit((parsed.scheme.lower(), parsed.netloc.lower(),
+                               parsed.path or "/", query, ""))
+    return {origin.strip(), *(item.strip() for item in derived), "url:" + canonical_url}
+
+
+def valid_corroboration(q: dict, record: dict | None) -> bool:
+    """只有绑定当前内容、答案且含独立来源记录的互证才可以升级。"""
+    if not isinstance(record, dict) or record.get("schema") != 1:
+        return False
+    origins = record.get("origin_ids")
+    peers = record.get("peer_question_ids")
+    lineage = source_lineage(q)
+    provenance = q.get("provenance")
+    origin = provenance.get("origin_id") if isinstance(provenance, dict) else None
+    origin = origin.strip() if isinstance(origin, str) else None
+    return bool(
+        record.get("status") == "corroborated"
+        and record.get("item_fingerprint") == item_fingerprint(q)
+        and record.get("answer_fingerprint") == answer_fingerprint(q)
+        and lineage and isinstance(origins, list) and all(isinstance(x, str) for x in origins)
+        and origin in origins and len(set(origins)) >= 2
+        and isinstance(peers, list) and any(isinstance(x, str) and x and x != q.get("id") for x in peers)
+        and not record.get("conflicting_answers")
+    )
 
 
 # ---------------------------------------------------------------- 答案文本
@@ -296,12 +403,16 @@ def _has_steps(analysis: str) -> bool:
     return any(m in s for m in markers)
 
 
-def grade(q: dict, cross_source: bool = False) -> dict:
+def grade(q: dict, cross_source: bool = False, *, corroboration: dict | None = None) -> dict:
     """给一道题定证据等级。不改题目本身，只产出判据。
 
     返回 {level, signals, notes}，可直接写进 `evidence` 字段。
     """
     notes = []
+    # 兼容旧调用签名，但一个布尔声明不再算互证。元数据必须绑定当前题和答案。
+    confirmed_cross_source = valid_corroboration(q, corroboration)
+    if cross_source and not confirmed_cross_source:
+        notes.append("仅有跨来源声明，未提供绑定当前题目与答案的独立来源记录")
     defects = structural_defects(q)
     if defects:
         return {"level": "broken", "signals": {}, "notes": defects}
@@ -344,8 +455,23 @@ def grade(q: dict, cross_source: bool = False) -> dict:
         "arith_bad": arith_bad,
         "recompute_hits_key": recompute_hits_key,
         "answer_in_analysis": bool(a_text) and norm_stem(a_text) in norm_stem(analysis),
-        "cross_source": bool(cross_source),
+        "cross_source": confirmed_cross_source,
     }
+
+    # 显式 verify 比解析文本的排版正则可靠，尤其是 round 等舍入表达式。
+    # 这里只证明“给定算式 = 答案”，不能把题义/建模错误洗成教师审核通过。
+    verified_expression = None
+    if q.get("type") == "numeric" and q.get("verify"):
+        from .verify import check_question
+        try:
+            verified_expression = check_question(q)
+        except (ArithmeticError, TypeError, ValueError, RecursionError) as exc:
+            verified_expression = {"status": "error", "detail": str(exc)}
+        signals["verify_consistent"] = verified_expression["status"] == "pass"
+        if verified_expression["status"] != "pass":
+            return {"level": "defective", "signals": signals,
+                    "notes": ["显式 verify 与答案不一致或无法安全复算："
+                              + verified_expression.get("detail", "") ]}
 
     # 唯一能确证「这道题不能信」的信号，是结句字母与答案键不符。
     # 两种成因都指向同一处置：不能进诊断。
@@ -359,15 +485,15 @@ def grade(q: dict, cross_source: bool = False) -> dict:
                 "notes": [f"解析结论选 {final}，答案键是 {key_letter}"
                           "（答案错或解析与题干错配，两者都不可用于判分）"]}
 
-    if arith_ok and recompute_hits_key:
+    if verified_expression is not None or (arith_ok and recompute_hits_key):
         level = "verified"
-        notes.append("解析末步算式可复算，且结果与答案一致")
-    elif cross_source and (final_match or signals["answer_in_analysis"]):
+        notes.append("给定算式与答案计算一致；题义、建模和教学适切性仍待独立审核")
+    elif confirmed_cross_source:
         level = "corroborated"
-        notes.append("跨源同题且答案一致")
+        notes.append("题干、选项与答案一致，且来源记录具有不同且不相交的原始谱系")
     elif signals["has_steps"] and (final_match or signals["answer_in_analysis"]):
         level = "explained"
-        notes.append("解析为完整推导且结论与答案一致")
+        notes.append("解析具有推导信号且结论与答案一致；尚无独立审核")
     else:
         level = "bare"
         notes.append("无可用推导，仅结构完整")
@@ -397,7 +523,8 @@ def diagnosable(level: str) -> bool:
 def may_judge_weak(level: str) -> bool:
     """答错时能否据此判「薄弱」。
 
-    只有独立证据（verified / corroborated）才允许。
+    仅计算一致或跨源互证（verified / corroborated）允许用于初步筛查。
+    这不等于题义已审核，也不等于学生的教育因果已经确证。
     explained 是作者自述，bare 只有答案——答案错的时候，
     会把"其实会"的学生判成薄弱，进而把根因指向上游，代价最大。
     """
@@ -405,8 +532,103 @@ def may_judge_weak(level: str) -> bool:
 
 
 def may_confirm_mastery(level: str) -> bool:
-    """答对时能否据此确认「掌握」。要求比判薄弱低一档：
-    即使答案错了，学生选到"错误答案"的概率本来就低，
-    且确认掌握只是"不再往下问"，不会指错根因。
-    """
+    """答对可用于本次基础表现确认的等级；这一策略仍待真实学生校准。"""
     return level in DIAGNOSABLE
+
+
+def question_content_sha256(q: dict) -> str:
+    """绑定审核记录到会影响题义、答案、难度或归属的内容版本。"""
+    fields = ("id", "topicId", "topicIds", "primaryTopicId", "type", "prompt", "choices",
+              "answer", "accept", "answer_spec", "verify", "explanation", "difficulty",
+              "source", "provenance", "diagram", "images")
+    payload = json.dumps({k: q.get(k) for k in fields}, ensure_ascii=False,
+                         sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def question_policy(q: dict) -> dict:
+    """Published bank tasks use their frozen admission, synthetic inputs keep legacy checks."""
+    from .admissions import runtime_policy
+    admitted = runtime_policy(q)
+    return admitted if admitted is not None else _legacy_question_policy(q)
+
+
+def _legacy_question_policy(q: dict) -> dict:
+    """一道题在诊断和练习中能提供哪些证据；不修改原数据。
+
+    旧自有题可从 verify/解析取得计算一致性或初步说明证据，绝不因“自有”
+    自动标记为 verified/reviewed。明确的隔离标记和不良记忆题优先于证据标签。
+    审核过的记忆题重新准入必须有显式许可、人工审核身份及可追溯记录。
+    """
+    review = q.get("quality_review") or {}
+    human_reviewed = bool(
+        isinstance(review, dict) and review.get("status") == "approved"
+        and review.get("reviewer_type") in ("teacher", "subject_expert")
+        and review.get("reviewer_id") and review.get("record_id")
+        and review.get("content_sha256") == question_content_sha256(q)
+    )
+    result = {
+        "diagnosis_eligible": False, "practice_eligible": False,
+        "may_confirm_mastery": False, "may_judge_weak": False,
+        "evidence_level": "bare", "reviewer_pending": not human_reviewed,
+        "confidence": "screening", "reason": "insufficient_evidence",
+    }
+    if q.get("challenge"):
+        return {**result, "reason": "challenge_only"}
+    if q.get("review_status") in ("rejected", "quarantined") or q.get("quarantined"):
+        return {**result, "reason": "quarantined"}
+    if str(q.get("source", "")).startswith("self-generated-memory-drill"):
+        if not (human_reviewed and q.get("diagnosis_eligible") is True):
+            return {**result, "reason": "memory_drill_requires_independent_review"}
+
+    # 不用“题干至少八字”等启发式排除合法短算式；这里只检查确定的结构损坏。
+    choices = q.get("choices") or []
+    if not str(q.get("prompt") or "").strip() or q.get("answer") in (None, ""):
+        return {**result, "evidence_level": "broken", "reason": "missing_prompt_or_answer"}
+    if q.get("type") == "choice":
+        texts = [str(c.get("text") or "").strip() for c in choices]
+        ids = [str(c.get("id") or "") for c in choices]
+        if (len(choices) < 2 or not all(texts) or len(set(texts)) != len(texts)
+                or not all(ids) or len(set(ids)) != len(ids)
+                or str(q.get("answer")) not in ids):
+            return {**result, "evidence_level": "broken", "reason": "broken_choices"}
+
+    level = q.get("evidence_level")
+    if level in ("broken", "defective"):
+        return {**result, "evidence_level": level, "reason": "evidence_rejected"}
+    # 历史 corroborated 曾只比较去符号题干与 source 名称；不能继续信任裸标签。
+    # 原题仍可凭自己的计算/解释取得相应等级，缺谱系不会直接把完整题删掉。
+    unbound_corroboration = (
+        level == "corroborated"
+        and not valid_corroboration(q, q.get("cross_source_evidence"))
+    )
+    if unbound_corroboration:
+        level = grade(q)["level"]
+    if q.get("type") == "numeric" and q.get("verify"):
+        from .verify import check_question
+        try:
+            checked = check_question(q)
+        except (ArithmeticError, TypeError, ValueError, RecursionError):
+            checked = {"status": "error"}
+        if checked["status"] != "pass":
+            return {**result, "evidence_level": "defective", "reason": "verify_failed"}
+        # 显式分级可能包含题义/来源限制；算式一致不能覆盖较低的既有等级。
+        if level is None:
+            level = "verified" if is_own(q) else "bare"
+    elif level is None:
+        # 兼容既有自有内容，但没有证据的题只能练习，不能补一个“可信”标签。
+        level = grade(q)["level"] if len(str(q.get("prompt", ""))) >= 8 else "bare"
+    if level in ("broken", "defective"):
+        return {**result, "evidence_level": level, "reason": "evidence_rejected"}
+
+    allowed = (level in DIAGNOSABLE and q.get("diagnosis_eligible") is not False
+               and q.get("for_diagnosis") is not False)
+    return {
+        **result, "evidence_level": level,
+        "practice_eligible": q.get("practice_eligible") is not False,
+        "diagnosis_eligible": allowed,
+        "may_confirm_mastery": allowed and may_confirm_mastery(level),
+        "may_judge_weak": allowed and may_judge_weak(level),
+        "reason": ("legacy_corroboration_not_bound" if unbound_corroboration
+                   else "provisional_evidence" if allowed else "practice_only"),
+    }

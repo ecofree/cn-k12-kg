@@ -1,0 +1,446 @@
+{
+ "schema_version": 2,
+ "description": "23册JSON、登记的声明式应用题与隔离退役档共同重建全记录追溯视图；teach/learning_units/projects JSON为教学作者源，旧Python writer不再参与发布。",
+ "content_sources": [
+  {
+   "path": "content/yishang.json",
+   "volume": "一上"
+  },
+  {
+   "path": "content/yixia.json",
+   "volume": "一下"
+  },
+  {
+   "path": "content/ershang.json",
+   "volume": "二上"
+  },
+  {
+   "path": "content/erxia.json",
+   "volume": "二下"
+  },
+  {
+   "path": "content/sanshang.json",
+   "volume": "三上"
+  },
+  {
+   "path": "content/sanxia.json",
+   "volume": "三下"
+  },
+  {
+   "path": "content/sishang.json",
+   "volume": "四上"
+  },
+  {
+   "path": "content/sixia.json",
+   "volume": "四下"
+  },
+  {
+   "path": "content/wushang.json",
+   "volume": "五上"
+  },
+  {
+   "path": "content/wuxia.json",
+   "volume": "五下"
+  },
+  {
+   "path": "content/liushang.json",
+   "volume": "六上"
+  },
+  {
+   "path": "content/liuxia.json",
+   "volume": "六下"
+  },
+  {
+   "path": "content/qishang.json",
+   "volume": "七上"
+  },
+  {
+   "path": "content/qixia.json",
+   "volume": "七下"
+  },
+  {
+   "path": "content/bashang.json",
+   "volume": "八上"
+  },
+  {
+   "path": "content/baxia.json",
+   "volume": "八下"
+  },
+  {
+   "path": "content/jiushang.json",
+   "volume": "九上"
+  },
+  {
+   "path": "content/jiuxia.json",
+   "volume": "九下"
+  },
+  {
+   "path": "content/bx1.json",
+   "volume": "必修一"
+  },
+  {
+   "path": "content/bx2.json",
+   "volume": "必修二"
+  },
+  {
+   "path": "content/xby1.json",
+   "volume": "选必一"
+  },
+  {
+   "path": "content/xby2.json",
+   "volume": "选必二"
+  },
+  {
+   "path": "content/xby3.json",
+   "volume": "选必三"
+  }
+ ],
+ "question_transforms": [
+  {
+   "name": "stable-choice-order",
+   "version": 1,
+   "entrypoint": "cnkg/choice_order.py",
+   "inputs": [
+    "data/choice_orders.json"
+   ],
+   "algorithm": "保留已发布题的冻结选项ID顺序；新题独立按SHA-256(question ID + option ID)排序，增删无关题不影响既有题。",
+   "review_policy": "不改答案ID、选项内容或审核记录；冻结选项集合变化须显式核对，新题仍须独立登记用途。"
+  }
+ ],
+ "ordering": "registered source order; natural numeric IDs; population-independent choice order preserving published legacy options",
+ "hash_policy": "sha256 of UTF-8 bytes after CRLF/CR normalization to LF",
+ "quality_scope": "构建一致性、结构和算式检查不等同于独立学科审核；teacher_reviewed 以独立审核记录为准。",
+ "migration": {
+  "baseline_commit": "b771cac73206498dcbe83d5f39132586f93982cc",
+  "date": "2026-10-26",
+  "basis": "保留该基线主数据中的已修订记录；旧册与补丁的77个题ID重定义不再按glob或调用顺序选权威。",
+  "baseline_counts": {
+   "topics": 477,
+   "dependencies": 586,
+   "questions": 2873,
+   "generated_application_questions": 638
+  },
+  "archive_path": "content/archive/pre_manifest_2026-10-26",
+  "archived_files": [
+   {
+    "path": "content/bashang.json",
+    "sha256_lf": "0c72b1b5e96c785c0747d225f766ce02cef6238237878ab559b86163ba195e98"
+   },
+   {
+    "path": "content/batch_d2_fill.json",
+    "sha256_lf": "985cb66210c4cb1d46b9459c09b76bd1752858b5059d7497a2d8e27aea5de283"
+   },
+   {
+    "path": "content/baxia.json",
+    "sha256_lf": "9359deaed6da4351c36748ffd767dc4144311037e89a21ca33dd966c44c52bd4"
+   },
+   {
+    "path": "content/bx1.json",
+    "sha256_lf": "cccd3d1c059aad75ad3dd2f0118512d983d42e39737a81825637ec55e10e4855"
+   },
+   {
+    "path": "content/bx2.json",
+    "sha256_lf": "5ff985179ad8166229152afebe19b7d2056166078307882e6179af399bafc56c"
+   },
+   {
+    "path": "content/choice_to_short.json",
+    "sha256_lf": "e59ee5f542a5b643e87ee468ec8e4c9e244525993fe0b6b87aec2ed211c546f6"
+   },
+   {
+    "path": "content/dedupe.json",
+    "sha256_lf": "8a08b2091cae2534b2773adbd6c1c91996d095c9b3c87af59aea0d8f06b8011f"
+   },
+   {
+    "path": "content/dedupe2.json",
+    "sha256_lf": "579ea73d546208a5e64fefe306d34adc92b6536c1f7baebb31720394c7ae445b"
+   },
+   {
+    "path": "content/dedupe3.json",
+    "sha256_lf": "0f9899c3f67d9a4ac681ce63519d571ecd3d7b32a314769541b3a4619ed40036"
+   },
+   {
+    "path": "content/entry_junior.json",
+    "sha256_lf": "37bbdd17639fa9efe58cd222f3ee1e9a04a57285dfa12895696487108b51c221"
+   },
+   {
+    "path": "content/entry_primary.json",
+    "sha256_lf": "4f4601b1d0b0ac4b0d397f6318d074d1697c9629219004be8ba0d975bc31da76"
+   },
+   {
+    "path": "content/entry_senior.json",
+    "sha256_lf": "3ce7d7c83fb530a5e7d4e375cfc48d3a7da334d32c1d63067dc47b517abc9563"
+   },
+   {
+    "path": "content/ershang.json",
+    "sha256_lf": "1d2d1b3de7253720d374393226e2115aa813a7e491247316acada99640f358ea"
+   },
+   {
+    "path": "content/erxia.json",
+    "sha256_lf": "2a48841f71debe710063c72d0becfdc780d260a971c51837ccdaa3b9a276cb91"
+   },
+   {
+    "path": "content/erxia.json.bak",
+    "sha256_lf": "fd110bc25c6224f7f7bfa8e0cfe8c65003e0fc711e6a53ea370f59082c4dadd2"
+   },
+   {
+    "path": "content/fix_explanations.json",
+    "sha256_lf": "631a64fdea39c24f18ae01165af69c90d19f9bbf6af09fff44f9083407c9eeb9"
+   },
+   {
+    "path": "content/fix_fenlei.json",
+    "sha256_lf": "574f68d3fdf3ab36e17a6441c44f44ca7d383446f6d7cd341f1a44943f57b9e6"
+   },
+   {
+    "path": "content/fix_leak.json",
+    "sha256_lf": "b4ef5caf0636e7fcf2b4e62fd5c35e396d403f8ea540eda199a7f646fa3c60b1"
+   },
+   {
+    "path": "content/fix_letters.json",
+    "sha256_lf": "a5e37ebaf27545fe95ecbc6e4031f6b5afdfa1bae9958847f05beea56de738c1"
+   },
+   {
+    "path": "content/fix_letters2.json",
+    "sha256_lf": "312748a8b058a16547887679df88938105a03c554c927c2d0354e9c034f285b8"
+   },
+   {
+    "path": "content/fix_round2.json",
+    "sha256_lf": "6475133cc42585db93223a9451a9c61778abb93f01d648bf5be926fabb120350"
+   },
+   {
+    "path": "content/jiushang.json",
+    "sha256_lf": "b6935a0ed87870a4dfa0c1a2c95e9a4b4d5635d903c0eb4b3381be2745c65b56"
+   },
+   {
+    "path": "content/jiuxia.json",
+    "sha256_lf": "d2846094598ee032b732a153cc3b9105eede3506569d804ad866d09f27cd734e"
+   },
+   {
+    "path": "content/liushang.json",
+    "sha256_lf": "68a6a43c4c936983302b3b5e8fbdcbbff7f5bc205fa4d1ed0e1fc1ddf4695517"
+   },
+   {
+    "path": "content/liushang.json.bak",
+    "sha256_lf": "f34e0ff3431c95ac370316ae69a16968097b30d041a79a121a8807a0a064e275"
+   },
+   {
+    "path": "content/liuxia.json",
+    "sha256_lf": "87a38ef4d84c76427729981bc0877e5532762c6cc27d9bc7ef451534fa848bf5"
+   },
+   {
+    "path": "content/memory_drills.json",
+    "sha256_lf": "cbf5e5ad363f5d2111dc4542f5c7f071c1bf1390cf946bc0f07c0fd08536a1ce"
+   },
+   {
+    "path": "content/qishang.json",
+    "sha256_lf": "862443410b43fa849b7af5b95db398a2587ef5320fe911ab913771ce7bf3d3bd"
+   },
+   {
+    "path": "content/qixia.json",
+    "sha256_lf": "8a16cce64b023b345a6f37850d36c4cb9bb028aa12685fb91f0dcf91e06a4f40"
+   },
+   {
+    "path": "content/sanshang.json",
+    "sha256_lf": "c4e9eec277241fdd88171c0c03e1c80a4329822ade5f6e9676a2d3c57dc9d1b6"
+   },
+   {
+    "path": "content/sanxia.json",
+    "sha256_lf": "f0b60891681c6b31fbf6e9bc8a89287a2da442afad4e6d096666f14a68a956d7"
+   },
+   {
+    "path": "content/sishang.json",
+    "sha256_lf": "b77245199c44fc8478a55da51e96ca1548d5f9b0b7697701cf9aada8418d17a6"
+   },
+   {
+    "path": "content/sishang.json.bak",
+    "sha256_lf": "dd983837d2c2b0cb2841c9812b24cd98f0d6a24681b9272918caccb697035b8c"
+   },
+   {
+    "path": "content/sixia.json",
+    "sha256_lf": "19485b35ef330892aa8a69b4d16ada65aba039124dc8a7c3fad8591107864540"
+   },
+   {
+    "path": "content/wushang.json",
+    "sha256_lf": "7a7b1d570e174b5b70d7f4ffe0e6131ae6cdca24a24501d189af88722f310f49"
+   },
+   {
+    "path": "content/wushang.json.bak",
+    "sha256_lf": "81f629d1b5d8f75ced3dddc7353cbd108671ac9c0c07609ef6ac685d9a14ba19"
+   },
+   {
+    "path": "content/wuxia.json",
+    "sha256_lf": "7cc3be7501ce61ce1649882a11f865a22f306de9c83a9c610595eac04dcb1f0a"
+   },
+   {
+    "path": "content/xby1.json",
+    "sha256_lf": "c5acf64d9f77c01cee3e9e474f98a09fd5d0971f784aba3d7d103e02945feaef"
+   },
+   {
+    "path": "content/xby2.json",
+    "sha256_lf": "701e9d4e6dc4ae429ec32fdeacbf9cb6d0aeef420909d276a3ab8f26fe6805c7"
+   },
+   {
+    "path": "content/xby3.json",
+    "sha256_lf": "fa5c60ee8cfd904d29e01905d4d0ea85c1f1c1dc30a2f41d44bd7742662b1e57"
+   },
+   {
+    "path": "content/yishang.json",
+    "sha256_lf": "5ffd190ed151fca79b819b02524709590d0a22b14847955d3de8c4c338c5856a"
+   },
+   {
+    "path": "content/yixia.json",
+    "sha256_lf": "2d37b08e5579bcd93d41e0fd5f7427f274e9352371c2aba58b524e6a27125dd8"
+   }
+  ]
+ },
+ "retired_sources": [
+  {
+   "path": "content/batch_d2_fill.json",
+   "sha256_lf": "985cb66210c4cb1d46b9459c09b76bd1752858b5059d7497a2d8e27aea5de283",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/choice_to_short.json",
+   "sha256_lf": "e59ee5f542a5b643e87ee468ec8e4c9e244525993fe0b6b87aec2ed211c546f6",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/dedupe.json",
+   "sha256_lf": "8a08b2091cae2534b2773adbd6c1c91996d095c9b3c87af59aea0d8f06b8011f",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/dedupe2.json",
+   "sha256_lf": "579ea73d546208a5e64fefe306d34adc92b6536c1f7baebb31720394c7ae445b",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/dedupe3.json",
+   "sha256_lf": "0f9899c3f67d9a4ac681ce63519d571ecd3d7b32a314769541b3a4619ed40036",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/entry_junior.json",
+   "sha256_lf": "37bbdd17639fa9efe58cd222f3ee1e9a04a57285dfa12895696487108b51c221",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/entry_primary.json",
+   "sha256_lf": "4f4601b1d0b0ac4b0d397f6318d074d1697c9629219004be8ba0d975bc31da76",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/entry_senior.json",
+   "sha256_lf": "3ce7d7c83fb530a5e7d4e375cfc48d3a7da334d32c1d63067dc47b517abc9563",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/erxia.json.bak",
+   "sha256_lf": "fd110bc25c6224f7f7bfa8e0cfe8c65003e0fc711e6a53ea370f59082c4dadd2",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/fix_explanations.json",
+   "sha256_lf": "631a64fdea39c24f18ae01165af69c90d19f9bbf6af09fff44f9083407c9eeb9",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/fix_fenlei.json",
+   "sha256_lf": "574f68d3fdf3ab36e17a6441c44f44ca7d383446f6d7cd341f1a44943f57b9e6",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/fix_leak.json",
+   "sha256_lf": "b4ef5caf0636e7fcf2b4e62fd5c35e396d403f8ea540eda199a7f646fa3c60b1",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/fix_letters.json",
+   "sha256_lf": "a5e37ebaf27545fe95ecbc6e4031f6b5afdfa1bae9958847f05beea56de738c1",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/fix_letters2.json",
+   "sha256_lf": "312748a8b058a16547887679df88938105a03c554c927c2d0354e9c034f285b8",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/fix_round2.json",
+   "sha256_lf": "6475133cc42585db93223a9451a9c61778abb93f01d648bf5be926fabb120350",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/liushang.json.bak",
+   "sha256_lf": "f34e0ff3431c95ac370316ae69a16968097b30d041a79a121a8807a0a064e275",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/memory_drills.json",
+   "sha256_lf": "cbf5e5ad363f5d2111dc4542f5c7f071c1bf1390cf946bc0f07c0fd08536a1ce",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/sishang.json.bak",
+   "sha256_lf": "dd983837d2c2b0cb2841c9812b24cd98f0d6a24681b9272918caccb697035b8c",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  },
+  {
+   "path": "content/wushang.json.bak",
+   "sha256_lf": "81f629d1b5d8f75ced3dddc7353cbd108671ac9c0c07609ef6ac685d9a14ba19",
+   "reason": "历史补丁/备份，仅保留追溯；不参加构建，不允许 apply_content 重放"
+  }
+ ],
+ "retired_question_generators": [
+  {
+   "name": "application-items",
+   "source": "self-generated-application",
+   "entrypoint": "tools/write_application_items.py",
+   "inputs": [
+    "cnkg/evidence.py",
+    "cnkg/verify.py",
+    "tools/app_items/__init__.py",
+    "tools/app_items/h1a.py",
+    "tools/app_items/h1b.py",
+    "tools/app_items/h1c.py",
+    "tools/app_items/h1d.py",
+    "tools/app_items/h2a.py",
+    "tools/app_items/h2b.py",
+    "tools/app_items/h2c.py",
+    "tools/app_items/h2d.py",
+    "tools/app_items/h3a.py",
+    "tools/app_items/h3b.py",
+    "tools/app_items/h3c.py",
+    "tools/app_items/h4.py",
+    "tools/app_items/h5a.py",
+    "tools/app_items/h5b.py",
+    "tools/app_items/j7a.py",
+    "tools/app_items/j7b.py",
+    "tools/app_items/j8a.py",
+    "tools/app_items/j8b.py",
+    "tools/app_items/j9a.py",
+    "tools/app_items/j9b.py",
+    "tools/app_items/primary.py",
+    "tools/app_items/primary2.py",
+    "tools/app_items/primary_completion.py"
+   ]
+  }
+ ],
+ "question_sources": [
+  {
+   "name": "application-items",
+   "path": "question_sources/application.json",
+   "status": "active"
+  },
+  {
+   "name": "retired-memory-drills",
+   "path": "question_sources/retired-memory.json",
+   "status": "retired",
+   "sha256_lf": "6b47b394be4a7130d1b37637506d04da6a8b6f8a81f941264d2f866ba59056f0"
+  },
+  {
+   "name": "retired-misaligned-primary",
+   "path": "question_sources/retired-alignment.json",
+   "status": "retired",
+   "sha256_lf": "ecb91df67389abc235fc1dc3f218fdf18574d18782032b001f7d6db3c33deb08"
+  }
+ ]
+}

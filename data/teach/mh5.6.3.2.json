@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh5.6.3.2",
+  "name": "二项式系数的性质",
+  "tier": "core",
+  "hook": "杨辉三角的一行左右对称，因为选k个位置与决定不选哪n-k个位置是同一件事的两种描述。",
+  "definition": "(a+b)ⁿ的二项式系数为Cₙ⁰,…,Cₙⁿ，满足对称性Cₙᵏ=Cₙⁿ⁻ᵏ、总和2ⁿ。n≥1时偶数k项系数和与奇数k项系数和均为2ⁿ⁻¹。n为偶数时中间一个最大，n为奇数时中间两个相等且最大。具体多项式系数和应令变量为1，未必等于2ⁿ。",
+  "why": "在(1+x)ⁿ中令x=1，得到组合系数总和2ⁿ；令x=-1得偶数下标和减奇数下标和为0，联立便知各半。相邻组合数比Cₙᵏ⁺¹/Cₙᵏ=(n-k)/(k+1)，过中间之前大于1、之后小于1，解释最大位置。",
+  "when_to_use": [
+    "求一行二项式系数的和、奇偶部分和或最大项",
+    "求具体展开多项式的所有系数之和，可用赋值法"
+  ],
+  "steps": [
+    "先判断问的是纯组合系数，还是包含数值因子的实际系数。",
+    "求纯系数用对称性、总和与奇偶和；求实际系数把变量置1。",
+    "检查n=0等边界，并解释中间项数量与n奇偶的关系。"
+  ],
+  "worked_example": {
+    "prompt": "求(1+x)⁶中x的偶数次幂项系数之和。",
+    "steps": [
+      "总系数和(1+1)⁶=64。",
+      "令x=-1得0，说明偶次项系数和与奇次项相等，因此偶次和为64/2=32。"
+    ],
+    "answer": "32",
+    "verify": "2**6/2",
+    "family_id": "polynomial.even-odd-coefficient-sums",
+    "variant_id": "mh5.6.3.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "(1+2x)⁴的实际系数和为3⁴=81，不是纯二项式系数和2⁴=16。",
+    "奇偶是指数k的奇偶，第k+1项的项号奇偶与它相反。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能说出二项式系数的对称性",
+      "explanation": "对称系数来自互补选择，中心位置由n的奇偶确定。",
+      "self_check": {
+        "prompt": "(a+b)⁵中哪些二项式系数最大？为何有两个？",
+        "reference_answer": "C₅²=C₅³=10最大；n=5为奇数，系数列6项，中间两项由对称性相等。",
+        "criteria": [
+          "最大两个下标2和3",
+          "解释对称中心在两项之间"
+        ],
+        "family_id": "binomial.central-symmetric-coefficients",
+        "variant_id": "mh5.6.3.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "n=5时展开项数是5还是6？对称中心在哪里？",
+        "hint": "项数n+1=6，中间是第3、第4项，即k=2、3。",
+        "revision_prompt": "列n=4系数1,4,6,4,1与n=5的1,5,10,10,5,1，比较单峰双峰。"
+      },
+      "observation_note": "观察对称下标与最大位置；仅知道对称还需系数变化判断最大。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用系数和公式求值",
+      "explanation": "赋值法提取实际系数和，变量置1即可使各幂都为1。",
+      "self_check": {
+        "prompt": "求(2x-1)⁵展开后的所有系数之和，并说明与2⁵的区别。",
+        "reference_answer": "令x=1得到(2-1)⁵=1。2⁵是纯C₅ᵏ的总和，而实际系数还含2的幂与负号。",
+        "criteria": [
+          "赋值x=1得1",
+          "区分两种系数"
+        ],
+        "family_id": "polynomial.coefficient-sum-evaluation",
+        "variant_id": "mh5.6.3.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "(2x-1)⁵的实际系数和为何不能用2⁵？",
+        "hint": "变量令1使每个幂项留下其系数；数字因子和负号不消失。",
+        "revision_prompt": "(3x+2)⁴系数和=(3+2)⁴=625；纯C₄ᵏ之和才是16。"
+      },
+      "observation_note": "观察赋值法与两种系数区别；奇偶系数和还需比较x=±1。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能识别二项式系数中最大系数的位置",
+      "explanation": "二项式系数C(n,r)关于r与n−r对称，从两端向中间增大。n为偶数时中央r=n/2处唯一最大；n为奇数时中央相邻两个位置并列最大。r是取第二项的次数，通常对应展开式第r+1项；不要把二项式系数与代入带权表达式后的实际代数系数混同。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：(a+b)⁸展开式中最大的二项式系数是哪一个？ 可选：o1．C₈²；o2．C₈³；o3．C₈⁴；o4．C₈⁸。\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：C₈⁴。n8，中间唯一最大C8,4=70。",
+        "criteria": [
+          "按奇偶性确定中央最大二项式系数的位置，并区别r与项号及实际展开系数",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "binomial.central-maximum",
+        "variant_id": "mh5.6.3.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "n是奇数还是偶数，最大值是一处还是两处？C(n,r)中的r是否等于展开式项号？",
+        "hint": "先用对称性配对两端，再比较相邻系数比C(n,r+1)/C(n,r)=(n−r)/(r+1)，定位增长转为下降处。",
+        "revision_prompt": "先回答这个辨别问题：n是奇数还是偶数，最大值是一处还是两处？C(n,r)中的r是否等于展开式项号？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；按奇偶性确定中央最大二项式系数的位置，并区别r与项号及实际展开系数。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh5.6.3.2-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：(a+b)⁷的所有二项式系数之和是多少？"
+    },
+    {
+      "id": "mh5.6.3.2-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：(1+x)⁵中x的奇数次幂项的系数之和是多少？"
+    },
+    {
+      "id": "mh5.6.3.2-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：求(3x-1)⁴展开后全部实际系数之和。"
+    }
+  ],
+  "check": "独立完成并写出依据：(a+b)⁵中哪些二项式系数最大？为何有两个？；求(2x-1)⁵展开后的所有系数之和，并说明与2⁵的区别。",
+  "conditions": [
+    "实际多项式系数与二项式系数分别计；n=0的奇偶和另论。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

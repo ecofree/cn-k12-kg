@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "reviewer_kind": "ai",
+  "reviewer_role": "root workflow review with independent read-only integration cross-check",
+  "workflow": ".github/workflows/v6-verified-replay.yml",
+  "workflow_sha256": "135e1b70ab2bed5ad2aebebb8fee519851d03cadb11b993e2bcb9c5084a56940",
+  "status": "reviewed_before_execution_actual_ci_evidence_required",
+  "baseline_commit": "2aafccd7cc14ead9d05345374f27662e7d1ab9d9",
+  "findings": [
+    {
+      "issue": "The draft workflow mistakenly changed an existing setup-node action tag from v7 to nonexistent v8.",
+      "verification": "Official GitHub REST ref/tags/v8 returned404 and commits/v8 returned422; ref/tags/v7 exists at949feb2413d6458794dcd2491c4babbbce0c15c1. Baseline replay and current core workflow both already use v7.",
+      "resolution": "Restore actions/setup-node@v7, retaining Node24 and existing core workflow.",
+      "sources": [
+        "https://api.github.com/repos/actions/setup-node/git/ref/tags/v8",
+        "https://api.github.com/repos/actions/setup-node/commits/v8",
+        "https://api.github.com/repos/actions/setup-node/git/ref/tags/v7"
+      ]
+    },
+    {
+      "decision": "Replay is limited to the already authorized followup branch and repository, with a fixed ancestor; the triggering commit must change only the workflow file against that baseline."
+    },
+    {
+      "decision": "Payload blob identities, compressed and decompressed SHA256, exact file before/after hashes, source path allowlist, unique paths and decompression limits are checked before local source application. Derived files rebuild and must match the locally frozen release-manifest hash."
+    },
+    {
+      "decision": "All21core checks and18browser journeys run on a newly committed clean candidate. Packaging checks the same candidate. A separate named verified branch is created only after full success; the workflow neither merges the DraftPR nor silently promotes its head."
+    },
+    {
+      "decision": "Failed execution keeps its actual logs/history artifact for inspection. Success still requires independent downloaded artifact, nested package, raw source bytes and bundle restoration verification before root can move the followup ref with an expected-SHA lease."
+    }
+  ],
+  "limits": [
+    "此记录是工作流审查，不能代替实际GitHub执行。",
+    "真实CI运行、最终candidate SHA、产物哈希与原分支推进状态在最终报告及PR列出；不得沿用V7通过状态。"
+  ]
+}

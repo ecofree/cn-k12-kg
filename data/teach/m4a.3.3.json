@@ -1,52 +1,120 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m4a.3.3",
- "name": "积的变化规律",
- "tier": "core",
- "hook": "25×4=100，那 25×8 是多少？为什么不用竖式也能一眼说出来？",
- "definition": "一个因数不变，另一个因数乘几（或除以几），积也乘几（或除以几）。",
- "why": "乘法是「几个几相加」。一个因数翻倍，等于把每一份都翻倍，总数自然也翻倍；一个因数除以 2，等于只要一半的份数，总数也是一半。规律之所以成立，是因为「每份的大小」和「份数」各自独立地影响总数。",
- "when_to_use": [
-  "题目给出「已知 a×b=c，那么……」",
-  "两个算式里有一个因数没变",
-  "一个因数是另一个的整倍数（2 倍、10 倍）"
- ],
- "steps": [
-  "找出哪个因数没变",
-  "看另一个因数乘了几（或除以几）",
-  "积同样乘几（或除以几）",
-  "用原式做一次验算，确认没有看错因数"
- ],
- "worked_example": {
-  "prompt": "两个数相乘得 24，一个因数不变，另一个因数乘 3，积是多少？",
-  "verify": "24*3",
-  "answer": "72",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "hand",
+  "topicId": "m4a.3.3",
+  "name": "积的变化规律",
+  "tier": "core",
+  "hook": "25×4=100，那 25×8 是多少？为什么不用竖式也能一眼说出来？",
+  "definition": "一个因数不变，另一个因数乘某个数，积也乘这个数；若另一个因数除以同一个非零数，积也除以这个非零数。使用时须逐一检查哪些因数改变及是否允许整除。",
+  "why": "乘法是「几个几相加」。一个因数翻倍，等于把每一份都翻倍，总数自然也翻倍；一个因数除以 2，等于只要一半的份数，总数也是一半。规律之所以成立，是因为「每份的大小」和「份数」各自独立地影响总数。",
+  "when_to_use": [
+    "题目给出「已知 a×b=c，那么……」",
+    "两个算式里有一个因数没变",
+    "一个因数是另一个的整倍数（2 倍、10 倍）"
+  ],
   "steps": [
-   "原式可以写成 a×b=24。",
-   "b 不变，a 乘 3，相当于把 24 个「一份」变成 3 倍那么多。",
-   "积也乘 3：24×3=72。"
+    "找出哪个因数没变",
+    "看另一个因数乘了几（或除以几）",
+    "积同样乘几（或除以几）",
+    "用原式做一次验算，确认没有看错因数"
+  ],
+  "worked_example": {
+    "prompt": "两个数相乘得 24，一个因数不变，另一个因数乘 3，积是多少？",
+    "verify": "24*3",
+    "answer": "72",
+    "steps": [
+      "原式可以写成 a×b=24。",
+      "b 不变，a 乘 3，相当于把 24 个「一份」变成 3 倍那么多。",
+      "积也乘 3：24×3=72。"
+    ],
+    "family_id": "arithmetic.product-factor-scaling",
+    "variant_id": "m4a.3.3:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "两个因数都变了，却只按其中一个的变化算。",
+    "「另一个因数除以 2」时把积也乘 2，方向反了。",
+    "把「积增加 3」当成「积乘 3」——这里是乘，不是加。"
+  ],
+  "practice": [
+    {
+      "id": "m4a.3.3-q1",
+      "note": "乘 3 的标准型"
+    },
+    {
+      "id": "m4a.3.3-q2",
+      "note": "反向：因数缩小，积也缩小"
+    },
+    {
+      "id": "m4a.3.3-q103",
+      "note": "长不变、宽变3倍，用积的变化解释面积的变化"
+    }
+  ],
+  "check": "能不看竖式说出 99×50 是 99×5 的 10 倍，并算出 4950。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能说出积随因数变化的规律",
+      "explanation": "一个因数不变，另一个乘k，积也乘k；除以非零k时积也除以k。",
+      "self_check": {
+        "prompt": "已知18×7=126，18×21的积怎样由126得到？",
+        "reference_answer": "21=7×3，18不变，所以126×3=378。",
+        "criteria": [
+          "找到变化倍数3",
+          "另一因数不变"
+        ],
+        "family_id": "arithmetic.product-factor-scaling",
+        "variant_id": "m4a.3.3:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.equal-groups"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "从18×7到18×21，改变的是哪个因数？21比7多14与是3倍，哪种关系能直接乘积？",
+        "hint": "18保持不变，21份18是7份18的3组，所以原积也乘3。",
+        "revision_prompt": "利用16×9=144求16×27，再用“3组9份”解释，不把积只加18。"
+      },
+      "observation_note": "观察一因数固定时的倍乘关系；两个因数都变时不能只检查一个。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用规律直接写出结果",
+      "explanation": "两个因数都变化时，需要合并两个倍数，不能只看一个。",
+      "self_check": {
+        "prompt": "已知25×16=400，50×8是多少？说明不重算的依据。",
+        "reference_answer": "一个因数乘2，另一个除以2，积乘2再除以2仍为400。",
+        "criteria": [
+          "解释两因数变化",
+          "结果400"
+        ],
+        "family_id": "arithmetic.product-reciprocal-scaling",
+        "variant_id": "m4a.3.3:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.associative-multiplication",
+          "arithmetic.product-factor-scaling"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "50×8相对25×16，是只把25翻倍了，还是16也减半了？",
+        "hint": "把50×8改写成(25×2)×8，再合并2×8恢复25×16。",
+        "revision_prompt": "已知12×30=360，求24×15并写出两次变化如何互相抵消；说明除的数不能为0。"
+      },
+      "observation_note": "观察两个因数变化合并处理；积不变须有对应的乘除倍数条件。"
+    }
+  ],
+  "conditions": [
+    "本卡以自然数乘法及整除情形解释份数变化。",
+    "除以某数时该数不能为0；两个因数都变时必须合并两次变化。"
   ]
- },
- "pitfalls": [
-  "两个因数都变了，却只按其中一个的变化算。",
-  "「另一个因数除以 2」时把积也乘 2，方向反了。",
-  "把「积增加 3」当成「积乘 3」——这里是乘，不是加。"
- ],
- "practice": [
-  {
-   "id": "m4a.3.3-q1",
-   "note": "乘 3 的标准型"
-  },
-  {
-   "id": "m4a.3.3-q2",
-   "note": "反向：因数缩小，积也缩小"
-  },
-  {
-   "id": "m4a.3.3-q9",
-   "note": "辨析：规律到底在说什么"
-  }
- ],
- "check": "能不看竖式说出 99×50 是 99×5 的 10 倍，并算出 4950。"
 }

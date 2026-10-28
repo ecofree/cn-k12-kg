@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.5.4.3",
+  "name": "正切函数的性质与图象",
+  "tier": "core",
+  "hook": "tanx每一段都上升，为什么跨过π/2后却不能继续比较大小？",
+  "definition": "tanx的定义域排除π/2+kπ（k∈Z），值域R，最小正周期π。它是奇函数，在每个(-π/2+kπ,π/2+kπ)分支内递增；不能把不同分支合为整个定义域上的递增区间，也不能跨无定义点连图。",
+  "why": "正切是sin与cos的比，cos=0时断开；转半圈分子分母同时变号，比值不变。每一支中比值随角增加而上升，但跨渐近线不属于同一连续单调区间。",
+  "when_to_use": [
+    "求正切的定义域、周期或图象分支",
+    "比较两角的正切值前需要检查是否同支"
+  ],
+  "steps": [
+    "先排除cosx=0的输入",
+    "以π周期定位到同一分支",
+    "在分支内比较或画穿过(kπ,0)的递增曲线"
+  ],
+  "worked_example": {
+    "prompt": "比较tan(π/3)与tan(2π/3)，能否直接按角大小判断？",
+    "steps": [
+      "两角隔着π/2，不在同一个递增区间。",
+      "tan(π/3)=√3，tan(2π/3)=-√3。",
+      "前者较大，说明不能把分支递增扩展到整个定义域。"
+    ],
+    "answer": "tan(π/3)>tan(2π/3)",
+    "family_id": "trig.tangent-branch-order",
+    "variant_id": "mh1.5.4.3:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "说正切在整个定义域上递增",
+    "把渐近线画成图象的一部分"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能说出正切函数的定义域与周期",
+      "explanation": "分母为零形成定义域空缺，半圈重复决定周期。",
+      "self_check": {
+        "prompt": "写出[-π,π]中tanx无定义的位置及其最小正周期。",
+        "reference_answer": "x=-π/2、π/2无定义；最小正周期为π。",
+        "criteria": [
+          "排除两个位置",
+          "周期为π而非2π"
+        ],
+        "family_id": "trig.tangent-domain-period",
+        "variant_id": "mh1.5.4.3:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "tan(π/2)能像sin(π/2)一样取1吗？",
+        "hint": "tan=sin/cos，π/2处cos=0。",
+        "revision_prompt": "列[0,2π]内无定义点π/2、3π/2，并用tan(x+π)=tanx解释周期。"
+      },
+      "observation_note": "观察无定义点和最小正周期；不跨空缺连接图象。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能判断其单调性与奇偶性",
+      "explanation": "奇性跨原点联系函数值，递增性只在同一分支使用。",
+      "self_check": {
+        "prompt": "已知tanα=2且0<α<π/2，求tan(-α)，并比较tan(α/2)与tanα。",
+        "reference_answer": "tan(-α)=-2；α/2与α同在(0,π/2)且前者小，故tan(α/2)<2。",
+        "criteria": [
+          "正确应用奇性",
+          "比较前说明同一分支"
+        ],
+        "family_id": "trig.tangent-branch-order",
+        "variant_id": "mh1.5.4.3:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "π/3<2π/3为何不推出前一个正切值小？",
+        "hint": "两角隔着渐近线，不在同一递增分支。",
+        "revision_prompt": "比较tan(-π/4)与tan(π/6)：同分支且-1<1/√3；写明区间。"
+      },
+      "observation_note": "观察奇性与同分支比较；分支递增不等于整个定义域递增。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由给定特殊正切值确定锐角并计算两锐角的差",
+      "explanation": "在锐角范围内，正切值为1对应45°，这一范围使对应角唯一。另一坡角的60°已经由题目给出，比较坡角应相减这两个角度，而不是相减正切值；近似正切1.732不应再当成精确值去反推一个新的精确角度。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：某斜坡的坡度 tanα=1，另一处坡度的正切值约为 1.732，对应 60 度。两个坡角相差多少度？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：15。锐角tan1对应45°，另一角60已给，差15。",
+        "criteria": [
+          "在锐角范围内识别特殊正切对应角，使用题给另一角计算角差而非正切值差",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "trig.special-tangent.inverse-angle-difference",
+        "variant_id": "mh1.5.4.3:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "要求差的是角度还是坡度数值？为什么tanα=1时还要说明在锐角范围内，而不能任取相差180°的角？",
+        "hint": "先把已知正切值1对应到特殊锐角45°，将题给另一角直接标为60°，再按大小求角度差。",
+        "revision_prompt": "先回答这个辨别问题：要求差的是角度还是坡度数值？为什么tanα=1时还要说明在锐角范围内，而不能任取相差180°的角？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；在锐角范围内识别特殊正切对应角，使用题给另一角计算角差而非正切值差。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能用正切的180度周期求相差一个周期的函数值",
+      "explanation": "正切函数在有定义处满足tan(α+180°)=tanα，180°就是它的一个完整周期。已知tanα有定义，加一个周期后仍有定义且值相同；这里是给角度加周期，不是给函数值加180，也不需要另用两角和的正切公式。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：已知tanα=2，利用正切函数的周期，求tan(α+180°)的值。\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：2。改用本节周期，tan(α+180°)=tanα=2。",
+        "criteria": [
+          "在正切有定义的前提下使用180°周期保持函数值，不把角度增量加到输出",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "trig.tangent-period-use",
+        "variant_id": "mh1.5.4.3:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "增加180°发生在角度输入还是函数输出？正切的周期是180°还是必须等到360°才重复？",
+        "hint": "先把新角写成“原角+一个正切周期”，依据周期性去掉这一个周期，再代入已知函数值。",
+        "revision_prompt": "先回答这个辨别问题：增加180°发生在角度输入还是函数输出？正切的周期是180°还是必须等到360°才重复？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；在正切有定义的前提下使用180°周期保持函数值，不把角度增量加到输出。"
+      }
+    }
+  ],
+  "check": "独立完成各项自检并保留推导或作图：排除两个位置；正确应用奇性。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.5.4.3-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.5.4.3-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.5.4.3-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "排除π/2+kπ；递增只在单个连续分支。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

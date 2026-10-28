@@ -22,9 +22,9 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 
-# 外部真题来源（自有题不含这些；自产题的 source 是 self-generated-*）
-EXTERNAL_SOURCES = {"cmm-math", "gaokao-tex", "smse-shanghai-zhongkao"}
-sys.path.insert(0, str(ROOT / "cnkg"))
+sys.path.insert(0, str(ROOT))
+
+from cnkg.evidence import question_policy  # noqa: E402
 
 
 def stage_of(t: dict) -> str:
@@ -60,7 +60,7 @@ def link_satisfied(link: dict, deps: list, tmap: dict) -> bool:
     return any((f, t) in existing for f in from_ids for t in to_ids)
 
 
-def build_report(topics, own, ext, policy, deps) -> dict:
+def build_report(topics, own, ext, policy, deps, *, external_available=None) -> dict:
     """构造分学段对账报告。
 
     纯函数：入参给定，输出确定。测试直接调它断言口径——
@@ -74,14 +74,19 @@ def build_report(topics, own, ext, policy, deps) -> dict:
     for t in topics:
         by_stage[stage_of(t)].append(t)
 
-    # 注意：自有题没有 usable_for_diagnosis 字段（它们本来就是诊断主库），
-    # 不能直接 allq 过滤，否则会把 2235 道自有题整段漏掉——一度算出
-    # 「小学诊断池不足 169 点」的假数。诊断池 = 自有全部 + 外部可诊断。
-    usable = list(own) + [q for q in ext if q.get("usable_for_diagnosis")]
+    # 与运行时共用用途门禁：自有题也必须排除记忆隔离题、仅练习题和无证据题。
+    # 外部题还必须满足导入准入；没有外部文件不能假装已经检查了外部映射缺口。
+    external_available = bool(ext) if external_available is None else bool(external_available)
+    own_usable = [q for q in own if question_policy(q)["diagnosis_eligible"]]
+    external_usable = [q for q in ext if q.get("usable_for_diagnosis")
+                       and question_policy(q)["diagnosis_eligible"]]
+    usable = own_usable + external_usable
+    external_usable_ids = {id(q) for q in external_usable}
+    external_topic_ids = {tid for q in ext for tid in q.get("topicIds") or [q.get("topicId")]}
 
     # 两套账，必须都报：
     #   all    —— 库里所有题，含 tag-mapped / compound-reference / broken
-    #   usable —— 诊断真正抽得到的题（自有 + usable_for_diagnosis）
+    #   usable —— 通过统一 question_policy 的题，外部另需导入准入
     # 只报 all 会系统性地高估就绪度：不可诊断的题照样把「题量下限」「难度分层」
     # 填满，但诊断器一道也抽不到。历史教训：「三学段题量下限 0 缺口」是 all
     # 口径的产物，换到 usable 口径是 24 / 41 / 19 个点不足（2026-10-26 实测，
@@ -101,14 +106,12 @@ def build_report(topics, own, ext, policy, deps) -> dict:
     per_topic, type_per_topic, diff_levels = stats(allq)
     per_usable, type_per_usable, diff_usable = stats(usable)
 
-    source_per_topic = collections.defaultdict(collections.Counter)
     diag_per_topic = collections.Counter()
     composite_per_topic = collections.Counter()
     for q in allq:
         tids = q.get("topicIds") or ([q.get("topicId")] if q.get("topicId") else [])
         for t in tids:
-            source_per_topic[t][q.get("source", "own")] += 1
-            if q.get("usable_for_diagnosis"):
+            if id(q) in external_usable_ids:
                 diag_per_topic[t] += 1
             if len(tids) > 1:
                 composite_per_topic[t] += 1
@@ -145,9 +148,9 @@ def build_report(topics, own, ext, policy, deps) -> dict:
 
         # 真源诊断准入
         src_diag = collections.Counter()
-        for q in allq:
+        for q in usable:
             tids = q.get("topicIds") or ([q.get("topicId")] if q.get("topicId") else [])
-            if any(t in ids for t in tids) and q.get("usable_for_diagnosis"):
+            if any(t in ids for t in tids):
                 src_diag[q.get("source", "own")] += 1
 
         report[stage] = {
@@ -192,23 +195,17 @@ def build_report(topics, own, ext, policy, deps) -> dict:
                 1 for t in ts if diag_per_topic[t["id"]] > 0),
             "topics_without_external_diagnosable": sum(
                 1 for t in ts if diag_per_topic[t["id"]] == 0),
-            # exam_scope：textbook_only 的点是「真题不单独考」，不是数据缺口，
-            # 单独统计出来，避免把它们和「有题没映射上」的真缺口混在一起。
+            # 检索观察与正式考试范围分开；未命中不会豁免材料覆盖要求。
             "exam_scope": dict(
-                collections.Counter(t.get("exam_scope", "?") for t in ts)),
-            "textbook_only_topics": sum(
-                1 for t in ts if t.get("exam_scope") == "textbook_only"),
-            # 外部题真缺口：该点没有任何外部真题，且 exam_scope 判定真题确实考到。
-            # textbook_only 的点不计入——那是「真题不单独考」或「当前题源无供给」，
-            # 不是数据缺口；source_gap 是「真题考到但题源没供上」，单独统计。
-            # 注意不能用 source=='own' 判断：自产题的 source 是 self-generated-*，
-            # 只有手写题没有 source 字段。这里按「有无外部来源」判断。
-            "external_gap_real": sum(
-                1 for t in ts
-                if not (source_per_topic[t["id"]].keys() & EXTERNAL_SOURCES)
-                and t.get("exam_scope") == "source_gap"),
-            "source_gap_topics": [t["id"] for t in ts
-                                  if t.get("exam_scope") == "source_gap"],
+                collections.Counter(t.get("exam_scope", "unknown") for t in ts)),
+            "source_observation": dict(
+                collections.Counter(t.get("source_observation", "not_checked") for t in ts)),
+            "unknown_exam_scope_topics": sum(
+                1 for t in ts if t.get("exam_scope", "unknown") == "unknown"),
+            "external_data_available": external_available,
+            "external_unmapped_candidate_topics": (
+                [t["id"] for t in ts if t.get("source_observation") == "found"
+                 and t["id"] not in external_topic_ids] if external_available else None),
             "composite_topics": sum(1 for t in ts if composite_per_topic[t["id"]] > 0),
         }
 
@@ -267,10 +264,10 @@ def render(report: dict) -> None:
               f"（其中外部真题撑着 {r['topics_with_external_diagnosable']} 点，"
               f"纯自有题 {r['topics_without_external_diagnosable']} 点）"
               f"   含复合题的点 {r['composite_topics']}")
-        print(f"exam_scope {r['exam_scope']}   "
-              f"其中真题不单独考/题源无供给 {r['textbook_only_topics']} 点")
-        print(f"外部题真缺口（真题考到但题源没供上）{r['external_gap_real']} 点"
-              + (f"  {r['source_gap_topics']}" if r["source_gap_topics"] else ""))
+        print(f"考试范围 {r['exam_scope']}；题源观察 {r['source_observation']}")
+        candidates = r["external_unmapped_candidate_topics"]
+        print("外部题文件未提供，不能判断检索候选是否已关联入库。" if candidates is None else
+              f"已观察到检索候选但本次外部题库无关联：{len(candidates)} 点 {candidates}")
         print()
 
     cs = report["cross_stage"]
@@ -293,11 +290,12 @@ def main() -> None:
 
     topics = json.loads((DATA / "topics.json").read_text(encoding="utf-8"))
     own = json.loads((DATA / "questions.json").read_text(encoding="utf-8"))
-    ext = json.loads((DATA / "questions_ext.json").read_text(encoding="utf-8"))
+    ext_path = DATA / "questions_ext.json"
+    ext = json.loads(ext_path.read_text(encoding="utf-8")) if ext_path.exists() else []
     policy = json.loads((DATA / "stage_policy.json").read_text(encoding="utf-8"))
     deps = json.loads((DATA / "dependencies.json").read_text(encoding="utf-8"))
 
-    report = build_report(topics, own, ext, policy, deps)
+    report = build_report(topics, own, ext, policy, deps, external_available=ext_path.exists())
     if args.json:
         print(json.dumps(report, ensure_ascii=False, indent=1))
         return

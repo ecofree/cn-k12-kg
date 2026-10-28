@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.18.4",
+  "name": "整数指数幂",
+  "tier": "core",
+  "hook": "指数从3、2、1逐步减到0、−1时，每一步为什么都在除以底数？",
+  "definition": "a⁻ⁿ=1/aⁿ（a≠0），a⁰=1（a≠0）；引入负整数指数幂后，同底数幂的除法可以统一为指数相减。",
+  "why": "同底数指数减1，对应除以一次底数。为了让幂的运算规律继续成立，非零a需有a⁰=1，a⁻ⁿ=1/aⁿ；负指数表示倒数，不是给结果加负号，且非零条件不可缺。",
+  "when_to_use": [
+    "需要计算零指数或负整数指数",
+    "科学记数法出现10的负次幂"
+  ],
+  "steps": [
+    "先检查底数非零以及括号范围",
+    "把负指数写为正指数幂的倒数",
+    "按先乘方后加减顺序计算并验符号"
+  ],
+  "worked_example": {
+    "prompt": "计算(−2)⁻²。",
+    "answer": "0.25",
+    "steps": [
+      "负指数表示倒数，(−2)⁻²=1/(−2)²。",
+      "分母为4，所以值为1/4=0.25。"
+    ],
+    "verify": "(-2)**(-2)",
+    "family_id": "power.nonpositive-exponent.evaluate",
+    "variant_id": "m8a.18.4:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
+  },
+  "pitfalls": [
+    "a⁻²不是−a²，指数负号不控制结果正负。",
+    "0⁰和0的负整数次幂不在本规则的定义范围内。"
+  ],
+  "check": "独立完成并解释：计算2⁻³+2⁰的值，用小数作答。 请写出判断或计算依据。；把a⁻⁴写成不含负指数的分式，已知a≠0，用^表示乘方。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能计算负整数指数幂与零指数幂",
+      "explanation": "a⁰与a⁻ⁿ的规则均以a≠0为前提。",
+      "self_check": {
+        "prompt": "计算2⁻³+2⁰的值，用小数作答。 请写出判断或计算依据。",
+        "reference_answer": "2⁻³=1/2³=1/8，2⁰=1，所以和为1+1/8=1.125。",
+        "criteria": [
+          "2⁰=1",
+          "2⁻³=1/8且求和正确"
+        ],
+        "family_id": "power.nonpositive-exponent.evaluate",
+        "variant_id": "m8a.18.4:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2⁻³是−8还是1/8？2⁰是0还是1？",
+        "hint": "负指数是取倒数，不是给数加负号；非零底数的零次幂为1。",
+        "revision_prompt": "比较2⁻²、(−2)⁻²、−2⁻²，分别为1/4、1/4、−1/4，说明括号与外负号。"
+      },
+      "observation_note": "观察负指数、底数符号与零次幂；底数0的相关式子另受定义限制。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能把负指数写成幂的倒数形式",
+      "explanation": "负指数把整个底数对应的正次幂放到分母。",
+      "self_check": {
+        "prompt": "把a⁻⁴写成不含负指数的分式，已知a≠0，用^表示乘方。 请写出判断或计算依据。",
+        "reference_answer": "为保持a⁴·a⁻⁴=a⁰=1，a⁻⁴必须等于1/a⁴，条件a≠0。",
+        "criteria": [
+          "倒数是1/a⁴",
+          "保留a≠0"
+        ],
+        "family_id": "power.negative-exponent.reciprocal-law",
+        "variant_id": "m8a.18.4:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "若a=0，1/a⁴有定义吗？公式为什么需要非零条件？",
+        "hint": "以a⁴乘候选表达式应得1，只有1/a⁴符合且要求a≠0。",
+        "revision_prompt": "将a=2与a=−2代入a⁻⁴核验都为1/16，并解释偶次不会改变非零条件。"
+      },
+      "observation_note": "观察倒数形式及必要条件；不能把负指数理解为取相反数。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能把负整数次十的幂表示的数量倍乘后写成小数",
+      "explanation": "10的负整数次幂表示1除以相应的正整数次幂。先合并数量倍数和系数，再将10的负幂化成小数位移；指数为负不表示数值为负。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：某种病毒的直径是 1.2×10^-7 米。5 个这样的病毒排成一排，总长是多少米（用小数表示）？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：0.0000006。5×1.2×10^-7=6×10^-7=.0000006。",
+        "criteria": [
+          "负指数的倒数意义与小数位移正确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "power.negative-ten.scaled-value",
+        "variant_id": "m8a.18.4:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "10⁻⁷是负数，还是一个很小的正数？移动小数点后位数是否正确？",
+        "hint": "先写10⁻¹=0.1对照方向，再把系数按所需位数向左移。",
+        "revision_prompt": "先回答这个辨别问题：10⁻⁷是负数，还是一个很小的正数？移动小数点后位数是否正确？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；负指数的倒数意义与小数位移正确。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能用十的整数次幂给定的单位比进行数量换算",
+      "explanation": "把一种长度换成另一更小单位时，用原长度除以每个新单位对应的长度。十的幂相除指数相减，注意减去负指数会变为加法。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：1 纳米等于 10^-9 米。一根头发的直径约为 6×10^-5 米，合多少纳米？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：60000。6×10^-5÷10^-9=6×10^4=60000。",
+        "criteria": [
+          "单位比值与幂指数差对应",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "power.ten-unit-scale-ratio",
+        "variant_id": "m8a.18.4:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "纳米更小，数值应变大还是变小？指数减负数是否写对？",
+        "hint": "先写米数÷每纳米的米数，再保留括号计算指数差。",
+        "revision_prompt": "先回答这个辨别问题：纳米更小，数值应变大还是变小？指数减负数是否写对？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；单位比值与幂指数差对应。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.18.4-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.18.4-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.18.4-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

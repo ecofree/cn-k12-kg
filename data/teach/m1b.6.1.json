@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "小红有9张卡片，小军有6张，多出来的部分怎样一眼看见？",
+  "definition": "比较两个数量相差几，可以先把两组一一对应。较多数量中与较少数量同样多的部分配完后，多余的部分就是差，所以用较大数减较小数。",
+  "why": "较大数量=较小数量+相差数量。去掉两组同样多的部分，留下的差既表示“多几”，也表示另一组“少几”，但不是两组的总数。",
+  "when_to_use": [
+    "问多几、少几或相差几",
+    "两个量的单位相同，要找超出的那部分"
+  ],
+  "steps": [
+    "确定在比较哪两个数量，统一单位。",
+    "用图或一一对应找出同样多和多出的部分。",
+    "较大数减较小数，并回答差表示的含义。"
+  ],
+  "worked_example": {
+    "prompt": "小红9张卡片，小军6张，相差几张？",
+    "steps": [
+      "先配成6对，多出的为小红没有配对的卡片。",
+      "9−6=3（张），小红多3张，小军少3张。"
+    ],
+    "answer": "3",
+    "verify": "9-6",
+    "family_id": "primary.compare.difference",
+    "variant_id": "m1b.6.1:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "求相差不是求一共，不能把两个数相加。",
+    "比较人数与本数单位不同，不能直接求差。"
+  ],
+  "check": "先独立完成下面各项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m1b.6.1",
+  "name": "解决求两数相差几的实际问题",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断用减法求相差数",
+      "explanation": "比较题中未知的是两组之间的差，减去相同部分即可得到。",
+      "self_check": {
+        "prompt": "甲队12人，乙队8人，问乙队比甲队少几人。为什么用12−8？",
+        "reference_answer": "甲的12人可分为与乙同样多的8人和多出的部分，12−8求这个差。",
+        "criteria": [
+          "识别比较关系",
+          "说明减去同样多部分"
+        ],
+        "family_id": "primary.compare.difference",
+        "variant_id": "m1b.6.1:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把8人与12人一一配对后，没有配到的人属于哪队？为什么不是把两队合并？",
+        "hint": "先圈出两队各8人的同样多部分，只数甲队多出的部分。",
+        "revision_prompt": "用9与6两排圆片，先配对再求“甲多几”和“乙少几”，说明为何两问同一个差。"
+      },
+      "observation_note": "观察比较关系和减去同样多部分；没有配对过程时仍不能确认数量比较方法。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能列式求出两数的差",
+      "explanation": "多几和少几是同一个差的两种表述。",
+      "self_check": {
+        "prompt": "蓝绳长15厘米，红绳长9厘米，红绳短几厘米？",
+        "reference_answer": "15−9=6（厘米），红绳比蓝绳短6厘米。",
+        "criteria": [
+          "较大数减较小数",
+          "单位厘米正确"
+        ],
+        "family_id": "primary.compare.difference",
+        "variant_id": "m1b.6.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.subtraction-addition-inverse"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "红绳短多少，算9−15还是15−9？差的单位跟着哪种测量？",
+        "hint": "把两绳左端对齐，蓝绳多出的长度就是差；长度单位都为厘米。",
+        "revision_prompt": "蓝绳14厘米、红绳8厘米，画两条左端对齐线段，再列式并用短绳加差检验。"
+      },
+      "observation_note": "观察同单位长度比较与减法方向；不同单位长度必须先统一。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由两个同单位的数量求相差多少",
+      "explanation": "比较同单位的两个数量，相差量为较大量减较小量。比较差值与求两量合计不同；“少多少”和“多多少”问同一差距。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：两队分别做了16朵和9朵纸花，多的一队比少的一队多几朵？\n情境2：红绳长18厘米，蓝绳长12厘米，蓝绳比红绳短多少厘米？\n写出每个问题的答案。可以用小棒、画图或算式说明你怎样想；用了提示或参考，也记下来。",
+        "reference_answer": "情境1参考：7。16−9=7，比较两队差量。\n情境2参考：6。18−12=6厘米，较短量与较长量的差。",
+        "criteria": [
+          "比较量单位一致，所求是差而非总和",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "primary.compare.difference",
+        "variant_id": "m1b.6.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "填写差值，不直接收运算选择或列式。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "题目问两量合起来多少，还是其中多出来的一段有多少？",
+        "hint": "把两个量对齐起点，圈出未重合的多出部分。",
+        "revision_prompt": "先回答这个辨别问题：题目问两量合起来多少，还是其中多出来的一段有多少？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；比较量单位一致，所求是差而非总和。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m1b.6.1-q1",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1b.6.1-q101",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1b.6.1-q102",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

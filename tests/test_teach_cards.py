@@ -19,7 +19,9 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from cnkg.evidence import safe_eval  # noqa: E402
-from tools.teach_cards import check_brief, check_card  # noqa: E402
+from cnkg.verify import to_number, compare  # noqa: E402
+from tools.teach_cards import check_brief, check_card, check_objective_coverage  # noqa: E402
+import copy
 
 DATA = ROOT / "data"
 
@@ -51,16 +53,41 @@ class TeachCardTest(unittest.TestCase):
     def test_worked_example_is_self_consistent(self):
         """例题的算式必须等于例题的答案。
 
-        这条单独再测一遍，因为 check_card 允许"没给 verify"，
-        而讲解卡里的例题**应该**给 verify——不给就没法防手滑。
+        数值例题必须复算。证明、作图与多结果例题核对真实步骤及结论，
+        不能为了填verify把参考证明伪装成一个无关数字。
         """
         for name, card in self.cards:
             ex = card["worked_example"]
             with self.subTest(card=name):
-                self.assertTrue(ex.get("verify"), "例题缺 verify，无法自校验")
-                got = safe_eval(ex["verify"])
-                want = float(str(ex["answer"]).strip())
-                self.assertAlmostEqual(got, want, places=6)
+                if to_number(ex.get("answer")) is not None:
+                    self.assertTrue(ex.get("verify"), "数值例题缺 verify，无法自校验")
+                    self.assertTrue(compare(ex["answer"], safe_eval(ex["verify"])))
+                else:
+                    self.assertTrue(ex.get("answer"))
+                    self.assertGreaterEqual(len(ex.get("steps", [])), 2)
+
+    def test_objective_mapping_detects_missing_duplicate_or_stale_goals(self):
+        card = next(copy.deepcopy(c) for _, c in self.cards if c.get('tier') == 'core')
+        topic = self.topics[card['topicId']]
+        self.assertEqual(check_objective_coverage(card, topic), [])
+        incomplete = copy.deepcopy(card)
+        incomplete['objective_coverage'].pop()
+        self.assertTrue(check_objective_coverage(incomplete, topic))
+        duplicate = copy.deepcopy(card)
+        duplicate['objective_coverage'].append(copy.deepcopy(duplicate['objective_coverage'][0]))
+        self.assertTrue(check_objective_coverage(duplicate, topic))
+        changed_topic = copy.deepcopy(topic)
+        changed_topic['mastery_criteria'][0] += '（目标已改变）'
+        self.assertTrue(check_objective_coverage(card, changed_topic))
+
+    def test_self_check_needs_answer_and_observable_criteria(self):
+        card = next(copy.deepcopy(c) for _, c in self.cards if c.get('tier') == 'core')
+        topic = self.topics[card['topicId']]
+        card['objective_coverage'][0]['self_check']['reference_answer'] = '略'
+        self.assertTrue(check_objective_coverage(card, topic))
+        card['objective_coverage'][0]['self_check']['reference_answer'] = '有具体解答'
+        card['objective_coverage'][0]['self_check']['criteria'] = []
+        self.assertTrue(check_objective_coverage(card, topic))
 
     def test_practice_points_to_own_questions(self):
         for name, card in self.cards:
@@ -78,11 +105,7 @@ class TeachCardTest(unittest.TestCase):
 
 
 class BriefCardTest(unittest.TestCase):
-    """速查卡：工具点的合并卡。
-
-    工具点不逐点写四步讲解，但也不能没有卡——一年级 157 个基础点
-    一张都没有，学生学「9 加几」时看到的还是空的。合并卡是这两者之间的解。
-    """
+    """速查卡保留原参考范围，允许辅助 core，但不能冒充完整讲解。"""
 
     @classmethod
     def setUpClass(cls):
@@ -104,12 +127,7 @@ class BriefCardTest(unittest.TestCase):
                                              self.bank), [])
 
     def test_all_tool_points_are_covered(self):
-        """每个工具点必须正好被一张速查卡覆盖。
-
-        漏一个点，这个点在系统里就既没有完整卡、也不在任何速查卡里，
-        等于这个知识点根本没讲——这比「卡片不够精致」严重得多。
-        重复覆盖则会出现两套说法，学生不知道信哪套。
-        """
+        """既有工具点有可查参考，不把关联等同于全部目标已讲清。"""
         seen: dict[str, str] = {}
         for name, card in self.cards:
             for tid in card["covers"]:
@@ -120,14 +138,15 @@ class BriefCardTest(unittest.TestCase):
         tools = {tid for tid, info in self.tiers["topics"].items()
                  if info["tier"] == "tool"}
         self.assertEqual(sorted(tools - set(seen)), [], "有工具点没有任何速查卡")
-        self.assertEqual(sorted(set(seen) - tools), [], "速查卡覆盖了非工具点")
+        self.assertTrue(set(seen) - tools, "升级后的 core 参考内容不应被丢弃")
 
     def test_one_card_per_group(self):
         """一张卡 = 一个「簇 × 册次」组，不多不少。"""
         groups = {}
         for tid, info in self.tiers["topics"].items():
-            if info["tier"] == "tool":
-                groups.setdefault(info["brief_group"], set()).add(tid)
+            group = info.get("reference_group") or info.get("brief_group")
+            if group:
+                groups.setdefault(group, set()).add(tid)
         for name, card in self.cards:
             key = f"{card['cluster']}@{card['volume']}"
             with self.subTest(card=name):
@@ -139,11 +158,14 @@ class BriefCardTest(unittest.TestCase):
             with self.subTest(card=name):
                 self.assertEqual(f"{card['cluster']}@{card['volume']}.json", name)
 
-    def test_covers_only_tool_topics(self):
+    def test_core_references_are_explicitly_not_full_teaching(self):
         for name, card in self.cards:
+            self.assertTrue(card["reference_only"])
             for tid in card["covers"]:
                 with self.subTest(card=name, topic=tid):
-                    self.assertEqual(self.tiers["topics"][tid]["tier"], "tool")
+                    if self.tiers["topics"][tid]["tier"] == "core":
+                        self.assertEqual(self.tiers["topics"][tid]["teach_mode"], "full")
+                        self.assertEqual(card["kind"], "brief")
 
 
 if __name__ == "__main__":

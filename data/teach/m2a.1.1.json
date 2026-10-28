@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2a.1.1",
+  "name": "按给定标准分类",
+  "tier": "tool",
+  "hook": "红色圆片、红色方片和蓝色圆片，按颜色分时先看什么？",
+  "definition": "分类先约定清楚的标准，再把每个对象按这个标准放入对应类别。按颜色就比较颜色，按形状就比较形状；本卡类别互不重叠且覆盖给定对象。",
+  "why": "统一标准让别人能重复检查同一分法。若一类叫红色、一类叫圆形，红圆片同时满足两类，不能作为本卡“一件只放一处”的单层分类，所以类别名称必须来自同一标准。",
+  "conditions": [
+    "每次只按一个清楚标准分，类别不重叠且不漏对象。",
+    "对象属性已知且无歧义，分类后核对总数。"
+  ],
+  "representation_note": "用红圆、红方、蓝圆、蓝方纸卡，摆带颜色或形状标签的分类盒。",
+  "when_to_use": [
+    "每次只按一个清楚标准分，类别不重叠且不漏对象。",
+    "对象属性已知且无歧义，分类后核对总数。"
+  ],
+  "steps": [
+    "读标准并确定类别标签。",
+    "逐个对象只按该属性判断归类。",
+    "数各类并核对总数，说明分类依据。"
+  ],
+  "worked_example": {
+    "prompt": "红圆2张、红方1张、蓝圆3张，按颜色分类。",
+    "steps": [
+      "红色共2+1=3张，蓝色3张。",
+      "圆或方不影响本次颜色分类，合计仍6张。"
+    ],
+    "answer": "红3张，蓝3张。",
+    "family_id": "statistics.classify-given-attribute",
+    "variant_id": "m2a.1.1:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "不能一半按颜色、一半按形状。",
+    "同一对象不重复计入两个互斥类别，也不能漏掉。"
+  ],
+  "practice": [
+    {
+      "id": "m2a.1.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m2a.1.1-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "给定标准决定使用哪一个属性。按颜色分时，同色但不同形状仍归一类。",
+      "observation_note": "观察实际归类与总数核对；数对不说明标准一定对。",
+      "self_check": {
+        "prompt": "把红圆、红方、蓝圆、蓝方各1张按颜色分类，再按原总数检查。",
+        "reference_answer": "红圆与红方一类2张，蓝圆与蓝方一类2张，总数4。",
+        "criteria": [
+          "按颜色一致分类",
+          "不重复不遗漏"
+        ],
+        "family_id": "classification.given-attribute",
+        "variant_id": "m2a.1.1:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "红圆和蓝圆一样圆，按颜色时能放同一类吗？",
+        "hint": "本次只看红或蓝，形状暂不作为标准。",
+        "revision_prompt": "把混入的卡重新按颜色放，并逐张勾选。"
+      },
+      "criterion_index": 0,
+      "title": "能按给定标准把物体分到相应类别"
+    },
+    {
+      "explanation": "分类标准是决定归类的属性，类别名称是该属性的不同取值。红蓝是颜色类，圆方是形状类。",
+      "observation_note": "观察说明分类依据；只报某一张卡名字不等于说清标准。",
+      "self_check": {
+        "prompt": "甲组放所有圆片，乙组放所有方片，说明标准；若标签改红蓝，标准怎样改变？",
+        "reference_answer": "原来按形状，后来按颜色。",
+        "criteria": [
+          "标准与标签对应",
+          "能区分标准和具体类别"
+        ],
+        "family_id": "statistics.identify-classification-attribute",
+        "variant_id": "m2a.1.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "classification.change-attribute"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“红色”是整个标准，还是颜色标准下的一类？",
+        "hint": "问“看哪个属性”，答案是颜色。",
+        "revision_prompt": "给两套盒子分别补上总标题“按颜色/按形状”。"
+      },
+      "criterion_index": 1,
+      "title": "能说出分类的标准是什么"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

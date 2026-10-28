@@ -1,0 +1,151 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh2.8.2",
+  "name": "立体图形的直观图",
+  "tier": "core",
+  "hook": "水平正方形画成平行四边形后，为什么不能拿图上的斜边长度当原长？",
+  "definition": "斜二测画法先选原来的互相垂直的x、y、z方向。水平面内x向长度保持，y向长度缩成一半；图上x′与y′通常画成45°或135°。竖直z向长度保持。非轴向线段不直接减半，而是按规则确定两个端点再连线。",
+  "why": "直观图以固定的平行投影规则换取立体感，不是长度和角度完全保真的照片。沿坐标轴的分量按规则变换，平行与共线关系保留，但水平面的直角常画成斜角。",
+  "when_to_use": [
+    "根据真实尺寸画空间图的水平底面",
+    "从直观图读尺寸时需要还原缩短方向"
+  ],
+  "steps": [
+    "在原图中建立互相垂直的x、y轴",
+    "画夹角45°的x′、y′轴，x向不变、y向减半",
+    "按变换后的分量定位点并连接，竖直高度保持"
+  ],
+  "worked_example": {
+    "prompt": "水平矩形沿x向长6、y向宽4，用45°斜二测画法画底面。",
+    "steps": [
+      "画x′水平，y′与它成45°。",
+      "x向边取6，y向边取2，补平行四边形。",
+      "图中夹角45°不代表原矩形夹角变为45°，原角仍90°。"
+    ],
+    "answer": "边沿x′取6、沿y′取2的平行四边形",
+    "family_id": "projection.oblique.construct-axis-polygon",
+    "variant_id": "mh2.8.2:worked-example-v5",
+    "representation": "geometry",
+    "cognitive_demand": "execute",
+    "reference_family_ids": [
+      "projection.oblique.axis-rule",
+      "projection.oblique.forward-length"
+    ]
+  },
+  "pitfalls": [
+    "把所有边都缩短一半",
+    "从斜二测图直接量角判定空间垂直"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能按斜二测规则画直观图",
+      "explanation": "先选轴再按方向缩放，非轴向线段由端点变换后连接。",
+      "self_check": {
+        "prompt": "画边长4的水平正方形斜二测图，写出四顶点在x′、y′分量上的定位。",
+        "reference_answer": "顶点为O′、4x′、4x′+2y′、2y′，x′、y′夹45°；连接为平行四边形。",
+        "criteria": [
+          "轴角和两方向尺度正确",
+          "四顶点与连线完整"
+        ],
+        "family_id": "projection.oblique.construct-axis-polygon",
+        "variant_id": "mh2.8.2:self-check:0",
+        "representation": "geometry",
+        "cognitive_demand": "execute",
+        "reference_family_ids": [
+          "projection.oblique.axis-rule",
+          "projection.oblique.forward-length"
+        ]
+      },
+      "observation_note": "实际作图需看到轴角、端点和连线，单独答出“长度2”只观察其中一步；图上角度不能当作原空间角度。",
+      "difficulty_support": {
+        "discriminating_prompt": "你是否先选了原图的x、y方向？如果把所有边都减半，x向4会变成多少？",
+        "hint": "把四个顶点的原坐标列为(0,0)、(4,0)、(4,4)、(0,4)，逐点把y分量减半，再沿斜轴定位。",
+        "revision_prompt": "用另一颜色标出原图与直观图中对应的四个顶点；保留第一次错误缩放的边，再修订。"
+      }
+    },
+    {
+      "criterion_index": 1,
+      "title": "能说出直观图中长度与角度的变化规律",
+      "explanation": "保留关系和不保留关系要分开，图上长度需按原方向还原。",
+      "self_check": {
+        "prompt": "直观图中一条原来沿y方向的边画长3，原长是多少？原图中x、y两边的直角在图上必仍90°吗？",
+        "reference_answer": "原长6；不是，通常画为45°或135°。平行关系保留，角度一般不保持。",
+        "criteria": [
+          "还原原长6",
+          "明确长度与角度失真规则"
+        ],
+        "family_id": "projection.oblique.inverse-length",
+        "variant_id": "mh2.8.2:self-check:1",
+        "representation": "mixed",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "projection.oblique.axis-rule"
+        ]
+      },
+      "observation_note": "这里只观察沿已知y方向的长度还原及角度边界；斜边原长或任意空间角不能直接从图量得。",
+      "difficulty_support": {
+        "discriminating_prompt": "你把图中长3直接当原长3了吗？或者认为图上的45°就是原来的角？",
+        "hint": "把“图中y向=原y向的一半”写成3=原长÷2；再回想原x、y轴互相垂直。",
+        "revision_prompt": "先分别写长度等式和角度说明，再用一个x向边长作对照，避免将两方向混用。"
+      }
+    },
+    {
+      "criterion_index": 2,
+      "title": "能按给定斜二测轴向变换规则计算水平正方形直观图的面积估值",
+      "explanation": "按题给斜二测画法，水平面内一方向长度保持，另一方向长度减半，两方向在图上夹45°。所得平行四边形面积要用两边乘积再乘sin45°，不是只看减半就断言面积减半。这个面积比例限于这里指定的原水平面、作图方向与规则。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：一个水平放置、边长4的正方形，两邻边分别平行x轴、y轴。按x′与y′夹45°、x向不变、y向减半的斜二测规则作图。使用sin45°≈0.707计算，图中平行四边形面积约为多少平方单位？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：5.656。变换后邻边4、2夹45°，面积约4×2×.707=5.656。",
+        "criteria": [
+          "长度缩放与夹角正弦共同决定该指定斜二测图面积",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "projection.oblique.area-scale",
+        "variant_id": "mh2.8.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "画出的两边仍垂直吗？长度减半后计算平行四边形面积还缺少哪个夹角因素？",
+        "hint": "分别写图上两边长、夹角、面积公式，按题给sin45°近似值计算并保留估值含义。",
+        "revision_prompt": "先回答这个辨别问题：画出的两边仍垂直吗？长度减半后计算平行四边形面积还缺少哪个夹角因素？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；长度缩放与夹角正弦共同决定该指定斜二测图面积。"
+      }
+    }
+  ],
+  "check": "独立完成各项自检并保留推导或作图：轴角和两方向尺度正确；还原原长6。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh2.8.2-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.8.2-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.8.2-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "本页采用x′、y′夹45°的约定，原图讨论水平面；作图比例另有约定时应先读题。",
+    "x、y是水平面内互相垂直的两个方向；空间竖直方向是z，不能把y向误叫z向。",
+    "直观图保持共线和平行，但一般不保持长度、角度和面积。"
+  ],
+  "representation_note": "左图是水平矩形原形，右图按同样单位尺度画出直观图。沿x的6保持6，沿y的4变成沿斜轴的2。先在两图中用同一字母对应顶点，再比较方向与比例。",
+  "diagram": {
+    "src": "/static/diagrams/oblique-projection-v5.svg",
+    "alt": "水平矩形原图沿x长6、沿y宽4；直观图沿x′长6、沿45°的y′长2。z向不缩短。"
+  },
+  "author_type": "ai",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

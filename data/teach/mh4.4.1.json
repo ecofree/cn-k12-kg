@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh4.4.1",
+  "name": "数列的概念",
+  "tier": "core",
+  "hook": "影院第1排20座、第2排22座、第3排24座；排号和座位数一一对应，换了顺序就是另一列数。",
+  "definition": "数列是按一定顺序排列的一列数，可视为定义在正整数集或其有限初始段上的函数n↦aₙ。aₙ是第n项的值，n是项号；通项公式给出项与项号的对应规则。数列可以有重复值，不必递增，也不一定有简单通项公式。",
+  "why": "函数要求每个自变量只有一个对应值，而不要求不同自变量得到不同值，所以常数列、正负交替列都是函数。自变量只取离散的整数，图象由孤立点组成；不能把相邻项之间连线后的非整数取值也当作数列的项。",
+  "when_to_use": [
+    "由项号公式写指定项或前几项",
+    "将按时间、排号等排列的数据理解为离散函数"
+  ],
+  "steps": [
+    "确定从哪个项号开始、数列有限还是无限。",
+    "将目标项号代入aₙ，注意幂、括号与交替符号。",
+    "区分项号和值；若要判断某值是否是项，解得n后检查其为允许的正整数。"
+  ],
+  "worked_example": {
+    "prompt": "aₙ=(-1)ⁿ(n+1)，求前四项并说明它是否为函数。",
+    "steps": [
+      "依次代入n=1,2,3,4，得到-2、3、-4、5。",
+      "每个正整数n都确定唯一aₙ，故是定义在正整数集上的函数，尽管它不单调。"
+    ],
+    "answer": "前四项-2、3、-4、5；它是特殊函数。",
+    "family_id": "sequence.evaluate-term-index",
+    "variant_id": "mh4.4.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "a₃表示第三项的值，不是a乘3。",
+    "前几项的规律不足以唯一决定全数列，需给通项、递推式或明确构造规则。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能由通项公式写出数列的项",
+      "explanation": "计算项是把n替换为一个正整数，整个式子中每处n都要替换。",
+      "self_check": {
+        "prompt": "aₙ=n²-2n，写出a₁、a₃、a₅。",
+        "reference_answer": "a₁=-1，a₃=3，a₅=15。",
+        "criteria": [
+          "项号替换完整",
+          "三个项值正确"
+        ],
+        "family_id": "sequence.evaluate-term-index",
+        "variant_id": "mh4.4.1:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "a₅是把n换成5，还是把表达式乘5？",
+        "hint": "项号是输入，把公式中每一个n同时替换。",
+        "revision_prompt": "aₙ=2n²-1，算a₂=7、a₄=31，并把项号与项值分两栏。"
+      },
+      "observation_note": "观察代入和项号区别；有限项不能唯一确定通项。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能说明数列是特殊的函数",
+      "explanation": "数列是自变量离散的函数；同一个值重复不违背函数定义。",
+      "self_check": {
+        "prompt": "aₙ=2是否为函数？n=1.5对应的值是不是它的一项？",
+        "reference_answer": "它是常数数列，也是函数，每个正整数对应2；1.5不在其定义域中，不对应数列的一项。",
+        "criteria": [
+          "允许不同项相同",
+          "说明正整数定义域"
+        ],
+        "family_id": "sequence.function-integer-domain",
+        "variant_id": "mh4.4.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "不同n都取2会违反函数唯一性吗？",
+        "hint": "唯一性是每个输入只有一个输出，不要求不同输入不同输出。",
+        "revision_prompt": "数列aₙ=(-1)ⁿ只有±1两个项值，仍为函数；n=0是否允许须看定义域声明。"
+      },
+      "observation_note": "观察正整数定义域与重复值；不能把数列折线中间点当新增项。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由给定通项和项值反求符合正整数要求的项序号",
+      "explanation": "通项公式把正整数项序号n对应到项值。反求序号时，将通项等于已给项值列成方程，求出的代数根还须符合n为正整数；负数、非整数即使满足某个代数关系，也不能作本数列的项序号。最后将保留的序号代回通项核对。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：某数列的通项是 a_n=n(n-1)。若某一项等于 30，这一项是第几项？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：6。n²−n−30=(n−6)(n+5)=0，正整数根6，舍−5。",
+        "criteria": [
+          "由给定项值反求通项中的n，按正整数序号条件筛选并验证结果",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "sequence.inverse-index-positive-integer",
+        "variant_id": "mh4.4.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "解方程得到两个根后，是否每个根都能叫“第几项”？题目要求的是项值30还是产生这个项值的序号？",
+        "hint": "由n(n−1)=30整理并分解，先列出全部候选根，再逐个标记是否为正整数，最后对保留者代回检查。",
+        "revision_prompt": "先回答这个辨别问题：解方程得到两个根后，是否每个根都能叫“第几项”？题目要求的是项值30还是产生这个项值的序号？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；由给定项值反求通项中的n，按正整数序号条件筛选并验证结果。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh4.4.1-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：数列aₙ=n(n+1)，求第6项。"
+    },
+    {
+      "id": "mh4.4.1-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：数列aₙ=(-1)ⁿ×2n，求第5项。"
+    },
+    {
+      "id": "mh4.4.1-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：无限数列aₙ=7作为函数，其定义域和值的特点是什么？"
+    }
+  ],
+  "check": "独立完成并写出依据：aₙ=n²-2n，写出a₁、a₃、a₅。；aₙ=2是否为函数？n=1.5对应的值是不是它的一项？",
+  "conditions": [
+    "通常项号为正整数；有限数列还须给最后项号。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

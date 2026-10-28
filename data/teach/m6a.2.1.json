@@ -1,52 +1,116 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m6a.2.1",
- "name": "分数乘整数",
- "tier": "core",
- "hook": "2/7×3，为什么是 6/7，而不是 6/21？分母为什么不用乘？",
- "definition": "分数乘整数，用分子与整数相乘的积作分子，分母不变；能约分的先约分再算更简便。",
- "why": "2/7×3 就是 3 个 2/7 相加。每份还是 1/7，份数从 2 份变成 6 份，所以分母不变、分子乘 3。分母要是也乘 3，等于把每份又切小了 3 倍，那就变成了另一个数。",
- "when_to_use": [
-  "求几个相同分数的和",
-  "「每份是几分之几，有几份」这类问题",
-  "分数与整数相乘，需要先约分"
- ],
- "steps": [
-  "分子乘整数，分母先照抄",
-  "看整数能否与分母约分，能约先约",
-  "约完再乘，结果更小更好算",
-  "结果是假分数时，按题目要求化成带分数或整数"
- ],
- "worked_example": {
-  "prompt": "1/4×8=？",
-  "verify": "1/4*8",
-  "answer": "2",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "hand",
+  "topicId": "m6a.2.1",
+  "name": "分数乘整数",
+  "tier": "core",
+  "hook": "2/7×3，为什么是 6/7，而不是 6/21？分母为什么不用乘？",
+  "definition": "分数乘整数，用分子与整数相乘的积作分子，分母不变；能约分的先约分再算更简便。",
+  "why": "2/7×3 就是 3 个 2/7 相加。每份还是 1/7，份数从 2 份变成 6 份，所以分母不变、分子乘 3。分母要是也乘 3，等于把每份又切小了 3 倍，那就变成了另一个数。",
+  "when_to_use": [
+    "求几个相同分数的和",
+    "「每份是几分之几，有几份」这类问题",
+    "分数与整数相乘，需要先约分"
+  ],
   "steps": [
-   "1/4×8 表示 8 个 1/4。",
-   "8÷4=2，也就是 8 个 1/4 正好凑成 2。",
-   "也可以先约分：8 和 4 约成 2 和 1，1×2=2。"
+    "分子乘整数，分母先照抄",
+    "看整数能否与分母约分，能约先约",
+    "约完再乘，结果更小更好算",
+    "结果是假分数时，按题目要求化成带分数或整数"
+  ],
+  "worked_example": {
+    "prompt": "1/4×8=？",
+    "verify": "1/4*8",
+    "answer": "2",
+    "steps": [
+      "1/4×8 表示 8 个 1/4。",
+      "8÷4=2，也就是 8 个 1/4 正好凑成 2。",
+      "也可以先约分：8 和 4 约成 2 和 1，1×2=2。"
+    ],
+    "family_id": "fraction.multiply-integer-common-unit",
+    "variant_id": "m6a.2.1:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "分母也乘整数：2/7×3 算成 6/21。",
+    "该约分时不约，答案写成 24/8 这类形式。",
+    "整数和分子约分（约错了对象，应该和分母约）。"
+  ],
+  "practice": [
+    {
+      "id": "m6a.2.1-q1",
+      "note": "分子乘整数，分母不变"
+    },
+    {
+      "id": "m6a.2.1-q2",
+      "note": "先约分，直接得整数"
+    },
+    {
+      "id": "m6a.2.1-q95",
+      "note": "先算总重，再减吃掉的部分"
+    }
+  ],
+  "check": "能解释「3 个 2/7」，并正确算出 7/8×24=21。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能计算分数乘整数",
+      "explanation": "分数乘正整数是相同分数反复相加，分子乘整数、分母不变。",
+      "self_check": {
+        "prompt": "计算2/7×3并解释。",
+        "reference_answer": "3个2/7相加等于6/7，共6个1/7。",
+        "criteria": [
+          "结果6/7",
+          "分数单位解释"
+        ],
+        "family_id": "fraction.multiply-integer-common-unit",
+        "variant_id": "m6a.2.1:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.add-common-unit"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2/7×3若写6/21，每一份还是原来的1/7吗？",
+        "hint": "三组2个1/7合起来是6个1/7；份数增加，每份大小没有重新细分。",
+        "revision_prompt": "计算3/8×2，先写相同分数连加，再画八等分纸条核对分母不变。"
+      },
+      "observation_note": "观察相同分数重复相加的单位；乘非整数不由这一解释自动涵盖。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能在计算前先约分",
+      "explanation": "先约分是在乘法整体中消去分子与分母公因数，不能把同在分子的数互相约掉。",
+      "self_check": {
+        "prompt": "计算3/8×12并写先约分过程。",
+        "reference_answer": "12与8约为3与2，得3×3/2=9/2。",
+        "criteria": [
+          "约整数与分母",
+          "结果9/2或4.5"
+        ],
+        "family_id": "fraction.multiply-integer-common-unit",
+        "variant_id": "m6a.2.1:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.mismatched-scaling",
+          "fraction.reduce-direct"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "3/8×12中，12与3都在分子位置，能互相约掉吗？",
+        "hint": "把式子写成(3×12)/8，只能同时除上下的公因数；12与8同除4。",
+        "revision_prompt": "计算5/12×9，标出被同时除去的上下公因数，再用先乘后约的结果交叉核对。"
+      },
+      "observation_note": "观察乘法整体的上下约分；只得9/2还需看到约分对象和保持等值。"
+    }
   ]
- },
- "pitfalls": [
-  "分母也乘整数：2/7×3 算成 6/21。",
-  "该约分时不约，答案写成 24/8 这类形式。",
-  "整数和分子约分（约错了对象，应该和分母约）。"
- ],
- "practice": [
-  {
-   "id": "m6a.2.1-q1",
-   "note": "分子乘整数，分母不变"
-  },
-  {
-   "id": "m6a.2.1-q2",
-   "note": "先约分，直接得整数"
-  },
-  {
-   "id": "m6a.2.1-q95",
-   "note": "先算总重，再减吃掉的部分"
-  }
- ],
- "check": "能解释「3 个 2/7」，并正确算出 7/8×24=21。"
 }

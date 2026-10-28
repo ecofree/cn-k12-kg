@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.16.1",
+  "name": "幂的运算",
+  "tier": "core",
+  "hook": "a³·a²与(a³)²都含3和2，为什么一个指数加起来，一个乘起来？",
+  "definition": "同底数幂相乘，底数不变、指数相加；幂的乘方，底数不变、指数相乘；积的乘方等于各因式分别乘方；同底数幂相除，底数不变、指数相减（底数不为 0）。",
+  "why": "幂是相同因子的计数：a³·a²共有3+2个a，而(a³)²是两组各3个a，共3×2个。积的乘方把每一因子重复同样次数；同底数相除则抵消相同因子，但底数不能为0。",
+  "when_to_use": [
+    "相同底数的幂相乘或相除",
+    "幂外还有指数或整个积被乘方"
+  ],
+  "steps": [
+    "先辨认结构是相乘、相除还是再次乘方",
+    "按a^m·a^n=a^(m+n)、(a^m)^n=a^(mn)、(ab)^n=a^nb^n及商规则处理",
+    "检查系数、符号和除法中底数非零条件"
+  ],
+  "worked_example": {
+    "prompt": "化简(3a²)²·a³。",
+    "answer": "9a^7",
+    "steps": [
+      "积的乘方得(3a²)²=3²a⁴=9a⁴。",
+      "再同底数相乘，9a⁴·a³=9a^(4+3)=9a⁷。"
+    ],
+    "family_id": "power.rules.operation-structure",
+    "variant_id": "m8a.16.1:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
+  },
+  "pitfalls": [
+    "a^m+a^n不是同底数幂相乘，指数不能相加。",
+    "积的乘方不能漏乘系数，(2a)³的系数是8。"
+  ],
+  "check": "独立完成并解释：分别化简a²·a³、(a²)³、(2a)³、a⁵/a²（最后一式a≠0），写所用规则。；化简a³·a⁵，按a^n格式作答。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能正确运用四条幂的运算法则",
+      "explanation": "四条规则由因子计数得到：同底数相乘指数相加；幂的乘方指数相乘；积的乘方逐因子乘方；同底数相除指数相减且底数非零。",
+      "self_check": {
+        "prompt": "分别化简a²·a³、(a²)³、(2a)³、a⁵/a²（最后一式a≠0），写所用规则。",
+        "reference_answer": "依次为a⁵（同底数乘法）、a⁶（幂的乘方）、8a³（积的乘方）、a³（同底数除法，a≠0）。",
+        "criteria": [
+          "四种结果及规则逐项对应",
+          "保留系数8和除法非零条件"
+        ],
+        "family_id": "power.rules.operation-structure",
+        "variant_id": "m8a.16.1:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "power.multiply-versus-power-of-power"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "a²·a³和(a²)³的外层运算是否一样？(2a)³中的2也被乘方吗？",
+        "hint": "先圈最外层运算，再展开因子数核查；除法额外保留a≠0。",
+        "revision_prompt": "对照化简a³a²、(a³)²、(−2a)²、a⁴/a²，分别说明指数加、乘、各因子乘方、减的依据。"
+      },
+      "observation_note": "观察四条规则及条件逐项区分；一个算对不能替代全套结构辨别。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能区分同底数幂相乘与幂的乘方",
+      "explanation": "同底数乘法与幂的乘方结构不同，对应指数相加与相乘。",
+      "self_check": {
+        "prompt": "化简a³·a⁵，按a^n格式作答。 请写出判断或计算依据。",
+        "reference_answer": "同底数幂相乘，保留底数并把因子个数相加，a³·a⁵=a^(3+5)=a⁸。",
+        "criteria": [
+          "识别外层是乘法",
+          "3+5=8"
+        ],
+        "family_id": "power.multiply-versus-power-of-power",
+        "variant_id": "m8a.16.1:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "a³·a⁵共几个a相乘？(a³)⁵又是几组3个a？",
+        "hint": "前者是3+5=8个因子，后者是5组、每组3个，共15个。",
+        "revision_prompt": "将a²·a⁴与(a²)⁴分别写成a⁶、a⁸，用因子计数说明差异。"
+      },
+      "observation_note": "观察乘幂与幂乘方的本质区别；换指数仍须按运算层级判断。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能计算同底数幂相乘或和指数对应的数值",
+      "explanation": "同底数幂相乘时底数保持不变、指数相加，原因是相同底数因子的个数合并。反过来，和指数的幂也能拆为同底数两幂的乘积。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：一台服务器每秒处理 2^10 次请求，连续运行 2^5 秒，一共处理多少次请求？\n情境2：已知 2^a=8，2^b=32，求 2^(a+b) 的值。\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：32768。2^10×2^5=2^15=32768。\n情境2参考：256。2^(a+b)=2^a×2^b=8×32=256。",
+        "criteria": [
+          "同底条件与指数相加关系准确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "power.same-base-product",
+        "variant_id": "m8a.16.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你把底数相加或把两个指数相乘了吗？",
+        "hint": "先用少量相同因子展开一例，再按因子总个数写和指数。",
+        "revision_prompt": "先回答这个辨别问题：你把底数相加或把两个指数相乘了吗？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；同底条件与指数相加关系准确。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.16.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.16.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.16.1-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

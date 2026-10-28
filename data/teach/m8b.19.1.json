@@ -1,0 +1,182 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8b.19.1",
+  "name": "二次根式及其性质",
+  "tier": "core",
+  "hook": "√((−3)²)是−3还是3？开平方为什么不能简单抵消平方？",
+  "definition": "形如√a（a≥0）的式子叫二次根式，√a 表示 a 的算术平方根，结果非负；有 (√a)²=a（a≥0），√(a²)=|a|。",
+  "why": "算术平方根的结果必须非负。a²把a的符号信息丢掉，开平方只能得到它的大小|a|，因此√(a²)=|a|；另一方面(√a)²=a要求原先a≥0，两条规则条件不同。",
+  "when_to_use": [
+    "根号内含变量需要限定范围",
+    "出现平方再开方并涉及正负号"
+  ],
+  "steps": [
+    "先令被开方数≥0，并检查是否还存在分母非零等限制。",
+    "遇到√(a²)先完整写成|a|，不要把绝对值符号拆掉。",
+    "根据a≥0或a<0分别写a或−a；条件未知时保留绝对值。",
+    "用满足条件的具体数回查化简结果非负且与原式相等。"
+  ],
+  "worked_example": {
+    "prompt": "已知a<0，化简√(9a²)。",
+    "answer": "−3a",
+    "steps": [
+      "9a²=(3a)²，因此√(9a²)=|3a|。",
+      "因为a<0，所以3a<0，|3a|=−3a；−3a为正数，与算术平方根非负一致。",
+      "例如a=−2时，根式为√36=6，−3a也为6。"
+    ],
+    "family_id": "radical.square-to-absolute-value",
+    "variant_id": "m8b.19.1:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "√(a²)=a仅在a≥0时成立。",
+    "根号内非负与根号结果非负是两件都要检查的事。"
+  ],
+  "check": "独立完成并解释：二次根式√(5−2x)在实数范围内有意义，x的取值范围是什么？ 请写出判断或计算依据。；已知x<2，化简√((x−2)²)，不保留绝对值符号。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断二次根式有意义的条件",
+      "explanation": "二次根式定义域来自被开方数非负；解不等式仍须注意负系数。",
+      "self_check": {
+        "prompt": "二次根式√(5−2x)在实数范围内有意义，x的取值范围是什么？ 请写出判断或计算依据。",
+        "reference_answer": "被开方数须非负，5−2x≥0，移项并除以−2要反向，得x≤2.5。",
+        "criteria": [
+          "列5−2x≥0",
+          "正确反向得到x≤2.5"
+        ],
+        "family_id": "radical.domain.radicand-nonnegative",
+        "variant_id": "m8b.19.1:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "reference_family_ids": [
+          "inequality.divide-negative.reverse"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "√(5−2x)的被开方数能为0吗？除以−2时方向怎么办？",
+        "hint": "实数平方根要求5−2x≥0，包含0；先移项再同除负数并反向。",
+        "revision_prompt": "检验x=2.5时根式为0、x=3时无实数值，画出x≤2.5的范围。"
+      },
+      "observation_note": "观察非负被开方数与不等式方向；若根式又位于分母，还须排除等于0。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能化简 √(a²) 并正确处理绝对值",
+      "explanation": "化简平方根要保留绝对值再按已知范围取符号。",
+      "self_check": {
+        "prompt": "已知x<2，化简√((x−2)²)，不保留绝对值符号。 请写出判断或计算依据。",
+        "reference_answer": "√((x−2)²)=|x−2|；因x<2，x−2为负，所以绝对值为−(x−2)=2−x。",
+        "criteria": [
+          "先转为x−2的绝对值",
+          "利用x<2得到2−x"
+        ],
+        "family_id": "radical.square-to-absolute-value",
+        "variant_id": "m8b.19.1:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "√((x−2)²)能直接写x−2吗？在x=1时会得到负数吗？",
+        "hint": "先写|x−2|，再由x<2判内部为负，取相反数2−x。",
+        "revision_prompt": "分别讨论x>2、x=2、x<2的结果，并用x=3、2、1验证根式都非负。"
+      },
+      "observation_note": "观察平方开根取绝对值与条件分支；消去平方和根号不能忽略符号。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能求具体完全平方数的算术平方根",
+      "explanation": "非负数的算术平方根是平方等于它的那个非负数。√81只表示9，不表示±9；“81的平方根”若未限定算术平方根则是另一个表述。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：√81 的值是多少？（只填数字）\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：9。√81=9，主平方根非负。",
+        "criteria": [
+          "根号主值的非负约定与平方核对正确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "root.principal-square.nonnegative",
+        "variant_id": "m8b.19.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "根号记号表示一个非负值，还是方程的两个解？",
+        "hint": "分别核对候选值的平方与它是否非负，两个条件都满足才是算术平方根。",
+        "revision_prompt": "先回答这个辨别问题：根号记号表示一个非负值，还是方程的两个解？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；根号主值的非负约定与平方核对正确。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能计算带系数二次根式的平方",
+      "explanation": "带系数根式的整体平方会使系数也平方，例如(a√b)²=a²b，要求b非负。面积等于整条边长的平方，不能只把根号内数平方。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：一块正方形草坪的边长是4√3米。它的面积是多少平方米？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：48。去除题干直接泄露面积后，(4√3)²=16×3=48。",
+        "criteria": [
+          "整体系数平方与根式平方同时处理",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "radical.square-with-coefficient",
+        "variant_id": "m8b.19.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "4√3整体平方时，系数4是否也要平方？",
+        "hint": "先写(4√3)(4√3)，分别把系数与根式配对相乘。",
+        "revision_prompt": "先回答这个辨别问题：4√3整体平方时，系数4是否也要平方？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；整体系数平方与根式平方同时处理。"
+      }
+    },
+    {
+      "criterion_index": 4,
+      "title": "能代入给定参数求被开方数表达式的数值",
+      "explanation": "给定字母值时，按原式先乘后加减求表达式数值。被开方数是根号内部表达式的值，与开方后的值不同；定义域条件已给时不等于已观察自行求域。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：一根钢条的长度记作 √(3x-12) 米，其中 x 是设计参数。要使这个根式有意义，x 最小取 4；当 x=8 时，根号内的值是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：12。定义域下界已给，只代8入3x−12得12。",
+        "criteria": [
+          "代入对象与所问被开方数明确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "algebra.evaluate.affine-expression",
+        "variant_id": "m8b.19.1:self-check:4:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "x≥4已直接给出；只求被开方数，不观察独立求定义域。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "本题问根号内部的数，还是整个根式的值？",
+        "hint": "圈出3x−12这一整个被开方数，把x替换为给定数，算完先不再开方。",
+        "revision_prompt": "先回答这个辨别问题：本题问根号内部的数，还是整个根式的值？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；代入对象与所问被开方数明确。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8b.19.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.19.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.19.1-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

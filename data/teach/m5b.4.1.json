@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "给盒子包纸与往盒子里装满小方块，为什么需要不同的公式和单位？",
+  "definition": "长方体有6个面、12条棱、8个顶点，相对面相同。长宽高为a、b、c时，表面积2(ab+ac+bc)，体积abc；正方体棱长s时，表面积6s²，体积s³。",
+  "why": "表面积把三组相对面的面积相加，衡量外表大小。先用长宽高为整数厘米的盒子理解体积：每层有a×b个1立方厘米小方块，共c层，得到abc；遇到非整厘米长度，可细分单位后沿用底面积×高。表面积使用平方单位，体积使用立方单位。",
+  "when_to_use": [
+    "研究盒子的面、棱和顶点特征",
+    "区分包外表用的面积与容积/体积问题"
+  ],
+  "steps": [
+    "确认长宽高与单位，说明盒子是否封闭。",
+    "求完整外表面积分别算三对面；缺盖等情况按实际删去对应面。",
+    "求体积将三个方向长度相乘，并写立方单位。"
+  ],
+  "worked_example": {
+    "prompt": "封闭长方体长4厘米、宽3厘米、高2厘米，表面积和体积各多少？",
+    "steps": [
+      "表面积2×(4×3+4×2+3×2)=52平方厘米。",
+      "体积4×3×2=24立方厘米；面积与体积单位不同。"
+    ],
+    "answer": "表面积52平方厘米，体积24立方厘米",
+    "family_id": "geometry.cuboid-area-versus-volume",
+    "variant_id": "m5b.4.1:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "geometry.cuboid-surface-area",
+      "geometry.cuboid-volume",
+      "geometry.cube.surface-volume-from-edge"
+    ]
+  },
+  "pitfalls": [
+    "无盖盒子不能直接套封闭六面表面积。",
+    "体积不是把12条棱长度相加，平方与立方单位不能混写。"
+  ],
+  "check": "先独立完成下面各项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m5b.4.1",
+  "name": "长方体和正方体",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能说出长方体的面、棱、顶点特征",
+      "explanation": "面成3对、棱按3个方向各4条，顶点是三条棱相交处。",
+      "self_check": {
+        "prompt": "说出长方体面、棱、顶点数，并解释12条棱怎样分组。",
+        "reference_answer": "6面、12棱、8顶点；长、宽、高方向各4条棱。",
+        "criteria": [
+          "三项数量正确",
+          "棱的分组正确"
+        ],
+        "family_id": "geometry.cuboid-face-edge-vertex-count",
+        "variant_id": "m5b.4.1:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.solid-classify-features"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "看到的3个面就是全部面吗？同一条棱会不会在数不同面时被重复数？",
+        "hint": "用三种颜色按长、宽、高方向各标4条棱，顶点逐个贴号，六面按相对面配对。",
+        "revision_prompt": "用另一长方体盒标6面、12棱、8顶点，再解释正方体的这些数量为何相同但面形状更特殊。"
+      },
+      "observation_note": "观察分类计数与隐藏部分；背出6、12、8还需实际模型定位。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能计算长方体与正方体的表面积和体积",
+      "explanation": "面积计算二维面，体积计算三维分层；正方体是三边相等的特例。",
+      "self_check": {
+        "prompt": "棱长3厘米的正方体，表面积和体积是多少？",
+        "reference_answer": "表面积6×3×3=54平方厘米；体积3×3×3=27立方厘米。",
+        "criteria": [
+          "表面积54平方厘米",
+          "体积27立方厘米"
+        ],
+        "family_id": "geometry.cuboid-area-versus-volume",
+        "variant_id": "m5b.4.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.cuboid-surface-area",
+          "geometry.cuboid-volume",
+          "geometry.rectangle-unit-area",
+          "geometry.cube.surface-volume-from-edge"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "6×3×3在算六个表面，3×3×3在算多少层单位小方块？单位为何不同？",
+        "hint": "每面9平方厘米共有6面；每层9个1立方厘米小方块共3层，分别对应面积与体积。",
+        "revision_prompt": "算长4宽3高2的封闭长方体表面积与体积，再说明去掉顶盖只改变哪一个表面面积计算。"
+      },
+      "observation_note": "观察面积和体积的不同对象、公式与单位；无盖、空心或壁厚情形需补条件。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能计算封闭长方体的表面积",
+      "explanation": "封闭长方体有三对相同的矩形面，表面积为2×(长×宽+长×高+宽×高)。开口容器需另外说明哪些面不计，不能机械用封闭公式。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：封闭长方体盒长5厘米、宽4厘米、高3厘米，要给所有外面贴纸，至少需多少平方厘米？不计接缝损耗。\n写出每个问题的答案，并用算式、画图或文字说明怎样得到。用过提示或参考的地方也记下来。",
+        "reference_answer": "情境1参考：94。2×(5×4+5×3+4×3)=94平方厘米，六面贴纸。",
+        "criteria": [
+          "六面计数和平方单位正确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "geometry.cuboid-surface-area",
+        "variant_id": "m5b.4.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察长方体表面积，未观察正方体表面积和两类体积。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "题目是六面全部覆盖，还是有开口面不贴？",
+        "hint": "按前后、左右、上下三对列面积，确认每一对都属于要覆盖的外面。",
+        "revision_prompt": "先回答这个辨别问题：题目是六面全部覆盖，还是有开口面不贴？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；六面计数和平方单位正确。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由正方体棱长计算体积",
+      "explanation": "正方体的体积是棱长的三次方，可看成每层棱长×棱长个单位面积，再叠棱长个单位高。表面积计六个面的面积，和体积不是同一量。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：积木做成棱长4厘米的实心正方体模型，它的体积是多少立方厘米？\n写出每个问题的答案，并用算式、画图或文字说明怎样得到。用过提示或参考的地方也记下来。",
+        "reference_answer": "情境1参考：64。棱长4，体积4³=64立方厘米。",
+        "criteria": [
+          "体积与表面积区别清楚且单位为立方",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "geometry.cube.surface-volume-from-edge",
+        "variant_id": "m5b.4.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "保留历史宽题族以延续已见方法；本题实际只求体积，不代表表面积与长方体都已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你求的是内部占据的空间，还是六个面的总面积？",
+        "hint": "给问题标“体积”，再用长×宽×高且三者均为棱长，保留立方单位。",
+        "revision_prompt": "先回答这个辨别问题：你求的是内部占据的空间，还是六个面的总面积？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；体积与表面积区别清楚且单位为立方。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m5b.4.1-q1",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m5b.4.1-q101",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m5b.4.1-q102",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

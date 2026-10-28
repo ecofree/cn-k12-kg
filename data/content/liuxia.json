@@ -1,13 +1,466 @@
 {
-"volume":"六下",
-"topics":{"m6b.1.1":{"description":"两个数相除又叫两个数的比，比的前项和后项同时乘或除以相同的数（0 除外），比值不变；表示两个比相等的式子叫比例，比例中两个外项的积等于两个内项的积。","mastery_criteria":["能化简比并求比值","能用比例的基本性质解比例"],"type":"conceptual","standards":[{"id":"cms-2022:3.NA.01","confidence":"exact"}]},"m6b.2.1":{"description":"扇形统计图用整个圆表示总数、用扇形表示各部分占总数的百分比；各部分百分比之和为 100%，能直观看出部分与整体的关系。","mastery_criteria":["能从扇形统计图读出百分比并求数量","能比较扇形统计图与其他统计图的特点"],"type":"conceptual","standards":[{"id":"cms-2022:3.SP.01","confidence":"exact"}]},"m6b.3.1":{"description":"圆柱有两个相同的圆形底面和一个曲面侧面，体积=底面积×高；圆锥有一个圆形底面和一个顶点，体积等于等底等高圆柱体积的三分之一。","mastery_criteria":["能计算圆柱的体积与表面积","能说明圆锥体积与等底等高圆柱的关系"],"type":"procedural","standards":[{"id":"cms-2022:3.GE.02","confidence":"exact"}]}},
-"dependencies":[{"topicId":"m6b.1.1","prerequisiteId":"m6a.2.2","strength":"hard","reason":"比与分数、除法有对应关系，先掌握分数乘法与分数意义。"},{"topicId":"m6b.2.1","prerequisiteId":"m6a.6.1","strength":"hard","reason":"扇形统计图用百分数表示各部分占比。"},{"topicId":"m6b.3.1","prerequisiteId":"m5a.6.4","strength":"hard","reason":"圆柱体积由底面积乘高得到，要用组合图形与面积计算。"},{"topicId":"m6b.3.1","prerequisiteId":"m6a.5.1","strength":"soft","reason":"圆柱、圆锥的底面是圆，先掌握圆的认识。"},{"topicId":"m6b.1.1","prerequisiteId":"m5b.2.1","strength":"soft","reason":"比的基本性质与分数的基本性质结构相同，可以迁移。"}],
-"questions":[
-{"id":"m6b.1.1-q1","topicId":"m6b.1.1","difficulty":"basic","type":"numeric","prompt":"把 12:18 化成最简整数比是 2:k，k 等于多少？（只填数字）","answer":"3","verify":"18/6","explanation":"前项后项同除以 6，得 2:3。"},
-{"id":"m6b.1.1-q2","topicId":"m6b.1.1","difficulty":"basic","type":"numeric","prompt":"若 3:x=1:2，x 等于多少？（只填数字）","answer":"6","verify":"3*2","explanation":"由比例的基本性质 1×x=3×2，得 x=6。"},
-{"id":"m6b.2.1-q1","topicId":"m6b.2.1","difficulty":"basic","type":"numeric","prompt":"扇形统计图中某部分占 30%，总体为 200 人，该部分有多少人？（只填数字）","answer":"60","verify":"200*0.3","explanation":"200×30%=60 人。"},
-{"id":"m6b.2.1-q2","topicId":"m6b.2.1","difficulty":"basic","type":"choice","prompt":"扇形统计图能直接看出什么？","answer":"o1","explanation":"扇形面积表示占比，具体数量还要乘总数才能得到。","choices":[{"id":"o1","text":"各部分占总体的百分比"},{"id":"o2","text":"数量的变化趋势"},{"id":"o3","text":"各部分的具体数量"}]},
-{"id":"m6b.3.1-q1","topicId":"m6b.3.1","difficulty":"basic","type":"numeric","prompt":"底面半径 2、高 5 的圆柱，体积是多少？（π 取 3.14，只填数字）","answer":"62.8","verify":"3.14*2**2*5","explanation":"V=πr²h=3.14×4×5=62.8。"},
-{"id":"m6b.3.1-q2","topicId":"m6b.3.1","difficulty":"basic","type":"numeric","prompt":"底面半径 2、高 3 的圆锥，体积是多少？（π 取 3.14，只填数字）","answer":"12.56","verify":"3.14*2**2*3/3","explanation":"V=πr²h÷3=3.14×4×3÷3=12.56。"}
-]
+  "volume": "六下",
+  "topics": {
+    "m6b.1.1": {
+      "id": "m6b.1.1",
+      "name": "比和比例关系",
+      "volume": "六下",
+      "chapter": "第一单元 比和比例关系",
+      "section": "1.1 比和比例关系",
+      "grade": 6,
+      "semester": "下",
+      "domain": "数与代数",
+      "theme": "数与式",
+      "type": "conceptual",
+      "description": "两个数相除又叫两个数的比，比的前项和后项同时乘或除以相同的数（0 除外），比值不变；表示两个比相等的式子叫比例，比例中两个外项的积等于两个内项的积。",
+      "mastery_criteria": [
+        "能化简比并求比值",
+        "能用比例的基本性质解比例",
+        "能将给定总量按已给的两项或多项比确定某部分量",
+        "能统一长度单位后按给定比例尺求图上距离"
+      ],
+      "standards": [
+        {
+          "id": "cms-2022:3.NA.01",
+          "confidence": "exact"
+        }
+      ],
+      "curriculum_version": "2024",
+      "edition": "人教版",
+      "review_status": "draft",
+      "external": false,
+      "exam_scope": "unknown",
+      "exam_scope_evidence": {
+        "method": "not_established",
+        "reason": "题源检索与题目关联不构成正式考试范围依据；没有可定位的范围文件时保持未知。"
+      },
+      "source_observation": "found",
+      "source_observation_evidence": {
+        "sources": [
+          "cmm-math"
+        ],
+        "method": "legacy_mapped_questions",
+        "reason": "保留历史题源关联或检索结果；命中只表示发现候选，未检出也不证明不考。",
+        "legacy_exam_scope": "examined",
+        "legacy_exam_scope_evidence": {
+          "reason": "已有外部真题：cmm-math",
+          "sources": [
+            "cmm-math"
+          ]
+        }
+      }
+    },
+    "m6b.2.1": {
+      "id": "m6b.2.1",
+      "name": "扇形统计图",
+      "volume": "六下",
+      "chapter": "第二单元 扇形统计图",
+      "section": "2.1 扇形统计图",
+      "grade": 6,
+      "semester": "下",
+      "domain": "统计与概率",
+      "theme": "抽样与数据分析",
+      "type": "conceptual",
+      "description": "扇形统计图用整个圆表示总数、用扇形表示各部分占总数的百分比；各部分百分比之和为 100%，能直观看出部分与整体的关系。",
+      "mastery_criteria": [
+        "能从扇形统计图读出百分比并求数量",
+        "能比较扇形统计图与其他统计图的特点"
+      ],
+      "standards": [
+        {
+          "id": "cms-2022:3.SP.01",
+          "confidence": "exact"
+        }
+      ],
+      "curriculum_version": "2024",
+      "edition": "人教版",
+      "review_status": "draft",
+      "external": false,
+      "exam_scope": "unknown",
+      "exam_scope_evidence": {
+        "method": "not_established",
+        "reason": "题源检索与题目关联不构成正式考试范围依据；没有可定位的范围文件时保持未知。"
+      },
+      "source_observation": "found",
+      "source_observation_evidence": {
+        "sources": [
+          "cmm-math"
+        ],
+        "method": "legacy_mapped_questions",
+        "reason": "保留历史题源关联或检索结果；命中只表示发现候选，未检出也不证明不考。",
+        "legacy_exam_scope": "examined",
+        "legacy_exam_scope_evidence": {
+          "reason": "已有外部真题：cmm-math",
+          "sources": [
+            "cmm-math"
+          ]
+        }
+      }
+    },
+    "m6b.3.1": {
+      "id": "m6b.3.1",
+      "name": "圆柱和圆锥",
+      "volume": "六下",
+      "chapter": "第三单元 圆柱和圆锥",
+      "section": "3.1 圆柱和圆锥",
+      "grade": 6,
+      "semester": "下",
+      "domain": "图形与几何",
+      "theme": "图形的性质",
+      "type": "procedural",
+      "description": "圆柱有两个相同的圆形底面和一个曲面侧面，体积=底面积×高；圆锥有一个圆形底面和一个顶点，体积等于等底等高圆柱体积的三分之一。",
+      "mastery_criteria": [
+        "能计算圆柱的体积与表面积",
+        "能说明圆锥体积与等底等高圆柱的关系",
+        "能由内部底面半径和内部高求圆柱容积",
+        "能由圆锥底面半径和高求体积",
+        "能在等底面积且体积保持时求圆柱与圆锥的高度关系"
+      ],
+      "standards": [
+        {
+          "id": "cms-2022:3.GE.02",
+          "confidence": "exact"
+        }
+      ],
+      "curriculum_version": "2024",
+      "edition": "人教版",
+      "review_status": "draft",
+      "external": false,
+      "exam_scope": "unknown",
+      "exam_scope_evidence": {
+        "method": "not_established",
+        "reason": "题源检索与题目关联不构成正式考试范围依据；没有可定位的范围文件时保持未知。"
+      },
+      "source_observation": "found",
+      "source_observation_evidence": {
+        "sources": [
+          "cmm-math"
+        ],
+        "method": "legacy_mapped_questions",
+        "reason": "保留历史题源关联或检索结果；命中只表示发现候选，未检出也不证明不考。",
+        "legacy_exam_scope": "examined",
+        "legacy_exam_scope_evidence": {
+          "reason": "已有外部真题：cmm-math",
+          "sources": [
+            "cmm-math"
+          ]
+        }
+      }
+    }
+  },
+  "dependencies": [
+    {
+      "topicId": "m6b.1.1",
+      "prerequisiteId": "m5b.2.1",
+      "strength": "soft",
+      "reason": "比的基本性质与分数的基本性质结构相同，可以迁移。"
+    },
+    {
+      "topicId": "m6b.1.1",
+      "prerequisiteId": "m6a.2.2",
+      "strength": "hard",
+      "reason": "比与分数、除法有对应关系，先掌握分数乘法与分数意义。"
+    },
+    {
+      "topicId": "m6b.2.1",
+      "prerequisiteId": "m6a.6.1",
+      "strength": "hard",
+      "reason": "扇形统计图用百分数表示各部分占比。"
+    },
+    {
+      "topicId": "m6b.3.1",
+      "prerequisiteId": "m6a.5.1",
+      "strength": "soft",
+      "reason": "圆柱、圆锥的底面是圆，先掌握圆的认识。"
+    },
+    {
+      "topicId": "m6b.3.1",
+      "prerequisiteId": "m6a.5.3",
+      "strength": "hard",
+      "reason": "圆柱、圆锥的底面积是圆面积，计算体积和圆柱表面积必须能由半径求底面积。"
+    },
+    {
+      "topicId": "m6b.3.1",
+      "prerequisiteId": "m6a.5.2",
+      "strength": "hard",
+      "reason": "圆柱侧面展开成长方形，其一边长等于底面圆的周长；侧面积计算需要圆周长。"
+    },
+    {
+      "topicId": "m6b.3.1",
+      "prerequisiteId": "m5b.4.1",
+      "strength": "hard",
+      "reason": "由长方体的体积经验理解底面积乘高及体积单位，再迁移到圆柱并比较等底等高的圆锥。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "m6b.1.1-q1",
+      "topicId": "m6b.1.1",
+      "difficulty": "basic",
+      "type": "numeric",
+      "prompt": "把 12:18 化成最简整数比是 2:k，k 等于多少？（只填数字）",
+      "answer": "3",
+      "verify": "18/6",
+      "explanation": "前项后项同除以 6，得 2:3。",
+      "topicIds": [
+        "m6b.1.1"
+      ],
+      "primaryTopicId": "m6b.1.1",
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "ratio.reduce-direct",
+      "variant_id": "m6b.1.1-q1:v5",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "把比化为最简整数比，已给前项2，只记录后项3；未观察独立写完整比或求比值。",
+      "diagnosis_eligible": false,
+      "tested_criterion_indices": [
+        0
+      ]
+    },
+    {
+      "id": "m6b.1.1-q2",
+      "topicId": "m6b.1.1",
+      "difficulty": "basic",
+      "type": "numeric",
+      "prompt": "若 3:x=1:2，x 等于多少？（只填数字）",
+      "answer": "6",
+      "verify": "3*2",
+      "explanation": "由比例的基本性质 1×x=3×2，得 x=6。",
+      "topicIds": [
+        "m6b.1.1"
+      ],
+      "primaryTopicId": "m6b.1.1",
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "ratio.solve-proportion",
+      "variant_id": "m6b.1.1-q2:v5",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "解一个分母含未知数的比例，须保留后项非0及内外项积；只填6不足以说明所用性质。",
+      "diagnosis_eligible": false,
+      "tested_criterion_indices": [
+        1
+      ]
+    },
+    {
+      "id": "m6b.1.1-q90",
+      "topicId": "m6b.1.1",
+      "type": "numeric",
+      "prompt": "40 : 32 的比值是多少？（只填数字）",
+      "choices": [],
+      "answer": "1.25",
+      "accept": [
+        "1.25"
+      ],
+      "verify": "40/32",
+      "explanation": "比值是前项除以后项，后项32非0，40÷32=1.25。比值是一个数，不要与写成两个整数的最简比混淆。",
+      "difficulty": "basic",
+      "difficulty_basis": "自产计算题：1 步运算",
+      "drill_kind": "calc",
+      "generated": true,
+      "review_status": "ai-generated",
+      "source": "self-generated-calc",
+      "family_id": "ratio.value-direct",
+      "variant_id": "m6b.1.1-q90:v5",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "给定非零后项求比值；数值正确不说明能化最简整数比或解比例。",
+      "diagnosis_eligible": false,
+      "tested_criterion_indices": [
+        0
+      ]
+    },
+    {
+      "id": "m6b.1.1-q91",
+      "topicId": "m6b.1.1",
+      "type": "numeric",
+      "prompt": "72 : 30 的比值是多少？（只填数字）",
+      "choices": [],
+      "answer": "2.4",
+      "accept": [
+        "2.4"
+      ],
+      "verify": "72/30",
+      "explanation": "比值是前项除以后项，后项30非0，72÷30=2.4。比值是一个数，不要与写成两个整数的最简比混淆。",
+      "difficulty": "basic",
+      "difficulty_basis": "自产计算题：1 步运算",
+      "drill_kind": "calc",
+      "generated": true,
+      "review_status": "ai-generated",
+      "source": "self-generated-calc",
+      "family_id": "ratio.value-direct",
+      "variant_id": "m6b.1.1-q91:v5",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "给定非零后项求比值；数值正确不说明能化最简整数比或解比例。",
+      "diagnosis_eligible": false,
+      "tested_criterion_indices": [
+        0
+      ]
+    },
+    {
+      "id": "m6b.1.1-q92",
+      "topicId": "m6b.1.1",
+      "type": "numeric",
+      "prompt": "42 : 15 的比值是多少？（只填数字）",
+      "choices": [],
+      "answer": "2.8",
+      "accept": [
+        "2.8"
+      ],
+      "verify": "42/15",
+      "explanation": "比值是前项除以后项，后项15非0，42÷15=2.8。比值是一个数，不要与写成两个整数的最简比混淆。",
+      "difficulty": "basic",
+      "difficulty_basis": "自产计算题：1 步运算",
+      "drill_kind": "calc",
+      "generated": true,
+      "review_status": "ai-generated",
+      "source": "self-generated-calc",
+      "family_id": "ratio.value-direct",
+      "variant_id": "m6b.1.1-q92:v5",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "给定非零后项求比值；数值正确不说明能化最简整数比或解比例。",
+      "diagnosis_eligible": false,
+      "tested_criterion_indices": [
+        0
+      ]
+    },
+    {
+      "id": "m6b.1.1-q93",
+      "topicId": "m6b.1.1",
+      "type": "numeric",
+      "prompt": "25 : 10 的比值是多少？（只填数字）",
+      "choices": [],
+      "answer": "2.5",
+      "accept": [
+        "2.5"
+      ],
+      "verify": "25/10",
+      "explanation": "比值是前项除以后项，后项10非0，25÷10=2.5。比值是一个数，不要与写成两个整数的最简比混淆。",
+      "difficulty": "basic",
+      "difficulty_basis": "自产计算题：1 步运算",
+      "drill_kind": "calc",
+      "generated": true,
+      "review_status": "ai-generated",
+      "source": "self-generated-calc",
+      "family_id": "ratio.value-direct",
+      "variant_id": "m6b.1.1-q93:v5",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "alignment_note": "给定非零后项求比值；数值正确不说明能化最简整数比或解比例。",
+      "diagnosis_eligible": false,
+      "tested_criterion_indices": [
+        0
+      ]
+    },
+    {
+      "id": "m6b.2.1-q1",
+      "topicId": "m6b.2.1",
+      "difficulty": "basic",
+      "type": "numeric",
+      "prompt": "读附图扇形统计图：全体200人，蓝色部分占30%。蓝色部分有多少人？请只填人数。",
+      "answer": "60",
+      "verify": "200*0.3",
+      "explanation": "200×30%=60 人。",
+      "topicIds": [
+        "m6b.2.1"
+      ],
+      "primaryTopicId": "m6b.2.1",
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "diagram": {
+        "src": "/static/diagrams/primary-pie-chart-whole.svg",
+        "alt": "整个圆表示200人，蓝色扇形占30%，其余占70%。"
+      },
+      "family_id": "statistics.part-from-percentage",
+      "variant_id": "m6b.2.1-q1:v5",
+      "representation": "graph",
+      "cognitive_demand": "execute",
+      "alignment_note": "从实际扇形图读占比与总量求部分人数；结果仍需核对读图和两量关系，不能把百分数直接当人数。",
+      "tested_criterion_indices": [
+        0
+      ]
+    },
+    {
+      "id": "m6b.2.1-q2",
+      "topicId": "m6b.2.1",
+      "difficulty": "basic",
+      "type": "choice",
+      "prompt": "扇形统计图能直接看出什么？",
+      "answer": "o1",
+      "explanation": "扇形面积表示占比，具体数量还要乘总数才能得到。",
+      "choices": [
+        {
+          "id": "o1",
+          "text": "各部分占总体的百分比"
+        },
+        {
+          "id": "o2",
+          "text": "数量的变化趋势"
+        },
+        {
+          "id": "o3",
+          "text": "各部分的具体数量"
+        }
+      ],
+      "topicIds": [
+        "m6b.2.1"
+      ],
+      "primaryTopicId": "m6b.2.1",
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "statistics.chart-purpose",
+      "variant_id": "m6b.2.1-q2:v5",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy",
+      "alignment_note": "辨别扇形图侧重构成比例，未在同一任务比较全部图形或实际绘图；选项正确仍可能只是记忆。",
+      "tested_criterion_indices": [
+        1
+      ]
+    },
+    {
+      "id": "m6b.3.1-q1",
+      "topicId": "m6b.3.1",
+      "difficulty": "basic",
+      "type": "numeric",
+      "prompt": "封闭圆柱底面半径2厘米、高5厘米，体积约多少立方厘米？π取3.14，只填数字。",
+      "answer": "62.8",
+      "verify": "3.14*2**2*5",
+      "explanation": "底面积约3.14×2²=12.56平方厘米，乘高5厘米，体积约62.8立方厘米。表面积计算对象不同，不能以这个结果代替。",
+      "topicIds": [
+        "m6b.3.1"
+      ],
+      "primaryTopicId": "m6b.3.1",
+      "difficulty_basis": "手写记忆检验题（第 1 问）：识记或一步运算",
+      "family_id": "geometry.cylinder-volume",
+      "variant_id": "m6b.3.1-q1:v6",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "由底面半径和高求圆柱体积，容积题明确用内部尺寸；只观察体积分项，没有表面积。",
+      "tested_criterion_indices": [
+        0
+      ]
+    },
+    {
+      "id": "m6b.3.1-q2",
+      "topicId": "m6b.3.1",
+      "difficulty": "basic",
+      "type": "numeric",
+      "prompt": "圆锥底面半径2厘米，垂直高3厘米，体积约多少立方厘米？π取3.14，只填数字。",
+      "answer": "12.56",
+      "verify": "3.14*2**2*3/3",
+      "explanation": "等底等高圆柱体积约3.14×2²×3=37.68立方厘米；圆锥取其1/3，约12.56立方厘米。",
+      "topicIds": [
+        "m6b.3.1"
+      ],
+      "primaryTopicId": "m6b.3.1",
+      "difficulty_basis": "手写记忆检验题（第 2 问）：识记或一步运算",
+      "family_id": "geometry.cone-volume",
+      "variant_id": "m6b.3.1-q2:v6",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "alignment_note": "计算圆锥体积时使用等底等高圆柱的1/3；一个结果不能说明已解释条件或排除反推错误。",
+      "tested_criterion_indices": [
+        1
+      ]
+    }
+  ]
 }

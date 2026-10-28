@@ -1,0 +1,1802 @@
+{
+  "schema": "cnkg-v7-identity-integration-review/1",
+  "review_status": "read_only_identity_mapping_and_hash_crosscheck_complete",
+  "reviewed_at_utc": "2026-10-28T03:25:59.015601+00:00",
+  "baseline_commit": "de1244557d11a432f53bef00c9a3d094ab756bc8",
+  "reviewer_kind": "ai",
+  "independent_teacher_review": false,
+  "student_effectiveness_evidence": false,
+  "method": "直接读取真实Git基线与当前作者文件，按稳定ID、旧列表前缀、实际题目目标映射、有效绑定以及规范化／原始字节SHA-256逐项比较；未调用作者生成器发出新内容，未使用陈旧catalog替代源题核对。最初读核结果保存后，为此仓库审查快照再次对同一冻结来源核对；未新增重复实施测试。",
+  "scope": {
+    "original_skills": 1136,
+    "new_skills": 642,
+    "current_skills": 1778,
+    "original_placements": 477,
+    "original_objective_mappings": 170,
+    "old_task_binding_ids": 4868,
+    "current_task_bindings": 5511,
+    "reviewed_new_goal_bank_tasks": 760,
+    "reviewed_card_files": 317,
+    "granularity": {
+      "legacy_composite": 954,
+      "composite": 96,
+      "observable": 728
+    }
+  },
+  "checks": [
+    {
+      "id": "original_skill_rows",
+      "checked": 1136,
+      "contract": "原 skill ID 及整条技能对象逐字段保持，不只是 ID 集合相同。",
+      "baseline_canonical_sha256": "6db51c2d6e627f6190aae23f8775cf7805f083ca388d108bf4885b9ba6df44cb",
+      "current_projection_canonical_sha256": "6db51c2d6e627f6190aae23f8775cf7805f083ca388d108bf4885b9ba6df44cb",
+      "equal": true
+    },
+    {
+      "id": "original_placement_prefixes",
+      "checked": 477,
+      "contract": "每个旧位置的非列表字段及原 criterion_skill_ids 前缀不变；后缀允许本轮新增目标。",
+      "baseline_canonical_sha256": "71f33a515305661e2f312ef226a631cbd2725648b4b9dc562b89d9befa523cf3",
+      "current_projection_canonical_sha256": "71f33a515305661e2f312ef226a631cbd2725648b4b9dc562b89d9befa523cf3",
+      "equal": true
+    },
+    {
+      "id": "original_objective_skill_map",
+      "checked": 170,
+      "contract": "单元与实践 objective_id 到稳定 skill ID 的整个映射保持。",
+      "baseline_canonical_sha256": "b5d2193da18d4ca41f72067c2d1a18a782244469f19939c3fd576d2742e61369",
+      "current_projection_canonical_sha256": "b5d2193da18d4ca41f72067c2d1a18a782244469f19939c3fd576d2742e61369",
+      "equal": true
+    },
+    {
+      "id": "original_task_binding_ids",
+      "checked": 4868,
+      "contract": "旧 task binding key 与 id 对应不变；不宣称整个绑定对象或元数据不变。",
+      "baseline_canonical_sha256": "5f0dcecb978c71479f84f938e21278a39a180d7ad74497bda7e35990f72908c8",
+      "current_projection_canonical_sha256": "5f0dcecb978c71479f84f938e21278a39a180d7ad74497bda7e35990f72908c8",
+      "equal": true
+    },
+    {
+      "id": "new_skill_and_task_identity_sets",
+      "new_skills": 642,
+      "new_skill_ids_canonical_sha256": "beed9bbdbd1e3cf5deaa963e20f5bf283f4a1f5ac675ba7d656cd66946b16af3",
+      "review_skill_ids_exactly_equal": true,
+      "new_self_check_bindings": 642,
+      "new_unit_task_bindings": [
+        "unit:derivative_monotonicity:derivative_monotonicity:transfer-7"
+      ],
+      "other_new_binding_keys": []
+    },
+    {
+      "id": "original_author_criterion_prefixes",
+      "checked_topics": 477,
+      "checked_criteria": 966,
+      "baseline_canonical_sha256": "4260cb6174d2ecfe0b138ac6126c7d4e70e6a06a1777d296aeba4bfe75f56b89",
+      "current_projection_canonical_sha256": "4260cb6174d2ecfe0b138ac6126c7d4e70e6a06a1777d296aeba4bfe75f56b89",
+      "equal": true
+    },
+    {
+      "id": "derived_topics_match_author_sources",
+      "topics": 477,
+      "topic_goals": 1608,
+      "source_objects_equal": true,
+      "only_changed_field_against_baseline": "mastery_criteria",
+      "changed_topics": 317,
+      "old_criteria_are_unchanged_prefixes": true
+    },
+    {
+      "id": "new_goals_materials_and_bank_bindings",
+      "goals": 642,
+      "distinct_bank_tasks": 760,
+      "duplicate_bank_assignments": 0,
+      "full_registered_skill_rows_match_review": true,
+      "criterion_positions_and_statements_match": true,
+      "full_self_check_bindings_match": true,
+      "effective_bank_families_match_self_checks": true,
+      "source_question_mapping_and_hashes_match": 760,
+      "material_object_canonical_and_original_hashes_match": 642,
+      "whole_card_file_hashes_match": 317,
+      "material_required_fields_present": 642,
+      "automatic_refines_edges_added_by_new_goals": 0,
+      "family_resolution": "以题目明确 family_id 为先；未直接声明者读取 catalog-bindings 的有效 bank 绑定。不能把作者题对象未含 family_id 误作运行时没有题族。",
+      "mathematical_review_claim": "此项只核对实际审查对象与登记／材料是否一致；逐题数学理由见绑定指纹的 observable-goal 与 bank-metadata 审查，不由字段齐备推出正确性。"
+    },
+    {
+      "id": "curriculum_scope_registration",
+      "topic_rows": 477,
+      "unit_rows": 14,
+      "project_rows": 21,
+      "total_goal_rows": 1778,
+      "goal_id_set_equals_registry": true,
+      "topic_goals_match_registry_and_author_criteria": true,
+      "original_topic_metadata_and_goal_prefixes_preserved": true,
+      "non_topic_sections_unchanged": true
+    },
+    {
+      "id": "topic_tier_identity_and_rebuild_boundary",
+      "topic_ids": 477,
+      "clusters": 32,
+      "changed_topic_rows": 272,
+      "changed_fields": [
+        "axis_basis",
+        "fluency",
+        "understanding",
+        "why"
+      ],
+      "non_topic_sections_unchanged": true,
+      "all_other_topic_fields_unchanged": true,
+      "boundary": "追加标准后教学需求轴及理由重新生成；这272行不是旧对象逐字段不变。topic_id、层级、簇、组织方式等其他字段保留；fluency/understanding 为教学需求，不是学生掌握状态。此核对不作教学效果评价。"
+    },
+    {
+      "id": "final_navigation_changes_preserve_material_objects",
+      "changed_card_files": 131,
+      "changed_check_fields": 130,
+      "changed_condition_fields": 1,
+      "only_reviewed_pointer_changed_per_file": true,
+      "all_current_317_card_hashes_match_observable_review": true,
+      "changed_card_source_hashes_exactly_131": true,
+      "unchanged_card_files": 186,
+      "all_642_material_objects_unchanged": true,
+      "material_objects_before_canonical_sha256": "d068569651c45d119a998aa69ee1b3d2273dcb2ce722f85c1554f9140eedb23e",
+      "material_objects_after_canonical_sha256": "d068569651c45d119a998aa69ee1b3d2273dcb2ce722f85c1554f9140eedb23e",
+      "all_642_goal_review_rows_unchanged": true,
+      "all_author_question_source_bytes_unchanged_since_prior_identity_review": true,
+      "all_registry_binding_scope_topic_tier_bytes_unchanged_since_prior_identity_review": true,
+      "issues": []
+    }
+  ],
+  "binding_content_boundary": {
+    "old_ids_preserved": 4868,
+    "old_binding_objects_changed": 908,
+    "changed_old_objects_exactly_match_bank_review_ids": true,
+    "changed_fields_counts": {
+      "cognitive_demand": 908,
+      "family_id": 904,
+      "family_status": 903,
+      "representation": 908,
+      "variant_id": 17
+    },
+    "new_bindings": 643,
+    "rule": "保留旧key/id不等于绑定元数据不变。908条旧题绑定依据逐题审查重新登记数学题族、表征、认知要求及部分variant；其准入内容指纹重绑定由专门准入审查负责。本报告不对旧作答重新评分，也不宣称所有binding整行冻结。"
+  },
+  "original_criterion_count_semantics": {
+    "meaning": "该行作者方案批次开始前的主题标准数量；可能包括本轮更早批次已经追加的有限目标。不是所有行都相对于de124的全局基线数量，也不一定等于该行最终criterion_index（同批可追加多个）。",
+    "rows_with_batch_count_above_baseline": 14,
+    "examples": [
+      {
+        "topic_id": "m1b.6.3",
+        "proposal_key": "primary.compare.quantity-then-total",
+        "baseline_criterion_count": 2,
+        "original_criterion_count": 3,
+        "appended_criterion_index": 3
+      },
+      {
+        "topic_id": "m2a.5.6",
+        "proposal_key": "arithmetic.multiply-then-adjust",
+        "baseline_criterion_count": 2,
+        "original_criterion_count": 4,
+        "appended_criterion_index": 4
+      },
+      {
+        "topic_id": "m2b.4.3",
+        "proposal_key": "arithmetic.unknown-minuend",
+        "baseline_criterion_count": 2,
+        "original_criterion_count": 3,
+        "appended_criterion_index": 3
+      },
+      {
+        "topic_id": "m3a.1.3",
+        "proposal_key": "geometry.cube-net-opposite-faces",
+        "baseline_criterion_count": 2,
+        "original_criterion_count": 3,
+        "appended_criterion_index": 3
+      },
+      {
+        "topic_id": "m3a.1.3",
+        "proposal_key": "geometry.cube-net-valid-layout",
+        "baseline_criterion_count": 2,
+        "original_criterion_count": 3,
+        "appended_criterion_index": 4
+      },
+      {
+        "topic_id": "m3a.2.4",
+        "proposal_key": "primary.change.sequential-add-subtract",
+        "baseline_criterion_count": 2,
+        "original_criterion_count": 3,
+        "appended_criterion_index": 3
+      },
+      {
+        "topic_id": "m4a.5.2",
+        "proposal_key": "geometry.height-construction-plan",
+        "baseline_criterion_count": 2,
+        "original_criterion_count": 3,
+        "appended_criterion_index": 3
+      },
+      {
+        "topic_id": "m4a.6.2",
+        "proposal_key": "statistics.grouped-frequency-total",
+        "baseline_criterion_count": 2,
+        "original_criterion_count": 3,
+        "appended_criterion_index": 3
+      },
+      {
+        "topic_id": "m4b.3.1",
+        "proposal_key": "geometry.triangle-angle-sum",
+        "baseline_criterion_count": 2,
+        "original_criterion_count": 3,
+        "appended_criterion_index": 3
+      },
+      {
+        "topic_id": "m4b.3.1",
+        "proposal_key": "geometry.triangle-inequality",
+        "baseline_criterion_count": 2,
+        "original_criterion_count": 3,
+        "appended_criterion_index": 4
+      },
+      {
+        "topic_id": "m5a.1.1",
+        "proposal_key": "geometry.voxel-view-projection",
+        "baseline_criterion_count": 2,
+        "original_criterion_count": 3,
+        "appended_criterion_index": 3
+      },
+      {
+        "topic_id": "m5a.4.4",
+        "proposal_key": "geometry.pattern-rule-specification",
+        "baseline_criterion_count": 2,
+        "original_criterion_count": 3,
+        "appended_criterion_index": 3
+      },
+      {
+        "topic_id": "m6a.5.4",
+        "proposal_key": "geometry.externally-tangent-centres",
+        "baseline_criterion_count": 2,
+        "original_criterion_count": 3,
+        "appended_criterion_index": 3
+      },
+      {
+        "topic_id": "m6a.5.4",
+        "proposal_key": "geometry.concentric-construction-plan",
+        "baseline_criterion_count": 2,
+        "original_criterion_count": 3,
+        "appended_criterion_index": 4
+      }
+    ],
+    "preservation_rule": "旧身份以Git基线中的mastery_criteria及criterion_skill_ids前缀逐字段比较；不能以original_criterion_count重新切分或改写历史。"
+  },
+  "issues": [],
+  "source_files": [
+    {
+      "path": "data/skills/registry.json",
+      "sha256": "bce71cb59b57b98db8c5359ee171488de47a7a5b4f3f721283bba368e9a49268"
+    },
+    {
+      "path": "data/skills/catalog-bindings.json",
+      "sha256": "e5422ca616f8657438abfd2a554e48d361b5471257b1243fb4b2fc50d2babbc6"
+    },
+    {
+      "path": "data/curriculum_scope.json",
+      "sha256": "e995ffd3c7c4e391880d97c0ad11803a8790b30cdfdd5728c53c5720442a83ea"
+    },
+    {
+      "path": "data/topics.json",
+      "sha256": "0ac165e243f5ec6d6e59eb6b266a54ec1ece25f22f36531597640425297742b8"
+    },
+    {
+      "path": "data/topic_tiers.json",
+      "sha256": "a2b172528f889fbb1d45381f381bc23acff8c315588da0306b5e07be38e64c59"
+    },
+    {
+      "path": "data/catalog.json",
+      "sha256": "697e5da145634d46e6d32268791c8b374acca23290bf2a1d16a7f0b5e97d01c8"
+    }
+  ],
+  "author_source_files": [
+    {
+      "path": "data/content/bashang.json",
+      "sha256": "4963ed76585ed988b6f5cf66caf5be133440680ff37a900088d695012a891459"
+    },
+    {
+      "path": "data/content/baxia.json",
+      "sha256": "b8a4f8c620bb93239c54a51ced0b1a3ce870330692db6122ab4f6146b5c89405"
+    },
+    {
+      "path": "data/content/bx1.json",
+      "sha256": "307d94ff3c73fd71127417f5ead8b2f05a5f1c6af00dd18a0866362b89dee26c"
+    },
+    {
+      "path": "data/content/bx2.json",
+      "sha256": "8c28482edefe6a34fdb7cf9a9a9eb50ab53f3423c2cbfea017c0016cde470905"
+    },
+    {
+      "path": "data/content/ershang.json",
+      "sha256": "eae01d74fca26be84b647bda8a195c74d1cb0996fea3f35cb81c59666c85e712"
+    },
+    {
+      "path": "data/content/erxia.json",
+      "sha256": "37495c9bdacdd76b7701d3768ed2368ebadf0b0062e7db0b2f095a99c993cf4f"
+    },
+    {
+      "path": "data/content/jiushang.json",
+      "sha256": "6616712898cb09c27f733bd662c4870b31647680ec5c0f3d3dcd9ef4ee569e65"
+    },
+    {
+      "path": "data/content/jiuxia.json",
+      "sha256": "5958ad270e1b25adb4672d76ff24dc331e0bf5ce456ba8f5b8be659359042d6b"
+    },
+    {
+      "path": "data/content/liushang.json",
+      "sha256": "69c6d39e1a20f1d159d3f5c3beb30e81bdb883eb0476327a1b21affbcbd70e39"
+    },
+    {
+      "path": "data/content/liuxia.json",
+      "sha256": "403e4cc2b56fb0da420ec00078ae319115e6e980a1be4f01e9463f13e8bef2dd"
+    },
+    {
+      "path": "data/content/qishang.json",
+      "sha256": "5e9abe20c6e181bc3fb65edae639809fee93d1c88ec24d097f2a144dddeb958f"
+    },
+    {
+      "path": "data/content/qixia.json",
+      "sha256": "5e3f42afc7cbd5217434c2fbf14f7a10c4b156f4d6698c3ad205cfca247a761e"
+    },
+    {
+      "path": "data/content/sanshang.json",
+      "sha256": "aabbd5ae4b6ed7a6bd8e8c41f1fc327ed6ee0bd49b38a2d8e982547a508cacec"
+    },
+    {
+      "path": "data/content/sanxia.json",
+      "sha256": "a58cc4397019edc4c168e578349be5af17457ca9a80428811cb33f215ded0ad3"
+    },
+    {
+      "path": "data/content/sishang.json",
+      "sha256": "d3bd4e61413c3bc234c3b8908488659b87d7e658a4203a289a0c3885e8f5db50"
+    },
+    {
+      "path": "data/content/sixia.json",
+      "sha256": "87bc37e48b2819eb2d50928ba5988ea2a7543ecece8eaf0ce20722edd02d6d2c"
+    },
+    {
+      "path": "data/content/wushang.json",
+      "sha256": "9727798f03789b5eed06965bfea92f95dc4b5dd3496f7831aa9406c48888211f"
+    },
+    {
+      "path": "data/content/wuxia.json",
+      "sha256": "5f91741df1b76fc58f87f15dae93c732d5b3feb4732ee5b21461ed29da3d6abd"
+    },
+    {
+      "path": "data/content/xby1.json",
+      "sha256": "bb0b62943b6490e9ff3fe0eb9b8db6c5c1bd93c39297b1300ebb085ab0f163c4"
+    },
+    {
+      "path": "data/content/xby2.json",
+      "sha256": "a95f0c1a9235fde77338bcdbb40bf6bb3d68e67d544de9fa713277db73a93341"
+    },
+    {
+      "path": "data/content/xby3.json",
+      "sha256": "48d7b94c5afb1792fbd1fe874c03482543ea0b699c09f0dbfc9617f0b72b51d1"
+    },
+    {
+      "path": "data/content/yishang.json",
+      "sha256": "4889979df87a49a63be8e0702dc29977292936752abd926759a4cd46be24da94"
+    },
+    {
+      "path": "data/content/yixia.json",
+      "sha256": "9f7774eedd2817877eb8f1e0377e8aa03f6afa54038695a00f0f9445cf60d453"
+    },
+    {
+      "path": "data/question_sources/application.json",
+      "sha256": "d012891ec0024282e91a688db1ee71a976beacb156182ed12f05b81ee08e00d9"
+    },
+    {
+      "path": "data/question_sources/retired-alignment.json",
+      "sha256": "ecb91df67389abc235fc1dc3f218fdf18574d18782032b001f7d6db3c33deb08"
+    },
+    {
+      "path": "data/question_sources/retired-memory.json",
+      "sha256": "6b47b394be4a7130d1b37637506d04da6a8b6f8a81f941264d2f866ba59056f0"
+    }
+  ],
+  "checked_material_files": [
+    {
+      "path": "data/teach/m1a.1.1.json",
+      "sha256": "65adb1d52a5183aac9b03b1fde8a6e1d1207947d83223613475eb7d7ed605299"
+    },
+    {
+      "path": "data/teach/m1a.1.2.json",
+      "sha256": "278e6be88789032873d27e04ed24101033b46db65d835d8f3e8d5931436eda0d"
+    },
+    {
+      "path": "data/teach/m1a.2.5.json",
+      "sha256": "3aae9938458399bdbecd7d1cd59c2b731a9c5aa3dbd1276f24ebd75c2170aac0"
+    },
+    {
+      "path": "data/teach/m1a.2.6.json",
+      "sha256": "f649cbbe7ef4bce5f00a3ac2281724c8a7da02047c9c7fb121881e7f2b03a5c7"
+    },
+    {
+      "path": "data/teach/m1a.2.8.json",
+      "sha256": "8ff759c749115df041ba1684586115e1d72df117353471e12e0eddde0ce00ea5"
+    },
+    {
+      "path": "data/teach/m1a.3.3.json",
+      "sha256": "7b69e676a2c28e0646e86064af2f43e7722952c25d97a02c6be90f779740280c"
+    },
+    {
+      "path": "data/teach/m1a.4.4.json",
+      "sha256": "d29faf7db40afd1e19e9772aff26c8fcdc95f8d5478ab4499fc2cdb74e9d2787"
+    },
+    {
+      "path": "data/teach/m1a.5.4.json",
+      "sha256": "bc0d2bd16be5cc6db311523ced5ace7a6dcff205940c859c1aacce80769f7fbf"
+    },
+    {
+      "path": "data/teach/m1a.5.5.json",
+      "sha256": "ddad808252326cb66d2284b1598f01759737f20960fbfae1fe8e553505b1e701"
+    },
+    {
+      "path": "data/teach/m1b.1.2.json",
+      "sha256": "f5710bc1a9bcdd9b34df6be22a07c662107ecf61039b10d3cdac9eddcadbe050"
+    },
+    {
+      "path": "data/teach/m1b.2.4.json",
+      "sha256": "f1d836f93d02a7fbfae0435202736b6299fb5c877ba8ef3162366c4638765fb4"
+    },
+    {
+      "path": "data/teach/m1b.4.3.json",
+      "sha256": "24fe892e8a0f6f7cc98e8f00f23155e6e8792359d608a7d0e4cd9a0cafc6e9da"
+    },
+    {
+      "path": "data/teach/m1b.6.1.json",
+      "sha256": "10172f2c175555f90d391a604b073db7de8bb756a06d0486a6070ea6e61858cc"
+    },
+    {
+      "path": "data/teach/m1b.6.2.json",
+      "sha256": "c1e9689d8cc5417e3e9b2a81e121c3fb27da21c009d8cfc6983c109b5e7364c5"
+    },
+    {
+      "path": "data/teach/m1b.6.3.json",
+      "sha256": "cc902863de6dea49714d78ca9a1a28b3258e70a494dc8b4b01bc6136a785635b"
+    },
+    {
+      "path": "data/teach/m2a.2.6.json",
+      "sha256": "b404feaab2482aca19795090bfaa26d296e4db6b57f579c18ac223d58bd52c94"
+    },
+    {
+      "path": "data/teach/m2a.2.7.json",
+      "sha256": "226069effea0840f9cf921ee32b5d3918d7ed735cb9eadad0c257223900cb6ed"
+    },
+    {
+      "path": "data/teach/m2a.3.3.json",
+      "sha256": "7fda480bdfaa08183c71e0ba064f296dc1f1f1304cd8f435d7359426491c22cf"
+    },
+    {
+      "path": "data/teach/m2a.3.4.json",
+      "sha256": "a081ec2c4551392e6fe1f414d38a76d65f52777c0835370f90167782bb205b2b"
+    },
+    {
+      "path": "data/teach/m2a.3.7.json",
+      "sha256": "9638433cb8f85967296ef19181c76bf7f2b5b98903bc932504095a5f200a4c6a"
+    },
+    {
+      "path": "data/teach/m2a.4.1.json",
+      "sha256": "e3652f8c6adfb52f0a6b07e71a3d0da1469e43b1107b8a04d5f77fc5f4ed3e01"
+    },
+    {
+      "path": "data/teach/m2a.4.4.json",
+      "sha256": "cd26f60e502f8b05a942d0c1c90b733b3d45cc14ad9940c7866fd4b52650caa0"
+    },
+    {
+      "path": "data/teach/m2a.5.6.json",
+      "sha256": "17649b2bd58af0efbdbea81c587af8c3fbb1b7607037ebb3b3a0f42822a1702a"
+    },
+    {
+      "path": "data/teach/m2b.2.2.json",
+      "sha256": "e09aab7e71f6732625839336b61ea72338681b95df9768d333f7648c0a447684"
+    },
+    {
+      "path": "data/teach/m2b.3.2.json",
+      "sha256": "37463a328a8dd42556af4505c118f82de1b4b85170a4eb12888f657b31a20662"
+    },
+    {
+      "path": "data/teach/m2b.4.3.json",
+      "sha256": "d44e0cadddd0c50d91833b04b11ac5bac8fe8b504f4b8a73aebd9bb1b575dc09"
+    },
+    {
+      "path": "data/teach/m3a.1.2.json",
+      "sha256": "8a9c04462ae1946f7662a458bc4864219b454df18ba681a3a8342744b517ceb3"
+    },
+    {
+      "path": "data/teach/m3a.1.3.json",
+      "sha256": "55912068bb5bdc595239c9c3eb4ce783b3ad312962c364193183426fd85ba789"
+    },
+    {
+      "path": "data/teach/m3a.2.4.json",
+      "sha256": "163c4cadcdd6a2b421007cf30aa7a5b48e856973035dc4fdb090583aa00b1e83"
+    },
+    {
+      "path": "data/teach/m3a.2.5.json",
+      "sha256": "742f954274f30e7a7ede382a97d4a01a3ec5175ef741c7cd630087f7c078c101"
+    },
+    {
+      "path": "data/teach/m3a.2.6.json",
+      "sha256": "5ac1a9a798bf9d34c43b583b7dfb7368bac9bbd1f03ae4fd521631586726329d"
+    },
+    {
+      "path": "data/teach/m3a.3.1.json",
+      "sha256": "7797016eac119c22cd460c8fdf0f9e7679574e49589d7db450e544e9bd9d5703"
+    },
+    {
+      "path": "data/teach/m3a.3.4.json",
+      "sha256": "204f6fc7dc44e87b8f2c5d959ccf39cacedcc2209710262a5b7715befaba11aa"
+    },
+    {
+      "path": "data/teach/m3a.4.7.json",
+      "sha256": "4fcb2b67b65c2dbf1e6d510ef6566107f84e11a2ed39e44941b7ccf75b839a80"
+    },
+    {
+      "path": "data/teach/m3a.6.2.json",
+      "sha256": "1deccec22cbc995d8a8e76b8a224f9016009bda7225fe233f8f6313728abaf26"
+    },
+    {
+      "path": "data/teach/m3a.6.5.json",
+      "sha256": "d259e3bfe6010d9e2921999b0b27ae9fdd3035b7ed69a355f33e214de2acc48a"
+    },
+    {
+      "path": "data/teach/m3a.6.6.json",
+      "sha256": "5fa046ead3b0fcef5e5e70f2585e1f5714355114cd2bbfcc1539db558cd8fcbe"
+    },
+    {
+      "path": "data/teach/m3a.6.8.json",
+      "sha256": "b5371d7f3d7005c2712b6651de4e129e92e635e2e333b18265e36a5cf6c4b16c"
+    },
+    {
+      "path": "data/teach/m3b.3.2.json",
+      "sha256": "91caa1a39ae74b9ab69b3249ab40c9bbf5510abdab0be9308026e96a74f8e0d4"
+    },
+    {
+      "path": "data/teach/m3b.4.1.json",
+      "sha256": "1f98ab4628a73d1b4e6de32246c4ad5ba56115fd861f384847c767756f42423d"
+    },
+    {
+      "path": "data/teach/m3b.4.2.json",
+      "sha256": "05e61055a48cc16914139867a1260b170dc3f64c9c33a8b5a43102a51fe1523c"
+    },
+    {
+      "path": "data/teach/m3b.5.1.json",
+      "sha256": "835eab07a442a4ec714b6f892f454d1cd70f80b635f4247fa56d0ea1f31925ec"
+    },
+    {
+      "path": "data/teach/m4a.2.2.json",
+      "sha256": "b83d92451c07922f42682c611b76801d4296f2844c6b051027bb72f1296f5cbe"
+    },
+    {
+      "path": "data/teach/m4a.3.4.json",
+      "sha256": "0aabb263493da0213ceb9a760e9fb7a4138be2bcd35c490d8860697156549d6b"
+    },
+    {
+      "path": "data/teach/m4a.3.5.json",
+      "sha256": "25058d09bfc8ef96c3e46d81c4e00e60e7d6b571402dd50f7951dce9b8d50388"
+    },
+    {
+      "path": "data/teach/m4a.4.1.json",
+      "sha256": "a3de1a436cc2389f3915be1f37e25730163f4f49cb8aa7c88126167e9b370d95"
+    },
+    {
+      "path": "data/teach/m4a.4.2.json",
+      "sha256": "72b2f3af84f2d0e8c3c03853b613d39a3b8af51e2bce010d843a4048bb16bfa4"
+    },
+    {
+      "path": "data/teach/m4a.4.3.json",
+      "sha256": "c6633b9f97a872ab52b57483ae87a7cada5e2b718445301512345ecc3c32b761"
+    },
+    {
+      "path": "data/teach/m4a.5.1.json",
+      "sha256": "62c7bac401cd9f06a0b205ee9faa59371f45c8697d5976feb1bfc9f1a09b312d"
+    },
+    {
+      "path": "data/teach/m4a.5.2.json",
+      "sha256": "c7f35ce6d724a67c257ab69c3a4e4647274e1dc9cc13e8070c326b79a900c5b5"
+    },
+    {
+      "path": "data/teach/m4a.6.2.json",
+      "sha256": "2eeec9653596a89046e9a2459e5a16f8ff675bd41ffe554861d8a0f963abf605"
+    },
+    {
+      "path": "data/teach/m4b.2.1.json",
+      "sha256": "2f92770b6846d454469170398be5abf4f0e39aa7ab8190b1b592a47bf5abc176"
+    },
+    {
+      "path": "data/teach/m4b.3.1.json",
+      "sha256": "47c837ee97a35764da3c55bd2c802d61e6db49889763508cf59ba88ab5859a83"
+    },
+    {
+      "path": "data/teach/m4b.5.1.json",
+      "sha256": "4dc7875ab9ce46bb807f4293c863809eee3f5040ed406f082bbe838b6b0619b2"
+    },
+    {
+      "path": "data/teach/m4b.6.1.json",
+      "sha256": "dbe474c57a079fd976bd7719318b5fea033bb4bde7b7b954d4db757bac48a6ed"
+    },
+    {
+      "path": "data/teach/m5a.1.1.json",
+      "sha256": "eab1a47d836cb655d9f7534cb0f61b90c0102106581893c72cddec7124b0453e"
+    },
+    {
+      "path": "data/teach/m5a.2.3.json",
+      "sha256": "fdcbe93c322c64d8e88fb6290847c3d6cfb55e0182468be1dea43ee195082263"
+    },
+    {
+      "path": "data/teach/m5a.3.2.json",
+      "sha256": "8c1e7c4720907b2c3d90b86adf26758f32825418c56a4e48ce33cdbc1884dc87"
+    },
+    {
+      "path": "data/teach/m5a.4.2.json",
+      "sha256": "8893c7e8b3475bd4876de785f51cba368bce558937df349af9b1d7d82f0fe588"
+    },
+    {
+      "path": "data/teach/m5a.4.4.json",
+      "sha256": "b8eb547a60213fad786bccfe7dbd0a888e708ddbd15fb781e044fc337f270b46"
+    },
+    {
+      "path": "data/teach/m5a.5.1.json",
+      "sha256": "7f9a339fb1b3929480f28f28525f3ed6b04b4fc05dbe695d9d7ece5bf7b74682"
+    },
+    {
+      "path": "data/teach/m5a.6.1.json",
+      "sha256": "1b620f09db44e0bc93d02ff2d842929d234914010bca2833b75bd859260bd7f8"
+    },
+    {
+      "path": "data/teach/m5a.6.2.json",
+      "sha256": "fcf3ff7fc5d022d7bba4c04a60ab94efc1c6dab26fe96ca7c9144b47aacdb810"
+    },
+    {
+      "path": "data/teach/m5a.6.3.json",
+      "sha256": "e0add6c9afde874023009ae0597dc81b81a4e3c2c7e5b88146c8cd188c65b217"
+    },
+    {
+      "path": "data/teach/m5a.7.1.json",
+      "sha256": "b08861dc9b052c3640b0db0240fa4d57b4d8a79bc124f69eadb3cf5c04882bb8"
+    },
+    {
+      "path": "data/teach/m5b.2.1.json",
+      "sha256": "bb4af7b968e275234a0c2e899dfb29c0c91321c3baac92b9a712427cc569f611"
+    },
+    {
+      "path": "data/teach/m5b.4.1.json",
+      "sha256": "1cce908d880b1fbee5a3c9aea4b4ef6d684392de448c3e548df97b1950ff5e7e"
+    },
+    {
+      "path": "data/teach/m5b.5.1.json",
+      "sha256": "8ed936fef02825ae7f868a4d3309e94537736fc8eb257a81ff9afcc1dc076676"
+    },
+    {
+      "path": "data/teach/m6a.1.1.json",
+      "sha256": "b560a7a36692b582c6542e6681ec6005c38cf3c3354f9f88634a5ecd1459f0d6"
+    },
+    {
+      "path": "data/teach/m6a.1.2.json",
+      "sha256": "f4491d1b9f59eb1d7cada066de79f995b2f03cd5d113cb0948aa01bcd07ecc2c"
+    },
+    {
+      "path": "data/teach/m6a.2.2.json",
+      "sha256": "d59866b3d7f624b6a133289c8f233547d46eadd424a745248ff30f270967ac60"
+    },
+    {
+      "path": "data/teach/m6a.2.3.json",
+      "sha256": "f3d101a1959e39f6d59da6c686f9538bec4c7a06c83f424f398baddaba781951"
+    },
+    {
+      "path": "data/teach/m6a.3.3.json",
+      "sha256": "5dbc285f45d2f22fa6a67c663866eb87ae30eb4227692f9ae5aba35325da27ec"
+    },
+    {
+      "path": "data/teach/m6a.4.3.json",
+      "sha256": "c2a462bb90a9f86116ce49be09699b87e4149f54a6104a177740d2a3c4913244"
+    },
+    {
+      "path": "data/teach/m6a.5.2.json",
+      "sha256": "0c2b1d29a5f8a22ebfad614819548c6565288fc33884ab5fdb0f84038d69bdab"
+    },
+    {
+      "path": "data/teach/m6a.5.4.json",
+      "sha256": "44c9799e159ec97ec6cf7dd357573c9f1abea8f5852bd7a72db6ddda0887cafc"
+    },
+    {
+      "path": "data/teach/m6a.6.1.json",
+      "sha256": "3a3b0a6679ef8c4206e01e7f2851728a89be48303bb57ca1d095f4c4c98ca4ca"
+    },
+    {
+      "path": "data/teach/m6a.6.2.json",
+      "sha256": "98ef8a1f7489e67cfa07c1ce197094a6a82e1ec554e176825a93898597f1f97f"
+    },
+    {
+      "path": "data/teach/m6a.6.3.json",
+      "sha256": "9b0427b0561859f1915b9c0ed5cea42909288faab921e720b769eec10c2028fe"
+    },
+    {
+      "path": "data/teach/m6b.1.1.json",
+      "sha256": "343688c9f32fee256640dbb609f271281628f5bbc7d72f9ac1af055a5c11b292"
+    },
+    {
+      "path": "data/teach/m6b.3.1.json",
+      "sha256": "84d2f62180cbb90cb5e37dfd2d485b0872ae30cfad57c5a81d8b1f57aa95e7b4"
+    },
+    {
+      "path": "data/teach/m7a.1.2.2.json",
+      "sha256": "f672be8a7d362503c5a78d4776ab8123be0f1b175b5a339e2657c06bf456f6bf"
+    },
+    {
+      "path": "data/teach/m7a.1.2.3.json",
+      "sha256": "85996ac9a50d1cc4d2d814a6076910375c5c5cfa356ebc58f568437fe45dcde4"
+    },
+    {
+      "path": "data/teach/m7a.1.2.4.json",
+      "sha256": "cfd3b9a62276172f437fbcc022f50390d0896fcd060a07edbca9224e2e99b5a4"
+    },
+    {
+      "path": "data/teach/m7a.2.1.1.json",
+      "sha256": "1ac2c3ba3814812442f8a693fcdea8acb6157d5800de0237b210a65917e57905"
+    },
+    {
+      "path": "data/teach/m7a.2.1.2.json",
+      "sha256": "5756e1a614863181089b39561070b21cfa785fd803baf67d51866d2093ea6573"
+    },
+    {
+      "path": "data/teach/m7a.2.2.1.json",
+      "sha256": "7fe13e9335d05b3446ec4f17008c751cd57921d59878c39a5c51dbd8577cc022"
+    },
+    {
+      "path": "data/teach/m7a.2.2.2.json",
+      "sha256": "255c907267e654a23610abb7cb655e975d06c60ab17b2fa47e453fc84bf5713e"
+    },
+    {
+      "path": "data/teach/m7a.2.3.1.json",
+      "sha256": "6d6e5dc5491486d872b58cf455515a65f91c730e3956b0813032874d17faf598"
+    },
+    {
+      "path": "data/teach/m7a.3.1.json",
+      "sha256": "0a4d117562741ed210ce3efb767aad167d5063d1c2d167f5e249dc1edeab46a5"
+    },
+    {
+      "path": "data/teach/m7a.3.2.json",
+      "sha256": "b832ab03817d967695c1dc9d9609dbc433021f29b7aa05c426f1119cefba2b53"
+    },
+    {
+      "path": "data/teach/m7a.4.1.json",
+      "sha256": "6d6a170ee3bc1e505ca76dbb709397d9bba6e9751b03081641e7b01546921112"
+    },
+    {
+      "path": "data/teach/m7a.4.2.json",
+      "sha256": "d3c3b61603a76f22eff7bcb32d3557dfe8d841ec0245d887ec36cb9ef18f60fa"
+    },
+    {
+      "path": "data/teach/m7a.5.1.1.json",
+      "sha256": "408118f22351e1f99c87b8c440dd0749752e49a2e158925faf2fda74f36e8f4d"
+    },
+    {
+      "path": "data/teach/m7a.5.1.2.json",
+      "sha256": "4cde85048613f141584e2e33c57254192b564b3fb6a80212ad7e35472d136170"
+    },
+    {
+      "path": "data/teach/m7a.5.2.json",
+      "sha256": "f6c47f17b860f20fbd8654fa8bf4e68c7b9f5ae0ff6c09cd04d479b68e363538"
+    },
+    {
+      "path": "data/teach/m7a.6.1.1.json",
+      "sha256": "a09297ab68b50c24bc830b97aaff3c17f2ec53ad596cefe6d14fad2809f3176d"
+    },
+    {
+      "path": "data/teach/m7a.6.1.2.json",
+      "sha256": "082822a483c206bb211bbdfbe4bba3f207592090a47c59303fe4e6d8cafa62f9"
+    },
+    {
+      "path": "data/teach/m7a.6.2.1.json",
+      "sha256": "3c1d5ecc09578710374df927fea3128c69228c0e1513e048d24d2c2bdb3cb054"
+    },
+    {
+      "path": "data/teach/m7a.6.2.2.json",
+      "sha256": "19bdd0240eb395b8accc10effac322a55594958e0148cfc502e328ff1c4c61fc"
+    },
+    {
+      "path": "data/teach/m7a.6.3.1.json",
+      "sha256": "123ce25d8b7d82aeb9470d892b5fe08d3defadc86e18693643baabd633ad61e1"
+    },
+    {
+      "path": "data/teach/m7a.6.3.2.json",
+      "sha256": "4a722c0297f2cfa92b4bda3b89e594b63aa1acf5e34f970eb987d51d0c477437"
+    },
+    {
+      "path": "data/teach/m7a.6.3.3.json",
+      "sha256": "110e24a056d8289462a011f2555ff1840728449eb1b889e1e4f2771a029f3994"
+    },
+    {
+      "path": "data/teach/m7b.10.1.json",
+      "sha256": "695a588c6cebf2c7991beff479abeb2dc222f844159ee710ff0e2bf2796ce43d"
+    },
+    {
+      "path": "data/teach/m7b.10.2.1.json",
+      "sha256": "4537aa80e6fb55590e56bbf393f141ed748328795ca97854c15f029bd16d07dd"
+    },
+    {
+      "path": "data/teach/m7b.10.2.2.json",
+      "sha256": "9e19a98554b904969fd6d123ef0b91460c6c5838f3869bec82b8d0a1ce041052"
+    },
+    {
+      "path": "data/teach/m7b.10.3.json",
+      "sha256": "43eb93433f26cc91c2a7341dad82acc7efdf6a3000522e2ad278807123a26c5a"
+    },
+    {
+      "path": "data/teach/m7b.11.1.1.json",
+      "sha256": "34c900bc518425d5adc39bbca16a0b13ac50c12bb619ec3351f650cc301ddaa3"
+    },
+    {
+      "path": "data/teach/m7b.11.1.2.json",
+      "sha256": "dee6c55c495189449023dd5c782536efddbad1b6b75aba4be6a367ffbb0c54e8"
+    },
+    {
+      "path": "data/teach/m7b.11.2.json",
+      "sha256": "6b7879d4fe672256e6a452be772603a1ad211185435602095016b8bbbba0940f"
+    },
+    {
+      "path": "data/teach/m7b.11.3.json",
+      "sha256": "30839e91aa1dfedd0e09cd44871499b606caa848434708e0e53e8e7501b78824"
+    },
+    {
+      "path": "data/teach/m7b.12.1.1.json",
+      "sha256": "6c9be398611c66072474250414b97ea8ba303f7a29f92c061039f8b60f106bc8"
+    },
+    {
+      "path": "data/teach/m7b.12.1.2.json",
+      "sha256": "03648ff07b2c82fa6368911621bc6b9d097b626b91d708129edf8a6eadca2799"
+    },
+    {
+      "path": "data/teach/m7b.12.2.1.json",
+      "sha256": "5e390a108607c244837054d828f60daccc53d2f405a397f58963be4382ca57ad"
+    },
+    {
+      "path": "data/teach/m7b.12.2.2.json",
+      "sha256": "de17ba6b38bb811ac51c5fa4afb0b3ce3529211e8fb8652b2e78a60d6a733483"
+    },
+    {
+      "path": "data/teach/m7b.12.2.3.json",
+      "sha256": "26378902384332a2d81e9d48fde335aed43ca544841141aeb5bfd92c1e31a769"
+    },
+    {
+      "path": "data/teach/m7b.7.1.2.json",
+      "sha256": "c0c272aa65d9850a9149d3b782e5172edf07ce69ec1fb164104c104af61d617a"
+    },
+    {
+      "path": "data/teach/m7b.7.1.3.json",
+      "sha256": "9aac236742d6aafafa4d4c1be2ba03280a33de23ff488da4ad3600ac98d5698d"
+    },
+    {
+      "path": "data/teach/m7b.7.2.1.json",
+      "sha256": "76977413cbe25636d8605e4133db37533ce2e98f78d7146cdc6971a255058777"
+    },
+    {
+      "path": "data/teach/m7b.7.3.json",
+      "sha256": "ac25ba158a09818fcfb8850467f00960fa104e0423892e4a80954284a7c898fe"
+    },
+    {
+      "path": "data/teach/m7b.8.1.json",
+      "sha256": "8460a971a8cd20847768a6a782e6ea8d312e9659686e8bd31c026ca9b48fea00"
+    },
+    {
+      "path": "data/teach/m7b.8.2.json",
+      "sha256": "93863db14fcdb526bd9bff1b5c8dbd42a2e7fc503ec8b1284b9abb4dd2fe17c3"
+    },
+    {
+      "path": "data/teach/m7b.8.3.json",
+      "sha256": "be54311c7b1146afa0d0c8d082bb7393bb4ae82720e7e6f8f045ca3bfefdddeb"
+    },
+    {
+      "path": "data/teach/m7b.9.1.1.json",
+      "sha256": "335966da73778040b4f7ff6c80e3aacd53f0712c2a5cfc724f24f76d9eb8eb57"
+    },
+    {
+      "path": "data/teach/m7b.9.1.2.json",
+      "sha256": "8109fac9dfe21efbe44a1d500d6d914e2ecb0da62d94135220cc8c5559cd5a90"
+    },
+    {
+      "path": "data/teach/m7b.9.2.1.json",
+      "sha256": "3fab455b1770385599972f52ef8f55fd13779114b5804772040a68c1ac74934a"
+    },
+    {
+      "path": "data/teach/m7b.9.2.2.json",
+      "sha256": "98ccc4f46a011770147efd0e8c42fbb5954c84d8c7380cfaacceae483670ff65"
+    },
+    {
+      "path": "data/teach/m8a.13.1.json",
+      "sha256": "48a4c4a964649273fbb763a685d3b44d7be2e7cb3658588444a86ab25039d04e"
+    },
+    {
+      "path": "data/teach/m8a.13.2.json",
+      "sha256": "5297b19d319b3284df18bfa471fe2707b6a552dc7b2f76a66775b15b72a561d6"
+    },
+    {
+      "path": "data/teach/m8a.14.1.json",
+      "sha256": "f9f34914e1deed19d01efcd874b71c4c88e9a149297093560a96c1e2472153ac"
+    },
+    {
+      "path": "data/teach/m8a.14.2.json",
+      "sha256": "4b13738dd4bfb432bc26655becd0ee44a8a0d08d0a297b1e04580b8c163dffda"
+    },
+    {
+      "path": "data/teach/m8a.14.3.json",
+      "sha256": "9dc04fe53ad5f4711e654f0ae78c620017c5d6bd09827819b3ec47d744b6ad8c"
+    },
+    {
+      "path": "data/teach/m8a.15.1.json",
+      "sha256": "8bb485a18acd91d27871a44d36c0e62eae01fe766097fadb9ca613ba976db6fa"
+    },
+    {
+      "path": "data/teach/m8a.15.2.json",
+      "sha256": "a77fcbf3d6a069bbd72871dbb6cf1c70210a070074631c00aec3a317cbffac2a"
+    },
+    {
+      "path": "data/teach/m8a.16.1.json",
+      "sha256": "9608db263505ef5ce597c9aec31d909a13613e28153604772625bc62e16e04b2"
+    },
+    {
+      "path": "data/teach/m8a.16.2.json",
+      "sha256": "6fad96687a10a9949dc9d7293a0bce5fedb77954aeb7ef6334bede465ec2e3dc"
+    },
+    {
+      "path": "data/teach/m8a.16.3.json",
+      "sha256": "12920be004dd22bfc1e6f695290d62baebafb23851e6cedca6736e13b0af75c8"
+    },
+    {
+      "path": "data/teach/m8a.17.1.json",
+      "sha256": "ccbbb4fcd4049a21fb61c5469d22be86892754b322a4e83e168280c4d6616752"
+    },
+    {
+      "path": "data/teach/m8a.17.2.json",
+      "sha256": "9cb1e2515d59ce692c968d7b63f5e21d59bef013b7f00429814b9b545c5bde86"
+    },
+    {
+      "path": "data/teach/m8a.18.1.json",
+      "sha256": "ebdb6bc944c52a6d49fd136d6e15d4c7a2c75abb34c99d8845ce480f2bb7cd27"
+    },
+    {
+      "path": "data/teach/m8a.18.2.json",
+      "sha256": "ba2cc20ffcb75b262bdbd39f12d127dc108a00aa3d6ff806e21d58a5e2a07ae4"
+    },
+    {
+      "path": "data/teach/m8a.18.3.json",
+      "sha256": "5a50ec77cf9c54a3a65f19eab2a91c5532f53d0a3461fa578affc00ca0775612"
+    },
+    {
+      "path": "data/teach/m8a.18.4.json",
+      "sha256": "737f4f105b2206dc4217400ae1876cd53e1d4896b7444d3b44e255d1f89f659c"
+    },
+    {
+      "path": "data/teach/m8a.18.5.json",
+      "sha256": "dffe8c3ef723848854b89bcbfe45431035177f7a94d878cdd6118bc776c66396"
+    },
+    {
+      "path": "data/teach/m8b.19.1.json",
+      "sha256": "b777f2cdc6dbb14170aae8663bfab08c6c0df8ea247b45109f1db25cc43c7a89"
+    },
+    {
+      "path": "data/teach/m8b.19.2.json",
+      "sha256": "1bb20900fb6332cfd1c6786c1009d0c6766dc8027689bc6eaddbb8f02b0b80b8"
+    },
+    {
+      "path": "data/teach/m8b.19.3.json",
+      "sha256": "30f9c338902b8f2c90a4f8ac1970f3d0733299b614b526e2f5286ebc38f095f2"
+    },
+    {
+      "path": "data/teach/m8b.20.2.json",
+      "sha256": "45a07814d555a2ed8275dfd6e5c569fdf39466a497e49a3af875a6f3dfa1cea4"
+    },
+    {
+      "path": "data/teach/m8b.21.1.json",
+      "sha256": "8ded974046abbd13727cbba803fcab66f3604f4c2434e739c743b7ae5f92db6d"
+    },
+    {
+      "path": "data/teach/m8b.21.2.json",
+      "sha256": "de51ef36a25201dd18c6fa869b97701511e5caf3972815f96ce199dbe5fb9680"
+    },
+    {
+      "path": "data/teach/m8b.22.1.json",
+      "sha256": "cf2a8e6e8597324e3c8bd7731f31c61bfb347fc4ad7a2d561bd04278eadca96e"
+    },
+    {
+      "path": "data/teach/m8b.22.2.json",
+      "sha256": "1d12c326d39d4d4fe54357b4d898e87c6d3ee0de1be7e127b4748294b27185a9"
+    },
+    {
+      "path": "data/teach/m8b.23.2.json",
+      "sha256": "0d73308cf09558507222ede4e91d9310205907a57aa9b72c4d33b71c2fe2a838"
+    },
+    {
+      "path": "data/teach/m8b.23.3.json",
+      "sha256": "8b79415d2c4593f89922c9e95f46e4f745e2cde9270f091e30d741c7efae30cf"
+    },
+    {
+      "path": "data/teach/m8b.23.4.json",
+      "sha256": "604e306a54c93415d0a435474cc00d8f4c757adee292e49e7c36a49ee0f70736"
+    },
+    {
+      "path": "data/teach/m8b.24.2.json",
+      "sha256": "af2718f1a6a481253ed38ec0e4fab777885dc6437a1a474acaf130f1fbf61082"
+    },
+    {
+      "path": "data/teach/m8b.24.3.json",
+      "sha256": "974144cbfb5c685a703e761d37c162ac850c846612f579632a699d184f7e73a7"
+    },
+    {
+      "path": "data/teach/m9a.25.1.json",
+      "sha256": "8be1cb8bd9294eb3781f12798440896f80db76ae2ed575e57931699bb719996b"
+    },
+    {
+      "path": "data/teach/m9a.25.2.json",
+      "sha256": "235ea232c6266485305fc4ad671025e77606cf47ecfb197f0db3b57ad09837a9"
+    },
+    {
+      "path": "data/teach/m9a.25.3.json",
+      "sha256": "f95577bbda91e4434b3619ebfb3a30d248029eed252af48aac9679533a7b34b9"
+    },
+    {
+      "path": "data/teach/m9a.26.1.json",
+      "sha256": "8ca6b15f5c3e0d61acbdd8ca15478e76fb110212fc38797ad1386eb989d7bc33"
+    },
+    {
+      "path": "data/teach/m9a.26.2.json",
+      "sha256": "5c32becfa322c2620b68b8f81c6e63bc11c70cd8aeb8afb58a8638112e64879a"
+    },
+    {
+      "path": "data/teach/m9a.26.3.json",
+      "sha256": "c37f39bebbeac006c421a6a63ba63928a50e33734bf22c9c0faedebf05535ab9"
+    },
+    {
+      "path": "data/teach/m9a.26.4.json",
+      "sha256": "d91b5696b9ef003bf4d68a0b5e566b427163218977c3fd8a9dd0f05d49d570cc"
+    },
+    {
+      "path": "data/teach/m9a.27.1.json",
+      "sha256": "3a4bb97ef23cdc579fca92f5e88403de70f3ed15001f44eba50bf207d8e3e622"
+    },
+    {
+      "path": "data/teach/m9a.27.2.json",
+      "sha256": "2cbac4ae4a2710659ff8af3b88b47fe624b6f8b1b15f7207f2e97b2bdcb9ccc7"
+    },
+    {
+      "path": "data/teach/m9a.28.1.json",
+      "sha256": "e71d30120260fdc3691c4eddd03db793b7c2c917d42e11b7623c3322044149ca"
+    },
+    {
+      "path": "data/teach/m9a.28.2.json",
+      "sha256": "a08d8dd0462e1c77b1cc1baf6b59602fed417ba39a913648400ec7e94c1e5361"
+    },
+    {
+      "path": "data/teach/m9a.29.1.json",
+      "sha256": "d993ea9e32a41189be9477895dff33ca21ce6cc5b7b71026fb849410196bb429"
+    },
+    {
+      "path": "data/teach/m9a.29.2.json",
+      "sha256": "e1f4051237efd0b18e3aa76bf1c9ca04c71694559f9a7e34ef1d400b48a11820"
+    },
+    {
+      "path": "data/teach/m9a.29.3.json",
+      "sha256": "ec83b79c02a650c6c7580bbff046c3277ce40ef7d9abb62c5efca36a2be9cc2b"
+    },
+    {
+      "path": "data/teach/m9a.30.2.json",
+      "sha256": "083abb64697df3d3b33ac732f4c4754551c7eb023efc992c8a3742408ad994b6"
+    },
+    {
+      "path": "data/teach/m9a.30.3.json",
+      "sha256": "d7727e87bde79dd6e33bf376f232e750ca5501e00ce835aceb930950cf542df9"
+    },
+    {
+      "path": "data/teach/m9b.31.1.json",
+      "sha256": "e6773766bba52fb93042fa38420e103775006542229347c6a778a5521fb21d99"
+    },
+    {
+      "path": "data/teach/m9b.31.2.2.json",
+      "sha256": "faee5904aa3b6c0ec66ac9596593677a70f770cd2c43ceeb1eba8a95ec50f5c0"
+    },
+    {
+      "path": "data/teach/m9b.31.2.3.json",
+      "sha256": "451801708f0698744878c5c175c8482ca76fae55e7bc008d4b22adb2b0c55e61"
+    },
+    {
+      "path": "data/teach/m9b.31.3.json",
+      "sha256": "d035e9bdf9a8614e56bcfbac4dca377d49844af5a4ed0ebaacda895a80903c42"
+    },
+    {
+      "path": "data/teach/m9b.31.4.json",
+      "sha256": "48f83042523cacac71b37da7fa206cc92e69d1ddb8e967e28bfac2e864b35cbc"
+    },
+    {
+      "path": "data/teach/m9b.32.2.1.json",
+      "sha256": "24e082654ab5fdded4b9f18e84a61b8ae5773a54c8b1ec0a0985dcdc5cff63f4"
+    },
+    {
+      "path": "data/teach/m9b.32.2.2.json",
+      "sha256": "0a959939af258ec88c85afac4e6facbc0251e21560bfaddce9f83445cc5c0b29"
+    },
+    {
+      "path": "data/teach/m9b.33.1.json",
+      "sha256": "0f4934f9e60314c5dc26df9d371eaba1a521444b83fa6d8839308bba9f212b6b"
+    },
+    {
+      "path": "data/teach/m9b.33.2.1.json",
+      "sha256": "65c9b6303492d2f6578ed4b6845809b90a90ac84d5a68730ec26f9f6edd815ea"
+    },
+    {
+      "path": "data/teach/m9b.33.2.2.json",
+      "sha256": "1e0845c2b400a7f331feb19615bf6dd430ff71c0007948de361f47e52d064b7a"
+    },
+    {
+      "path": "data/teach/m9b.34.1.1.json",
+      "sha256": "e243d338e4dbb2cd13b3d019d857c9a3b05553acf9f96fc81dcd3b362afe6c98"
+    },
+    {
+      "path": "data/teach/m9b.34.2.json",
+      "sha256": "08400559764faa8099246ddc22eb530d5a52ba43d3141a6bb6cefa11a05c42b6"
+    },
+    {
+      "path": "data/teach/m9b.34.3.json",
+      "sha256": "1d268fd3459d60a84fe695e1c8d8475d4a7dedeaa4adae692a15b3f8fc27780a"
+    },
+    {
+      "path": "data/teach/mh1.1.1.json",
+      "sha256": "4ff9997f7f9ea9cb0aba906809870e76efa3763f05c95f29ad40792b1d7a0972"
+    },
+    {
+      "path": "data/teach/mh1.1.2.json",
+      "sha256": "8f8e8db3f3e4db78194522f41332fdbdf1e77396f2d6094f19616390396ee75a"
+    },
+    {
+      "path": "data/teach/mh1.1.3.json",
+      "sha256": "96162a7bef14df1dcf0c1959ead6fced57c1819267abafdd64756b8b278aaa14"
+    },
+    {
+      "path": "data/teach/mh1.1.4.1.json",
+      "sha256": "126f17730dec525bfe2d1432904e9455963d87200073056b0bafe2a6c52db434"
+    },
+    {
+      "path": "data/teach/mh1.1.4.2.json",
+      "sha256": "ad2333c2e4973ed82f540037d0e0af6b1fc1c995cfa83b04be94b18a588b4a8e"
+    },
+    {
+      "path": "data/teach/mh1.1.5.1.json",
+      "sha256": "fa509bb9f7ff45bcccdbf19ba5028f7c3585e7502c3117f12098c61edfc1444f"
+    },
+    {
+      "path": "data/teach/mh1.1.5.2.json",
+      "sha256": "a57eea38c1bad644be36e63930cf441af91b791eb4f708be1b74d164339ed9cc"
+    },
+    {
+      "path": "data/teach/mh1.2.1.json",
+      "sha256": "5d3ec292ab716273ce0c892caf8df1fb6134de7a96953898b40caaa0e01877b0"
+    },
+    {
+      "path": "data/teach/mh1.2.2.json",
+      "sha256": "6daff8db4ebe9abf0eabab669e2c0285e834ca378fdc2481e1a636b99f762a92"
+    },
+    {
+      "path": "data/teach/mh1.2.3.json",
+      "sha256": "442e0c74f890a29a7ee55daf854945e8d257305484521b970a8b974b3c6171ee"
+    },
+    {
+      "path": "data/teach/mh1.3.1.1.json",
+      "sha256": "fc6e06b070428a1811dac9ee8788e062f49c72565731b598f4380557c8e0399f"
+    },
+    {
+      "path": "data/teach/mh1.3.1.2.json",
+      "sha256": "ab24512d62cdf9475dd6d0f3270c1f64dcd9787a327f7cc9179d727a93b91619"
+    },
+    {
+      "path": "data/teach/mh1.3.2.1.json",
+      "sha256": "04a6b46ef7c9624f610e4ce2eaa49914fab6057d75bc7118223bdb475260620c"
+    },
+    {
+      "path": "data/teach/mh1.3.2.2.json",
+      "sha256": "4e1598bd07d55458c32c24401169c8ce5497f597755cea1e154b304673449c37"
+    },
+    {
+      "path": "data/teach/mh1.3.3.json",
+      "sha256": "b59b396d5f50e300d0a7658d15f810f670a345f07de32960bdc158c2f94975b6"
+    },
+    {
+      "path": "data/teach/mh1.3.4.json",
+      "sha256": "d5fd64e429d567876bdc53c3614277b94e7c6195f3f32d348fe3d32b38f9a776"
+    },
+    {
+      "path": "data/teach/mh1.4.1.1.json",
+      "sha256": "02c2f9c0a4263943489db3b8c37aef93cfb596962f6ae390e2da0490871faa28"
+    },
+    {
+      "path": "data/teach/mh1.4.1.2.json",
+      "sha256": "ae9a5c9fbd8f8c5c06c5fec73531ce20694f634fa73654ae978a9e85c68edd38"
+    },
+    {
+      "path": "data/teach/mh1.4.2.1.json",
+      "sha256": "3fd3ddf7312ea5505951038a8d1c77d92ff7a68e9abe80e60720f9fa31d04a16"
+    },
+    {
+      "path": "data/teach/mh1.4.2.2.json",
+      "sha256": "869a8d5031fabcbef093d03f2699fcaf43e6ddde2fea8bc4bc99e0d945464d3e"
+    },
+    {
+      "path": "data/teach/mh1.4.3.2.json",
+      "sha256": "0d7ee348a35c22d6580510af47fcf184d10be9b6a87c2bbc80b9d71f00ed1ec2"
+    },
+    {
+      "path": "data/teach/mh1.4.4.1.json",
+      "sha256": "b8481de6fcf20522ab1e9b1a9fae6fc17765af4a13ead4a75b64f0578e131678"
+    },
+    {
+      "path": "data/teach/mh1.4.4.2.json",
+      "sha256": "400a649b760e47f1bce11375557c0e88ca0fa02e427c41c7276a508e8527e429"
+    },
+    {
+      "path": "data/teach/mh1.4.4.3.json",
+      "sha256": "1c7a2622aa479b7335371315c8817955760011098cd15718532d95f1f0b22ade"
+    },
+    {
+      "path": "data/teach/mh1.4.5.1.json",
+      "sha256": "9dda0afd317796564150347ce0573a854fda2628f6a006d0252c89efec22e593"
+    },
+    {
+      "path": "data/teach/mh1.4.5.2.json",
+      "sha256": "e0b3f6886af3a5e0b6ae8b4439ef9b22d0dddb9343c4d3003f5ff0ffd2af23b8"
+    },
+    {
+      "path": "data/teach/mh1.4.5.3.json",
+      "sha256": "e9a6056cee6dcd73669361a2d5e8ee5d992619d2ceabdcbdb0fe2ed23e3e937c"
+    },
+    {
+      "path": "data/teach/mh1.5.1.1.json",
+      "sha256": "c5a8a5adf3ba6fe53b4e56ed057eab7ce2e21f87faa326dd6af37acd06fba83f"
+    },
+    {
+      "path": "data/teach/mh1.5.1.2.json",
+      "sha256": "09db50fac1ff3b5594ff4f43568b93069a8225f8b05879d457f36afc38999528"
+    },
+    {
+      "path": "data/teach/mh1.5.2.1.json",
+      "sha256": "aa47c312ade6267695b7f8da165f71f6a941e3bb39777b00be3394c7d3993aa7"
+    },
+    {
+      "path": "data/teach/mh1.5.2.2.json",
+      "sha256": "605ec4f9eae93d44218ea85357444a9ddf52cff52a5c4a49f0812e1469c07644"
+    },
+    {
+      "path": "data/teach/mh1.5.3.json",
+      "sha256": "501e0aeaaf8a82a43808c9f1f12f1d1146815b3368e19b347cc7b1abe88e4467"
+    },
+    {
+      "path": "data/teach/mh1.5.4.1.json",
+      "sha256": "16afc6f7de8809def55a803a29fe4e377b649b7b92e632d93191e9d29427fb94"
+    },
+    {
+      "path": "data/teach/mh1.5.4.2.json",
+      "sha256": "1dafcce9f829dc1a9efd3758860843818b0b9fc9d6d7a4b9bf1de5d44b521f66"
+    },
+    {
+      "path": "data/teach/mh1.5.4.3.json",
+      "sha256": "5d9ca34b12e6b757a62841af511d322d7b4f5e7b417591745178bce10cd402e5"
+    },
+    {
+      "path": "data/teach/mh1.5.5.1.json",
+      "sha256": "e71f835b6ac1e4d417278ab0c9edab7c695946949495bc0a6f92dba50abf60f1"
+    },
+    {
+      "path": "data/teach/mh1.5.6.1.json",
+      "sha256": "f400768a6992e96d0d4615dcfcf32b40b2f0bed26f2aaf1beea2cb6d0e43f01f"
+    },
+    {
+      "path": "data/teach/mh1.5.6.2.json",
+      "sha256": "4d1974b635d9f1ca4499af34be01f1035c6a999df6fc0f0698cece1f24f2af70"
+    },
+    {
+      "path": "data/teach/mh1.5.7.json",
+      "sha256": "fea952196fefb1995aa3d364dce7f35ccb13dec85f8ee4eb45b3551eb69edcbf"
+    },
+    {
+      "path": "data/teach/mh2.10.1.1.json",
+      "sha256": "86168efd574c924cf65423a934eb5c301978707a8daac4b26aa1e5109fd4e2bc"
+    },
+    {
+      "path": "data/teach/mh2.10.1.2.json",
+      "sha256": "27fdfbce5757fe62c055336d008556b2539fb8067c8787804e05624eaab5943f"
+    },
+    {
+      "path": "data/teach/mh2.10.1.4.json",
+      "sha256": "56078752d606d1dedc50c60348cd01ae73a895a37586c0eb03b3a0ccb10b32cb"
+    },
+    {
+      "path": "data/teach/mh2.10.2.json",
+      "sha256": "e3a8557adb664bf679b5f6ebc03b689d09e73374bcf93a1242b3ddc46bb775a9"
+    },
+    {
+      "path": "data/teach/mh2.10.3.1.json",
+      "sha256": "31d05412dd7594e86b2083228909f17eae27ee85893cbd6f31901fe0844e947d"
+    },
+    {
+      "path": "data/teach/mh2.10.3.2.json",
+      "sha256": "38a456c521fe9b9041ae608476e6e33b6c52bd6c10d2cbb9f21e5480d3480731"
+    },
+    {
+      "path": "data/teach/mh2.6.1.json",
+      "sha256": "de8543c4719cf19e43e2c285e912396ef4ab2c2614490538db50145b65e8a69d"
+    },
+    {
+      "path": "data/teach/mh2.6.2.1.json",
+      "sha256": "8cbf388e75823bad0a5bf0d91703b323bcf9f6ca0bb5e057f62e1ae8d71b9623"
+    },
+    {
+      "path": "data/teach/mh2.6.2.2.json",
+      "sha256": "fd07b03ad9f83c86f615d98eb8a2c5cde7217483e5b6f4ad8e130892a6fee40a"
+    },
+    {
+      "path": "data/teach/mh2.6.2.3.json",
+      "sha256": "94616fdc7af83044ef1af877e5f6372abba1a76f91c1980e6a974b116a7d1bdc"
+    },
+    {
+      "path": "data/teach/mh2.6.2.4.json",
+      "sha256": "7cf8564a7ed7f1cbce1e6e96e32794187304129627bf80e7293dc550f7f59c4c"
+    },
+    {
+      "path": "data/teach/mh2.6.3.1.json",
+      "sha256": "4e0d04edcb325546be00b8bf366f788c96bc0a4331a42f16ca4a8d8ef65432a2"
+    },
+    {
+      "path": "data/teach/mh2.6.3.2.json",
+      "sha256": "305af834d918bccadad4c600a9b5a51f7dfc279ef4908b4200223888db598e7a"
+    },
+    {
+      "path": "data/teach/mh2.6.3.3.json",
+      "sha256": "7efccf6f52a0a735859184e18dade2f463f017dab4dcee53a6024fb00a66b3cc"
+    },
+    {
+      "path": "data/teach/mh2.6.3.4.json",
+      "sha256": "754de8c23c7dd4629eb14d9b091dd2cf717d049f1a34734dddb566b9cb7dbc96"
+    },
+    {
+      "path": "data/teach/mh2.6.3.5.json",
+      "sha256": "edbb3ed9701e59a6fde882a0df4ab3c18699923f4d812dad84ccd39a34e25dac"
+    },
+    {
+      "path": "data/teach/mh2.6.4.1.json",
+      "sha256": "96cba68c990ab9a080e8f8b5ecd51aaf60e005c0933cfa82ba1b48ea78d023f6"
+    },
+    {
+      "path": "data/teach/mh2.6.4.2.json",
+      "sha256": "b297bd130dc4d726362430eefae00ddb091388fc31403d30994903b757cb8372"
+    },
+    {
+      "path": "data/teach/mh2.6.4.3.json",
+      "sha256": "6903081d79255fc2c8b9ce7e1f9a7e4f2b400ceffdb4f78b06d28c722dd7c0d5"
+    },
+    {
+      "path": "data/teach/mh2.7.1.1.json",
+      "sha256": "10663fff88ba1a5c016931d504d6d5109053b87ecd41bc07fc9c62886a1df638"
+    },
+    {
+      "path": "data/teach/mh2.7.1.2.json",
+      "sha256": "1183f72ee165cbee8d04d5dc6153c9668fbf7bacf2a7d25d0ab757a1b728e627"
+    },
+    {
+      "path": "data/teach/mh2.7.2.1.json",
+      "sha256": "824bbde4758984909b512945b81118d4d6bef5501df336803a0992e46aeb1963"
+    },
+    {
+      "path": "data/teach/mh2.7.2.2.json",
+      "sha256": "3b6ecf05f02da2839d35c6fe4377dfe2ad22ed82a2ad6c1662d27644e2db42a1"
+    },
+    {
+      "path": "data/teach/mh2.7.3.1.json",
+      "sha256": "df9b1d4e2c2e3af2fc21f7cc9684a92b23f159ea0a88c44270de61cee9393d09"
+    },
+    {
+      "path": "data/teach/mh2.7.3.2.json",
+      "sha256": "32ee98740d1e5d7e85cd68dc13debb931f17f8094d5b68bebc223ad8bb8fca1e"
+    },
+    {
+      "path": "data/teach/mh2.8.1.json",
+      "sha256": "3128b17f49afe22ef35b2dd737a90fa26d887513e2046bf4fab2dc733f55365f"
+    },
+    {
+      "path": "data/teach/mh2.8.2.json",
+      "sha256": "af39503ba68c08364657366274fac61038ef543c9010080d0ff30b1c059a06f0"
+    },
+    {
+      "path": "data/teach/mh2.8.4.1.json",
+      "sha256": "7832e0fd149efa273246fa32c49e12efd9344cee60c09793772b7acb77f6fb5d"
+    },
+    {
+      "path": "data/teach/mh2.8.4.2.json",
+      "sha256": "ac09db79c8803c84ae566700f6dba37360b0edd58a4ed484af2a0aba3da3eef0"
+    },
+    {
+      "path": "data/teach/mh2.8.5.1.json",
+      "sha256": "c5460b4fd167cc8f732ca70172af35af3740ce6ab7690f9a64c88fb080535508"
+    },
+    {
+      "path": "data/teach/mh2.8.5.2.json",
+      "sha256": "252ebe20d9a2f562b881edecb8d9bba7393336983e277d3a32b74785e0ce6eec"
+    },
+    {
+      "path": "data/teach/mh2.8.5.3.json",
+      "sha256": "f1edf6b1202cde7817d594a1b8c5b50859894e409c58d221cdd321d0d92c9b99"
+    },
+    {
+      "path": "data/teach/mh2.8.6.1.json",
+      "sha256": "0110b80603bd56c952d270865fba6121254de7f1b785c4466830725fbd7a1f74"
+    },
+    {
+      "path": "data/teach/mh2.8.6.2.json",
+      "sha256": "8bfffc1789a500aec41298e9b25252fdc569e53f1b7fdde86bfaef09748d2548"
+    },
+    {
+      "path": "data/teach/mh2.8.6.3.json",
+      "sha256": "6d98f15ed02c2b0a175451c9b1867e5a70ed7f30c772ab58bdf144abcc8e14b3"
+    },
+    {
+      "path": "data/teach/mh2.9.1.3.json",
+      "sha256": "f603252cf140a83194c04948ed092290b649867f0fb808e430a349e83e4d6649"
+    },
+    {
+      "path": "data/teach/mh2.9.2.1.json",
+      "sha256": "ccf4d3608b996506dd33a114c8a0cc18482a138e9f6751f617916568c997a946"
+    },
+    {
+      "path": "data/teach/mh2.9.2.2.json",
+      "sha256": "839a9515cac3d9d10741cfd2cbcf9facee3bfac170e749ade51cbaf5091b0876"
+    },
+    {
+      "path": "data/teach/mh2.9.2.3.json",
+      "sha256": "946e66ea1ddce0091034baef89cdf08c6121b545ada601acbdb435da3df86270"
+    },
+    {
+      "path": "data/teach/mh2.9.2.4.json",
+      "sha256": "8db482f3733d9ff81fb5ae7593efbc105f346e446051626f0b5eb9aff6e6a2b3"
+    },
+    {
+      "path": "data/teach/mh2.9.3.json",
+      "sha256": "5756f599b77b8cc26b350dd41214c0820c389be712cc60def59d1300621068c8"
+    },
+    {
+      "path": "data/teach/mh3.1.1.1.json",
+      "sha256": "7bb746d0f75bff847435524879cd11e009d37f7e4c099719fcee8d2bc17d0a15"
+    },
+    {
+      "path": "data/teach/mh3.1.2.json",
+      "sha256": "cd8a1c405c4ee98a2b6be354d7b7228ee00a258c10db4996d69bc1205e304b83"
+    },
+    {
+      "path": "data/teach/mh3.1.3.1.json",
+      "sha256": "7555967b9517116b66ebf57c6959c04718a013136258cd9cd7787741b28bc2fe"
+    },
+    {
+      "path": "data/teach/mh3.1.3.2.json",
+      "sha256": "2bab33d7b0a6ed751333937151c4acc81dd26c0abd9af6d68b28258bf4de1e79"
+    },
+    {
+      "path": "data/teach/mh3.1.4.1.json",
+      "sha256": "e66daf8a472ba4a65da8abff12c2609d2ab8c34f77172c6d00557e85d88c8afb"
+    },
+    {
+      "path": "data/teach/mh3.1.4.2.json",
+      "sha256": "caa885b7de43a83f47949cbbe9a6f8818dabdaad0378ef86700449ef0f2256ac"
+    },
+    {
+      "path": "data/teach/mh3.2.1.1.json",
+      "sha256": "a79c8230ab456aaced93056d7cac86136fa793ce438ebbbe1d4243e1b77c13cb"
+    },
+    {
+      "path": "data/teach/mh3.2.1.2.json",
+      "sha256": "748d045f716801533ed70835381d01a6bc68f9080c4c49f8f231d8f188c432e1"
+    },
+    {
+      "path": "data/teach/mh3.2.2.1.json",
+      "sha256": "60967ab0c541aed362dd562b17e1fb06ac66b5af0787ad7ea39b6b0e3e43c44f"
+    },
+    {
+      "path": "data/teach/mh3.2.2.2.json",
+      "sha256": "ee00902dee2c3655e4b0c844805a18196a435fff092c0e85ce8a99c18ea6cdc0"
+    },
+    {
+      "path": "data/teach/mh3.2.2.3.json",
+      "sha256": "c1709d32ebdc0f043e9e302d3e28cf4796bc3f2a71d986c572ca1aa727f23838"
+    },
+    {
+      "path": "data/teach/mh3.2.3.1.json",
+      "sha256": "96705269e5835d17b91295d2e015b86ac71388ed3fe1553a19526ad97fa19cd7"
+    },
+    {
+      "path": "data/teach/mh3.2.3.2.json",
+      "sha256": "379c8faf0ee98381bbcf8daa8cbf5322ed2463d402da44cbcc5c1ad6928ea663"
+    },
+    {
+      "path": "data/teach/mh3.2.3.3.json",
+      "sha256": "793ccb08ed60a372fd884f1bd01578bd65dd235f670287d44e9c93308d18d7f7"
+    },
+    {
+      "path": "data/teach/mh3.2.3.4.json",
+      "sha256": "b35db05480b805f00394eadb99c17e028976f463a04cc726a8a131a681cf628b"
+    },
+    {
+      "path": "data/teach/mh3.2.4.1.json",
+      "sha256": "8d16f3a79941eadea7cb486e8b32d267d9e7d9f33afd70b10c1807f5dc529cd4"
+    },
+    {
+      "path": "data/teach/mh3.2.4.2.json",
+      "sha256": "e5c294723b1767b709cdf50e2f63ffd1c93bb7204639f64149fa803ce0d16760"
+    },
+    {
+      "path": "data/teach/mh3.2.5.1.json",
+      "sha256": "9ab885f47fc53317984ca0d9032b253cff5a8ea971e8ae3e82e500e2942aefb2"
+    },
+    {
+      "path": "data/teach/mh3.2.5.2.json",
+      "sha256": "acced6af0b38175bad05fd1902da0324b7b868f39b147d2b9bb56476bb0053d8"
+    },
+    {
+      "path": "data/teach/mh3.3.1.1.json",
+      "sha256": "eee3366758e99f1277d94f14183a786fe28cce32eea7be0618b0d8bdf7234665"
+    },
+    {
+      "path": "data/teach/mh3.3.1.2.json",
+      "sha256": "7946ddd815190cf1c6f320d185caa821f4902300bc99f6baf71870338ab94c93"
+    },
+    {
+      "path": "data/teach/mh3.3.2.1.json",
+      "sha256": "44a252fe6ea3b92af3b9536eac568ff16b82e75a7238ad0e4fbfb754f04b379d"
+    },
+    {
+      "path": "data/teach/mh3.3.2.2.json",
+      "sha256": "dbe2ad604279e4140dbbf7d5aa2677b2e2750613164389be46b2bbc6e30a6692"
+    },
+    {
+      "path": "data/teach/mh3.3.3.1.json",
+      "sha256": "d18ea4ad475a9838ad102e4f6e3147c8d7b7fa4fed62138229758f8c118ce17c"
+    },
+    {
+      "path": "data/teach/mh4.4.1.json",
+      "sha256": "c62c89c049f042b296c8b7d1d4c02ee19d413161098723497095460126c2cef1"
+    },
+    {
+      "path": "data/teach/mh4.4.2.1.json",
+      "sha256": "97a75ee3ca5d8f3da6c59e9ea65d4e339a849ff63190cdb062cc5d29d09ff2ba"
+    },
+    {
+      "path": "data/teach/mh4.4.2.2.json",
+      "sha256": "4a1c39549753d1e97ecaff926c7101317edfd4b5bf01acbd3995d5876b36db27"
+    },
+    {
+      "path": "data/teach/mh4.4.3.1.json",
+      "sha256": "046188e9cb78b77b65dd33f03e00100d84c91fb2cf2faa1b23d0681a89d86dd0"
+    },
+    {
+      "path": "data/teach/mh4.4.4.json",
+      "sha256": "0a5d25953e4708f6700e10b64f47da45d9e10ee7c7a0b03a38365d10b943ece7"
+    },
+    {
+      "path": "data/teach/mh4.5.1.1.json",
+      "sha256": "257038e2d39e2cb09442a90db42a071e66ee5d487852324d931862684dc192fd"
+    },
+    {
+      "path": "data/teach/mh4.5.1.2.json",
+      "sha256": "ad62f1b2cd8f31e839b65c8e3e1da8bd18e87a4db0c1252945a9543249ba1436"
+    },
+    {
+      "path": "data/teach/mh4.5.2.2.json",
+      "sha256": "90f11cd66878433d310af0a7f0ca57dd765b34b8947f93098a04a1d345842def"
+    },
+    {
+      "path": "data/teach/mh4.5.2.3.json",
+      "sha256": "7c986dbad8579594b97ae38e16018c3130fa6a2818dc40e5963ae5055473b0b3"
+    },
+    {
+      "path": "data/teach/mh4.5.3.1.json",
+      "sha256": "ebe98df7af9e0f7479ee9b9b306521cd84f127c496b505c3b733f8729b20b17b"
+    },
+    {
+      "path": "data/teach/mh5.6.2.1.json",
+      "sha256": "a384578dc68e4335e1f8f4f3004250e81b26e576ba16f5088754c52c9509ff6a"
+    },
+    {
+      "path": "data/teach/mh5.6.2.2.json",
+      "sha256": "73733ad1e0ae848761fefb5c02d1d081bc6bdfce05bf050d9b604be065eb0904"
+    },
+    {
+      "path": "data/teach/mh5.6.2.3.json",
+      "sha256": "68b2507c54d0d272ffc72cbb4daf02ab77b21fca27634493574d69ab07e2b561"
+    },
+    {
+      "path": "data/teach/mh5.6.2.4.json",
+      "sha256": "435afed1e22b0275eb18337f5626b5173f1507cae3b8c803460909ce2d3a40f5"
+    },
+    {
+      "path": "data/teach/mh5.6.3.1.json",
+      "sha256": "238a2c7fc8dbc7284675f8f398eb616a157a6666594b33331aa9597ded0106f1"
+    },
+    {
+      "path": "data/teach/mh5.6.3.2.json",
+      "sha256": "f0774b5ace9bf20dc6a4f25a55989a28cf572d8acd6fccb42cd6c17cf9f231bb"
+    },
+    {
+      "path": "data/teach/mh5.7.1.2.json",
+      "sha256": "6097efe20d9a2556952f81554ed4e6da900a2c8d57085a044e0ac30f4b821d50"
+    },
+    {
+      "path": "data/teach/mh5.7.2.json",
+      "sha256": "9a3643e42fe411bdab70846ae43cc00233ee2d61a36d0baa351eb7590b0dd080"
+    },
+    {
+      "path": "data/teach/mh5.7.4.1.json",
+      "sha256": "8816fdf011a97b3105e9788ecc49e7b537ad978ae743d388240ecebd64103f42"
+    },
+    {
+      "path": "data/teach/mh5.7.4.2.json",
+      "sha256": "3a96c1ff620634ac4f82943798d608b12b7078c67be8532ff0aff5400270daa3"
+    },
+    {
+      "path": "data/teach/mh5.7.5.json",
+      "sha256": "458c54d6ed4c06b07f6cf97cab3640f7ecc2b1d5b0a46082dc678b9e7a9acb28"
+    },
+    {
+      "path": "data/teach/mh5.8.1.1.json",
+      "sha256": "2333681d436413d7b9036f6f0cb8eafee07d35ae51120597ec5b141efb98b1ff"
+    },
+    {
+      "path": "data/teach/mh5.8.1.2.json",
+      "sha256": "3249d6fac93dc09a5db0878c5971f56ab71f3e724f6f2f6f1acc8ca33f31b05b"
+    },
+    {
+      "path": "data/teach/mh5.8.2.1.json",
+      "sha256": "d08437ca576d74a223e8d41b0f184babf12093cca51114d40325ff38f6f80cff"
+    },
+    {
+      "path": "data/teach/mh5.8.2.2.json",
+      "sha256": "fea2efa70163963bb8565337ad943c1135bddc950dfcb4f0ca107dccb8cc6975"
+    },
+    {
+      "path": "data/teach/mh5.8.3.1.json",
+      "sha256": "9b32007c4ed0276458ae6311e3fb9c732ef9665b8bf8a7b5aa2de68688bc8aac"
+    },
+    {
+      "path": "data/teach/mh5.8.3.2.json",
+      "sha256": "d965614bffe895c25a4a4399df7efa33a5575719cea7adfec53d403c4055b5d3"
+    }
+  ],
+  "related_review_files": [
+    {
+      "path": "docs/reviews/v7-observable-goal-review.json",
+      "sha256": "bd2f5083189a9c91a5d26464b99ed3323080906379a972175b5dcec27b7a9688"
+    },
+    {
+      "path": "docs/reviews/v7-bank-metadata-review.json",
+      "sha256": "a671bce6c2f988072a4556d53fa89318623714441b92862dbc6b89ae79aed668"
+    },
+    {
+      "path": "docs/reviews/v7-instructional-support-completion-ai-review.json",
+      "sha256": "6d5ee1294435905ba319292ea14f0227035e6839af28f368ea9ea29b10ffe145"
+    },
+    {
+      "path": "docs/reviews/v7-statistics-task-mathematics-review.json",
+      "sha256": "4e1c0ee4f935c92df21eeb11a60bb1f8591517f95c2700acd5c7bbdbd62be336"
+    },
+    {
+      "path": "docs/reviews/v7-teaching-navigation-review.json",
+      "sha256": "1fc8f85bdb7b6c48dab177b47c2169b458a6589358a228727c629c74e55cee32"
+    }
+  ],
+  "local_derived_snapshots": [
+    {
+      "path": "build/quality-scope.json",
+      "sha256": "73950a333668449f6715de4270425d8bc0ecb83f6bf801c3b84c3f4d2cf3211c",
+      "use": "仅绑定本次已读取的本地重算快照，不是干净提交或CI的全套通过证明。"
+    },
+    {
+      "path": "build/alignment-report.json",
+      "sha256": "603d5978f8e654d6ec192d67666411177cc899b30f8561626b305dcf68530254",
+      "use": "仅绑定本次已读取的本地重算快照，不是干净提交或CI的全套通过证明。"
+    }
+  ],
+  "limits": [
+    "本报告为AI身份、映射与内容指纹交叉核对，不能代替逐题数学语义审查、独立教师审核或真实学生效果证据。",
+    "字段齐备和hash相符只证明检查对象一致；新增有限目标不自动认证相关综合目标。",
+    "只对列出的冻结来源与基线成立；相关来源字节变化须重新核对，不将旧通过移交新版。",
+    "原始会话、作品、历史判定、帮助曝光和用户数据未读取或修改；未据新目标回填旧记录。",
+    "没有执行或预写本轮完整回归、最终浏览器验收、CI结果或发布结论。"
+  ],
+  "prior_point_in_time_refreshes": [
+    {
+      "identity_review_sha256": "27b6a1cb43e6580673591f61a4acfd4df3cd24ff4d509abc1feb03d128d239dd",
+      "reviewed_at_utc": "2026-10-28T03:18:08.368292+00:00",
+      "refresh_record": {
+        "previous_identity_review_sha256": "215207c749cc6de193d9c9982932c3a0767cafcaba8080690851c5cda032917f",
+        "previous_reviewed_at_utc": "2026-10-28T03:12:40.650335+00:00",
+        "revision_record": {
+          "path": "docs/reviews/v7-final-source-note-revision.json",
+          "sha256": "59c30b17d7a88ed039ef05991d47b6d5dc275e01843bdbdeea26e0f8d538e26c"
+        },
+        "reason": "最终冻结前仅将 m8b.22.2-q102 的 difficulty_basis 从旧固定差额抄读说明改为现题分段计费及减免计算说明；重新实际读取并核对身份、映射、材料及源题指纹。",
+        "changed_author_source_paths": [
+          "data/question_sources/application.json"
+        ],
+        "task_id": "m8b.22.2-q102",
+        "changed_task_fields": [
+          "difficulty_basis"
+        ],
+        "previous_task_object_reconstructed_from_one_field_and_hash_verified": true,
+        "current_task_object_hash_verified": true,
+        "unchanged_identity_source_paths": [
+          "data/skills/registry.json",
+          "data/skills/catalog-bindings.json",
+          "data/curriculum_scope.json",
+          "data/topics.json",
+          "data/topic_tiers.json"
+        ],
+        "all_317_material_file_bytes_unchanged": true,
+        "binding_and_registry_rechecks_passed": true,
+        "updated_related_file_hashes_checked": [
+          {
+            "path": "docs/reviews/v7-bank-metadata-review.json",
+            "sha256": "a671bce6c2f988072a4556d53fa89318623714441b92862dbc6b89ae79aed668"
+          },
+          {
+            "path": "data/task_family_history.json",
+            "sha256": "c6b5cfc51eb711d476daafa14983c517840c0d5c978159e5260476517253d128"
+          },
+          {
+            "path": "docs/reviews/v7-observable-goal-review.json",
+            "sha256": "60d00e50f2f3e89bd0b721dd90a687d496041857211c6d003480d37256c8a045"
+          },
+          {
+            "path": "data/task_admissions.json",
+            "sha256": "703ab11a2f72f9eb41ccfa7dd4df284a29cdd4405e54fa41775a35525024c6d3"
+          },
+          {
+            "path": "docs/reviews/v7-admission-continuation-review.json",
+            "sha256": "80bfde90cf9ceeeb1ff97cb9a706eeaa86f924426d95e89ba4801826b24e06de"
+          },
+          {
+            "path": "data/questions.json",
+            "sha256": "8ceb6f57053e5e02316da41991d3150f09f0989879888f9b1be9948d90741665"
+          }
+        ],
+        "boundary": "此刷新核对本次明确说明变化及其引用，不代替root准入审查或最终全套测试；未更新其他审查、作者源、派生文件或历史记录。"
+      },
+      "boundary": "这是导航指引修正前的实际点时核对；其中GOALS的旧hash通过保存的原始字节重新核实，不作为当前卡片或当前GOALS的hash，也不修改该历史修订记录。"
+    }
+  ],
+  "final_navigation_refresh": {
+    "previous_identity_review_sha256": "27b6a1cb43e6580673591f61a4acfd4df3cd24ff4d509abc1feb03d128d239dd",
+    "review_record": {
+      "path": "docs/reviews/v7-teaching-navigation-review.json",
+      "sha256": "1fc8f85bdb7b6c48dab177b47c2169b458a6589358a228727c629c74e55cee32"
+    },
+    "historical_source_note_review": {
+      "path": "docs/reviews/v7-final-source-note-revision.json",
+      "sha256": "59c30b17d7a88ed039ef05991d47b6d5dc275e01843bdbdeea26e0f8d538e26c"
+    },
+    "historical_goal_review_sha256_verified_from_checkpoint": "60d00e50f2f3e89bd0b721dd90a687d496041857211c6d003480d37256c8a045",
+    "current_goal_review_sha256": "bd2f5083189a9c91a5d26464b99ed3323080906379a972175b5dcec27b7a9688",
+    "checkpoint_boundary": "使用修正前真实文件逐字段比较；131个源卡仅清单pointer变化，642个目标材料对象完整相等。历史报告保留原hash与原语义，当前317个卡hash已按新来源验证。",
+    "updated_evidence_hashes_checked": [
+      {
+        "path": "docs/reviews/v7-observable-goal-review.json",
+        "sha256": "bd2f5083189a9c91a5d26464b99ed3323080906379a972175b5dcec27b7a9688"
+      },
+      {
+        "path": "data/math_statement_reviews.json",
+        "sha256": "a7b9499226d1d69eceb58b1c21a2d9db4b6973998003e54ffae41eef746fcfd4"
+      },
+      {
+        "path": "docs/reviews/v7-numeric-prose-continuation-review.json",
+        "sha256": "8b3187b65886d87bc6ee973d71cd7f57f4290c4f0ade5f58fc922695f1514ef5"
+      }
+    ],
+    "no_author_or_derived_or_other_review_files_written": true,
+    "release_boundary": "此为当前身份、导航差异和材料指纹核对，未预写最终完整回归、CI或浏览器结论。"
+  }
+}

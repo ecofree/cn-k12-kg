@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3a.5.3",
+  "name": "角的认识",
+  "tier": "tool",
+  "hook": "两根活动纸条共用一头，拉长纸条会让夹角变大吗？",
+  "definition": "从同一点引出的两条射线组成角，共同点是顶点，射线是两条边。角的大小看两边张开的程度，和图上把边画多长无关。",
+  "why": "活动纸条固定相连端，转动一条会改变开口；只延长纸条不改变方向，开口不变。角的边代表射线，所以画得长短不能决定角大小。",
+  "conditions": [
+    "两条边须有共同端点，组成明确的角。",
+    "比较通常的非反角时，固定同一侧开口再判断大小。"
+  ],
+  "representation_note": "用两根纸条在一端连接，分别做转动与接长操作并叠合比较。",
+  "when_to_use": [
+    "两条边须有共同端点，组成明确的角。",
+    "比较通常的非反角时，固定同一侧开口再判断大小。"
+  ],
+  "steps": [
+    "找共同顶点与两条边。",
+    "固定一边，观察另一边方向和张开程度。",
+    "叠合顶点与一边比较，区分接长与转动。"
+  ],
+  "worked_example": {
+    "prompt": "两个角开口一样，甲画出的边长3厘米，乙画出的边长6厘米，谁大？",
+    "steps": [
+      "把顶点和一边叠合，另一边方向也重合。",
+      "乙只是把边画长，张开程度没有变。"
+    ],
+    "answer": "两角一样大。",
+    "family_id": "geometry.angle-opening-invariant",
+    "variant_id": "m3a.5.3:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "角有一个顶点、两条边，不是两个顶点。",
+    "边长变大不代表角变大。"
+  ],
+  "practice": [
+    {
+      "id": "m3a.5.3-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3a.5.3-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "角的组成要同时有共同顶点和两条从该点出发的射线。两条不相接的线段不能直接称作同一个角。",
+      "observation_note": "观察组成与标注；精确度数尚不在本项目标。",
+      "self_check": {
+        "prompt": "画角AOB，标顶点O和两条边，再说明字母O为何应写在角名中间。",
+        "reference_answer": "O是公共顶点，OA、OB是两边，角名AOB的中间字母表示顶点。",
+        "criteria": [
+          "公共顶点正确",
+          "两边对应清楚"
+        ],
+        "family_id": "geometry.angle-label-components",
+        "variant_id": "m3a.5.3:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "两条边分别从不同点开始，还共享顶点吗？",
+        "hint": "延长或移动到同一端点只是改图，先检查原图。",
+        "revision_prompt": "重画一个公共点O并从它引出两边。"
+      },
+      "criterion_index": 0,
+      "title": "能说出角的组成"
+    },
+    {
+      "explanation": "只延长边保持射线方向，不改变角；转动一条边改变张开程度，角才变化。",
+      "observation_note": "观察不变量，不能只背“与边长无关”而不操作。",
+      "self_check": {
+        "prompt": "用活动角先延长一条边，再转动它。分别说明哪一步改变角大小，并叠合验证。",
+        "reference_answer": "延长不变，转动且改变开口才改变；叠合可验证。",
+        "criteria": [
+          "区分延长与转动",
+          "用叠合或方向说明"
+        ],
+        "family_id": "geometry.angle-opening-invariant",
+        "variant_id": "m3a.5.3:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把短边接长，但方向没变，另一边会移动吗？",
+        "hint": "固定顶点和两边方向，只在末端加纸条。",
+        "revision_prompt": "保留两次操作图，圈出真正改变开口的一次。"
+      },
+      "criterion_index": 1,
+      "title": "知道角的大小与边的长短无关"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

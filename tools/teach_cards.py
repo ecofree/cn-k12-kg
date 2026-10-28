@@ -35,10 +35,49 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from cnkg.evidence import safe_eval  # noqa: E402
+from cnkg.verify import compare, to_number  # noqa: E402
 
 DATA = ROOT / "data"
 TEACH = DATA / "teach"
 STAGES = ("primary", "junior", "senior")
+
+
+def check_objective_coverage(card: dict, topic: dict) -> list[str]:
+    """核对本项目已登记的目标闭环，不把结构检查当教师审核。"""
+    goals = topic.get("mastery_criteria") or []
+    rows = card.get("objective_coverage")
+    if not isinstance(rows, list) or not rows:
+        return ["缺 objective_coverage：每个已登记目标需有专属讲解和自检"]
+    errors, seen = [], set()
+    for row in rows:
+        if not isinstance(row, dict):
+            errors.append("objective_coverage 每项必须为对象")
+            continue
+        idx = row.get("criterion_index")
+        if isinstance(idx, bool) or not isinstance(idx, int) or not 0 <= idx < len(goals):
+            errors.append("objective_coverage 引用无效目标索引")
+            continue
+        if idx in seen:
+            errors.append(f"objective_coverage 目标 {idx} 重复")
+        seen.add(idx)
+        if row.get("title") != goals[idx]:
+            errors.append(f"objective_coverage 目标 {idx} 标题与知识点不一致，需重新核对")
+        if not isinstance(row.get("explanation"), str) or len(row["explanation"].strip()) < 10:
+            errors.append(f"objective_coverage 目标 {idx} 缺少具体讲解")
+        task = row.get("self_check")
+        if not isinstance(task, dict):
+            errors.append(f"objective_coverage 目标 {idx} 缺自检任务")
+            continue
+        for key in ("prompt", "reference_answer"):
+            value = task.get(key)
+            if not isinstance(value, str) or not value.strip() or value.strip() in ("略", "答案略", "待补充", "TODO"):
+                errors.append(f"objective_coverage 目标 {idx} 缺 {key}")
+        rubric = task.get("criteria")
+        if not isinstance(rubric, list) or not rubric or any(not isinstance(v, str) or not v.strip() for v in rubric):
+            errors.append(f"objective_coverage 目标 {idx} 缺可观察评价标准")
+    if seen != set(range(len(goals))):
+        errors.append(f"objective_coverage 未覆盖目标 {sorted(set(range(len(goals))) - seen)}")
+    return errors
 
 
 def stage_of(topic: dict) -> str:
@@ -48,7 +87,29 @@ def stage_of(topic: dict) -> str:
     return "primary" if g <= 6 else ("junior" if g <= 9 else "senior")
 
 
-def check_card(card: dict, topics: dict, bank: dict) -> list[str]:
+def current_practice_ids(data_dir: pathlib.Path) -> set[str]:
+    """Read current practice admission; archived existence is not availability.
+
+    The admission gate checks content fingerprints separately. This gate keeps
+    the lesson's live links out of both explicitly retired sources and any task
+    with no positive practice admission, including newly added unreviewed tasks.
+    Neither archived questions nor their historical learner snapshots change.
+    """
+    data_dir = pathlib.Path(data_dir)
+    admissions = json.loads((data_dir / "task_admissions.json").read_text(encoding="utf-8"))
+    if admissions.get("schema") != 1 or not isinstance(admissions.get("tasks"), dict):
+        raise ValueError("讲解练习验收需要当前显式题目准入清单")
+    allowed = {qid for qid, row in admissions["tasks"].items()
+               if row.get("policy", {}).get("practice_eligible") is True}
+    sources = json.loads((data_dir / "content_sources.json").read_text(encoding="utf-8"))
+    for source in sources.get("question_sources", []):
+        if source.get("status") == "retired":
+            archive = json.loads((data_dir / source["path"]).read_text(encoding="utf-8"))
+            allowed.difference_update(question["id"] for question in archive.get("questions", []))
+    return allowed
+
+
+def check_card(card: dict, topics: dict, bank: dict, *, practice_ids: set[str] | None = None) -> list[str]:
     errs = []
     tid = card.get("topicId")
     if tid not in topics:
@@ -78,18 +139,25 @@ def check_card(card: dict, topics: dict, bank: dict) -> list[str]:
         errs.append("例题缺题干")
     if len(ex.get("steps") or []) < 2:
         errs.append("例题讲解少于 2 步")
+    if not str(ex.get("answer") or "").strip():
+        errs.append("例题缺参考结论")
+    if to_number(ex.get("answer")) is not None and not ex.get("verify"):
+        errs.append("数值例题缺 verify，无法复算")
     if ex.get("verify"):
         got = safe_eval(ex["verify"])
-        try:
-            want = float(str(ex.get("answer") or "").strip())
-        except ValueError:
-            want = None
+        want = to_number(ex.get("answer"))
         if got is None:
             errs.append(f"例题 verify 无法求值：{ex['verify']}")
         elif want is None:
             errs.append("例题 answer 不是数值，但给了 verify")
-        elif abs(got - want) > 1e-6 * max(abs(want), 1.0):
+        elif not compare(ex.get("answer"), got):
             errs.append(f"例题 verify={ex['verify']} 得 {got}，与 answer={want} 不符")
+
+    if card.get("tier") == "core" or "objective_coverage" in card:
+        errs.extend(check_objective_coverage(card, topics[tid]))
+    if card.get("diagram"):
+        from cnkg.learning import _check_diagram
+        errs.extend(_check_diagram(card["diagram"], "diagram"))
 
     practice = card.get("practice") or []
     if len(practice) < 2:
@@ -101,6 +169,8 @@ def check_card(card: dict, topics: dict, bank: dict) -> list[str]:
         if q is None:
             errs.append(f"练习题不存在：{pid}")
             continue
+        if practice_ids is not None and pid not in practice_ids:
+            errs.append(f"练习题未获当前练习准入或已退役：{pid}")
         if tid not in (q.get("topicIds") or [q.get("topicId")]):
             errs.append(f"练习题 {pid} 不属于 {tid}")
         types.add(q.get("type"))
@@ -110,18 +180,14 @@ def check_card(card: dict, topics: dict, bank: dict) -> list[str]:
 
 
 def check_brief(card: dict, topics: dict, tier_data: dict,
-                bank: dict | None = None) -> list[str]:
-    """速查卡校验：一张卡覆盖同簇同册的一组工具点。
+                bank: dict | None = None, *, practice_ids: set[str] | None = None) -> list[str]:
+    """校验同簇同册的辅助参考卡；core 可以引用，但不能冒充完整讲解。
 
-    速查卡故意比完整卡短：工具点的教学目标是熟练，不是理解。
-    但「短」不等于可以空：至少要有一句话定位、3–5 条可操作要点、
-    至少一个真易错点、一条能当场执行的过关标准，以及 1–3 道当场验证的题。
-
-    `covers` 允许只有 1 个点：按「簇 × 册次」切完，本来就有 20 个组只含
-    1–2 个点（如「认识人民币」「抽样调查」）。硬要求 3 个，这些点就一张卡
-    都没有——那比「卡不够合并」更糟。
-    """
+`covers` 只表示本卡的参考范围，不证明全部目标已经被讲清或测量。
+"""
     errs = []
+    if card.get("reference_only") is not True:
+        errs.append("速查卡必须标记 reference_only=true，不能冒充完整讲解")
     cid = card.get("cluster")
     vol = card.get("volume")
     if cid not in (tier_data.get("clusters") or {}):
@@ -135,8 +201,6 @@ def check_brief(card: dict, topics: dict, tier_data: dict,
             errs.append(f"覆盖的知识点不存在：{tid}")
             continue
         info = (tier_data.get("topics") or {}).get(tid) or {}
-        if info.get("tier") != "tool":
-            errs.append(f"{tid} 不是工具点，不该进速查卡")
         if info.get("cluster") != cid:
             errs.append(f"{tid} 属于 {info.get('cluster')}，与卡片的 {cid} 不符")
         if t.get("volume") != vol:
@@ -156,10 +220,9 @@ def check_brief(card: dict, topics: dict, tier_data: dict,
     if len((card.get("check") or "").strip()) < 10:
         errs.append("缺过关标准")
 
-    # 一张速查卡 = 一个「簇 × 册次」组，不能漏点。
-    # 漏了点，那个点在系统里就既没有完整卡、也不在任何速查卡里，等于没讲。
+    # 与显式登记的参考范围一致，不随核心/工具分类自动扩大。
     members = {tid for tid, info in (tier_data.get("topics") or {}).items()
-               if info.get("brief_group") == f"{cid}@{vol}"}
+               if (info.get("reference_group") or info.get("brief_group")) == f"{cid}@{vol}"}
     if covers and members:
         for tid in sorted(members - set(covers)):
             errs.append(f"漏了同组的 {tid}（{topics.get(tid, {}).get('name')}）")
@@ -176,6 +239,8 @@ def check_brief(card: dict, topics: dict, tier_data: dict,
             if q is None:
                 errs.append(f"练习题不存在：{qid}")
                 continue
+            if practice_ids is not None and qid not in practice_ids:
+                errs.append(f"练习题未获当前练习准入或已退役：{qid}")
             ids = set(q.get("topicIds") or [q.get("topicId")])
             if not ids & set(covers):
                 errs.append(f"练习题 {qid} 不在本卡覆盖的知识点里")
@@ -190,6 +255,7 @@ def main() -> int:
 
     topics = {t["id"]: t for t in json.loads((DATA / "topics.json").read_text(encoding="utf-8"))}
     bank = {q["id"]: q for q in json.loads((DATA / "questions.json").read_text(encoding="utf-8"))}
+    practice_ids = current_practice_ids(DATA)
     cards = {}
     for path in sorted(TEACH.glob("*.json")) if TEACH.exists() else []:
         card = json.loads(path.read_text(encoding="utf-8"))
@@ -197,7 +263,7 @@ def main() -> int:
 
     problems = []
     for tid, card in cards.items():
-        for e in check_card(card, topics, bank):
+        for e in check_card(card, topics, bank, practice_ids=practice_ids):
             problems.append({"topicId": tid, "error": e})
 
     # 速查卡（工具点合并卡）：data/teach/clusters/<cluster>@<volume>.json
@@ -211,11 +277,12 @@ def main() -> int:
         card = json.loads(path.read_text(encoding="utf-8"))
         brief_cards[path.stem] = card
     for key, card in brief_cards.items():
-        for e in check_brief(card, topics, tier_data, bank):
+        for e in check_brief(card, topics, tier_data, bank, practice_ids=practice_ids):
             problems.append({"topicId": key, "error": e, "kind": "brief"})
 
-    covered_tool = {tid for c in brief_cards.values() for tid in (c.get("covers") or [])}
-    per_stage = {s: {"topics": 0, "cards": 0, "ready": 0, "brief": 0, "taught": 0}
+    referenced = {tid for c in brief_cards.values() for tid in (c.get("covers") or [])}
+    tool_ids = {tid for tid, info in tier_data.get("topics", {}).items() if info.get("tier") == "tool"}
+    per_stage = {s: {"topics": 0, "cards": 0, "ready": 0, "brief": 0, "with_resource": 0}
                  for s in STAGES}
     for tid, t in topics.items():
         st = stage_of(t)
@@ -226,22 +293,25 @@ def main() -> int:
             per_stage[st]["cards"] += 1
             if not any(p["topicId"] == tid for p in problems):
                 per_stage[st]["ready"] += 1
-        if tid in covered_tool:
+        if tid in referenced:
             per_stage[st]["brief"] += 1
-        if tid in cards or tid in covered_tool:
-            per_stage[st]["taught"] += 1
+        if tid in cards or tid in referenced:
+            per_stage[st]["with_resource"] += 1
 
     total = {"topics": len(topics), "cards": len(cards),
-             "brief_cards": len(brief_cards), "brief_covers": len(covered_tool),
+             "brief_cards": len(brief_cards), "brief_covers": len(referenced),
+             "brief_tool_covers": len(referenced & tool_ids),
+             "brief_core_references": len(referenced - tool_ids),
              "ready": sum(1 for tid in cards
                           if not any(p["topicId"] == tid for p in problems))}
     print(f"完整讲解卡 {len(cards)}/{len(topics)} 个知识点，通过校验 {total['ready']}")
-    print(f"速查卡 {len(brief_cards)} 张，覆盖工具点 {len(covered_tool)}")
+    print(f"速查参考卡 {len(brief_cards)} 张，关联 {len(referenced)} 点"
+          f"（工具点 {total['brief_tool_covers']}，核心点辅助参考 {total['brief_core_references']}）")
     for st in STAGES:
         x = per_stage[st]
         print(f"  {st:<8} 点 {x['topics']:3}  完整卡 {x['cards']:3}"
-              f"  速查覆盖 {x['brief']:3}  教学覆盖 {x['taught']:3}"
-              f" ({x['taught'] / max(x['topics'], 1):.1%})")
+              f"  速查参考 {x['brief']:3}  有资源 {x['with_resource']:3}"
+              f" ({x['with_resource'] / max(x['topics'], 1):.1%}；含速查，不代表完整讲解)")
     if problems:
         print(f"\n问题 {len(problems)} 条：")
         for p in problems[:20]:
@@ -250,6 +320,7 @@ def main() -> int:
         print("\n全部通过：引用完整、例题可验算、题型不全是选择题。")
 
     out = {"total": total, "by_stage": per_stage, "problems": problems,
+           "scope": "ready 仅表示结构校验通过；速查只作参考，独立学科审核与技能覆盖另计",
            "brief_cards": sorted(brief_cards)}
     path = ROOT / args.json
     path.parent.mkdir(parents=True, exist_ok=True)

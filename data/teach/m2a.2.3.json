@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2a.2.3",
+  "name": "2、3、4的乘法口诀",
+  "tier": "tool",
+  "hook": "3盒铅笔，每盒4支，共几支？12支平均装3盒，每盒几支？",
+  "definition": "2的口诀有一二得二、二二得四；3的有一三得三、二三得六、三三得九；4的有一四得四、二四得八、三四十二、四四十六。",
+  "why": "同一组口诀的每份数固定，增加一份就增加2、3或4。熟悉点阵能同时看见份数与每份数，还能由乘积反找某个乘数。",
+  "conditions": [
+    "使用一二至二二、一三至三三、一四至四四的口诀。",
+    "除法只取这些口诀对应的整除关系。"
+  ],
+  "representation_note": "按2、3、4分别画等宽行的点阵，观察增加一行造成的总数变化。",
+  "when_to_use": [
+    "使用一二至二二、一三至三三、一四至四四的口诀。",
+    "除法只取这些口诀对应的整除关系。"
+  ],
+  "steps": [
+    "分别摆每行2、3、4个的点阵。",
+    "按行数从1增加，读出对应口诀。",
+    "交错练习，先看题目两个乘数，不只凭口诀尾数猜。",
+    "做除法时补“除数×几=被除数”，用同句口诀检查。"
+  ],
+  "worked_example": {
+    "prompt": "3盒铅笔，每盒4支，共几支？12支平均装3盒，每盒几支？",
+    "steps": [
+      "三四十二，所以4×3=12支。",
+      "3×4=12，所以12÷3=4支。"
+    ],
+    "answer": "12支；4支",
+    "family_id": "primary.tables-two-three-four",
+    "variant_id": "m2a.2.3:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "division.fact-family",
+      "primary.divide.group-count",
+      "primary.multiply.equal-groups"
+    ]
+  },
+  "pitfalls": [
+    "把二三得六与三三得九混用，必须核对两个乘数。",
+    "背得顺但打乱就错，可借助点阵重新找每份数与份数。"
+  ],
+  "practice": [
+    {
+      "id": "m2a.2.3-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m2a.2.3-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "先按2、3、4分组完整说口诀，再把同一乘数的相邻句联系起来：二四八再加一份4，就是三四十二。",
+      "observation_note": "本项观察三组口诀无漏句、用增加一份解释相邻句；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。文字输入或自报不能直接验证实际口头背诵或读音；书面填全口诀不自动等同于能口头熟练背诵。",
+      "self_check": {
+        "prompt": "说全2、3、4的三组口诀，再说明三四十二能怎样从二四得八推出。",
+        "reference_answer": "2组：一二得二、二二得四；3组：一三得三、二三得六、三三得九；4组：一四得四、二四得八、三四十二、四四十六。8再加4得12。",
+        "criteria": [
+          "三组口诀无漏句",
+          "用增加一份解释相邻句"
+        ],
+        "family_id": "primary.multiply.table-facts",
+        "variant_id": "m2a.2.3:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.equal-groups"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "二四与三四相比，增加的是1个物体还是1份4个？",
+        "hint": "把多出的一行4个圈起来。",
+        "revision_prompt": "给忘记的口诀画点阵，由已知的一句加一份或减一份推得。"
+      },
+      "criterion_index": 0,
+      "title": "能背诵 2、3、4 的乘法口诀"
+    },
+    {
+      "explanation": "算相应乘除法要同时匹配两个乘数与积，如三三得九只对应3与3、积9，不能拿来算3×4。",
+      "observation_note": "本项观察四题匹配正确口诀、乘除方向清楚；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "算3×3、4×2、12÷4、16÷4，并分别说所用口诀。",
+        "reference_answer": "9（三三得九）、8（二四得八）、3（三四十二）、4（四四十六）。",
+        "criteria": [
+          "四题匹配正确口诀",
+          "乘除方向清楚"
+        ],
+        "family_id": "primary.multiply.table-facts",
+        "variant_id": "m2a.2.3:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "division.fact-family"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "12÷4中的商应与4相乘得12还是得16？",
+        "hint": "固定题里的被除数12，再找含4且积为12的句子。",
+        "revision_prompt": "在错题旁写出对应乘法，圈出题目已知数与待求数。"
+      },
+      "criterion_index": 1,
+      "title": "能用口诀计算相应的乘除法"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.7.4",
+  "name": "平移",
+  "tier": "core",
+  "hook": "把透明纸上的三角形推到别处，哪些量改变了，哪些量没有改变？",
+  "definition": "平移是把一个图形整体沿某一直线方向移动，形状与大小都不变，对应点所连的线段平行（或在同一直线上）且相等。",
+  "why": "平移使图形每个点沿同一方向移动相同距离，所以任意两点间的相对位置不变；对应边、角及面积保持，位置改变。连接各对对应点的线段长度相等、方向一致。",
+  "when_to_use": [
+    "图形整体移动而没有转向或翻面",
+    "已知平移前后的对应点求边角或面积"
+  ],
+  "steps": [
+    "先找一对对应点确定方向与距离",
+    "让所有顶点作同样的移动",
+    "按原连接顺序连点并使用长度角度不变性"
+  ],
+  "worked_example": {
+    "prompt": "△ABC向右平移得到△A′B′C′，AB=4，BC=5，CA=6。求新三角形的周长。",
+    "answer": "15",
+    "steps": [
+      "平移保持三条对应边的长度，所以A′B′=4、B′C′=5、C′A′=6。",
+      "新三角形周长=4+5+6=15。"
+    ],
+    "verify": "4+5+6",
+    "family_id": "translation.length-invariance",
+    "variant_id": "m7b.7.4:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "只移动一个顶点或各点移动不同距离不是平移。",
+    "图形绕一点转动属于旋转，不是平移。"
+  ],
+  "check": "独立完成并解释：长方形ABCD整体向右平移3格、向上平移2格得到EFGH，A对应E。B的对应点是哪一点？用字母回答。 请写出判断或计算依据。；△ABC平移后得到△DEF，A、B、C依次对应D、E、F。AB=6，BC=8，CA=10，求△DEF的周长。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能识别平移并指出对应点",
+      "explanation": "对应点由同方向同距离的移动确定，顶点次序保持。",
+      "self_check": {
+        "prompt": "长方形ABCD整体向右平移3格、向上平移2格得到EFGH，A对应E。B的对应点是哪一点？用字母回答。 请写出判断或计算依据。",
+        "reference_answer": "对应点按顶点次序为A→E、B→F、C→G、D→H；所有点都作同方向同距离的移动。",
+        "criteria": [
+          "对应关系按顺序确定",
+          "说明每点移动一致"
+        ],
+        "family_id": "translation.vertex-correspondence",
+        "variant_id": "m7b.7.4:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "如果只把A移动而B不动，还是整个图形的平移吗？",
+        "hint": "每个顶点都必须沿相同方向移动相同距离；按照给定顶点对应顺序连线。",
+        "revision_prompt": "在方格纸画ABCD及其右3上2后的像，给四条对应点连线比较方向和长度。"
+      },
+      "observation_note": "观察全体点的一致移动与对应关系；写出F仍需图上确认每个顶点。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用平移的性质求线段长度或图形面积",
+      "explanation": "平移保持对应边长与角度，面积也相等。",
+      "self_check": {
+        "prompt": "△ABC平移后得到△DEF，A、B、C依次对应D、E、F。AB=6，BC=8，CA=10，求△DEF的周长。 请写出判断或计算依据。",
+        "reference_answer": "平移保持对应线段长度，DE=6、EF=8、FD=10，所以周长为6+8+10=24。",
+        "criteria": [
+          "列出三组对应边",
+          "周长24"
+        ],
+        "family_id": "translation.length-invariance",
+        "variant_id": "m7b.7.4:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "平移后周长变大，是图形移动了位置，还是误把移动距离加进边长？",
+        "hint": "对应边保持长度，移动向量不属于三角形的边。",
+        "revision_prompt": "写DE=AB、EF=BC、FD=CA后求24；另说明面积同样不因平移改变。"
+      },
+      "observation_note": "观察对应边长度保持与周长计算；不得把平移距离当作扩大的边长。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.7.4-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.7.4-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.7.4-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

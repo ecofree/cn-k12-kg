@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m9a.29.2",
+  "name": "圆的有关性质",
+  "tier": "core",
+  "hook": "已知半径和圆心到弦的距离，为什么先求的只是半条弦？",
+  "definition": "圆是轴对称图形，任何一条直径所在的直线都是它的对称轴；垂径定理：垂直于弦的直径平分这条弦，并且平分弦所对的两条弧；同弧所对的圆周角等于它所对圆心角的一半。",
+  "why": "圆心到弦的垂线与两条半径构成共用直角边、斜边相等的直角三角形，由HL全等可知弦被平分。圆周角与圆心角的关系则取决于是否对同一弧；端点相同但顶点分处弦两侧时，不能直接说角相等。",
+  "when_to_use": [
+    "圆心到弦作垂线并给半径或弦长",
+    "圆上角之间通过同弧联系求角度"
+  ],
+  "steps": [
+    "标明半径、垂足及半弦的直角三角形",
+    "使用勾股关系时区分半弦与全弦",
+    "圆周角先确认所对的弧，再用一半关系或同弧角相等"
+  ],
+  "worked_example": {
+    "prompt": "圆O半径13，OM⊥弦AB，OM=5。求AB。",
+    "answer": "24",
+    "steps": [
+      "由垂径定理AM=MB，Rt△OMA中AM²=13²−5²=144，故AM=12。",
+      "全弦AB=2AM=24。"
+    ],
+    "verify": "2*(13**2-5**2)**0.5",
+    "family_id": "circle.perpendicular-chord.half-length",
+    "variant_id": "m9a.29.2:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "execute"
+  },
+  "pitfalls": [
+    "勾股计算得AM后还需乘2才是全弦AB。",
+    "同弦两侧的圆周角可能互补，不能不看弧就说相等。"
+  ],
+  "check": "独立完成并解释：圆O半径为5厘米，OM⊥弦AB于M，OM=3厘米。弦AB长多少厘米？ 请写出判断或计算依据。；A、B、C为圆上不同点，C在劣弧AB所对的优弧上，劣弧AB对应的圆心角为100°。求圆周角∠ACB的度数。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用垂径定理求弦长或半径",
+      "explanation": "垂直于弦的直径平分弦，求弦时先求半弦。",
+      "self_check": {
+        "prompt": "①圆O半径5厘米，OM⊥弦AB于M且OM=3厘米，求AB。②另一圆中半弦长6厘米，圆心到弦的垂距8厘米，求半径。两题均画直角三角形并标出半弦与全弦。",
+        "reference_answer": "①垂径定理给AM=MB，AM²=5²−3²=16，AM=4，AB=8厘米。②半径是直角三角形斜边，r²=6²+8²=100，r=10厘米；全弦长12厘米。",
+        "criteria": [
+          "先用垂直关系确定弦被平分",
+          "求弦时算半弦后乘2",
+          "反求半径时用两直角边平方和且取正根",
+          "图上边角色和单位齐全"
+        ],
+        "family_id": "circle.perpendicular-chord.half-length",
+        "variant_id": "m9a.29.2:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "由勾股求出的4是整条弦AB还是半弦AM？",
+        "hint": "垂径定理先给AM=MB，直角三角形中OA是半径5、OM为3。",
+        "revision_prompt": "写AM=√(25−9)=4后乘2得8；画半弦标记并检查弦长不超过直径10。"
+      },
+      "observation_note": "两题分别观察由半径求全弦和由半弦、垂距反求半径；需要图中直角与半弦关系，不能只凭数字套勾股。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用圆周角定理进行角的转化",
+      "explanation": "圆周角等于所对同弧圆心角的一半，需明确顶点不在该弧上。",
+      "self_check": {
+        "prompt": "A、B、C为圆上不同点，C在劣弧AB所对的优弧上，劣弧AB对应的圆心角为100°。求圆周角∠ACB的度数。 请写出判断或计算依据。",
+        "reference_answer": "∠ACB所对的是不含C的劣弧AB，与100°圆心角对同弧；圆周角为圆心角一半，所以为50°。",
+        "criteria": [
+          "指出对劣弧AB",
+          "100÷2=50"
+        ],
+        "family_id": "circle.inscribed-angle.same-intercepted-arc",
+        "variant_id": "m9a.29.2:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "圆周角对应哪条不含顶点C的弧？C若换到另一弧，角还能直接用100°的一半吗？",
+        "hint": "本题C在优弧，∠ACB截劣弧AB，所以与100°圆心角同弧。",
+        "revision_prompt": "画出C在两侧的两种情形，第一种50°，第二种截260°优弧为130°，说明顶点位置必要。"
+      },
+      "observation_note": "观察同弧和顶点位置条件；不能把任意同端点圆周角都算作劣圆心角的一半。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由圆半径与弦长求圆心到弦的距离",
+      "explanation": "圆心到弦的距离是垂线段的长度。过圆心垂直弦时平分弦，半弦、弦心距与半径构成直角三角形：半径为斜边，因此弦心距平方等于半径平方减半弦平方。不能把整条弦直接作为直角边。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：圆 O 的半径是 5 厘米，弦 AB 长 8 厘米。圆心 O 到弦 AB 的距离是多少厘米？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：3。垂径定理半弦4，弦心距√(5²−4²)=3。",
+        "criteria": [
+          "先平分弦再用半径作斜边求弦心距，结果为非负长度；数值答案不替代性质证明",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "circle.chord-distance.from-radius-length",
+        "variant_id": "m9a.29.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "勾股关系里的直角边长应取8还是8的一半？5厘米对应斜边还是另一条直角边？",
+        "hint": "连圆心到一个弦端点，标出垂足与半弦，再在这个小直角三角形内写平方关系，最后取非负距离。",
+        "revision_prompt": "先回答这个辨别问题：勾股关系里的直角边长应取8还是8的一半？5厘米对应斜边还是另一条直角边？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；先平分弦再用半径作斜边求弦心距，结果为非负长度；数值答案不替代性质证明。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m9a.29.2-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.29.2-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.29.2-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

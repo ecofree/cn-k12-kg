@@ -1,0 +1,184 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "先知道6盒有多少支笔，才能继续算送出9支后剩多少。两问如何连起来？",
+  "definition": "连续两问可包含乘法与加减法。先根据第一问求出中间数量，再判断第二问对这个数量进行合并、去掉还是比较。每步结果都要写明含义。",
+  "why": "第二步使用的是第一步得到的总量，而不是盒数或单盒数量。给中间结果标单位和名字，可避免把不同量混在一起，也方便发现前一步错误。",
+  "when_to_use": [
+    "先求相同多份的总数，再求用去后剩余",
+    "后一问的一个条件来自前一问的答案"
+  ],
+  "steps": [
+    "从第二问倒看需要哪个中间量。",
+    "先求中间量并给结果写明单位。",
+    "按第二问关系继续运算，分别回答两个问题。"
+  ],
+  "worked_example": {
+    "prompt": "每盒6支笔，有4盒。共几支？送出9支后剩几支？",
+    "steps": [
+      "总数：6×4=24（支）。",
+      "剩余：24−9=15（支），第二步使用第一问的24支。"
+    ],
+    "answer": "共24支，剩15支",
+    "family_id": "arithmetic.multiply-then-adjust",
+    "variant_id": "m2a.5.6:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "不能拿4盒减9支，不同单位不能直接运算。",
+    "只给最后一个结果会漏答第一问。"
+  ],
+  "check": "先独立完成下面各项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m2a.5.6",
+  "name": "解决连续两问的问题",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能按顺序解答连续两问",
+      "explanation": "按依赖关系选择求解顺序，先得到第二问缺少的总数。",
+      "self_check": {
+        "prompt": "3袋糖每袋8颗，先问共多少，再问吃了5颗剩多少。应怎样安排？",
+        "reference_answer": "先求3×8=24颗，再求24−5。",
+        "criteria": [
+          "先乘后减",
+          "说明24是中间总数"
+        ],
+        "family_id": "arithmetic.multiply-then-adjust",
+        "variant_id": "m2a.5.6:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.change.remove-part",
+          "primary.multiply.equal-groups"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "5颗是吃掉的数量，3袋是袋数；它们能直接相减得到剩余糖数吗？",
+        "hint": "先把3袋各8颗合成总颗数，给24标“颗”，再从这个总量扣5颗。",
+        "revision_prompt": "每盒4块共6盒，吃掉7块，先画第二问需要的数量框，再依次列两步。"
+      },
+      "observation_note": "观察乘法中间量是后一问的条件；还需分别检查两步运算。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能把前一问的结果用于后一问",
+      "explanation": "每一步保留数量意义，避免把件数、每件数量或总数互换。",
+      "self_check": {
+        "prompt": "5排每排7人，后离开6人。先求原有人数，再求现在人数。",
+        "reference_answer": "原有5×7=35人；现在35−6=29人。",
+        "criteria": [
+          "原有35",
+          "使用35求29"
+        ],
+        "family_id": "arithmetic.multiply-then-adjust",
+        "variant_id": "m2a.5.6:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.subtraction-addition-inverse",
+          "primary.multiply.equal-groups"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "5×7得到35后，35指排数、每排人数还是全部人数？",
+        "hint": "写“原有人数35人”再画离开6人的箭头，后一问从35继续。",
+        "revision_prompt": "4排每排8人，离开5人，分两行求原有与现有人数，并用现有加离开检查原有。"
+      },
+      "observation_note": "观察中间量带含义地传入第二步；不能用排数减人数。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由相同组的组数和每组数量求总量",
+      "explanation": "同样多的若干组，总量等于每组数量乘组数。两个数各有职责：一个说明一组有多少，一个说明有几组；只给总量结果不能确认已解决另一问。",
+      "self_check": {
+        "prompt": "有5盒笔，每盒4支。一共有几支？写出两个因数分别表示什么。",
+        "reference_answer": "4×5=20支；4表示每盒4支，5表示5盒。",
+        "criteria": [
+          "识别每组4支与5组",
+          "总量为20支",
+          "结果单位是支"
+        ],
+        "family_id": "primary.multiply.equal-groups",
+        "variant_id": "m2a.5.6:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "未使用自己前一问的结果，不归入连续两问目标。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "你把4支和5盒直接相加了吗？这两个数的单位和职责相同吗？",
+        "hint": "先画5个盒框，每框写4支，再把5个4合起来。",
+        "revision_prompt": "改成每盒5支、4盒，算结果并指出因数职责已经交换，不能把盒数写成支数。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由总量与每组数量求完整等量组的组数",
+      "explanation": "给出总量及每组数量时，组数由总量除以每组量求得。这里的答案是几组；若有余数，需要另说明剩余，不能把部分的一组当完整组。",
+      "self_check": {
+        "prompt": "把18支笔每6支装一盒，正好装完。需要几盒？用每盒数量乘盒数核对。",
+        "reference_answer": "18÷6=3盒；6×3=18支，正好装完。",
+        "criteria": [
+          "除数是每盒6支",
+          "商为3盒",
+          "核对回到18支"
+        ],
+        "family_id": "primary.divide.group-count",
+        "variant_id": "m2a.5.6:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "总数已直接给出，未观察前后两步依赖。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "答案的3说的是每盒3支，还是共有3盒？",
+        "hint": "依次圈出6支为一组，数完整的组数；注意结果单位改成盒。",
+        "revision_prompt": "再用24支、每8支一盒，记录总量、每组量、组数三栏，不把组数和每组量混在一起。"
+      }
+    },
+    {
+      "criterion_index": 4,
+      "title": "能求等量组的总量后再计算一次增加或减少",
+      "explanation": "先确定等量组或匀速过程中产生的总量，再按情境增加、减少或从原总量扣去它。最后一步从哪个量出发由情境决定。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：5袋种子每袋8粒，先求总粒数，再拿出7粒做观察。最后剩多少粒？\n情境2：每排6张椅子摆4排，另有5张放在旁边。先求4排数量，再求全部数量，共几张？\n写出每个问题的答案。可以用小棒、画图或算式说明你怎样想；用了提示或参考，也记下来。",
+        "reference_answer": "情境1参考：33。5×8=40，再减7得33。\n情境2参考：29。6×4=24，再加5得29。",
+        "criteria": [
+          "中间乘积的含义与后续加减方向正确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "arithmetic.multiply-then-adjust",
+        "variant_id": "m2a.5.6:self-check:4:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只接收最后结果，不确认学生实际提交第一问再用于第二问。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "乘积表示已经产生的量、已行路程，还是当前剩余量？",
+        "hint": "给乘积写上含义，再把题目最终要求单独圈出，避免方向颠倒。",
+        "revision_prompt": "先回答这个辨别问题：乘积表示已经产生的量、已行路程，还是当前剩余量？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；中间乘积的含义与后续加减方向正确。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m2a.5.6-q1",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m2a.5.6-q101",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m2a.5.6-q102",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

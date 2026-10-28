@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.10.2.1",
+  "name": "代入消元法",
+  "tier": "core",
+  "hook": "两个未知数难以直接解，能不能把其中一个用另一个完整替换掉？",
+  "definition": "代入消元法：由一个方程解出一个未知数，代入另一个方程，把二元方程组化为一元一次方程，求出后再回代求另一个未知数。",
+  "why": "若y=2x−1，y与2x−1表示相同的数，把后一表达式替代另一方程中的y不会改变共同解，却减少了未知数。代入后的解再回代，才能还原完整的数对。",
+  "when_to_use": [
+    "有一个方程已经写成x=或y=",
+    "某未知数系数为1或−1易于单独表示"
+  ],
+  "steps": [
+    "从易变形的方程解出一个未知数",
+    "整体代入另一个方程并解一元方程",
+    "回代求另一未知数并检验两式"
+  ],
+  "worked_example": {
+    "prompt": "解方程组y=x+1、2x+y=7。",
+    "answer": "x=2，y=3",
+    "steps": [
+      "将y=x+1代入第二式，得2x+(x+1)=7，即3x=6，x=2。",
+      "回代y=2+1=3；两式分别为3=2+1、4+3=7，均成立。"
+    ],
+    "family_id": "system.substitution.direct-expression",
+    "variant_id": "m7b.10.2.1:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
+  },
+  "pitfalls": [
+    "代入表达式带加减时要整体加括号。",
+    "把表达式代回原来那一式只得恒等式，不能消元求解。"
+  ],
+  "check": "独立完成并解释：用代入法解方程组y=2x−1、x+y=8，求x。 请写出判断或计算依据。；方程组x−y=2、3x+2y=16中，由第一式写成x=y+2再代入，求y。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用代入法解二元一次方程组",
+      "explanation": "通过相等替换消去一个未知数，再回代恢复另一数值。",
+      "self_check": {
+        "prompt": "用代入法解方程组y=2x−1、x+y=8，求x和y，写出代入、回代和两式检验。",
+        "reference_answer": "将y=2x−1代入x+y=8，得x+(2x−1)=8，3x=9，x=3。回代y=2×3−1=5。核验第一式5=2×3−1，第二式3+5=8；解为x=3、y=5。",
+        "criteria": [
+          "整体代入得3x−1=8并求x=3",
+          "回代得到y=5",
+          "同一对数代回两条原方程均成立"
+        ],
+        "family_id": "system.substitution.direct-expression",
+        "variant_id": "m7b.10.2.1:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把y=2x−1代入x+y时，应替换y还是把x也替换掉？",
+        "hint": "把y占的位置框住，整体放入(2x−1)，原来的x保留。",
+        "revision_prompt": "写完整x+(2x−1)=8到x=3，再回代y=5并验证两式。"
+      },
+      "observation_note": "观察消去一个未知数、回代和双式检验；只给x仍不是完整方程组的解。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能选择系数简单的方程变形以减少计算量",
+      "explanation": "优先选择系数为±1的未知数单独表示，减少分数。",
+      "self_check": {
+        "prompt": "方程组x−y=2、3x+2y=16中，由第一式写成x=y+2再代入，求y。 请写出判断或计算依据。",
+        "reference_answer": "代入得3(y+2)+2y=16，化简5y+6=16，故y=2；回代x=4。",
+        "criteria": [
+          "先取x=y+2",
+          "展开并求得y=2"
+        ],
+        "family_id": "system.substitution.choose-unit-coefficient",
+        "variant_id": "m7b.10.2.1:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "choose_strategy"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "先从3x+2y=16解x会引入什么分母？从x−y=2解x呢？",
+        "hint": "优先选系数±1的未知数，得到x=y+2后替换另一式的每个x。",
+        "revision_prompt": "比较两种合法路径的计算量，用较简路径求(x,y)=(4,2)，再双式回验。"
+      },
+      "observation_note": "观察选择消元入口的理由；不要求唯一解法，等价的其他路径也成立。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能求含已表示出一个未知数的方程组的指定解分量",
+      "explanation": "已有y用x表示时，把完整表达式代入另一个方程的y位置，就得到一元方程。表达式需加括号避免负号或系数作用范围变化，求x后再核对y。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：用代入法解方程组 y=2x-1、3x+y=9，x 等于多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：2。给定y=2x−1，3x+2x−1=9得x2。",
+        "criteria": [
+          "完整代入并核对两条原关系",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "system.substitution.direct-expression",
+        "variant_id": "m7b.10.2.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "题干要求代入法，但只收x值；不凭数值确认完整方法或选择变形过程。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "替换进去的是完整2x−1，还是只替了2x？",
+        "hint": "在另一个方程中圈出y位置，放入带括号的完整表达式再合并。",
+        "revision_prompt": "先回答这个辨别问题：替换进去的是完整2x−1，还是只替了2x？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；完整代入并核对两条原关系。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由两类物品总件数和总价求其中一类件数",
+      "explanation": "两类对象的总数与加权总量提供两条不同关系。可假设全部为一类，再用总量差除以每换一个对象增加或减少的量；也可列方程组求解。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：甲、乙两种书共 20 本，甲每本 12 元、乙每本 8 元，一共花了 192 元。甲种书买了多少本？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：8。20本全乙160元，多32每换甲多4，甲8本。",
+        "criteria": [
+          "总数、权重差和所求类别对应正确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "system.context.count-weighted-total",
+        "variant_id": "m7b.10.2.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "总量差是每个对象的差，还是全部对象累计的差？",
+        "hint": "先算全按一种计的基准总量，再算每替换一个改变多少，两者相除。",
+        "revision_prompt": "先回答这个辨别问题：总量差是每个对象的差，还是全部对象累计的差？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；总数、权重差和所求类别对应正确。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.10.2.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.10.2.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.10.2.1-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

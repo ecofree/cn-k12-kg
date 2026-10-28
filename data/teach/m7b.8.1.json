@@ -1,0 +1,159 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.8.1",
+  "name": "平方根",
+  "tier": "core",
+  "hook": "面积为49的正方形边长为7，为什么“49的平方根”却有两个？",
+  "definition": "在实数范围内，若x²=a（a≥0），则x叫a的平方根。正数有两个互为相反数的平方根；算术平方根取其中非负的一个，记√a。0的平方根及算术平方根都是0，负数没有实数平方根。",
+  "why": "平方会消去正负差别：7与−7的平方都为49，因此正数有两个平方根；长度只能非负，所以根号√49规定取非负的算术平方根7。0只有一个平方根0，负数没有实数平方根。",
+  "when_to_use": [
+    "由平方结果反求原数",
+    "看到根号或要求区别平方根与算术平方根"
+  ],
+  "steps": [
+    "先判断被开方数是否非负",
+    "求平方等于该数的非负数",
+    "按题目要求选择非负根或正负两根"
+  ],
+  "worked_example": {
+    "prompt": "求36的平方根，并计算√36。",
+    "answer": "平方根为±6；√36=6",
+    "steps": [
+      "因为6²=36且(−6)²=36，所以36有两个平方根6、−6。",
+      "根号表示算术平方根，必须非负，因此√36=6。"
+    ],
+    "family_id": "root.square.inverse-pair",
+    "variant_id": "m7b.8.1:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "√36不能写成±6，根号已经限定非负。",
+    "负数在实数范围内没有平方根，不能照抄正数开方。"
+  ],
+  "check": "独立完成并解释：一个正数的算术平方根是5，这个数的两个平方根是什么？按从小到大写，用逗号分隔。 请写出判断或计算依据。；求√144−√25的值。这里√表示算术平方根。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能求非负数的平方根与算术平方根",
+      "explanation": "求平方根是求x²=a的所有实数解；正数有一正一负两个根。",
+      "self_check": {
+        "prompt": "一个正数的算术平方根是5，这个数的两个平方根是什么？按从小到大写，用逗号分隔。 请写出判断或计算依据。",
+        "reference_answer": "该数为25；(−5)²=25、5²=25，因此两个平方根是−5和5。",
+        "criteria": [
+          "先由5²求原数25",
+          "给出−5和5"
+        ],
+        "family_id": "root.square.inverse-pair",
+        "variant_id": "m7b.8.1:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "root.principal-square.nonnegative"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "算术平方根为5说明原数是5还是25？−5平方后等于多少？",
+        "hint": "先平方还原原数，再求全部使x²=25成立的x。",
+        "revision_prompt": "分别写0、9的平方根与算术平方根，核对0只有一个，正数有互为相反的两个。"
+      },
+      "observation_note": "观察原数与根的角色及零边界；平方根两值不可混入根号的单一值。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能区分平方根与算术平方根",
+      "explanation": "算术平方根只取非负值，参与后续运算时不要多添正负号。",
+      "self_check": {
+        "prompt": "求√144−√25的值。这里√表示算术平方根。 请写出判断或计算依据。",
+        "reference_answer": "√144=12、√25=5，均取非负值，故12−5=7。",
+        "criteria": [
+          "两个根号均取非负",
+          "结果7"
+        ],
+        "family_id": "root.principal-square.nonnegative",
+        "variant_id": "m7b.8.1:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "reference_family_ids": [
+          "root.square.inverse-pair"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "√144能写成±12再任选一个吗？",
+        "hint": "√a专指非负算术平方根；“a的平方根”才要求列出全部候选。",
+        "revision_prompt": "计算√81+√16=13，再单独列81的两个平方根±9，对照术语。"
+      },
+      "observation_note": "观察根号表示的非负约定；本题不意味着已会化简含字母的√(x²)。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由正方形面积求其正边长",
+      "explanation": "正方形面积等于边长平方，几何边长为正，因而取面积的正平方根。方程x²=A有正负两个代数解时，负值不作为边长。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：一块正方形菜地的面积是 144 平方米。它的边长是多少米？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：12。边长非负且平方144，所以12。",
+        "criteria": [
+          "平方关系及长度正值约束同时使用",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "root.principal-square.nonnegative",
+        "variant_id": "m7b.8.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你求的是方程的所有代数解，还是实际边长？",
+        "hint": "找平方等于面积的正数，再把边长平方回去核对面积。",
+        "revision_prompt": "先回答这个辨别问题：你求的是方程的所有代数解，还是实际边长？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；平方关系及长度正值约束同时使用。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能按给定近似边长计算正方形面积",
+      "explanation": "指定按某近似边长计算时，面积用该边长的平方。它是由指定近似输入得到的估计，不等同于原精确面积，也不证明已经求出精确平方根。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：一个正方形的面积是 50 平方厘米，它的边长在 7 厘米和 8 厘米之间。如果边长按 7 厘米算，这个正方形的面积是多少平方厘米？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：49。已指定边长按7计算，面积7²=49，无需求√50。",
+        "criteria": [
+          "使用指定近似边长并保留估计边界",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "geometry.square-area-from-given-side",
+        "variant_id": "m7b.8.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "本题让你使用的边长是7还是精确的√50？",
+        "hint": "把题目指定的计算边长圈出，平方后注明按这个近似长度计算。",
+        "revision_prompt": "先回答这个辨别问题：本题让你使用的边长是7还是精确的√50？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；使用指定近似边长并保留估计边界。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.8.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.8.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.8.1-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

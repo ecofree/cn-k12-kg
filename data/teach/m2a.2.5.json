@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2a.2.5",
+  "name": "6的乘法口诀",
+  "tier": "tool",
+  "hook": "4盒每盒6支粉笔共多少支？24支每盒6支可以装几盒？",
+  "definition": "6的乘法口诀是：一六得六、二六十二、三六十八、四六二十四、五六三十、六六三十六。相邻两句的积相差6。",
+  "why": "每盒6支粉笔，盒数由1增加到6，总数依次为6、12、18、24、30、36。口诀把实际等大组的数量关系固定下来。",
+  "conditions": [
+    "使用一六至六六的六句口诀。",
+    "相应除法须整除，不能除以0。"
+  ],
+  "representation_note": "按每组6个画成点阵，用多一组、少一组解释记忆困难的口诀。",
+  "when_to_use": [
+    "使用一六至六六的六句口诀。",
+    "相应除法须整除，不能除以0。"
+  ],
+  "steps": [
+    "用每组6个的摆放或画图列出1至6组。",
+    "顺读口诀，再打乱用图或相邻句推想。",
+    "求积同时确认两个乘数。",
+    "求商用“6或另一个乘数乘几得总数”检查。"
+  ],
+  "worked_example": {
+    "prompt": "4盒每盒6支粉笔共多少支？24支每盒6支可以装几盒？",
+    "steps": [
+      "四六二十四，6×4=24支。",
+      "6×4=24，所以24÷6=4盒。"
+    ],
+    "answer": "24支；4盒",
+    "family_id": "primary.table-six.equal-groups",
+    "variant_id": "m2a.2.5:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "division.fact-family",
+      "primary.divide.group-count",
+      "primary.multiply.equal-groups"
+    ]
+  },
+  "pitfalls": [
+    "四六二十四与四五二十只差一个乘数，要核对每份到底是5还是6。",
+    "口算除法时把已知除数又当答案，会忽略缺少的乘数。"
+  ],
+  "practice": [
+    {
+      "id": "m2a.2.5-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m2a.2.5-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "忘记五六三十时，可在四六二十四的基础上再加6得到30；也可从六六三十六减6回到30。这是同一组数量的增减。",
+      "observation_note": "本项观察口诀六句完整、相邻积相差6的原因明确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。文字答案只能记录写出的口诀，自报不能直接验证口头背诵与读音；这些口头表现仍需另外观察。",
+      "self_check": {
+        "prompt": "说出6的六句口诀，再说明五六三十与六六三十六之间的关系。",
+        "reference_answer": "一六得六、二六十二、三六十八、四六二十四、五六三十、六六三十六；多1个6，所以30+6=36。",
+        "criteria": [
+          "口诀六句完整",
+          "相邻积相差6的原因明确"
+        ],
+        "family_id": "primary.multiply.table-facts",
+        "variant_id": "m2a.2.5:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.equal-groups"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "五个6变成六个6，实际多拿了几根？",
+        "hint": "补画一整组6根，而不是只添1根。",
+        "revision_prompt": "把易忘两句的点阵并排画，用多出的一组说明差6。"
+      },
+      "criterion_index": 0,
+      "title": "能背诵 6 的乘法口诀"
+    },
+    {
+      "explanation": "六的口诀可看作三个数的关系，如三、六、十八；18÷3求6，18÷6求3，都是在同一乘法中找另一乘数。",
+      "observation_note": "本项观察积与商都正确、检查式返回原被除数；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "算6×5、18÷6、24÷4、36÷6，用乘法检查任意两道除法。",
+        "reference_answer": "30、3、6、6；如3×6=18、6×4=24。",
+        "criteria": [
+          "积与商都正确",
+          "检查式返回原被除数"
+        ],
+        "family_id": "primary.multiply.table-facts",
+        "variant_id": "m2a.2.5:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "division.fact-family"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "24÷4的商乘4以后，应得到24还是4？",
+        "hint": "把除法补成4×□=24。",
+        "revision_prompt": "写出题中已知乘数与积，只对空着的乘数求值。"
+      },
+      "criterion_index": 1,
+      "title": "能用 6 的口诀求积与求商"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

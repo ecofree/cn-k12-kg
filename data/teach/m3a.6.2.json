@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3a.6.2",
+  "name": "认识几分之一",
+  "tier": "tool",
+  "hook": "把同样大的纸分别分成4份和6份，每一份一样大吗？",
+  "definition": "把一个整体平均分成n份，取其中1份，记作1/n，n为正整数。分母说明整个单位被等分的份数，分子1表示只取一份；分母不能为0。",
+  "why": "同样大的整体分得越细，一份越小。1/4表示四等份中的一份，不表示随意四块中的一块；要用图表达，必须让每份在所比较的量上相等。",
+  "conditions": [
+    "整体与比较量明确，分母表示正的等分份数。",
+    "比较不同分母的实际一份大小时，先保证整体同样大。"
+  ],
+  "representation_note": "画同样长的纸条，分别分4等份与6等份，涂一份并写符号。",
+  "when_to_use": [
+    "整体与比较量明确，分母表示正的等分份数。",
+    "比较不同分母的实际一份大小时，先保证整体同样大。"
+  ],
+  "steps": [
+    "先画或指出完整单位。",
+    "把它等分为指定份数。",
+    "涂一份，在分数中写总等分数作分母。"
+  ],
+  "worked_example": {
+    "prompt": "一条带子平均分5份，取其中1份，用什么分数表示？",
+    "steps": [
+      "5份同样长，分母为5。",
+      "只取1份，分子为1。"
+    ],
+    "answer": "1/5",
+    "family_id": "fraction.unit-fraction-partition",
+    "variant_id": "m3a.6.2:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "verify": "1/5"
+  },
+  "pitfalls": [
+    "分母不是涂色份数。",
+    "不等份的某一块不能只靠块数叫几分之一。"
+  ],
+  "practice": [
+    {
+      "id": "m3a.6.2-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3a.6.2-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成各项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "分数线下的数告诉整体有多少个同样大小的单位份，线上1告诉取一份。读作“几分之一”，不是“一分之几”。",
+      "observation_note": "观察单位分数意义，不把分母只当物品总个数。",
+      "self_check": {
+        "prompt": "写出把一张纸平均分8份取1份的分数，并解释1/6的6表示什么。",
+        "reference_answer": "1/8；6表示整体平均分成6份。",
+        "criteria": [
+          "符号与读法对应",
+          "分母表示等分总数"
+        ],
+        "family_id": "fraction.unit-fraction-partition",
+        "variant_id": "m3a.6.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "1/6中的6是涂了6份吗？",
+        "hint": "分子1才指取一份。",
+        "revision_prompt": "在图上给全部6份编号，再单独圈所取1份。"
+      },
+      "criterion_index": 0,
+      "title": "能写出几分之一并说明分母含义"
+    },
+    {
+      "explanation": "图形表达先满足等分，再表示取份。可以使用线段、面积条，分法不同但等份条件相同。",
+      "observation_note": "观察作图和单位条件；若整体不同不能仅凭分母比较实际量。",
+      "self_check": {
+        "prompt": "用一个长方形画1/3，再在同样大小的另一长方形画1/6，说明为什么后一份更小。",
+        "reference_answer": "两图分别3等份与6等份，各涂1；相同整体中分6份的一份更小。",
+        "criteria": [
+          "图中份量相等",
+          "同整体比较理由正确"
+        ],
+        "family_id": "fraction.compare-equal-numerator",
+        "variant_id": "m3a.6.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.unequal-wholes-counterexample",
+          "fraction.unit-fraction-partition"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "两个纸条大小不同，1/6一定比另一个的1/3短吗？",
+        "hint": "先统一整体，再比较等分份数。",
+        "revision_prompt": "重画同长纸条，标原先缺少的整体条件。"
+      },
+      "criterion_index": 1,
+      "title": "能用图形表示几分之一"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能求整体的一个等份数量，再计算该份数量的减少",
+      "explanation": "把整体平均分成相同份数，先用整体除以份数得到一份的数量。若接着从其中一份拿走，第二步的起点是一份数量，不是原来的整体。",
+      "self_check": {
+        "prompt": "把30个扣子平均分成5份，从其中一份拿走2个。这一份还剩多少？分别记录平均分后这一份与拿走后这一份。",
+        "reference_answer": "一份为30÷5=6个；拿走2个后剩6−2=4个。其他份未发生变化。",
+        "criteria": [
+          "一份数量为6",
+          "减少发生在这一份上",
+          "最后剩4个"
+        ],
+        "family_id": "fraction.unit-share-then-remove",
+        "variant_id": "m3a.6.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "分数1/3已经给出，没有写分数、解释分母或画图。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "拿走2个前，你用的是一份的6个，还是全部30个？",
+        "hint": "画5个等量框，先在一个框里确定6，再只在该框内去掉2。",
+        "revision_prompt": "改成从一份拿走1个，重新记两步数量；不要把整体少1当成每份少1。"
+      }
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

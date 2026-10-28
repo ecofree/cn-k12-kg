@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2a.2.4",
+  "name": "乘加、乘减",
+  "tier": "tool",
+  "hook": "三盘每盘4块饼干，旁边还有2块，为什么不是先算4+2？",
+  "definition": "乘加、乘减算式中没有括号时，先算乘法，再算加减。乘法常表示几组同样多的数量，加减处理另外增加或取走的部分。",
+  "why": "3盘每盘4块是3×4，旁边2块只出现一次，所以总数3×4+2。若先把2加到每盘的4里，再乘3，就把零散2块算了3次，改变了情境。",
+  "conditions": [
+    "同样多的几组与零散增减量已经区分。",
+    "本卡无括号的乘加乘减先乘后加减。"
+  ],
+  "representation_note": "用小圆片摆等量盘与旁边零散数，给乘积和单独加减部分分色。",
+  "when_to_use": [
+    "同样多的几组与零散增减量已经区分。",
+    "本卡无括号的乘加乘减先乘后加减。"
+  ],
+  "steps": [
+    "圈出几组同样多的量，先求乘积。",
+    "明确另外增加或拿走的数量。",
+    "完成加减，并与摆物总数核对。"
+  ],
+  "worked_example": {
+    "prompt": "4盘每盘5块，吃掉3块，还剩多少？",
+    "steps": [
+      "原有4×5=20块。",
+      "从总数20拿走3，20−3=17。"
+    ],
+    "answer": "17",
+    "family_id": "arithmetic.multiply-then-adjust",
+    "variant_id": "m2a.2.4:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "verify": "4*5-3"
+  },
+  "pitfalls": [
+    "零散数不能未经说明加到每一组。",
+    "乘减中的减数从合计量减，不只从一盘减后仍乘盘数。"
+  ],
+  "practice": [
+    {
+      "id": "m2a.2.4-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m2a.2.4-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "先把乘法部分当作一个整体算出，再处理加减。写两行可看清不是从左到右一律计算。",
+      "observation_note": "观察运算顺序与计算；一次结果错还需区分乘法事实或顺序问题。",
+      "self_check": {
+        "prompt": "计算2+3×4与5×3−4，写出先算的部分。",
+        "reference_answer": "2+12=14；15−4=11。",
+        "criteria": [
+          "乘法优先",
+          "中间步骤和结果正确"
+        ],
+        "family_id": "arithmetic.multiply-then-adjust",
+        "variant_id": "m2a.2.4:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.two-level-precedence"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2+3×4先算2+3，算式想表达的组数变了吗？",
+        "hint": "先圈3×4这一组总量。",
+        "revision_prompt": "重写中间式2+12，保留错误中间式说明差别。"
+      },
+      "criterion_index": 0,
+      "title": "能按先乘后加减的顺序计算"
+    },
+    {
+      "explanation": "乘积对应等量组总量，单独加减对应组外变化。读情境时给每个数指向实物。",
+      "observation_note": "观察建模对应，不能只套看到“还剩”就减的关键词。",
+      "self_check": {
+        "prompt": "画3盒每盒6支笔，盒外4支；再画同样3盒共取走4支。分别列式并解释4。",
+        "reference_answer": "3×6+4=22，4为盒外；3×6−4=14，4为取走总数。",
+        "criteria": [
+          "式子与两种情境匹配",
+          "解释零散数的含义"
+        ],
+        "family_id": "arithmetic.multiply-then-adjust",
+        "variant_id": "m2a.2.4:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.equal-groups"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "取走4支是每盒取4，还是合计取4？",
+        "hint": "题中说“共取走”，只扣一次。",
+        "revision_prompt": "在图中只划去合计4支，重配算式。"
+      },
+      "criterion_index": 1,
+      "title": "能把乘加乘减算式与情境对应起来"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

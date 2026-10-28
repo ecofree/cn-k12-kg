@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh5.6.2.4",
+  "name": "组合数",
+  "tier": "core",
+  "hook": "从10人中选8人，也可以决定留下哪2人不选；每个8人组恰好对应一个2人补集，数目相同。",
+  "definition": "组合数Cₙᵐ=n!/[m!(n-m)!]=Aₙᵐ/m!，0≤m≤n，Cₙ⁰=Cₙⁿ=1。补集对应给Cₙᵐ=Cₙⁿ⁻ᵐ；按是否包含某个指定元素分类，得Cₙᵐ=Cₙ₋₁ᵐ+Cₙ₋₁ᵐ⁻¹（1≤m≤n-1）。组合数必须使用整数合法参数。",
+  "why": "有序选m人时每个无序小组被计入m!次，所以排列数除以m!得到组合数。选择m个与不选n-m个建立一一对应，证明对称性；固定某一人，入选与不入选两类互斥且穷尽，证明加法恒等式。",
+  "when_to_use": [
+    "不计顺序的选择需要计算个数",
+    "m接近n时用对称性简化大阶乘或组合数恒等式"
+  ],
+  "steps": [
+    "确认元素互异且不计顺序，检查0≤m≤n。",
+    "先用对称性取较小的m与n-m，再写递减乘积除m!。",
+    "约分后计算，或按是否包含指定元素分类化简。"
+  ],
+  "worked_example": {
+    "prompt": "计算C₁₀⁸。",
+    "steps": [
+      "由补集对称性，C₁₀⁸=C₁₀²。",
+      "C₁₀²=10×9/(2×1)=45。"
+    ],
+    "answer": "45",
+    "verify": "10*9/(2*1)",
+    "family_id": "count.complement-bijection",
+    "variant_id": "mh5.6.2.4:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "Cₙᵐ比Aₙᵐ多除一个m!，漏除就把同组的不同次序重复计数。",
+    "Cₙ⁰=1代表选空集的一种方法，不是0种。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用公式计算组合数",
+      "explanation": "组合公式通过除去内部顺序消除重复。",
+      "self_check": {
+        "prompt": "计算C₇³并解释分母3!。",
+        "reference_answer": "7×6×5/(3×2×1)=35；每组三人有6种排列，分母去掉这6次重复。",
+        "criteria": [
+          "数值35",
+          "分母来自同组内部顺序"
+        ],
+        "family_id": "count.combination-divide-orders",
+        "variant_id": "mh5.6.2.4:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "为何C₇³不能直接等于7×6×5？",
+        "hint": "同一三人组被3!种顺序重复计算。",
+        "revision_prompt": "C₆²=6×5/2=15，明确每对AB/BA只留一次。"
+      },
+      "observation_note": "观察去重因子与数值；分母不是任意为凑整数而除。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用对称性化简组合数",
+      "explanation": "对称性是选中组与未选组的一一对应。",
+      "self_check": {
+        "prompt": "为什么C₁₂¹⁰=C₁₂²？算出它们的值。",
+        "reference_answer": "选10人等价于决定不选哪2人，补集对应；值为12×11/2=66。",
+        "criteria": [
+          "说明补集一一对应",
+          "算得66"
+        ],
+        "family_id": "count.complement-bijection",
+        "variant_id": "mh5.6.2.4:criterion-1",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "选10人和不选2人为何数量一样，是否结果本身相同？",
+        "hint": "两种结果通过补集一一配对，并非同一个集合。",
+        "revision_prompt": "从8人选6人与选不入选的2人对应，数C₈²=28。"
+      },
+      "observation_note": "观察一一对应理由；不把上标n-m换成随意的差。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由无序两人组合总数反求符合人数条件的总人数",
+      "explanation": "从n人中选2人且不分顺序，总数为n(n−1)/2。给定组合总数时，把它作为等式右端求n；人数须为至少2的整数，因此负根或非整数不能保留。最终用求得人数重新计算组合数，核对是否等于原给定总数。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：某班要从 n 名同学中选 2 人值日，共有 28 种选法。n 等于多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：8。n(n−1)/2=28，根8与−7，人数取8。",
+        "criteria": [
+          "由无序对数量建立并解人数条件，筛选合法整数并回算组合数",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "counting.inverse-pair-combination",
+        "variant_id": "mh5.6.2.4:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "有没有把无序两人组按n(n−1)重复计算？二次方程的两个代数根都能当人数吗？",
+        "hint": "写n(n−1)=给定组合数的2倍，整理求根后先筛人数范围，再代回n(n−1)/2。",
+        "revision_prompt": "先回答这个辨别问题：有没有把无序两人组按n(n−1)重复计算？二次方程的两个代数根都能当人数吗？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；由无序对数量建立并解人数条件，筛选合法整数并回算组合数。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh5.6.2.4-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：计算组合数C₈³。"
+    },
+    {
+      "id": "mh5.6.2.4-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：利用对称性计算C₁₁⁹。"
+    },
+    {
+      "id": "mh5.6.2.4-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：从6个不同元素中选0个，组合数C₆⁰是多少？"
+    }
+  ],
+  "check": "独立完成并写出依据：计算C₇³并解释分母3!。；为什么C₁₂¹⁰=C₁₂²？算出它们的值。",
+  "conditions": [
+    "n、m为整数且0≤m≤n；组合忽略组内顺序。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

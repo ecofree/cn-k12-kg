@@ -1,13 +1,7 @@
-"""为每个核心点挂挑战题（只存 id，题目正文在 data/challenge/tal.json）。
+"""生成竞赛资料的审核候选与已通过目标关联审核的推荐索引。
 
-为什么要单独一层索引：挑战题正文 9 MB，一次请求全塞给前端不现实；
-索引只有 id，接口按需取。同时把「哪个点配哪几道」固化成数据，
-方便人工复核——竞赛题配错，比不给更打击人。
-
-覆盖规则：
-- 只给 **core** 点配挑战题。工具点的目标是熟练，不是拓展。
-- 同板块共享题池，按年级差 ≤2 过滤，按难度梯度抽 3 道。
-- 抽样是确定性的（按 level、id 排序），同一知识点每次刷新都一样。
+同板块、年级范围与设计难度只产生 candidates；samples 仅包含有内容哈希
+绑定的教师/学科专家批准记录。不将候选数量作为教材目标覆盖率。
 """
 from __future__ import annotations
 
@@ -37,12 +31,13 @@ def main() -> int:
     items = challenge.load()
     index = challenge.index_by_strand(items)
 
-    samples, missing = {}, []
+    samples, candidates, missing = {}, {}, []
     per_strand = collections.Counter()
     for t in topics:
         info = tier_data["topics"].get(t["id"])
         if not info or info["tier"] != "core":
             continue
+        candidates[t["id"]] = [x["id"] for x in challenge.candidates_for(t, info["cluster"], index)]
         picked = challenge.sample_for(t, info["cluster"], index)
         if picked:
             samples[t["id"]] = [x["id"] for x in picked]
@@ -52,8 +47,10 @@ def main() -> int:
                             "cluster": info["cluster"]})
 
     out = {
-        "schema": 1,
-        "note": "挑战题只挂板块，不挂课时级知识点；不进诊断池",
+        "schema": 2,
+        "note": "samples 为已审核的目标关联；candidates 仅为板块检索候选，不计覆盖，不进诊断池",
+        "alignment_status": "approved_only",
+        "candidates": candidates,
         "count": len(samples),
         "samples": samples,
     }
@@ -62,7 +59,7 @@ def main() -> int:
 
     core = [t for t in topics
             if tier_data["topics"].get(t["id"], {}).get("tier") == "core"]
-    print(f"核心点 {len(core)}，配上挑战题 {len(samples)}"
+    print(f"核心点 {len(core)}，获目标关联审核 {len(samples)}"
           f"（{len(samples) / max(len(core), 1):.1%}）")
     print("按课程簇：")
     for cid, n in per_strand.most_common():
@@ -76,6 +73,8 @@ def main() -> int:
         "core_topics": len(core),
         "linked_topics": len(samples),
         "coverage": len(samples) / max(len(core), 1),
+        "candidate_topics": sum(bool(v) for v in candidates.values()),
+        "difficulty_status": "design_labels_uncalibrated",
         "by_cluster": dict(per_strand),
         "missing": missing,
         "strand_pool": {f"{st}/{sd}": len(v) for (st, sd), v in index.items()},

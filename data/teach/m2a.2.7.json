@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "一本练习本4元，买6本不打折，总价为什么是6个4元相加？",
+  "definition": "购买同一种、单价相同的物品且无额外费用或优惠时，总价=单价×数量。单价表示每件的钱，数量表示件数，总价表示全部要付的钱。",
+  "why": "每件的钱相同，把每件价钱相加得到总价；同样的加数出现多次可用乘法简写。若有运费或折扣，要先说明条件，不能把标价乘数量当作最后付款。",
+  "when_to_use": [
+    "购买相同单价的多件物品，求合计价格",
+    "需要把每件价格与件数对应到总价模型"
+  ],
+  "steps": [
+    "找单价和数量，核对钱的单位。",
+    "确定无额外费用或已明确费用处理方法。",
+    "单价乘数量算总价，再与重复加法核对。"
+  ],
+  "worked_example": {
+    "prompt": "每本练习本4元，买6本，无优惠与其他费用，共付多少元？",
+    "steps": [
+      "每本4元，6本是6个4元相加。",
+      "4×6=24（元），共付24元。"
+    ],
+    "answer": "24",
+    "verify": "4*6",
+    "family_id": "ratio.unit-rate-projection",
+    "variant_id": "m2a.2.7:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "4元与6本不能直接相加成10元。",
+    "单价不同的商品应分别求总价再合计。"
+  ],
+  "check": "先独立完成下面各项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m2a.2.7",
+  "name": "用乘法解决购物问题",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用乘法求总价",
+      "explanation": "固定单价购物可用乘法代替相同价钱的重复相加。",
+      "self_check": {
+        "prompt": "每盒笔7元，买5盒无优惠，共多少钱？",
+        "reference_answer": "7×5=35（元），表示5个7元相加。",
+        "criteria": [
+          "乘法正确",
+          "解释相同加数的意义"
+        ],
+        "family_id": "ratio.unit-rate-projection",
+        "variant_id": "m2a.2.7:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.multiply-then-adjust",
+          "primary.multiply.equal-groups"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "7元与5盒能直接相加吗？一共应出现几个7元？",
+        "hint": "画5个盒子，每盒写7元；先列7+7+7+7+7再改写乘法。",
+        "revision_prompt": "每本6元买4本，无优惠无其他费用，写总价；再说若另收2元包装费，原乘法结果还少了什么。"
+      },
+      "observation_note": "观察固定单价的等量累加；带优惠或额外费用的付款不能只套单价乘数量。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能说清单价、数量与总价的关系",
+      "explanation": "单价、数量、总价三者的单位与角色不同。",
+      "self_check": {
+        "prompt": "“每支3元，买8支，共24元”中，分别指出单价、数量、总价。",
+        "reference_answer": "单价3元/支，数量8支，总价24元；3×8=24。",
+        "criteria": [
+          "三者区分准确",
+          "关系式成立"
+        ],
+        "family_id": "model.price-quantity-roles",
+        "variant_id": "m2a.2.7:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.repeated-addition",
+          "ratio.unit-rate-projection"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "3、8、24后面各是什么单位？哪个数说明“每一支”的钱？",
+        "hint": "把信息放在“每支多少钱、买几支、一共付多少”三栏，金额与支数不能混换。",
+        "revision_prompt": "改用每盒4元、买6盒，把三个量及单位填入三栏，用乘法和重复加法相互核对。"
+      },
+      "observation_note": "观察单价、数量、总价的角色；只背关系式不能证明复杂购物情境也能识别。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能先求按固定单价购买的总价，再求找零",
+      "explanation": "先求需要支付的所有费用，再从实际交付款中减去总费用求找零。单价、数量、总价的职责及金额单位须分清。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：小店练习本每本6元，买4本，没有优惠。付30元后应找回多少元？\n写出每个问题的答案。可以用小棒、画图或算式说明你怎样想；用了提示或参考，也记下来。",
+        "reference_answer": "情境1参考：6。6×4=24元，再从30元付款减24得6元。",
+        "criteria": [
+          "全部费用计入后再求找零",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "money.total-then-change",
+        "variant_id": "m2a.2.7:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "总价是中间量；只交找零，不观察说清单价、数量、总价关系。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你只减了一件商品价格，还是减去全部应付金额？",
+        "hint": "先列出每类费用并合计，在总费用得到后才与付款金额相减。",
+        "revision_prompt": "先回答这个辨别问题：你只减了一件商品价格，还是减去全部应付金额？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；全部费用计入后再求找零。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m2a.2.7-q1",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m2a.2.7-q101",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m2a.2.7-q102",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

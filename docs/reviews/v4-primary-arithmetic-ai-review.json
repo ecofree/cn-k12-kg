@@ -1,0 +1,2791 @@
+{
+  "schema": 1,
+  "review_kind": "ai_semantic_cross_review",
+  "reviewer": {
+    "type": "ai",
+    "agent": "/root/v4_learning_decisions",
+    "independent_from_card_author": true
+  },
+  "reviewed_at": "2026-10-26T13:37:11.278776+00:00",
+  "baseline_commit": "9f0471009f13590beee850ca5dd4999ff64d14fd",
+  "status": "semantic_review_complete",
+  "teacher_review": "deferred_by_user",
+  "real_student_effect_validation": "deferred_by_user",
+  "scope": {
+    "teaching_cards": 53,
+    "objective_rows": 106,
+    "svg_diagrams": 3,
+    "clusters": {
+      "p-add-sub": 23,
+      "p-mul-div": 30
+    },
+    "selection": "原topics经既有tiers.build分层，tier=tool且cluster∈{p-add-sub,p-mul-div}；未改变角色或删除目标。"
+  },
+  "methods": [
+    "完整审读23张加减与30张乘除的作者内容记录；再逐文件比较实际JSON与已读记录，核查所有新增差异。",
+    "逐一阅读106项目标原文、解释、自检题、参考答案、观察判据及辨别/提示/修订入口，记录每项目标的具体语义结论。",
+    "独立复算本记录中列出的94项整数计算、余数或因数集合；另运行既有check_card复算41个verify例题。",
+    "使用本地Schema注册表验证53张teaching-card，核对目标索引与原题、练习引用和非选择题要求；结构通过不等同语义通过。",
+    "阅读3个SVG的XML、位置和对应卡alt；实际Inkscape转PNG，首次缺中文字形后使用现有FONTCONFIG_FILE重渲染，逐图核查完整中文、数字、对位和圈组。",
+    "发现问题发回内容作者修订，重新阅读修订后的实际字段；最终哈希绑定本次实际检查的文件。"
+  ],
+  "verification": {
+    "structural_errors": [],
+    "computed_worked_examples": 41,
+    "independent_arithmetic_checks": 94,
+    "calculations": [
+      {
+        "topic_id": "m1a.1.4",
+        "expression": "5-1",
+        "computed": 4,
+        "expected": 4,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1a.1.5",
+        "expression": "2+1",
+        "computed": 3,
+        "expected": 3,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1a.1.6",
+        "expression": "4-1",
+        "computed": 3,
+        "expected": 3,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1a.1.7",
+        "expression": "4-4",
+        "computed": 0,
+        "expected": 0,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1a.2.4",
+        "expression": "7-2",
+        "computed": 5,
+        "expected": 5,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1a.2.7",
+        "expression": "9-7",
+        "computed": 2,
+        "expected": 2,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1a.2.10",
+        "expression": "10-6",
+        "computed": 4,
+        "expected": 4,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1a.2.11",
+        "expression": "9-2-3",
+        "computed": 4,
+        "expected": 4,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1a.2.11",
+        "expression": "5+3-2",
+        "computed": 6,
+        "expected": 6,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1a.4.3",
+        "expression": "18-6",
+        "computed": 12,
+        "expected": 12,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1a.5.1",
+        "expression": "9+8",
+        "computed": 17,
+        "expected": 17,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1a.5.1",
+        "expression": "9+7",
+        "computed": 16,
+        "expected": 16,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1a.5.2",
+        "expression": "6+7",
+        "computed": 13,
+        "expected": 13,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1a.5.2",
+        "expression": "7+8",
+        "computed": 15,
+        "expected": 15,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1a.5.3",
+        "expression": "5+8",
+        "computed": 13,
+        "expected": 13,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1a.5.3",
+        "expression": "4+9",
+        "computed": 13,
+        "expected": 13,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1b.2.1",
+        "expression": "17-9",
+        "computed": 8,
+        "expected": 8,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1b.2.2",
+        "expression": "11-6",
+        "computed": 5,
+        "expected": 5,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1b.2.2",
+        "expression": "14-8",
+        "computed": 6,
+        "expected": 6,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1b.2.2",
+        "expression": "14-6",
+        "computed": 8,
+        "expected": 8,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1b.2.3",
+        "expression": "11-4",
+        "computed": 7,
+        "expected": 7,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1b.2.3",
+        "expression": "14-5",
+        "computed": 9,
+        "expected": 9,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1b.3.7",
+        "expression": "70-30",
+        "computed": 40,
+        "expected": 40,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1b.4.1",
+        "expression": "46+7",
+        "computed": 53,
+        "expected": 53,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1b.4.1",
+        "expression": "25+30",
+        "computed": 55,
+        "expected": 55,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1b.4.2",
+        "expression": "51-6",
+        "computed": 45,
+        "expected": 45,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1b.4.2",
+        "expression": "76-30",
+        "computed": 46,
+        "expected": 46,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1b.5.1",
+        "expression": "46+27",
+        "computed": 73,
+        "expected": 73,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1b.5.1",
+        "expression": "58+42",
+        "computed": 100,
+        "expected": 100,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m1b.5.2",
+        "expression": "41-16",
+        "computed": 25,
+        "expected": 25,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.2.1",
+        "expression": "2*5",
+        "computed": 10,
+        "expected": 10,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.2.2",
+        "expression": "15//3",
+        "computed": 5,
+        "expected": 5,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.2.3",
+        "expression": "16//4",
+        "computed": 4,
+        "expected": 4,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.2.5",
+        "expression": "24//4",
+        "computed": 6,
+        "expected": 6,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.3.1",
+        "expression": "15//5",
+        "computed": 3,
+        "expected": 3,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.3.1",
+        "expression": "18//3",
+        "computed": 6,
+        "expected": 6,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.3.2",
+        "expression": "15//3",
+        "computed": 5,
+        "expected": 5,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.3.3",
+        "expression": "20//4",
+        "computed": 5,
+        "expected": 5,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.3.4",
+        "expression": "20//5",
+        "computed": 4,
+        "expected": 4,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.3.5",
+        "expression": "30//6",
+        "computed": 5,
+        "expected": 5,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.3.6",
+        "expression": "24//4",
+        "computed": 6,
+        "expected": 6,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.3.6",
+        "expression": "24//6",
+        "computed": 4,
+        "expected": 4,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.5.1",
+        "expression": "42//6",
+        "computed": 7,
+        "expected": 7,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.5.2",
+        "expression": "56//7",
+        "computed": 8,
+        "expected": 8,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.5.3",
+        "expression": "60-6",
+        "computed": 54,
+        "expected": 54,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.5.4",
+        "expression": "56//8",
+        "computed": 7,
+        "expected": 7,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2a.5.5",
+        "expression": "63//9",
+        "computed": 7,
+        "expected": 7,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2b.1.1",
+        "expression": "divmod(23,6)",
+        "computed": [
+          3,
+          5
+        ],
+        "expected": [
+          3,
+          5
+        ],
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2b.1.1",
+        "expression": "2*6+11",
+        "computed": 23,
+        "expected": 23,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2b.1.2",
+        "expression": "divmod(14,3)",
+        "computed": [
+          4,
+          2
+        ],
+        "expected": [
+          4,
+          2
+        ],
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2b.1.2",
+        "expression": "divmod(23,5)",
+        "computed": [
+          4,
+          3
+        ],
+        "expected": [
+          4,
+          3
+        ],
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2b.1.2",
+        "expression": "divmod(19,4)",
+        "computed": [
+          4,
+          3
+        ],
+        "expected": [
+          4,
+          3
+        ],
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2b.2.1",
+        "expression": "4*5",
+        "computed": 20,
+        "expected": 20,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2b.3.5",
+        "expression": "3000-700",
+        "computed": 2300,
+        "expected": 2300,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2b.3.5",
+        "expression": "2500-600",
+        "computed": 1900,
+        "expected": 1900,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2b.4.1",
+        "expression": "568+257",
+        "computed": 825,
+        "expected": 825,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2b.4.1",
+        "expression": "687+158",
+        "computed": 845,
+        "expected": 845,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2b.4.1",
+        "expression": "2346+523",
+        "computed": 2869,
+        "expected": 2869,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2b.4.2",
+        "expression": "403-178",
+        "computed": 225,
+        "expected": 225,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2b.4.2",
+        "expression": "700-268",
+        "computed": 432,
+        "expected": 432,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m2b.4.2",
+        "expression": "5864-2312",
+        "computed": 3552,
+        "expected": 3552,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3a.4.1",
+        "expression": "60*5",
+        "computed": 300,
+        "expected": 300,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3a.4.2",
+        "expression": "112*3",
+        "computed": 336,
+        "expected": 336,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3a.4.2",
+        "expression": "23*3",
+        "computed": 69,
+        "expected": 69,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3a.4.3",
+        "expression": "16*4",
+        "computed": 64,
+        "expected": 64,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3a.4.3",
+        "expression": "27*3",
+        "computed": 81,
+        "expected": 81,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3a.4.4",
+        "expression": "268*4",
+        "computed": 1072,
+        "expected": 1072,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3a.4.4",
+        "expression": "186*5",
+        "computed": 930,
+        "expected": 930,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3a.4.4",
+        "expression": "158*4",
+        "computed": 632,
+        "expected": 632,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3a.4.4",
+        "expression": "632-602",
+        "computed": 30,
+        "expected": 30,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3a.4.5",
+        "expression": "201*3",
+        "computed": 603,
+        "expected": 603,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3a.4.5",
+        "expression": "105*6",
+        "computed": 630,
+        "expected": 630,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3a.4.6",
+        "expression": "306*4",
+        "computed": 1224,
+        "expected": 1224,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3a.4.6",
+        "expression": "1200*4",
+        "computed": 4800,
+        "expected": 4800,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3a.4.6",
+        "expression": "250*4",
+        "computed": 1000,
+        "expected": 1000,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3b.2.1",
+        "expression": "400//8",
+        "computed": 50,
+        "expected": 50,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3b.2.1",
+        "expression": "240//8",
+        "computed": 30,
+        "expected": 30,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3b.2.2",
+        "expression": "divmod(628,3)",
+        "computed": [
+          209,
+          1
+        ],
+        "expected": [
+          209,
+          1
+        ],
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3b.2.2",
+        "expression": "816//4",
+        "computed": 204,
+        "expected": 204,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3b.2.2",
+        "expression": "603//3",
+        "computed": 201,
+        "expected": 201,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3b.2.2",
+        "expression": "420//3",
+        "computed": 140,
+        "expected": 140,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m3b.2.2",
+        "expression": "24*4",
+        "computed": 96,
+        "expected": 96,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m4a.3.1",
+        "expression": "200*30",
+        "computed": 6000,
+        "expected": 6000,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m4a.3.1",
+        "expression": "50*40",
+        "computed": 2000,
+        "expected": 2000,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m4a.3.1",
+        "expression": "70*30",
+        "computed": 2100,
+        "expected": 2100,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m4a.3.2",
+        "expression": "23*14",
+        "computed": 322,
+        "expected": 322,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m4a.3.2",
+        "expression": "34*12",
+        "computed": 408,
+        "expected": 408,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m4a.3.2",
+        "expression": "26*13",
+        "computed": 338,
+        "expected": 338,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m4a.3.2",
+        "expression": "92+230",
+        "computed": 322,
+        "expected": 322,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m4b.1.1",
+        "expression": "divmod(158,26)",
+        "computed": [
+          6,
+          2
+        ],
+        "expected": [
+          6,
+          2
+        ],
+        "result": "pass"
+      },
+      {
+        "topic_id": "m4b.1.1",
+        "expression": "192//24",
+        "computed": 8,
+        "expected": 8,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m4b.1.1",
+        "expression": "312//24",
+        "computed": 13,
+        "expected": 13,
+        "result": "pass"
+      },
+      {
+        "topic_id": "m5b.1.1",
+        "expression": "positive_factors(18)",
+        "computed": [
+          1,
+          2,
+          3,
+          6,
+          9,
+          18
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          6,
+          9,
+          18
+        ],
+        "result": "pass"
+      },
+      {
+        "topic_id": "m5b.1.1",
+        "expression": "positive_factors(1)",
+        "computed": [
+          1
+        ],
+        "expected": [
+          1
+        ],
+        "result": "pass"
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "ARITH-01",
+      "severity": "clarity",
+      "status": "fixed_and_verified",
+      "paths": [
+        "data/teach/m1a.5.3.json"
+      ],
+      "source_pointer": "/objective_coverage/0/explanation",
+      "problem": "原文“小数在前也可以计算”本意是较小加数，容易误读为小数概念。",
+      "verified_fix": "现为“较小的加数在前也可以计算”，后续5+7、4+8例子未改变。"
+    },
+    {
+      "id": "ARITH-02",
+      "severity": "instructional_gap",
+      "status": "fixed_and_verified",
+      "paths": [
+        "data/teach/m1b.5.1.json"
+      ],
+      "source_pointer": "/objective_coverage/1",
+      "problem": "承诺和在100以内，原指导仅个位向十位进位，未处理和恰好100。",
+      "verified_fix": "保持原范围，新增58+42=100的十位进百、自检、判据、提示和修订入口，两个0占位明确。"
+    },
+    {
+      "id": "ARITH-03",
+      "severity": "evidence_boundary",
+      "status": "fixed_and_verified",
+      "paths": [
+        "data/teach/m2a.2.2.json",
+        "data/teach/m2a.2.3.json",
+        "data/teach/m2a.2.5.json",
+        "data/teach/m2a.5.1.json",
+        "data/teach/m2a.5.2.json",
+        "data/teach/m2a.5.3.json",
+        "data/teach/m2a.3.3.json",
+        "data/teach/m2a.3.1.json",
+        "data/teach/m2a.3.2.json"
+      ],
+      "problem": "原观察说明未明确口头背诵/朗读及实际圈组分配不能由文字答案或只报商直接验证。",
+      "verified_fix": "6个口诀、1个读法、2个分配目标共9行 observation_note 已补具体记录边界；保留提示后完成不等于独立掌握。"
+    },
+    {
+      "id": "ARITH-04",
+      "severity": "authoring_gate",
+      "status": "fixed_and_verified",
+      "paths": [
+        "data/teach/m1a.2.7.json",
+        "data/teach/m2a.5.1.json",
+        "data/teach/m2a.5.2.json",
+        "data/teach/m2a.5.4.json",
+        "data/teach/m1a.5.1.json",
+        "data/teach/m1a.5.2.json",
+        "data/teach/m1b.4.1.json"
+      ],
+      "problem": "初检4卡when_to_use只有1条，3卡hook低于现有最短要求。",
+      "verified_fix": "使用情境补为具体正向/反向或整体/部分两类；hook改为红蓝珠/小棒数量问题；最终53卡既有门禁0错误。"
+    },
+    {
+      "id": "ARITH-05",
+      "severity": "preview_environment",
+      "status": "fixed_and_verified",
+      "paths": [
+        "web/static/diagrams/v4-foundation-division-remainder.svg",
+        "web/static/diagrams/v4-foundation-division-zero-place.svg",
+        "web/static/diagrams/v4-foundation-multiplication-partials.svg"
+      ],
+      "problem": "当前Inkscape环境缺中文字体，数字图形可核查，中文字形未显示。",
+      "verified_fix": "使用现有 FONTCONFIG_FILE=/tmp/cnkg-fonts.conf 重渲染三个SVG并查看；中文字形完整、未见裁切，数位与数量正确。真实学习页浏览器预览由根任务另行绑定。"
+    }
+  ],
+  "files": [
+    {
+      "path": "data/teach/m1a.1.4.json",
+      "sha256": "cb1c918281fb9ed02bbe78bc49b7683b20e4a659f52be07f79e7325a00017f4b",
+      "kind": "teaching-card",
+      "topic_id": "m1a.1.4",
+      "name": "分与合",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能说出 5 以内各数的全部分与合",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "允许空堆、区分左右时4有5种分法；去掉首尾后非空分法3种，口径一致。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察五种分法无遗漏、能按约定去掉空堆；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能由一部分求另一部分",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "5的已知部分1对应另一部分4；用合成5检查，能识别只重复已知数的回答。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察求得另一部分4、用1和4合成5检查；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "先声明空堆与左右约定，避免“全部分法”口径冲突；单次4的任务不能证明所有5以内组成已熟练。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1a.1.4"
+    },
+    {
+      "path": "data/teach/m1a.1.5.json",
+      "sha256": "5ccf431bac3ae1a30cefe0f25a4fcd2ccb8bde9b2559584ba41889301b3c85d1",
+      "kind": "teaching-card",
+      "topic_id": "m1a.1.5",
+      "name": "1～5的加、减法（加法）",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "理解加法的含义是“合起来”",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "2粒与1粒合并成3粒，两个部分与总数的语义和列式对应。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察列出合并算式、解释两部分及总数；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能口算 5 以内的加法",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "1+3、2+2、4+1分别为4、4、5，要求解释一道组成过程。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察三题结果正确、说明一道组成或添数过程；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "和不超过5且两个部分不能重复计数，实物合并支持初学者理解。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1a.1.5"
+    },
+    {
+      "path": "data/teach/m1a.1.6.json",
+      "sha256": "e1aa64c019685219d66c15b39a1afc225826110e34b80a6ed49d5634579dfb31",
+      "kind": "teaching-card",
+      "topic_id": "m1a.1.6",
+      "name": "1～5的加、减法（减法）",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "理解减法的含义是“去掉”",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "已知总数4、去掉1求剩余3符合减法；实际文件另有吃2剩3求原有量应加法的反例。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察区分原有与去掉、把结果解释为剩余；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能口算 5 以内的减法",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "5−1、4−2、3−2的答案4、2、1正确；加法反查针对漏数和算错。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察三题口算正确、加回被减去的数量检验；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "依据未知是整体还是部分选运算，不教学生仅凭“还剩”关键词决定减法。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1a.1.6"
+    },
+    {
+      "path": "data/teach/m1a.1.7.json",
+      "sha256": "a797ebad1e526de5d0225edf33c83420f841924dd04f8612e17de666cb6aa7b3",
+      "kind": "teaching-card",
+      "topic_id": "m1a.1.7",
+      "name": "0的认识和加、减法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "理解 0 表示“没有”",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "有2支与没有笔分别记2和0，先用数量情境解释“没有”。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察用0记录空集合、说明0对应的对象；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "会计算与 0 有关的加减法",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "4+0、0+4、4−0、4−4为4、4、4、0，区分没有拿走和全部拿走。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察四题正确、解释不拿走与全拿走的区别；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "0的数量解释与本卡零加减相符；未把0的所有后续数轴含义冒充已教完。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1a.1.7"
+    },
+    {
+      "path": "data/teach/m1a.2.4.json",
+      "sha256": "137be5cb13f70a4442f5f2af4690a457d467379184b97267b9a136471de4cf22",
+      "kind": "teaching-card",
+      "topic_id": "m1a.2.4",
+      "name": "6和7的加、减法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能口算 6、7 的加减法",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "2+4、3+4、6−5、7−2的结果6、7、1、5均正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察四个结果正确、区分总数6与7；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能用数的组成说明计算过程",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "7由4和3组成，7−4=3与3+4=7互相检查，观察组成解释。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察指出4和3组成7、用同一组成解释减法；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "整体6与7各自保持，不能套另一整体的组成。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1a.2.4"
+    },
+    {
+      "path": "data/teach/m1a.2.7.json",
+      "sha256": "e05e35bf2c50f3c4e37b94fd093608fb21c1ff80afedeeeda69a37765eab89c7",
+      "kind": "teaching-card",
+      "topic_id": "m1a.2.7",
+      "name": "8和9的加、减法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能口算 8、9 的加减法",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "3+5、6+3、8−2、9−7分别为8、9、6、2，任务覆盖加与减。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察四题计算正确、使用相应整体的组成；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说明算式与数的组成的对应关系",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "2、7、9的四式分别求整体或部分；讲解还识别4和4时重复式并不算新式。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察四条算式对应同一组成、说明整体与部分的角色；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "修订后使用情境分成求8/9总数与已知整体求部分两类，保持原条件。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1a.2.7"
+    },
+    {
+      "path": "data/teach/m1a.2.10.json",
+      "sha256": "51988cd3823d2b37ff834e376cae4bf654c5a43e70f999281f1f5033dc56c524",
+      "kind": "teaching-card",
+      "topic_id": "m1a.2.10",
+      "name": "10的加、减法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能熟记 10 的组成",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "10的补数组1/9、4/6、7/3及十格框空格对应正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察三对都合成10、用格子说明一对关系；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能口算 10 的加减法",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "8+2、10−3、10−6、10−10分别为10、7、4、0，全部拿走的边界保留。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察四题结果正确、把算式对应到部分或整体；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "十格框表示固定总量10，不把补数记忆任务等同于长期熟练。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1a.2.10"
+    },
+    {
+      "path": "data/teach/m1a.2.11.json",
+      "sha256": "1fe02b59b0ca2798b0d82dd50676edeaff5bb3410f0bfdde7f06a30b77f3c6b3",
+      "kind": "teaching-card",
+      "topic_id": "m1a.2.11",
+      "name": "连加、连减  加、减混合",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能按从左到右的顺序计算连加连减",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "2+3+4=9与9−2−3=4，第一步明确从左向右。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察两题按左到右、第一步结果带入第二步；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能解决简单的连加连减实际问题",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "先5人、来3人、走2人，5+3−2=6对应事件顺序。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察按事件顺序列式、解释8与6的实际意义；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "仅连加连减及同级混合情境，不把本规则扩展到不同运算级别。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1a.2.11"
+    },
+    {
+      "path": "data/teach/m1a.4.3.json",
+      "sha256": "5265baa87e7bfd173fef79cb3cd72749f695ab8a60cd11638c496234fc34f9a9",
+      "kind": "teaching-card",
+      "topic_id": "m1a.4.3",
+      "name": "简单加、减法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能口算 20 以内不进位加法与不退位减法",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "12+5、18−6、10+8为17、12、18，所选算例满足不进位/不退位。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察三题计算正确、识别个位的变化；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说清十位与个位分别怎么算",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "13+4=17、17−2=15按1个十及个位运算解释。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察十位保持1个十、个位步骤及单位清楚；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "不进位和不退位是方法条件；超过该条件不能照搬十位不变。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1a.4.3"
+    },
+    {
+      "path": "data/teach/m1a.5.1.json",
+      "sha256": "f56247421f99f9a34d2f4eca37e03261e00a48f685817a952b9f163b4a46e412",
+      "kind": "teaching-card",
+      "topic_id": "m1a.5.1",
+      "name": "9加几",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能用凑十法计算 9 加几",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "9+5=14、9+8=17，分别把第二加数分成1+4与1+7。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察两个结果正确、拆分后先凑成10；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说清把第二个数分成 1 和几的道理",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "9+7错误写10+7会重复计入取出的1；改10+6=16，支架针对重复计数。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察指出重复的1、第二部分正确减去1；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "红蓝珠的新hook与例题量一致；凑十后必须保留第二数的剩余部分。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1a.5.1"
+    },
+    {
+      "path": "data/teach/m1a.5.2.json",
+      "sha256": "8eabf3e2463768dcec791042eb139303d24204ca1e094e6a52e1f220aa62523c",
+      "kind": "teaching-card",
+      "topic_id": "m1a.5.2",
+      "name": "8、7、6 加几",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能用凑十法计算 8、7、6 加几",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "8+5=13与6+7=13，分别补2和4凑十。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察两题先凑十再加剩余、拆分与结果正确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能根据第一个数确定要凑的数",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "7+8需从8分出3，因7+3=10，余5，结果15。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察依据7确定补3、说明分1不能凑成10；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "先看第一个加数离10差多少，避免全部机械分出1。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1a.5.2"
+    },
+    {
+      "path": "data/teach/m1a.5.3.json",
+      "sha256": "dbb57ef99e9fd813e085f5e68e08e2fe52686cfc51fb08482f7dcd7b45ff8e09",
+      "kind": "teaching-card",
+      "topic_id": "m1a.5.3",
+      "name": "5、4、3、2 加几",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能计算 5、4、3、2 加几",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "5+8、4+9、2+7为13、13、9，区分需要凑十与直接组成。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察三个结果正确、能选择合适方法；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "会用交换加数的位置简化计算",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "2+9可按9+2计算，数物次序改变但总量仍11，交换依据不是背答案。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察说明总量保持不变、交换后拆分正确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "已将“小数在前”改成“较小的加数在前”，避免一年级混入小数术语歧义。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1a.5.3"
+    },
+    {
+      "path": "data/teach/m1b.2.1.json",
+      "sha256": "ca8474606a81b70f8a3ce951f3b67e1d66dc42a64a8b501a2bdc1538109e05b9",
+      "kind": "teaching-card",
+      "topic_id": "m1b.2.1",
+      "name": "十几减9",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能用破十法计算十几减 9",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "12−9=3、17−9=8，先10−9再加原个位的两步完整。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察两题破十步骤完整、个位部分没有遗漏；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说清破十法的两步计算",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "15−9若只得1，遗漏原个位5；补1+5=6的诊断正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察指出漏加原来的5、解释两步的对象；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "借助十根小棒和剩余个位分清原来的个位，防止破十后漏加。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1b.2.1"
+    },
+    {
+      "path": "data/teach/m1b.2.2.json",
+      "sha256": "ba6bf17bc769e61fcb4ca8f4271e1d429cf1ebfd59910acce54c06818d879532",
+      "kind": "teaching-card",
+      "topic_id": "m1b.2.2",
+      "name": "十几减8、7、6",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能用破十法计算十几减 8、7、6",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "11−6、14−8、12−7分别5、6、5，破十分解正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察三个结果正确、第一步随减数改变；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能正确说出计算过程",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "14−6将10−6的4与原个位4合为8，8+6=14复核。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察拆分与取走对象清楚、用加法返回原数；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "减去数不超过拆开的10；用两种来源的4解释避免重复或漏加。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1b.2.2"
+    },
+    {
+      "path": "data/teach/m1b.2.3.json",
+      "sha256": "3daae6dbff0dacb3e5fce94c75177b0558171439240bf85f1e38169f9c99d818",
+      "kind": "teaching-card",
+      "topic_id": "m1b.2.3",
+      "name": "十几减5、4、3、2",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能计算十几减 5、4、3、2",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "12−5、11−4、15−3、13−2为7、7、12、11，含需破十与可直接按位算的情况。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察四题计算正确、方法符合个位条件；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "会用想加算减的方法检查结果",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "14−5=8的加法检查得13不等14，修正为9。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察用加法发现不等、修正为9并检验；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "想加算减与破十各有依据，不要求所有例题只能采用同一条路径。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1b.2.3"
+    },
+    {
+      "path": "data/teach/m1b.3.7.json",
+      "sha256": "1218478f8a1c569dc7ec8feb1d77428786fdb021a6d690e9a62bf757480ca505",
+      "kind": "teaching-card",
+      "topic_id": "m1b.3.7",
+      "name": "100以内简单的加、减法（整十数加减整十数、整十数加一位数和相应的减法）",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能口算整十数的加减",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "20+40、80−30、50+7、57−7为60、50、57、50，数位单位对应。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察整十数加减正确、十与一混合时不混单位；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说清按“几个十”计算的方法",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "70−30应是7个十减3个十剩4个十，即40，不能漏单位写4。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察计数单位始终为十、把4个十写成40；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "一位数与整十数分开标出，避免把3个十当3个一。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1b.3.7"
+    },
+    {
+      "path": "data/teach/m1b.4.1.json",
+      "sha256": "13885240c054f4ad51eff29fa7423a0751d5c6f267e4ab288aa1ecefd52a0e95",
+      "kind": "teaching-card",
+      "topic_id": "m1b.4.1",
+      "name": "口算加法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能口算两位数加一位数（含进位）",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "34+3=37与46+7=53，后一题46+4+3的分步正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察不进位题正确、进位时没有漏加1个十；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能口算两位数加整十数",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "25+30=55与25+3=28通过两个3的单位区别运算位置。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察两种结果区分正确、说明3个十与3个一；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "小棒hook对应原算例；先识别一位数还是整十数，再判断是否凑十。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1b.4.1"
+    },
+    {
+      "path": "data/teach/m1b.4.2.json",
+      "sha256": "c731c3dcf0d54d65146a18840661b7d9219545e5384872938b62e6d64dff09ec",
+      "kind": "teaching-card",
+      "topic_id": "m1b.4.2",
+      "name": "口算减法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能口算两位数减一位数（含退位）",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "58−4=54、51−6=45，退位后十位由5个十变4个十。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察两题结果正确、退位后十位减少1；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能口算两位数减整十数",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "76−30=46与76−3=73区分被减的3个十和3个一。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察两题不混位、按单位解释减法；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "退位必须同步减掉借出的一个十，不把个位增10当无来源加数。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1b.4.2"
+    },
+    {
+      "path": "data/teach/m1b.5.1.json",
+      "sha256": "d82242e1397d0ad72d0b395b7b71e054bbb1b27f7cd26e0a8b907742915dd6dd",
+      "kind": "teaching-card",
+      "topic_id": "m1b.5.1",
+      "name": "笔算加法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能列竖式计算两位数加法",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "32+24=56且2与4同为个位，列竖式的对齐依据清楚。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察相同数位对齐、从个位计算并得56；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能正确处理进位",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "46+27=73；新增58+42=100完整处理个位进十、十位进百及两个0占位。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察个位向十位进位、十位满10向百位进位及100的两个0占位；提示后完成仍须以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "保留“和在100以内”范围，修复原只讲进十而遗漏等于100边界的问题。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1b.5.1"
+    },
+    {
+      "path": "data/teach/m1b.5.2.json",
+      "sha256": "3e7261a4c4d170149223f4193f14e7465f67048c0521d432aaef86de992590fc",
+      "kind": "teaching-card",
+      "topic_id": "m1b.5.2",
+      "name": "笔算减法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能列竖式计算两位数减法",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "86−32=54，个位6−2和十位8−3对应同位运算。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察数位和上下顺序正确、两列计算意义清楚；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能正确处理退位",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "41−16=25，十位借出1后实际剩3，个位11−6=5。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察个位变11后正确相减、十位按3计算；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "在被减数不小于减数的整数范围计算，退位后原位值须更新。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m1b.5.2"
+    },
+    {
+      "path": "data/teach/m2a.2.1.json",
+      "sha256": "b303b38e7d98cb60cc4e1c4b59bbe74e65814d8c69de9d0de108e2cef5bd92d9",
+      "kind": "teaching-card",
+      "topic_id": "m2a.2.1",
+      "name": "乘法的初步认识",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能把相同加数的连加改写成乘法",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "五个2可写2×5=10；2+2+3每份不相等，不能直接写2×3。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察重复次数数为5、检查每份相同的条件；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说出乘法算式中各部分的名称",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "5×2=10中的乘数与积名称正确，2盒各5支情境相符。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察乘数和积名称正确、情境与每份数份数对应；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "等大组条件先于乘法简记，未用“有几个加号”替代加数个数。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2a.2.1"
+    },
+    {
+      "path": "data/teach/m2a.2.2.json",
+      "sha256": "88d8aff7e8e07711f3d0c1f2fc53771cdf70310d6308208373810ac34f498382",
+      "kind": "teaching-card",
+      "topic_id": "m2a.2.2",
+      "name": "5的乘法口诀",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能背诵 5 的乘法口诀",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "一五至五五五句与1至5份各5相符，四五/二五打乱提取仍要求等大组解释。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察五句口诀完整、打乱后仍能联系等大组；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。文字输入或自报不能直接验证是否实际口头背诵、是否读音准确；这里保存的是书面作答记录，口头表现仍待另外观察。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能用 5 的口诀计算乘法与相应的除法",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "5×3=15、15÷5=3、15÷3=5共同使用三五十五，已知和未知乘数区别正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察乘法除法结果正确、求商时找缺少的乘数；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "明确本卡的传统三角口诀范围；补明文字输入不能验证口头背诵或读音。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2a.2.2"
+    },
+    {
+      "path": "data/teach/m2a.2.3.json",
+      "sha256": "6329827a8812147d08db1ba88dfc03bb415f6831dbb45aa70d5416e8ea154a20",
+      "kind": "teaching-card",
+      "topic_id": "m2a.2.3",
+      "name": "2、3、4的乘法口诀",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能背诵 2、3、4 的乘法口诀",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "2、3、4的对应三组口诀完整；从2份4添1份4得到12的解释正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察三组口诀无漏句、用增加一份解释相邻句；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。文字输入或自报不能直接验证实际口头背诵或读音；书面填全口诀不自动等同于能口头熟练背诵。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能用口诀计算相应的乘除法",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "3×3、4×2、12÷4、16÷4为9、8、3、4，与各自口诀相符。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察四题匹配正确口诀、乘除方向清楚；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "等宽点阵和增加一份支持记忆；书面结果不等于实际口头背诵。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2a.2.3"
+    },
+    {
+      "path": "data/teach/m2a.2.5.json",
+      "sha256": "ffbc2e62d8a2be89849341e289d615190e904f9a7e71f55254d5dc08ca6c6391",
+      "kind": "teaching-card",
+      "topic_id": "m2a.2.5",
+      "name": "6的乘法口诀",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能背诵 6 的乘法口诀",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "一六至六六六句正确，五六到六六多1份6而非多1。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察口诀六句完整、相邻积相差6的原因明确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。文字答案只能记录写出的口诀，自报不能直接验证口头背诵与读音；这些口头表现仍需另外观察。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能用 6 的口诀求积与求商",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "6×5、18÷6、24÷4、36÷6为30、3、6、6，乘回检查成立。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察积与商都正确、检查式返回原被除数；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "使用整除且除数非0；已明确口头背诵/读音仍需另外观察。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2a.2.5"
+    },
+    {
+      "path": "data/teach/m2a.3.1.json",
+      "sha256": "e0aee61c31b42d64a8002b544e543bea9f7a936dc21f9e2d58a38d49d6f94d86",
+      "kind": "teaching-card",
+      "topic_id": "m2a.3.1",
+      "name": "平均分——包含",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能按每份个数进行包含分",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "15按每份5圈成3份，每个圆片只能被分一次，任务观察包含分过程。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察每份固定5个、15个全部被且只被分一次；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。只报商不能观察真实的分组过程；需保留每份圈组图及说明，以检查是否固定每份数、是否重复或漏分，所保存图文仍属于学习者报告。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说出包含分的结果是份数",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "18块每盒3块求6盒；答3块只是复述每份量，诊断具体。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察区分每份量与份数、答案写6盒；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "每份数预先固定，求份数；新增边界说明仅报商不能验证真实圈组操作。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2a.3.1"
+    },
+    {
+      "path": "data/teach/m2a.3.2.json",
+      "sha256": "31249fa419108a100c1e0f8a99d62f62afead208698d645f60a8325fcbf47f01",
+      "kind": "teaching-card",
+      "topic_id": "m2a.3.2",
+      "name": "平均分——等分",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能把总数平均分成若干份",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "10平均分2份各5，6与4虽和10却不平均，反例针对只看总量。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察总量保持10、两份都为5且能拒绝不均分法；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。只报商不能观察真实平均分配过程；需保留分配图与逐轮说明，以检查总量和每份相等，所保存图文仍属于学习者报告。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说出等分的结果是每份个数",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "15支平均装3盒求每盒5支，3×5=15反查合理。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察说明所求为每盒支数、用总量检查每份数；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "份数先给定，求每份数；新增边界说明需要分配图/逐轮说明，文字记录仍是学习者报告。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2a.3.2"
+    },
+    {
+      "path": "data/teach/m2a.3.3.json",
+      "sha256": "a95a932ce4d3f9c1502ba1ebeed6e38fc066d5f18642ef13589853c785b537e3",
+      "kind": "teaching-card",
+      "topic_id": "m2a.3.3",
+      "name": "除法（包含）及算式读法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能把包含分写成除法算式",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "20支每袋4支列20÷4=5，数量、每份量、份数位置正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察总数与每份数位置正确、商解释为袋数；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能正确读出除法算式",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "18÷6=3与“十六除以四等于四”的书面读写对应正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察读法包含除以且顺序正确、按读法正确书写；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。文字转写或自报只能记录算式与读法的书面对应，不能直接验证真实朗读或读音；口头表现仍待另外观察。"
+        }
+      ],
+      "conditions_representation_age_language_note": "统一“除以”顺序避免“除”词倒置；已明确文字转写不能验证实际朗读。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2a.3.3"
+    },
+    {
+      "path": "data/teach/m2a.3.4.json",
+      "sha256": "e8ba42d555ad2bba94a13aee25df43767f47bad854a97f85f41fe6403085c3b4",
+      "kind": "teaching-card",
+      "topic_id": "m2a.3.4",
+      "name": "除法（均分）及算式各部分名称",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能把等分写成除法算式",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "20枚平均给5人，各4枚，5×4=20复核，等分问题与求份数区分。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察使用总数÷份数、结果与检查对应；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说出被除数、除数、商的名称",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "16÷4=4中两个4数值相同但分别是除数与商，位置和角色区别正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察名称按位置确定、能区分相同数值的两个角色；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "总量与份数为正整数并可整除，不把零除问题混入初始情境。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2a.3.4"
+    },
+    {
+      "path": "data/teach/m2a.3.5.json",
+      "sha256": "13719cea7a23c4044451867017e9009a7a6407b59dbeaf438dbe44d5efbeed00",
+      "kind": "teaching-card",
+      "topic_id": "m2a.3.5",
+      "name": "用2～6的乘法口诀求商（1）",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能用乘法口诀求商",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "12÷3、12÷2、20÷5分别4、6、4，三四/二六/四五口诀匹配。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察口诀同时匹配除数与被除数、三道商正确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说清“想乘算除”的思路",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "30÷6转为6乘几得30，商5及5×6=30，真正解释想乘算除。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察说明寻找缺少乘数的过程、检查返回30；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "先固定已知除数与积，再找缺少的乘数，避免把已知乘数直接抄成答案。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2a.3.5"
+    },
+    {
+      "path": "data/teach/m2a.3.6.json",
+      "sha256": "0f8a1aa90faec5e2e9e77a37730ed1dab185419a9b1f28aa1e63729e28b6a23a",
+      "kind": "teaching-card",
+      "topic_id": "m2a.3.6",
+      "name": "用2～6的乘法口诀求商（2）",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能熟练用口诀求商",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "24÷4、15÷5、24÷6、16÷4为6、3、4、4，打乱顺序并区分同积不同除数。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察四题准确、能区分同积不同除数；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能检查商与除数的积是否等于被除数",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "20÷4=6的乘回24不等20，30÷5=6的乘回30相等，检查方法成立。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察使用商×除数检查、依据等与不等作判断；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "不设置未经验证的速度门槛；一轮四题正确仍只是该轮观察。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2a.3.6"
+    },
+    {
+      "path": "data/teach/m2a.5.1.json",
+      "sha256": "f782e786d72a500435924b39b881bfa852d25b02e11a21f74b56a015a211c257",
+      "kind": "teaching-card",
+      "topic_id": "m2a.5.1",
+      "name": "7的乘法口诀",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能背诵 7 的乘法口诀",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "一七至七七七句完整，三七到四七增加7的推导正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察七句完整、能由相邻份数推导；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。文字输入或自报不能直接验证实际口头背诵与读音；本项书面结果不自动证明能口头熟练背诵。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能用 7 的口诀求积与求商",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "7×4、35÷7、42÷6为28、5、7，分别对应四七、五七、六七。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察积与商准确、同句口诀角色转换清楚；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "补充正向求积与反向找乘数两个具体使用情境，口头背诵限制已写明。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2a.5.1"
+    },
+    {
+      "path": "data/teach/m2a.5.2.json",
+      "sha256": "f57e1dd21969220906a7577148466b94f6625fc8315fa3eafabcc4e005c7814e",
+      "kind": "teaching-card",
+      "topic_id": "m2a.5.2",
+      "name": "8的乘法口诀",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能背诵 8 的乘法口诀",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "一八至八八八句完整，48+8=56与56+8=64支持相邻推导。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察八句完整、两次增加一份8解释正确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。文字输入或自报不能直接验证实际口头背诵与读音；本项书面结果不自动证明能口头熟练背诵。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能用 8 的口诀求积与求商",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "8×6、32÷8、56÷7为48、4、8，8×7=56复核一致。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察三题正确、检查式乘回被除数；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "使用8口诀的对应关系范围明确，书面口诀不自动证明口头熟练。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2a.5.2"
+    },
+    {
+      "path": "data/teach/m2a.5.3.json",
+      "sha256": "ed856fc130c9152c9c1ef1fb4cbf0196a88df2c1722da4f3b2b61c5d825017e7",
+      "kind": "teaching-card",
+      "topic_id": "m2a.5.3",
+      "name": "9的乘法口诀",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能背诵 9 的乘法口诀",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "9至81的九句与打乱四九/六九/七九分别36/54/63相符。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察九句与份数对应完整、打乱后正确区分36、54、63；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。文字输入或自报不能直接验证实际口头背诵与读音；打乱后的口头提取仍需另外观察。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能发现 9 的口诀中积的规律",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "18、27、36、45后为54，60−6验证六个9，位数规律没有扩到任意乘数。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察描述数位变化、用数量关系验证54；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "规律以本卡1至9份为范围，已要求另外观察实际口头提取。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2a.5.3"
+    },
+    {
+      "path": "data/teach/m2a.5.4.json",
+      "sha256": "805b61e1d7c4138cd019f991e4eba925dc0af1c7c79d67a2552a26e6a343b1cd",
+      "kind": "teaching-card",
+      "topic_id": "m2a.5.4",
+      "name": "用7、8的乘法口诀求商",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能用 7、8 的口诀求商",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "42÷7、48÷8、64÷8、56÷7为6、6、8、8，容易混淆的同商题覆盖。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察四道商准确、对应口诀与已知数匹配；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能用乘法检查除法结果",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "56÷8=6乘回48错误应为7；49÷7=7乘回49正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察用乘法逐题检查、依据检查修正为7；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "新增使用情境区分一般求商与同积不同除数；独立换题仍需后续记录。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2a.5.4"
+    },
+    {
+      "path": "data/teach/m2a.5.5.json",
+      "sha256": "944dbd47f0b5347817b5dca0a49e2a92547fad2ea1586c37ba1c30094489f2ff",
+      "kind": "teaching-card",
+      "topic_id": "m2a.5.5",
+      "name": "用9的乘法口诀求商",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能用 9 的口诀求商",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "36÷9、63÷7、72÷9、81÷9为4、9、8、9，使用9口诀关系正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察四题准确、除数位置变化时仍能求商；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能区分相近的两句口诀",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "54÷9=6与63÷9=7相差1，因为被除数相差完整1份9。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察区分54与63对应的组数、用多一组9解释差1；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "通过份数变化分辨六九与七九，提示不是直接报商。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2a.5.5"
+    },
+    {
+      "path": "data/teach/m2b.1.1.json",
+      "sha256": "4dc0d4df9526cf994ec5c2f0541b5beb1c489bc014f554d0bbe8ca0ea48b0d9b",
+      "kind": "teaching-card",
+      "topic_id": "m2b.1.1",
+      "name": "有余数除法的意义",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能说出余数的含义并指出余数",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "14每4一组得3组余2，商单位组、余数单位个，4×3+2=14。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察商与余数角色及单位清楚、用总数关系检查；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "知道余数必须小于除数",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "23÷6=2余11虽总量正确但余数过大，改3余5且5<6。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察认识总数关系还不足够、余数调整为小于6；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "同时检查总量等式与0≤余数<除数，避免只验等式就判正确。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2b.1.1"
+    },
+    {
+      "path": "data/teach/m2b.1.2.json",
+      "sha256": "0aa8abe608f37461279b4d3458c39cc2a9c0f3f1e3ffde5a12dba57092684a57",
+      "kind": "teaching-card",
+      "topic_id": "m2b.1.2",
+      "name": "除法的竖式计算",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能正确列出除法竖式",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "23÷5商4余3，除数在左、商在上、乘回20与相减步骤相符。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察竖式各数位置正确、完整记录乘回和相减；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说清竖式中每一步表示的意思",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "19÷4商4、乘回16、余3的分组含义和数量正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察解释三个数的实际含义、说明余数为何合要求；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "14÷3的配图与文字例题一致；纸上竖式任务要求保留过程，不应只用最终商判断会列式。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2b.1.2"
+    },
+    {
+      "path": "data/teach/m2b.2.1.json",
+      "sha256": "7a734e06a2441aebec6cf689e2efd052cb49c7a5830ca2022ab97da8ae4159aa",
+      "kind": "teaching-card",
+      "topic_id": "m2b.2.1",
+      "name": "倍的认识",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能说出“倍”表示两个数的比较关系",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "以3为一份时12是4倍，改以6为基准时为2倍，倍数依赖基准。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察明确一份的基准、基准改变后倍数相应改变；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能用乘法求一个数的几倍",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "4枚的5倍是5份4得20枚，不能误解成多5枚。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察按相同5份列乘法、数量单位与倍数区别正确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "先声明作为1份的基准，避免把“倍”当固定物理单位。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2b.2.1"
+    },
+    {
+      "path": "data/teach/m2b.3.5.json",
+      "sha256": "e6fcfedef9c46095efa3a03bf408da1877cd390f538c03c60d263212710370ae",
+      "kind": "teaching-card",
+      "topic_id": "m2b.3.5",
+      "name": "简单的加、减法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能口算整千整百数的加减",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "400+800=1200、6000−3000=3000、3000−700=2300，其中30个百减7个百成立。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察同单位加减正确、跨千时正确换单位；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说清按计数单位计算的道理",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "2500−600得到19个百即1900，不能把中间19当最终19个一。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察说明19所带的单位、正确还原为1900；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "可先换成一致计数单位，最后还原单位，跨整千边界也有例子。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2b.3.5"
+    },
+    {
+      "path": "data/teach/m2b.4.1.json",
+      "sha256": "cd1e98750689cfaad413e80276509346ed208a84d9427fb6f2f4df20ffd7df82",
+      "kind": "teaching-card",
+      "topic_id": "m2b.4.1",
+      "name": "加法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能列竖式计算万以内加法",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "2346+523=2869，523的5与2346的3都是百位，对齐依据正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察不同位数仍个位对齐、正确计算2869；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能正确处理连续进位",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "687+158中个位15、十位14、百位8，连续进位结果845。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察两次进位都处理、每个进位只加一次；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "逐列用一次进位且保留单位，解释足够支持万以内竖式，不以齐头代替对位。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2b.4.1"
+    },
+    {
+      "path": "data/teach/m2b.4.2.json",
+      "sha256": "ca475c857c045e9949fa6b1618b2e37684f3707e0557f2b79379a833f8bb83a7",
+      "kind": "teaching-card",
+      "topic_id": "m2b.4.2",
+      "name": "减法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能列竖式计算万以内减法",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "5864−2312=3552，减数3在百位应与8对齐。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察数位对应正确、计算3552正确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能正确处理连续退位",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "700−268退1百成10十，再退1十成10一后剩9十，结果432。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察跨零逐级交换清楚、按6、9、10计算；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "连续借位的0位置通过具体数量交换说明，不把0简单改为10而忘记来源。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m2b.4.2"
+    },
+    {
+      "path": "data/teach/m3a.4.1.json",
+      "sha256": "b7e247d854f67cede35945ea412e2ffaaa37d1eec5088888b8afa95f7ee5c652",
+      "kind": "teaching-card",
+      "topic_id": "m3a.4.1",
+      "name": "口算乘法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能口算整十整百数乘一位数",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "20×4、300×3、60×5为80、900、300，十/百单位均保留。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察三题结果正确、中间结果保留计数单位；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说清添 0 的道理",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "40×5先4×5=20，再把20个十还原200，解释原乘积自身已有0。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察说明添0反映扩大10倍、区分原有0与新增0；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "添0来自位值还原；不能删除中间乘积原有0。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m3a.4.1"
+    },
+    {
+      "path": "data/teach/m3a.4.2.json",
+      "sha256": "a0662d47b01c5c88f900381a3a64a1e2c07f70c5653da1fe9b66e066bdd4638d",
+      "kind": "teaching-card",
+      "topic_id": "m3a.4.2",
+      "name": "笔算乘法(不进位)",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能列竖式计算不进位的乘法",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "21×4=84与112×3=336满足各位乘积小于10，不进位条件成立。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察一位乘数对齐个位、各位乘积写对位置；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说清每一步的位值含义",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "23×3中个位9个一与十位6个十合为69，不能把6当6个一。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察说明6表示6个十、拆分与竖式结果一致；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "不进位是明确限定，遇满10应进入下一张进位卡。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m3a.4.2"
+    },
+    {
+      "path": "data/teach/m3a.4.3.json",
+      "sha256": "a5567f1254126f8ad374bbb47dc2228ff5342d752423717256275cb899196ef3",
+      "kind": "teaching-card",
+      "topic_id": "m3a.4.3",
+      "name": "笔算乘法(进位)",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能正确处理一次进位",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "18×2=36进1，16×4=64进2，覆盖进位不一定为1。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察结果正确、按实际乘积确定进位数；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说清进位写在什么位置",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "27×3的21个一换2个十，十位2×3+2=8，结果81。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察把2解释为2个十、下一位乘完再加进位；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "先乘本位再加右边进位，避免把进位与本位数字先相加再重复乘。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m3a.4.3"
+    },
+    {
+      "path": "data/teach/m3a.4.4.json",
+      "sha256": "5ce4df4bde126c0c3e31cf422f1f18d9dafa8e5755fb23c1146cf403aa3ffd29",
+      "kind": "teaching-card",
+      "topic_id": "m3a.4.4",
+      "name": "笔算乘法(连续进位)",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能正确处理连续进位",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "186×5依次30、43、9形成930，连续进位及个位0保留。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察从个位依次处理、连续两次进位及0位置正确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能检查是否漏加进位数",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "158×4错写602是十位漏加3个十，正确632且差30。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察定位十位漏加3、改为632并解释少30；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "最高位相乘后也可能再进位；268×4=1072的百位0完整讲解。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m3a.4.4"
+    },
+    {
+      "path": "data/teach/m3a.4.5.json",
+      "sha256": "b5e6078ced6b98ad50f9561b74d0713a52a972fdc440a3ea39c970a1f6d6f603",
+      "kind": "teaching-card",
+      "topic_id": "m3a.4.5",
+      "name": "笔算乘法(0的乘法)",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "知道 0 乘任何数得 0",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "0×9=0、7×0=0而7+0=7，零组与没有增加的情境明确区分。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察三题正确、区分零组与没有增加；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能在竖式中正确处理含 0 的乘法",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "201×3=603十位无进位写0；105×6=630十位接收3，不能机械看到0就写0。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察两个积正确、是否加进位的依据清楚；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "本卡以非负整数组义解释乘0；没有把不同数域的证明混为已观察结果。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m3a.4.5"
+    },
+    {
+      "path": "data/teach/m3a.4.6.json",
+      "sha256": "7d0ff57a5f0fa20aa3f603576b7b7fe05e966b4477053ed786fce0e1e6e7f4d8",
+      "kind": "teaching-card",
+      "topic_id": "m3a.4.6",
+      "name": "笔算乘法(数位中间或末尾有0)",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能计算因数中间有 0 的乘法",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "304×2=608与306×4=1224，后一题十位0仍接收2个十。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察中间0未被跳过、正确处理有无进位两种情况；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能计算因数末尾有 0 的乘法",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "1200×4=4800、250×4=1000，48个百与100个十单位还原正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察两题位值还原正确、不误删中间乘积已有0；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "区分中间0不跳位和末尾0可换单位，不把两种处理混同。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m3a.4.6"
+    },
+    {
+      "path": "data/teach/m3b.2.1.json",
+      "sha256": "40fe54bb48f23ed63ed34edfbc81aeb54a8d09b9848fe8a1bda2e064b340333a",
+      "kind": "teaching-card",
+      "topic_id": "m3b.2.1",
+      "name": "口算除法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能口算整十整百数除以一位数",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "80÷4=20、600÷3=200、120÷6=20，分别选十、百、十单位。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察三题商正确、所选单位与答案一致；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说清按计数单位口算的道理",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "240÷8按24个十分8份得30；400÷8须先40个十分8份得50。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察解释单位选择、认识不能机械删0添0；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "除数为正的一位整数且结果为整数，所选单位不够整分时须换更小单位。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m3b.2.1"
+    },
+    {
+      "path": "data/teach/m3b.2.2.json",
+      "sha256": "1be6eb180e5f68415ffaa2eb8b94e94ef76595b1692d4691c7d70e27430bd479",
+      "kind": "teaching-card",
+      "topic_id": "m3b.2.2",
+      "name": "笔算除法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能列竖式计算除数是一位数的除法",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "628÷3=209余1，3×209+1=628且1<3，十位0保留。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察分步商位置正确、余数小于除数且总量检查成立；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能正确处理商中间或末尾有 0 的情况",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "603÷3=201与420÷3=140，分别保留中间与末尾0并解释单位。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察中间和末尾0均保留、按位解释0的含义；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "前导0与商开始后的缺位0区分；816÷4=204的图文位值一致。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m3b.2.2"
+    },
+    {
+      "path": "data/teach/m4a.3.1.json",
+      "sha256": "4ad193c7c8c6e253fded1871962d7def9c3b2942008a530249f6ff83abf1a78c",
+      "kind": "teaching-card",
+      "topic_id": "m4a.3.1",
+      "name": "口算乘法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能口算整十整百数相乘",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "30×40=1200、200×30=6000、400×20=8000，两因数缩放同时计入。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察三题计算正确、两个因数的位值都计入；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说清添 0 的个数怎么确定",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "50×40在20后新增2个0得2000，70×30在21后新增2个0得2100。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察正确确定新增2个0、保留20原有的0；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "原因数末尾0数量与前段乘积自身的0区分，避免只数最终0机械套规则。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m4a.3.1"
+    },
+    {
+      "path": "data/teach/m4a.3.2.json",
+      "sha256": "74418564b3b4dc5e55dcaf2dc4125dc575c5437b9fc4ffc289b321e67f5aaa27",
+      "kind": "teaching-card",
+      "topic_id": "m4a.3.2",
+      "name": "笔算乘法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能列竖式计算两位数乘两位数",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "34×12两部分68与340相加408，百十个位对齐。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察两部分乘积正确、相加时按位对齐；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能说清第二部分积的对位道理",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "26×13写78+26=104错把十位1当个位1，修正78+260=338。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察指出十位1被当作1个一、修正部分积并得338；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "第二部分积先显式写0；23×14图示92+230=322，传统错位写法需以十为单位解释。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m4a.3.2"
+    },
+    {
+      "path": "data/teach/m4b.1.1.json",
+      "sha256": "94c63ae8d76c63f729831c85bdf1c628d87d541a5b7a9491cc94ec03375aaf07",
+      "kind": "teaching-card",
+      "topic_id": "m4b.1.1",
+      "name": "除数是两位数的除法",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能正确试商并调商",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "158÷26试5余28仍够1份应调6余2；192÷24试9乘回216过大应调8。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察根据乘回过大调小、根据余数过大调大；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能列竖式计算除数是两位数的除法",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "312÷24首商1在十位，31十减24十余7十，再合2个一得72，最终13。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察商按对应数位书写、每步乘减下移及总量检查完整；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "试商必须同时检查乘回与余数；估商不能直接替代答案。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m4b.1.1"
+    },
+    {
+      "path": "data/teach/m5b.1.1.json",
+      "sha256": "c73597cdd24e9212787fadb168b4431950fb16bbecb434da4cccda47e32c5a1c",
+      "kind": "teaching-card",
+      "topic_id": "m5b.1.1",
+      "name": "因数和倍数",
+      "authoring_role": "tool",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "objectives": [
+        {
+          "criterion_index": 0,
+          "statement": "能找出一个数的因数与倍数",
+          "source_pointer": "/objective_coverage/0",
+          "review_note": "18的正因数1、2、3、6、9、18完整，前三个正倍数18、36、54正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察因数有序完整且无重复、倍数及关系说明正确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        },
+        {
+          "criterion_index": 1,
+          "statement": "能区分因数与倍数的个数特点",
+          "source_pointer": "/objective_coverage/1",
+          "review_note": "6的正因数在1至6内有限，倍数不断加6无最大；1只有正因数1的特殊情况正确。",
+          "material_task_criteria_support_alignment": "reviewed",
+          "observed_scope": "本项观察区分有限因数与无限倍数、正确处理数1的特殊情况；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。"
+        }
+      ],
+      "conditions_representation_age_language_note": "明确只讨论非零自然数的正因数与正倍数，平方配对重复数只记录一次。",
+      "structural_errors": [],
+      "source_claims_preserved": {
+        "author_type": "ai",
+        "review_status": "draft",
+        "teacher_review": "pending"
+      },
+      "preview_url": "/?teach=m5b.1.1"
+    },
+    {
+      "path": "web/static/diagrams/v4-foundation-division-remainder.svg",
+      "sha256": "cfbadc43852246df344bbdfe004f238bacfb28b9b467041b61140604b7f3f07c",
+      "kind": "svg",
+      "topic_id": "m2b.1.2",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "review_note": "4个独立框各3个圆点，框外2个，总计14；竖式商4、乘回12、余2按个位对齐，且2<3。",
+      "visible_numeric_layout": "reviewed_in_rendered_png",
+      "source_text_and_alt": "reviewed_in_svg_xml_and_teaching_card",
+      "full_chinese_glyph_preview": "reviewed_in_rendered_png_with_explicit_fontconfig",
+      "preview_limit": "已用 FONTCONFIG_FILE=/tmp/cnkg-fonts.conf 重渲染并逐图查看完整中文字形、数字、数位及圈组。此处是SVG独立渲染；学习页桌面/移动端与交互预览由根任务另行记录。",
+      "preview_url": "/?teach=m2b.1.2",
+      "local_numeric_render": {
+        "path": "build/v4-primary-arithmetic-review/division-remainder.png",
+        "sha256": "dce9820ddd304a16e68015a06ed16bab3fcff7ea8fdc586d2fda1f1ada047a66"
+      }
+    },
+    {
+      "path": "web/static/diagrams/v4-foundation-division-zero-place.svg",
+      "sha256": "1acc4133e7b6a6324dab171bfd581ee1e54d5dec04b83b36bc91520fae09b875",
+      "kind": "svg",
+      "topic_id": "m3b.2.2",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "review_note": "商204位于百十个位x=180/230/280；8−8、1−0、16−16及最终余0的对应数位一致，204×4=816，24×4=96。",
+      "visible_numeric_layout": "reviewed_in_rendered_png",
+      "source_text_and_alt": "reviewed_in_svg_xml_and_teaching_card",
+      "full_chinese_glyph_preview": "reviewed_in_rendered_png_with_explicit_fontconfig",
+      "preview_limit": "已用 FONTCONFIG_FILE=/tmp/cnkg-fonts.conf 重渲染并逐图查看完整中文字形、数字、数位及圈组。此处是SVG独立渲染；学习页桌面/移动端与交互预览由根任务另行记录。",
+      "preview_url": "/?teach=m3b.2.2",
+      "local_numeric_render": {
+        "path": "build/v4-primary-arithmetic-review/division-zero-place.png",
+        "sha256": "acdda739c2b15cb95f7bf6b3d9572f7b107687a92729921a0508b9be6e155b36"
+      }
+    },
+    {
+      "path": "web/static/diagrams/v4-foundation-multiplication-partials.svg",
+      "sha256": "2417ba079e4e9aaa7419421c0b67139085edc179466257fb73c6e2725103848b",
+      "kind": "svg",
+      "topic_id": "m4a.3.2",
+      "review_status": "reviewed",
+      "decision": "accept_with_stated_limits",
+      "review_note": "百十个位x=170/230/290；92在十/个位，230保留个位0，和322按百十个位排列；23×4=92、23×10=230。",
+      "visible_numeric_layout": "reviewed_in_rendered_png",
+      "source_text_and_alt": "reviewed_in_svg_xml_and_teaching_card",
+      "full_chinese_glyph_preview": "reviewed_in_rendered_png_with_explicit_fontconfig",
+      "preview_limit": "已用 FONTCONFIG_FILE=/tmp/cnkg-fonts.conf 重渲染并逐图查看完整中文字形、数字、数位及圈组。此处是SVG独立渲染；学习页桌面/移动端与交互预览由根任务另行记录。",
+      "preview_url": "/?teach=m4a.3.2",
+      "local_numeric_render": {
+        "path": "build/v4-primary-arithmetic-review/multiplication-partials.png",
+        "sha256": "adb079a88471b278dfc62c12862d3a3ecf146d6d3caa51be487d91dce9a1682a"
+      }
+    }
+  ],
+  "limits": [
+    "这是AI内容交叉审；没有独立教师审核或真实学生教学效果数据。",
+    "逐目标任务能保留本次表现、步骤和自报；单次正确、看过参考后的修订或结构完整不等于长期独立掌握。",
+    "本次语义范围是53张新卡的教学内容及3个图示；既有题库练习只检查链接存在、主题归属与题型，没有以此声称重新审完全部旧题。",
+    "本次三图完成带中文的独立SVG渲染；真实页面、移动端与交互视觉验收由根任务另行绑定证据。"
+  ]
+}

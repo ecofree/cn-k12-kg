@@ -1,22 +1,19 @@
-"""第五批「两步补题」的守门测试。
+"""历史两步题与正式作者改写的回归。
 
-**为什么要有这个测试**：2026-10-25 审计发现小学有 74 个知识点只有单一难度
-（全是 basic）。根因是自产计算题都是一步题——verify 只有一个运算符，
-校准器按「几步运算」给难度，自然全落 basic。
+保留57个旧生成器的算式、数值和身份检查；正式发布由作者JSON决定。
+稳定的-q95后缀不承诺题目永远保持复合运算。V5/V6逐题审查按实际
+目标修正任务；本轮30条例外须同时命中固定名单、完整作者对象指纹与
+已审查合同。未入名单的题保留旧复合要求，不能因审查文件存在就放行。
+V7只对四个新增有限目标映射续审，不修改旧V6记录或扩大内容例外名单。
+V8仅续审m2b.3.5-q95的设计难度说明；题面、答案和旧例外名单保持原约束。
 
-第五批给其中 57 个可计算的点各补了一道两步题。这个测试固化四条纪律：
-
-1. **两步题必须真的是两步**——verify 去掉括号内⑸容后至少 2 个运算符，
-   否则 calibrate_difficulty 仍会给 basic，等于白补。
-2. **答案必须机器可验**——answer 与 verify 的求值要一致。
-3. **答案不能写成分数**——compare() 对非数值走字符串比对，
-   "3/4" 与 0.75 永远判 mismatch（历史踩过）。
-4. **知识点 id 必须真实**——STEP2_GENERATORS 里写错的 id 会被 build()
-   静默跳过，题目就悄悄少了一批。
+运算符数量只是历史算式结构检查，不是实测学生难度。旧生成器继续保持
+整数/小数输出约定；这不表示现行精确判分不支持分数。
 """
 from __future__ import annotations
 
 import importlib.util
+import hashlib
 import json
 import random
 import sys
@@ -29,9 +26,44 @@ sys.path.insert(0, str(ROOT))
 from cnkg.verify import check_question  # noqa: E402
 from tools import gen_calc_questions as G  # noqa: E402
 
+REVIEWED_SINGLE_OPERATION = {
+    "m1a.5.5-q95": {"verify": "8+1", "answer": "9", "family_id": "primary.additive-structure.continue-from-current", "criterion_indices": []},
+    "m1a.4.1-q95": {"verify": "10+8", "answer": "18", "family_id": "placevalue.ten-and-ones", "criterion_indices": [1]},
+    "m1a.5.1-q95": {"verify": "9+3", "answer": "12", "family_id": "addition.make-ten", "criterion_indices": [0]},
+    "m1a.5.2-q95": {"verify": "8+8", "answer": "16", "family_id": "addition.make-ten", "criterion_indices": [0]},
+}
+
+# This list is a reviewed decision, not inferred from filenames or operation
+# counts at test time. Adding a review row does not grant another exception.
+V6_EXACT_CONTENT_OVERRIDES = frozenset({
+    "m1a.1.4-q95", "m1a.2.4-q95", "m1a.2.5-q95", "m1a.2.6-q95",
+    "m1a.2.7-q95", "m1a.3.2-q95", "m1a.4.1-q95", "m1a.5.1-q95",
+    "m1a.5.2-q95", "m1a.5.3-q95", "m1a.5.4-q95", "m1b.2.1-q95",
+    "m1b.2.2-q95", "m1b.2.3-q95", "m1b.2.4-q95", "m1b.4.2-q95",
+    "m2a.4.1-q95", "m2b.3.1-q95", "m2b.3.2-q95", "m2b.3.5-q95",
+    "m3a.2.6-q95", "m3a.4.1-q95", "m3a.4.2-q95", "m3a.4.3-q95",
+    "m3a.4.4-q95", "m3a.6.4-q95", "m3a.6.6-q95", "m3b.2.1-q95",
+    "m3b.2.2-q95", "m4a.3.1-q95",
+})
+V7_MAPPING_CONTINUATIONS = frozenset({
+    "m1a.5.5-q95", "m2b.3.2-q95", "m3a.6.2-q95", "m6a.3.3-q95",
+})
+V8_DESCRIPTION_CONTINUATIONS = frozenset({"m2b.3.5-q95"})
+PUBLISHED_REVIEW_FIELDS = (
+    "prompt", "answer", "verify", "difficulty", "difficulty_basis",
+    "family_id", "variant_id", "representation", "cognitive_demand",
+    "tested_criterion_indices", "target_alignment", "alignment_note",
+)
+
+
+def _matches_reviewed_source(question, decision):
+    payload = json.dumps(question, ensure_ascii=False, sort_keys=True,
+                         separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest() == decision["current_source_task_sha256"]
+
 
 def _load_count_steps():
-    """从 calibrate_difficulty 取出 count_steps——难度定档的唯一真源。"""
+    """复用旧校准器的算式计数，不把它当作现行难度的唯一依据。"""
     spec = importlib.util.spec_from_file_location(
         "calibrate_difficulty", ROOT / "tools" / "calibrate_difficulty.py")
     mod = importlib.util.module_from_spec(spec)
@@ -48,6 +80,20 @@ class TestStep2Questions(unittest.TestCase):
         cls.step2 = G.STEP2_GENERATORS
         cls.questions = json.loads(
             (ROOT / "data" / "questions.json").read_text(encoding="utf-8"))
+        cls.v6_review = json.loads((ROOT / "docs/reviews/v6-step-task-review.json").read_text(encoding="utf-8"))
+        cls.v6_decisions = {row["id"]: row for row in cls.v6_review["tasks"]}
+        cls.v7_review = json.loads((ROOT / "docs/reviews/v7-step-task-review.json").read_text(encoding="utf-8"))
+        cls.v7_decisions = {row["id"]: row for row in cls.v7_review["tasks"]}
+        cls.v8_review = json.loads((ROOT / "docs/reviews/v8-step-task-review.json").read_text(encoding="utf-8"))
+        cls.v8_decisions = {row["id"]: row for row in cls.v8_review["tasks"]}
+        cls.author_questions = {}
+        for source in {row["source"] for row in cls.v6_review["tasks"]}:
+            path = Path(source)
+            if path.is_absolute() or ".." in path.parts or path.parts[:2] != ("data", "content"):
+                raise ValueError("两步题审查必须指向正式册次作者源")
+            authored = json.loads((ROOT / path).read_text(encoding="utf-8"))
+            for question in authored["questions"]:
+                cls.author_questions[question["id"]] = (source, question)
 
     def test_topic_ids_are_real(self):
         """STEP2_GENERATORS 的每个 key 都必须是真实知识点 id。"""
@@ -61,7 +107,7 @@ class TestStep2Questions(unittest.TestCase):
         self.assertFalse(wrong, f"第五批混入了非小学点：{wrong}")
 
     def test_questions_are_really_two_step(self):
-        """两步题的 verify 必须数出 ≥2 步，否则难度仍会被判 basic。"""
+        """历史生成器继续输出至少两个运算，不静默退化其原约定。"""
         too_shallow = []
         for tid, gen in self.step2.items():
             rnd = random.Random(f"test-steps:{tid}")
@@ -87,7 +133,7 @@ class TestStep2Questions(unittest.TestCase):
         self.assertFalse(bad, f"有题验算不过：{bad[:5]}")
 
     def test_answers_are_not_fractions(self):
-        """答案不得写成分数形式——compare() 会按字符串比，必然 mismatch。"""
+        """保留旧生成器的整数/小数输出约定，非现行判分能力限制。"""
         frac = []
         for tid, gen in self.step2.items():
             rnd = random.Random(f"test-frac:{tid}")
@@ -98,18 +144,154 @@ class TestStep2Questions(unittest.TestCase):
                     break
         self.assertFalse(frac, f"答案写成了分数：{frac[:5]}")
 
-    def test_applied_questions_are_not_basic(self):
-        """入库后的两步题（id 以 -q95 结尾）难度必须高于 basic。
-
-        这条测的是「承诺有没有真的兑现」：如果自动生成→入库→校准这条链
-        任何一环掉了（比如 build() 没接 STEP2_GENERATORS、或者 apply
-        因为去重把题丢了），难度就会退回 basic 而没有任何报错。
-        """
+    def test_published_structure_and_design_level_follow_explicit_content_review(self):
+        """精确作者指纹与固定例外名单共同约束现行改写，不全局取消两步要求。"""
         applied = [q for q in self.questions if q["id"].endswith("-q95")]
-        self.assertEqual(len(applied), len(self.step2),
-                         f"入库的两步题 {len(applied)} 道，应为 {len(self.step2)} 道")
-        still_basic = [q["id"] for q in applied if q.get("difficulty") == "basic"]
-        self.assertFalse(still_basic, f"两步题仍被判 basic：{still_basic[:5]}")
+        expected_ids = {tid + "-q95" for tid in self.step2}
+        self.assertEqual(expected_ids, {q["id"] for q in applied})
+        self.assertEqual(len(expected_ids), len(applied), "稳定身份不可缺失或重复")
+        review = json.loads((ROOT / "docs/reviews/v5-batch2-primary-ai-review.json").read_text(encoding="utf-8"))
+        reviewed = {row["id"]: row for row in review["tasks"]}
+        v6 = json.loads((ROOT / "docs/reviews/v6-corrections-ai-review.json").read_text(encoding="utf-8"))
+        reviewed.update({row["id"]: row for row in v6["tasks"]})
+        for question in applied:
+            qid = question["id"]
+            with self.subTest(question=qid):
+                decision = self.v8_decisions.get(qid, self.v7_decisions.get(qid, self.v6_decisions[qid]))
+                source, author_question = self.author_questions[qid]
+                self.assertEqual(source, decision["source"])
+                self.assertTrue(_matches_reviewed_source(author_question, decision),
+                                "作者对象已变，必须重新逐题审查，不能沿用旧例外")
+                self.assertEqual(decision["current_contract"],
+                                 {key: question.get(key) for key in PUBLISHED_REVIEW_FIELDS},
+                                 "发布题目必须仍与已审查的实际作者合同一致")
+                if qid in V6_EXACT_CONTENT_OVERRIDES:
+                    self.assertTrue(decision["allow_exact_content_override"])
+                    self.assertEqual(decision["legacy_counter_value"],
+                                     self.count_steps(question["verify"]))
+                    self.assertFalse(decision["student_difficulty_calibrated"])
+                    continue
+                self.assertFalse(decision["allow_exact_content_override"])
+                if qid not in REVIEWED_SINGLE_OPERATION:
+                    self.assertGreaterEqual(self.count_steps(question["verify"]), 2)
+                    self.assertIn(question["difficulty"], ("standard", "advanced"))
+                    continue
+                if qid in self.v7_decisions:
+                    # A finite goal was added; the original mathematics remains
+                    # exactly constrained, without reusing a stale V6 mapping.
+                    expected = REVIEWED_SINGLE_OPERATION[qid]
+                    for field in ("verify", "answer", "family_id"):
+                        self.assertEqual(expected[field], question[field])
+                    self.assertEqual([decision["newly_registered_goal"]["criterion_index"]],
+                                     question["tested_criterion_indices"])
+                    self.assertEqual("basic", question["difficulty"])
+                    self.assertEqual("component_practice_only", question["target_alignment"])
+                    self.assertFalse(question["diagnosis_eligible"])
+                    continue
+                expected, decision = REVIEWED_SINGLE_OPERATION[qid], reviewed[qid]
+                self.assertTrue(decision["semantic_change"])
+                self.assertEqual("data/content/yishang.json", decision["source"])
+                self.assertEqual(question["prompt"], decision["new_prompt"])
+                self.assertEqual(question["answer"], decision["new_answer"])
+                self.assertEqual(question["alignment_note"], decision["observation_boundary"])
+                self.assertEqual(expected["verify"], question["verify"])
+                self.assertEqual(expected["answer"], question["answer"])
+                self.assertEqual(expected["family_id"], question["family_id"])
+                self.assertEqual(expected["criterion_indices"], question.get("tested_criterion_indices", []))
+                self.assertEqual(expected["criterion_indices"], decision["new_tested_criterion_indices"])
+                self.assertEqual(1, self.count_steps(question["verify"]))
+                self.assertEqual("basic", question["difficulty"])
+                self.assertEqual("component_practice_only", question["target_alignment"])
+                self.assertFalse(question["diagnosis_eligible"])
+
+    def test_v6_review_scope_and_fixed_exceptions_are_explicit(self):
+        expected_ids = {tid + "-q95" for tid in self.step2}
+        rows = self.v6_review["tasks"]
+        self.assertEqual(57, len(rows))
+        self.assertEqual(expected_ids, set(self.v6_decisions))
+        self.assertEqual(len(rows), len(self.v6_decisions), "不允许重复ID掩盖漏审")
+        self.assertEqual(1, self.v6_review["schema"])
+        self.assertEqual("ai", self.v6_review["reviewer_kind"])
+        self.assertFalse(self.v6_review["independent_teacher_review"])
+        self.assertEqual(V6_EXACT_CONTENT_OVERRIDES,
+                         set(self.v6_review["approved_exact_overrides"]))
+        self.assertEqual(len(V6_EXACT_CONTENT_OVERRIDES),
+                         len(self.v6_review["approved_exact_overrides"]))
+        self.assertEqual(V6_EXACT_CONTENT_OVERRIDES,
+                         {row["id"] for row in rows if row["allow_exact_content_override"]})
+        for row in rows:
+            with self.subTest(question=row["id"]):
+                self.assertEqual("reviewed", row["result"])
+                for field in ("independent_expression", "mathematical_reason",
+                              "age_and_target_reason", "observation_boundary",
+                              "design_difficulty_reason"):
+                    self.assertIsInstance(row[field], str)
+                    self.assertTrue(row[field].strip(), f"缺少逐题审查依据：{field}")
+                    self.assertNotIn(row[field].strip().lower(),
+                                     ("todo", "tbd", "待补", "略"))
+                self.assertFalse(row["legacy_counter_is_cognitive_steps"])
+                self.assertFalse(row["student_difficulty_calibrated"])
+
+    def test_v7_mapping_continuation_cannot_expand_or_rewrite_the_v6_exceptions(self):
+        self.assertEqual(V7_MAPPING_CONTINUATIONS, set(self.v7_decisions))
+        self.assertEqual(len(V7_MAPPING_CONTINUATIONS), len(self.v7_review["tasks"]))
+        self.assertEqual(V6_EXACT_CONTENT_OVERRIDES, set(self.v7_review["approved_exact_overrides_unchanged"]))
+        self.assertFalse(self.v7_review["independent_teacher_review"])
+        self.assertEqual("ai", self.v7_review["reviewer_kind"])
+        for qid, current in self.v7_decisions.items():
+            with self.subTest(question=qid):
+                previous = self.v6_decisions[qid]
+                self.assertEqual(previous["current_source_task_sha256"], current["previous_source_task_sha256"])
+                self.assertNotEqual(current["previous_source_task_sha256"], current["current_source_task_sha256"])
+                self.assertEqual(previous["allow_exact_content_override"], current["allow_exact_content_override"])
+                for field in PUBLISHED_REVIEW_FIELDS:
+                    if field not in {"tested_criterion_indices", "target_alignment", "alignment_note"}:
+                        self.assertEqual(previous["current_contract"][field], current["current_contract"][field])
+                self.assertTrue(current["continued_review_reason"].strip())
+                self.assertEqual("explicit_finite_goal_mapping_and_observation_boundary_only", current["semantic_change_scope"])
+                source = self.author_questions[qid][1]
+                self.assertTrue(_matches_reviewed_source(source, current))
+                self.assertFalse(_matches_reviewed_source({**source, "answer": "unreviewed answer"}, current))
+
+    def test_v8_description_continuation_preserves_every_mathematical_field(self):
+        self.assertEqual(V8_DESCRIPTION_CONTINUATIONS, set(self.v8_decisions))
+        self.assertEqual(1, len(self.v8_review["tasks"]))
+        self.assertEqual(V6_EXACT_CONTENT_OVERRIDES,
+                         set(self.v8_review["approved_exact_overrides_unchanged"]))
+        self.assertEqual("ai", self.v8_review["reviewer_kind"])
+        self.assertFalse(self.v8_review["independent_teacher_review"])
+        for qid, decision in self.v8_decisions.items():
+            previous = self.v6_decisions[qid]
+            self.assertEqual(previous["current_source_task_sha256"], decision["previous_source_task_sha256"])
+            self.assertEqual(["difficulty_basis"], decision["changed_fields"])
+            self.assertEqual("design_description_only", decision["semantic_change_scope"])
+            self.assertTrue(decision["continued_review_reason"].strip())
+            self.assertEqual(previous["allow_exact_content_override"], decision["allow_exact_content_override"])
+            for field in PUBLISHED_REVIEW_FIELDS:
+                if field != "difficulty_basis":
+                    self.assertEqual(previous["current_contract"][field], decision["current_contract"][field])
+            raw = (ROOT / decision["review_evidence"]).read_bytes()
+            self.assertEqual(hashlib.sha256(raw).hexdigest(), decision["review_evidence_sha256"])
+            evidence = next(row for row in json.loads(raw)["tasks"] if row["id"] == qid)
+            self.assertEqual({"difficulty_basis"}, set(evidence["changed_fields"]))
+            self.assertEqual(evidence["current_source_task_sha256"], decision["current_source_task_sha256"])
+            source = self.author_questions[qid][1]
+            self.assertTrue(_matches_reviewed_source(source, decision))
+            self.assertFalse(_matches_reviewed_source({**source, "answer": "2801"}, decision))
+            self.assertFalse(decision["student_difficulty_calibrated"])
+
+    def test_reviewed_exception_does_not_survive_unreviewed_content_changes(self):
+        decision = self.v6_decisions["m3a.6.4-q95"]
+        source = self.author_questions[decision["id"]][1]
+        self.assertTrue(_matches_reviewed_source(source, decision))
+        for field, replacement in (("prompt", source["prompt"] + "另改整体。"),
+                                   ("answer", "3"), ("verify", "8-3"),
+                                   ("difficulty", "advanced"),
+                                   ("family_id", "unreviewed-new-structure"),
+                                   ("tested_criterion_indices", [0, 1])):
+            with self.subTest(field=field):
+                changed = {**source, field: replacement}
+                self.assertFalse(_matches_reviewed_source(changed, decision))
 
     def test_prompts_are_unique(self):
         """同一批内题干不得重复——重复题会让「不同问法」的要求失效。"""

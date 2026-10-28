@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m1a.2.11",
+  "name": "连加、连减  加、减混合",
+  "tier": "tool",
+  "hook": "盒里8支笔，先送出3支，再送出2支，还剩几支？",
+  "definition": "连续增加用连加，连续减少用连减；增加与减少先后出现时可用加减混合。没有括号的加减算式按从左到右计算。",
+  "why": "每一步得到的是当时实际有的数量，下一步要在这个数量上继续变化。例如8−3−2，先剩5，再去掉2，最后剩3。",
+  "conditions": [
+    "本卡没有括号，每一步结果为0至10的整数。",
+    "情境变化按发生顺序明确给出。"
+  ],
+  "representation_note": "用三个时刻的物体图记录开始、中间、最后数量，并与算式各步对应。",
+  "when_to_use": [
+    "本卡没有括号，每一步结果为0至10的整数。",
+    "情境变化按发生顺序明确给出。"
+  ],
+  "steps": [
+    "按事情发生顺序说出开始数与每次变化。",
+    "增加写加号，减少写减号。",
+    "从左到右计算，把第一步结果暂记下来。",
+    "将每一步数量与实际变化核对。"
+  ],
+  "worked_example": {
+    "prompt": "盒里8支笔，先送出3支，再送出2支，还剩几支？",
+    "steps": [
+      "先算8−3=5，表示第一次送出后剩5支。",
+      "再算5−2=3，所以8−3−2=3（支）。"
+    ],
+    "answer": "3",
+    "family_id": "primary.add-sub.sequence",
+    "variant_id": "m1a.2.11:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "verify": "8-3-2"
+  },
+  "pitfalls": [
+    "把8−3−2当成8−(3−2)会改变“共送出5支”的事实。",
+    "混合算式不能一看到加号就先加，要按原来的先后顺序。"
+  ],
+  "practice": [
+    {
+      "id": "m1a.2.11-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m1a.2.11-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "左到右表示先用最左边两个数运算，再把所得数与第三个数运算；中间结果不是第三个数。如3+2+4先得5，再得9。",
+      "observation_note": "本项观察两题按左到右、第一步结果带入第二步；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "计算2+3+4与9−2−3，写出各自的第一步。",
+        "reference_answer": "2+3=5，再5+4=9；9−2=7，再7−3=4。",
+        "criteria": [
+          "两题按左到右",
+          "第一步结果带入第二步"
+        ],
+        "family_id": "arithmetic.same-level-left-to-right",
+        "variant_id": "m1a.2.11:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.change.sequential-add-subtract"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "9−2做完时，眼前还剩9个还是7个？",
+        "hint": "先摆9个，拿走2个后，只在剩下的7个上继续拿走3个。",
+        "revision_prompt": "给算式第一步画线，写下中间数后重新完成下一步。"
+      },
+      "criterion_index": 0,
+      "title": "能按从左到右的顺序计算连加连减"
+    },
+    {
+      "explanation": "连续变化的问题要先说清每个数的意义，再决定加减。先增加后减少的情境可以写成5+3−2，不能只看出现了三个数就一律连加。",
+      "observation_note": "本项观察按事件顺序列式、解释8与6的实际意义；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "公交站先有5人，又来3人，随后走了2人，现在有几人？写算式解释每一步。",
+        "reference_answer": "5+3−2=6；先共有8人，再走2人，剩6人。",
+        "criteria": [
+          "按事件顺序列式",
+          "解释8与6的实际意义"
+        ],
+        "family_id": "primary.change.sequential-add-subtract",
+        "variant_id": "m1a.2.11:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "最后“走了2人”应使人数变大还是变小？",
+        "hint": "用手指做“添入3个、拿走2个”的动作。",
+        "revision_prompt": "画三个时刻的小人图，在每次变化旁写相应的加号或减号。"
+      },
+      "criterion_index": 1,
+      "title": "能解决简单的连加连减实际问题"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

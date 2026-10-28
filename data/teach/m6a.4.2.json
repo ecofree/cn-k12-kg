@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "topicId": "m6a.4.2",
+  "name": "正数与负数",
+  "tier": "tool",
+  "author": "ai",
+  "author_type": "ai",
+  "review_status": "draft",
+  "hook": "收入记正时支出记负；如果把支出记正，同一件事的符号会怎样变？",
+  "definition": "正负数可以表示具有相反意义的量，但须先规定哪种方向为正。正号与负号表达的是相对约定的方向，数值大小及单位表达数量；改变约定会改变符号而不改变事件。",
+  "why": "向东为正时向西走3米记−3米；改为向西为正，同样向西3米记+3米。若只说“−3”而没有基准、方向和单位，就不能判断实际发生了什么。",
+  "when_to_use": [
+    "需要把实物、数位或图示中的数量说清楚。",
+    "需要核对自己的读数、写数或表示方法。"
+  ],
+  "steps": [
+    "把正方向或正变化的约定写出来。",
+    "找出相反的方向或变化，并决定符号。",
+    "保留数量大小与单位。",
+    "把记录译回事件，必要时改变约定再核对。"
+  ],
+  "worked_example": {
+    "prompt": "规定向东为正，向西走2米记作多少米？",
+    "steps": [
+      "向西与规定的向东相反，取负号。",
+      "大小为2米，记−2米。"
+    ],
+    "answer": "-2",
+    "verify": "0-2",
+    "family_id": "number.signed-context.opposite-direction",
+    "variant_id": "m6a.4.2:worked-example-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "认为负数一定表示坏事，而忽略人为约定。",
+    "改变正方向时，符号不变或连事件方向一起改了。"
+  ],
+  "practice": [
+    {
+      "id": "m6a.4.2-q1",
+      "note": "结合实物或数位说明结果；自检量规另列。"
+    },
+    {
+      "id": "m6a.4.2-q2",
+      "note": "结合实物或数位说明结果；自检量规另列。"
+    }
+  ],
+  "check": "逐项目标完成下面的操作或解释，先留下过程，再对照量规修改；记录仍不确定的地方。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用正负数表示相反意义的量",
+      "explanation": "相反意义的量要用同一基准和单位。收入与支出是一对，上升与下降是一对，不能随意把无关的两种事物配成正负。",
+      "self_check": {
+        "prompt": "规定收入为正，记录收入120元与支出45元；再解释−30元在此约定下的意思。",
+        "reference_answer": "分别+120元、−45元；−30元表示支出30元，不直接表示账户余额。",
+        "criteria": [
+          "两次符号与数量正确",
+          "解释的是变化记录而非余额"
+        ],
+        "family_id": "number.signed-context.opposite-direction",
+        "variant_id": "m6a.4.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "observation_note": "只观察该收支约定，净余额或多步变化仍需额外信息。",
+      "difficulty_support": {
+        "discriminating_prompt": "−30元是本次支出，还是已经知道账户剩余？",
+        "hint": "先在记录上写“本次变化”。",
+        "revision_prompt": "修订解释，补清事件、方向、数量和单位。"
+      }
+    },
+    {
+      "criterion_index": 1,
+      "title": "能根据规定判断正负",
+      "explanation": "先规定再判断符号。同一事件换正方向后符号相反，但走的实际路程与方向没有变化。",
+      "self_check": {
+        "prompt": "向东为正时向西4米如何记？改成向西为正，同一段运动如何记？若没有约定能直接判定正负吗？",
+        "reference_answer": "分别−4米、+4米。没有方向约定不能唯一决定符号，需先补约定。",
+        "criteria": [
+          "改变约定时符号相反",
+          "事件与数量保持不变",
+          "缺约定时不乱猜"
+        ],
+        "family_id": "number.signed-context.reverse-convention",
+        "variant_id": "m6a.4.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "observation_note": "观察约定依赖性；不把表示正确当作位移运算已掌握。",
+      "difficulty_support": {
+        "discriminating_prompt": "改的是正方向，还是实际向西运动？",
+        "hint": "把事件固定写在一行，只更换上面的约定。",
+        "revision_prompt": "列两套约定与两种符号对应表，检查实际事件相同。"
+      }
+    }
+  ],
+  "conditions": [
+    "同一比较中基准、正方向与单位保持一致。"
+  ],
+  "representation_note": "带正方向箭头的数轴和事件符号对照表。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

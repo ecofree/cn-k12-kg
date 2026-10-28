@@ -1,0 +1,134 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "8颗红珠和7颗蓝珠合在一起，怎样先凑成10颗再数？",
+  "definition": "两个一位数相加，和达到10或超过10时，可以把一个数拆开，先与另一个数凑成10，再加剩余的数。这是20以内进位加法的常用方法。",
+  "why": "把7拆成2和5，只是把同一批珠子重新分组，数量不变。8与2凑成10后，10再加5容易计算；凑十时拿走的部分要从另一个加数里正确分出。",
+  "when_to_use": [
+    "两个一位数合并后超过或达到10",
+    "某个加数接近10，可以从另一组中拿一部分来凑十"
+  ],
+  "steps": [
+    "先判断题意是合并总数，用加法。",
+    "找一个接近10的数，想还差几到10。",
+    "拆另一个加数凑十，再把剩下部分加上。"
+  ],
+  "worked_example": {
+    "prompt": "8颗红珠和7颗蓝珠，一共有多少颗？",
+    "steps": [
+      "8还差2到10，把7拆成2和5。",
+      "8+7=8+2+5=10+5=15（颗）。"
+    ],
+    "answer": "15",
+    "verify": "8+7",
+    "family_id": "addition.make-ten",
+    "variant_id": "m1a.5.4:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "从7里拿出2后还剩5，不能仍把7整个再加一次。",
+    "是否进位由相加结果决定，不能只看题中有“又”。"
+  ],
+  "check": "先独立完成下面各项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m1a.5.4",
+  "name": "解决问题",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断何时用进位加法",
+      "explanation": "个位合并满10时才需要把十个一看成一个十。",
+      "self_check": {
+        "prompt": "6+3与6+7哪个需要进位？说出理由。",
+        "reference_answer": "6+7需要，因为6还差4到10而7够分出4；6+3=9未满10。",
+        "criteria": [
+          "判断正确",
+          "用凑十或满十解释"
+        ],
+        "family_id": "addition.regroup-condition",
+        "variant_id": "m1a.5.4:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "addition.make-ten",
+          "ten.complete-frame"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "6再添3能装满十格框吗？再添7时会留下几个在框外？",
+        "hint": "先放6个，满框还差4；把第二堆与缺的4比较，就知道是否需要换出一个十。",
+        "revision_prompt": "分别画出7+2和7+5，圈出是否能凑成一组10，说明判断依据。"
+      },
+      "observation_note": "观察进位由满十决定；题目出现“一共”本身不能决定是否进位。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能列式并正确计算",
+      "explanation": "凑十过程要保持被拆加数总量不变。",
+      "self_check": {
+        "prompt": "9只白鸽和6只灰鸽共几只？写出凑十过程。",
+        "reference_answer": "6=1+5；9+6=9+1+5=15（只）。",
+        "criteria": [
+          "正确拆分6",
+          "算得15并说明总数"
+        ],
+        "family_id": "addition.make-ten",
+        "variant_id": "m1a.5.4:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "9+6先取6中的1去凑十后，原来6只灰鸽还剩几只没算？",
+        "hint": "把6拆成1和5，取出的1标记已进入10，防止再把完整6加一次。",
+        "revision_prompt": "用同样办法画8只白鸽和5只灰鸽，写拆分、凑十、剩余三步并检查总数。"
+      },
+      "observation_note": "观察合并情境中的拆分守恒与计算；完成9加几不自动证明8加几也独立完成。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能求两个一位数合并后的总量并得到超过10的和",
+      "explanation": "互不重叠的部分合并时，总数是各部分数量的和。已给数量只能各用一次；超过10时可先凑成10再数剩余部分。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：体育课一筐有8个红球，另一筐有9个黄球，合到空筐后共有多少个球？\n情境2：手工组做好7架纸飞机，另一组做好6架，合起来参展，一共有几架？\n写出每个问题的答案。可以用小棒、画图或算式说明你怎样想；用了提示或参考，也记下来。",
+        "reference_answer": "情境1参考：17。8+9=17，和超过10。\n情境2参考：13。7+6=13，和超过10。",
+        "criteria": [
+          "各部分只合并一次，结果表示总量",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "primary.add.combine-parts",
+        "variant_id": "m1a.5.4:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "结果支持进位加法的应用，不证明提交了凑十过程或正确列式。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "两部分有没有重复计数？问题要的是一部分还是合并总量？",
+        "hint": "先把每部分单独圈出，再放进同一个总量框；从实际总量核对，而不是把某一部分当答案。",
+        "revision_prompt": "先回答这个辨别问题：两部分有没有重复计数？问题要的是一部分还是合并总量？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；各部分只合并一次，结果表示总量。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m1a.5.4-q1",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1a.5.4-q101",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1a.5.4-q102",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

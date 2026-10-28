@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2b.1.2",
+  "name": "除法的竖式计算",
+  "tier": "tool",
+  "hook": "用除法竖式计算14÷3，说明写下12与2的含义。",
+  "definition": "除法竖式用固定位置记录试商、乘回、相减与余数。被除数写在除法符号里面，除数在左边，商在上方，最后的余数写在相减结果处。",
+  "why": "14÷3的商4表示取走4个3，乘回12记录已经分走的数量，14−12=2记录未分走的数量；2<3表示不能再分一份。",
+  "conditions": [
+    "除数为一位正整数，商为一位数；本卡用整数与余数表示结果。",
+    "乘回数与被除数相同数位对齐。"
+  ],
+  "representation_note": "使用标明除数、被除数、商、乘回数和余数的除法竖式，旁边配完整分组图。",
+  "when_to_use": [
+    "除数为一位正整数，商为一位数；本卡用整数与余数表示结果。",
+    "乘回数与被除数相同数位对齐。"
+  ],
+  "steps": [
+    "先在纸上写除法竖式，把14放里面、3放左边。",
+    "想3乘几最接近14且不超过14，把4写在商的位置。",
+    "将4×3=12写在14下，相同数位对齐，再写减线。",
+    "相减得2，检查2<3并用3×4+2=14验算。"
+  ],
+  "worked_example": {
+    "prompt": "用除法竖式计算14÷3，说明写下12与2的含义。",
+    "steps": [
+      "3×4=12≤14，3×5=15超过14，所以商4。",
+      "乘回12，表示4组已分走12；14−12=2表示余下2。",
+      "2<3，结果4……2。"
+    ],
+    "answer": "4……2",
+    "family_id": "primary.divide.column-remainder",
+    "variant_id": "m2b.1.2:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "primary.divide.remainder",
+      "primary.multiply.table-facts"
+    ]
+  },
+  "pitfalls": [
+    "只写商而不写乘回数、余数，无法检查每一步分走多少。",
+    "把乘回的12错位，会把十与一相减，必须个位对个位。"
+  ],
+  "practice": [
+    {
+      "id": "m2b.1.2-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m2b.1.2-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "初学可给竖式各处标注：外左是除数、里面是被除数、上方是商，下方写商与除数的积，再相减。求23÷5时上方写4，下方乘回20，余3。 配图把这一步完整示范出来；完成后盖住图，再自行重列，避免抄写被当作独立完成。",
+      "observation_note": "本项观察竖式各数位置正确、完整记录乘回和相减；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "在纸上列23÷5的竖式，标出除数、被除数、商与余数。",
+        "reference_answer": "除数5在左，被除数23在里面；商4在上方；乘回20后23−20=3，余数3<5。",
+        "criteria": [
+          "竖式各数位置正确",
+          "完整记录乘回和相减"
+        ],
+        "family_id": "primary.divide.column-remainder",
+        "variant_id": "m2b.1.2:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.divide.number-roles",
+          "primary.divide.remainder",
+          "primary.multiply.table-facts"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "竖式下方的20是另一个被除数，还是已分走的4个5？",
+        "hint": "先给20标“5×4”，说明它由哪两个数算来。",
+        "revision_prompt": "重列竖式，把每个位置与名称连起来，再核对对位。"
+      },
+      "criterion_index": 0,
+      "title": "能正确列出除法竖式"
+    },
+    {
+      "explanation": "竖式每一步都对应分组：试商选完整份数，乘回算分走数量，相减算剩余数量，检查余数确认已经分到不能再分整份。",
+      "observation_note": "本项观察解释三个数的实际含义、说明余数为何合要求；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "解释19÷4竖式中的商4、乘回16和余数3各表示什么。",
+        "reference_answer": "4表示完整4份；16是4份每份4个共分走16个；3是19−16剩余，且3<4。",
+        "criteria": [
+          "解释三个数的实际含义",
+          "说明余数为何合要求"
+        ],
+        "family_id": "primary.divide.column-remainder",
+        "variant_id": "m2b.1.2:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "division.remainder-bound",
+          "primary.divide.group-count",
+          "primary.divide.remainder"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "若相减后还剩5个，而每份4个，竖式能结束吗？",
+        "hint": "剩余够一份时要增加商，再重新乘回相减。",
+        "revision_prompt": "为19÷4画分组图，把商、乘回数、余数分别对应到图中。"
+      },
+      "criterion_index": 1,
+      "title": "能说清竖式中每一步表示的意思"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "diagram": {
+    "src": "/static/diagrams/primary-v6-division-column.svg",
+    "alt": "23÷5的竖式：左侧除数5，内部23，个位上方商4，下方乘回20，相减余3，3小于5。"
+  }
+}

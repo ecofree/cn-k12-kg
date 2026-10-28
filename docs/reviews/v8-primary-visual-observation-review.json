@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "reviewer_kind": "ai",
+  "reviewer_role": "root mathematical and rendered-image cross-review",
+  "independent_teacher_review": false,
+  "student_validation": false,
+  "scope": "3 actual new primary geometric source figures and 4 objective question contracts; final per-task/source binding is in the primary objective cross-review.",
+  "figures": [
+    {
+      "source": "web/static/diagrams/v8-primary-cube-net-layouts.svg",
+      "source_sha256": "06896fe4f2e77a0a3bedc1345eef02836434071e61b1b21a3a21cfbdf0a1e02a",
+      "task_ids": [
+        "v8p_cube_net_layout",
+        "v8p_cube_net_opposites"
+      ],
+      "render_method": "PyMuPDF SVG to PDF, page rendered at 1.5x with CJK fonts; PNG actually opened by root",
+      "rendered_image_actually_viewed": true,
+      "mathematical_reasoning": "甲为A、B、C、D横排，E在B上、F在B下；取B为前面得到A左、C右、D后、E上、F下，六面法向不重复。乙2×3闭合邻接产生折叠冲突，丙六格直排重复侧面；甲唯一有效。相对面B–D、E–F。",
+      "visual_observations": "三组格子尺寸、完整邻边、甲字母与题目完全一致；没有在图中标示哪组有效或哪面对面。",
+      "decision": "accept_with_scope"
+    },
+    {
+      "source": "web/static/diagrams/v8-primary-multiview-candidates.svg",
+      "source_sha256": "66e7da28c0f02466f74965ce9ea5ce866ab6499280b5a9b9162a93cf75219b9c",
+      "task_ids": [
+        "v8p_views_nonunique_three"
+      ],
+      "render_method": "PyMuPDF SVG to PDF, page rendered at 1.5x with CJK fonts; PNG actually opened by root",
+      "rendered_image_actually_viewed": true,
+      "mathematical_reasoning": "甲高度矩阵[[2,2],[2,2]]总数8；乙[[2,1],[1,2]]总数6。两矩阵行最大值与列最大值均为2、所有底格非空，因此指定三个投影外轮廓相同。三个外轮廓不唯一确定给定模型。",
+      "visual_observations": "前排在下、后排在上有明确标记，三个2×2轮廓和候选柱高可读。题目限制只比较外轮廓，不把隐藏低柱误作可见边。",
+      "decision": "accept_with_scope"
+    },
+    {
+      "source": "web/static/diagrams/v8-primary-distinguishing-view.svg",
+      "source_sha256": "31a0bf07e632199268582cc5fd506851ee345c3bda02dfcca70b9e0f3aca837e",
+      "task_ids": [
+        "v8p_views_add_direction"
+      ],
+      "render_method": "PyMuPDF SVG to PDF, page rendered at 1.5x with CJK fonts; PNG actually opened by root",
+      "rendered_image_actually_viewed": true,
+      "mathematical_reasoning": "甲为一排三块、乙为前后两排每排三块，均高1。图中箭头指向深度方向，两个正面均宽3高1；俯视为1×3与2×3，所给额外方向可区分这两个模型，不推广为任意模型总能唯一确定。",
+      "visual_observations": "实际透视图可见3格与6格顶面、共享正面轮廓与前方箭头，标签没有遮挡。题干要求读取候选图，而不在题干复述所有排列数据。",
+      "decision": "accept_with_scope"
+    }
+  ],
+  "limits": [
+    "实际看图与投影/折叠推理核对不代替学习者亲自折叠、搭建或作图。",
+    "最终移动端和目标页面显示仍由完整浏览器门禁检查；此记录不预先声明浏览器通过。"
+  ]
+}

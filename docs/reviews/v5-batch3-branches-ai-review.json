@@ -1,0 +1,517 @@
+{
+  "schema": 1,
+  "base_commit": "c905d0f",
+  "reviewer_kind": "ai",
+  "review_status": "development_reviewed_fixed_release_pending",
+  "scope": {
+    "authored_supports": 5,
+    "error_routes": 10,
+    "default_routes": 5,
+    "skip_routes": 5,
+    "notice": "此次深入编写5个具体支持活动的错误分支；其余支持活动保留原路径，不声称全部目标都有差异化分支。",
+    "total_supports": 104,
+    "remaining_supports_on_original_guided_task": 99,
+    "diagram_assets": 4
+  },
+  "teacher_independent_review": "deferred",
+  "student_effect_validation": "deferred",
+  "routes": [
+    {
+      "unit_id": "data_reading_and_mean",
+      "support_id": "data_reading_and_mean:support:read_scale",
+      "objective_id": "data_reading_and_mean:read_scale",
+      "route_id": "scale_per_grid",
+      "diagnostic_choice_ids": [
+        "A"
+      ],
+      "previous_guided_prompt": "纵轴从0开始，每格4件；甲条高2格，乙条高5格。先分别读数，再填乙比甲多多少件。",
+      "new_guided_prompt": "观察配图。纵轴的单位是本，图中这一根条表示多少本？请按刻度读数。",
+      "new_answer": "15",
+      "rationale": "你选择了图上格数，可能尚未把每格表示的数量带入；下一步先使用从0开始的刻度图。",
+      "observation_note": "这条路线隔离每格量的换算；还没有检查截断起点或条长倍数的问题。",
+      "followup_task_ids": [
+        "data_reading_and_mean:practice-1",
+        "data_reading_and_mean:transfer-1",
+        "data_reading_and_mean:delayed-1"
+      ],
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "guided_task_sha256": "afe8f42bb151884c3b1390dde55411ca0518d38caad20131072fce101fcd79e8",
+      "family_id": "statistics.bar-axis-reading",
+      "representation": "graph",
+      "explicit_followup_goal_bindings": {
+        "data_reading_and_mean:practice-1": [
+          "data_reading_and_mean:read_scale"
+        ],
+        "data_reading_and_mean:transfer-1": [
+          "data_reading_and_mean:read_scale"
+        ],
+        "data_reading_and_mean:delayed-1": [
+          "data_reading_and_mean:read_scale"
+        ]
+      }
+    },
+    {
+      "unit_id": "data_reading_and_mean",
+      "support_id": "data_reading_and_mean:support:read_scale",
+      "objective_id": "data_reading_and_mean:read_scale",
+      "route_id": "restore_axis_origin",
+      "diagnostic_choice_ids": [
+        "B"
+      ],
+      "previous_guided_prompt": "纵轴从0开始，每格4件；甲条高2格，乙条高5格。先分别读数，再填乙比甲多多少件。",
+      "new_guided_prompt": "观察配图。纵轴从20本开始，每格5本，条顶所在刻度表示多少本？",
+      "new_answer": "30",
+      "rationale": "你把超过起点的6本当成全部数量；下一步专门比较起点值与起点以上的增加量。",
+      "observation_note": "这条路线只观察读出完整数值，尚未确认能解释截断轴造成的倍数错觉。",
+      "followup_task_ids": [
+        "data_reading_and_mean:practice-1",
+        "data_reading_and_mean:transfer-1",
+        "data_reading_and_mean:delayed-1"
+      ],
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "guided_task_sha256": "ff29299071e255d05ff6a529aa97fe32c4185b3de46686d2342882bf95ef02a8",
+      "family_id": "statistics.bar-axis-reading",
+      "representation": "graph",
+      "explicit_followup_goal_bindings": {
+        "data_reading_and_mean:practice-1": [
+          "data_reading_and_mean:read_scale"
+        ],
+        "data_reading_and_mean:transfer-1": [
+          "data_reading_and_mean:read_scale"
+        ],
+        "data_reading_and_mean:delayed-1": [
+          "data_reading_and_mean:read_scale"
+        ]
+      }
+    },
+    {
+      "unit_id": "equation_equivalence",
+      "support_id": "equation_equivalence:support:reversible",
+      "objective_id": "equation_equivalence:reversible",
+      "route_id": "test_added_solution",
+      "diagnostic_choice_ids": [
+        "A"
+      ],
+      "previous_guided_prompt": "哪一步可对所有实数候选x保持解集？",
+      "new_guided_prompt": "原方程x=4，两边同乘0后得到0=0。要说明新旧方程不同解，下面哪个x满足新式却不满足原式？",
+      "new_answer": "1",
+      "rationale": "你的选择只检查两边操作相同；下一步找出新式允许、原式却不允许的一个数。",
+      "observation_note": "一个反例足以否定同解，但仍需在之后检查除以含未知数的式子会否漏解。",
+      "followup_task_ids": [
+        "equation_equivalence:practice-1",
+        "equation_equivalence:delayed-3",
+        "equation_equivalence:delayed-2"
+      ],
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "guided_task_sha256": "a42aaa12df1d7ca7ba093d179e37043dd511e6118ab5b588e90d4f4ea61c8873",
+      "family_id": "equation.multiply-zero-error",
+      "representation": "symbolic",
+      "explicit_followup_goal_bindings": {
+        "equation_equivalence:practice-1": [
+          "equation_equivalence:o1",
+          "equation_equivalence:reversible"
+        ],
+        "equation_equivalence:delayed-3": [
+          "equation_equivalence:o1",
+          "equation_equivalence:reversible"
+        ],
+        "equation_equivalence:delayed-2": [
+          "equation_equivalence:o1",
+          "equation_equivalence:reversible",
+          "equation_equivalence:solve_check"
+        ]
+      }
+    },
+    {
+      "unit_id": "equation_equivalence",
+      "support_id": "equation_equivalence:support:reversible",
+      "objective_id": "equation_equivalence:reversible",
+      "route_id": "identity_or_contradiction",
+      "diagnostic_choice_ids": [
+        "C"
+      ],
+      "previous_guided_prompt": "哪一步可对所有实数候选x保持解集？",
+      "new_guided_prompt": "比较①0×x=0与②0×x=5，x在实数中取值。哪项正确？",
+      "new_answer": "1",
+      "rationale": "你的选择把0=0判作无解；下一步把任意取值代入两个式子，比较恒成立与不可能成立。",
+      "observation_note": "这里只确认全体实数解与无解的区别，不能据此确认所有方程变形都可逆。",
+      "followup_task_ids": [
+        "equation_equivalence:practice-1",
+        "equation_equivalence:delayed-3",
+        "equation_equivalence:delayed-2"
+      ],
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "guided_task_sha256": "f1aaa24d57f92f7489b490889190a892beb6eeec64be7eea431667547326a0c3",
+      "family_id": "equation.solution-set-degeneracy",
+      "representation": "symbolic",
+      "explicit_followup_goal_bindings": {
+        "equation_equivalence:practice-1": [
+          "equation_equivalence:o1",
+          "equation_equivalence:reversible"
+        ],
+        "equation_equivalence:delayed-3": [
+          "equation_equivalence:o1",
+          "equation_equivalence:reversible"
+        ],
+        "equation_equivalence:delayed-2": [
+          "equation_equivalence:o1",
+          "equation_equivalence:reversible",
+          "equation_equivalence:solve_check"
+        ]
+      }
+    },
+    {
+      "unit_id": "fraction_equivalence",
+      "support_id": "fraction_equivalence:support:whole",
+      "objective_id": "fraction_equivalence:whole",
+      "route_id": "fixed_quantity",
+      "diagnostic_choice_ids": [
+        "B"
+      ],
+      "previous_guided_prompt": "一串珠子的2/3是18颗。先求1/3有几颗，再求整串，填颗数。",
+      "new_guided_prompt": "一段蓝线原占12厘米整体的1/3。后来改用20厘米作为单位“1”，蓝线没有移动或裁剪。现在蓝线实际长几厘米？",
+      "new_answer": "4",
+      "rationale": "你的选择把分数变小与实际长度变短连在一起；先把实物量和参照整体分开核对。",
+      "observation_note": "这里只观察实际长度是否保持，不据此确认会处理所有整体变化。",
+      "followup_task_ids": [
+        "fraction_equivalence:delayed-5",
+        "fraction_equivalence:transfer-3",
+        "fraction_equivalence:delayed-2"
+      ],
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "guided_task_sha256": "4a2e805a0914b71d9530efdb9d6f63cf53204a20007deacf5b735722ba45c85b",
+      "family_id": "fraction.reunitize-fixed-quantity",
+      "representation": "verbal",
+      "explicit_followup_goal_bindings": {
+        "fraction_equivalence:delayed-5": [
+          "fraction_equivalence:o1",
+          "fraction_equivalence:whole",
+          "fraction_equivalence:represent"
+        ],
+        "fraction_equivalence:transfer-3": [
+          "fraction_equivalence:o1",
+          "fraction_equivalence:whole",
+          "fraction_equivalence:represent"
+        ],
+        "fraction_equivalence:delayed-2": [
+          "fraction_equivalence:o1",
+          "fraction_equivalence:whole"
+        ]
+      }
+    },
+    {
+      "unit_id": "fraction_equivalence",
+      "support_id": "fraction_equivalence:support:whole",
+      "objective_id": "fraction_equivalence:whole",
+      "route_id": "changed_reference",
+      "diagnostic_choice_ids": [
+        "C"
+      ],
+      "previous_guided_prompt": "一串珠子的2/3是18颗。先求1/3有几颗，再求整串，填颗数。",
+      "new_guided_prompt": "同一段6厘米红线保持不变。以12厘米为整体时是1/2；改以24厘米为整体时，哪一个分数正确？",
+      "new_answer": "2",
+      "rationale": "你的选择把“实物没动”理解为“分数不能变”；下一步专门比较同一实物相对于两个整体的分数。",
+      "observation_note": "选择新分数只观察更换整体后的表示，仍需说明分子所指实物没有改变。",
+      "followup_task_ids": [
+        "fraction_equivalence:delayed-5",
+        "fraction_equivalence:transfer-3",
+        "fraction_equivalence:delayed-2"
+      ],
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "guided_task_sha256": "6fde36a84666d0daa72ff55c936852897ae73a4811168b83558d25d166e6d66b",
+      "family_id": "fraction.reunitize-fixed-quantity",
+      "representation": "verbal",
+      "explicit_followup_goal_bindings": {
+        "fraction_equivalence:delayed-5": [
+          "fraction_equivalence:o1",
+          "fraction_equivalence:whole",
+          "fraction_equivalence:represent"
+        ],
+        "fraction_equivalence:transfer-3": [
+          "fraction_equivalence:o1",
+          "fraction_equivalence:whole",
+          "fraction_equivalence:represent"
+        ],
+        "fraction_equivalence:delayed-2": [
+          "fraction_equivalence:o1",
+          "fraction_equivalence:whole"
+        ]
+      }
+    },
+    {
+      "unit_id": "fraction_equivalence",
+      "support_id": "fraction_equivalence:support:scale",
+      "objective_id": "fraction_equivalence:scale",
+      "route_id": "addition_not_scaling",
+      "diagnostic_choice_ids": [
+        "A"
+      ],
+      "previous_guided_prompt": "把4/9写成分母27的等值分数，分子应是多少？",
+      "new_guided_prompt": "同一个整体中，1/2=3/6，而把1/2的分子分母都加2会得到3/4。哪一步保持原来的1/2不变？",
+      "new_answer": "2",
+      "rationale": "你的选择依赖“同加就不变”；下一步把同乘和同加的结果放回同一整体比较。",
+      "observation_note": "这一步只辨别同加与同乘，尚未确认约分、非零因子或所有分数变形。",
+      "followup_task_ids": [
+        "fraction_equivalence:practice-1",
+        "fraction_equivalence:transfer-2",
+        "fraction_equivalence:delayed-4"
+      ],
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "guided_task_sha256": "339d85647fd86583f9fe647f6f66104521e163762e4009eebf98ae715e121ae0",
+      "family_id": "fraction.additive-equivalence-error",
+      "representation": "symbolic",
+      "explicit_followup_goal_bindings": {
+        "fraction_equivalence:practice-1": [
+          "fraction_equivalence:o1",
+          "fraction_equivalence:represent",
+          "fraction_equivalence:scale"
+        ],
+        "fraction_equivalence:transfer-2": [
+          "fraction_equivalence:o2",
+          "fraction_equivalence:o3",
+          "fraction_equivalence:common_unit",
+          "fraction_equivalence:scale",
+          "fraction_equivalence:operate"
+        ],
+        "fraction_equivalence:delayed-4": [
+          "fraction_equivalence:o2",
+          "fraction_equivalence:scale"
+        ]
+      }
+    },
+    {
+      "unit_id": "fraction_equivalence",
+      "support_id": "fraction_equivalence:support:scale",
+      "objective_id": "fraction_equivalence:scale",
+      "route_id": "compare_factors",
+      "diagnostic_choice_ids": [
+        "C"
+      ],
+      "previous_guided_prompt": "把4/9写成分母27的等值分数，分子应是多少？",
+      "new_guided_prompt": "把3/5分别改写为6/10和6/15。两种写法分子分母都变大，哪一种与3/5等值？",
+      "new_answer": "1",
+      "rationale": "你的选择只注意两个数都变大；下一步分别核对它们使用的乘数是否相同。",
+      "observation_note": "这里只观察同一非零因子的条件；选对结果仍需在后续解释等值理由。",
+      "followup_task_ids": [
+        "fraction_equivalence:practice-1",
+        "fraction_equivalence:transfer-2",
+        "fraction_equivalence:delayed-4"
+      ],
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "guided_task_sha256": "1acbbf953a62a4173c2a42b95bad876a727906b59980a13cc986b35cf9bb805d",
+      "family_id": "fraction.mismatched-scaling",
+      "representation": "symbolic",
+      "explicit_followup_goal_bindings": {
+        "fraction_equivalence:practice-1": [
+          "fraction_equivalence:o1",
+          "fraction_equivalence:represent",
+          "fraction_equivalence:scale"
+        ],
+        "fraction_equivalence:transfer-2": [
+          "fraction_equivalence:o2",
+          "fraction_equivalence:o3",
+          "fraction_equivalence:common_unit",
+          "fraction_equivalence:scale",
+          "fraction_equivalence:operate"
+        ],
+        "fraction_equivalence:delayed-4": [
+          "fraction_equivalence:o2",
+          "fraction_equivalence:scale"
+        ]
+      }
+    },
+    {
+      "unit_id": "fraction_equivalence",
+      "support_id": "fraction_equivalence:support:common_unit",
+      "objective_id": "fraction_equivalence:common_unit",
+      "route_id": "valid_not_only_smallest",
+      "diagnostic_choice_ids": [
+        "A"
+      ],
+      "previous_guided_prompt": "把5/6与1/4通分为分母12，哪组正确？",
+      "new_guided_prompt": "1/3与1/4需要通分，题目没有要求最小公分母。12和24中哪些可以使用？",
+      "new_answer": "3",
+      "rationale": "你的选择把最小公分母当成唯一可用分母；下一步直接检查两个公倍数是否都能保持原值。",
+      "observation_note": "这一步只确认可用分母不唯一，不据此确认已经会正确改写两个分子。",
+      "followup_task_ids": [
+        "fraction_equivalence:practice-7",
+        "fraction_equivalence:transfer-2",
+        "fraction_equivalence:delayed-7"
+      ],
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "guided_task_sha256": "dd1290da5ccbf819e85c7cfd5afaabaff60bd64b0e1f9f8960c7eac9ed623fbd",
+      "family_id": "fraction.common-denominator-nonminimal",
+      "representation": "symbolic",
+      "explicit_followup_goal_bindings": {
+        "fraction_equivalence:practice-7": [
+          "fraction_equivalence:o2",
+          "fraction_equivalence:common_unit"
+        ],
+        "fraction_equivalence:transfer-2": [
+          "fraction_equivalence:o2",
+          "fraction_equivalence:o3",
+          "fraction_equivalence:common_unit",
+          "fraction_equivalence:scale",
+          "fraction_equivalence:operate"
+        ],
+        "fraction_equivalence:delayed-7": [
+          "fraction_equivalence:o2",
+          "fraction_equivalence:common_unit",
+          "fraction_equivalence:scale"
+        ]
+      }
+    },
+    {
+      "unit_id": "fraction_equivalence",
+      "support_id": "fraction_equivalence:support:common_unit",
+      "objective_id": "fraction_equivalence:common_unit",
+      "route_id": "preserve_numerator_scale",
+      "diagnostic_choice_ids": [
+        "C"
+      ],
+      "previous_guided_prompt": "把5/6与1/4通分为分母12，哪组正确？",
+      "new_guided_prompt": "把同一个整体平均分成4份，原来涂了3份。再把每一份都平均分成3小份，共12小份。原涂色部分现在占几小份？",
+      "new_answer": "9",
+      "rationale": "你的选择只换了分母而保留原分子；下一步追踪原来的每一份被细分成几份。",
+      "observation_note": "只完成一个分数的改写仍不等于已会给两个分数通分；后续任务继续检查两者。",
+      "followup_task_ids": [
+        "fraction_equivalence:practice-7",
+        "fraction_equivalence:transfer-2",
+        "fraction_equivalence:delayed-7"
+      ],
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "guided_task_sha256": "a88f6bb2e5c4c050acddb636a81ec0afd8ac281fa78da0157a6f3f2827899440",
+      "family_id": "fraction.partition-refinement",
+      "representation": "verbal",
+      "explicit_followup_goal_bindings": {
+        "fraction_equivalence:practice-7": [
+          "fraction_equivalence:o2",
+          "fraction_equivalence:common_unit"
+        ],
+        "fraction_equivalence:transfer-2": [
+          "fraction_equivalence:o2",
+          "fraction_equivalence:o3",
+          "fraction_equivalence:common_unit",
+          "fraction_equivalence:scale",
+          "fraction_equivalence:operate"
+        ],
+        "fraction_equivalence:delayed-7": [
+          "fraction_equivalence:o2",
+          "fraction_equivalence:common_unit",
+          "fraction_equivalence:scale"
+        ]
+      }
+    }
+  ],
+  "decisions": [
+    "每个错误选项触发不同的真实指导题，原默认任务和暂时不会任务分别保留。",
+    "候选指导题、分支理由和资产在创建时冻结；只呈现选择到的指导题，未选分支不计曝光。",
+    "选择不是固定错误诊断；理由只描述本次作答提示的待确认区别。",
+    "指导错误、过程未审核或任何跳过都不能被最后一个正确答案覆盖；原学习事项继续保留。",
+    "有帮助的有限成功仍由既有后续观察事项记录，不推断独立掌握。"
+  ],
+  "validation": {
+    "service_tests": {
+      "command": "python -m unittest tests.test_quality_v5_branches tests.test_instruction_v4 tests.test_profile_health_v5.ProfileHealthTests tests.test_profile_recovery -q",
+      "tests": 54,
+      "result": "passed",
+      "log": "build/v5-batch3-branches-service.log",
+      "coverage": [
+        "All 10 authored error routes and all default/skip routes",
+        "No unreleased branch tasks or session assets",
+        "Canonical numeric option IDs",
+        "Frozen order, objectives and runtime identity",
+        "Wrong, skipped and unreviewed guide obligations",
+        "Explicit retry versus unrelated success",
+        "Compact planning history",
+        "Legacy snapshots",
+        "Three recovery stages and tampering rejection"
+      ]
+    },
+    "browser": {
+      "journey": "support_branches",
+      "journey_passed": true,
+      "script_errors": [],
+      "server_errors": [],
+      "report": "build/v5-batch3-support-browser/report.json",
+      "screenshots": [
+        "build/v5-batch3-support-browser/support_branches/final.png"
+      ],
+      "observations": {
+        "layout": [
+          {
+            "label": "support_branches_390",
+            "viewport": 390,
+            "width": 390,
+            "offenders": []
+          }
+        ],
+        "support_branches": {
+          "different_wrong_choices_changed_real_tasks": true,
+          "firstGuide": "data_reading_and_mean:support:read_scale:guided:scale_per_grid",
+          "retry_route": "restore_axis_origin",
+          "original_need_id": "need_11d7483edc9be2aa772a754ab2076ee6",
+          "followup_need_id": "need_44bfedff96011d2faacad1ae30f41889",
+          "failed_guide_preserved": true,
+          "skipped_diagnostic_preserved": true,
+          "reload_kept_selected_route": true
+        }
+      },
+      "acceptance_status": "Development journey passed with unchanged application inputs; root must rerun after the release manifest is refreshed. This is not fixed-release acceptance.",
+      "changed_inputs": [],
+      "manifest_valid_at_run": false,
+      "subsequent_nonbehavioral_change": "After the browser run, the fallback skip-route wording for the other 99 supports was made explicit that it reuses the original guide. This is covered by the repeated 54 service checks; fixed-release browser verification remains pending."
+    },
+    "diagram_preview": {
+      "artifact": "build/v5-batch3-branch-diagrams.png",
+      "sha256": "3b1d1df44be874df6c6212e575bc661ac71bc02456a2316b26d6c2234a3e70eb",
+      "rendered_in": "Chromium",
+      "ai_visually_reviewed": true,
+      "findings": "All four SVGs have readable Chinese labels. Tick differences, heights and 10/20 truncation origins match the tasks. The two default bars read 8 and 20, with difference 12."
+    },
+    "fixed_release_acceptance": "pending_root_final_manifest_and_verification"
+  },
+  "reviewed_at": "2026-10-27T02:04:11+00:00",
+  "reviewed_source_sha256": {
+    "cnkg/instruction.py": "8dbd958b8feee4fed666de2e91f05a7b1c91632d9fe759ad14761f73968b1c40",
+    "cnkg/learning_needs.py": "f75cd1e3c0061dbdaa894bfc82d0ed5f4ad7d2ebc61e8524fd86f50d61c3ef7e",
+    "cnkg/runtime_version.py": "49a716d87c9e61049778b4b8a0abcf15e0becc196300692568d8cb6795acdbc2",
+    "web/static/support.js": "4f055a0077c9ba440303e077b5c63692d8da743f7a010774636146d33fc86d8c",
+    "schema/instructional-support.schema.json": "60eae2e478912a986a565a19d0437b55668a0003274dc35c02e40a3928bbd95d",
+    "tests/test_quality_v5_branches.py": "5fce8fa25e8947ef94454c19bb7f8566d65cfdcad4e5994e3c9a3f5aa5bb473d",
+    "tests/browser/support-branches.cjs": "1f4c3679671f509e02fd34b78efc6f1facb6d7ff2dd217fbbe0d172ae56eeee4",
+    "data/learning_units/fraction_equivalence.json": "80886082f26f8f46c838fd8ad443deac062619efd24315403f4bb2d89387802f",
+    "data/learning_units/equation_equivalence.json": "052439be98248229229acdfda48cea72a98aef74cfa82849886e0628bf750a67",
+    "data/learning_units/data_reading_and_mean.json": "214477cd20b0cadcf9705767f0d4227e28b1985bb82469fd273643b21090bf72",
+    "web/static/diagrams/support-scale-probe-v5.svg": "c093ffa704daaf0378fca71012f56eebd3fda333d11e6d988db7268c8cff208b",
+    "web/static/diagrams/support-scale-per-grid-v5.svg": "2919885fb78643702fabe99e1f74ab1bf447312ad6453fedf7a58ee9e25dae1d",
+    "web/static/diagrams/support-axis-origin-v5.svg": "1ea431dabf5d86b410cde086a8e6f268398e21f46008832b85ea46eca079bfe3",
+    "web/static/diagrams/support-bars-basic-v5.svg": "fa3fcca4365595e4f473e8f510ff11e414cd0ffad3a29d8ae6ed399b3355fef5"
+  },
+  "runtime_and_recovery": {
+    "routing_schema": 1,
+    "frozen_candidates": "All default, skip and authored branch tasks, metadata, route reasons and referenced SVG bytes are frozen at session creation.",
+    "presentation_boundary": "The public API returns only the current task, selected route and already submitted answers. Session asset URLs serve only presented tasks; freezing another branch does not count as its exposure.",
+    "failure_obligation": "An incorrect guided task, any skipped step, or an unreviewed guided process leaves the original need open even if the terminal bounded answer is correct.",
+    "explicit_retry": "The retry action links the original stable need ID and source version. An unrelated new success cannot clear it. Qualified supported success creates a separate independent-followup obligation.",
+    "legacy": "Four-key snapshots preserve their original three task IDs and content. An unfinished session with an older support runtime is read-only; completed old answers remain readable. No old session is silently reordered.",
+    "runtime_identity": "Support runtime identity includes cnkg/instruction.py in addition to answer-contract grading sources.",
+    "backup": "Five-key routing snapshots and every frozen candidate pass recovery validation at initial, selected and completed stages. Legacy four-key snapshots keep the old exact-task-set contract."
+  },
+  "limitations": [
+    "仅5/104个具体支持活动有真实差异路线，其余99个活动仍使用原指导任务，默认与暂时不会路线明确说明范围。",
+    "一次选项只能作为安排下一步的依据，不能认定稳定的错误原因或教师诊断。",
+    "提示后的正确只用于有限确认；过程待审核、独立后续及实际间隔不被省略。",
+    "此报告记录AI内容审查与合成程序/浏览器检查，不替代已暂缓的教师独立审核和真实学生教学效果验证。"
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.13.3",
+  "name": "三角形的内角与外角",
+  "tier": "core",
+  "hook": "一个三角形外角，为什么能直接等于另外两个不相邻内角的和？",
+  "definition": "三角形三个内角的和等于 180°；三角形的一个外角等于与它不相邻的两个内角之和，并且大于其中任何一个不相邻的内角。",
+  "why": "内角和为180°，某外角与相邻内角也和为180°。从这两个等式减去同一个内角，外角就等于另外两个内角之和；外角大于任一个不相邻内角也由两内角为正得到。",
+  "when_to_use": [
+    "给出三角形两角求第三角",
+    "有边的延长线和外角可用于角度转化"
+  ],
+  "steps": [
+    "先分清内角与由延长线组成的外角",
+    "内角用总和180°，外角用另两内角之和",
+    "代入计算后检查三内角均为正"
+  ],
+  "worked_example": {
+    "prompt": "△ABC的∠A=40°、∠B=65°，BC延长至D，求∠ACD。",
+    "answer": "105",
+    "steps": [
+      "∠C=180°−40°−65°=75°。",
+      "外角∠ACD与∠C互补，故180°−75°=105°，也等于40°+65°。"
+    ],
+    "verify": "40+65",
+    "family_id": "triangle.exterior-angle-sum",
+    "variant_id": "m8a.13.3:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "triangle.interior-angle-sum"
+    ]
+  },
+  "pitfalls": [
+    "外角等于两个不相邻内角之和，不能把相邻内角加进去。",
+    "题中须明确延长哪条边及延长方向，不能凭图形大小猜。"
+  ],
+  "check": "独立完成并解释：△ABC中∠A=48°、∠B=67°，求∠C的度数。 请写出判断或计算依据。；△ABC中，把BC经过C延长到D，∠ACD=125°、∠A=55°，求∠B的度数。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用内角和求未知角",
+      "explanation": "三内角和为180°，缺一个角时从总和中减去另两角。",
+      "self_check": {
+        "prompt": "△ABC中∠A=48°、∠B=67°，求∠C的度数。 请写出判断或计算依据。",
+        "reference_answer": "三角形内角和180°，所以∠C=180°−48°−67°=65°。",
+        "criteria": [
+          "列内角和方程",
+          "求得65°"
+        ],
+        "family_id": "triangle.interior-angle-sum",
+        "variant_id": "m8a.13.3:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "本题观察内角和求未知角，未观察内角和一般证明；若误差或取值不合理，应先核对是否把外角当内角。",
+      "difficulty_support": {
+        "discriminating_prompt": "你相减得到负数了吗？给出的48°和67°都在三角形内部吗？",
+        "hint": "先写∠A+∠B+∠C=180°，再代入，不直接拼凑数字。",
+        "revision_prompt": "画清三内角位置并写完整等式，算完检验三个正角之和回到180°。"
+      }
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用外角定理把外角转化为两个内角之和",
+      "explanation": "外角与相邻内角互补，由内角和推出外角定理。",
+      "self_check": {
+        "prompt": "△ABC中，把BC经过C延长到D，∠ACD=125°、∠A=55°，求∠B的度数。 请写出判断或计算依据。",
+        "reference_answer": "∠ACD是C点外角，等于不相邻内角∠A+∠B，所以∠B=125°−55°=70°。",
+        "criteria": [
+          "指出∠ACD对应A、B两角",
+          "求得70°"
+        ],
+        "family_id": "triangle.exterior-angle-sum",
+        "variant_id": "m8a.13.3:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "本题只观察明确延长方向后的外角关系；需指出不相邻的A、B，不能只凭125−55正确确认位置辨析。",
+      "difficulty_support": {
+        "discriminating_prompt": "你把C点的内角也加进外角和了吗？它与∠ACD是什么关系？",
+        "hint": "外角125°与内角C互补；再用三内角和消去C，得到125°=A+B。",
+        "revision_prompt": "同时写125°=55°+B和C=180°−125°，核对三内角和，并圈出两个不相邻内角。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.13.3-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.13.3-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.13.3-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "diagram": {
+    "src": "/static/diagrams/triangle-parallel-proof.svg",
+    "alt": "过三角形顶点A作DE∥BC，两组内错角分别以α、β对应，α、∠A、β在A旁拼成平角180°。"
+  },
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "conditions": [
+    "讨论欧氏平面内非退化三角形，各内角大于0°且总和180°。",
+    "邻补外角由一边与邻边的延长线构成；必须先确定顶点和延长方向。",
+    "外角大于不相邻内角，不能把“不相邻”删掉推广到全部内角。"
+  ],
+  "representation_note": "图中利用过A且平行于BC的辅助线对应内错角，说明内角和；求外角时另画清BC经过C延长到D。图形看起来的大小不能替代角位置与定理。"
+}

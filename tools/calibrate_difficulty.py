@@ -35,6 +35,15 @@
 """
 from __future__ import annotations
 
+# Historical CLI is fenced before imports or authoring side effects.
+if __name__ == "__main__":
+    import pathlib as _legacy_pathlib
+    import sys as _legacy_sys
+    _legacy_sys.path.insert(0, str(_legacy_pathlib.Path(__file__).resolve().parents[1]))
+    from tools.retired_writer import reject as _reject_retired_writer
+    raise SystemExit(_reject_retired_writer(__file__))
+
+
 import argparse
 import collections
 import json
@@ -291,106 +300,9 @@ def calibrate(q: dict, positions: dict | None = None) -> tuple[str, str]:
     return calibrate_own_handwritten(q)
 
 
-def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--apply", action="store_true", help="实际写入（默认只报告）")
-    ap.add_argument("--cmm-relativize", action="store_true",
-                    help="对 CMM 按知识点内题干长度分位做相对分级")
-    args = ap.parse_args()
-
-    ext_path = DATA / "questions_ext.json"
-    own_path = DATA / "questions.json"
-    ext = json.loads(ext_path.read_text(encoding="utf-8"))
-    own = json.loads(own_path.read_text(encoding="utf-8"))
-    load_topic_grades()
-
-    changed_ext = 0
-    changed_own = 0
-    dist = collections.defaultdict(collections.Counter)
-
-    # 高考题要按卷内相对位置分级，所以先算位置表
-    positions = compute_positions([q for q in ext if q.get("source") == "gaokao-tex"])
-
-    for q in own:
-        level, basis = calibrate(q, positions)
-        if q.get("difficulty") != level:
-            changed_own += 1
-        q["difficulty"] = level
-        q["difficulty_basis"] = basis
-
-    for q in ext:
-        # CMM 的默认处置是「留 basic + 难度待定」，但那是有 relativize 时的
-        # 起点值。**不带 --cmm-relativize 时不能覆盖已有标签**——否则一次
-        # 普通的 --apply 就会把库里 5848 道 CMM 分位标签静默抹平
-        # （2026-10-25 实际发生过：小学 standard 1883→48）。
-        if q.get("source") == "cmm-math" and not args.cmm_relativize:
-            if q.get("difficulty") not in ("basic", "standard", "advanced"):
-                q["difficulty"] = "basic"
-                q["difficulty_basis"] = "CMM 无卷面结构，难度待定"
-            continue
-        level, basis = calibrate(q, positions)
-        if q.get("difficulty") != level:
-            changed_ext += 1
-        q["difficulty"] = level
-        q["difficulty_basis"] = basis
-
-    # CMM 相对分级：按知识点内题干长度分位。
-    # 必须在统计分布**之前**做，否则统计的是覆盖前的旧值。
-    #
-    # 复合题只用**主知识点**的分位：一题多知识点时，如果按每个关联知识点
-    # 各算一次，同一道题会拿到不同难度（实测 2112 道题会这样）。
-    # 难度是题目自身的属性，必须唯一，所以以主知识点为准。
-    #
-    # **分位只在同学段内比较**：小学题的「长」只是相对小学题长，
-    # 拿小学的长题去和初中的长题比没有意义。跨学段用同一阈值会让
-    # 小学 advanced 占比冲到 20%（目标 10%）。所以每个知识点组
-    # 要按它所属的学段选阈值。
-    if args.cmm_relativize:
-        by_topic = collections.defaultdict(list)
-        for q in ext:
-            if q.get("source") == "cmm-math":
-                primary = q.get("primaryTopicId") or q.get("topicId")
-                if primary:
-                    by_topic[primary].append(q)
-        touched = set()
-        for tid, group in by_topic.items():
-            if len(group) < 6:
-                continue  # 太少不做分位，避免噪声
-            group.sort(key=lambda q: len(q.get("prompt", "")))
-            n = len(group)
-            stage = topic_stage(tid)
-            for i, q in enumerate(group):
-                p = i / (n - 1) if n > 1 else 0.0
-                level = level_from_percentile(p, stage)
-                touched.add(q["id"])
-                q["difficulty"] = level
-                q["difficulty_basis"] = (
-                    f"CMM 主知识点内题干长度分位 {p*100:.0f}%"
-                    f"（{stage}学段内相对，无卷面结构的弱信号）")
-        changed_ext += len(touched)
-
-    # 统计分布（放在所有改判之后）
-    for q in own:
-        dist["own"][q["difficulty"]] += 1
-    for q in ext:
-        dist[q.get("source", "?")][q["difficulty"]] += 1
-
-    total = sum(sum(c.values()) for c in dist.values())
-    print(f"自有题改判 {changed_own} 道，外部题改判 {changed_ext} 道")
-    print(f"\n难度分布（共 {total} 道）：")
-    for src, c in dist.items():
-        t = sum(c.values())
-        parts = "  ".join(f"{k}={c[k]}({c[k]/t*100:.0f}%)"
-                          for k in ("basic", "standard", "advanced") if c[k])
-        print(f"  {src:<26}{parts}")
-
-    if not args.apply:
-        print("\n（试运行，未写入。加 --apply 生效）")
-        return
-
-    own_path.write_text(json.dumps(own, ensure_ascii=False, indent=1), encoding="utf-8")
-    ext_path.write_text(json.dumps(ext, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"\n已写入：{own_path.name} {len(own)} 道，{ext_path.name} {len(ext)} 道")
+def main(*args, **kwargs):
+    from tools.retired_writer import reject
+    return reject(__file__)
 
 
 if __name__ == "__main__":

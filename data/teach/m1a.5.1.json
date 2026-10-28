@@ -1,50 +1,124 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m1a.5.1",
- "name": "9 加几（凑十法）",
- "hook": "9 + 5 数手指太慢，凑十法让它变成「10 + 4」，一眼就能答。",
- "definition": "9 加几时，把另一个数分成 1 和几，9 和 1 先凑成 10，10 再加剩下的几。",
- "steps": [
-  "看到 9，先想「9 差 1 就凑成 10」。",
-  "把另一个数分成 1 和剩下的几（5 分成 1 和 4）。",
-  "9 + 1 = 10。",
-  "10 + 4 = 14，答案就是 14。"
- ],
- "worked_example": {
-  "prompt": "左边有 9 个球，右边有 5 个球，一共有几个？",
-  "verify": "9+5",
-  "steps": [
-   "求一共，用加法：9 + 5。",
-   "看到 9，从 5 里借 1 凑十：5 分成 1 和 4。",
-   "9 + 1 = 10。",
-   "10 + 4 = 14，所以一共有 14 个。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m1a.5.1",
+  "name": "9加几",
+  "tier": "tool",
+  "hook": "9颗红珠和6颗蓝珠合起来，怎样先凑成10颗再数？",
+  "definition": "计算9加1至9，可以从第二个数中分出1，先把9凑成10，再加剩下的数。分出1后，第二个数必须相应减少1。9+0直接等于9，不使用这一步分拆。",
+  "why": "9离10只差1。从6里移出1给9，只是重新分组，全部圆片仍是9个与6个的总量；于是9+6=10+5。",
+  "conditions": [
+    "这里讨论9加1至9；9+0不必也不能从0里分出1，结果仍为9。",
+    "移动1个给9凑十后，第二堆必须少1，总数保持不变。"
   ],
-  "answer": "14"
- },
- "pitfalls": [
-  "分错了：把 5 分成 1 和 4 之后，忘了加 4，只答 10。",
-  "凑十后把剩下的数又加了一遍 9：写成 10 + 5。要记住 5 已经拆成 1 和 4，只能用 4。"
- ],
- "practice": [
-  {
-   "id": "m1a.5.1-q1",
-   "note": "一步凑十"
+  "representation_note": "十格框装9个，第二种颜色补1个；框外剩余清楚可见。",
+  "when_to_use": [
+    "第一个加数为9，第二个加数为1至9。",
+    "拆分保持第二个加数总量不变。"
+  ],
+  "steps": [
+    "想9还差1到10。",
+    "把第二个加数分成1和剩下的数。",
+    "先算9+1=10。",
+    "再加剩下的数，并检查拆分合起来仍是原数。"
+  ],
+  "worked_example": {
+    "prompt": "用凑十法算9+6。",
+    "steps": [
+      "6分成1和5。",
+      "9+6=9+1+5=10+5=15。"
+    ],
+    "answer": "15",
+    "family_id": "addition.make-ten",
+    "variant_id": "m1a.5.1:worked-example-v5",
+    "representation": "manipulative",
+    "cognitive_demand": "explain",
+    "verify": "9+6",
+    "diagram": {
+      "src": "/static/diagrams/primary-make-ten-v5.svg",
+      "alt": "凑十前左框9个蓝片、右边6个橙片；先预测搬走1个后原处剩几，再用实物核对。"
+    }
   },
-  {
-   "id": "m1a.5.1-q2",
-   "note": "选择题：选出正确过程"
+  "pitfalls": [
+    "9凑成10后仍加6，会把移过去的1重复计算。",
+    "第二个加数为1时剩余是0，9+1=10，不必再加1。"
+  ],
+  "practice": [
+    {
+      "id": "m1a.5.1-q1",
+      "note": "一步凑十"
+    },
+    {
+      "id": "m1a.5.1-q2",
+      "note": "选择题：选出正确过程"
+    },
+    {
+      "id": "m1a.5.1-q95",
+      "note": "两步题：凑十后再加"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "凑十先完成容易的9+1，接着计算10加剩余。9+4中4=1+3，因此最后是10+3=13。",
+      "observation_note": "两道数值结果都可能通过逐一点数得到；还要看到第二数分成1与余数、先凑10的过程，才能观察目标中的方法。",
+      "self_check": {
+        "prompt": "分别用凑十法计算9+5与9+8，写出第二个数的拆分。",
+        "reference_answer": "5=1+4，9+5=14；8=1+7，9+8=17。",
+        "criteria": [
+          "两个结果正确",
+          "拆分后先凑成10"
+        ],
+        "family_id": "addition.make-ten",
+        "variant_id": "m1a.5.1:self-check:0:v5",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "reference_family_ids": [
+          "ten.complete-frame"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "9再添几就满十格？",
+        "hint": "把9个圆片放入十格框，只找空着的1格。",
+        "revision_prompt": "将第二堆分出1个补空格，把剩余个数写在10后面相加。"
+      },
+      "criterion_index": 0,
+      "title": "能用凑十法计算 9 加几"
+    },
+    {
+      "explanation": "分成1和几的原因是9只缺1；不是所有凑十都固定分1。用十格框时，补上的1必须来自第二堆。",
+      "observation_note": "观察能否指出被重复计算的那1个并修正拆分；仅改成16未说明移动前后两个部分怎样变化，理由仍待确认。",
+      "self_check": {
+        "prompt": "有人把9+7写成10+7。指出重复算了什么，并改正。",
+        "reference_answer": "从7中取出的1已经进入10，不能再算一次；7剩6，所以9+7=10+6=16。",
+        "criteria": [
+          "指出重复的1",
+          "第二部分正确减去1"
+        ],
+        "family_id": "addition.make-ten",
+        "variant_id": "m1a.5.1:self-check:1:v5",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "从7颗蓝珠拿1颗放到红珠一堆，蓝珠原地还剩7颗吗？",
+        "hint": "只数尚未搬动的蓝珠，已经搬过去的属于凑成的10。",
+        "revision_prompt": "画箭头标出搬走的1，把错误的10+7改成10+6并解释。"
+      },
+      "criterion_index": 1,
+      "title": "能说清把第二个数分成 1 和几的道理"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   },
-  {
-   "id": "m1a.5.1-q95",
-   "note": "两步题：凑十后再加"
+  "diagram": {
+    "src": "/static/diagrams/primary-make-ten-v5.svg",
+    "alt": "凑十前左框9个蓝片、右边6个橙片；先预测搬走1个后原处剩几，再用实物核对。"
   }
- ],
- "check": "口算 9 + 2 到 9 + 9 全部正确，并能说出「把几分成 1 和几」这一步。",
- "why": "9 离 10 只差 1，所以从另一个数里借 1 给 9，就把「9 加几」换成了「10 加几」——10 加几不用算，直接看个位就知道。",
- "when_to_use": [
-  "看到 9 加一位数，个位一时算不出来",
-  "学 8 加几、7 加几时，同样可以用「借到 10」的思路（分别借 2、借 3）"
- ]
 }

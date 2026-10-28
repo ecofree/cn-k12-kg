@@ -1,0 +1,160 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "把一枚小旗向右移动与绕旗杆转半圈，得到的图案有什么不同？",
+  "definition": "图案可由基本图形通过平移、旋转、轴对称生成。平移需方向与距离，旋转需中心、方向和角度，轴对称需对称轴；三者保持图形形状大小，但改变位置或朝向的方式不同。",
+  "why": "规定变换参数可使别人准确复现设计。平移的各点移动方向和距离一致；旋转的各点绕同一中心转相同角度；对称点在轴两侧且到轴距离相等。",
+  "when_to_use": [
+    "用一个基本图形重复设计有规律的图案",
+    "说明某个图形如何变为另一个图形"
+  ],
+  "steps": [
+    "选一个容易辨认朝向的基本图形并标参考点。",
+    "选择变换并写齐方向、距离或中心、角度等参数。",
+    "逐次作图，检查大小保持以及参数是否一致。"
+  ],
+  "worked_example": {
+    "prompt": "在方格纸上画一个不对称小箭头，向右平移3格，再向右平移3格。怎样说明规律？",
+    "steps": [
+      "三支箭头形状大小和朝向都相同，相邻对应点相隔3格。",
+      "使用相同的平移两次，最后一支相对第一支向右6格。"
+    ],
+    "answer": "连续向右平移3格两次",
+    "family_id": "geometry.repeated-transformation-design",
+    "variant_id": "m5a.4.4:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "只说“旋转一下”没有中心和角度，别人不能复现。",
+    "平移不改变朝向，转头的箭头一般不是纯平移得到。"
+  ],
+  "check": "先独立完成下面各项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m5a.4.4",
+  "name": "设计图案",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用变换设计出有规律的图案",
+      "explanation": "设计时应记录足够参数，让规则能够复现与检查。",
+      "self_check": {
+        "prompt": "在方格纸画字母L形图案，设计三次重复平移并写规则。",
+        "reference_answer": "例如每次向右4格，共平移3次，得到4个L；对应点间距每次4格，朝向不变。",
+        "criteria": [
+          "有基本图形",
+          "有明确且重复的变换参数"
+        ],
+        "family_id": "geometry.repeated-transformation-design",
+        "variant_id": "m5a.4.4:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.translation-vector",
+          "position.grid-translation"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "三次平移加上最初一个L，应该共有3个还是4个？每次量的是对应点之间吗？",
+        "hint": "给初始图记0号，每平移一次新增一份；选同一角点标出每次向右4格。",
+        "revision_prompt": "画一个不对称箭头，每次向上3格连续平移两次，写总份数、相邻位移与初末位移。"
+      },
+      "observation_note": "观察重复变换参数和可复现性；只看成品漂亮不能证明用了所说的规则。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能说明图案用了哪种变换",
+      "explanation": "从对应点距离和朝向判断变换，并写出所需参数。",
+      "self_check": {
+        "prompt": "箭头由朝右变朝下，绕同一端点转动90°，是什么变换？要说明什么？",
+        "reference_answer": "是旋转，要说明该端点为旋转中心、顺时针90°。",
+        "criteria": [
+          "判旋转",
+          "中心方向角度齐全"
+        ],
+        "family_id": "geometry.rotation-parameters",
+        "variant_id": "m5a.4.4:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.quarter-turn-point",
+          "geometry.translation-invariants"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "箭头从右转到下，平移能使朝向改变吗？若未说中心，还能唯一确定位置吗？",
+        "hint": "固定端点为中心，追踪另一端向顺时针方向转过直角，长度保持不变。",
+        "revision_prompt": "把向右箭头绕尾端逆时针旋转90°，画预测朝向并用中心、方向、角度写完整指令。"
+      },
+      "observation_note": "观察区分平移与旋转并给全参数；对称变化仍需轴与对应点另行核查。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由固定旋转角度确定完成一整周的次数或结果",
+      "explanation": "围绕同一固定中心、沿同一方向连续旋转，总转角是每次角度与次数的乘积。累计360°必回到原位置；某些对称图案也可能更早重合，所以“完成一周”与“第一次看起来重合”不同。",
+      "self_check": {
+        "prompt": "每次绕同一中心顺时针转60°，完成整整一周需要几次？若图案是正三角形，提前出现重合能说明已经转满一周吗？",
+        "reference_answer": "360÷60=6次。不能；有旋转对称性的图案可以未满360°就重合，但一整周仍是360°。",
+        "criteria": [
+          "整周次数为6",
+          "中心与方向保持一致",
+          "区分整周和提前重合"
+        ],
+        "family_id": "geometry.rotation-full-turn",
+        "variant_id": "m5a.4.4:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "不观察独立设计图案或解释具体作品。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "你依据的是累计角度达到360°，还是仅凭图案看起来一样？",
+        "hint": "把每次角度依次累加，达到360°才算一整周。",
+        "revision_prompt": "用每次90°重新求整周次数，并说明结果4与图案是否对称无关。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能选择使一次旋转规则确定所必需的说明要素",
+      "explanation": "确定一次旋转需要明确旋转中心、方向和角度。只写“旋转一下”留下多个可能结果，无法据此让他人唯一复现同一操作。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：同学写图案说明“把基本三角形旋转一下”。哪项补充才能让别人按确定规则复现？ 可选：o1．只说画得漂亮；o2．标明中心O、顺时针90°；o3．只说形状大小不变。\n写出每个问题的答案，并用算式、画图或文字说明怎样得到。用过提示或参考的地方也记下来。",
+        "reference_answer": "情境1参考：标明中心O、顺时针90°。确定旋转需给中心、方向、角度；O、顺时针90度三要素齐备。",
+        "criteria": [
+          "复现规则所需三要素齐全",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "geometry.pattern-rule-specification",
+        "variant_id": "m5a.4.4:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "选择规则补充，不设计图案或独立复现旋转。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "中心、方向、角度三项中还有哪一项没有说明？",
+        "hint": "按三栏逐项核对：围绕哪里、向哪边、转多少度。",
+        "revision_prompt": "先回答这个辨别问题：中心、方向、角度三项中还有哪一项没有说明？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；复现规则所需三要素齐全。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m5a.4.4-q3",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m5a.4.4-q1",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m5a.4.4-q101",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

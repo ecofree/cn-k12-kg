@@ -1,0 +1,2056 @@
+{
+  "schema": 1,
+  "review_kind": "ai_authored_semantic_review",
+  "reviewer": {
+    "type": "ai",
+    "agent": "/root/upgrade_v5_recovery",
+    "independent_from_card_author": false
+  },
+  "reviewed_at": "2026-10-27",
+  "baseline_commit": "2c31bdb",
+  "teacher_review": "deferred_by_user",
+  "real_student_effect_validation": "deferred_by_user",
+  "status": "semantic_counterexamples_and_svg_preview_passed_pending_integrated_release",
+  "scope": {
+    "topic_ids": [
+      "m3b.5.1",
+      "m4a.6.1",
+      "m4b.6.1",
+      "m5b.5.1",
+      "m6b.2.1",
+      "m7b.12.1.1",
+      "m7b.12.1.2",
+      "m8b.24.1",
+      "m8b.24.2",
+      "mh5.8.1.1",
+      "mh5.8.1.2",
+      "mh5.8.2.1",
+      "mh5.8.2.2"
+    ],
+    "topic_count": 13,
+    "objective_rows": 26,
+    "active_bank_tasks": 74,
+    "learning_units": 3,
+    "new_svg_diagrams": 11,
+    "no_registry_or_admissions_mutation": true
+  },
+  "methods": [
+    "逐条阅读13卡26目标和74活跃题的题面、答案、来源目标，并核对3统计单元例题与任务结构。",
+    "每题记录可观察的具体分项和仍不能推出的结论；没有目标证据的运算/术语支持题保留topic_only。",
+    "图题尺度与数值同源检查；合成算式与反例独立复算见tests/test_statistics_alignment_v5.py，运行结果由root合并。",
+    "同一求平均、求方差、残差与中心点公式换数保留同族；组合例题与自检额外列实际暴露的结构族。",
+    "保留全部旧ID和答案，不改旧历史；作者禁止诊断的题交root同步已登记用途，禁止自动升级。"
+  ],
+  "findings_corrected": [
+    {
+      "issue": "条形/折线自检指向与数值、尺度不符的顶部图",
+      "resolution": "每项相关自检绑定自己的准确SVG；顶部例题和自检不再共享错误指代。"
+    },
+    {
+      "issue": "全面调查准确性过度承诺",
+      "resolution": "区分覆盖范围与测量/登记误差，并改写有歧义的选择情境。"
+    },
+    {
+      "issue": "总体个体的对象和数据口径切换未解释",
+      "resolution": "同时明确调查对象、指标和数据总体/个体，避免把人数当数据。"
+    },
+    {
+      "issue": "含截距条件缺失",
+      "resolution": "最小二乘过中心和求截距任务补必要条件，并提供强制过原点不经过中心的反例测试。"
+    },
+    {
+      "issue": "相关因果、非线性和未定义条件被误挂旧目标",
+      "resolution": "撤销没有直接证据的criterion映射，保留真实支持用途，不靠添加字段掩盖目标缺口。"
+    },
+    {
+      "issue": "相关系数复制题可诊断",
+      "resolution": "旧题m​h5.8.1.2-q1改为绝对值比较，并显式保持diagnosis_eligible=false。"
+    },
+    {
+      "issue": "零值平均数被当作新数学结构族",
+      "resolution": "与列表求均值统一题族；零值是应计入的有效记录，不构造新独立族。"
+    },
+    {
+      "issue": "过中心预测题可绕开求参数，原映射声称显式参数计算",
+      "resolution": "mh5.8.2.2-q102撤销criterion[1]，保留topic_only预测支持，不把可选解法当观察证据。"
+    },
+    {
+      "issue": "学生解释混入内部题目修订/诊断准入说明",
+      "resolution": "mh5.8.1.2-q1只展示绝对值、方向和样本解释；审计过程留在alignment_note与review。"
+    }
+  ],
+  "objectives": [
+    {
+      "topic_id": "m3b.5.1",
+      "criterion_index": 0,
+      "family_id": "statistics.tally-to-frequency-table",
+      "observation_note": "观察每条原始记录与每笔画记的一一对应，以及五笔成组的计数；只报15不能证明没有重复或漏记。",
+      "difficulty_discrimination": "12次记录后再记3次，是三个正字，还是两个正字加3笔？请逐条配对。",
+      "revision_task": "保留原始编号1—15，每处理一条才画一笔；给旧笔和新笔用不同颜色，再核对总数。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "m3b.5.1",
+      "criterion_index": 1,
+      "family_id": "statistics.frequency-table-with-nonresponse",
+      "observation_note": "观察类别、有效记录与未回应是否分开，并核对分类总数；这份表只能支持实际回应者的比较，不能证明全班倾向。",
+      "difficulty_discrimination": "甲4票、乙3票、丙2票、未回应1人，能把未回应算成丙票吗？",
+      "revision_task": "重新画出类别、频数、未回应和调查人数四类信息，核对9+1=10，再写一句范围正确的比较。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "m4a.6.1",
+      "criterion_index": 0,
+      "family_id": "statistics.bar-axis-reading",
+      "observation_note": "观察是否按单位和刻度把条高转为数量；单次读对两个数还不能确认会识别截断轴，也不能确认会作图。",
+      "difficulty_discrimination": "配图A班条高4格。有人写4人，是读对了还是把格数当人数？",
+      "revision_task": "在纸上先给每条顶端画水平辅助线到纵轴，再读A、B人数；最后用每格2人解释差值。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "m4a.6.1",
+      "criterion_index": 1,
+      "family_id": "statistics.bar-completion-fixed-scale",
+      "observation_note": "观察所画条形是否共用0基准、每格2人的刻度及类别标签；只写“5格”还需查看实际补图的高度和位置。",
+      "difficulty_discrimination": "C班10人，有人把直条画到纵轴10格处，哪里混淆了？",
+      "revision_task": "在留空C位置从0基准画5格高，与A、B同宽，标清类别并再从纵轴读回10人。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "m4b.6.1",
+      "criterion_index": 0,
+      "family_id": "statistics.mean-not-every-individual",
+      "observation_note": "同时观察求和、数据个数和平均数的含义；正确算得5不证明原来有一个数等于5，也不独自说明会处理缺失数据。",
+      "difficulty_discrimination": "2、4、6、8里没有5，平均数仍可以是5吗？",
+      "revision_task": "画四份并做移多补少，保留原来2、4、6、8的记录；写出总量不变与每份变成5的联系。",
+      "reference_family_ids": [
+        "statistics.mean-from-values"
+      ]
+    },
+    {
+      "topic_id": "m4b.6.1",
+      "criterion_index": 1,
+      "family_id": "statistics.mean-outlier-change",
+      "observation_note": "观察能否用总量与个数解释改动一个值对均值的影响；这不支持把真实极端值随意删掉，也不说明均值总是不合适。",
+      "difficulty_discrimination": "把3、4、5、8中的8改为28，只改一个数，均值为什么增加5而不是20？",
+      "revision_task": "先列原总量20和新总量40，再算两个均值并在同尺度图中标出；补一句哪些数据没有变化。",
+      "reference_family_ids": [
+        "statistics.mean-from-values"
+      ]
+    },
+    {
+      "topic_id": "m5b.5.1",
+      "criterion_index": 0,
+      "family_id": "statistics.line-local-and-overall-trend",
+      "observation_note": "观察是否按时间顺序逐段读出升降，并区分局部下降与全程上升；描述趋势不等于能预测下一天温度。",
+      "difficulty_discrimination": "配图第2天到第3天下降，是否说明这四天一直下降？",
+      "revision_task": "给三段依次标上+2、−1、+4，再写“局部有下降，全程从18到23上升5℃”，不外推第5天。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "m5b.5.1",
+      "criterion_index": 1,
+      "family_id": "statistics.line-change-comparison",
+      "observation_note": "观察相邻纵坐标差和最大增幅；跨图比较斜率还需要时间间隔与坐标比例一致，不能只凭肉眼陡缓。",
+      "difficulty_discrimination": "两段线一段更陡，若它跨两天、另一段只跨一天，就一定升温更快吗？",
+      "revision_task": "先用本图相等一天间隔算三段差值，指出第3至4天升4℃最多；再说明跨图比较需要补齐什么信息。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "m6b.2.1",
+      "criterion_index": 0,
+      "family_id": "statistics.part-from-percentage",
+      "observation_note": "观察是否把百分比与同一个整体相乘并保留人数单位；只看扇形大小、或不知道总人数时不能直接确定人数。",
+      "difficulty_discrimination": "阅读占35%，是否就表示35人？若共有80人呢？",
+      "revision_task": "先写整体80人，再写比例35/100，算出28人；最后用28÷80检查与图示占比一致。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "m6b.2.1",
+      "criterion_index": 1,
+      "family_id": "statistics.chart-purpose",
+      "observation_note": "观察图形选择与“构成、类别数量、时间变化”的问题是否匹配；能说出图名还需解释数据类别和比较目的。",
+      "difficulty_discrimination": "月份气温变化和各班人数都能画图，为什么不把班级按任意顺序连线说成时间趋势？",
+      "revision_task": "为三种情境各写一个要回答的问题，再选图；把“数量”“趋势”“占比”与所选图逐一连起来。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "m7b.12.1.1",
+      "criterion_index": 0,
+      "family_id": "statistics.census-purpose",
+      "observation_note": "观察是否依据逐人需要、总体规模、成本和破坏性选择全查；选择全查并不能保证测量与登记绝无错误。",
+      "difficulty_discrimination": "要逐人订校服能只测5个人吗？全班都测过是否就保证抄录一定正确？",
+      "revision_task": "写出逐人登记表与复核步骤，并对比电池寿命试验为何不适合把整批都用到耗尽。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "m7b.12.1.1",
+      "criterion_index": 1,
+      "family_id": "statistics.population-individual-indicator",
+      "observation_note": "观察能否限定调查范围，并区分调查对象和所考察的数据；背“全体/一个”不足以证明实际名单没有遗漏。",
+      "difficulty_discrimination": "研究300名学生每天阅读分钟数，“300”是总体本身，还是总体大小？“一名学生”与“这名学生的阅读时间”口径有何区别？",
+      "revision_task": "按“对象范围—调查指标—数据总体—数据个体”重写，并标明计划的日期，不能把样本人数当成样本。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "m7b.12.1.2",
+      "criterion_index": 0,
+      "family_id": "statistics.population-sample-size-nonresponse",
+      "observation_note": "观察总体、个体、抽中对象、已取得的数据和样本容量的区分；20人未回复时，不能把计划100份说成已有100份完整记录。",
+      "difficulty_discrimination": "抽中100人但只收到80份，能说分析使用了100条完整数据吗？",
+      "revision_task": "在表中分别列目标总体、抽中名单、有效记录、未回复数，统一数据口径后重写四个术语。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "m7b.12.1.2",
+      "criterion_index": 1,
+      "family_id": "statistics.sampling-and-nonresponse-bias",
+      "observation_note": "观察能否区分覆盖、选择和未回复问题；知道随机抽取规则仍不意味着一次实现的样本比例必然代表总体。",
+      "difficulty_discrimination": "从完整名单随机抽到100人但只有60人回答，为什么不能仅凭“随机”就保证这60人无偏？",
+      "revision_task": "保留完整抽中名单与回复状态，提出统一回访办法并说明剩余限制，不用方便找到的人随意顶替。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "m8b.24.1",
+      "criterion_index": 0,
+      "family_id": "statistics.three-centre-measures",
+      "observation_note": "分别观察总量均分、排序位置和出现频数三种依据；中位数碰巧等于众数时，不能据此认定学生已区分两种算法。",
+      "difficulty_discrimination": "2、3、3、5、12的中位数和众数都是3，能用“出现最多”解释中位数吗？",
+      "revision_task": "为原数据分别写总和/个数、排序中位位置、频数表，再用六个数的新例子核对中位数5与众数2。",
+      "reference_family_ids": [
+        "statistics.mean-from-values",
+        "statistics.median-position",
+        "statistics.mode-frequency"
+      ]
+    },
+    {
+      "topic_id": "m8b.24.1",
+      "criterion_index": 1,
+      "family_id": "statistics.centre-for-purpose-outlier",
+      "observation_note": "观察是否结合分布和描述目的选择指标；中位数适合描述此例多数家庭的典型水平，但计算总用水仍需要总量/均值。",
+      "difficulty_discrimination": "有一户62吨就能删掉它后再说是五户平均吗？描述典型家庭与统计五户总量是否同一个问题？",
+      "revision_task": "并列写均值20、中位数10、总量100，给每个量配一个它能回答的问题，并解释62的影响。",
+      "reference_family_ids": [
+        "statistics.mean-from-values",
+        "statistics.median-position"
+      ]
+    },
+    {
+      "topic_id": "m8b.24.2",
+      "criterion_index": 0,
+      "family_id": "statistics.variance-from-values",
+      "observation_note": "观察均值、每个离差的平方、求和与除以n的完整过程；最终8/3正确仍需确认没有先把正负离差抵消，也不能混用n−1公式。",
+      "difficulty_discrimination": "2、4、6对均值4的离差是−2、0、2，和为0，为什么方差不是0？",
+      "revision_task": "按“数值—离差—平方离差”列三行，再写8÷3；用单位平方说明结果，不把样本估计公式混入本题。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "m8b.24.2",
+      "criterion_index": 1,
+      "family_id": "statistics.variance-comparison",
+      "observation_note": "观察在同一背景、同一量纲和相同计算口径下比较离散程度；方差小不等于平均水平更高，也不保证未来每次都更稳定。",
+      "difficulty_discrimination": "平均数都80、方差4和25，能说甲的成绩一定比乙高吗？",
+      "revision_task": "先分别写“位置相同”和“甲更集中”两句，再给同单位的原始数据举例核对，删去关于未来必然表现的承诺。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "mh5.8.1.1",
+      "criterion_index": 0,
+      "family_id": "statistics.scatter-direction",
+      "observation_note": "观察对给定成对样本整体升降的描述；能认出方向不证明线性程度、总体规律或因果。遇U形应先说明不能用单一升降概括。",
+      "difficulty_discrimination": "若散点先下降后上升成U形，能只因右端比左端高就说正线性相关吗？",
+      "revision_task": "在配图中逐点描出整体方向，写“这组样本的趋势”，再列出仍需检查的非线性、异常点和数据范围。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "mh5.8.1.1",
+      "criterion_index": 1,
+      "family_id": "statistics.function-versus-statistical-association",
+      "observation_note": "观察确定规则与有波动的统计联系的区分；相关/函数区分和因果判断是不同问题，后者仍需研究设计证据。",
+      "difficulty_discrimination": "同样学习2小时的两人分数不同，是否与S=πr²在给定r下的唯一值相同？",
+      "revision_task": "为两个例子分别写输入、输出和是否由规则唯一确定；另起一句说明观察相关不能单独证明干预效果。",
+      "reference_family_ids": [
+        "statistics.observational-causality"
+      ]
+    },
+    {
+      "topic_id": "mh5.8.1.2",
+      "criterion_index": 0,
+      "family_id": "statistics.correlation-sign-and-domain",
+      "observation_note": "观察用符号判方向、用绝对值比较线性紧密程度；这不证明相关系数已被正确计算，也不能从强线性相关推出因果。",
+      "difficulty_discrimination": "−0.85小于0.35，所以第一组线性相关更弱吗？",
+      "revision_task": "把“方向”“绝对值”“定义条件”分成三行，分别核对，再说明仍需看散点图与异常值。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "mh5.8.1.2",
+      "criterion_index": 1,
+      "family_id": "statistics.zero-correlation-nonlinearity",
+      "observation_note": "观察给出具体反例并核对中心化乘积和与非零分母；只背“r=0也可能有关系”尚不展示计算或识别非线性能力。",
+      "difficulty_discrimination": "(-1,1)、(0,0)、(1,1)满足y=x²；r=0是否与这个确定关系冲突？",
+      "revision_task": "先列三行中心化计算，再画U形并写“无线性相关不等于没有任何关系”，保留同一组成对数据。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "mh5.8.2.1",
+      "criterion_index": 0,
+      "family_id": "statistics.regression-parameter-interpretation",
+      "observation_note": "观察斜率的单位和模型中平均变化含义，以及截距的x=0前提；参数解释正确不代表预测已验证或干预具有因果效果。",
+      "difficulty_discrimination": "ŷ=5+60x中60能解释成每个人每小时都必走60千米吗？x=0若不在数据范围，截距可直接当实际起点吗？",
+      "revision_task": "逐项写斜率60千米/小时、拟合截距5千米及适用范围，去掉“每个个体必然”和无限外推。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "mh5.8.2.1",
+      "criterion_index": 1,
+      "family_id": "statistics.signed-residual",
+      "observation_note": "观察在同一个x处算预测再用实测减预测，并让符号与上下位置一致；一个残差不代表整个模型的拟合质量。",
+      "difficulty_discrimination": "ŷ=2x+1、观测(3,5)，把残差写成7−5=2错在哪里？",
+      "revision_task": "写三列x、预测、实测，画竖直段后算5−7；再用“下方2单位”检查符号，不能取绝对值替代残差。",
+      "reference_family_ids": [
+        "statistics.prediction-substitution"
+      ]
+    },
+    {
+      "topic_id": "mh5.8.2.2",
+      "criterion_index": 0,
+      "family_id": "statistics.least-squares-loss",
+      "observation_note": "观察是否比较相同样本上的竖直残差平方和；残差和为0、或一条线穿过均值，均不足以证明最优拟合。",
+      "difficulty_discrimination": "残差1、−1和2、−2的和都为0，哪一条线偏离更小？",
+      "revision_task": "把两条候选线的每个残差、平方和逐项列出，再说明竖直方向与同一组样本的条件。",
+      "reference_family_ids": []
+    },
+    {
+      "topic_id": "mh5.8.2.2",
+      "criterion_index": 1,
+      "family_id": "statistics.ols-intercept-from-centre",
+      "observation_note": "观察在含截距且x有变异的最小二乘模型中用样本中心求截距；任意过中心的直线未必最优，强制过原点模型也未必过中心。",
+      "difficulty_discrimination": "强制ŷ=bx过原点时，还能不检查模型就要求它经过(x̄,ȳ)吗？",
+      "revision_task": "先写“含截距、x有非零变异”，再算a=8−2×3=2并代回中心；用无截距反例说明边界。",
+      "reference_family_ids": []
+    }
+  ],
+  "task_matrix": [
+    {
+      "task_id": "m3b.5.1-q1",
+      "source_path": "data/content/sanxia.json",
+      "topic_id": "m3b.5.1",
+      "family_id": "statistics.frequency-table-total",
+      "representation": "table",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        1
+      ],
+      "observation_and_limit": "从真实统计表合计互斥类别12与13；只观察总数25，不能证明会逐条收集或画记。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m3b.5.1-q2",
+      "source_path": "data/content/sanxia.json",
+      "topic_id": "m3b.5.1",
+      "family_id": "statistics.chart-purpose",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "选择直观比较类别数量的图形，属于图表选择支持；不直接观察画正字或填写统计表。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "m4a.6.1-q1",
+      "source_path": "data/content/sishang.json",
+      "topic_id": "m4a.6.1",
+      "family_id": "statistics.bar-axis-reading",
+      "representation": "graph",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "从实际每格5人的条形图读25与30并求差5；不由这次结果推断已会补图或读截断轴。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m4a.6.1-q101",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "m4a.6.1",
+      "family_id": "statistics.bar-axis-reading",
+      "representation": "graph",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "从四类运动的实际直条读取最大13与最小6并比较差7；同结构读图与减法。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m4a.6.1-q102",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "m4a.6.1",
+      "family_id": "statistics.bar-total-count",
+      "representation": "graph",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "从互斥且覆盖全班的运动图读取四类人数并求和40；缺少每人只选一项条件时不能据此求班级人数。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m4a.6.1-q2",
+      "source_path": "data/content/sishang.json",
+      "topic_id": "m4a.6.1",
+      "family_id": "statistics.bar-encoding",
+      "representation": "verbal",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "辨认直条长度编码数量的约定；只观察读图前提，不代替实际读刻度。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m4b.6.1-q1",
+      "source_path": "data/content/sixia.json",
+      "topic_id": "m4b.6.1",
+      "family_id": "statistics.mean-from-values",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "4、6、8、10总和28除以4为7；只观察一次平均数计算，不证明理解个体与平均的区别。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m4b.6.1-q2",
+      "source_path": "data/content/sixia.json",
+      "topic_id": "m4b.6.1",
+      "family_id": "statistics.mean-summary-meaning",
+      "representation": "verbal",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "辨认平均数概括整体水平的术语；不直接观察求平均或极端值作用机制。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "m4b.6.1-q90",
+      "source_path": "data/content/sixia.json",
+      "topic_id": "m4b.6.1",
+      "family_id": "statistics.mean-from-values",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "20、98、94、96总和308除以4为77；与普通均值题仅数值改变，同族，不独立观察极端值影响解释。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m4b.6.1-q91",
+      "source_path": "data/content/sixia.json",
+      "topic_id": "m4b.6.1",
+      "family_id": "statistics.mean-from-values",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "59、89、99、99、99总和445除以5为89；重复值仍按五条完整记录计数，同族均值运算。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m4b.6.1-q92",
+      "source_path": "data/content/sixia.json",
+      "topic_id": "m4b.6.1",
+      "family_id": "statistics.mean-from-values",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "91、95、18总和204除以3为68；包含较低值并不使单次均值计算变成极端值机制解释题。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m4b.6.1-q93",
+      "source_path": "data/content/sixia.json",
+      "topic_id": "m4b.6.1",
+      "family_id": "statistics.mean-from-values",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "8、100、96、100总和304除以4为76；与其他列表求均值同数学结构。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m5b.5.1-q1",
+      "source_path": "data/content/wuxia.json",
+      "topic_id": "m5b.5.1",
+      "family_id": "statistics.chart-purpose",
+      "representation": "verbal",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "识别折线图适合时间变化这一用途；并未呈现需读取的趋势或比较增减幅度。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "m5b.5.1-q101",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "m5b.5.1",
+      "family_id": "statistics.mean-from-values",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "五天气温之和107除5为21.4，是平均数支持练习，不观察折线趋势或变化幅度。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "m5b.5.1-q102",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "m5b.5.1",
+      "family_id": "statistics.line-change-comparison",
+      "representation": "graph",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        1
+      ],
+      "observation_and_limit": "从实际一至四月图算12−8=4与18−12=6，再比较增幅相差2；未仅凭陡缓判断。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m5b.5.1-q2",
+      "source_path": "data/content/wuxia.json",
+      "topic_id": "m5b.5.1",
+      "family_id": "statistics.line-adjacent-change",
+      "representation": "graph",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        1
+      ],
+      "observation_and_limit": "由真实三月折线图读2月8与3月12，求上升4；只观察一个区间的变化量。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m6b.2.1-q1",
+      "source_path": "data/content/liuxia.json",
+      "topic_id": "m6b.2.1",
+      "family_id": "statistics.part-from-percentage",
+      "representation": "graph",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "读扇形百分比30%与相同整体200，计算60；数字占比不直接等于人数。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m6b.2.1-q101",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "m6b.2.1",
+      "family_id": "statistics.part-from-percentage",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "已给总人数40与占比35%，计算14；只观察比例到数量，不证明从未标数值的扇形读百分比。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m6b.2.1-q102",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "m6b.2.1",
+      "family_id": "statistics.whole-from-part-percentage",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "由12对应25%反求整体48，观察目标中的整体与部分关系，非直接乘整体题。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m6b.2.1-q103",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "m6b.2.1",
+      "family_id": "statistics.part-difference-from-percentages",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "同一总量2400下比较40%与25%对应数量差360；观察比例差的应用，未观察实际扇形读图。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m6b.2.1-q2",
+      "source_path": "data/content/liuxia.json",
+      "topic_id": "m6b.2.1",
+      "family_id": "statistics.chart-purpose",
+      "representation": "verbal",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        1
+      ],
+      "observation_and_limit": "辨认扇形图突出部分占整体比例这一特点；单项辨认不等于能为各类数据选择图。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m7b.12.1.1-q1",
+      "source_path": "data/content/qixia.json",
+      "topic_id": "m7b.12.1.1",
+      "family_id": "statistics.census-purpose",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "按逐人订购、人数可管理与非破坏性条件选择全查；重写原易歧义的人口普查/全县视力备选。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m7b.12.1.1-q101",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "m7b.12.1.1",
+      "family_id": "statistics.census-purpose",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "校服逐人合身要求每人的身高胸围，与尺码核对任务同族。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m7b.12.1.1-q102",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "m7b.12.1.1",
+      "family_id": "statistics.census-purpose",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "逐项区分个体服务和破坏性寿命试验，两个场合适合全查；计数只是报告三次方案判断。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m7b.12.1.1-q2",
+      "source_path": "data/content/qixia.json",
+      "topic_id": "m7b.12.1.1",
+      "family_id": "statistics.census-error-boundary",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "修正全查等于准确的误解：覆盖所有对象仍有测量和记录误差；这是方法边界支持，不直接判断具体场合或指出总体个体。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "m7b.12.1.1-q201",
+      "source_path": "data/content/qixia.json",
+      "topic_id": "m7b.12.1.1",
+      "family_id": "statistics.census-purpose",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy",
+      "criterion_indices_before": [
+        0
+      ],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "40人逐人订购需要完整登记，与其他校服任务同族，换人数不产生独立题族。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m7b.12.1.1-q3",
+      "source_path": "data/content/qixia.json",
+      "topic_id": "m7b.12.1.1",
+      "family_id": "statistics.census-purpose",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "为45名学生分别建立视力记录，目标要求逐人信息；不能只依据人数45机械选择全查。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m7b.12.1.2-q1",
+      "source_path": "data/content/qixia.json",
+      "topic_id": "m7b.12.1.2",
+      "family_id": "statistics.sample-size-identification",
+      "representation": "verbal",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "区分总体1200与实际检查100，观察样本容量这一分项；未要求写总体、个体及样本内容。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m7b.12.1.2-q2",
+      "source_path": "data/content/qixia.json",
+      "topic_id": "m7b.12.1.2",
+      "family_id": "statistics.stratified-random-selection",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        1
+      ],
+      "observation_and_limit": "比较覆盖全校各年级的比例随机机制与有偏子群；只识别方案优劣，不保证一次样本恰好代表总体。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m7b.12.1.2-q3",
+      "source_path": "data/content/qixia.json",
+      "topic_id": "m7b.12.1.2",
+      "family_id": "sampling.proportional-count",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "在完整名单随机抽样且全回复条件下按20/100估计1200人中的近视人数240；观察比例外推计算，不直接观察术语分辨或方案偏差判别。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "m8b.24.1-q1",
+      "source_path": "data/content/baxia.json",
+      "topic_id": "m8b.24.1",
+      "family_id": "statistics.median-position",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "已排序五数取第3位7，仅观察中位数分项，尚未观察平均数和众数。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m8b.24.1-q101",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "m8b.24.1",
+      "family_id": "statistics.mean-from-values",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "五次成绩总和430除5为86，仅观察平均数分项。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m8b.24.1-q102",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "m8b.24.1",
+      "family_id": "statistics.missing-value-from-mean",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "用6×85−430反求80，观察均值与总量关系，未证明中位数或众数能力。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m8b.24.1-q2",
+      "source_path": "data/content/baxia.json",
+      "topic_id": "m8b.24.1",
+      "family_id": "statistics.mode-frequency",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "根据频数最高选3，仅观察众数分项，不把排序位置等同于频数。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m8b.24.1-q201",
+      "source_path": "data/content/baxia.json",
+      "topic_id": "m8b.24.1",
+      "family_id": "statistics.median-position",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [
+        0
+      ],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "五数按中间位置得3，虽然也恰为众数，答案3本身不能辨认使用的是位置还是频数。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m8b.24.1-q202",
+      "source_path": "data/content/baxia.json",
+      "topic_id": "m8b.24.1",
+      "family_id": "statistics.centre-for-purpose-outlier",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy",
+      "criterion_indices_before": [
+        1
+      ],
+      "criterion_indices_after": [
+        1
+      ],
+      "observation_and_limit": "结合多数家庭典型水平与62的影响选择中位数10；不能据此说均值在所有目的下都错误。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m8b.24.2-q1",
+      "source_path": "data/content/baxia.json",
+      "topic_id": "m8b.24.2",
+      "family_id": "statistics.mean-from-values",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "只求均值3，是求方差的先修支持；未计算平方离差或比较稳定性。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "m8b.24.2-q101",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "m8b.24.2",
+      "family_id": "statistics.variance-from-values",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "均值已给5，平方离差和20除4得5；只观察方差计算后半段。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m8b.24.2-q102",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "m8b.24.2",
+      "family_id": "statistics.variance-difference",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "两组同单位描述性方差分别8/3、32/3，差8；题目只报数值差，稳定性解释仍需另外观察。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m8b.24.2-q2",
+      "source_path": "data/content/baxia.json",
+      "topic_id": "m8b.24.2",
+      "family_id": "statistics.variance-from-values",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "按除以n的描述性方差，1、3围绕均值2的平方离差平均为1；明确不混用n−1。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m8b.24.2-q201",
+      "source_path": "data/content/baxia.json",
+      "topic_id": "m8b.24.2",
+      "family_id": "statistics.variance-from-values",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [
+        0
+      ],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "完整算均值4、平方离差和8，再除3；与同类方差计算同族。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "m8b.24.2-q202",
+      "source_path": "data/content/baxia.json",
+      "topic_id": "m8b.24.2",
+      "family_id": "statistics.variance-comparison",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy",
+      "criterion_indices_before": [
+        1
+      ],
+      "criterion_indices_after": [
+        1
+      ],
+      "observation_and_limit": "在同单位同均值背景下以4小于25解释甲更集中；不推断甲平均水平更高。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.1.1-q1",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.1.1",
+      "family_id": "statistics.scatter-direction",
+      "representation": "verbal",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "由文字描述的左下至右上辨认正方向；只观察方向术语，未实际读取点云。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.1.1-q101",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "mh5.8.1.1",
+      "family_id": "statistics.square-given-correlation",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "仅算(-0.9)^2×100=81，不观察散点方向或函数/相关关系区分，保留运算支持。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "mh5.8.1.1-q102",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "mh5.8.1.1",
+      "family_id": "statistics.square-given-correlation",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "单位变换后相关系数不变已经由题面给出，实际只算0.8²×100=64；不能声称检验了单位不变性或关系区分。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "mh5.8.1.1-q2",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.1.1",
+      "family_id": "statistics.function-versus-statistical-association",
+      "representation": "verbal",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        1
+      ],
+      "observation_and_limit": "辨认给定函数规则的确定性与统计关系的波动性；不据此完成因果判断。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.1.1-q201",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.1.1",
+      "family_id": "statistics.scatter-direction",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [
+        0
+      ],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "按四组成对坐标辨认整体下降，观察给定样本方向，不推出因果或总体。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.1.1-q202",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.1.1",
+      "family_id": "statistics.scatter-nonlinearity",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "criterion_indices_before": [
+        0
+      ],
+      "criterion_indices_after": [],
+      "observation_and_limit": "U形提示非线性而非单一正/负方向；撤销原方向目标映射，保留非线性辨别支持。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "mh5.8.1.1-q203",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.1.1",
+      "family_id": "statistics.observational-causality",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "criterion_indices_before": [
+        1
+      ],
+      "criterion_indices_after": [],
+      "observation_and_limit": "观察相关与因果结论边界及共同因素，撤销“函数与相关关系区分”的错误映射。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "mh5.8.1.1-q3",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.1.1",
+      "family_id": "statistics.scatter-direction",
+      "representation": "verbal",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "由文字方向描述答负相关，和正方向题同族，未观察自行画散点图。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.1.2-q1",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.1.2",
+      "family_id": "statistics.correlation-sign-and-domain",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "改为比较-0.7与0.4的线性强弱，需按绝对值判断；原题直接给1让填1，本次修订不自动恢复诊断用途。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "mh5.8.1.2-q101",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "mh5.8.1.2",
+      "family_id": "statistics.square-given-correlation",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "只算0.9²=0.81，无统计解释要求，不直接观察两个主题目标。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "mh5.8.1.2-q102",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "mh5.8.1.2",
+      "family_id": "statistics.r-squared-interpretation",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "在同数据、含截距、非零变异条件下算R²解释变异比例25%；这是单元R²目标的支持，不能硬挂旧主题强弱/零相关目标。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "mh5.8.1.2-q2",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.1.2",
+      "family_id": "statistics.correlation-range",
+      "representation": "symbolic",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "只识别[-1,1]的取值范围，属于解释r的先修知识，并未判断具体方向强弱或构造r=0反例。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "mh5.8.1.2-q201",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.1.2",
+      "family_id": "statistics.correlation-sign-and-domain",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [
+        0
+      ],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "按绝对值比较-0.92和0.46，给出0.92；仅填绝对值还需另外核对方向语言。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.1.2-q202",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.1.2",
+      "family_id": "statistics.zero-correlation-nonlinearity",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "criterion_indices_before": [
+        1
+      ],
+      "criterion_indices_after": [
+        1
+      ],
+      "observation_and_limit": "r接近0时只可说线性相关弱，不排除非线性；观察结论边界，未自行构造或计算零相关反例。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.1.2-q203",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.1.2",
+      "family_id": "statistics.correlation-sign-and-domain",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "criterion_indices_before": [
+        0
+      ],
+      "criterion_indices_after": [],
+      "observation_and_limit": "x常数使分母为0而未定义，是r适用条件；撤销强弱方向目标映射，保留条件支持。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "mh5.8.1.2-q204",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.1.2",
+      "family_id": "statistics.zero-correlation-nonlinearity",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [
+        1
+      ],
+      "criterion_indices_after": [
+        1
+      ],
+      "observation_and_limit": "对(-2,4)、(0,0)、(2,4)算交叉离差和0与非零分母；填0只是计算部分，y=x²关系解释仍需确认。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.2.1-q1",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.2.1",
+      "family_id": "statistics.regression-parameter-interpretation",
+      "representation": "symbolic",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "识别b是斜率这一术语；未解释单位、平均变化或因果边界。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.2.1-q101",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "mh5.8.2.1",
+      "family_id": "statistics.prediction-substitution",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "在样本范围内代入2×5+3=13，观察预测代入支持，不直接解释参数或计算残差。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "mh5.8.2.1-q102",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "mh5.8.2.1",
+      "family_id": "statistics.regression-parameter-interpretation",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "利用斜率0.8把x的10单位变化转为拟合平均y的8单位变化；不保证个体或因果变化。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.2.1-q2",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.2.1",
+      "family_id": "statistics.residual-definition",
+      "representation": "verbal",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "回忆残差是观测减预测，不直接观察把数代入并计算带符号残差。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "mh5.8.2.1-q201",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.2.1",
+      "family_id": "statistics.signed-residual",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [
+        1
+      ],
+      "criterion_indices_after": [
+        1
+      ],
+      "observation_and_limit": "先算ŷ=10，再用12−10=2；同一有符号残差结构。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.2.1-q202",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.2.1",
+      "family_id": "statistics.signed-residual",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [
+        1
+      ],
+      "criterion_indices_after": [
+        1
+      ],
+      "observation_and_limit": "先算ŷ=14，再用11−14=−3；符号变化是同族变体，不算独立新结构。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.2.1-q203",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.2.1",
+      "family_id": "statistics.regression-parameter-interpretation",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "criterion_indices_before": [
+        0
+      ],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "解释斜率为拟合平均变化并排除个体必然与因果承诺；未观察截距解释。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.2.1-q3",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.2.1",
+      "family_id": "statistics.residual-definition",
+      "representation": "verbal",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "回忆被减去的是预测值，和定义选择题同族；不把一词回忆映射为残差计算。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "mh5.8.2.2-q1",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.2.2",
+      "family_id": "statistics.least-squares-loss",
+      "representation": "verbal",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "识别最小化竖直残差平方和；单选正确尚需说明为什么残差和会抵消。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.2.2-q101",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "mh5.8.2.2",
+      "family_id": "statistics.ols-intercept-from-centre",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [
+        1
+      ],
+      "observation_and_limit": "用5−2×3=−1求含截距拟合的截距；与单元同中心公式任务同族。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": false,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.2.2-q102",
+      "source_path": "data/question_sources/application.json",
+      "topic_id": "mh5.8.2.2",
+      "family_id": "statistics.ols-centre-and-prediction",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "可直接以样本中心为基点计算9+2×(6−4)=13；求截距只是可选解法，不是任务要求，不能用它证明求参数目标。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": true,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "mh5.8.2.2-q2",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.2.2",
+      "family_id": "statistics.ols-centre-property",
+      "representation": "verbal",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "补明含截距及x非零变异，只回忆过样本中心性质；不直接观察利用中心求参数。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    },
+    {
+      "task_id": "mh5.8.2.2-q201",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.2.2",
+      "family_id": "statistics.ols-intercept-from-centre",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [
+        1
+      ],
+      "criterion_indices_after": [
+        1
+      ],
+      "observation_and_limit": "用9−1.5×4=3求截距；数字改变不产生新题族。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.2.2-q202",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.2.2",
+      "family_id": "statistics.least-squares-loss",
+      "representation": "symbolic",
+      "cognitive_demand": "execute",
+      "criterion_indices_before": [
+        0
+      ],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "算1²+(-2)²+1²=6，观察平方损失计算分项；单个损失值不证明已找到最优线。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.2.2-q203",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.2.2",
+      "family_id": "statistics.least-squares-loss",
+      "representation": "verbal",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [
+        0
+      ],
+      "criterion_indices_after": [
+        0
+      ],
+      "observation_and_limit": "明确含截距一元最小二乘最小化竖直残差平方和；与目标性质识别题同族。",
+      "changed_prompt_or_answer": false,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "preserve_existing_policy_no_upgrade"
+    },
+    {
+      "task_id": "mh5.8.2.2-q3",
+      "source_path": "data/content/xby3.json",
+      "topic_id": "mh5.8.2.2",
+      "family_id": "statistics.ols-centre-property",
+      "representation": "verbal",
+      "cognitive_demand": "recall",
+      "criterion_indices_before": [],
+      "criterion_indices_after": [],
+      "observation_and_limit": "补明含截距及x非零变异，短答中心点与性质选择题同族；参数计算仍未观察。",
+      "changed_prompt_or_answer": true,
+      "answer_unchanged": true,
+      "prior_diagnosis_eligible": false,
+      "author_disables_diagnosis": true,
+      "admission_action": "disable"
+    }
+  ],
+  "unit_family_crosswalk": [
+    {
+      "unit_id": "data_reading_and_mean",
+      "example_index": 0,
+      "family_before": "statistics.mean-from-values",
+      "family_after": "statistics.mean-from-values",
+      "reference_family_ids": [],
+      "rationale": "按实际输入形式记录表征，保留已核对的原数学结构题族。"
+    },
+    {
+      "unit_id": "data_reading_and_mean",
+      "example_index": 1,
+      "family_before": "statistics.bar-axis-reading",
+      "family_after": "statistics.bar-axis-reading",
+      "reference_family_ids": [],
+      "rationale": "按实际输入形式记录表征，保留已核对的原数学结构题族。"
+    },
+    {
+      "unit_id": "data_reading_and_mean",
+      "example_index": 2,
+      "family_before": "statistics.combine-group-means",
+      "family_after": "statistics.combine-group-means",
+      "reference_family_ids": [
+        "statistics.mean-from-values"
+      ],
+      "rationale": "完整例题实际展示的算法分别登记曝光；这些族随后不会因换数字而成为新结构。"
+    },
+    {
+      "unit_id": "data_reading_and_mean",
+      "example_index": 3,
+      "family_before": "statistics.chart-purpose",
+      "family_after": "statistics.chart-purpose",
+      "reference_family_ids": [],
+      "rationale": "按实际输入形式记录表征，保留已核对的原数学结构题族。"
+    },
+    {
+      "unit_id": "data_reading_and_mean",
+      "task_id": "data_reading_and_mean:delayed-2",
+      "family_before": "statistics.mean-including-recorded-zero",
+      "family_after": "statistics.mean-from-values",
+      "rationale": "完整零记录仍按总和除以记录数计算，与2、4、6、8求平均同结构；只改变数字或引入零不作新独立题族。"
+    },
+    {
+      "unit_id": "sampling_and_variation",
+      "example_index": 0,
+      "family_before": "statistics.complete-frame-random-sample",
+      "family_after": "statistics.complete-frame-random-sample",
+      "reference_family_ids": [],
+      "rationale": "按实际输入形式记录表征，保留已核对的原数学结构题族。"
+    },
+    {
+      "unit_id": "sampling_and_variation",
+      "example_index": 1,
+      "family_before": "statistics.mean-median-outlier",
+      "family_after": "statistics.centre-for-purpose-outlier",
+      "reference_family_ids": [
+        "statistics.mean-from-values",
+        "statistics.median-position"
+      ],
+      "rationale": "完整例题实际展示的算法分别登记曝光；这些族随后不会因换数字而成为新结构。"
+    },
+    {
+      "unit_id": "sampling_and_variation",
+      "example_index": 2,
+      "family_before": "statistics.same-centre-different-spread",
+      "family_after": "statistics.variance-comparison",
+      "reference_family_ids": [
+        "statistics.variance-from-values"
+      ],
+      "rationale": "完整例题实际展示的算法分别登记曝光；这些族随后不会因换数字而成为新结构。"
+    },
+    {
+      "unit_id": "sampling_and_variation",
+      "example_index": 3,
+      "family_before": "statistics.large-biased-sample",
+      "family_after": "statistics.large-biased-sample",
+      "reference_family_ids": [],
+      "rationale": "按实际输入形式记录表征，保留已核对的原数学结构题族。"
+    },
+    {
+      "unit_id": "sampling_and_variation",
+      "task_id": "sampling_and_variation:practice-4",
+      "family_before": "statistics.same-centre-different-spread",
+      "family_after": "statistics.variance-from-values",
+      "rationale": "实际只计算甲组描述性方差，图示是表征，不能以旧比较标题把同n公式运算拆成新题族。"
+    },
+    {
+      "unit_id": "correlation_and_regression",
+      "example_index": 0,
+      "family_before": "statistics.correlation-sign-and-domain",
+      "family_after": "statistics.correlation-sign-and-domain",
+      "reference_family_ids": [],
+      "rationale": "按实际输入形式记录表征，保留已核对的原数学结构题族。"
+    },
+    {
+      "unit_id": "correlation_and_regression",
+      "example_index": 1,
+      "family_before": "statistics.ols-from-paired-data",
+      "family_after": "statistics.ols-from-paired-data",
+      "reference_family_ids": [
+        "statistics.ols-intercept-from-centre",
+        "statistics.signed-residual",
+        "statistics.prediction-substitution"
+      ],
+      "rationale": "完整例题实际展示的算法分别登记曝光；这些族随后不会因换数字而成为新结构。"
+    },
+    {
+      "unit_id": "correlation_and_regression",
+      "example_index": 2,
+      "family_before": "statistics.r-squared-interpretation",
+      "family_after": "statistics.r-squared-interpretation",
+      "reference_family_ids": [],
+      "rationale": "按实际输入形式记录表征，保留已核对的原数学结构题族。"
+    },
+    {
+      "unit_id": "correlation_and_regression",
+      "example_index": 3,
+      "family_before": "statistics.extrapolation-boundary",
+      "family_after": "statistics.extrapolation-boundary",
+      "reference_family_ids": [],
+      "rationale": "按实际输入形式记录表征，保留已核对的原数学结构题族。"
+    }
+  ],
+  "diagnosis_disabled_task_ids": [
+    "m3b.5.1-q2",
+    "m4b.6.1-q2",
+    "m5b.5.1-q1",
+    "m5b.5.1-q101",
+    "m7b.12.1.1-q2",
+    "m7b.12.1.2-q3",
+    "m8b.24.2-q1",
+    "mh5.8.1.1-q101",
+    "mh5.8.1.1-q102",
+    "mh5.8.1.1-q202",
+    "mh5.8.1.1-q203",
+    "mh5.8.1.2-q1",
+    "mh5.8.1.2-q101",
+    "mh5.8.1.2-q102",
+    "mh5.8.1.2-q2",
+    "mh5.8.1.2-q203",
+    "mh5.8.2.1-q101",
+    "mh5.8.2.1-q2",
+    "mh5.8.2.1-q3",
+    "mh5.8.2.2-q102",
+    "mh5.8.2.2-q2",
+    "mh5.8.2.2-q3"
+  ],
+  "diagnosis_actual_downgrades": [
+    "m5b.5.1-q101",
+    "m7b.12.1.2-q3",
+    "m8b.24.2-q1",
+    "mh5.8.1.1-q101",
+    "mh5.8.1.1-q102",
+    "mh5.8.1.2-q1",
+    "mh5.8.1.2-q101",
+    "mh5.8.1.2-q102",
+    "mh5.8.2.1-q101",
+    "mh5.8.2.1-q3",
+    "mh5.8.2.2-q102"
+  ],
+  "limitations": [
+    "这是AI作者语义核对，不是教师独审或真实学生效果验证。",
+    "74道题的数字正确、表征与目标关联不等于目标已完整原子化。",
+    "保留topic_only的支持任务不计入细目标独立覆盖；纸笔作图与口头解释仍需实际作品或另外确认。"
+  ],
+  "files": [
+    {
+      "path": "data/content/baxia.json",
+      "before_sha256": "2a95fade36e2a0b74b8abb1ca205a7e972a0bec7a2f05847d78598d9e0044564",
+      "after_sha256": "12b9f107c719178d54631e21a221a794cff9a86d800423c3d1484607c2b0a25d"
+    },
+    {
+      "path": "data/content/liuxia.json",
+      "before_sha256": "3759e19a7341a939532dfd11185f63b38891d774c113339262734524804a27cb",
+      "after_sha256": "568a40257c4e7bbe9652abe4c75b5607cc499a5d312c69ef76b8e1933b390a48"
+    },
+    {
+      "path": "data/content/qixia.json",
+      "before_sha256": "7356eac309457ac67f9e52855000ac599e29c4486600da8f549dfdd7d3e86162",
+      "after_sha256": "2f9f7012871bf8d424815a1eb2319c8fa82e22aae370c4eb88c35607a9bdc9c1"
+    },
+    {
+      "path": "data/content/sanxia.json",
+      "before_sha256": "70acdced5c260a8356a584f8469b35b78913b68786c40e97008331e3aa1f0b4c",
+      "after_sha256": "ab79fd6b0f8160c195907951215076e4b1ad46bbebfe8a09f20623fb81394152"
+    },
+    {
+      "path": "data/content/sishang.json",
+      "before_sha256": "53ac607e42408094b368d89ab4c7ac398582bcc2ed349e4e2335f9a0332c1771",
+      "after_sha256": "91495c81a5af345e6c080194aaec60d1d2929b62a9dfc02fbaddd83597eccad0"
+    },
+    {
+      "path": "data/content/sixia.json",
+      "before_sha256": "82e3186d280912f330662933cd3a3ca6e97b3c9307838198267b542ad209b9cf",
+      "after_sha256": "17636db178edcbed24b15f99aa100303394eb3c7f64099c8c999e0a3b20a1a52"
+    },
+    {
+      "path": "data/content/wuxia.json",
+      "before_sha256": "f73f29213f4bdb18328a6ab818f06a222c2df6546a8d7b432f0f04c75f18c541",
+      "after_sha256": "6d8e1e7a4e1f7ac24ffd57c110d266408f745866f567e1e1389cd2b207a2ec19"
+    },
+    {
+      "path": "data/content/xby3.json",
+      "before_sha256": "e556761cb6832fbd2446e89c2c76791e5b4c0cef805976fdf2cbce0de328eb17",
+      "after_sha256": "26b5e182e97abfb708ad05f71fdc6b77d2e9e9e76d02b8bbc35818ff2d64dedb"
+    },
+    {
+      "path": "data/learning_units/correlation_and_regression.json",
+      "before_sha256": "9b29b73515d0ef40ee78155fb905d07d825b659ce799b67429d6bbb9c3e89ef6",
+      "after_sha256": "d54c4938093988fd23d2aecf48206b5f85e3a2e9f7252d8d82d297a36969fd45"
+    },
+    {
+      "path": "data/learning_units/data_reading_and_mean.json",
+      "before_sha256": "79b64fb7d45df4fc524292d9b0356eceb3a52082b661112514f6283a6716b57b",
+      "after_sha256": "315d830df3b913dc211385b1938b69fe4d176d8633664b086cd44c1cc0043eb9"
+    },
+    {
+      "path": "data/learning_units/sampling_and_variation.json",
+      "before_sha256": "2c88a8581e6f4bd1d3019ade10066122447d4163fae98e643644f3b7a518e88c",
+      "after_sha256": "5894dc8adf567a73bf652aab25f2bc7443578910743c98d3df1eb9bcba04a8d7"
+    },
+    {
+      "path": "data/question_sources/application.json",
+      "before_sha256": "9c941ecb505ecd531f35f4772e9179f0f2c0b3862df7b2dc11a54c5131d789d4",
+      "after_sha256": "5df2e7bb46787748b5c41034bc7633d2474242c446291cd2f2d6d6d9ee39f1f4"
+    },
+    {
+      "path": "data/teach/m3b.5.1.json",
+      "before_sha256": "cceeb51f42cce0f0e75a8f98fbad60f3fc867adf711e9fc9d4c5a10f9d44763d",
+      "after_sha256": "8df733fa57ba1ecd043036ac82b033eed6e8a3a09a794f970ada5fe1e232910a"
+    },
+    {
+      "path": "data/teach/m4a.6.1.json",
+      "before_sha256": "2c13a8a76f2090e6b4823b4b868bcc810a1e87a8db5bfbd1a4ef04f625e4025f",
+      "after_sha256": "57abbc48bf6ca328531fce4a81abec1ef6a602b788731fbd13e0fdfd75a56eb8"
+    },
+    {
+      "path": "data/teach/m4b.6.1.json",
+      "before_sha256": "bb488a5cbe5fa62d5d44ce48e57456c62c2fcce8aa8cbead212f9cc4fbb2c8c2",
+      "after_sha256": "64593cdff4cfdbd8ca9ecba7eae515ea53febfacf8d996ff935a518ca6115c6f"
+    },
+    {
+      "path": "data/teach/m5b.5.1.json",
+      "before_sha256": "1fe8e3899c6027b4c2abebab196881171b5078dc2db741840fe820fccc1ba426",
+      "after_sha256": "185ea4fa09d6ac9ef3155ad1213acd99123edb90e7773631a11555a8be1a36ef"
+    },
+    {
+      "path": "data/teach/m6b.2.1.json",
+      "before_sha256": "a65559cd3fbff6099b81b82dcb3769d99b6b52f6ae6c56de751e0f4a3f3e4711",
+      "after_sha256": "fbc34d01e030163c0426bc67c18cd8129a05cea480fc8dee6e6e49df80b9e4d1"
+    },
+    {
+      "path": "data/teach/m7b.12.1.1.json",
+      "before_sha256": "cf452c60073cf5b0a14397abecd807b67b09f8c810ad6877955b85f77b1ffc30",
+      "after_sha256": "6a8da45b188a74361640550c6c5c4fc041bfdb0e18560e5ad3d8b3f97266b013"
+    },
+    {
+      "path": "data/teach/m7b.12.1.2.json",
+      "before_sha256": "02713bf58d8388d91bc00414c0b0dc119b3c468aa60a0d1316f35af0bf7cdaad",
+      "after_sha256": "751ed49c2a4369b7aa8142880ff4736d5e68df001b767919a739f93697b5b7c9"
+    },
+    {
+      "path": "data/teach/m8b.24.1.json",
+      "before_sha256": "e1c0a8c022e5e53b64330774f9cd8a6b7466ea0343736ac9283840f84f544b28",
+      "after_sha256": "b4ffc54f100ad7232970a3e6188610db8c3bfcd22e257eba0c6c504dd758e04d"
+    },
+    {
+      "path": "data/teach/m8b.24.2.json",
+      "before_sha256": "2acefc91fdb928912684159d493c9bea1d3f0c723430b90f17b8d9555e17d0b1",
+      "after_sha256": "1112a76a5c23a78eb5a59f855624e78bf32b9b72e57a6cccee9b07a021f0a1b7"
+    },
+    {
+      "path": "data/teach/mh5.8.1.1.json",
+      "before_sha256": "de554dd552f58a39a5858c636dc229a91471c2fe17504360d64864608ca50829",
+      "after_sha256": "7f016443179693222d170621b927fdf7ae96d27f52e6d945b6d0bd726e450be8"
+    },
+    {
+      "path": "data/teach/mh5.8.1.2.json",
+      "before_sha256": "e572fe733570b8db89ae419a4732dc77619c4dd7c53a45fec99515b58e051b4b",
+      "after_sha256": "e62c49ffe8f1f63680d32412327583b0c8b23a7519f05d13f37816ecbf7f7435"
+    },
+    {
+      "path": "data/teach/mh5.8.2.1.json",
+      "before_sha256": "3f313b480ffcbe79a45d0737d2c2516b34511b6d68a196e1336e20a15169beb4",
+      "after_sha256": "e727973483a52578a100b763069cc5236e3e7994a6b2eea1b31a138a19ed0067"
+    },
+    {
+      "path": "data/teach/mh5.8.2.2.json",
+      "before_sha256": "70a77c5b0307337bd8c041d3705c3149c3dcbd7acc885c779d3924f1844e68c0",
+      "after_sha256": "91bbad9cc97e62dd3735f882f242d760df416577021eeaafcaa144a1c9b427e2"
+    },
+    {
+      "path": "web/static/diagrams/statistics-v5-bar-self-check.svg",
+      "before_sha256": null,
+      "after_sha256": "da761f70c9bb68e5052dabfa13285ed1e1a6aac7b4febdfa39d6ee73344fe958"
+    },
+    {
+      "path": "web/static/diagrams/statistics-v5-class-frequency-table.svg",
+      "before_sha256": null,
+      "after_sha256": "d52fd6c179ed40800f0a474d93985959bfd22629160cc0f7cc56fdadedf60742"
+    },
+    {
+      "path": "web/static/diagrams/statistics-v5-line-months.svg",
+      "before_sha256": null,
+      "after_sha256": "ed07970af8a7f11f9b48391d08c84066e82b92029b349a45417c40869e039698"
+    },
+    {
+      "path": "web/static/diagrams/statistics-v5-line-self-check.svg",
+      "before_sha256": null,
+      "after_sha256": "00d65e30b729356ab6c3e786d9703b12533e47be464e8cc8d05fd3a119482a4a"
+    },
+    {
+      "path": "web/static/diagrams/statistics-v5-mean-extreme.svg",
+      "before_sha256": null,
+      "after_sha256": "ec29e6bdac11c82c44f0b98f4f00eee3d9e990087a994202f232cf7cc33af852"
+    },
+    {
+      "path": "web/static/diagrams/statistics-v5-ols-centre.svg",
+      "before_sha256": null,
+      "after_sha256": "b63e4c364e454c08dcb5b9f94da35e55c9b09acf15f57ef94fbc20b2cf021486"
+    },
+    {
+      "path": "web/static/diagrams/statistics-v5-same-mean-spread.svg",
+      "before_sha256": null,
+      "after_sha256": "043b5271172cf88925aa27def5e96cbf2d8bfaf4166556be2044e44cee2a9601"
+    },
+    {
+      "path": "web/static/diagrams/statistics-v5-scatter-patterns.svg",
+      "before_sha256": null,
+      "after_sha256": "dd8588eb73980bf68480d2c89979642f6b913cad0b2f309c8d69f81e6229bed2"
+    },
+    {
+      "path": "web/static/diagrams/statistics-v5-signed-residual.svg",
+      "before_sha256": null,
+      "after_sha256": "c1327bf14ed46aedafd4ca96138ba8b5556c9c310ee7ef42e81ee89e29926b4b"
+    },
+    {
+      "path": "web/static/diagrams/statistics-v5-sports-bars.svg",
+      "before_sha256": null,
+      "after_sha256": "9e84b164a1b30d50e96ed9a5b1d98fda28b9e51e0a7d605e19c26d5a37fa3cdf"
+    },
+    {
+      "path": "web/static/diagrams/statistics-v5-tally-table.svg",
+      "before_sha256": null,
+      "after_sha256": "14c13039bdfff90d3656802fab2172baa621258902d921761729d249f9e123b2"
+    },
+    {
+      "path": "tests/test_statistics_alignment_v5.py",
+      "before_sha256": null,
+      "after_sha256": "3aaca42a7561cfc59fab529cc333bea45c7316f4b7e76fbc1fec4d3857d264ff"
+    }
+  ],
+  "cross_review": {
+    "reviewer_kind": "ai",
+    "reviewer": "/root/v5_geometry_statistics_finish",
+    "reviewed_at": "2026-10-27",
+    "scope": "读取当前作者题面、答案、具体目标映射、19卡目标说明和自检，核对实际SVG；不声称教师独立审核或课堂效果验证。"
+  },
+  "validation": {
+    "command": "../cnkg-venv/bin/python -B -m unittest tests.test_statistics_alignment_v5 -v",
+    "tests_passed": 12,
+    "failures": 0,
+    "preview": {
+      "type": "embedded_source_svg_browser_preview",
+      "browser": "Chrome Headless Shell 151.0.7922.34",
+      "font": "Noto Sans CJK SC",
+      "viewed": true,
+      "checked": [
+        "数学条件对应图形",
+        "刻度与坐标反算",
+        "文字无裁切且中文可读",
+        "相关任务各自使用正确图示"
+      ],
+      "limits": "作者图示实际预览，不替代完整应用页面和固定提交验收。",
+      "artifacts": [
+        {
+          "path": "build/v5-batch2-geometry-statistics-preview/page-0.png",
+          "sha256": "ec5d8cb793f9fd20e7b9ec63ca088148f86dcf7c4db4ac4d969cf83e8c89afd3"
+        },
+        {
+          "path": "build/v5-batch2-geometry-statistics-preview/page-1.png",
+          "sha256": "52972707adbf2f559d188c5366f11edbde9b589bc3a9727b1b8d3db2da46e04e"
+        },
+        {
+          "path": "build/v5-batch2-geometry-statistics-preview/page-2.png",
+          "sha256": "388e78904223b2e53e1137b027d2af4977988052a15ff4f9c7948db392bc4639"
+        },
+        {
+          "path": "build/v5-batch2-geometry-statistics-preview/page-3.png",
+          "sha256": "6ea2e07b12e3100daf32e60a96424c03d58be8e37db52a41c4e34854ff9438b8"
+        }
+      ]
+    }
+  },
+  "hash_scope_note": "这些是本次审查时刻的作者文件哈希；共享的整本来源文件可能继续由其他主题作者修改，最终固定提交必须重新核对影响清单和全体源哈希。"
+}

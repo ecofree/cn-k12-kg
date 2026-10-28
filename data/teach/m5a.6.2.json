@@ -1,52 +1,156 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m5a.6.2",
- "name": "三角形的面积",
- "tier": "core",
- "hook": "三角形面积为什么要除以 2？这个 2 是从哪儿来的？",
- "definition": "两个完全一样的三角形可以拼成一个平行四边形，底和高都与原来相同，所以三角形面积 = 底×高÷2。",
- "why": "拼出来的平行四边形，面积是底×高；一个三角形正好占它的一半，所以要除以 2。这个 2 不是背下来的系数，是「两个三角形拼一个平行四边形」的结果。",
- "when_to_use": [
-  "已知底和高求面积",
-  "已知面积和底反求高",
-  "比较等底等高的三角形面积"
- ],
- "steps": [
-  "找准对应的底和高（高要垂直于这条底）",
-  "底 × 高",
-  "除以 2",
-  "单位写成平方单位"
- ],
- "worked_example": {
-  "prompt": "底 6 厘米、高 4 厘米的三角形，面积是多少平方厘米？",
-  "verify": "6*4/2",
-  "answer": "12",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "hand",
+  "topicId": "m5a.6.2",
+  "name": "三角形的面积",
+  "tier": "core",
+  "hook": "三角形面积为什么要除以 2？这个 2 是从哪儿来的？",
+  "definition": "两个完全一样的三角形可以拼成一个平行四边形，底和高都与原来相同，所以三角形面积 = 底×高÷2。",
+  "why": "拼出来的平行四边形，面积是底×高；一个三角形正好占它的一半，所以要除以 2。这个 2 不是背下来的系数，是「两个三角形拼一个平行四边形」的结果。",
+  "when_to_use": [
+    "已知底和高求面积",
+    "已知面积和底反求高",
+    "比较等底等高的三角形面积"
+  ],
   "steps": [
-   "拿两个完全一样的三角形，一正一反拼起来。",
-   "拼成的平行四边形底 6、高 4，面积 6×4=24。",
-   "一个三角形是它的一半：24÷2=12 平方厘米。"
-  ]
- },
- "pitfalls": [
-  "忘记除以 2，把三角形面积算成平行四边形的面积。",
-  "用斜边当高。",
-  "以为「等底等高」要求形状也一样——其实只要底和高相同，面积就相同。"
- ],
- "practice": [
-  {
-   "id": "m5a.6.2-q1",
-   "note": "标准型：底×高÷2"
+    "找准对应的底和高（高要垂直于这条底）",
+    "底 × 高",
+    "除以 2",
+    "单位写成平方单位"
+  ],
+  "worked_example": {
+    "prompt": "底 6 厘米、高 4 厘米的三角形，面积是多少平方厘米？",
+    "verify": "6*4/2",
+    "answer": "12",
+    "steps": [
+      "拿两个完全一样的三角形，一正一反拼起来。",
+      "拼成的平行四边形底 6、高 4，面积 6×4=24。",
+      "一个三角形是它的一半：24÷2=12 平方厘米。"
+    ],
+    "family_id": "geometry.triangle-base-height-area",
+    "variant_id": "m5a.6.2:worked_example:v6",
+    "representation": "geometry",
+    "cognitive_demand": "explain",
+    "diagram": {
+      "src": "/static/diagrams/primary-v6-triangle-area.svg",
+      "alt": "底6厘米、高4厘米的蓝色三角形与一个全等橙色三角形反向拼接，两片形成底6厘米、高4厘米的平行四边形。"
+    },
+    "reference_family_ids": [
+      "geometry.triangle-area-duplicate"
+    ]
   },
-  {
-   "id": "m5a.6.2-q2",
-   "note": "说清「为什么要除以 2」"
+  "pitfalls": [
+    "忘记除以 2，把三角形面积算成平行四边形的面积。",
+    "用斜边当高。",
+    "以为「等底等高」要求形状也一样——其实只要底和高相同，面积就相同。"
+  ],
+  "practice": [
+    {
+      "id": "m5a.6.2-q1",
+      "note": "标准型：底×高÷2"
+    },
+    {
+      "id": "m5a.6.2-q2",
+      "note": "说清「为什么要除以 2」"
+    },
+    {
+      "id": "m5a.6.2-q90",
+      "note": "数字换一组，确认没有漏除 2"
+    }
+  ],
+  "check": "能用两个三角形拼成平行四边形解释「÷2」，并算对底 13、高 26 的面积 169。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   },
-  {
-   "id": "m5a.6.2-q90",
-   "note": "数字换一组，确认没有漏除 2"
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能说清三角形面积为什么除以 2",
+      "explanation": "两个全等三角形拼成与原底高相同的平行四边形，单个面积是一半。",
+      "self_check": {
+        "prompt": "为什么三角形面积公式要除以2？用拼图解释。",
+        "reference_answer": "底×高算出的是两个全等三角形的总面积，所以一个需除以2。",
+        "criteria": [
+          "两个全等三角形",
+          "一半关系"
+        ],
+        "family_id": "geometry.triangle-area-duplicate",
+        "variant_id": "m5a.6.2:criterion:0:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-triangle-area.svg",
+          "alt": "底6厘米、高4厘米的蓝色三角形与一个全等橙色三角形反向拼接，两片形成底6厘米、高4厘米的平行四边形。"
+        },
+        "reference_family_ids": [
+          "geometry.parallelogram-corresponding-base-height",
+          "geometry.triangle-base-height-area"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "两个完全相同三角形拼出平行四边形，底×高算一个还是两个原三角形？",
+        "hint": "给两片不同颜色，拼好后总面积由两块同样面积组成，所以求一块要取一半。",
+        "revision_prompt": "用同底高的三角形与平行四边形作纸片对照，先预测面积关系再拼两片验证，保留剪拼记录。"
+      },
+      "observation_note": "观察除以2的面积来源；只背一半不能证明已经找到一组对应底高。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能计算三角形的面积",
+      "explanation": "三角形面积使用所选底及垂直于它的高，钝角时高可在外部。",
+      "self_check": {
+        "prompt": "底10厘米、对应高6厘米的三角形面积是多少？",
+        "reference_answer": "10×6÷2=30平方厘米。",
+        "criteria": [
+          "公式含除以2",
+          "平方单位正确"
+        ],
+        "family_id": "geometry.triangle-base-height-area",
+        "variant_id": "m5a.6.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.parallelogram-corresponding-base-height",
+          "geometry.triangle-area-duplicate"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "10×6得到的是三角形面积，还是等底等高平行四边形面积？",
+        "hint": "先画一份三角形及复制的一份，两份合计60，原来一份30。",
+        "revision_prompt": "底8厘米、对应高7厘米的三角形求面积，另给斜边9厘米时说明为什么不用9。"
+      },
+      "observation_note": "观察公式中的半与对应高；钝角外高仍需在图中确认。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由三角形面积和底求对应高",
+      "explanation": "三角形面积=底×对应高÷2。由面积求高应先把面积乘2，再除以底，不能漏掉反向恢复的2。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：一个三角形的面积是 24 平方厘米，底是 8 厘米。它的高是多少厘米？\n写出每个问题的答案，并用算式、画图或文字说明怎样得到。用过提示或参考的地方也记下来。",
+        "reference_answer": "情境1参考：6。2×24÷8=6厘米。",
+        "criteria": [
+          "反求高时正确恢复二分之一因子",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "geometry.triangle-height-from-area",
+        "variant_id": "m5a.6.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "仅观察所提交的数值、名称或方案；不把未提交的列式、解释、作图及选择算法过程记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你从面积反推时是否仍除以2，或直接用面积÷底？",
+        "hint": "先写2×面积=底×高，再找未知高。",
+        "revision_prompt": "先回答这个辨别问题：你从面积反推时是否仍除以2，或直接用面积÷底？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；反求高时正确恢复二分之一因子。"
+      }
+    }
+  ],
+  "diagram": {
+    "src": "/static/diagrams/primary-v6-triangle-area.svg",
+    "alt": "底6厘米、高4厘米的蓝色三角形与一个全等橙色三角形反向拼接，两片形成底6厘米、高4厘米的平行四边形。"
   }
- ],
- "check": "能用两个三角形拼成平行四边形解释「÷2」，并算对底 13、高 26 的面积 169。"
 }

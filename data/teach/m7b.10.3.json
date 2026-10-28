@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.10.3",
+  "name": "实际问题与二元一次方程组",
+  "tier": "core",
+  "hook": "总件数与总费用分别约束同一批物品时，怎样同时利用两条信息？",
+  "definition": "把实际问题中的两个等量关系分别译成二元一次方程，联立求解后还要检验解是否符合实际意义。",
+  "why": "两个等量关系对同一组未知量提供独立约束；只用总数通常有很多可能，再加入费用才可能确定各自数量。代数结果还必须满足单位、非负和整数等情境要求。",
+  "when_to_use": [
+    "出现两类物品且已知总数与总价",
+    "单个方程不能确定两个未知量"
+  ],
+  "steps": [
+    "给两类未知量设字母并写单位",
+    "分别写两条独立等量关系",
+    "解方程组并按原情境逐条核查"
+  ],
+  "worked_example": {
+    "prompt": "成人票20元、学生票12元，共买10张花160元。两类各多少张？",
+    "answer": "成人票5张，学生票5张",
+    "steps": [
+      "设成人票x张、学生票y张，得x+y=10、20x+12y=160。",
+      "由y=10−x代入得8x=40，x=5、y=5；总数10且费用160，符合条件。"
+    ],
+    "family_id": "system.model.count-and-cost",
+    "variant_id": "m7b.10.3:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "model"
+  },
+  "pitfalls": [
+    "两条方程若只是互相倍乘，不提供第二条独立信息。",
+    "人数张数需整数，负值或小数解不能照搬到情境。"
+  ],
+  "check": "独立完成并解释：铅笔2元、圆珠笔5元，共买8支花25元。列出并解方程组。；某活动要求每桌恰坐4人或6人，学生共15人。能否安排若干张满桌？用方程解释。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能从实际问题中找出两个等量关系并列方程组",
+      "explanation": "把两种守恒总量分别写为方程，字母单位保持一致。",
+      "self_check": {
+        "prompt": "铅笔2元、圆珠笔5元，共买8支花25元。列出并解方程组。",
+        "reference_answer": "设两类分别x、y支，x+y=8、2x+5y=25；消元得3y=9，y=3、x=5。",
+        "criteria": [
+          "分别用总支数和总价建模",
+          "解为铅笔5支圆珠笔3支"
+        ],
+        "family_id": "system.model.count-and-cost",
+        "variant_id": "m7b.10.3:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "model"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "x+y=25把数量与哪一种单位混用了？每支价格应乘哪个量？",
+        "hint": "分别列“支数”与“元”两行；每条等式左右量纲一致。",
+        "revision_prompt": "将解(5,3)代回5+3=8和2×5+5×3=25，再说明两种票数模型共用的结构。"
+      },
+      "observation_note": "观察两个独立数量关系、未知数含义和单位；机械列两条相同关系不能求唯一解。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能检验方程组的解是否符合实际",
+      "explanation": "检验需同时回到方程和实际数量要求，不能只看代数运算。",
+      "self_check": {
+        "prompt": "某活动要求每桌恰坐4人或6人，学生共15人。能否安排若干张满桌？用方程解释。",
+        "reference_answer": "设桌数x、y为非负整数，4x+6y=15；左边必为偶数，右边为奇数，因此没有可行安排。",
+        "criteria": [
+          "指出桌数为非负整数",
+          "用奇偶矛盾解释无解"
+        ],
+        "family_id": "system.model.integer-feasibility",
+        "variant_id": "m7b.10.3:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "代数式4x+6y能等于15，是否允许桌数x、y取分数或负数？",
+        "hint": "先写非负整数限制；4x与6y都为偶数，所以总数仍偶数。",
+        "revision_prompt": "把15改成16，给x=1、y=2的可行安排，再对比原题为何无满桌方案。"
+      },
+      "observation_note": "观察方程外的整数限制及不可行解释；不得用小数解或四舍五入冒充实际方案。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由两类对象的总数和加权总量求其中一类数量",
+      "explanation": "两类对象的总数与加权总量提供两条不同关系。可假设全部为一类，再用总量差除以每换一个对象增加或减少的量；也可列方程组求解。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：鸡兔同笼，共有 35 个头、94 只脚。鸡有多少只？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：23。全兔140脚减实际94差46，每只鸡少2脚，鸡23。",
+        "criteria": [
+          "总数、权重差和所求类别对应正确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "system.context.count-weighted-total",
+        "variant_id": "m7b.10.3:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只交鸡数，可用算术假设法，不当作自主提交两个等量关系及方程组。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "总量差是每个对象的差，还是全部对象累计的差？",
+        "hint": "先算全按一种计的基准总量，再算每替换一个改变多少，两者相除。",
+        "revision_prompt": "先回答这个辨别问题：总量差是每个对象的差，还是全部对象累计的差？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；总数、权重差和所求类别对应正确。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由两次购买总价和件数求指定商品单价",
+      "explanation": "两次购买中各商品单价相同，分别按数量乘单价组成总价关系。通过消元求指定单价，所得值要代回两次购买都成立，不能把总价差直接当单价差而忽略数量。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：买 3 件甲商品和 2 件乙商品共 340 元；买 2 件甲商品和 3 件乙商品共 360 元。甲商品每件多少元？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：60。3a+2b340与2a+3b360，相加a+b140，相减a−b−20，a60。",
+        "criteria": [
+          "两次数量与共同单价对应且验证两总价",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "system.context.two-price-totals",
+        "variant_id": "m7b.10.3:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只交单价，不观察自主提交方程组或实际检验过程。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "两次购买的数量差是否恰好是一件？",
+        "hint": "按商品列出两次数量，写两条总价等式后选择能消去一项的组合。",
+        "revision_prompt": "先回答这个辨别问题：两次购买的数量差是否恰好是一件？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；两次数量与共同单价对应且验证两总价。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.10.3-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.10.3-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.10.3-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

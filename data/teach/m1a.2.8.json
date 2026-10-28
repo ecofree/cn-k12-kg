@@ -1,0 +1,159 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "5个红球和3个蓝球，既能提出加法问题，也能提出减法问题吗？",
+  "definition": "同一情境可以从不同的已知条件提出不同问题：已知两部分求整体用加法；已知整体和一部分求另一部分用减法。问题决定数量关系。",
+  "why": "整体与部分的关系始终是两部分合成整体。把未知量放在不同位置，就产生不同算式；不是看到某个词就固定用加法或减法。",
+  "when_to_use": [
+    "一幅图给出两个部分，需要自己提出数学问题",
+    "总数与部分都出现，要判断到底求哪个量"
+  ],
+  "steps": [
+    "标出整体及两个部分，写清每个数量。",
+    "确定问题中哪个量未知，划掉与问题无关的信息。",
+    "求整体列加法，求部分列减法，计算并口头解释。"
+  ],
+  "worked_example": {
+    "prompt": "红球5个、蓝球3个。提出一加一减两个问题并解答。",
+    "steps": [
+      "问一共有几个：5+3=8（个）。",
+      "已知共8个、红球5个，问蓝球几个：8−5=3（个）。"
+    ],
+    "answer": "加法问题得8个；减法问题得3个",
+    "family_id": "primary.parts.pose-inverse-problem",
+    "variant_id": "m1a.2.8:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "提出的问题必须有足够条件，不能只写“多少”。",
+    "总数已含两种球，再加一种会重复计算。"
+  ],
+  "check": "先独立完成下面各项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m1a.2.8",
+  "name": "用加、减法解决问题",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能根据同一情境提出加法与减法问题",
+      "explanation": "同一幅分组图可先求整体，再把整体作为已知求部分。",
+      "self_check": {
+        "prompt": "有4本故事书和2本科普书，提出一加一减两个问题。",
+        "reference_answer": "共有多少本：4+2=6；已知共有6本、科普书2本，故事书多少本：6−2=4。",
+        "criteria": [
+          "两个问题完整",
+          "一题求整体、一题求部分"
+        ],
+        "family_id": "primary.parts.pose-inverse-problem",
+        "variant_id": "m1a.2.8:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "number.missing-part-story",
+          "primary.add.combine-parts"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“4本故事书、2本科普书”直接问故事书几本，是新问题还是重复已知条件？",
+        "hint": "先求两种书共6本；再把6本和其中2本作为已知，遮住故事书数量来提问。",
+        "revision_prompt": "换成3支红笔和5支蓝笔，写一个求总数的问题；把总数补入条件，再写求其中一部分的问题。"
+      },
+      "observation_note": "观察提出的问题是否条件足够及未知量是否改变；模仿句式不能确认能独立提出新问题。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能选择正确的方法列式计算",
+      "explanation": "选择运算要说明求的是整体还是部分。",
+      "self_check": {
+        "prompt": "一共有9只鸟，其中树上6只，其余在草地。草地几只？",
+        "reference_answer": "9−6=3（只），整体9只去掉树上的6只，留下草地的鸟。",
+        "criteria": [
+          "正确列9−6",
+          "说明差的意义"
+        ],
+        "family_id": "number.missing-part-story",
+        "variant_id": "m1a.2.8:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.add.combine-parts"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "9只总鸟数里是否已经包括树上的6只？若再相加会怎样？",
+        "hint": "把9个点圈成整体，在其中圈出6个树上鸟，未圈的部分是草地鸟。",
+        "revision_prompt": "共有8个球，其中3个红球，其余蓝球，画图并求蓝球；用两部分相加检查8。"
+      },
+      "observation_note": "观察整体与部分辨认和减法；此题不能观察“重叠分类”情形。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能在给定的部分与整体情境中选出对应未知部分的减法问题及算式",
+      "explanation": "部分与整体相互对应：已知整体和其中一部分，可求另一部分。选择题里的条件、所问部分和减法算式须同时对应。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：花篮有红花4朵、黄花5朵。先求出共9朵后，要提出一道求红花数量的减法问题，哪个条件与算式对应？ 可选：o1．共9朵、黄花5朵，红花9−5朵；o2．红花4朵、黄花5朵，共4+5朵；o3．红花4朵、黄花5朵，红花4+5朵。\n写出每个问题的答案。可以用小棒、画图或算式说明你怎样想；用了提示或参考，也记下来。",
+        "reference_answer": "情境1参考：共9朵、黄花5朵，红花9−5朵。整体9、黄花5，给定方案中求红花对应9−5=4。",
+        "criteria": [
+          "问题所求与被减去的已知部分对应正确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "primary.add.choose-inverse-question",
+        "variant_id": "m1a.2.8:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "选择已有问题和算式，不证明能自主提出加减两类问题。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "算式中减去的是已知部分，还是题目想求的部分？",
+        "hint": "在整体框中标出已经知道的一部分；空着的另一部分才是所求。",
+        "revision_prompt": "先回答这个辨别问题：算式中减去的是已知部分，还是题目想求的部分？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；问题所求与被减去的已知部分对应正确。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由两个部分合并后的总量再求移去一部分后的剩余量",
+      "explanation": "按实际发生顺序记录数量，减少就从当时数量扣除，增加就计入。每一步的结果是下一步起点，已发生的变化不能重复计算。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：书桌上故事书3本、画册4本。把它们放进一个空书袋，再拿走2本，袋里还剩几本？\n写出每个问题的答案。可以用小棒、画图或算式说明你怎样想；用了提示或参考，也记下来。",
+        "reference_answer": "情境1参考：5。3+4合成7，再减2得5。",
+        "criteria": [
+          "按顺序更新数量，没有重复计入同一次变化",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "primary.change.sequential-add-subtract",
+        "variant_id": "m1a.2.8:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "仅观察所提交的数值、名称或方案；不把未提交的列式、解释、作图及选择算法过程记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你第二步仍从原来数量开始，还是从第一步后的数量开始？",
+        "hint": "画“原来→第一次后→第二次后”三个框，把每次增加或减少分别写在箭头上。",
+        "revision_prompt": "先回答这个辨别问题：你第二步仍从原来数量开始，还是从第一步后的数量开始？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；按顺序更新数量，没有重复计入同一次变化。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m1a.2.8-q1",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1a.2.8-q102",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1a.2.8-q2",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

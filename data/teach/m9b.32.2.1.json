@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m9b.32.2.1",
+  "name": "解直角三角形",
+  "tier": "core",
+  "hook": "同样给一个锐角，何时该用sin，何时用cos或tan？",
+  "definition": "由直角三角形中已知的边和角求其余未知元素叫解直角三角形；常用关系有勾股定理、两锐角互余和三角函数。",
+  "why": "三角函数各连接不同的一对边，选择同时包含已知边与目标边的比值，就能直接解出未知量。若选入第三条未知边会增加不必要步骤；直角三角形中两锐角互余也能补齐角信息。",
+  "when_to_use": [
+    "直角三角形中给一锐角及一边",
+    "已知两边需要求其余边角"
+  ],
+  "steps": [
+    "先用直角和指定角标出三条边角色",
+    "选能直接连接已知量与未知量的比值",
+    "解边长再利用勾股或互余补全并检查"
+  ],
+  "worked_example": {
+    "prompt": "Rt△ABC中C为直角，A=30°，AB=12，求BC、AC及∠B。",
+    "answer": "BC=6，AC=6√3，∠B=60°",
+    "steps": [
+      "BC为A的对边，AB为斜边，sin30°=BC/12=1/2，所以BC=6。",
+      "两锐角互余，∠B=90°−30°=60°。",
+      "另外AC=12cos30°=6√3，因此两条未知边和另一锐角都已求出。"
+    ],
+    "family_id": "right-triangle.solve.hypotenuse-angle",
+    "variant_id": "m9b.32.2.1:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "execute"
+  },
+  "pitfalls": [
+    "不要根据“看到角就用sin”机械选公式，应看涉及哪两边。",
+    "计算器若用于角度题应设度模式，结果还需核查范围。"
+  ],
+  "check": "独立完成并解释：直角三角形锐角A=30°、斜边10，求两个直角边及另一个锐角，写所用关系。；一个直角三角形的锐角A=45°，与∠A相邻的直角边长8厘米，求∠A的对边长（厘米）。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能选择合适的三角函数解直角三角形",
+      "explanation": "完整解直角三角形需补齐未知边角；已知斜边和锐角时可分别用正弦、余弦求两直角边，并用互余求另一锐角。",
+      "self_check": {
+        "prompt": "直角三角形锐角A=30°、斜边10，求两个直角边及另一个锐角，写所用关系。",
+        "reference_answer": "对A的边=10sin30°=5，邻直角边=10cos30°=5√3，另一锐角=90°−30°=60°。",
+        "criteria": [
+          "sin和cos各对应正确边",
+          "两边5、5√3和角60°齐全"
+        ],
+        "family_id": "right-triangle.solve.hypotenuse-angle",
+        "variant_id": "m9b.32.2.1:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "choose_strategy",
+        "reference_family_ids": [
+          "pythagoras.find-hypotenuse"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "已知斜边10和A=30°，两直角边应分别与哪个比值相乘？",
+        "hint": "列sin A=对边/10、cos A=邻边/10，再用锐角互余求另一角。",
+        "revision_prompt": "求5、5√3、60°后核对5²+(5√3)²=100，三角和180°。"
+      },
+      "observation_note": "观察选择关系并求全未知元素；只求一条边不能算解完直角三角形。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能正确选用 sin、cos、tan",
+      "explanation": "sin连对斜，cos连邻斜，tan连对邻，选择依赖边的位置。",
+      "self_check": {
+        "prompt": "一个直角三角形的锐角A=45°，与∠A相邻的直角边长8厘米，求∠A的对边长（厘米）。 请写出判断或计算依据。",
+        "reference_answer": "已知邻直角边求对边，应选tan A=对边/邻边；tan45°=1，所以对边=8厘米。",
+        "criteria": [
+          "选择tan45°",
+          "对边8"
+        ],
+        "family_id": "right-triangle.choose-tangent.opposite-adjacent",
+        "variant_id": "m9b.32.2.1:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "choose_strategy"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "已知邻直角边8、求对边，哪个比直接包含这两边而无需斜边？",
+        "hint": "tan A=对/邻，设对边x得x/8=tan45°=1。",
+        "revision_prompt": "把角改为30°，得x=8/√3=8√3/3，说明可直接用tan不用先造斜边。"
+      },
+      "observation_note": "观察关系选择基于已知与所求；合法其他解法也可，但必须保持边角色。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由30度角直角三角形的斜边求该角对边",
+      "explanation": "直角三角形中，30°角的对边等于斜边的一半，也可由sin30°=对边÷斜边=1/2得到。对边必须相对于给定的30°角确定，斜边则是直角对面的最长边，不能把邻直角边误当对边。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：直角三角形中，角 A 是 30°，斜边长 10 厘米。角 A 的对边长多少厘米？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：5。30°对边为斜边一半，10/2=5。",
+        "criteria": [
+          "以30°角为基准正确认对边和斜边，使用对边等于斜边一半的关系",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "right-triangle.thirty-degree-opposite",
+        "variant_id": "m9b.32.2.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "所求边在30°角对面，还是紧挨这个角？10厘米是斜边还是一条直角边？",
+        "hint": "先标出直角和30°角，用“正对30°的边÷斜边=1/2”填写已知量，再求缺少的长度。",
+        "revision_prompt": "先回答这个辨别问题：所求边在30°角对面，还是紧挨这个角？10厘米是斜边还是一条直角边？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；以30°角为基准正确认对边和斜边，使用对边等于斜边一半的关系。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由已给正切值与邻直角边求对边",
+      "explanation": "锐角A的正切为对边长度除以邻直角边长度，斜边不在这个比值中。已给tan A与邻直角边时，对边=邻直角边×tan A；正切值可以大于1，这只表示对边比邻直角边长。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：直角三角形中，锐角A的正切值是1.5，角A的邻直角边长8厘米。角A的对边长多少厘米？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：12。tan A已给1.5，邻8，所求对边8×1.5=12。",
+        "criteria": [
+          "正确使用已给正切值与邻直角边求对边，不以斜边替换邻直角边",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "trigonometry.given-tangent.find-opposite",
+        "variant_id": "m9b.32.2.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "8厘米是邻直角边还是斜边？正切值1.5是否被误认成不可能的概率或正弦值？",
+        "hint": "在以A为基准的两条直角边上分别标对、邻，先写tan A=对÷邻，再乘回已知的邻边。",
+        "revision_prompt": "先回答这个辨别问题：8厘米是邻直角边还是斜边？正切值1.5是否被误认成不可能的概率或正弦值？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；正确使用已给正切值与邻直角边求对边，不以斜边替换邻直角边。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m9b.32.2.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9b.32.2.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9b.32.2.1-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

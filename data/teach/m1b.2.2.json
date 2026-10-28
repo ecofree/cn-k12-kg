@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m1b.2.2",
+  "name": "十几减8、7、6",
+  "tier": "tool",
+  "hook": "用破十法算13−7。",
+  "definition": "十几减8、7、6，个位不够减时，可以拆成10与个位数，先算10减去减数，再与原个位数相加。",
+  "why": "13−7可把13拆为10和3：从10拿走7剩3，另有原来的3，共6。原来两部分只是重新组织，没有增加物体。",
+  "conditions": [
+    "被减数为十几，减数为8、7或6，结果非负。",
+    "本卡重点观察个位不够减的情况。"
+  ],
+  "representation_note": "用十根一堆与个位单根两部分，标出“十中减剩”与“原有单根”。",
+  "when_to_use": [
+    "被减数为十几，减数为8、7或6，结果非负。",
+    "本卡重点观察个位不够减的情况。"
+  ],
+  "steps": [
+    "判断个位是否不够减。",
+    "把十几拆成10和个位数。",
+    "只从10中减去8、7或6。",
+    "把十中剩下的与原个位相加，再加回减数检查。"
+  ],
+  "worked_example": {
+    "prompt": "用破十法算13−7。",
+    "steps": [
+      "13=10+3；10−7=3。",
+      "再把原来的3加上：3+3=6。",
+      "6+7=13，检查通过。"
+    ],
+    "answer": "6",
+    "family_id": "primary.subtract.break-ten",
+    "variant_id": "m1b.2.2:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "verify": "13-7"
+  },
+  "pitfalls": [
+    "13−7中两个3含义不同：一个是十中减剩的，一个是原来的个位。",
+    "个位本来够减时也能用破十，但可直接减个位，不必强求一种方法。"
+  ],
+  "practice": [
+    {
+      "id": "m1b.2.2-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m1b.2.2-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "破十中的第一步随减数变化：10−8=2、10−7=3、10−6=4。随后加原个位数，例如12−8=2+2=4。",
+      "observation_note": "本项观察三个结果正确、第一步随减数改变；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "用破十法算11−6、14−8、12−7。",
+        "reference_answer": "11−6=4+1=5；14−8=2+4=6；12−7=3+2=5。",
+        "criteria": [
+          "三个结果正确",
+          "第一步随减数改变"
+        ],
+        "family_id": "subtraction.break-ten",
+        "variant_id": "m1b.2.2:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "placevalue.unbundle-and-remove"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把十根拿走8根后还剩1根还是2根？",
+        "hint": "每次第一步都要重新看减数，不能照搬10−9。",
+        "revision_prompt": "在错题旁补写10−减数，再加原来的个位数。"
+      },
+      "criterion_index": 0,
+      "title": "能用破十法计算十几减 8、7、6"
+    },
+    {
+      "explanation": "说明计算时，先交代总数拆成哪两部分，再交代哪部分去掉几，最后说明合并哪些剩余，避免只写三个无来由的数。",
+      "observation_note": "本项观察拆分与取走对象清楚、用加法返回原数；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "请用小棒解释14−6的两步，并写出加法检查。",
+        "reference_answer": "14拆成10与4；10−6剩4，再加原来的4得8；8+6=14。",
+        "criteria": [
+          "拆分与取走对象清楚",
+          "用加法返回原数"
+        ],
+        "family_id": "subtraction.break-ten",
+        "variant_id": "m1b.2.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.subtraction-addition-inverse",
+          "primary.add.single-digit-facts"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "14−6时原来的4根单棒有没有被拿走？",
+        "hint": "把未动的4根圈起来，最后必须合到剩余中。",
+        "revision_prompt": "画出两堆，分别写“10−6剩4”和“原来4”，再写4+4。"
+      },
+      "criterion_index": 1,
+      "title": "能正确说出计算过程"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

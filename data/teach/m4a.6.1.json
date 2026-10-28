@@ -1,52 +1,130 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m4a.6.1",
- "name": "单式条形统计图",
- "tier": "core",
- "hook": "同一张图里，直条的高矮到底在说什么？为什么不能只看「看起来高很多」？",
- "definition": "单式条形统计图用直条长短表示一类数据的多少，一格可以表示 1 个或多个单位，便于直观比较数量。",
- "why": "条形图把「数量」映射成「长度」，人眼对长度差别最敏感，所以比较快。但读图必须先看纵轴一格代表多少、是不是从 0 开始——否则「看起来高」可能只是刻度被截断造成的错觉。",
- "when_to_use": [
-  "只需要比较同类数据的多少",
-  "数据是几个并列的类别（班级、月份、项目）",
-  "题目要求「从图中读出」「补全统计图」"
- ],
- "steps": [
-  "先看纵轴：一格代表多少、起点是不是 0",
-  "读直条顶端对应的数",
-  "比较长短得出多少关系",
-  "补图时先算「这个数要画几格」再画"
- ],
- "worked_example": {
-  "prompt": "条形统计图中 A 班 25 人、B 班 30 人，两班相差几人？",
-  "verify": "30-25",
-  "answer": "5",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "hand",
+  "topicId": "m4a.6.1",
+  "name": "单式条形统计图",
+  "tier": "core",
+  "hook": "同一张图里，直条的高矮到底在说什么？为什么不能只看「看起来高很多」？",
+  "definition": "单式条形统计图用直条长短表示一类数据的多少，一格可以表示 1 个或多个单位，便于直观比较数量。",
+  "why": "条形图用共同刻度上的长度表示数量，使同一坐标系中各组更容易比较。读图先查纵轴单位、每格数值及是否从0开始；截断起点会改变条长比例的视觉含义，结论仍应根据刻度读数。",
+  "when_to_use": [
+    "只需要比较同类数据的多少",
+    "数据是几个并列的类别（班级、月份、项目）",
+    "题目要求「从图中读出」「补全统计图」"
+  ],
   "steps": [
-   "先从纵轴读出两个班的人数：A 班 25，B 班 30。",
-   "求相差多少用减法：30-25。",
-   "30-25=5 人。"
-  ]
- },
- "pitfalls": [
-  "一格代表 2 人，却按 1 人读，所有数据都少一半。",
-  "纵轴起点不是 0，把「看起来差很多」当成实际差很多。",
-  "把直条的宽度当成数量，或把直条数量当成类别数。"
- ],
- "practice": [
-  {
-   "id": "m4a.6.1-q1",
-   "note": "读图后求差"
+    "先看纵轴：一格代表多少、起点是不是 0",
+    "读直条顶端对应的数",
+    "比较长短得出多少关系",
+    "补图时先算「这个数要画几格」再画"
+  ],
+  "worked_example": {
+    "prompt": "读本课顶部每格5人的条形图：A班和B班相差多少人？先从刻度读数，再比较。",
+    "verify": "30-25",
+    "answer": "5",
+    "steps": [
+      "先从纵轴读出两个班的人数：A 班 25，B 班 30。",
+      "求相差多少用减法：30-25。",
+      "30-25=5 人。"
+    ],
+    "family_id": "statistics.bar-axis-reading",
+    "variant_id": "m4a.6.1:worked-v5",
+    "representation": "graph",
+    "cognitive_demand": "execute",
+    "diagram": {
+      "src": "/static/diagrams/primary-single-bar-scale.svg",
+      "alt": "单式条形统计图纵轴从0开始，以人计，每格5人；A班条高25人，B班30人。横轴分别标两班，不在条顶额外写出比较结果。"
+    },
+    "reference_family_ids": [
+      "primary.compare.difference"
+    ]
   },
-  {
-   "id": "m4a.6.1-q2",
-   "note": "说清直条长短表示什么"
+  "pitfalls": [
+    "一格代表2人却按1人读，会把数据读错一倍。",
+    "纵轴不从0开始时，条形长度比例可能误导数量比较。",
+    "条宽不表示数量，读数应依据条的高度及对应刻度。"
+  ],
+  "practice": [
+    {
+      "id": "m4a.6.1-q1",
+      "note": "读图后求差"
+    },
+    {
+      "id": "m4a.6.1-q2",
+      "note": "说清直条长短表示什么"
+    }
+  ],
+  "check": "先独立完成本页两项自检，保留计算或判断过程；再逐项核对参考与观察边界，按具体困难修订。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   },
-  {
-   "id": "m4a.6.1-q9",
-   "note": "辨析：一格可以代表多个单位"
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能读懂单式条形统计图",
+      "explanation": "先读标题、类别、单位及每格数值，再把条高对应到数据；不可用条宽判断大小。",
+      "self_check": {
+        "prompt": "读这道自检附的条形图：先写纵轴单位与每格人数，再分别读出A班、B班人数。请说明读数依据。",
+        "reference_answer": "A班8人，B班12人；每格代表2人。",
+        "criteria": [
+          "正确读比例尺",
+          "两数正确"
+        ],
+        "family_id": "statistics.bar-axis-reading",
+        "variant_id": "m4a.6.1:criterion-0-v5",
+        "representation": "graph",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/statistics-v5-bar-self-check.svg",
+          "alt": "自检图：纵轴从0到14人，每格2人；A班8人、B班12人，C班位置留空待按10人补画。"
+        },
+        "reference_family_ids": [
+          "primary.compare.difference"
+        ]
+      },
+      "observation_note": "观察是否按单位和刻度把条高转为数量；单次读对两个数还不能确认会识别截断轴，也不能确认会作图。",
+      "difficulty_support": {
+        "discriminating_prompt": "配图A班条高4格。有人写4人，是读对了还是把格数当人数？",
+        "hint": "纵轴每格代表2人，从0起算，4格对应4×2=8人。",
+        "revision_prompt": "在纸上先给每条顶端画水平辅助线到纵轴，再读A、B人数；最后用每格2人解释差值。"
+      }
+    },
+    {
+      "criterion_index": 1,
+      "title": "能根据数据补全统计图",
+      "explanation": "补图时沿用原刻度，条形宽度一致，底部从相同基准出发。",
+      "self_check": {
+        "prompt": "用这道自检附的图，在纸上为C班10人补画直条。条高应占几格？说明共同基准、刻度和类别标记。",
+        "reference_answer": "10÷2=5格；从0基准画5格高，与其他条同宽，并标C班。",
+        "criteria": [
+          "高度5格",
+          "同一尺度与类别标记"
+        ],
+        "family_id": "statistics.bar-completion-fixed-scale",
+        "variant_id": "m4a.6.1:criterion-1-v5",
+        "representation": "graph",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/statistics-v5-bar-self-check.svg",
+          "alt": "自检图：纵轴从0到14人，每格2人；A班8人、B班12人，C班位置留空待按10人补画。"
+        },
+        "reference_family_ids": [
+          "statistics.bar-axis-reading"
+        ]
+      },
+      "observation_note": "观察所画条形是否共用0基准、每格2人的刻度及类别标签；只写“5格”还需查看实际补图的高度和位置。",
+      "difficulty_support": {
+        "discriminating_prompt": "C班10人，有人把直条画到纵轴10格处，哪里混淆了？",
+        "hint": "人数10除以每格2人，得到5格；10人不是10格。",
+        "revision_prompt": "在留空C位置从0基准画5格高，与A、B同宽，标清类别并再从纵轴读回10人。"
+      }
+    }
+  ],
+  "diagram": {
+    "src": "/static/diagrams/primary-single-bar-scale.svg",
+    "alt": "单式条形统计图纵轴从0开始，以人计，每格5人；A班条高25人，B班30人。横轴分别标两班，不在条顶额外写出比较结果。"
   }
- ],
- "check": "能说出「一格代表几人」，并正确读出任意一条直条的数值。"
 }

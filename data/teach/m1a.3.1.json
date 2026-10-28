@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m1a.3.1",
+  "name": "认识立体图形",
+  "tier": "tool",
+  "hook": "一个盒子和一个球都能拿在手里，它们摸起来有什么不同？",
+  "definition": "长方体、正方体、圆柱和球是四类常见立体形状。认形状时看平面、曲面和相邻面的样子，不只看颜色或大小。",
+  "why": "拿盒子轻放在桌面，能找到平平的面；转动圆柱能看到两个圆形平面和弯曲侧面；球的表面都是弯曲的。换颜色、换摆法不会改变这些形状特征。",
+  "conditions": [
+    "用盒子、积木、圆柱模型和球作直接观察。",
+    "物品可近似这些形状，不把把手和包装细节当整体形状。"
+  ],
+  "representation_note": "准备四种模型，摸平面与曲面、转一转；圆柱和球都可能滚动，因此不能只凭能滚来分类。",
+  "when_to_use": [
+    "用盒子、积木、圆柱模型和球作直接观察。",
+    "物品可近似这些形状，不把把手和包装细节当整体形状。"
+  ],
+  "steps": [
+    "逐个摸看模型的平面与弯曲部分。",
+    "转动模型，找在别的方向能看到的面。",
+    "说出名称，并用一个特征解释；再换摆法核对。"
+  ],
+  "worked_example": {
+    "prompt": "桌上有正方体积木与圆柱模型，怎样区分？",
+    "steps": [
+      "积木各面是同样大的正方形，圆柱两端是圆形平面。",
+      "把两件模型都转动，特征不因摆法改变。"
+    ],
+    "answer": "正方体积木；圆柱模型。",
+    "family_id": "geometry.solid-feature-sort",
+    "variant_id": "m1a.3.1:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "球没有平平的面，圆柱却有；能滚不能单独区分。",
+    "正方体是特殊长方体；本卡用最具体的名称描述它。"
+  ],
+  "practice": [
+    {
+      "id": "m1a.3.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m1a.3.1-q3",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "盒状物可近似长方体，六个面同样大的正方形积木是正方体，两个等大的圆形平面和弯曲侧面形成圆柱，球表面没有平面。",
+      "observation_note": "观察实物辨认与摆法变化；只会背名称仍未展示依据。",
+      "self_check": {
+        "prompt": "用四种模型分别指出长方体、正方体、圆柱、球，再换一个摆法重新指认。",
+        "reference_answer": "四个名称与模型对应，换摆法后名称保持。",
+        "criteria": [
+          "四类对应正确",
+          "转动后仍按特征辨认"
+        ],
+        "family_id": "geometry.solid-classify-features",
+        "variant_id": "m1a.3.1:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.cylinder-surface-count"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把圆柱横放后，它变成球了吗？",
+        "hint": "摸两端，圆柱仍有两个圆形平面。",
+        "revision_prompt": "重分模型并给每类贴上一个形状特征标签。"
+      },
+      "criterion_index": 0,
+      "title": "能辨认长方体、正方体、圆柱、球"
+    },
+    {
+      "explanation": "逐一说四类特征：长方体有平平的长方形面；正方体六个面是同样大的正方形；圆柱有两个圆形平面和弯曲侧面；球没有平平的面。",
+      "observation_note": "观察四类描述与反例；文字记录本身不能独自验证是否实际摸看，须保留操作图或同伴观察记录，不要求记全棱与顶点数。",
+      "self_check": {
+        "prompt": "依次拿起长方体、正方体、圆柱和球模型，每种说一个显著特征并指给同伴看；再说明能滚为什么不足以只认出球。",
+        "reference_answer": "长方体有长方形平面；正方体各面同样大且为正方形；圆柱有圆形平面和曲面；球表面弯曲、无平面。球和侧放圆柱都可能滚。",
+        "criteria": [
+          "四类各有正确显著特征",
+          "对照模型指出相应部位",
+          "指出能滚不是球独有"
+        ],
+        "family_id": "geometry.solid-classify-features",
+        "variant_id": "m1a.3.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.cylinder-surface-count"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "哪两种模型都能沿桌面滚一滚？",
+        "hint": "分别试球和侧放圆柱，比较两端是否平。",
+        "revision_prompt": "用“有/没有平面”重新补充刚才不够区分的描述。"
+      },
+      "criterion_index": 1,
+      "title": "能说出各立体图形的显著特征"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

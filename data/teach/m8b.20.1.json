@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8b.20.1",
+  "name": "勾股定理及其应用",
+  "tier": "core",
+  "hook": "梯子长10米，底端离墙6米，为什么不能用10−6求高度？",
+  "definition": "直角三角形两条直角边的平方和等于斜边的平方，即 a²+b²=c²；已知任意两边可求第三边，也可用于解决实际测量问题。",
+  "why": "垂直方向与水平方向构成直角，斜边与两直角边满足平方关系，不是长度相加。勾股定理a²+b²=c²把二维长度联系起来，斜边必须是直角对面且最长的一边。",
+  "when_to_use": [
+    "已知直角三角形两边求第三边",
+    "墙地、对角线等情境给出明确垂直关系"
+  ],
+  "steps": [
+    "在模型中标直角并找斜边",
+    "按所求边选择平方和或平方差",
+    "开平方取正长度，再用范围与单位检查"
+  ],
+  "worked_example": {
+    "prompt": "矩形长8厘米、宽6厘米，求对角线长度。",
+    "answer": "10",
+    "steps": [
+      "对角线与一长一宽组成直角三角形，因此d²=8²+6²=100。",
+      "长度d>0，故d=10厘米；它大于任一直角边，合理。"
+    ],
+    "verify": "(8**2+6**2)**0.5",
+    "family_id": "pythagoras.model-rectangle-diagonal",
+    "variant_id": "m8b.20.1:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "model"
+  },
+  "pitfalls": [
+    "没有直角条件时不能直接套勾股定理。",
+    "求直角边应斜边平方减另一直角边平方，不能相加。"
+  ],
+  "check": "独立完成并解释：直角三角形的两条直角边长分别为5、12厘米，求斜边长（厘米）。 请写出判断或计算依据。；长10米的梯子底端距竖直墙6米，地面水平且墙地垂直。梯子顶端距地面多高（米）？ 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能由两边求直角三角形的第三边",
+      "explanation": "先辨认斜边c，再写a²+b²=c²。",
+      "self_check": {
+        "prompt": "直角三角形的两条直角边长分别为5、12厘米，求斜边长（厘米）。 请写出判断或计算依据。",
+        "reference_answer": "斜边平方=5²+12²=169，长度为非负，故斜边=13厘米。",
+        "criteria": [
+          "斜边平方为169",
+          "取正根13"
+        ],
+        "family_id": "pythagoras.find-hypotenuse",
+        "variant_id": "m8b.20.1:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute",
+        "reference_family_ids": [
+          "pythagoras.find-leg"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "斜边是哪条？求得平方169后，长度应写169还是13？",
+        "hint": "直角对边是斜边，平方和给的是长度的平方；长度取正平方根。",
+        "revision_prompt": "若斜边13、直角边5，反求另一边12，说明这次平方关系用减法。"
+      },
+      "observation_note": "观察边的身份、平方关系与正根；未给直角不能直接套公式。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能把实际问题转化为直角三角形模型",
+      "explanation": "实际建模必须解释哪里垂直及各边对应什么量。",
+      "self_check": {
+        "prompt": "长10米的梯子底端距竖直墙6米，地面水平且墙地垂直。梯子顶端距地面多高（米）？ 请写出判断或计算依据。",
+        "reference_answer": "墙、地面、梯子组成直角三角形，梯子为斜边。高度²=10²−6²=64，所以高度为8米。",
+        "criteria": [
+          "墙地垂直且梯为斜边",
+          "10²−6²开方得8"
+        ],
+        "family_id": "pythagoras.model-ladder-height",
+        "variant_id": "m8b.20.1:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "model"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "梯子10米是斜边还是直角边？墙地不垂直时还可直接用此模型吗？",
+        "hint": "草图标出墙地直角、梯子为斜边，列h²+6²=10²。",
+        "revision_prompt": "求h=8后核查h<10；把底距改为8求高度6，比较位置变化。"
+      },
+      "observation_note": "观察从情境识别直角与斜边；模型依赖墙地垂直、梯子笔直且接触位置确定。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8b.20.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.20.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.20.1-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

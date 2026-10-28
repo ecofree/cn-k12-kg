@@ -1,0 +1,138 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m4a.5.1",
+  "name": "平行和垂直",
+  "tier": "tool",
+  "hook": "两段画痕没碰到，延长后一定还是不相交吗？",
+  "definition": "在同一平面内，两条不同直线不相交叫平行；两直线相交成直角叫互相垂直，交点叫垂足。平行判断针对整条直线，不是纸上有限线段有没有碰到。",
+  "why": "有些线段虽然相隔，按原方向延长会相交。垂直则有90°这一可检验条件。画平行线可保持直尺方向平移；画垂线用三角尺直角使两边分别对准。",
+  "conditions": [
+    "只判断同一平面中的两条不同直线。",
+    "用尺具或方格条件检验，不单凭近似外观。"
+  ],
+  "representation_note": "用直尺和三角尺滑动配合画平行线、过给定点画垂线；保留直角标记。",
+  "when_to_use": [
+    "只判断同一平面中的两条不同直线。",
+    "用尺具或方格条件检验，不单凭近似外观。"
+  ],
+  "steps": [
+    "先检查同平面与延伸后的方向。",
+    "垂直用三角尺直角检验。",
+    "画平行线保持方向，画垂线使90°条件成立并复核。"
+  ],
+  "worked_example": {
+    "prompt": "两条直线相交成90°，应该怎样描述交点与两线？",
+    "steps": [
+      "90°符合互相垂直。",
+      "垂直的交点叫垂足。"
+    ],
+    "answer": "两线互相垂直，交点是垂足。",
+    "family_id": "geometry.parallel-perpendicular-conditions",
+    "variant_id": "m4a.5.1:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "平面条件不能省；空间中不相交的直线未必平行。",
+    "没有画到交点不证明平行；相交也不一定垂直。"
+  ],
+  "practice": [
+    {
+      "id": "m4a.5.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m4a.5.1-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成各项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "先区分是否相交，再看交角是否直角。平行不相交，垂直相交成90°；一般斜交属于第三种情况。",
+      "observation_note": "观察延伸性与直角条件，不由“斜”字直接推结论。",
+      "self_check": {
+        "prompt": "画两条延长后会斜交的短线段和一组垂直线，说明第一组为何不能因暂未碰到就称平行。",
+        "reference_answer": "第一组整条直线会相交；第二组相交90°，为垂直。",
+        "criteria": [
+          "按延伸直线判断",
+          "垂直有90°依据"
+        ],
+        "family_id": "geometry.parallel-perpendicular-conditions",
+        "variant_id": "m4a.5.1:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.parallel-definition",
+          "geometry.perpendicular-right-angle"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "只看两段没碰到，怎样检查它们的方向是否最终相交？",
+        "hint": "沿原方向用直尺延长。",
+        "revision_prompt": "保留延长线与交点，改正“平行”的原判断。"
+      },
+      "criterion_index": 0,
+      "title": "能判断两条直线是否平行或垂直"
+    },
+    {
+      "explanation": "用三角尺和直尺滑移可保持一条边的方向画平行线；利用直角的另一边可画垂线，移动前后需再检验。",
+      "observation_note": "观察完整尺具作图；只记名称不能替代过点约束。",
+      "self_check": {
+        "prompt": "画直线l与线外点P，分别过P画l的平行线和垂线，标出垂足并复核。",
+        "reference_answer": "过P的平行线方向与l相同；垂线与l成90°，垂足在l上。",
+        "criteria": [
+          "两线均过P",
+          "平行方向与垂直角度得到检验"
+        ],
+        "family_id": "geometry.construct-parallel-perpendicular",
+        "variant_id": "m4a.5.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.parallel-perpendicular-conditions",
+          "geometry.perpendicular-foot-name"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "画出的垂线成90°但没经过P，满足全部要求了吗？",
+        "hint": "同时检查“过P”和“垂直l”两个条件。",
+        "revision_prompt": "调整尺具位置重画，并保留两条件核对记录。"
+      },
+      "criterion_index": 1,
+      "title": "能画出平行线与垂线"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能指出垂线与所垂直直线交点的名称",
+      "explanation": "当一条直线与另一条直线垂直时，它们的交点称为垂足。先有垂直条件，再给交点名称；任意两条相交线的交点不能都叫垂足。",
+      "self_check": {
+        "prompt": "已知直线a与b在P点垂直，P叫做什么？若只知a、b相交而不知是否垂直，能否直接称P为垂足？",
+        "reference_answer": "在已知垂直时P叫垂足；只知相交时不能这样称呼，尚缺直角条件。",
+        "criteria": [
+          "名称为垂足",
+          "使用已给垂直条件",
+          "不把任意交点都称为垂足"
+        ],
+        "family_id": "geometry.perpendicular-foot-name",
+        "variant_id": "m4a.5.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "术语识别不等于判断垂直或画垂线。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "题中给的是“相交”，还是明确给出“垂直”？",
+        "hint": "先圈出垂直二字或直角标记，再给交点命名。",
+        "revision_prompt": "为“相交于Q”与“垂直于Q”两句分别判断能否使用垂足这个名称。"
+      }
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

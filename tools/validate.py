@@ -17,10 +17,14 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from cnkg.verify import check_question  # noqa: E402
+from cnkg.contracts import (ContractDependencyError, load_schema, property_schema,
+                            validate_repository)  # noqa: E402
 # 解析里「选项 C / C 项 / 故答案为: D」这类写法的判定口径与修复工具共用一份，
 # 免得两边各写一份正则、慢慢漂移。宽版正则（validate 给自有题用的
 # OPTION_REF_RE）在外部题上会把数学变量 a/b/c 误判成选项字母，不能共用。
-from fix_explanation_letters import PATTERNS as OPTION_LETTER_PATS  # noqa: E402
+from tools.fix_explanation_letters import PATTERNS as OPTION_LETTER_PATS  # noqa: E402
+from tools.balance_options import (OPTION_REF_RE, correct_position, display_position_counts,
+                                  position_label, position_reference_fields)  # noqa: E402
 
 DATA = ROOT / "data"
 
@@ -54,24 +58,20 @@ CN_NUM = {1: "一", 2: "二", 3: "三", 4: "四", 5: "五", 6: "六",
           25: "二十五", 26: "二十六", 27: "二十七", 28: "二十八", 29: "二十九",
           30: "三十", 31: "三十一", 32: "三十二", 33: "三十三", 34: "三十四"}
 
-DOMAINS = {"数与代数", "图形与几何", "统计与概率", "综合与实践"}
-TYPES = {"conceptual", "procedural", "reasoning", "application", "modeling"}
-STRENGTHS = {"hard", "soft"}
-SEMESTERS = {"上", "下", "全"}
-DIFFICULTIES = {"basic", "standard", "advanced"}
-QTYPES = {"choice", "numeric", "short"}
+# Enumerations come from the public contracts; no second field model lives here.
+# ID_RE/QLID_RE above parse validated IDs for textbook semantic checks.
+DOMAINS = set(property_schema("topic", "domain")["enum"])
+TYPES = set(property_schema("topic", "type")["enum"])
+STRENGTHS = set(property_schema("dependency", "strength")["enum"])
+SEMESTERS = set(property_schema("topic", "semester")["enum"])
+DIFFICULTIES = set(property_schema("question", "difficulty")["enum"])
+QTYPES = set(property_schema("question", "type")["enum"])
 
-# 解析里出现"A 错""选项 B""只有 C 符合"这类表述，说明它在按字母指代选项。
-# 选项一旦重排，这种解析就会指错，因此直接判错而不是警告。
-OPTION_REF_RE = re.compile(
-    r"(?:^|[，。；、\s（(])([ABCD])\s*(?:错|对|正确|错误|项|选项)"
-    r"|选项\s*[ABCD]"
-    r"|只有\s*[ABCD]\s*(?:符合|是|对)")
+# OPTION_REF_RE remains exported for existing explanation regressions.  The
+# source transform and validator share explicit position-reference checks.
 
-STRUCT_REQUIRED = ["id", "name", "volume", "chapter", "section", "grade", "semester",
-                   "domain", "theme", "type", "curriculum_version", "edition",
-                   "review_status", "external"]
-CONTENT_REQUIRED = ["description", "mastery_criteria", "standards"]
+STRUCT_REQUIRED = load_schema("topic")["required"]
+CONTENT_REQUIRED = load_schema("topic")["allOf"][0]["then"]["required"]
 FILLED_STATUS = ("draft", "reviewed")
 
 
@@ -164,9 +164,10 @@ def check_topics(topics, outline, rpt):
             rpt.err(f"{tid}: type 非法：{t.get('type')}")
         if t.get("semester") not in SEMESTERS:
             rpt.err(f"{tid}: semester 非法：{t.get('semester')}")
+        minimum_goals = property_schema("topic", "mastery_criteria")["minItems"]
         if filled and (not isinstance(t.get("mastery_criteria"), list)
-                       or len(t["mastery_criteria"]) < 2):
-            rpt.err(f"{tid}: mastery_criteria 至少要有 2 条")
+                       or len(t["mastery_criteria"]) < minimum_goals):
+            rpt.err(f"{tid}: mastery_criteria 至少要有 {minimum_goals} 条")
 
         by_volume[volume] += 1
 
@@ -377,10 +378,11 @@ def check_questions(questions, ids, rpt, filled_ids, min_per_topic=2):
             if any("key" in c for c in choices):
                 rpt.err(f"{qid}: 选项里还有 key 字段，字母应改为渲染时生成")
 
-        # 解析不能引用选项字母：选项会被打散，字母随时失效。
+        # 题干、选项和解析都不能依赖选项的显示位置。
         # 事故背景见 docs/decisions.md D19——这类引用一旦遇上重排就会变成假解释。
-        if OPTION_REF_RE.search(q.get("explanation") or ""):
-            rpt.err(f"{qid}: 解析引用了选项字母，选项重排后必然指错，请按内容说明")
+        referenced = position_reference_fields(q)
+        if referenced:
+            rpt.err(f"{qid}: {', '.join(referenced)} 引用了选项显示位置，请按内容说明")
 
         # 完全相同的题（题干+答案+选项）出现在两个知识点里：同一道题被写了两遍
         sig = (q.get("prompt"), str(q.get("answer")),
@@ -421,7 +423,7 @@ def check_questions(questions, ids, rpt, filled_ids, min_per_topic=2):
         elif result["status"] in ("mismatch", "error"):
             rpt.err(f"{qid}: {result['detail']}")
 
-    # 选项设计：两选项题等于抛硬币，答案键过度集中则可被"一路选 B"破解
+    # 选项设计：稳定 option_id 是身份，不能拿来统计 A/B/C/D 显示位置。
     by_len = collections.defaultdict(list)
     for q in questions:
         if q.get("type") == "choice":
@@ -430,11 +432,19 @@ def check_questions(questions, ids, rpt, filled_ids, min_per_topic=2):
         if size < 3:
             rpt.err(f"有 {len(rows)} 道选择题只有 {size} 个选项，猜中率过高，应改为短答")
             continue
-        keys = collections.Counter(q.get("answer") for q in rows)
-        top = max(keys.values()) / len(rows)
+        positions = collections.Counter(correct_position(q) for q in rows
+                                        if correct_position(q) is not None)
+        if not positions:
+            continue  # malformed choices were reported above
+        total = sum(positions.values())
+        top_count = max(positions.values())
+        top = top_count / total
         ideal = 1 / size
-        if top > ideal + 0.08:
-            rpt.err(f"{size} 选项题答案键偏斜：{dict(sorted(keys.items()))}，"
+        # A small group cannot always realize exactly 1/n; allow the integer
+        # optimum as well as the usual eight-percentage-point tolerance.
+        if top_count > max((total + size - 1) // size, (ideal + 0.08) * total):
+            labels = {position_label(i): positions[i] for i in range(size)}
+            rpt.err(f"{size} 选项题正确答案显示位置偏斜：{labels}，"
                     f"最高占 {top:.0%}（理想 {ideal:.0%}），跑 tools/balance_options.py")
 
     for tid in filled_ids:
@@ -575,6 +585,19 @@ def main():
     args = parser.parse_args()
 
     rpt = Report()
+    print("== 版本化结构契约与资源引用 ==")
+    try:
+        contract_errors = validate_repository(DATA)
+    except (ContractDependencyError, ValueError) as exc:
+        print(f"结构契约环境错误：{exc}")
+        return 2
+    if contract_errors:
+        for problem in contract_errors:
+            rpt.err(problem)
+        rpt.show()
+        print(f"\nFAILED：{len(rpt.errors)} 个结构或引用错误；先修复后再运行语义检查。")
+        return 1
+    print("主题、先修边、题目、讲解卡、单元任务和实践项目契约通过")
     print("== 加载数据 ==")
     topics = load("topics.json")
     deps = load("dependencies.json")
@@ -624,11 +647,17 @@ def main():
     else:
         print("  没有 questions_ext.json，跳过")
     if by_len:
-        total = sum(len(v) for v in by_len.values())
-        top_key = collections.Counter(q.get("answer") for v in by_len.values() for q in v).most_common(1)[0]
-        print(f"选择题选项数 {dict(sorted((k, len(v)) for k, v in by_len.items()))}，"
-              f"一路选 {top_key[0]} 的正确率 {top_key[1] / total:.1%}（随机水平约 "
-              f"{sum(len(v) / total / k for k, v in by_len.items()):.1%}）")
+        positions = display_position_counts(questions)
+        pooled = collections.Counter()
+        for counts in positions.values():
+            pooled.update(counts)
+        if pooled:
+            total = sum(pooled.values())
+            top_position, top_count = pooled.most_common(1)[0]
+            random_rate = sum(sum(counts.values()) / size for size, counts in positions.items()) / total
+            print(f"选择题选项数 {dict(sorted((k, len(v)) for k, v in by_len.items()))}，"
+                  f"一路选显示位置 {position_label(top_position)} 的正确率 {top_count / total:.1%}"
+                  f"（随机水平约 {random_rate:.1%}）")
     print(f"题目 {len(questions)}，可自动验算 {verifiable}，"
           f"已填点平均 {len(questions) / max(len(filled_ids), 1):.1f} 道")
 

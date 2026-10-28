@@ -1,0 +1,148 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3b.5.1",
+  "name": "数据的收集与整理",
+  "tier": "tool",
+  "hook": "记下每位同学的选择后，怎样知道有没有漏记或重复？",
+  "definition": "数据收集先定对象、问题和分类口径，再逐项记录。画“正”字可每5笔成一组，统计表把各类频数汇总；表头、单位和总数使记录可核查。",
+  "why": "原始记录保留每次回答，分类计数再汇总，能追踪错误来源。总数核对帮助发现遗漏或重复，但总数相同并不保证每一类都对；缺失回答也不能悄悄算为0票。",
+  "conditions": [
+    "调查问题和类别规则明确，一人一票时说明不能多选。",
+    "保留缺失与未回应标记，不随意编造记录。"
+  ],
+  "representation_note": "用编号回答条和正字计数表，每条处理后勾选，再转成带标题与单位的统计表。",
+  "when_to_use": [
+    "调查问题和类别规则明确，一人一票时说明不能多选。",
+    "保留缺失与未回应标记，不随意编造记录。"
+  ],
+  "steps": [
+    "写对象、时间、问题和一人几票的规则。",
+    "逐条记录并按类别画记号，每5个成组。",
+    "汇总表格，核对各类和与有效回答数并保留缺失。"
+  ],
+  "worked_example": {
+    "prompt": "选择记录为红、蓝、红、黄、蓝、红，怎样汇总？",
+    "steps": [
+      "逐条打勾计数：红3、蓝2、黄1。",
+      "合计3+2+1=6，与6条有效记录一致。"
+    ],
+    "answer": "红3、蓝2、黄1，共6票。",
+    "family_id": "statistics.tally-to-frequency-table",
+    "variant_id": "m3b.5.1:worked-v5",
+    "representation": "table",
+    "cognitive_demand": "explain",
+    "diagram": {
+      "src": "/static/diagrams/statistics-v5-tally-table.svg",
+      "alt": "原始六条记录为红、蓝、红、黄、蓝、红。每条只记一笔，红3笔、蓝2笔、黄1笔，对应频数3、2、1。"
+    },
+    "reference_family_ids": [
+      "statistics.frequency-table-total"
+    ]
+  },
+  "pitfalls": [
+    "一个“正”通常代表5笔记录，不是一票。",
+    "忘记回答与明确选择0次不同，需单独标记。"
+  ],
+  "practice": [
+    {
+      "id": "m3b.5.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3b.5.1-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "先独立完成本页各项自检，保留计算或判断过程；再逐项核对参考与观察边界，按具体困难修订。",
+  "objective_coverage": [
+    {
+      "explanation": "画记号一条记录对应一笔，每满5笔组成正字，剩余继续记。先保留原始序列才能回查分类错误。",
+      "observation_note": "观察每条原始记录与每笔画记的一一对应，以及五笔成组的计数；只报15不能证明没有重复或漏记。",
+      "self_check": {
+        "prompt": "用12次同类记录画正字计数，再加3次，说明各阶段票数并逐条勾选。",
+        "reference_answer": "12为两个正加2笔；再3笔共15，三个正。",
+        "criteria": [
+          "一条一笔对应",
+          "五个一组与余笔正确"
+        ],
+        "family_id": "statistics.tally-to-frequency-table",
+        "variant_id": "m3b.5.1:criterion-0-v5",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "12次记录后再记3次，是三个正字，还是两个正字加3笔？请逐条配对。",
+        "hint": "12次已经是两个正字加2笔；再增加3笔，原来的2笔和新3笔凑成第三个正字。",
+        "revision_prompt": "保留原始编号1—15，每处理一条才画一笔；给旧笔和新笔用不同颜色，再核对总数。"
+      },
+      "criterion_index": 0,
+      "title": "能用画正字等方法记录数据"
+    },
+    {
+      "explanation": "统计表至少说明对象、时间、类别、单位与频数。读表可比较多少，但结论只能涉及实际记录范围。",
+      "observation_note": "观察类别、有效记录与未回应是否分开，并核对分类总数；这份表只能支持实际回应者的比较，不能证明全班倾向。",
+      "self_check": {
+        "prompt": "给数据：甲选项4票、乙3票、丙2票，另1人未回应。填表、写有效总票和一句可支持的比较。",
+        "reference_answer": "有效票9，未回应1单列；甲比乙多1票，不能说全班人人已表态。",
+        "criteria": [
+          "表头和各类完整",
+          "有效票与未回应分开",
+          "比较有数据依据"
+        ],
+        "family_id": "statistics.frequency-table-with-nonresponse",
+        "variant_id": "m3b.5.1:criterion-1-v5",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "statistics.frequency-table-total",
+          "statistics.missing-not-zero",
+          "statistics.scope-of-observation"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "甲4票、乙3票、丙2票、未回应1人，能把未回应算成丙票吗？",
+        "hint": "没有回应不是选择丙；有效票4+3+2=9，调查人数10，两个分母要分别说明。",
+        "revision_prompt": "重新画出类别、频数、未回应和调查人数四类信息，核对9+1=10，再写一句范围正确的比较。"
+      },
+      "criterion_index": 1,
+      "title": "能填完整的统计表并读出信息"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能为比较离散类别数量选择条形统计图",
+      "explanation": "离散类别没有必须相连的时间顺序。要直观比较各类别数量，可用共用刻度的条形长度；表格可保留精确值，连线不应暗示类别之间连续变化。",
+      "self_check": {
+        "prompt": "甲、乙、丙三班人数为30、32、28。若要直观比较三个班的人数，选条形图还是把班名依次连成折线？写一个与比较目的有关的理由。",
+        "reference_answer": "条形图更直接，三根条形使用同一人数刻度比较长短。班级是类别，连线不表示时间上的连续变化。",
+        "criteria": [
+          "选择条形图",
+          "理由指向类别数量比较",
+          "未把选择图形写成已经绘制图表"
+        ],
+        "family_id": "statistics.chart-purpose",
+        "variant_id": "m3b.5.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "不观察画正字、填表或读出实际图中的数值。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "班名甲、乙、丙是连续的日期，还是三种类别？",
+        "hint": "先写展示目的：比较不同班的人数。再找可直接比较长度的图。",
+        "revision_prompt": "若问题换成同一班连续5天的出勤变化，重新判断图的目的；不要所有数据都选同一种图。"
+      }
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "diagram": {
+    "src": "/static/diagrams/statistics-v5-tally-table.svg",
+    "alt": "原始六条记录为红、蓝、红、黄、蓝、红。每条只记一笔，红3笔、蓝2笔、黄1笔，对应频数3、2、1。"
+  }
+}

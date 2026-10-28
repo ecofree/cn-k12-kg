@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8b.22.1",
+  "name": "函数的概念",
+  "tier": "core",
+  "hook": "同一个输入只能有一个输出，那么不同输入能不能有相同输出？",
+  "definition": "在变化过程中有两个变量 x、y，若对 x 的每一个确定的值，y 都有唯一确定的值与之对应，则 y 是 x 的函数，x 叫自变量。",
+  "why": "函数要求每一个允许的输入恰有一个确定输出，并不要求不同输入输出不同。例如x²把2和−2都对应到4，仍满足对每个输入输出唯一。定义域决定哪些输入参加这条对应规则。",
+  "when_to_use": [
+    "判断两个变量间的对应是否为函数",
+    "按公式、表格或图象寻找给定输入的输出"
+  ],
+  "steps": [
+    "明确自变量及允许范围",
+    "逐个检查同一输入是否有且只有一个输出",
+    "依据对应规则代入或读值，标明函数值"
+  ],
+  "worked_example": {
+    "prompt": "关系y=x²中，x=2与x=−2均得到4，这是否影响它成为函数？",
+    "answer": "不影响，仍是函数",
+    "steps": [
+      "对x=2只有输出4，对x=−2也只有输出4。",
+      "函数要求同一输入输出唯一，不要求不同输入输出不同，因此该关系是函数。"
+    ],
+    "family_id": "function.single-output-per-input",
+    "variant_id": "m8b.22.1:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "一对多不构成函数，多对一可以构成函数。",
+    "分母为0等不允许输入不能混入定义域。"
+  ],
+  "check": "独立完成并解释：下列对应关系中，y是x的函数的是哪一个？ 备选：A. 给定正数x，令y为x的两个平方根；B. 给定实数x，令y=x²；C. 给定一个学生x，任取他喜欢的一本书作y 请写出判断或计算依据。；函数y=3x−2中，当自变量x=−1时，函数值y是多少？ 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断两个变量之间是否构成函数关系",
+      "explanation": "先固定一个输入检查输出唯一，不能把多对一误判为非函数。",
+      "self_check": {
+        "prompt": "下列对应关系中，y是x的函数的是哪一个？ 备选：A. 给定正数x，令y为x的两个平方根；B. 给定实数x，令y=x²；C. 给定一个学生x，任取他喜欢的一本书作y 请写出判断或计算依据。",
+        "reference_answer": "每个实数x平方后只有一个确定结果y；两个平方根或任取一本书可能给出多个输出，不符合本题的唯一性要求。 正确选项内容：给定实数x，令y=x²。",
+        "criteria": [
+          "x²每输入唯一",
+          "区别两平方根造成一对多"
+        ],
+        "family_id": "function.single-output-per-input",
+        "variant_id": "m8b.22.1:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "x=2与x=−2都输出4是否违规？违规的是一个输入几个输出？",
+        "hint": "函数检查同一输入输出是否唯一，允许不同输入得到同一输出。",
+        "revision_prompt": "比较y=x²和“y为正x的两个平方根”，为x=4分别列唯一输出16与两个候选±2。"
+      },
+      "observation_note": "观察一对一并非函数必要条件；定义域内每个输入的唯一性才是核心。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能指出自变量与函数并求函数值",
+      "explanation": "自变量是输入，函数值是按规则确定的输出。",
+      "self_check": {
+        "prompt": "函数y=3x−2中，当自变量x=−1时，函数值y是多少？ 请写出判断或计算依据。",
+        "reference_answer": "x是自变量，将x=−1整体代入得y=3×(−1)−2=−5。",
+        "criteria": [
+          "用括号代入−1",
+          "输出−5"
+        ],
+        "family_id": "function.evaluate.negative-input",
+        "variant_id": "m8b.22.1:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "x=−1是输入，还是直接把y写成−1？3x中的乘法怎样表示？",
+        "hint": "将全部x替换为(−1)，计算3×(−1)−2，不改变规则。",
+        "revision_prompt": "列x=−1、0、2对应y=−5、−2、4的小表，明确输入与输出两列。"
+      },
+      "observation_note": "观察函数值与自变量区分、代入运算；有限几次求值不能确定未知函数的整体规则。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能按已给一次函数解析式计算指定函数值",
+      "explanation": "已给一次函数解析式时，把自变量数值代入指定位置，依运算顺序求因变量。所得数值属于模型应用中的代入步骤，不自动证明会从情境独立建立模型。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：某文具店笔记本每本 5 元。买 x 本的总价 y 与 x 的关系是 y=5x，其中 x 是自变量。买 12 本要付多少元？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：60。给定y5x及x为自变量，代12得60。",
+        "criteria": [
+          "输入输出身份、代入位置与单位一致",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "linear.formula-evaluation",
+        "variant_id": "m8b.22.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "题面给定的是函数式，还是需要你自行建立？哪个字母是输入？",
+        "hint": "先标自变量和因变量及单位，再替换输入数并完成运算。",
+        "revision_prompt": "先回答这个辨别问题：题面给定的是函数式，还是需要你自行建立？哪个字母是输入？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；输入输出身份、代入位置与单位一致。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能按给定起步价与超额单价计算费用",
+      "explanation": "起步价已覆盖规定范围。超过部分才按续程单价计算，总费用为起步价加超出长度乘续程单价，不能对全部长度重复收费。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：某市出租车起步价 10 元，含 3 公里；超过 3 公里的部分每公里 2.4 元。行驶 8 公里应付多少元？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：22。10+(8−3)×2.4=22。",
+        "criteria": [
+          "起步段和超出段不重叠计价",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "money.tiered-linear-charge",
+        "variant_id": "m8b.22.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "起步范围已经付过的钱是否又按续程价算了一遍？",
+        "hint": "把全程分成已包含的起步段和超出段，只给超出段乘续价。",
+        "revision_prompt": "先回答这个辨别问题：起步范围已经付过的钱是否又按续程价算了一遍？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；起步段和超出段不重叠计价。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8b.22.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.22.1-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.22.1-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

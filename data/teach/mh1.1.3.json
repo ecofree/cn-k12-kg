@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.1.3",
+  "name": "集合的基本运算",
+  "tier": "core",
+  "hook": "选了篮球的人与选了足球的人，‘两项都选’和‘至少选一项’一样吗？",
+  "definition": "交集 A∩B、并集 A∪B、补集 ∁U A；可借助数轴或 Venn 图求运算结果。补集必须先指定全集U；区间端点是否取到，应逐个代回条件判断。",
+  "why": "交集对应两个条件同时满足，并集对应至少满足一个；补集是在既定讨论范围中否定原条件。数轴重叠和覆盖是这些逻辑关系的直观表示。",
+  "when_to_use": [
+    "条件之间出现‘且’‘或’‘不属于’",
+    "区间运算需要处理端点是否包含"
+  ],
+  "steps": [
+    "先写出全集及参与运算的集合",
+    "交集保留共同元素，并集合并去重",
+    "补集从全集删去成员，最后逐个核对边界"
+  ],
+  "worked_example": {
+    "prompt": "U={1,2,3,4,5}，A={1,2,4}，B={2,3,4}，求A∩B、A∪B及∁UA。",
+    "steps": [
+      "共同成员为2、4。",
+      "合并成员并去重得1、2、3、4。",
+      "从U删去1、2、4，剩3、5。"
+    ],
+    "answer": "A∩B={2,4}；A∪B={1,2,3,4}；∁UA={3,5}",
+    "family_id": "sets.finite-operations",
+    "variant_id": "mh1.1.3:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "把并集理解为不重叠部分",
+    "求补集时忘写全集，或漏掉区间端点"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能求两个集合的交集与并集",
+      "explanation": "交集取同时成立，并集取至少一个成立；端点也服从同一规则。",
+      "self_check": {
+        "prompt": "求(-1,3]∩[1,5)与(-1,3]∪[1,5)，并解释端点。",
+        "reference_answer": "交集[1,3]，并集(-1,5)；1、3同时在两集合内，-1与5均不在并集。",
+        "criteria": [
+          "交并区间正确",
+          "逐一说明四个边界的取舍"
+        ],
+        "family_id": "sets.interval-union-intersection",
+        "variant_id": "mh1.1.3:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "(-1,3]与[3,5)的交集是空集还是{3}？",
+        "hint": "把3分别代回两条件，交集要求同时满足。",
+        "revision_prompt": "求[0,2)与(1,3]的交、并：交(1,2)，并[0,3]；逐个解释端点。"
+      },
+      "observation_note": "观察交并与端点逻辑；有限区间不能代表任意集合运算。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能在给定全集下求补集",
+      "explanation": "补集取U中不属于A的对象，改变U可能改变补集。",
+      "self_check": {
+        "prompt": "分别在U=R与U=Z中求A={x∈U|x≥2}的补集。",
+        "reference_answer": "U=R时为(-∞,2)；U=Z时为{x∈Z|x<2}。2均不能取，后者只含整数。",
+        "criteria": [
+          "区分实数与整数全集",
+          "排除端点2"
+        ],
+        "family_id": "sets.complement-universe",
+        "variant_id": "mh1.1.3:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "A={1,2}的补集能不说明全集就唯一确定吗？",
+        "hint": "补集只从U里面选；换全集会改变可选对象。",
+        "revision_prompt": "取U={0,1,2,3}及V={1,2,4}分别求补集，得到{0,3}与{4}。"
+      },
+      "observation_note": "观察全集限制与排除规则；不能把补集理解成全世界其他对象。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由两个集合及其交集的元素数求并集元素数",
+      "explanation": "把两集合人数直接相加时，交集成员被算了两次；并集要把交集扣一次，使每个人恰计一次。至少参加一项包括两项都参加者。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：某班 40 人，参加数学竞赛的有 18 人，参加物理竞赛的有 15 人，两项都参加的有 6 人。至少参加一项竞赛的有多少人？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：27。18+15−6=27，重叠扣一次。",
+        "criteria": [
+          "并集包含交集且重叠只修正一次",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "sets.inclusion-exclusion.union-count",
+        "variant_id": "mh1.1.3:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "交集应该全部删掉，还是只去掉多算的一次？",
+        "hint": "将仅A、两者都有、仅B分成三块，再对照A+B的重复计数。",
+        "revision_prompt": "先回答这个辨别问题：交集应该全部删掉，还是只去掉多算的一次？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；并集包含交集且重叠只修正一次。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由全集与两个集合的交叠人数求两集合外的人数",
+      "explanation": "两集合外的人数等于全集人数减并集人数。先用容斥求A与B至少参加一项的人，再从全集扣除；不能用全集分别减A、B而把交集扣两次。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：某社区 50 位居民中，参加合唱队的有 25 人，参加舞蹈队的有 20 人，两队都参加的有 8 人。两队都不参加的有多少人？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：13。并集25+20−8=37，全集50减37为13。",
+        "criteria": [
+          "先容斥求并集再求全集补集",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "sets.inclusion-exclusion.outside-union-count",
+        "variant_id": "mh1.1.3:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "“都不参加”与“不都参加”是同一个区域吗？",
+        "hint": "先圈两集合的全部并集区域，再看全集中剩余的外部区域。",
+        "revision_prompt": "先回答这个辨别问题：“都不参加”与“不都参加”是同一个区域吗？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；先容斥求并集再求全集补集。"
+      }
+    }
+  ],
+  "check": "独立完成各项自检并保留推导或作图：交并区间正确；区分实数与整数全集。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.1.3-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.1.3-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.1.3-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "补集必须指定全集；交并端点逐个检查。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

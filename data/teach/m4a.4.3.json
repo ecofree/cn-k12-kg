@@ -1,52 +1,145 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m4a.4.3",
- "name": "乘法模型：速度、时间与路程",
- "tier": "core",
- "hook": "「每小时行 80 千米」这句话里，藏着哪两个量？",
- "definition": "速度×时间=路程；路程÷时间=速度；路程÷速度=时间。",
- "why": "速度是「每个单位时间走多远」，走几段时间就把这份距离累加几次，所以路程=速度×时间。反过来，把总路程按时间平均分，就得到速度；看总路程里有几个速度，就得到时间。",
- "when_to_use": [
-  "题面出现「每小时/每分钟行……」「用了几小时」「相距多远」",
-  "要求求路程、速度或时间中的第三个",
-  "相遇、追及问题里的第一步"
- ],
- "steps": [
-  "写出速度的单位（千米/时），确认时间用什么单位",
-  "把三个量对上号",
-  "求路程用乘；求速度或时间用除",
-  "检查单位是否配套（时配千米/时，分配合千米/分）"
- ],
- "worked_example": {
-  "prompt": "速度 80 千米/时，行 3 小时，路程是多少千米？",
-  "verify": "80*3",
-  "answer": "240",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "hand",
+  "topicId": "m4a.4.3",
+  "name": "乘法模型：速度、时间与路程",
+  "tier": "core",
+  "hook": "「每小时行 80 千米」这句话里，藏着哪两个量？",
+  "definition": "匀速运动或使用全程平均速度时，速度×时间=路程。用时非零时，路程÷时间=平均速度；速度非零时，路程÷速度=时间。速度与时间的单位必须相配。",
+  "why": "速度是「每个单位时间走多远」，走几段时间就把这份距离累加几次，所以路程=速度×时间。反过来，把总路程按时间平均分，就得到速度；看总路程里有几个速度，就得到时间。",
+  "when_to_use": [
+    "题面出现「每小时/每分钟行……」「用了几小时」「相距多远」",
+    "要求求路程、速度或时间中的第三个",
+    "相遇、追及问题里的第一步"
+  ],
   "steps": [
-   "速度 80 千米/时，意思是每 1 小时走 80 千米。",
-   "走 3 小时，就是 3 个 80 千米：80×3。",
-   "80×3=240 千米。"
+    "写出速度的单位（千米/时），确认时间用什么单位",
+    "把三个量对上号",
+    "求路程用乘；求速度或时间用除",
+    "检查单位是否配套（时配千米/时，分配合千米/分）"
+  ],
+  "worked_example": {
+    "prompt": "速度 80 千米/时，行 3 小时，路程是多少千米？",
+    "verify": "80*3",
+    "answer": "240",
+    "steps": [
+      "速度 80 千米/时，意思是每 1 小时走 80 千米。",
+      "走 3 小时，就是 3 个 80 千米：80×3。",
+      "80×3=240 千米。"
+    ],
+    "family_id": "ratio.unit-rate-projection",
+    "variant_id": "m4a.4.3:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "ratio.inverse-unit-rate-query",
+      "ratio.table-unit-rate"
+    ]
+  },
+  "pitfalls": [
+    "时间用分钟、速度用千米/时，不换算直接乘。",
+    "求速度时用乘法，答案比路程还大。",
+    "把「两车相距」直接当成路程相加，没看是同向还是相向。"
+  ],
+  "practice": [
+    {
+      "id": "m4a.4.3-q1",
+      "note": "求路程：乘"
+    },
+    {
+      "id": "m4a.4.3-q2",
+      "note": "求时间：除"
+    },
+    {
+      "id": "m4a.4.3-q90",
+      "note": "数字换一组，检查单位有没有丢"
+    }
+  ],
+  "check": "能由「240 千米、3 小时」说出速度 80 千米/时，并正确写出单位。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能运用速度、时间、路程的关系",
+      "explanation": "匀速运动或给定全程平均速度时，路程=速度×时间，速度与时间单位需相配。",
+      "self_check": {
+        "prompt": "骑车速度每小时12千米，按此速度骑30分钟，走多远？",
+        "reference_answer": "30分钟=0.5小时，12×0.5=6千米。",
+        "criteria": [
+          "换算时间",
+          "路程6千米"
+        ],
+        "family_id": "ratio.unit-rate-projection",
+        "variant_id": "m4a.4.3:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.part-of-quantity",
+          "time.sexagesimal-decimal-conversion"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "12千米/时的1时与30分能直接相乘吗？30分钟是1小时的几分之几？",
+        "hint": "先把30分钟改成半小时；匀速每小时12千米，半小时就是12的一半。",
+        "revision_prompt": "每小时18千米匀速骑20分钟，先把一小时分3段再求一段距离，写清单位。"
+      },
+      "observation_note": "观察速度与时间单位配套及匀速条件；仅起点时刻与终点时刻不能说明中途速度恒定。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能由其中两个量求第三个量",
+      "explanation": "路程除以用时得到平均速度；已知恒定或全程平均速度，可由路程除以速度求时间。",
+      "self_check": {
+        "prompt": "60千米用了2小时，平均速度多少？按这个平均速度走90千米需几小时？",
+        "reference_answer": "60÷2=30千米/时；90÷30=3小时。",
+        "criteria": [
+          "平均速度30",
+          "时间3小时且保持速度假设"
+        ],
+        "family_id": "ratio.unit-rate-projection",
+        "variant_id": "m4a.4.3:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "ratio.inverse-unit-rate-query",
+          "ratio.table-unit-rate"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "60÷2得到30是路程还是每小时的路程？平均30是否表示每小时实际都走30？",
+        "hint": "把全程60千米按2小时平均分，只得到全程平均速度；求新行程须明确仍按该平均速度。",
+        "revision_prompt": "48千米用3小时，求平均速度；若新行程平均速度仍相同，80千米需多久，注明假设。"
+      },
+      "observation_note": "观察平均速度和逆求时间；不从平均值反推每一时段速度都一样。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能用速度和已行时间求剩余路程",
+      "explanation": "先确定等量组或匀速过程中产生的总量，再按情境增加、减少或从原总量扣去它。最后一步从哪个量出发由情境决定。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：甲、乙两地相距 480 千米。一辆汽车从甲地开往乙地，每小时行 60 千米，已经行了 3 小时。还剩多少千米？\n写出每个问题的答案，并用算式、画图或文字说明怎样得到。用过提示或参考的地方也记下来。",
+        "reference_answer": "情境1参考：300。480−60×3=300千米，先求已行再求剩余。",
+        "criteria": [
+          "中间乘积的含义与后续加减方向正确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "arithmetic.multiply-then-adjust",
+        "variant_id": "m4a.4.3:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "仅观察所提交的数值、名称或方案；不把未提交的列式、解释、作图及选择算法过程记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "乘积表示已经产生的量、已行路程，还是当前剩余量？",
+        "hint": "给乘积写上含义，再把题目最终要求单独圈出，避免方向颠倒。",
+        "revision_prompt": "先回答这个辨别问题：乘积表示已经产生的量、已行路程，还是当前剩余量？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；中间乘积的含义与后续加减方向正确。"
+      }
+    }
   ]
- },
- "pitfalls": [
-  "时间用分钟、速度用千米/时，不换算直接乘。",
-  "求速度时用乘法，答案比路程还大。",
-  "把「两车相距」直接当成路程相加，没看是同向还是相向。"
- ],
- "practice": [
-  {
-   "id": "m4a.4.3-q1",
-   "note": "求路程：乘"
-  },
-  {
-   "id": "m4a.4.3-q2",
-   "note": "求时间：除"
-  },
-  {
-   "id": "m4a.4.3-q90",
-   "note": "数字换一组，检查单位有没有丢"
-  }
- ],
- "check": "能由「240 千米、3 小时」说出速度 80 千米/时，并正确写出单位。"
 }

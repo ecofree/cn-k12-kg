@@ -1,50 +1,115 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m1a.1.7",
- "name": "0 的认识和加减法",
- "hook": "「一个也没有」也是一种数量，0 就是它。",
- "definition": "一个物体也没有，就用 0 表示。0 可以参与加减运算：任何数加 0 还是这个数，任何数减 0 还是这个数，两个相同的数相减得 0。",
- "steps": [
-  "看清是不是「一个也没有」，是就写 0。",
-  "遇到 + 0：数没变，结果就是原来的数。",
-  "遇到 - 0：也没拿走任何东西，结果还是原来的数。",
-  "遇到 5 - 5 这种：全部拿走，剩下 0。"
- ],
- "worked_example": {
-  "prompt": "盘子里有 3 个橘子，小明一个也没拿走，还剩几个？",
-  "verify": "3-0",
-  "steps": [
-   "「一个也没拿走」就是拿走了 0 个。",
-   "求还剩多少，用减法：3 - 0。",
-   "减 0 等于什么都没去掉，所以还是 3。",
-   "算式：3 - 0 = 3（个）。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m1a.1.7",
+  "name": "0的认识和加、减法",
+  "tier": "tool",
+  "hook": "盘里有3颗枣，全部吃完，盘里还剩多少？",
+  "definition": "表示一个物体也没有，可以记作0，读作“零”。0也是一个数；增加0表示没有添入，减去0表示没有拿走。",
+  "why": "空盘与有物体的盘数量不同。3个圆片全部拿走后剩0个；若一个也不拿走，就仍有3个，因此3−3=0而3−0=3。",
+  "conditions": [
+    "用0表示指定对象一个也没有。",
+    "本卡减法中去掉数不大于原数。"
   ],
-  "answer": "3"
- },
- "pitfalls": [
-  "把 0 当成「没有意义」而空着不写，结果答案缺项。",
-  "算 4 - 4 时答 4，误以为「减自己还是自己」；实际上是全部拿走，剩 0。"
- ],
- "practice": [
-  {
-   "id": "m1a.1.7-q1",
-   "note": "0 参与的减法"
+  "representation_note": "并排画“空盘”“不拿走”“全部拿走”，让0与具体动作对应。",
+  "when_to_use": [
+    "用0表示指定对象一个也没有。",
+    "本卡减法中去掉数不大于原数。"
+  ],
+  "steps": [
+    "先观察是否确实一个物体也没有。",
+    "空的一组用0表示，不能留空不写。",
+    "结合实际动作解释加0、减0或全部减去。",
+    "写出结果，再用摆放检查。"
+  ],
+  "worked_example": {
+    "prompt": "盘里有3颗枣，全部吃完，盘里还剩多少？",
+    "steps": [
+      "原来3颗，吃掉的也是3颗。",
+      "3−3=0；盘里一颗也没有，用0记录。"
+    ],
+    "answer": "0",
+    "family_id": "primary.zero.add-subtract",
+    "variant_id": "m1a.1.7:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "verify": "3-3"
   },
-  {
-   "id": "m1a.1.7-q2",
-   "note": "选择题：辨析 0 的含义"
-  },
-  {
-   "id": "m1a.1.7-q9",
-   "note": "记忆检验"
+  "pitfalls": [
+    "把0看成“没答案”而不写，会丢失数量信息。",
+    "把4−0误算成0：减去0没有拿走任何物体。"
+  ],
+  "practice": [
+    {
+      "id": "m1a.1.7-q1",
+      "note": "0 参与的减法"
+    },
+    {
+      "id": "m1a.1.7-q2",
+      "note": "选择题：辨析 0 的含义"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "0表示没有时，需要说清没有的是什么。例如“盘里0个苹果”说的是盘里的苹果，不表示盘子不存在。",
+      "observation_note": "本项观察用0记录空集合、说明0对应的对象；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "两个盒子，一个有2支笔，一个一支笔也没有，分别用数字记录笔数。",
+        "reference_answer": "分别记2和0；0说明第二个盒子里没有笔。",
+        "criteria": [
+          "用0记录空集合",
+          "说明0对应的对象"
+        ],
+        "family_id": "count.zero-empty-set",
+        "variant_id": "m1a.1.7:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.count.distinct-objects"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "空盒子没有笔，但盒子本身有没有？",
+        "hint": "数的是笔，不是盒子；用手指逐个确认是否有笔。",
+        "revision_prompt": "补写空盒子的笔数0，并把“0支笔”读完整。"
+      },
+      "criterion_index": 0,
+      "title": "理解 0 表示“没有”"
+    },
+    {
+      "explanation": "同一个数加0或减0不变；一个数减去它自己等于0。0加4表示空堆与4个合起来，得到4；本卡不讨论0减一个正数。",
+      "observation_note": "本项观察四题正确、解释不拿走与全拿走的区别；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "算4+0、0+4、4−0、4−4，并说明最后两题为何不同。",
+        "reference_answer": "结果为4、4、4、0；4−0没有拿走，4−4全部拿走。",
+        "criteria": [
+          "四题正确",
+          "解释不拿走与全拿走的区别"
+        ],
+        "family_id": "primary.zero.add-subtract",
+        "variant_id": "m1a.1.7:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.zero.additive-identity",
+          "primary.zero.subtract-self"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "4−0与4−4的动作分别是拿走几个？",
+        "hint": "先说减号后面的数量，再做拿走动作。",
+        "revision_prompt": "分别画两盘4个圆片，一盘不划去，另一盘全部划去，再改算式。"
+      },
+      "criterion_index": 1,
+      "title": "会计算与 0 有关的加减法"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "能说出「0 表示一个也没有」，并正确算出 5 + 0、5 - 0、5 - 5 三个算式。",
- "why": "0 是一个数量，表示「一个也没有」，不是「没有这个数」。加 0 等于没添也没减，减 0 等于什么也没拿走，所以结果不变；两个相同的数相减，正好全部拿走，得 0。",
- "when_to_use": [
-  "算式里出现 0（加 0、减 0、0 减 0）",
-  "题目问「一个也没有」该用哪个数表示"
- ]
 }

@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2a.3.6",
+  "name": "用2～6的乘法口诀求商（2）",
+  "tier": "tool",
+  "hook": "有人算18÷3=3，怎样检查并改正？",
+  "definition": "熟练求商要在正确理解的基础上，准确找出对应口诀；算完用商×除数=被除数检查，不以单次快答替代依据。",
+  "why": "18÷3=6与18÷6=3使用三六十八，但缺少的乘数不同。乘法检查能发现把已知除数误抄成商的错误。",
+  "conditions": [
+    "题目取自2至6口诀的整除关系。",
+    "“熟练”包含正确与能检查，不设置未经验证的速度门槛。"
+  ],
+  "representation_note": "成对写除法与对应乘法，用圈出的相同被除数核对结果。",
+  "when_to_use": [
+    "题目取自2至6口诀的整除关系。",
+    "“熟练”包含正确与能检查，不设置未经验证的速度门槛。"
+  ],
+  "steps": [
+    "看清被除数和除数，不只凭题目外形。",
+    "想对应乘法口诀，写商。",
+    "用商乘除数，核对是否回到被除数。",
+    "记录混淆的数对，回到等大组或缺因数算式再练。"
+  ],
+  "worked_example": {
+    "prompt": "有人算18÷3=3，怎样检查并改正？",
+    "steps": [
+      "检查3×3=9，不等于18，说明商错。",
+      "应想3×6=18，所以18÷3=6。"
+    ],
+    "answer": "6",
+    "family_id": "primary.divide.inverse-table",
+    "variant_id": "m2a.3.6:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "verify": "18/3"
+  },
+  "pitfalls": [
+    "只重复读原除法不能检查；要换用乘法关系。",
+    "为追求快答跳过看除数，18÷3与18÷6容易混淆。"
+  ],
+  "practice": [
+    {
+      "id": "m2a.3.6-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m2a.3.6-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "练习时把同一组相关除法打乱，如24÷4、24÷6，不再靠固定顺序背答案；必要时先写缺乘数式，正确后再逐步熟悉。",
+      "observation_note": "本项观察四题准确、能区分同积不同除数；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "不按口诀顺序算24÷4、15÷5、24÷6、16÷4，并说明一组易混题。",
+        "reference_answer": "6、3、4、4；24÷4找4的另一乘数6，24÷6找6的另一乘数4。",
+        "criteria": [
+          "四题准确",
+          "能区分同积不同除数"
+        ],
+        "family_id": "division.fact-family",
+        "variant_id": "m2a.3.6:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.table-facts"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "24÷4和24÷6的已知乘数一样吗？",
+        "hint": "分别把4、6放在乘法的已知位置，另一个位置留空。",
+        "revision_prompt": "重排两道易混题，先写不同缺因数式再独立求商。"
+      },
+      "criterion_index": 0,
+      "title": "能熟练用口诀求商"
+    },
+    {
+      "explanation": "检查商时乘回去要完全相等；本卡都是整除，若积小于或大于被除数，都说明还需核对。",
+      "observation_note": "本项观察使用商×除数检查、依据等与不等作判断；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "检查“20÷4=6”和“30÷5=6”，指出哪道需改正。",
+        "reference_answer": "6×4=24≠20，第一题应为5；6×5=30，第二题正确。",
+        "criteria": [
+          "使用商×除数检查",
+          "依据等与不等作判断"
+        ],
+        "family_id": "division.fact-family",
+        "variant_id": "m2a.3.6:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.table-facts"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "检查20÷4时，要算6×4还是6×20？",
+        "hint": "乘商和除数，把结果同除号前的20比较。",
+        "revision_prompt": "写出两道检查等式，对不相等的一道重新找口诀。"
+      },
+      "criterion_index": 1,
+      "title": "能检查商与除数的积是否等于被除数"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

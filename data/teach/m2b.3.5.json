@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2b.3.5",
+  "name": "简单的加、减法",
+  "tier": "tool",
+  "hook": "口算2000−500，说明按什么单位算。",
+  "definition": "整百、整千数的加减，可选择相同的计数单位计算。不同单位先换成相同单位，再把结果还原成原来的数。",
+  "why": "600+800是6个百加8个百，共14个百，即1400；2000−500要把2个千换成20个百，才能减5个百。",
+  "conditions": [
+    "数在万以内，按百或千计算。",
+    "直接运算的数量必须使用同一种计数单位。"
+  ],
+  "representation_note": "用百格板与千块的兑换，或“百的个数”表，解释每一步的位值。",
+  "when_to_use": [
+    "数在万以内，按百或千计算。",
+    "直接运算的数量必须使用同一种计数单位。"
+  ],
+  "steps": [
+    "说明每个数含几个百或几个千。",
+    "若单位不同，先按10个百=1个千换算。",
+    "对相同单位的个数做加减。",
+    "把结果按位值写回，并检查大小是否合理。"
+  ],
+  "worked_example": {
+    "prompt": "口算2000−500，说明按什么单位算。",
+    "steps": [
+      "2000是20个百，500是5个百。",
+      "20个百−5个百=15个百，即1500。"
+    ],
+    "answer": "1500",
+    "family_id": "primary.base-ten.hundreds-thousands-add-sub",
+    "variant_id": "m2b.3.5:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "verify": "2000-500"
+  },
+  "pitfalls": [
+    "用2−5直接计算，是把2个千与5个百混为同一单位。",
+    "14个百不能写成140或14000，应按100为单位。"
+  ],
+  "practice": [
+    {
+      "id": "m2b.3.5-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m2b.3.5-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "同单位相加减如300+500=8个百=800、7000−2000=5个千=5000；跨千时600+700=13个百=1300。",
+      "observation_note": "本项观察同单位加减正确、跨千时正确换单位；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "口算400+800、6000−3000、3000−700。",
+        "reference_answer": "依次为1200、3000、2300；第三题按30个百减7个百。",
+        "criteria": [
+          "同单位加减正确",
+          "跨千时正确换单位"
+        ],
+        "family_id": "primary.base-ten.hundreds-thousands-add-sub",
+        "variant_id": "m2b.3.5:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "placevalue.ten-adjacent-units"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "3000等于3个百还是30个百？",
+        "hint": "从1000=10个百开始，想3个1000含几个百。",
+        "revision_prompt": "给错题写一行“几个百”或“几个千”的中间式，再还原。"
+      },
+      "criterion_index": 0,
+      "title": "能口算整千整百数的加减"
+    },
+    {
+      "explanation": "位值单位像装箱规格，只有同规格的箱数才能直接相减。例如2500−600可把2500全看成25个百，减6个百得19个百。",
+      "observation_note": "本项观察说明19所带的单位、正确还原为1900；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "说明2500−600为何不是19，并写出正确结果。",
+        "reference_answer": "25−6=19得到的是19个百，所以是1900，不是19个一。",
+        "criteria": [
+          "说明19所带的单位",
+          "正确还原为1900"
+        ],
+        "family_id": "primary.base-ten.hundreds-thousands-add-sub",
+        "variant_id": "m2b.3.5:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.subtraction-addition-inverse",
+          "placevalue.ten-adjacent-units"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "25箱各100个拿走6箱，剩19箱是19个物体吗？",
+        "hint": "先求箱数，再乘上每箱100的含义。",
+        "revision_prompt": "给中间结果19补上“百”，并用1900+600检查2500。"
+      },
+      "criterion_index": 1,
+      "title": "能说清按计数单位计算的道理"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

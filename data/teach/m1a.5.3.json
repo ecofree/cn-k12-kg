@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m1a.5.3",
+  "name": "5、4、3、2 加几",
+  "tier": "tool",
+  "hook": "怎样较方便地算3+8？",
+  "definition": "5、4、3、2加几时，可以选择容易的方法；当另一个加数接近10，交换两个加数的位置，和仍不变，就可用熟悉的凑十法。",
+  "why": "3个红圆片与8个蓝圆片合起来，先数哪一堆不会改变总数。因此3+8与8+3求同一总数，交换后8补2更容易。",
+  "conditions": [
+    "加数为一位数，和在20以内。",
+    "交换只用于加法，且两个加数本身不改变。"
+  ],
+  "representation_note": "用两色圆片左右交换位置，再把接近10的一堆移入十格框。",
+  "when_to_use": [
+    "加数为一位数，和在20以内。",
+    "交换只用于加法，且两个加数本身不改变。"
+  ],
+  "steps": [
+    "先看两堆的数量与总和是否超过10。",
+    "若另一个数更接近10，可交换加数的位置。",
+    "按接近10的数确定补数，拆另一部分。",
+    "凑十后加剩余，再检查原来两堆总量。"
+  ],
+  "worked_example": {
+    "prompt": "怎样较方便地算3+8？",
+    "steps": [
+      "先看成8+3。",
+      "3分成2和1；8+2=10，10+1=11。"
+    ],
+    "answer": "11",
+    "family_id": "primary.add.make-ten",
+    "variant_id": "m1a.5.3:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "verify": "3+8",
+    "reference_family_ids": [
+      "arithmetic.addition-commutativity"
+    ]
+  },
+  "pitfalls": [
+    "交换加数只改变加法顺序，不能把减法也随意交换。",
+    "原题3+8交换后是8+3，不是8+8。"
+  ],
+  "practice": [
+    {
+      "id": "m1a.5.3-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m1a.5.3-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "较小的加数在前也可以计算：5+7看成7+5，7补3，5剩2，得12；4+8看成8+4，得12。没有进位时可直接合成。",
+      "observation_note": "本项观察三个结果正确、能选择合适方法；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "计算5+8、4+9、2+7，说明选用哪种方法。",
+        "reference_answer": "5+8=13、4+9=13、2+7=9；前两题可交换后凑十，第三题可直接用组成。",
+        "criteria": [
+          "三个结果正确",
+          "能选择合适方法"
+        ],
+        "family_id": "addition.make-ten",
+        "variant_id": "m1a.5.3:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.add.single-digit-facts"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2+7是否已经需要凑成10？",
+        "hint": "先判断合起来9个；方法是为了方便，不必每题都强行凑十。",
+        "revision_prompt": "对错题先摆两堆，再决定用组成还是交换后凑十。"
+      },
+      "criterion_index": 0,
+      "title": "能计算 5、4、3、2 加几"
+    },
+    {
+      "explanation": "交换位置前后，加数的数量都不能改变。解释“为什么和不变”可以用两堆合起来是同一批物体，而非只背一句规则。",
+      "observation_note": "本项观察说明总量保持不变、交换后拆分正确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "说明2+9为什么可以先想9+2，再写出凑十过程。",
+        "reference_answer": "只是交换数两堆的顺序，物体仍是原来11个；9+2=9+1+1=11。",
+        "criteria": [
+          "说明总量保持不变",
+          "交换后拆分正确"
+        ],
+        "family_id": "addition.make-ten",
+        "variant_id": "m1a.5.3:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.addition-commutativity"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把两堆圆片左右换位，会多出圆片吗？",
+        "hint": "圈住同一批圆片，再交换左右位置。",
+        "revision_prompt": "同时写2+9与9+2，用同一幅图说明它们的和相等。"
+      },
+      "criterion_index": 1,
+      "title": "会用交换加数的位置简化计算"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

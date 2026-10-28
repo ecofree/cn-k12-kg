@@ -1,0 +1,180 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.5.2.2",
+  "name": "同角三角函数的基本关系",
+  "tier": "core",
+  "hook": "知道sinα=3/5，为何cosα还可能有两个符号？",
+  "definition": "同角基本关系为sin²α+cos²α=1；当cosα≠0时tanα=sinα/cosα。平方关系只确定绝对值，开平方的正负由角的范围决定；化简分式要同时保留原分母与所除量非零的条件。",
+  "why": "单位圆上x²+y²=1把正弦与余弦联系起来，但平方消去了符号，因此求另一函数值还需象限条件。齐次式同除适当幂可转成正切，前提是除数不为0。",
+  "when_to_use": [
+    "已知一个三角函数值及角的范围",
+    "含sin与cos的同次式需要转成tan"
+  ],
+  "steps": [
+    "先用象限确定待求值符号",
+    "用平方关系求大小并选正确符号",
+    "用商关系或同除化简，逐项检查分母"
+  ],
+  "worked_example": {
+    "prompt": "sinα=3/5，α在第二象限，求cosα与tanα。",
+    "steps": [
+      "cos²α=1-9/25=16/25。",
+      "第二象限cosα<0，所以cosα=-4/5。",
+      "tanα=(3/5)/(-4/5)=-3/4。"
+    ],
+    "answer": "cosα=-4/5，tanα=-3/4",
+    "family_id": "trig.one-ratio-with-quadrant",
+    "variant_id": "mh1.5.2.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "开平方只取正根",
+    "同除cosα前不检查cosα是否为零"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能由一个三角函数值求其余两个",
+      "explanation": "平方关系给绝对值，象限决定符号，商关系再给正切。",
+      "self_check": {
+        "prompt": "cosα=-5/13且α在第三象限，求sinα、tanα。",
+        "reference_answer": "sinα=-√(1-25/169)=-12/13；tanα=12/5。",
+        "criteria": [
+          "平方关系与负正弦正确",
+          "正切为正且比值正确"
+        ],
+        "family_id": "trig.one-ratio-with-quadrant",
+        "variant_id": "mh1.5.2.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "由sin²=144/169能直接选正12/13吗？",
+        "hint": "平方只给绝对值，第三象限的y<0。",
+        "revision_prompt": "已知sin=3/5且在第二象限，得cos=-4/5、tan=-3/4；每个符号回查象限。"
+      },
+      "observation_note": "观察平方关系与符号选择；没给象限时可能存在两解。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能化简含 sin、cos 的齐次式",
+      "explanation": "同次分式可同除cos的相应幂，但须说明相关分母非零。",
+      "self_check": {
+        "prompt": "已知tanα=2，求(sinα+cosα)/(sinα-cosα)，说明分母为何非零。",
+        "reference_answer": "tan已定义故cos≠0；同除cos得(2+1)/(2-1)=3。sin-cos=cos(2-1)≠0。",
+        "criteria": [
+          "同除合法及分母非零有说明",
+          "计算得3"
+        ],
+        "family_id": "trig.homogeneous-ratio-domain",
+        "variant_id": "mh1.5.2.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "除以cosα前为什么要确认cosα≠0？",
+        "hint": "tanα已定义给出此条件，原分式还需另查sinα-cosα。",
+        "revision_prompt": "若tanα=1，说明(sin+cos)/(sin-cos)无定义；不能把分母0写成某个数。"
+      },
+      "observation_note": "观察齐次化简的两层非零条件；数值代入不代表所有角恒等。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能把已知正切值转写为正弦与余弦的比值",
+      "explanation": "当cosα≠0时，tanα=sinα/cosα。题目已给tanα存在并等于某数，则所求的同角正弦与余弦之比直接等于该数；不必分别求出sinα、cosα，也不能把商颠倒为余弦除以正弦。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：若 tanα=2，则 sinα/cosα 等于多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：2。tanα=sinα/cosα已知2，所求2。",
+        "criteria": [
+          "在余弦非零的同角条件下直接识别正弦除余弦为正切，保持商的方向",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "trig.quotient-identity-recall",
+        "variant_id": "mh1.5.2.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "所求是sinα/cosα还是cosα/sinα？已知tanα有定义，对分母cosα说明了什么？",
+        "hint": "先完整写出tanα与正弦、余弦之比的等式，对照分子分母顺序，再将已知正切值替换进去。",
+        "revision_prompt": "先回答这个辨别问题：所求是sinα/cosα还是cosα/sinα？已知tanα有定义，对分母cosα说明了什么？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；在余弦非零的同角条件下直接识别正弦除余弦为正切，保持商的方向。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由已给正弦值和非零余弦值求正切值",
+      "explanation": "同一角的正切等于正弦值除以非零余弦值。两数都已给时先确认分母对应余弦，再做除法并保留符号；正切可能大于1，不能因为正弦余弦都在−1到1之间，就把正切也强行限制在这个区间。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：已知角 α 是锐角，sinα=0.6，cosα=0.8。tanα 等于多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：0.75。两值已给且自洽，tan=.6/.8=.75。",
+        "criteria": [
+          "使用同角已给正弦和非零余弦，按正确顺序求商得到正切",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "trig.quotient-from-sine-cosine",
+        "variant_id": "mh1.5.2.2:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "0.6与0.8分别属于正弦还是余弦？求正切应把哪一个放在分母，是否误把两者相乘？",
+        "hint": "先写tanα=sinα/cosα，再逐个替换分子、分母，用所得商乘回余弦值核对正弦值。",
+        "revision_prompt": "先回答这个辨别问题：0.6与0.8分别属于正弦还是余弦？求正切应把哪一个放在分母，是否误把两者相乘？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；使用同角已给正弦和非零余弦，按正确顺序求商得到正切。"
+      }
+    },
+    {
+      "criterion_index": 4,
+      "title": "能由正切值求同角正弦与余弦的乘积",
+      "explanation": "设t=tanα，因sinα=tcosα且sin²α+cos²α=1，可得cos²α=1/(1+t²)，从而sinαcosα=t/(1+t²)。题给锐角时该乘积为正；无需先近似求角度或分别开方，避免引入额外误差。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：某斜坡的坡度 tanα=2，其中 α 是锐角。sinα 与 cosα 的乘积是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：0.4。sinαcosα=tanα/(1+tan²α)=2/5=.4。",
+        "criteria": [
+          "结合正切定义与平方恒等式求同角乘积，分母完整使用1+t²而非1+t",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "trig.product-from-tangent",
+        "variant_id": "mh1.5.2.2:self-check:4:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "所求是正弦乘余弦，还是它们的商？由tanα=2能否直接断言sinα=2？",
+        "hint": "先用sinα=tcosα把平方恒等式写成只含cos²α的式子，求出这个平方后再乘t，保持精确分数到最后。",
+        "revision_prompt": "先回答这个辨别问题：所求是正弦乘余弦，还是它们的商？由tanα=2能否直接断言sinα=2？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；结合正切定义与平方恒等式求同角乘积，分母完整使用1+t²而非1+t。"
+      }
+    }
+  ],
+  "check": "独立完成各项自检并保留推导或作图：平方关系与负正弦正确；同除合法及分母非零有说明。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.5.2.2-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.5.2.2-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.5.2.2-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "开平方按象限选符号；商式分母非零。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.1.5.1",
+  "name": "全称量词与存在量词",
+  "tier": "core",
+  "hook": "检查了十个数都成立，能说明‘所有实数都成立’吗？",
+  "definition": "全称量词∀表示论域内每个对象都满足谓词，存在量词∃表示至少一个对象满足。两种命题都要写明论域；存在不表示恰好一个，全称也不能由有限个满足例子直接证明。",
+  "why": "全称命题把所有对象连成‘且’，有一个反例就失败；存在命题把对象连成‘或’，一个实例即可成立。真全称和假存在则需覆盖整个论域的理由。",
+  "when_to_use": [
+    "语句含‘任意’‘所有’‘至少存在一个’",
+    "需要通过反例或构造实例判断命题真假"
+  ],
+  "steps": [
+    "确定变量的论域与量词",
+    "区分证明全部成立和寻找一个对象",
+    "举例后代入核验，无法举例时用通性证明"
+  ],
+  "worked_example": {
+    "prompt": "判断‘∀x∈R，x²≥0’与‘∃x∈R，x²=-1’。",
+    "steps": [
+      "任意实数的平方非负，所以第一个命题真。",
+      "x²=-1与平方非负矛盾，不存在这样的实数。",
+      "第二个命题假；不能把复数i混入实数论域。"
+    ],
+    "answer": "前者真，后者假",
+    "family_id": "logic.quantifier-witness",
+    "variant_id": "mh1.1.5.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "用有限个正例证明无限论域的全称命题",
+    "举出的实例不属于原论域"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能识别量词并判断命题类型",
+      "explanation": "‘每个’与‘至少一个’决定命题结构，数值条件只是谓词。",
+      "self_check": {
+        "prompt": "将‘每个整数的平方都是非负数’与‘有一个整数的平方等于9’写成量词式。",
+        "reference_answer": "∀n∈Z，n²≥0；∃n∈Z，n²=9。前者全称，后者存在。",
+        "criteria": [
+          "量词与整数论域正确",
+          "准确区分两类命题"
+        ],
+        "family_id": "logic.quantifier-translation",
+        "variant_id": "mh1.1.5.1:criterion-0",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“至少有一个”允许有两个吗？“每个”只验一个够吗？",
+        "hint": "存在量词要求非空，不限制恰好一个；全称覆盖全部论域。",
+        "revision_prompt": "把“有整数n满足n²=4”写为∃n∈Z，n²=4；指出2与-2均可作见证。"
+      },
+      "observation_note": "观察量词、论域和谓词翻译；识别量词不代表能证明命题。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能举反例或举例判断量词命题的真假",
+      "explanation": "否定全称只需反例，肯定存在只需满足全部条件的实例。",
+      "self_check": {
+        "prompt": "判断‘∀x∈R，x²>x’与‘∃x∈R，x²>x’，给出可核验的依据。",
+        "reference_answer": "全称假：x=0时0>0不成立；存在真：x=2时4>2。",
+        "criteria": [
+          "反例满足论域且使断言失败",
+          "实例满足严格不等式"
+        ],
+        "family_id": "logic.quantifier-witness",
+        "variant_id": "mh1.1.5.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "给x=2能证明所有x都有x²>x吗？",
+        "hint": "一个满足例只能证存在；否定全称要找使不等式失败的值。",
+        "revision_prompt": "判断∀x∈R，x²≥x：用x=1/2得1/4<1/2否定；再用2证明相应存在命题。"
+      },
+      "observation_note": "观察有效见证与反例的用途；不能把有限个例子当作全称证明。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由有限集合上的全称不等条件求参数最小值",
+      "explanation": "在有限集合上要求每个x都满足x²≤a，a必须不小于这些平方值的最大值。全称条件不能只用最小值检验，且非严格不等号允许取最大值本身。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：命题「对任意 x∈{1,2,3}，都有 x^2≤a」为真。整数 a 的最小值是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：9。平方1、4、9，要求全部≤a，最小整数a9。",
+        "criteria": [
+          "全称约束由所有值中的最大要求决定",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "logic.universal-finite-threshold",
+        "variant_id": "mh1.1.5.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "只让x=1成立，能保证x=3也成立吗？",
+        "hint": "先列全部允许x对应的平方值，圈出最苛刻的最大值，再检查端点。",
+        "revision_prompt": "先回答这个辨别问题：只让x=1成立，能保证x=3也成立吗？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；全称约束由所有值中的最大要求决定。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能结合有限集合上的存在与非全称条件计算整数参数个数",
+      "explanation": "存在一个x使x²<a，要求a超过这些平方值的最小值；不是对所有x都成立，则至少一个平方值不小于a。合并两条件得到参数范围后再数整数。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：已知命题「存在 x∈{1,2,3} 使 x^2<a」为真，而命题「对任意 x∈{1,2,3} 都有 x^2<a」为假。整数 a 有多少个？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：8。存在x²<a需a>1，非所有需a≤9，整数2至9共8。",
+        "criteria": [
+          "存在、全称否定、严格端点及整数计数对应",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "logic.existential-not-universal-range",
+        "variant_id": "mh1.1.5.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "否定“所有都小于a”是否变成“所有都大于a”？",
+        "hint": "分别写存在条件的下界与非全称条件的上界，交集后逐个计整数。",
+        "revision_prompt": "先回答这个辨别问题：否定“所有都小于a”是否变成“所有都大于a”？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；存在、全称否定、严格端点及整数计数对应。"
+      }
+    }
+  ],
+  "check": "独立完成各项自检并保留推导或作图：量词与整数论域正确；反例满足论域且使断言失败。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.1.5.1-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.1.5.1-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.1.5.1-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "实例或反例必须属于指定论域。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

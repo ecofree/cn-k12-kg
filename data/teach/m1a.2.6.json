@@ -1,0 +1,134 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "一盒有9支彩笔，拿走4支，留下的为什么不用把两个数相加？",
+  "definition": "已知原来的总数，去掉其中一部分，求剩余部分用减法。被减数是原来的总数，减数是去掉的数量，差是剩余的数量。",
+  "why": "原来的物体分为去掉和剩余两部分。从总数中去掉已知的那一部分，留下的就是另一部分；也可用“去掉的+剩余的=原来总数”检查。",
+  "when_to_use": [
+    "已知原来数量和用去数量，求还剩多少",
+    "知道总数和其中一部分，求另一部分数量"
+  ],
+  "steps": [
+    "指出原来总数、去掉数量和所求剩余数。",
+    "用总数减去去掉的数量，不能颠倒。",
+    "计算后把差与去掉的数量相加，核对总数。"
+  ],
+  "worked_example": {
+    "prompt": "有9支彩笔，拿走4支，还剩几支？",
+    "steps": [
+      "剩余数=原来数−拿走数。",
+      "9−4=5；5+4=9，符合原来的9支。"
+    ],
+    "answer": "5",
+    "verify": "9-4",
+    "family_id": "primary.change.remove-part",
+    "variant_id": "m1a.2.6:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "拿走数不能大于原来数；条件不合理时先检查题意。",
+    "“剩下”描述的是哪一组要说清，不能减错总数。"
+  ],
+  "check": "先独立完成下面各项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m1a.2.6",
+  "name": "用减法解决问题",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断“求剩余”用减法",
+      "explanation": "从整体去掉已知部分，剩余部分可用减法求出。",
+      "self_check": {
+        "prompt": "桌上有8块积木，用去3块。说明为什么求剩余用减法。",
+        "reference_answer": "8块是整体，3块是从这8块里用去的部分，所以从8中去掉3。",
+        "criteria": [
+          "识别整体8和部分3",
+          "说明去掉而非合并"
+        ],
+        "family_id": "primary.change.remove-part",
+        "variant_id": "m1a.2.6:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "8块中用去3块，留下的属于原来8块吗？把8和3再合起来会多算哪部分？",
+        "hint": "摆8块，圈住其中3块并移开，只数没移开的；用去与剩下合起来才是8。",
+        "revision_prompt": "画6个点，划去2个，分别标“原有、去掉、留下”，再说明为什么列减法。"
+      },
+      "observation_note": "观察整体中去掉已知部分的关系；看到“用去”就选减法还不能证明会分析未知量。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能列减法算式并算出结果",
+      "explanation": "差要与情境对应，并可用加法验算。",
+      "self_check": {
+        "prompt": "10张纸用了6张，还剩多少张？列式并验算。",
+        "reference_answer": "10−6=4（张）；4+6=10，还剩4张。",
+        "criteria": [
+          "正确列减法",
+          "结果4且加法验算正确"
+        ],
+        "family_id": "arithmetic.subtraction-addition-inverse",
+        "variant_id": "m1a.2.6:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.add.combine-parts",
+          "primary.change.remove-part"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "10−6写成6−10，能表示从10张中拿走6张吗？",
+        "hint": "被减数先写原有10张，拿走6张；把剩下与用去的合回去检查总数。",
+        "revision_prompt": "7张纸用掉4张后求剩余，保留减法及对应加法检查，并写“张”。"
+      },
+      "observation_note": "观察减法方向、差与情境单位；正确答案不能说明实际纸张是否数漏。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由原有量与移去的部分量求剩余量",
+      "explanation": "剩余量是原有数量去掉确实移走的那部分。移走量不能再算在剩余里；结果的单位保持不变。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：值日桌上有8块橡皮，从这些橡皮中发出3块，桌上还剩几块？\n情境2：10个纸杯中有6个已被拿走，其余仍在盒里。盒里还剩多少个纸杯？\n写出每个问题的答案。可以用小棒、画图或算式说明你怎样想；用了提示或参考，也记下来。",
+        "reference_answer": "情境1参考：5。从8发出3，剩8−3=5。\n情境2参考：4。原10拿走6，剩10−6=4。",
+        "criteria": [
+          "正确区分原有、移走和剩余三种数量",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "primary.change.remove-part",
+        "variant_id": "m1a.2.6:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "仅提交剩余量，不提交运算选择或减法算式。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你把拿走部分又加回原有数量了吗？",
+        "hint": "先保留原有一整组，标记移走部分，再数未被移走的数量。",
+        "revision_prompt": "先回答这个辨别问题：你把拿走部分又加回原有数量了吗？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；正确区分原有、移走和剩余三种数量。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m1a.2.6-q1",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1a.2.6-q101",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1a.2.6-q102",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

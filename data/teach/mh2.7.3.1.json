@@ -1,0 +1,180 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh2.7.3.1",
+  "name": "复数的三角表示式",
+  "tier": "core",
+  "hook": "知道模长还不够，为什么还需一个方向角才能确定非零复数？",
+  "definition": "非零复数可写为r(cosθ+i sinθ)，r=|z|>0为模。辐角θ由实部和虚部共同确定象限，相差2kπ表示同一方向；零复数没有确定辐角，不能只由正切值确定象限。",
+  "why": "极坐标用距离与方向描述平面点，a=r cosθ、b=r sinθ把它与直角坐标对应起来。正半径保证方向不被负尺度混淆；正切只给比值，必须结合象限选辐角。",
+  "when_to_use": [
+    "要把a+bi化为三角形式",
+    "需要从三角形式读取模与角并还原坐标"
+  ],
+  "steps": [
+    "先求模r且检查是否为0",
+    "由a/r、b/r确定cosθ、sinθ并选象限",
+    "写r(cosθ+i sinθ)，注明辐角的2π多值性"
+  ],
+  "worked_example": {
+    "prompt": "把z=-1+√3i化为三角形式。",
+    "steps": [
+      "r=√(1+3)=2。",
+      "cosθ=-1/2、sinθ=√3/2，第二象限取θ=2π/3。",
+      "z=2(cos(2π/3)+i sin(2π/3))。"
+    ],
+    "answer": "2(cos(2π/3)+i sin(2π/3))",
+    "family_id": "complex.to-polar-quadrant",
+    "variant_id": "mh2.7.3.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "只由tan值确定角而忽略象限",
+    "把负系数当作模，或给零复数唯一辐角"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能把复数化为三角形式",
+      "explanation": "模由距离确定，角由两坐标符号共同确定。",
+      "self_check": {
+        "prompt": "把-√3-i写成模为正、辐角在[0,2π)的三角形式。",
+        "reference_answer": "模2，第三象限角7π/6，得2(cos(7π/6)+i sin(7π/6))。",
+        "criteria": [
+          "模为2且为正",
+          "象限与角7π/6正确"
+        ],
+        "family_id": "complex.to-polar-quadrant",
+        "variant_id": "mh2.7.3.1:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "tanθ=1/√3能否不看象限就取π/6？",
+        "hint": "cosθ、sinθ的符号分别由实部和虚部决定。",
+        "revision_prompt": "把-1-i化为√2(cos5π/4+i sin5π/4)，说明第三象限。"
+      },
+      "observation_note": "观察正模与两坐标定象限；只用正切不能唯一确定辐角。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能由三角形式读出模与辐角",
+      "explanation": "规范三角式要求实部余弦和虚部正弦具有同一角与同一正系数。",
+      "self_check": {
+        "prompt": "从3(cos(5π/6)+i sin(5π/6))读模与一个辐角，并写代数形式。",
+        "reference_answer": "模3，辐角5π/6（加2kπ仍可）；代数式-3√3/2+(3/2)i。",
+        "criteria": [
+          "模与多值角说明正确",
+          "两分量正确"
+        ],
+        "family_id": "complex.from-polar",
+        "variant_id": "mh2.7.3.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "一个辐角θ与θ+2π表示不同复数吗？",
+        "hint": "整圈回同一方向，模保持正。",
+        "revision_prompt": "2(cos3π/2+i sin3π/2)=-2i，模2，辐角可取3π/2或-π/2。"
+      },
+      "observation_note": "观察模与辐角多值；零复数没有确定辐角。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由代数形式计算非零复数的模",
+      "explanation": "复数z=a+bi对应复平面上的点(a,b)，模|z|是该点到原点的非负距离，所以|z|²=a²+b²，|z|=√(a²+b²)。虚部是实数b而不是bi；先辨清要求距离还是距离平方，前者需要取非负平方根，后者保留平方和即可。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：复数 1+i 的模是多少？ 可选：o1．2；o2．2√2；o3．1；o4．√2。\n情境2：复数 1+i 的模是多少？（答案可含根号）\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：√2。|1+i|=√2，正平方根。\n情境2参考：√2。|1+i|=√(1+1)=√2。",
+        "criteria": [
+          "使用实部与虚部系数的平方和，按所求模或模平方决定是否取非负平方根",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "complex.modulus",
+        "variant_id": "mh2.7.3.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "题目问模还是模的平方？你是在对虚部系数b平方，还是误把bi整体平方成负数？",
+        "hint": "先把实部a、虚部b列为两个坐标，算a²+b²，再与题目中的|z|或|z|²对照决定是否开方。",
+        "revision_prompt": "先回答这个辨别问题：题目问模还是模的平方？你是在对虚部系数b平方，还是误把bi整体平方成负数？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；使用实部与虚部系数的平方和，按所求模或模平方决定是否取非负平方根。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由复数的代数形式计算模的平方",
+      "explanation": "对代数形式z=a+bi，模的平方是a²+b²，也可由z乘其共轭得到。模平方不是z²：后者一般仍是复数。题目只求模平方时不需要开根号，也未要求求辐角，不能把其他未提交内容算作已观察。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：复数 z=1+i 的模的平方是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：2。模平方1²+1²=2，未求辐角。",
+        "criteria": [
+          "准确区分模平方与复数自身平方，计算实虚部平方和且不额外开方",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "complex.modulus",
+        "variant_id": "mh2.7.3.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "|z|²与z²是同一个运算吗？对1+i直接展开(1+i)²能否代替实部虚部平方和？",
+        "hint": "先从z中取出两个实系数，分别平方相加；或写z与共轭相乘核对，明确最后保留的是模平方。",
+        "revision_prompt": "先回答这个辨别问题：|z|²与z²是同一个运算吗？对1+i直接展开(1+i)²能否代替实部虚部平方和？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；准确区分模平方与复数自身平方，计算实虚部平方和且不额外开方。"
+      }
+    },
+    {
+      "criterion_index": 4,
+      "title": "能由已给三角形式计算复数实部",
+      "explanation": "复数三角形式r(cosθ+i sinθ)展开后，实部为r cosθ，虚部为r sinθ。给定模与辐角时求实部，应先按角度单位求余弦，再乘模；模r本身是到原点的距离，不一定等于实部，也不应误用正弦。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：某交流信号的相量写成 z=2(cos60°+isin60°)。它的实部是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：1。2cos60°=1。",
+        "criteria": [
+          "从已给三角形式正确取r cosθ为实部，保持角单位并完整乘入模",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "complex.polar-to-real-component",
+        "variant_id": "mh2.7.3.1:self-check:4:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "实部对应余弦还是正弦？外面的模2是否需要乘到余弦值上，还是能直接把2当实部？",
+        "hint": "先把外层r分配进括号，圈出不含i的一项；按60°求其余弦，再乘给定模。",
+        "revision_prompt": "先回答这个辨别问题：实部对应余弦还是正弦？外面的模2是否需要乘到余弦值上，还是能直接把2当实部？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；从已给三角形式正确取r cosθ为实部，保持角单位并完整乘入模。"
+      }
+    }
+  ],
+  "check": "独立完成各项自检并保留推导或作图：模为2且为正；模与多值角说明正确。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh2.7.3.1-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.7.3.1-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.7.3.1-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "非零复数，模r>0；辐角按2π同余。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

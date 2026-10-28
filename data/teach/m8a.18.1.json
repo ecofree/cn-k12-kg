@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.18.1",
+  "name": "分式及其基本性质",
+  "tier": "core",
+  "hook": "约分后x−2消失了，原来不能取的x=2为什么仍不能补回来？",
+  "definition": "形如 A/B 且分母含字母的式子叫分式，分母不为 0；分式的分子与分母同乘（除以）同一个不等于 0 的整式，分式的值不变；分子分母没有公因式时叫最简分式。",
+  "why": "分式有意义要求原分母非零；约分依据分子分母同除以同一个非零因式。得到的简式在原定义域内等值，但不能把原式没有定义的输入自动纳入，因而限制必须保留。",
+  "when_to_use": [
+    "分母含字母需要确定允许取值",
+    "分子分母有共同因式可约分"
+  ],
+  "steps": [
+    "先写原分母不等于0的限制",
+    "将分子分母分别分解为因式的积",
+    "约去非零公因式并保留原限制"
+  ],
+  "worked_example": {
+    "prompt": "化简(x²−9)/(x−3)，并写取值限制。",
+    "answer": "x+3，且x≠3",
+    "steps": [
+      "原分母x−3≠0，所以x≠3。",
+      "分子=(x−3)(x+3)，约去非零x−3，得到x+3，仍要求x≠3。"
+    ],
+    "family_id": "rational-expression.cancel-factors-retain-domain",
+    "variant_id": "m8a.18.1:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "约分只能约公共因式，不能把加减式里的单项直接删掉。",
+    "化简后分母消失不表示原限制消失。"
+  ],
+  "check": "独立完成并解释：分式(x+1)/(x−2)有意义的条件是什么？ 请写出判断或计算依据。；化简(x²−4)/(x−2)，已知x≠2。只写化简后的式子。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断一个式子是否为分式并指出有意义的条件",
+      "explanation": "分母有字母的式子须检查原分母非零，分子允许为0。",
+      "self_check": {
+        "prompt": "分式(x+1)/(x−2)有意义的条件是什么？ 请写出判断或计算依据。",
+        "reference_answer": "分母不能为0，x−2≠0，所以x≠2；分子为0不影响分式有意义。",
+        "criteria": [
+          "列x−2≠0",
+          "得到x≠2"
+        ],
+        "family_id": "rational-expression.domain-denominator",
+        "variant_id": "m8a.18.1:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "x=−1使分子0，是否导致式子无意义？真正不能为0的是哪一部分？",
+        "hint": "先算分母x−2，只有x=2必须排除；分子0且分母非0时值为0。",
+        "revision_prompt": "检验x=−1与x=2，分别得到0与无定义，并说明x/2虽含字母但分母不含字母。"
+      },
+      "observation_note": "观察分式身份与定义域；分子含字母或分子0都不是无意义条件。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能约分化为最简分式",
+      "explanation": "约分建立在因式分解和非零条件上，最后应为最简分式或整式。",
+      "self_check": {
+        "prompt": "化简(x²−4)/(x−2)，已知x≠2。只写化简后的式子。 请写出判断或计算依据。",
+        "reference_answer": "先分解x²−4=(x−2)(x+2)，约去非零公共因式x−2，得x+2；原限制x≠2仍保留。",
+        "criteria": [
+          "先分解平方差",
+          "约因式而非约项并保留x≠2"
+        ],
+        "family_id": "rational-expression.cancel-factors-retain-domain",
+        "variant_id": "m8a.18.1:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "约去x−2后，x=2是否突然变成原分式的合法输入？",
+        "hint": "化简只在原定义域内等值，先记录x≠2再把分子分解成乘积。",
+        "revision_prompt": "比较x=3时两式都为5，而x=2时原式无定义；保留限制写x+2（x≠2）。"
+      },
+      "observation_note": "观察因式约分与定义域保留；不能约加法项，也不能因约掉分母就补回原禁值。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能计算一个部分占总量的数值比例",
+      "explanation": "部分占整体的比例用部分量除整体量。整体包含所有互不重叠部分，不能只用另一个部分作分母；所得比例无人数单位。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：某班有18名男生和12名女生，男生人数占全班人数的比值可以写成18/(18+12)。这个比值是多少？（用小数表示）\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：0.6。18/(18+12)=18/30=.6；不是含字母分母的代数分式。",
+        "criteria": [
+          "部分分子与完整整体分母对应",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "fraction.part-over-total",
+        "variant_id": "m8a.18.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "18人占全班的比例，分母应是12还是18+12？",
+        "hint": "先画包含两个部分的整体框，把全部人数放在分母。",
+        "revision_prompt": "先回答这个辨别问题：18人占全班的比例，分母应是12还是18+12？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；部分分子与完整整体分母对应。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能在有效的给定字母值下计算代数分式的值",
+      "explanation": "代数分式只可约去分子分母共同的非零因子，不能跨加减项直接消去。约分后仍保留原式分母非零条件，再代入有效字母值。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：分式(6x²y)/(9xy²)中，x≠0、y≠0。先约分，再求它在x=9、y=6时的值。\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：1。原x,y非零，6x²y/(9xy²)=2x/(3y)，代9,6为1。",
+        "criteria": [
+          "公因子约分正确且原定义条件保留",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "rational-expression.evaluate-after-cancel",
+        "variant_id": "m8a.18.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只交数值，不据此确认先约分或保留定义域的书面过程。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你约去的是整个公因子，还是多项式中的一项？原式限制是否仍满足？",
+        "hint": "把系数和各字母幂分开约，记下x、y非零后再代入。",
+        "revision_prompt": "先回答这个辨别问题：你约去的是整个公因子，还是多项式中的一项？原式限制是否仍满足？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；公因子约分正确且原定义条件保留。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.18.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.18.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.18.1-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

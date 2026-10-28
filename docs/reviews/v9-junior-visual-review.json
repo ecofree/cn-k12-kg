@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "baseline_commit": "b3e9fa9e49c1e52e7d19ca5c5ba29d87ec164d9b",
+  "reviewer": "V9 junior author agent; AI mathematical/content review",
+  "reviewer_kind": "ai",
+  "independent_teacher_review": false,
+  "student_validation": false,
+  "source": "data/assessments/junior.json",
+  "assessment_source_sha256": "4423913f1394610eb7201428fc6ab668177be2c54026b101a9d70f6a57656c01",
+  "hash_contract": "Full source task/plan object: json.dumps(ensure_ascii=False,sort_keys=True,separators=(\",\",\":\")), UTF-8, SHA-256; file hashes use exact bytes.",
+  "limits": [
+    "新资源和AI审读不是教师独立审核、真实学生作答或独立掌握证据。",
+    "旧任务保留原对象及原语义审读身份；结构比较阅读不改称对全部存量题重新逐题完成独立数学验证。",
+    "未取得的本人图稿、解释、测量、修订和延迟表现均保持未观察。"
+  ],
+  "review_scope": "六个新SVG逐张实际渲染并检查题意、标签、比例和可读性；不是只检查文件存在。",
+  "visible_text_note": "可见文字采用清楚的数字/拉丁字母，中文对应在题干中说明；title/desc/alt仍提供中文说明，避免缺少中文字体时图面标签缺字。",
+  "assets": [
+    {
+      "path": "web/static/diagrams/v9-junior-annular-sector.svg",
+      "source_sha256": "6be1b4dcb9c67f0d6ff8ff1e1b60724936204a09c1ace16b812f9f13502a9049",
+      "rendered_png_sha256": "015429156ae0a4a487ccb49607f0de28955f22784bc3d75053f4318cfea2b9ee",
+      "render_method": "CairoSVG at scale 1.5; rendered PNG and six-image contact sheet actually inspected through view_image",
+      "visual_reason": "实际渲染核对：90°环形扇形，外半径210像素、内半径140像素对应6:4；两圆弧与两条直边清楚，O、4cm、6cm、90°可读，阴影排除完整小扇形。题面另明确外内半径与弧边范围，无面积答案预印。",
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "web/static/diagrams/v9-junior-linear-value-table.svg",
+      "source_sha256": "f7fcb8db78020b21bbc995b4303f7a8350f0e815191b1525efd2d185706aca58",
+      "rendered_png_sha256": "27ef0fde21b571a8dcb7d70d64238f4245f07c2aaf1c6bb250f4ebe2fbd9386a",
+      "render_method": "CairoSVG at scale 1.5; rendered PNG and six-image contact sheet actually inspected through view_image",
+      "visual_reason": "实际渲染是两行四列数据表，左列x/y，后列0/1、2/5、5/11；线框与数值对齐，无遮挡。配图实际提供三组数据，“读取表格”与表征table一致。",
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "web/static/diagrams/v9-junior-missing-pie-share.svg",
+      "source_sha256": "d2289a94ff8c3efa86bc9403244813828ceb487bf4181b2a41671eaa41e3406d",
+      "rendered_png_sha256": "9d05489382a30c254cff46a5fcd59194c26ceb931672badc677b24ecdb32f55b",
+      "render_method": "CairoSVG at scale 1.5; rendered PNG and six-image contact sheet actually inspected through view_image",
+      "visual_reason": "实际渲染三扇形角72°、126°、162°分别为20%、35%、45%，标签A20%、B35%、C?和N80可读。题干明确A公交、B骑车、C步行，未知C未直接标45%，不要求靠目测求答案。",
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "web/static/diagrams/v9-junior-obtuse-triangle-work.svg",
+      "source_sha256": "1d30013a89e215b56c903eb360d5ebd289b0d6bb5971689e278d4b758450a519",
+      "rendered_png_sha256": "ad3b8c329ba06eb195e319c8416f18dac5f4b1bb2732be93eb5a7b6def494b98",
+      "render_method": "CairoSVG at scale 1.5; rendered PNG and six-image contact sheet actually inspected through view_image",
+      "visual_reason": "实际渲染A在B左上、B与C同水平；按坐标核对B为钝角，A垂足在BC的B侧延长线。图只给三角形与顶点，没有预画高或角平分线；左边留有作外部垂足的空间。",
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "web/static/diagrams/v9-junior-stack-three-views.svg",
+      "source_sha256": "49d8a69d050af3890d257a4aebd6035c163693361a931ffcad5a917b47b7febf",
+      "rendered_png_sha256": "b93bc1f8d44b41b9d17dd4455e41b8c368b7847f19a6cf9944922907d51234bc",
+      "render_method": "CairoSVG at scale 1.5; rendered PNG and six-image contact sheet actually inspected through view_image",
+      "visual_reason": "实际渲染(1)前视列高2、1，(2)左视按B后/F前列高1、2，(3)俯视2×2全占位；所有小格同尺度，前排在下。题干已明确(1)/(2)/(3)与F/B对应，不靠未知英文字母猜方位。",
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "web/static/diagrams/v9-junior-two-sided-balance.svg",
+      "source_sha256": "0eab2358bd9aa4b0da7fb85314640151c9101e00bc27a550c4e84e460c25fec3",
+      "rendered_png_sha256": "7aa2b7fc2145c073a8602ed2a269f5b9bc3ef9a5dc6cc500ea198b7aa0b2aa37",
+      "render_method": "CairoSVG at scale 1.5; rendered PNG and six-image contact sheet actually inspected through view_image",
+      "visual_reason": "实际渲染天平水平，左盘3个相同?盒及2单位砝码，右盘1个?盒及10单位砝码；盘中对象可分辨，梁、悬线不遮住质量标签。静态图仅给模型输入，没有预印x=4或声称真实实验。",
+      "decision": "accept_with_limits"
+    }
+  ],
+  "count": 6,
+  "all_rendered_and_inspected": true
+}

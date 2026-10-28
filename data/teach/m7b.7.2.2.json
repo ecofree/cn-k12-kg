@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.7.2.2",
+  "name": "平行线的判定",
+  "tier": "core",
+  "hook": "先知道角相等，再想推出两条线平行，需要写清哪一对角？",
+  "definition": "同位角相等、内错角相等、同旁内角互补，都可判定两条直线平行；平行于同一条直线的两条直线也平行。",
+  "why": "平行判定把角的位置与大小结合：同位角相等、内错角相等或同旁内角互补均可推出被截线平行。相等的角若没有这类位置联系，就不构成判定。",
+  "when_to_use": [
+    "题中给出角相等或互补",
+    "结论要求证明两条直线平行"
+  ],
+  "steps": [
+    "选定被判定的两线及共同截线",
+    "确认角是同位、内错或同旁内角",
+    "把已知角关系与对应判定定理连成因果链"
+  ],
+  "worked_example": {
+    "prompt": "直线t截直线a、b，一对内错角分别为3x+5°与5x−25°。已知这对角相等，说明a、b平行并求x。",
+    "answer": "a∥b，x=15",
+    "steps": [
+      "由3x+5=5x−25得2x=30，x=15；两角均为50°。",
+      "这两个角是内错角且相等，依据内错角相等，两直线平行，得a∥b。"
+    ],
+    "family_id": "parallel.criteria.angle-pairs",
+    "variant_id": "m7b.7.2.2:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "prove"
+  },
+  "pitfalls": [
+    "不能把“平行线内错角相等”反向当作未经说明的证明。",
+    "两角和为180°还要确认是同旁内角。"
+  ],
+  "check": "独立完成并解释：直线t截a、b。三道独立小题分别给：一对同位角45°与45°；一对内错角52°与52°；一对同旁内角68°与112°。逐题证明a∥b。；小明写“因a∥b，所以内错角相等，故a∥b”来证明平行，错误在哪里？补写已知内错角相等时的正确证明。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用三类角的关系判定两直线平行",
+      "explanation": "三种平行判定分别用同位相等、内错相等、同旁内角互补，位置与大小须共同满足。",
+      "self_check": {
+        "prompt": "直线t截a、b。三道独立小题分别给：一对同位角45°与45°；一对内错角52°与52°；一对同旁内角68°与112°。逐题证明a∥b。",
+        "reference_answer": "第一题同位角相等，得a∥b；第二题内错角相等，得a∥b；第三题68°+112°=180°，同旁内角互补，得a∥b。",
+        "criteria": [
+          "三种角位置和判定匹配",
+          "第三题先计算互补关系"
+        ],
+        "family_id": "parallel.criteria.angle-pairs",
+        "variant_id": "m7b.7.2.2:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "prove"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "68°与112°是相等还是互补？它们属于哪一类位置的角？",
+        "hint": "将角位置与数量关系分两栏：同位/内错配相等，同旁内角配和180°。",
+        "revision_prompt": "另给一对同旁内角70°与70°，判断能否由此推出平行并说明不能套相等判据。"
+      },
+      "observation_note": "观察三种判定的条件匹配；角度关系必须与实际角位置共同成立。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能写清每一步判定的依据",
+      "explanation": "证明的每一步须写已知关系与定理，不能用目标结论本身作理由。",
+      "self_check": {
+        "prompt": "小明写“因a∥b，所以内错角相等，故a∥b”来证明平行，错误在哪里？补写已知内错角相等时的正确证明。",
+        "reference_answer": "错误是先假定待证结论。正确为：已知一对内错角相等，根据内错角相等、两直线平行，得a∥b。",
+        "criteria": [
+          "指出循环使用结论",
+          "写清已知到判定到结论"
+        ],
+        "family_id": "proof.parallel.avoid-circular-reasoning",
+        "variant_id": "m7b.7.2.2:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "prove"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "证明的第一句a∥b来自题目已知，还是正要证明的结论？",
+        "hint": "将已知列左侧、待证列右侧，箭头只能从给定等角关系指向平行。",
+        "revision_prompt": "改写一条完整证明：已知∠1=∠2且是内错角，依据判定得a∥b，删除循环句。"
+      },
+      "observation_note": "观察已知与待证的区分；套对名称仍需确认图中角确为内错角。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.7.2.2-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.7.2.2-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.7.2.2-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

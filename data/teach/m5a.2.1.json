@@ -1,52 +1,120 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m5a.2.1",
- "name": "小数乘整数",
- "tier": "core",
- "hook": "0.8×3 为什么是 2.4，而不是 24？小数点到底该点在哪儿？",
- "definition": "小数乘整数，先按整数乘法算出积，再看因数中有几位小数，就从积的右边起数出几位点上小数点。",
- "why": "0.8 是 8 个 0.1。8 个 0.1 乘 3，得到 24 个 0.1，也就是 2.4。因数里有几位小数，就说明计数单位缩小了多少倍，所以积也要把同样的倍数还回去——这就是「数几位、点几位」的来历。",
- "when_to_use": [
-  "一个因数是小数、另一个是整数",
-  "求几个相同的小数相加（如 3 个 0.8）",
-  "算出积以后要确定小数点的位置"
- ],
- "steps": [
-  "先不看小数点，按整数乘法算",
-  "数一数因数里一共有几位小数",
-  "从积的右边起数出同样多位，点上小数点",
-  "末尾的 0 可以去掉（如 6.0 写成 6）"
- ],
- "worked_example": {
-  "prompt": "0.8×3=？",
-  "verify": "0.8*3",
-  "answer": "2.4",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "hand",
+  "topicId": "m5a.2.1",
+  "name": "小数乘整数",
+  "tier": "core",
+  "hook": "0.8×3 为什么是 2.4，而不是 24？小数点到底该点在哪儿？",
+  "definition": "小数乘整数，先按整数乘法算出积，再看因数中有几位小数，就从积的右边起数出几位点上小数点。",
+  "why": "0.8 是 8 个 0.1。8 个 0.1 乘 3，得到 24 个 0.1，也就是 2.4。因数里有几位小数，就说明计数单位缩小了多少倍，所以积也要把同样的倍数还回去——这就是「数几位、点几位」的来历。",
+  "when_to_use": [
+    "一个因数是小数、另一个是整数",
+    "求几个相同的小数相加（如 3 个 0.8）",
+    "算出积以后要确定小数点的位置"
+  ],
   "steps": [
-   "先按整数算：8×3=24。",
-   "0.8 有 1 位小数，积就要有 1 位小数。",
-   "从右边数 1 位点上小数点，得 2.4。"
+    "先不看小数点，按整数乘法算",
+    "数一数因数里一共有几位小数",
+    "从积的右边起数出同样多位，点上小数点",
+    "末尾的 0 可以去掉（如 6.0 写成 6）"
+  ],
+  "worked_example": {
+    "prompt": "0.8×3=？",
+    "verify": "0.8*3",
+    "answer": "2.4",
+    "steps": [
+      "先按整数算：8×3=24。",
+      "0.8 有 1 位小数，积就要有 1 位小数。",
+      "从右边数 1 位点上小数点，得 2.4。"
+    ],
+    "family_id": "decimal.multiply-integer-place-value",
+    "variant_id": "m5a.2.1:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "decimal.digit-place-value"
+    ]
+  },
+  "pitfalls": [
+    "把整数的位数误当成小数位数，导致小数点位置错误。",
+    "1.5×4算成60，忘记恢复小数点。",
+    "把6.0与6误认为不同的数；是否保留末尾0要看题目的表示或精度要求。"
+  ],
+  "practice": [
+    {
+      "id": "m5a.2.1-q1",
+      "note": "1 位小数 × 整数"
+    },
+    {
+      "id": "m5a.2.1-q2",
+      "note": "积正好是整数，注意 6.0 写 6"
+    },
+    {
+      "id": "m5a.2.1-q95",
+      "note": "先算总价，再求找回，两步都用到小数乘整数"
+    }
+  ],
+  "check": "能解释「0.8×3 是 24 个 0.1」，并正确算出 8.1×7=56.7。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能计算小数乘整数",
+      "explanation": "把小数看成若干个0.1或0.01，乘整数是在合并相同单位。",
+      "self_check": {
+        "prompt": "计算1.25×4并解释计数单位。",
+        "reference_answer": "125个0.01乘4得500个0.01，即5。",
+        "criteria": [
+          "整数积500",
+          "还原单位得5"
+        ],
+        "family_id": "decimal.multiply-integer-place-value",
+        "variant_id": "m5a.2.1:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "decimal.add-subtract-alignment",
+          "decimal.digit-place-value"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "1.25的125表示125个一，还是125个百分之一？乘4后单位变了吗？",
+        "hint": "125个0.01乘4是500个0.01，每100个0.01为1，所以是5。",
+        "revision_prompt": "计算0.75×4，用75个0.01重复4次解释，再用四个0.75相加检查。"
+      },
+      "observation_note": "观察小数乘整数的计数单位与运算；单个结果不能说明会处理乘数含小数。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能按因数的小数位数确定积的小数点位置",
+      "explanation": "整数计算时将小数因数扩大10或100倍，积必须相应缩回。",
+      "self_check": {
+        "prompt": "0.36×7先算36×7=252，积的小数点怎样放？",
+        "reference_answer": "0.36被扩大100倍，积要除以100，得2.52。",
+        "criteria": [
+          "识别两位小数",
+          "对应缩小100倍"
+        ],
+        "family_id": "decimal.multiply-integer-place-value",
+        "variant_id": "m5a.2.1:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.column-multiply-by-digit",
+          "decimal.place-shift-times-ten"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把0.36当成36算，原数被扩大了多少倍？积252也应怎样还原？",
+        "hint": "0.36×100=36，整数积同样扩大100倍；252÷100=2.52。",
+        "revision_prompt": "计算0.48×6，先写扩大倍数再放回小数点，用0.5×6=3作附近估计。"
+      },
+      "observation_note": "观察整数积恢复原计数单位；末尾0的书写不应改变数值正确性。"
+    }
   ]
- },
- "pitfalls": [
-  "积的小数位数按两个因数相加来点（整数没有小数位，不该加）。",
-  "1.5×4 算成 60，忘了点小数点。",
-  "结果 6.0 不化简，或把末尾的 0 当成有效数字硬留着。"
- ],
- "practice": [
-  {
-   "id": "m5a.2.1-q1",
-   "note": "1 位小数 × 整数"
-  },
-  {
-   "id": "m5a.2.1-q2",
-   "note": "积正好是整数，注意 6.0 写 6"
-  },
-  {
-   "id": "m5a.2.1-q95",
-   "note": "先算总价，再求找回，两步都用到小数乘整数"
-  }
- ],
- "check": "能解释「0.8×3 是 24 个 0.1」，并正确算出 8.1×7=56.7。"
 }

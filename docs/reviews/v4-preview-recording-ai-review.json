@@ -1,0 +1,246 @@
+{
+  "schema": 1,
+  "review_kind": "ai_author_static_review_preview_recording_with_independent_ai_cross_review",
+  "reviewer": {
+    "type": "ai",
+    "agent": "/root/v4_teaching_content",
+    "relationship": "implementation_author_and_read_only_failure_evidence_reviewer",
+    "independent_teacher_review": false
+  },
+  "reviewed_at": "2026-10-26T17:15:37+00:00",
+  "baseline_commit": "17af59975f8a302d0d0598e2213f35b443efa25a",
+  "review_status": "reviewed_static_dynamic_acceptance_pending",
+  "decision": "accept_scoped_candidate_for_fixed_commit_formal_acceptance_not_a_dynamic_pass",
+  "teacher_review": "deferred_by_user",
+  "real_student_effect_validation": "deferred_by_user",
+  "scope": {
+    "changed_source_files": 1,
+    "full_repository_audit": false,
+    "new_tests_executed": false,
+    "new_browser_runs_executed": 0,
+    "product_api_or_content_modified": false,
+    "shared_actionResponse_modified": false,
+    "other_11_journeys_modified": false,
+    "formal_review_config_or_raw_manifest_modified_by_reviewer": false,
+    "execution_plan": "根任务要求将候选动态验证合并到新固定提交的完整正式验收，不另先运行重复441页开发检查；本报告不声称候选动态通过。"
+  },
+  "historical_review_preserved": {
+    "path": "docs/reviews/v4-preview-workflow-ai-review.json",
+    "sha256": "9851e88fe2f0bff4006501c1bfc59aa6d0fdad936c38b930a65a222bf944b724"
+  },
+  "methods": [
+    "阅读两次固定17af599失败的result/report/browser/http及动作trace，区分实际点击失败与等待响应失败，不把空script/server_errors当成功。",
+    "逐行阅读当前源码diff，核对生产trackReference的请求字段与server成功响应{recorded:true}合同。",
+    "对比基线源码片段，确认公共helper、原材料加载与身份helper、其余11旅程及全局生命周期逐字节未改。",
+    "统计已归档失败trace中的screencast-frame条数与ZIP大小，只用于确认采集量，不估计性能归因。",
+    "A独立只读核对最终SHA、双结果失败路径和原验收边界；A没有编辑文件或执行测试。"
+  ],
+  "findings": [
+    {
+      "id": "RECORDING-01",
+      "paths": [
+        "tests/browser/learning-flow.cjs"
+      ],
+      "origin": "actual_archived_trace_inspection",
+      "observation": "自动trace截图在131失败记录415帧，在匹配151失败记录1144帧；这是明确存在的额外采集工作，但两次运行没有控制变量，超时根因仍未知。",
+      "change": "仅changed_content_preview重启trace时将screenshots改false；snapshots仍false、sources仍true。保留真实动作追踪配置及原显式代表/最终/失败PNG，不改其余旅程的完整追踪。",
+      "status": "statically_reviewed_capture_change_dynamic_effect_pending"
+    },
+    {
+      "id": "RECORDING-02",
+      "paths": [
+        "tests/browser/learning-flow.cjs"
+      ],
+      "origin": "actual_archived_failure_timing_and_shared_helper_semantics",
+      "observation": "旧Promise.all可能只抛response超时，掩盖同一操作click自身的失败；151失败中两者均超时，131失败中click已完成。旧HTTP日志没有请求体与时间，不能辨别具体资源/refkey匹配。",
+      "change": "新预览专用openPreviewReference先挂请求/响应监听并建立原精确POST/resource匹配，再执行相同summary.click()；Promise.allSettled分别记录click与response状态、相对完成时间和错误。记录实际请求JSON中的resource_id/event_type/reference_key、实际response状态及matched响应体。任一失败时尽力只读details状态后重抛原失败。",
+      "status": "statically_reviewed_diagnostic_gap_closed_dynamic_acceptance_pending"
+    },
+    {
+      "id": "RECORDING-03",
+      "paths": [
+        "tests/browser/learning-flow.cjs"
+      ],
+      "origin": "production_exposure_response_contract_review",
+      "observation": "预览原先检查对应POST返回200，但未显式要求服务端确认记录。生产接口成功体为{recorded:true}，不回显resource_id。",
+      "change": "精确资源继续从该response对应的request.postDataJSON().resource_id核对；成功同时要求真实点击成功、精确POST响应200及body.recorded===true。没有以状态可见性或DOM开关代替真实交互，也不将exposure记录当作理解证据。",
+      "status": "statically_reviewed_stronger_success_assertion_dynamic_acceptance_pending"
+    }
+  ],
+  "files": [
+    {
+      "path": "tests/browser/learning-flow.cjs",
+      "sha256": "6aadd88a237d8a56cacdcb30acaed51034474ede6067b38f6a6f311f74c3482d",
+      "semantic_checks": [
+        "只有changed_content_preview的trace配置、参考展开调用与新增专用openPreviewReference发生变化；公共actionResponse保持原样。",
+        "新helper的request/response监听先建立，page.waitForResponse先于真实summary.click()调用；未使用force、DOM click、dispatchEvent、open=true或重试。",
+        "等待谓词保留/api/exposure的POST方法与response对应请求resource_id精确等于本页material_id；实际reference_key及event_type记录于request JSON，不假称接口回显资源ID。",
+        "响应解析与200、recorded===true断言在responseAttempt内；clickAttempt和responseAttempt都交由allSettled处理；任一拒绝都在完成本页/设置result.ok前抛出。",
+        "clickError和responseError分别保存，不用其中一个覆盖另一个；request/response实际相对到达时间与两项完成时间分别记录。",
+        "失败diagnostic只读当前URL、visibility、view hidden、details数量/连接/open状态、summary文本和位置；读取失败只记录错误，不修改页面、不恢复操作、不放行。finally移除专用监听。",
+        "自动screenshots=false仅对本旅程生效；其余旅程的screenshots/snapshots/sources全保持true。snapshots=false时内置HAR仍关闭，不称成功结果保留完整网络trace。",
+        "原成功分支不导出trace包的行为未改；普通失败仍尝试导出动作/源码trace与失败PNG。显式page.screenshot调用基线和候选均9处，实际代表/最终/失败调用未删除。",
+        "openContentPreview的精确主API、catalog集合/作品身份/版本、旧DOM脱离、工作区与操作组件加载、真实DOM题干/量规/字段断言逐字节保持。",
+        "完整441路径顺序/唯一性、字体/公式/图示/控件/布局检查、document1次约束保留。默认15秒、原readiness polling100、预览900秒、其它旅程及全局生命周期保持原值。"
+      ],
+      "reviewed_changes": [
+        "RECORDING-01",
+        "RECORDING-02",
+        "RECORDING-03"
+      ],
+      "conclusion": "候选通过静态检查与独立AI只读交叉审；实际完整固定版本验收尚未运行，不能声明本轮预览通过或旧超时已根治。"
+    }
+  ],
+  "independent_ai_cross_review": {
+    "agent": "/root/v4_learning_decisions",
+    "type": "read_only_final_diff_and_control_flow_review",
+    "source_sha256": "6aadd88a237d8a56cacdcb30acaed51034474ede6067b38f6a6f311f74c3482d",
+    "executed_tests": false,
+    "executed_browser": false,
+    "modified_files": false,
+    "confirmed": [
+      "先挂监听及精确POST/resource等待，再执行原summary.click()，无force/JS.click/dispatch/重试。",
+      "allSettled同时保留click与response两项结果与错误，任一拒绝即重抛；200与recorded===true为真实成功前提。",
+      "失败details读取不修改DOM；自动screenshots关闭仅此旅程，显式PNG及公共helper、其余11旅程、15秒/900秒/全量路径完成断言未变。"
+    ],
+    "conclusion": "未发现新实质问题；这是静态结论，未执行测试或浏览器。减少采集量不能证明超时因果，动态结果待固定HEAD验收。"
+  },
+  "static_validation": {
+    "commands": [
+      {
+        "command": "node --check tests/browser/learning-flow.cjs",
+        "exit_code": 0
+      },
+      {
+        "command": "git diff --check",
+        "exit_code": 0
+      }
+    ],
+    "byte_comparison_to_baseline": {
+      "shared_helpers_identical": true,
+      "material_loading_and_identity_helper_identical": true,
+      "other_11_journeys_and_lifecycle_identical": true,
+      "explicit_page_screenshot_calls_before": 9,
+      "explicit_page_screenshot_calls_after": 9
+    },
+    "source_diff": {
+      "insertions": 63,
+      "deletions": 5
+    },
+    "new_dynamic_result": null
+  },
+  "prior_fixed_attempts": [
+    {
+      "id": "17af59975f8a-first",
+      "head": "17af59975f8a302d0d0598e2213f35b443efa25a",
+      "source_sha256": "02f737b291c22ee239168e35ad196ca181b29c9a119d5b6b05726924d8c336be",
+      "node_version": "v24.22.1",
+      "playwright_version": "1.62.1",
+      "browser_version": "131.0.6778.204",
+      "journey_ok": false,
+      "returncode": 1,
+      "elapsed_seconds": 157.3,
+      "completed_preview_pages": 100,
+      "expected_preview_pages": 441,
+      "failure_path": "/?teach=m3a.2.2",
+      "source_clean": true,
+      "manifest_valid": true,
+      "changed_inputs": [],
+      "context_errors": [],
+      "script_errors": [],
+      "server_errors": [],
+      "dialogs": [],
+      "capture_measurement": {
+        "method": "读取trace.zip中所有.trace JSON行，统计type=screencast-frame；读取ZIP实际字节数。",
+        "screencast_frames": 415,
+        "trace_zip_bytes": 13416948,
+        "built_in_har_available": false
+      },
+      "observed_failure": "点击实际完成，HTTP日志出现exposure 200，但无HAR请求体/浏览器收包时序，不能据服务器200日志证明客户端收到响应；原response超时原因未证实。",
+      "evidence": [
+        {
+          "path": "build/acceptance-attempts/17af59975f8a-first/browser-check/report.json",
+          "sha256": "d4b18807aa0bafcc8c283d63612fe5d91fa02e57004e9f4ee7fe06a503992e4c"
+        },
+        {
+          "path": "build/acceptance-attempts/17af59975f8a-first/browser-check/changed_content_preview/result.json",
+          "sha256": "b42e4eab0d838b229c81f19dda0997b4a959248217277a73c9296dd8d998f1f9"
+        },
+        {
+          "path": "build/acceptance-attempts/17af59975f8a-first/browser-check/changed_content_preview/browser.log",
+          "sha256": "8461675bc0ec8357bc8f62d2dc11894b348d61f6c7e9667678df6d34ff30206d"
+        },
+        {
+          "path": "build/acceptance-attempts/17af59975f8a-first/browser-check/changed_content_preview/http.log",
+          "sha256": "3e5413afdfad65876c19072d4ce2174f22e6de84737436b70fdd9dea958985fe"
+        },
+        {
+          "path": "build/acceptance-attempts/17af59975f8a-first/browser-check/changed_content_preview/trace.zip",
+          "sha256": "aea76485f54e6759af98652f0e851f4ede09ef58b312d25bf715b6f6019fbc4a"
+        }
+      ],
+      "interpretation": "这是本补丁之前固定17af599版本的失败证据；不得作为新候选通过结果，也不能用帧数或文件大小推断截图开销占比或证明超时因果。"
+    },
+    {
+      "id": "17af59975f8a-chromium151",
+      "head": "17af59975f8a302d0d0598e2213f35b443efa25a",
+      "source_sha256": "02f737b291c22ee239168e35ad196ca181b29c9a119d5b6b05726924d8c336be",
+      "node_version": "v24.22.1",
+      "playwright_version": "1.62.1",
+      "browser_version": "151.0.7922.34",
+      "journey_ok": false,
+      "returncode": 1,
+      "elapsed_seconds": 195.05,
+      "completed_preview_pages": 309,
+      "expected_preview_pages": 441,
+      "failure_path": "/?teach=m9a.29.2",
+      "source_clean": true,
+      "manifest_valid": true,
+      "changed_inputs": [],
+      "context_errors": [],
+      "script_errors": [],
+      "server_errors": [],
+      "dialogs": [],
+      "capture_measurement": {
+        "method": "读取trace.zip中所有.trace JSON行，统计type=screencast-frame；读取ZIP实际字节数。",
+        "screencast_frames": 1144,
+        "trace_zip_bytes": 37550400,
+        "built_in_har_available": false
+      },
+      "observed_failure": "主teach与两个work GET均200，页面身份和挂载条件通过、summary数量为2；点击trace仅记录waiting for locator，随后click本身超时，没有完成点击或该页exposure POST记录。response等待也超时，原Promise.all只对外呈现了response错误。",
+      "evidence": [
+        {
+          "path": "build/acceptance-attempts/17af59975f8a-chromium151/browser-check/report.json",
+          "sha256": "07d926ecc5e0517dd77f57c6d522ac4684e85c9152b7d2a50ac839bb50bebc69"
+        },
+        {
+          "path": "build/acceptance-attempts/17af59975f8a-chromium151/browser-check/changed_content_preview/result.json",
+          "sha256": "50a0478102b6ad3e73c7aa2631bdd9b592bf6138dac2d6878683842ee37b00c4"
+        },
+        {
+          "path": "build/acceptance-attempts/17af59975f8a-chromium151/browser-check/changed_content_preview/browser.log",
+          "sha256": "d970bcc4411cae8f397af85f5516f068aae84f05d8009ba2011e91357e67a626"
+        },
+        {
+          "path": "build/acceptance-attempts/17af59975f8a-chromium151/browser-check/changed_content_preview/http.log",
+          "sha256": "ef712ee9c191abe9116d56693b0a06bd13533f53640762c82ad5a7c9c3722a7b"
+        },
+        {
+          "path": "build/acceptance-attempts/17af59975f8a-chromium151/browser-check/changed_content_preview/trace.zip",
+          "sha256": "248372a85f387e9b764888dba5784bbeed8d6d366dba50daa090e7cdd3a1b8d4"
+        }
+      ],
+      "interpretation": "这是本补丁之前固定17af599版本的失败证据；不得作为新候选通过结果，也不能用帧数或文件大小推断截图开销占比或证明超时因果。"
+    }
+  ],
+  "outstanding_acceptance": [
+    "本候选须由新固定提交、更新原始发行清单及匹配Playwright的Chromium151执行完整正式门禁；本次未另跑开发441，未复用旧开发通过作为当前通过。",
+    "正式预览仍须完整441项：420教学卡、14单元、3项目、scope/needs/history/profile各1，逐页真实API/DOM/交互及原断言全部通过。",
+    "旧超时根因尚未证实；新记录若再次失败应区分click与response结果、实际请求体、HTTP状态与details状态，不泛归环境或更改预算。"
+  ],
+  "limits": [
+    "只审预览采集和参考展开测试边界，没有审计新增产品功能或改变教学内容。",
+    "两次失败trace的帧数/文件大小是实际测量，不能转写为CPU或墙钟开销比例，也不能归因为单一浏览器版本或截图机制。",
+    "没有独立教师审核或真实学生教学效果验证；合成浏览器与AI源码审查不替代这两类证据。"
+  ]
+}

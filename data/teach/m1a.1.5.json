@@ -1,50 +1,112 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m1a.1.5",
- "name": "1～5 的加法",
- "hook": "「一共有几个」几乎每天都问，加法就是把两堆合起来数。",
- "definition": "把两部分合起来用加法，加号写成「+」，合起来的结果叫「和」。",
- "steps": [
-  "看清两堆各是几个，别急着算。",
-  "合起来数：从第一堆的个数接着数第二堆，数到几就是几。",
-  "熟练以后不再数手指，直接用数的组成想：2 和 3 合起来是 5。",
-  "把想法写成算式：2 + 3 = 5。"
- ],
- "worked_example": {
-  "prompt": "盘子里有 2 个苹果，妈妈又放进 3 个，一共有几个苹果？",
-  "verify": "2+3",
-  "steps": [
-   "已知两堆：原来 2 个，又放进 3 个。",
-   "求「一共有多少」，就是把两堆合起来，用加法。",
-   "2 和 3 合起来是 5。",
-   "算式：2 + 3 = 5（个）。"
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m1a.1.5",
+  "name": "1～5的加、减法（加法）",
+  "tier": "tool",
+  "hook": "盘里有2个苹果，又放入3个，共有几个？",
+  "definition": "把原来分开的两部分合在一起，求一共有多少，可以用加法。加号“+”表示合并，等号“=”表示两边数量相同。",
+  "why": "2个红圆片与3个蓝圆片合成一堆后，每个圆片仍只算一次。合并后的总数5同时包括原来的两部分。",
+  "conditions": [
+    "两个部分都数清，求合起来的总数。",
+    "本卡算式的和不超过5。"
   ],
-  "answer": "5"
- },
- "pitfalls": [
-  "接着数时起点数错：算 2 + 3 从 1 开始数，数成 4。要从 2 后面接着数 3、4、5。",
-  "看到「又放进」就用加法，但题目可能问「原来有几个」——先看清问的是什么再列式。"
- ],
- "practice": [
-  {
-   "id": "m1a.1.5-q1",
-   "note": "一步加法"
+  "representation_note": "用两色圆片的两个小圈与一个总圈，把“部分+部分=总数”连起来。",
+  "when_to_use": [
+    "两个部分都数清，求合起来的总数。",
+    "本卡算式的和不超过5。"
+  ],
+  "steps": [
+    "分别数清两部分，确认没有同一个物体被重复算。",
+    "写出第一部分+第二部分。",
+    "把两部分合并数，或利用分与合求总数。",
+    "读出算式，并说出结果表示什么。"
+  ],
+  "worked_example": {
+    "prompt": "盘里有2个苹果，又放入3个，共有几个？",
+    "steps": [
+      "先摆2个，再添3个。",
+      "合起来数1、2、3、4、5，所以2+3=5（个）。"
+    ],
+    "answer": "5",
+    "family_id": "primary.add.combine-parts",
+    "variant_id": "m1a.1.5:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "verify": "2+3"
   },
-  {
-   "id": "m1a.1.5-q2",
-   "note": "换个数"
-  },
-  {
-   "id": "m1a.1.5-q9",
-   "note": "记忆检验：说法是否理解"
+  "pitfalls": [
+    "把加号看作再加1；加几要添几个。",
+    "只报答案而说不出两部分分别是什么，可回到两种颜色的圆片。"
+  ],
+  "practice": [
+    {
+      "id": "m1a.1.5-q1",
+      "note": "一步加法"
+    },
+    {
+      "id": "m1a.1.5-q2",
+      "note": "换个数"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "加法中的两个数分别表示原来的两部分；在3个白积木和1个黑积木的情境中，3+1求的是全部积木，不是只求白色的。",
+      "observation_note": "本项观察列出合并算式、解释两部分及总数；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "左手2粒豆、右手1粒豆，写算式并解释每个数表示什么。",
+        "reference_answer": "2+1=3；2是左手豆数，1是右手豆数，3是两手合起来的豆数。",
+        "criteria": [
+          "列出合并算式",
+          "解释两部分及总数"
+        ],
+        "family_id": "primary.add.combine-parts",
+        "variant_id": "m1a.1.5:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把左右手的豆放在一起，原来的豆有没有变多或丢失？",
+        "hint": "用两种颜色区分原来的两部分，再把它们圈在同一个大圈里。",
+        "revision_prompt": "在2+1=3的每个数旁标出“左手”“右手”“合计”。"
+      },
+      "criterion_index": 0,
+      "title": "理解加法的含义是“合起来”"
+    },
+    {
+      "explanation": "5以内加法可用已熟悉的组成：2和2合成4，所以2+2=4；4再添1是5。口算时仍可用圆片检查，不要求靠猜快答。",
+      "observation_note": "本项观察三题结果正确、说明一道组成或添数过程；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "计算1+3、2+2、4+1，并任选一道说明怎样得到结果。",
+        "reference_answer": "依次为4、4、5；如2和2合成4，所以2+2=4。",
+        "criteria": [
+          "三题结果正确",
+          "说明一道组成或添数过程"
+        ],
+        "family_id": "primary.add.single-digit-facts",
+        "variant_id": "m1a.1.5:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.add.combine-parts"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2+2中第二个2表示再添1个还是2个？",
+        "hint": "先固定第一堆，再逐个添上第二堆的2个。",
+        "revision_prompt": "重摆算错的一题，把添入的每个圆片与第二个加数对应。"
+      },
+      "criterion_index": 1,
+      "title": "能口算 5 以内的加法"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   }
- ],
- "check": "给出任意两个 5 以内的数，能在 3 秒内说出和，并说出「几和几合起来是几」这句话。",
- "why": "加法不是把两堆从头数一遍，而是「从一个数接着数几格」：3+2 就是从 3 接着数 2 格到 5。接着数比重新数快，也不容易漏。",
- "when_to_use": [
-  "题面出现「一共」「合起来」「又来了」",
-  "两个部分要合并成一个总数"
- ]
 }

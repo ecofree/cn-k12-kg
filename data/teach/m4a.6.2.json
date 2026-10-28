@@ -1,52 +1,179 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m4a.6.2",
- "name": "复式条形统计图",
- "tier": "core",
- "hook": "要同时看两个年级男、女生的人数差别，画两张图还是一张？",
- "definition": "复式条形统计图把两组或多组数据并排画在同一张图上，用不同颜色或条纹区分，必须有图例，便于同时比较几组数据。",
- "why": "并排画在同一个坐标系里，两组数据的差可以直接用眼睛比高低，不用来回翻两张图。代价是图变复杂了，所以必须有图例——没有图例就分不清哪根直条是谁。",
- "when_to_use": [
-  "需要同时比较两组以上数据",
-  "要看出「谁高谁低」的对比，而不只是各自多少",
-  "题目要求说明图例或补画一组数据"
- ],
- "steps": [
-  "先看图例，确认每种颜色/条纹代表谁",
-  "在同一类别里找到并排的几根直条",
-  "比较长短，或求差、求和",
-  "回答时带上「谁比谁多多少」的完整说法"
- ],
- "worked_example": {
-  "prompt": "复式条形统计图中某班男生 22 人、女生 20 人，全班共几人？",
-  "verify": "22+20",
-  "answer": "42",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "hand",
+  "topicId": "m4a.6.2",
+  "name": "复式条形统计图",
+  "tier": "core",
+  "hook": "要同时看两个年级男、女生的人数差别，画两张图还是一张？",
+  "definition": "复式条形统计图把两组或多组数据并排画在同一张图上，用不同颜色或条纹区分，必须有图例，便于同时比较几组数据。",
+  "why": "并排画在同一个坐标系里，两组数据的差可以直接用眼睛比高低，不用来回翻两张图。代价是图变复杂了，所以必须有图例——没有图例就分不清哪根直条是谁。",
+  "when_to_use": [
+    "需要同时比较两组以上数据",
+    "要看出「谁高谁低」的对比，而不只是各自多少",
+    "题目要求说明图例或补画一组数据"
+  ],
   "steps": [
-   "先看图例确认哪根是男生、哪根是女生。",
-   "男生 22 人、女生 20 人，是并列的两部分。",
-   "全班 22+20=42 人。"
-  ]
- },
- "pitfalls": [
-  "不看图例，把男生和女生的数据读反。",
-  "把并排的两根直条当成「相加后的总数」直接读。",
-  "忘记复式图必须有图例，自己画图时漏掉。"
- ],
- "practice": [
-  {
-   "id": "m4a.6.2-q2",
-   "note": "读两组数后求和"
+    "先看图例，确认每种颜色/条纹代表谁",
+    "在同一类别里找到并排的几根直条",
+    "比较长短，或求差、求和",
+    "回答时带上「谁比谁多多少」的完整说法"
+  ],
+  "worked_example": {
+    "prompt": "复式条形统计图中某班男生 22 人、女生 20 人，全班共几人？",
+    "verify": "22+20",
+    "answer": "42",
+    "steps": [
+      "先看图例确认哪根是男生、哪根是女生。",
+      "男生 22 人、女生 20 人，是并列的两部分。",
+      "全班 22+20=42 人。"
+    ],
+    "family_id": "statistics.double-bar-legend-scale",
+    "variant_id": "m4a.6.2:worked_example:v6",
+    "representation": "graph",
+    "cognitive_demand": "explain",
+    "diagram": {
+      "src": "/static/diagrams/primary-double-bar-legend.svg",
+      "alt": "复式条形统计图纵轴每格2人；图例蓝色实条为男生，斜线条为女生。某班两条分别为22人和20人，图例不只使用颜色区分。"
+    },
+    "reference_family_ids": [
+      "primary.add.combine-parts"
+    ]
   },
-  {
-   "id": "m4a.6.2-q1",
-   "note": "什么情况下该选复式条形图"
+  "pitfalls": [
+    "不看图例，把男生和女生的数据读反。",
+    "把并排的两根直条当成「相加后的总数」直接读。",
+    "忘记复式图必须有图例，自己画图时漏掉。"
+  ],
+  "practice": [
+    {
+      "id": "m4a.6.2-q2",
+      "note": "读两组数后求和"
+    },
+    {
+      "id": "m4a.6.2-q1",
+      "note": "什么情况下该选复式条形图"
+    }
+  ],
+  "check": "先完成本卡“读图并说明图例”的目标自检，逐一说清颜色或条纹代表谁、每格代表几人；再用比较两组差异的自检核对。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   },
-  {
-   "id": "m4a.6.2-q9",
-   "note": "辨析：复式图的图例与用途"
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能读懂复式条形统计图并说明图例",
+      "explanation": "复式图每类有多组数据，图例把颜色或纹理对应到组别，所有条共用尺度。",
+      "self_check": {
+        "prompt": "观察本题配图，说明图例怎样区分男生和女生，并读出A班男、女生各有多少人。",
+        "reference_answer": "男生10人，女生12人；必须按图例识别。",
+        "criteria": [
+          "图例不颠倒",
+          "人数正确"
+        ],
+        "family_id": "statistics.double-bar-legend-scale",
+        "variant_id": "m4a.6.2:criterion:0:v6",
+        "representation": "graph",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-double-bar-check.svg",
+          "alt": "复式条形图纵轴从0至16人，每相邻刻度相差2人。实条表示男生，斜线条表示女生。A班两条分别到10、12人，B班两条分别到14、10人。"
+        },
+        "reference_family_ids": [
+          "statistics.bar-axis-reading"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "实条5格表示5人还是10人？先读图例还是先猜哪组人数多？",
+        "hint": "先写实条→男生、斜线条→女生，再写每格2人，格数与每格数相乘。",
+        "revision_prompt": "把同样5格、6格的图改成每格3人，重新读数并说明图形高度相同为何人数不同。"
+      },
+      "observation_note": "观察是否同时使用图例与实际纵轴刻度；这张图均为整格读数，不能据此确认会读非整格数值或其他统计图。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能比较两组数据的差异",
+      "explanation": "同一类别可比较组间差，同一组也可跨类别比较；先确定比较对象。",
+      "self_check": {
+        "prompt": "观察本题配图，先读出A、B两班的男、女生人数，再判断哪个班男女差更大，并给出计算依据。",
+        "reference_answer": "A班差2人，B班差4人，B班差更大；不能只比较两个班总人数。",
+        "criteria": [
+          "两差计算正确",
+          "比较对象一致"
+        ],
+        "family_id": "statistics.double-bar-group-differences",
+        "variant_id": "m4a.6.2:criterion:1:v6",
+        "representation": "graph",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-double-bar-check.svg",
+          "alt": "复式条形图纵轴从0至16人，每相邻刻度相差2人。实条表示男生，斜线条表示女生。A班两条分别到10、12人，B班两条分别到14、10人。"
+        },
+        "reference_family_ids": [
+          "primary.compare.difference",
+          "statistics.double-bar-legend-scale"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "A班总22人、B班总24人，能据此直接判断男女差吗？要比较的量是什么？",
+        "hint": "分别求同班男女人数的差，再比较2与4；总人数是另一种统计量。",
+        "revision_prompt": "C班男13女9、D班男10女11，分别计算组内差并比较，写清哪两组被相减。"
+      },
+      "observation_note": "观察组内差与跨班比较；总量较大不保证组间差较大。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能为并列比较两组类别数量选择复式条形图",
+      "explanation": "要在相同类别中并列比较两组数量，可以用复式条形图：每类两根条形，图例说明两种颜色各代表谁，共用一致刻度。选对展示形式不等于已经读出或画好图。",
+      "self_check": {
+        "prompt": "同一年级的甲、乙两班分别登记男生和女生人数。要同时比较每班两组人数，选什么图，并说图例应标明哪两组？",
+        "reference_answer": "可以选复式条形图；每班并列男生、女生两根条形，图例标明男生和女生，人数共用同一刻度。",
+        "criteria": [
+          "选择复式条形图",
+          "两组说明为男生/女生",
+          "类别说明为甲班/乙班"
+        ],
+        "family_id": "statistics.chart-purpose",
+        "variant_id": "m4a.6.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只选择展示形式，未从实际图例读值或比较差异。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "你把班级类别与每班中的男女两组放在了哪两个位置？",
+        "hint": "先写类别甲班、乙班，再为每个类别安排男生和女生两根条形。",
+        "revision_prompt": "换成两个班的上午/下午借书数，重新写出类别和图例的两组，不沿用原男女图例。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能汇总按组给定的各类别频数求总人数",
+      "explanation": "若各组各类别互不重叠，求总人数可把全部频数相加。组总数和细分频数不能重复相加，避免把同一人算两次。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：四（1）班男生 24 人、女生 21 人；四（2）班男生 20 人、女生 25 人。两个班一共有多少人？\n写出每个问题的答案，并用算式、画图或文字说明怎样得到。用过提示或参考的地方也记下来。",
+        "reference_answer": "情境1参考：90。24+21+20+25=90人。",
+        "criteria": [
+          "各组各类别完整且不重复汇总",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "statistics.grouped-frequency-total",
+        "variant_id": "m4a.6.2:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "四个数以文字给出，没有统计图，不记为读图或理解图例。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你是否既加了男女人数，又把相同班级的总人数再加一遍？",
+        "hint": "选定只用最细的互不重叠类别，逐组核对它们覆盖全部对象。",
+        "revision_prompt": "先回答这个辨别问题：你是否既加了男女人数，又把相同班级的总人数再加一遍？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；各组各类别完整且不重复汇总。"
+      }
+    }
+  ],
+  "diagram": {
+    "src": "/static/diagrams/primary-double-bar-legend.svg",
+    "alt": "复式条形统计图纵轴每格2人；图例蓝色实条为男生，斜线条为女生。某班两条分别为22人和20人，图例不只使用颜色区分。"
   }
- ],
- "check": "能指着图例说出每种颜色代表谁，并算出两组数据之差。"
 }

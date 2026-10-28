@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "23人坐车，每车最多6人，商是3余5，为什么还得多一辆车？",
+  "definition": "用有余数除法解决装载问题时，商表示能装满的车或容器数。如果剩余对象也必须全部装下，就要再用一个，至少需要的数量为商加1；没有余数则不用加1。",
+  "why": "3辆每辆6人只能坐18人，剩余5人无法消失，所以再加一辆。这里取整取决于“全部装下”的任务，不是看到有余数就永远加1。",
+  "when_to_use": [
+    "每个容器有容量上限，要求全部装下",
+    "问至少几辆车、几个盒子且有剩余"
+  ],
+  "steps": [
+    "确定总量、每份容量及是否要求全部容纳。",
+    "做有余数除法，解释商与余数的含义。",
+    "有余数加1，没有余数直接用商，核对容量够用且少一个不够。"
+  ],
+  "worked_example": {
+    "prompt": "23人，每车最多6人，至少几辆车？",
+    "steps": [
+      "23÷6=3……5，3辆只能坐18人，剩5人。",
+      "再用1辆，共4辆；4辆可坐24人，3辆不够。"
+    ],
+    "answer": "4",
+    "verify": "(23-5)/6+1",
+    "family_id": "primary.divide.capacity-round-up",
+    "variant_id": "m2b.1.3:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "求能装满几盒时只取商，不应进一。",
+    "24÷6没有余数，只需4辆，不是5辆。"
+  ],
+  "check": "先独立完成下面两项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m2b.1.3",
+  "name": "解决问题",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断何时需要商加 1",
+      "explanation": "余数是否促使商加1，要看剩余部分是否也必须被容纳。",
+      "self_check": {
+        "prompt": "19本书每盒最多装4本，要全部装完，需几盒？",
+        "reference_answer": "19÷4=4……3，剩3本也要装，至少5盒。",
+        "criteria": [
+          "正确商余",
+          "加1有任务依据"
+        ],
+        "family_id": "primary.divide.capacity-round-up",
+        "variant_id": "m2b.1.3:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.divide.group-count",
+          "primary.divide.remainder"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "19÷4剩3本，题目问装满几盒，还是全部装完至少几盒？",
+        "hint": "先摆4个满盒放16本，再把余下3本放在空盒；用盒数应包括这个不满盒。",
+        "revision_prompt": "比较“18本每盒4本，能装满几盒”和“全部装下至少几盒”，分别解释余下2本如何处理。"
+      },
+      "observation_note": "观察按任务要求选择取商或商加1；不能仅因出现余数就自动进一。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能说明“至少需要”为什么要进一",
+      "explanation": "“至少”要证明够用，同时少一个不够。",
+      "self_check": {
+        "prompt": "17人每船最多5人，为什么至少4船？",
+        "reference_answer": "3船容量15不足17，4船容量20足够；剩余2人需要第4船。",
+        "criteria": [
+          "验证3船不够",
+          "验证4船足够"
+        ],
+        "family_id": "primary.divide.capacity-round-up",
+        "variant_id": "m2b.1.3:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.equal-groups"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "说4船够用后，还能不能只用3船？怎样用容量证明“至少”？",
+        "hint": "算3×5=15与4×5=20，分别同17比较；同时满足少一船不够和4船足够。",
+        "revision_prompt": "22人每船最多6人，写最少船数，并用相邻两个船数的总容量作双向检查。"
+      },
+      "observation_note": "观察最少数量的两侧验证；如每船乘员另有限制，不能直接沿用本模型。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m2b.1.3-q1",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m2b.1.3-q101",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m2b.1.3-q102",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

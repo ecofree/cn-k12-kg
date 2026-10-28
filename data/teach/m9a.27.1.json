@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m9a.27.1",
+  "name": "反比例函数的概念",
+  "tier": "core",
+  "hook": "y与x一增一减，就一定是反比例关系吗？还必须守住哪个量？",
+  "definition": "形如 y=k/x（k 为常数，k≠0）的函数叫反比例函数，也可写成 xy=k 或 y=kx⁻¹，自变量 x 不能为 0。",
+  "why": "反比例要求乘积xy保持同一非零常数k，而非仅仅变化方向相反。写成y=k/x时x不能为0；一个点的坐标乘积确定k后，所有其他点都必须满足同一乘积才能属于该函数。",
+  "when_to_use": [
+    "两个量乘积恒定且非零",
+    "已知图上一点要确定反比例表达式"
+  ],
+  "steps": [
+    "先检查关系可写为xy=k且k≠0",
+    "用已知点横纵坐标相乘求k",
+    "写y=k/x并注明x≠0，再检验其他信息"
+  ],
+  "worked_example": {
+    "prompt": "反比例函数经过(3,−2)，求解析式及x=−1时的值。",
+    "answer": "y=−6/x；x=−1时y=6",
+    "steps": [
+      "由k=xy=3×(−2)=−6，得y=−6/x。",
+      "代入x=−1，y=(−6)/(−1)=6。"
+    ],
+    "family_id": "inverse-function.determine-from-point",
+    "variant_id": "m9a.27.1:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
+  },
+  "pitfalls": [
+    "y=5−x虽然一增一减，却不是乘积恒定。",
+    "k=0时不在本课反比例函数定义范围内。"
+  ],
+  "check": "独立完成并解释：y=k/x经过(−3,4)，求k；再判断y=6−x是不是反比例函数，给出依据。；已知反比例函数图象经过(2,−5)，写出函数解析式。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能识别反比例函数并求出 k",
+      "explanation": "反比例必须使xy为非零常数，变量一个增加另一个减少并非充分条件。",
+      "self_check": {
+        "prompt": "y=k/x经过(−3,4)，求k；再判断y=6−x是不是反比例函数，给出依据。",
+        "reference_answer": "k=(−3)×4=−12。y=6−x不是反比例：x=1时xy=5，x=2时xy=8，乘积不恒定。",
+        "criteria": [
+          "从坐标乘积求−12",
+          "用不恒定乘积反驳仅凭反向变化判断"
+        ],
+        "family_id": "inverse-function.constant-product-test",
+        "variant_id": "m9a.27.1:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "y随x增大而减小就足以反比例吗？y=6−x的两点乘积相同吗？",
+        "hint": "反比例检验xy恒为同一个非零数；反向变化只是某些区间的现象。",
+        "revision_prompt": "核对(−3,4)得k=−12；对y=6−x取x=1、2得乘积5、8，排除反比例。"
+      },
+      "observation_note": "观察乘积不变量而非变化方向；一个点只能在已知反比例前提下确定k。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能由已知点确定反比例函数解析式",
+      "explanation": "点在图象上意味着坐标满足表达式，反比例系数由一对非零坐标求出。",
+      "self_check": {
+        "prompt": "已知反比例函数图象经过(2,−5)，写出函数解析式。 请写出判断或计算依据。",
+        "reference_answer": "反比例函数满足xy=k，代入2与−5得k=−10，故y=−10/x，x≠0。",
+        "criteria": [
+          "求k=−10",
+          "表达式含x≠0条件"
+        ],
+        "family_id": "inverse-function.determine-from-point",
+        "variant_id": "m9a.27.1:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "经过(2,−5)时k是−5÷2还是2×(−5)？",
+        "hint": "由y=k/x两边乘非零x，得k=xy。",
+        "revision_prompt": "求y=−10/x后代入x=2核对−5，再求x=−5时y=2并保留x≠0。"
+      },
+      "observation_note": "观察参数求解依赖给定函数类型；单个点不能决定任意未知函数。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由已知反比例关系的一组对应值求比例系数",
+      "explanation": "题目已说明反比例关系时，可写y=k/x，其中x不为0、k不为0。乘以x得到xy=k，因此一组已知对应值的乘积就是比例系数；不能套用正比例关系的比值y/x。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：已知 y 与 x 成反比例，当 x=4 时 y=6。比例系数 k 是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：24。反比例已给，k=4×6=24。",
+        "criteria": [
+          "使用已知反比例关系的对应值乘积求k，并保留乘积的正负号",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "inverse-function.determine-from-point",
+        "variant_id": "m9a.27.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "反比例中保持不变的是xy的乘积，还是y/x的比值？",
+        "hint": "先写y=k/x，把已知x、y放进相应位置，再两边乘x；用所得k除回原x核对原y。",
+        "revision_prompt": "先回答这个辨别问题：反比例中保持不变的是xy的乘积，还是y/x的比值？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；使用已知反比例关系的对应值乘积求k，并保留乘积的正负号。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由已知反比例关系的一组对应值求另一对应值",
+      "explanation": "反比例函数在每个允许的输入处都满足xy=k。先把已知点的两坐标相乘确定同一个k，再用k除以新的非零横坐标求纵坐标；乘积的负号不能省略，也不能把原纵坐标直接按横坐标同倍放大。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：已知 y 与 x 成反比例，当 x=4 时 y=6。当 x=8 时 y 是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：3。k4×6=24，x8时y3。",
+        "criteria": [
+          "先由旧点确定带符号的固定乘积，再除以新横坐标，两个点都满足同一k",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "inverse-function.point-to-value",
+        "variant_id": "m9a.27.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你用的是旧点的乘积来确定k，还是把旧纵坐标误当k？新横坐标与k的符号决定了怎样的结果符号？",
+        "hint": "画两行表：旧x、旧y、乘积；新x、待求y、同一乘积。先填乘积，再求第二行的缺数，最后乘回核对。",
+        "revision_prompt": "先回答这个辨别问题：你用的是旧点的乘积来确定k，还是把旧纵坐标误当k？新横坐标与k的符号决定了怎样的结果符号？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；先由旧点确定带符号的固定乘积，再除以新横坐标，两个点都满足同一k。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m9a.27.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.27.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.27.1-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

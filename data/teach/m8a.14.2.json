@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.14.2",
+  "name": "三角形全等的判定",
+  "tier": "core",
+  "hook": "知道两边和一个角，为什么有时够判全等，有时却不够？",
+  "definition": "判定两个三角形全等有 SSS、SAS、ASA、AAS，直角三角形还有 HL；两边及其中一边的对角（SSA）和三个角（AAA）都不能判定全等。",
+  "why": "全等判定的条件必须足以锁定三角形形状和大小。SAS中的夹角固定两边张开的程度，SSA的角不在两边之间可能形成两种三角形；AAA只固定形状，整体放大后角不变而边长改变。",
+  "when_to_use": [
+    "要从已知边角证明两个三角形全等",
+    "已知条件中需要区分夹角与非夹角"
+  ],
+  "steps": [
+    "先按对应顺序列可用的边角条件",
+    "选SSS、SAS、ASA、AAS，直角三角形可选HL",
+    "核查夹角或直角等前提，写全条件和结论"
+  ],
+  "worked_example": {
+    "prompt": "△ABC与△DEF中，AB=DE、AC=DF、∠A=∠D。证明两三角形全等。",
+    "answer": "△ABC≌△DEF（SAS）",
+    "steps": [
+      "∠A由AB、AC组成，∠D由DE、DF组成，两角都是已知两边的夹角。",
+      "两边及夹角对应相等，因此根据SAS，△ABC≌△DEF。"
+    ],
+    "family_id": "congruence.sas.included-angle",
+    "variant_id": "m8a.14.2:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "prove"
+  },
+  "pitfalls": [
+    "SSA不是一般全等判定，直角三角形的HL有直角前提。",
+    "AAA只能保证相似，不能限制图形大小。"
+  ],
+  "check": "独立完成并解释：△ABC与△ADC中，AB=AD、BC=DC，证明△ABC≌△ADC。；给出AAA不保证全等的例子，并解释SSA为什么一般不充分。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能根据已知条件选择合适的判定方法",
+      "explanation": "选择判定要把三条条件逐一对上，并标明对应顶点。",
+      "self_check": {
+        "prompt": "△ABC与△ADC中，AB=AD、BC=DC，证明△ABC≌△ADC。",
+        "reference_answer": "AC为公共边，AC=AC；加上AB=AD、BC=DC，三边对应相等，因此△ABC≌△ADC（SSS）。",
+        "criteria": [
+          "补出公共边条件",
+          "三组边对应且结论顺序正确"
+        ],
+        "family_id": "congruence.sss.common-side",
+        "variant_id": "m8a.14.2:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "prove"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "AB=AD、BC=DC只有两组边，还缺哪一组？AC在两三角形中是否同一条？",
+        "hint": "公共边也要明确写AC=AC，再按A↔A、B↔D、C↔C核对三组。",
+        "revision_prompt": "给出SSS三条件及有序结论；删掉BC=DC后说明为什么余下两边不足判定。"
+      },
+      "observation_note": "观察补公共条件和对应顺序；画得像全等不补足缺失条件。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能说明 SSA 与 AAA 为什么不能判定全等",
+      "explanation": "无效判定可用两种大小或形状不同但满足条件的三角形反驳。",
+      "self_check": {
+        "prompt": "给出AAA不保证全等的例子，并解释SSA为什么一般不充分。",
+        "reference_answer": "边长1与2的两个等边三角形各角都60°但不全等。SSA未固定夹角；例如固定A=30°、AC=4、BC=3，点B在射线AB上且到C距离3的圆可交射线两点，得到不同三角形。",
+        "criteria": [
+          "AAA给出实际反例",
+          "SSA说明圆与射线可有两个交点的结构"
+        ],
+        "family_id": "congruence.insufficient-aaa-ssa",
+        "variant_id": "m8a.14.2:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "两个等边三角形边长1与2都各60°，能重合吗？SSA给出的角是夹角吗？",
+        "hint": "AAA只固定形状；SSA中固定一边的终点到另一顶点的圆可能与射线有两个交点。",
+        "revision_prompt": "画A=30°、AC=4、BC=3的圆和射线两交点，得到两种AB；另保留边长1与2的AAA反例。"
+      },
+      "observation_note": "观察具体反例满足已知且结论不成立；“SSA一般不足”不等于所有SSA特例都两解，直角HL另有条件。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能求通过已给全等测距方案得到的两个长度之差",
+      "explanation": "已给构造成功及对应长度时，两处距离之差由较大测得长度减较小长度。数值结果只反映差值计算；是否能独立设计全等测距方案仍需实际过程。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：小明用全等三角形测池塘两端 A、B 的距离：在岸上按「两边及夹角相等」构造出与 ABC 全等的三角形 DEC，量得 DE=27 米。他又在另一处用同样方法量得宽 34 米。两处宽度相差多少米？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：7。题面全等与对应边已给，已知两处27、34，差7。",
+        "criteria": [
+          "使用给定测距结果求差且不扩张方案观察",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "congruence.measured-length-difference",
+        "variant_id": "m8a.14.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "测距方案与对应边是你确定的，还是题面已经给定？",
+        "hint": "先列两处已得距离，再作差并保留同一长度单位。",
+        "revision_prompt": "先回答这个辨别问题：测距方案与对应边是你确定的，还是题面已经给定？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；使用给定测距结果求差且不扩张方案观察。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能在给定对应关系后用三角形内角和求对应角",
+      "explanation": "两角及其夹边可判定三角形全等，条件中的边必须夹在这两角之间。对应关系确定后，第三个角可由180°减另外两个内角，再传给对应角。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：三角形ABC与三角形DEF中，BC=EF，∠B=∠E。要用“两角及其夹边”判定它们全等，再给定∠C=∠F。已知∠A=50°、∠B=60°，那么∠F是多少度？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：70。改BC=EF确保B/C与E/F为夹边角；方法已给，F=C=180−50−60=70°。",
+        "criteria": [
+          "夹边条件、角对应与内角和同时正确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "congruence.properties.angle-sum",
+        "variant_id": "m8a.14.2:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "BC是否夹在∠B和∠C之间？∠F与哪一个角对应？",
+        "hint": "先标三顶点对应，再求原三角形缺失内角，最后搬到对应角。",
+        "revision_prompt": "先回答这个辨别问题：BC是否夹在∠B和∠C之间？∠F与哪一个角对应？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；夹边条件、角对应与内角和同时正确。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.14.2-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.14.2-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.14.2-q3",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

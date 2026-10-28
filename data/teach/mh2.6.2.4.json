@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh2.6.2.4",
+  "name": "向量的数量积",
+  "tier": "core",
+  "hook": "两个力都不为零，它们的数量积仍能等于零吗？",
+  "definition": "对非零平面向量a、b，a·b=|a||b|cosθ，θ∈[0,π]，结果是一个数而不是向量。数量积满足交换与分配规律，a·a=|a|²；两向量非零时a·b=0当且仅当垂直，零向量没有确定夹角。",
+  "why": "数量积是一个向量在另一方向上的有向投影乘以另一向量的模。垂直时投影为0，反向时投影为负；因此结果是数量，既可正、负也可为0。",
+  "when_to_use": [
+    "已知两个向量的模与夹角求数量积",
+    "需要通过数量积检验垂直关系"
+  ],
+  "steps": [
+    "确认夹角是两向量共起点后0到π的角",
+    "代入模的乘积与余弦",
+    "解释符号；用零数量积判垂直时注明两向量非零"
+  ],
+  "worked_example": {
+    "prompt": "|a|=4、|b|=3，夹角120°，求a·b。",
+    "steps": [
+      "cos120°=-1/2。",
+      "a·b=4·3·(-1/2)=-6。",
+      "负号表示a在b方向的投影为负，不是负长度。"
+    ],
+    "answer": "-6",
+    "verify": "4*3*(-1/2)",
+    "family_id": "vector.dot-angle",
+    "variant_id": "mh2.6.2.4:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "把数量积写成向量",
+    "把a·b=0无条件当作两个非零方向夹角存在"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能由模与夹角求数量积",
+      "explanation": "由模与共起点夹角计算，不能把图上补角直接代入。",
+      "self_check": {
+        "prompt": "a、b模分别为5、2，共起点夹角60°，计算a·b；若改成120°会怎样？",
+        "reference_answer": "分别为5与-5，因为余弦由1/2变为-1/2。",
+        "criteria": [
+          "两值与符号正确",
+          "使用规定夹角而非任意画面角"
+        ],
+        "family_id": "vector.dot-angle",
+        "variant_id": "mh2.6.2.4:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "数量积-5表示长度为-5吗？",
+        "hint": "数量积是带符号的数，由余弦决定符号，不是合向量的模。",
+        "revision_prompt": "模3与4、夹角0°/90°/180°时点积12/0/-12，解释符号。"
+      },
+      "observation_note": "观察模、夹角与数值；不能把点积当向量或长度。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用数量积判断垂直关系",
+      "explanation": "非零条件保证可以除以两模，数量积为零才等价于cosθ=0。",
+      "self_check": {
+        "prompt": "非零a、b满足|a+b|²=|a|²+|b|²，证明a⊥b。",
+        "reference_answer": "展开左边为|a|²+2a·b+|b|²，故a·b=0；两向量非零，cosθ=0，θ=π/2。",
+        "criteria": [
+          "展开含2a·b",
+          "用非零条件推出垂直"
+        ],
+        "family_id": "vector.dot-perpendicular-proof",
+        "variant_id": "mh2.6.2.4:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "prove"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "展开|a+b|²能漏掉交叉项吗？零向量时夹角有定义吗？",
+        "hint": "把(a+b)·(a+b)展开得到2a·b；非零才可除两模。",
+        "revision_prompt": "由|a-b|²=|a|²+|b|²推出a·b=0；在a,b非零前提下得垂直。"
+      },
+      "observation_note": "观察展开和非零前提；平方等式本身不定义零向量夹角。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由非零向量数量积的符号判断夹角范围",
+      "explanation": "两个非零向量的数量积为|a||b|cosθ，夹角θ取0°到180°。两模乘积为正，因此数量积的符号由余弦决定：数量积负表示cosθ<0，所以90°<θ≤180°。相反向量给180°，也满足负数量积，不能只留下严格小于180°的钝角。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：a、b均非零且a·b<0，它们的夹角θ满足哪项？ 可选：o1．0≤θ<90°；o2．θ=90°；o3．90°<θ≤180°；o4．θ可任意。\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：90°<θ≤180°。非零模积正，点积负即cosθ<0，θ∈(90°,180°]。",
+        "criteria": [
+          "在两向量非零条件下用数量积符号判断夹角，并准确包含反向180°、排除垂直90°",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "vector.dot-sign-angle",
+        "variant_id": "mh2.6.2.4:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "a·b<0时是否可能两向量恰好反向？为什么90°要排除而180°要保留？",
+        "hint": "先把正的模乘积从符号判断中分离，再在0°到180°内找余弦为负的范围，逐一核对两个端点。",
+        "revision_prompt": "先回答这个辨别问题：a·b<0时是否可能两向量恰好反向？为什么90°要排除而180°要保留？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；在两向量非零条件下用数量积符号判断夹角，并准确包含反向180°、排除垂直90°。"
+      }
+    }
+  ],
+  "check": "独立完成各项自检并保留推导或作图：两值与符号正确；展开含2a·b。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh2.6.2.4-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.6.2.4-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.6.2.4-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "数量积不是向量；用夹角或垂直判定时要求两向量非零。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8a.16.3",
+  "name": "乘法公式",
+  "tier": "core",
+  "hook": "(a−b)²为什么不是a²−b²？少掉的两块面积对应哪一项？",
+  "definition": "平方差公式 (a+b)(a-b)=a²-b²；完全平方公式 (a±b)²=a²±2ab+b²，中间项符号随括号内符号而定。",
+  "why": "公式由分配律展开后合并得到：(a+b)(a−b)的交叉项互相抵消，而(a−b)²的两项交叉乘积都是−ab，所以合成−2ab。辨结构比记字形更可靠。",
+  "when_to_use": [
+    "两个因式分别为同两项的和与差",
+    "同一个二项式整体被平方"
+  ],
+  "steps": [
+    "找出公式中的整体a和b",
+    "判断应使用平方差还是完全平方",
+    "完整写出平方项和中间项，再按需要化简"
+  ],
+  "worked_example": {
+    "prompt": "展开(3x+2)²。",
+    "answer": "9x²+12x+4",
+    "steps": [
+      "把a看成3x，b看成2，使用a²+2ab+b²。",
+      "得到(3x)²+2·3x·2+2²=9x²+12x+4。"
+    ],
+    "family_id": "algebra.formula.perfect-square-cross-term",
+    "variant_id": "m8a.16.3:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
+  },
+  "pitfalls": [
+    "完全平方的中间项为两倍乘积，既不是ab也不是2a。",
+    "平方差是和乘差，(a−b)²不能误套。"
+  ],
+  "check": "独立完成并解释：用乘法公式计算99×101。 请写出判断或计算依据。；展开(2x−3)²，用^表示乘方。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能识别符合乘法公式结构的多项式乘法",
+      "explanation": "平方差需两因式只有第二项符号不同，整体可以是数或式。",
+      "self_check": {
+        "prompt": "用乘法公式计算99×101。 请写出判断或计算依据。",
+        "reference_answer": "99×101=(100−1)(100+1)，由平方差公式得100²−1²=9999。",
+        "criteria": [
+          "改写100±1",
+          "得10000−1"
+        ],
+        "family_id": "algebra.formula.difference-squares-structure",
+        "variant_id": "m8a.16.3:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "choose_strategy"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "99和101围绕哪个共同数等距？为什么不能把所有相邻数都直接相乘成平方差？",
+        "hint": "分别写100−1与100+1，确认同一个a和同一个b只差符号。",
+        "revision_prompt": "用公式算49×51=2499，再展开(a+b)(a−b)说明中间项抵消。"
+      },
+      "observation_note": "观察结构识别与平方差来源；不能只记某一数值捷径。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能正确写出完全平方公式的中间项",
+      "explanation": "中间项的系数与符号来自2ab，首尾平方项均非负。",
+      "self_check": {
+        "prompt": "展开(2x−3)²，用^表示乘方。 请写出判断或计算依据。",
+        "reference_answer": "完全平方公式给出(2x)²−2·2x·3+3²=4x²−12x+9，中间项不能省。",
+        "criteria": [
+          "中间项−12x",
+          "首尾4x²与9"
+        ],
+        "family_id": "algebra.formula.perfect-square-cross-term",
+        "variant_id": "m8a.16.3:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "(2x−3)²是否只把两项各平方？两个交叉乘积分别是多少？",
+        "hint": "把平方写成两个相同括号，交叉项各为−6x，合成−12x。",
+        "revision_prompt": "展开(x−5)²=x²−10x+25，再用x=1检查漏中项式与原式是否一致。"
+      },
+      "observation_note": "观察完全平方的中间项及末项为正；不能因括号有减号便把末项写负。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能计算在同一整数两侧等距的两个数的乘积",
+      "explanation": "在同一数两侧等距的两个因数可写成(a+b)(a−b)，乘积为a²−b²。也可直接乘法算数值，但只给结果不能证明使用了指定简便方法。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：用简便方法计算 103 乘 97 的值。\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：9991。(100+3)(100−3)=10000−9=9991，也可直接乘法。",
+        "criteria": [
+          "等距两因数与平方差对应",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "arithmetic.symmetric-factor-product",
+        "variant_id": "m8a.16.3:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只提交乘积，不把结果当作已经选择或写出平方差公式的证据。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "103与97到100的距离相同吗？平方差里减去的是3还是3²？",
+        "hint": "先写共同中心及偏移量，再平方中心、平方偏移并相减。",
+        "revision_prompt": "先回答这个辨别问题：103与97到100的距离相同吗？平方差里减去的是3还是3²？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；等距两因数与平方差对应。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由两数的和与积求它们的平方和",
+      "explanation": "两数和的平方包含两数平方和与两倍乘积，即(a+b)²=a²+2ab+b²。因此求平方和应从和的平方扣除2ab，而非扣一次乘积。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：已知 a+b=7，ab=10，求 a^2+b^2 的值。\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：29。a²+b²=(a+b)²−2ab=49−20=29。",
+        "criteria": [
+          "完整平方展开中的两倍积正确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "algebra.square-sum-from-sum-product",
+        "variant_id": "m8a.16.3:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你展开和的平方时漏掉了交叉项的倍数2吗？",
+        "hint": "把两数和平方的完整三项写出，圈出已知乘积项再移出。",
+        "revision_prompt": "先回答这个辨别问题：你展开和的平方时漏掉了交叉项的倍数2吗？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；完整平方展开中的两倍积正确。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8a.16.3-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.16.3-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8a.16.3-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

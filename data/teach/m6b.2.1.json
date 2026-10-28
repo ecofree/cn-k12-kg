@@ -1,52 +1,132 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m6b.2.1",
- "name": "扇形统计图",
- "tier": "core",
- "hook": "扇形统计图里 30% 那一块，能直接读出人数吗？",
- "definition": "扇形统计图用整个圆表示总数、用扇形表示各部分占总数的百分比；各部分百分比之和为 100%。",
- "why": "扇形的圆心角占 360° 的几分之几，这部分就占总数的几分之几。所以图上读到的是「占比」，不是「人数」；要知道人数，必须再乘总数。这也是它和条形图最大的区别。",
- "when_to_use": [
-  "要看部分与整体的关系（占比）",
-  "给总数求某部分的数量",
-  "给部分数量反求总数"
- ],
- "steps": [
-  "先看总数是多少",
-  "读出这一部分的百分比",
-  "部分 = 总数 × 百分比",
-  "把各部分加起来，检查是否为 100%"
- ],
- "worked_example": {
-  "prompt": "扇形统计图中某部分占 30%，总体为 200 人，该部分有多少人？",
-  "verify": "200*0.3",
-  "answer": "60",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "hand",
+  "topicId": "m6b.2.1",
+  "name": "扇形统计图",
+  "tier": "core",
+  "hook": "扇形统计图里 30% 那一块，能直接读出人数吗？",
+  "definition": "扇形统计图用整个圆表示总数、用扇形表示各部分占总数的百分比；各部分百分比之和为 100%。",
+  "why": "扇形的圆心角占 360° 的几分之几，这部分就占总数的几分之几。所以图上读到的是「占比」，不是「人数」；要知道人数，必须再乘总数。这也是它和条形图最大的区别。",
+  "when_to_use": [
+    "要看部分与整体的关系（占比）",
+    "给总数求某部分的数量",
+    "给部分数量反求总数"
+  ],
   "steps": [
-   "图上的 30% 是占比，总体是 200 人。",
-   "部分 = 总数 × 百分比 = 200×30%。",
-   "200×0.3=60 人。"
+    "确认总量、类别是否互斥且覆盖整体，以及标签是否为精确值。",
+    "读这一部分百分比，或由圆心角占360°的比例确定。",
+    "按总量乘比例求部分数量，涉及近似时写明精度。",
+    "核对精确比例和为100%；有舍入标签时说明允许的舍入差并回查原始数量，不擅自修改某一类凑100。"
+  ],
+  "worked_example": {
+    "prompt": "读本课顶部的扇形统计图：总体200人，蓝色部分占30%，这一部分有多少人？",
+    "verify": "200*0.3",
+    "answer": "60",
+    "steps": [
+      "图上的 30% 是占比，总体是 200 人。",
+      "部分 = 总数 × 百分比 = 200×30%。",
+      "200×0.3=60 人。"
+    ],
+    "family_id": "statistics.part-from-percentage",
+    "variant_id": "m6b.2.1:worked-v5",
+    "representation": "graph",
+    "cognitive_demand": "execute",
+    "diagram": {
+      "src": "/static/diagrams/primary-pie-chart-whole.svg",
+      "alt": "整个圆表示200人，某部分为蓝色108°扇形，占30%；其余为70%。图例标占比，总人数另列，部分人数需计算。"
+    }
+  },
+  "pitfalls": [
+    "把30%直接当成人数，漏用总人数。",
+    "精确比例和不为100%需回查遗漏或重叠；标签舍入的小差异则应看精度，不能一律当读图错误。",
+    "总量不同的图不能只比较扇形角度就判断实际人数多寡。"
+  ],
+  "practice": [
+    {
+      "id": "m6b.2.1-q1",
+      "note": "总数×百分比求部分"
+    },
+    {
+      "id": "m6b.2.1-q2",
+      "note": "说清扇形图能直接看出什么"
+    },
+    {
+      "id": "m6b.2.1-q102",
+      "note": "由部分数量与占比反求总数，核对整圆代表的整体"
+    }
+  ],
+  "check": "先独立完成本页两项自检，保留计算或判断过程；再逐项核对参考与观察边界，按具体困难修订。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能从扇形统计图读出百分比并求数量",
+      "explanation": "扇形比例是部分占总量的份额，人数等实际数量还要乘总量。",
+      "self_check": {
+        "prompt": "阅读附图：80名学生每人只参加一个小组，阅读组占总人数的百分之几？阅读组有多少人？写出图中比例与人数的关系。",
+        "reference_answer": "80×35%=28人。",
+        "criteria": [
+          "从图读35%而非把35当人数",
+          "80×35%=28人"
+        ],
+        "family_id": "statistics.part-from-percentage",
+        "variant_id": "m6b.2.1:criterion-0-v5",
+        "representation": "graph",
+        "cognitive_demand": "execute",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-pie-reading.svg",
+          "alt": "兴趣小组共80人，阅读35%、其他65%，每人归一类且合计全体；阅读扇形占126度。"
+        },
+        "reference_family_ids": [
+          "ratio.part-to-reference-percentage",
+          "ratio.percentage-decimal-conversion"
+        ]
+      },
+      "observation_note": "观察是否把百分比与同一个整体相乘并保留人数单位；只看扇形大小、或不知道总人数时不能直接确定人数。",
+      "difficulty_support": {
+        "discriminating_prompt": "阅读占35%，是否就表示35人？若共有80人呢？",
+        "hint": "35%是每100份中占35份的比例；80人的35%用80×0.35。",
+        "revision_prompt": "先写整体80人，再写比例35/100，算出28人；最后用28÷80检查与图示占比一致。"
+      }
+    },
+    {
+      "criterion_index": 1,
+      "title": "能比较扇形统计图与其他统计图的特点",
+      "explanation": "扇形图便于比较构成，条形图便于比较数量，折线图便于表现有序变化；须按问题选择。",
+      "self_check": {
+        "prompt": "分别为“本月支出构成”“各班人数”“每月气温变化”选统计图并说明。",
+        "reference_answer": "构成用扇形；各班人数用条形；按月变化用折线。三者侧重占比、数量、趋势。",
+        "criteria": [
+          "三种选择合理",
+          "给出对应理由"
+        ],
+        "family_id": "statistics.chart-purpose",
+        "variant_id": "m6b.2.1:criterion-1-v5",
+        "representation": "verbal",
+        "cognitive_demand": "choose_strategy",
+        "reference_family_ids": [
+          "statistics.nominal-categories-not-time"
+        ]
+      },
+      "observation_note": "观察图形选择与“构成、类别数量、时间变化”的问题是否匹配；能说出图名还需解释数据类别和比较目的。",
+      "difficulty_support": {
+        "discriminating_prompt": "月份气温变化和各班人数都能画图，为什么不把班级按任意顺序连线说成时间趋势？",
+        "hint": "月份有时间顺序；班级名称只是类别。扇形则强调各部分相对同一整体的占比。",
+        "revision_prompt": "为三种情境各写一个要回答的问题，再选图；把“数量”“趋势”“占比”与所选图逐一连起来。"
+      }
+    }
+  ],
+  "diagram": {
+    "src": "/static/diagrams/primary-pie-chart-whole.svg",
+    "alt": "整个圆表示200人，某部分为蓝色108°扇形，占30%；其余为70%。图例标占比，总人数另列，部分人数需计算。"
+  },
+  "conditions": [
+    "各类别构成同一个总量，互不重叠且不遗漏。",
+    "精确比例总和为100%；若各部分先经过舍入，标签合计可与100%有小差异，应核对原始数量与舍入精度。"
   ]
- },
- "pitfalls": [
-  "把 30% 直接当成人数的答案。",
-  "各部分加起来不是 100%，却没发现数据读错了。",
-  "拿两个总数不同的扇形图直接比扇形大小，就断言数量多少。"
- ],
- "practice": [
-  {
-   "id": "m6b.2.1-q1",
-   "note": "总数×百分比求部分"
-  },
-  {
-   "id": "m6b.2.1-q2",
-   "note": "说清扇形图能直接看出什么"
-  },
-  {
-   "id": "m6b.2.1-q9",
-   "note": "辨析：整圆表示总数"
-  }
- ],
- "check": "能从图中读出百分比并换算出人数，且能说出「为什么不能直接比较两个扇形图的数量」。"
 }

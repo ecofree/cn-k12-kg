@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2a.5.3",
+  "name": "9的乘法口诀",
+  "tier": "tool",
+  "hook": "五个9为什么是45，而不是50？",
+  "definition": "9的口诀从一九得九到九九八十一：一九得九、二九十八、三九二十七、四九三十六、五九四十五、六九五十四、七九六十三、八九七十二、九九八十一。",
+  "why": "每增加1个9，积增加9；也可把每个9看成比10少1。五个9比五个10少5，所以50−5=45。",
+  "conditions": [
+    "本卡研究1至9个9的口诀。",
+    "所述数位规律限定在这九个积中。"
+  ],
+  "representation_note": "用组数、积、十位、个位四栏表，辅以每份10去掉1的点阵解释。",
+  "when_to_use": [
+    "本卡研究1至9个9的口诀。",
+    "所述数位规律限定在这九个积中。"
+  ],
+  "steps": [
+    "按1至9份记录9、18、27、36、45、54、63、72、81。",
+    "把组数、每组9与总数一起读成口诀。",
+    "观察十位与个位的变化，用相邻差9或补10减去多算部分来解释。",
+    "打乱口诀，检查规律是否仍对应正确组数。"
+  ],
+  "worked_example": {
+    "prompt": "五个9为什么是45，而不是50？",
+    "steps": [
+      "先想五个10，共50。",
+      "每份比10少1，5份共少5，所以50−5=45。"
+    ],
+    "answer": "45",
+    "family_id": "primary.table-nine.equal-groups",
+    "variant_id": "m2a.5.3:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "verify": "5*9",
+    "reference_family_ids": [
+      "arithmetic.distributive-multiplication"
+    ]
+  },
+  "pitfalls": [
+    "只背积的数字、不看前面的组数，会把六九五十四与五九四十五颠倒。",
+    "本卡观察的是1至9个9的规律，不能把“各位和9”当成未经说明的万能判定规则。"
+  ],
+  "practice": [
+    {
+      "id": "m2a.5.3-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m2a.5.3-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "九句口诀对应1至9份9。六九五十四可由五九四十五加9得到，也可由七九六十三减9得到；两条路径应给出同一结果。",
+      "observation_note": "本项观察九句与份数对应完整、打乱后正确区分36、54、63；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。文字输入或自报不能直接验证实际口头背诵与读音；打乱后的口头提取仍需另外观察。",
+      "self_check": {
+        "prompt": "说全9的口诀，再打乱说七九、四九、六九的积。",
+        "reference_answer": "九句依次为9、18、27、36、45、54、63、72、81；七九63、四九36、六九54。",
+        "criteria": [
+          "九句与份数对应完整",
+          "打乱后正确区分36、54、63"
+        ],
+        "family_id": "primary.multiply.table-facts",
+        "variant_id": "m2a.5.3:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.equal-groups"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "四九与七九分别有几份9？",
+        "hint": "先写组数4或7，再从已知相邻口诀增减一份9。",
+        "revision_prompt": "把容易颠倒的句子配上各自点阵，并写一句加9或减9的检查。"
+      },
+      "criterion_index": 0,
+      "title": "能背诵 9 的乘法口诀"
+    },
+    {
+      "explanation": "在9、18、27、…、81这九个积中，把9写成个位9、十位0来观察：十位依次0至8，个位依次9至1，每个积两位数字之和为9。这是这组数的现象，还可用每份10少1解释。",
+      "observation_note": "本项观察描述数位变化、用数量关系验证54；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "观察18、27、36、45的数位变化，预测下一项并用“比六个10少6”验证。",
+        "reference_answer": "下一项54；十位从1、2、3、4到5，个位从8、7、6、5到4；60−6=54，符合六个9。",
+        "criteria": [
+          "描述数位变化",
+          "用数量关系验证54"
+        ],
+        "family_id": "primary.table-nine.digit-pattern",
+        "variant_id": "m2a.5.3:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.distributive-multiplication",
+          "primary.multiply.table-facts"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "六个9与六个10相比，是总共少1还是少6？",
+        "hint": "每一份都少1，数清共有6份。",
+        "revision_prompt": "画6个“10减1”的小框，合计后再检查所发现的数字规律。"
+      },
+      "criterion_index": 1,
+      "title": "能发现 9 的口诀中积的规律"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

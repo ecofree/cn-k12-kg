@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh5.6.3.1",
+  "name": "二项式定理",
+  "tier": "core",
+  "hook": "展开(a+b)³时，从三个括号各选a或b；恰好选两次b的三种位置都产生ab²，所以系数是3。",
+  "definition": "非负整数n的二项式定理为(a+b)ⁿ=Σₖ₌₀ⁿCₙᵏaⁿ⁻ᵏbᵏ，通项Tₖ₊₁=Cₙᵏaⁿ⁻ᵏbᵏ。共有n+1项，第k+1项对应指数k。二项式系数Cₙᵏ不同于代入具体表达式后某幂项的最终系数，后者还包含数字因子与符号。",
+  "why": "展开n个(a+b)的乘积，每个括号选一项。要得到aⁿ⁻ᵏbᵏ，恰需在n个位置中选择k个放b，有Cₙᵏ种，因此合并后的系数为组合数。若b是负数或含x的表达式，其k次幂必须完整带入。",
+  "when_to_use": [
+    "展开二项式或求指定幂次、常数项、指定项",
+    "需区分通项下标和指数，或区分二项式系数与最终系数"
+  ],
+  "steps": [
+    "确定a、b、n，完整写Tₖ₊₁。",
+    "整理变量幂次，令指数满足题目条件并检查k为0到n的整数。",
+    "代回该k计算符号与数值因子，明确回答的是项还是系数。"
+  ],
+  "worked_example": {
+    "prompt": "求(2x-1)⁴中x²的系数。",
+    "steps": [
+      "Tₖ₊₁=C₄ᵏ(2x)⁴⁻ᵏ(-1)ᵏ，x的指数为4-k。",
+      "令4-k=2得k=2，系数C₄²×2²×(-1)²=6×4=24。"
+    ],
+    "answer": "24",
+    "verify": "(4*3/2)*2**2*(-1)**2",
+    "family_id": "binomial.specified-power-coefficient",
+    "variant_id": "mh5.6.3.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "第3项对应k=2，不是k=3。",
+    "(a-b)ⁿ中负号随k奇偶变化，不能只抄正的组合系数。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能写出二项展开式的通项",
+      "explanation": "通项要同时保留组合数、两个因子的幂和下标关系。",
+      "self_check": {
+        "prompt": "写(1+2x)⁵的通项，并指出第4项对应哪个k。",
+        "reference_answer": "Tₖ₊₁=C₅ᵏ(2x)ᵏ，k=0,…,5；第4项k=3，为C₅³·8x³=80x³。",
+        "criteria": [
+          "通项含2ᵏ与xᵏ",
+          "第4项对应k=3"
+        ],
+        "family_id": "binomial.general-term-index",
+        "variant_id": "mh5.6.3.1:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "第4项为什么是k=3而不是4？",
+        "hint": "展开从k=0起，第1项对应0，序号比k多1。",
+        "revision_prompt": "写(1-2x)³第3项：k=2，C₃²(-2x)²=12x²。"
+      },
+      "observation_note": "观察项号、指数、数字因子；二项式系数不等于最终幂项系数。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能求指定项的系数",
+      "explanation": "指定幂的系数先由指数方程确定k，再算全部数字因子。",
+      "self_check": {
+        "prompt": "求(1-3x)⁴中x³的系数。",
+        "reference_answer": "取k=3，系数C₄³(-3)³=4×(-27)=-108。",
+        "criteria": [
+          "选k=3",
+          "负号及系数-108"
+        ],
+        "family_id": "binomial.specified-power-coefficient",
+        "variant_id": "mh5.6.3.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "(-3)³的负号能因组合数为正而消失吗？",
+        "hint": "组合数、数字幂与符号都属于最终系数。",
+        "revision_prompt": "求(2-x)⁴中x³系数：C₄³·2·(-1)³=-8，列k核对。"
+      },
+      "observation_note": "观察目标幂指数方程与完整系数；不要只报C₄³。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能计算二项式形式展开的项数",
+      "explanation": "二项式(a+b)ⁿ的形式展开按取b的次数r分类，r可取0、1一直到n，每类给出C(n,r)aⁿ⁻ʳbʳ，因此形式项数为n+1。这里两端都计入；若另将a、b代为特殊表达式并合并同类项，实际合并后项数可能变化，应与形式项数区别。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：(a+b)³ 的展开式共有多少项？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：4。n3，形式展开从r0到3共4项。",
+        "criteria": [
+          "按r从0到n完整计数得到n+1个形式项，不遗漏首末项或误用特殊代入后的项数",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "binomial.formal-term-count",
+        "variant_id": "mh5.6.3.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你从r=1开始而漏了r=0吗？问的是二项式定理的形式项，还是代入后合并的项？",
+        "hint": "列出b的次数0、1、…、n，每个次数对应一项，先数包括两端的这些整数。",
+        "revision_prompt": "先回答这个辨别问题：你从r=1开始而漏了r=0吗？问的是二项式定理的形式项，还是代入后合并的项？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；按r从0到n完整计数得到n+1个形式项，不遗漏首末项或误用特殊代入后的项数。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh5.6.3.1-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：求(1+2x)⁵展开式中x²的系数。"
+    },
+    {
+      "id": "mh5.6.3.1-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：求(x-2)⁴展开式中x³的系数。"
+    },
+    {
+      "id": "mh5.6.3.1-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：(a+b)⁶展开式的第4项是哪一项？"
+    }
+  ],
+  "check": "独立完成并写出依据：写(1+2x)⁵的通项，并指出第4项对应哪个k。；求(1-3x)⁴中x³的系数。",
+  "conditions": [
+    "指数n为非负整数；第k+1项对应k。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

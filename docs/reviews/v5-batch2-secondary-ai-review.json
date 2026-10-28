@@ -1,0 +1,2487 @@
+{
+  "schema": 1,
+  "base_commit": "2c31bdb",
+  "reviewer_kind": "ai",
+  "review_status": "ai_reviewed",
+  "teacher_independent_review": "deferred",
+  "student_effect_validation": "deferred",
+  "topic_ids": [
+    "m7a.5.1.2",
+    "m7a.5.2",
+    "m7a.5.3",
+    "m8b.22.2",
+    "m8b.23.1",
+    "m8b.23.2",
+    "m8b.23.4",
+    "mh2.10.2",
+    "mh4.5.3.1",
+    "mh4.5.3.2"
+  ],
+  "question_review": [
+    {
+      "id": "m7a.5.1.2-q1",
+      "source": "data/content/qishang.json",
+      "before": {
+        "prompt": "由 a=b 不一定能得到下列哪一个式子？",
+        "answer": "o1",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "a、b、c均为实数，已知a=b，但没有给出c是否为0。下列哪一个式子不一定有定义并成立？",
+        "answer": "o1",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "equation.divide-variable-zero",
+        "variant_id": "m7a.5.1.2-q1",
+        "representation": "symbolic",
+        "cognitive_demand": "choose_strategy",
+        "alignment_note": "辨认同除未知数时缺少非零条件；选择结果不能代替逐步解释两条等式性质。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "辨认同除未知数时缺少非零条件；选择结果不能代替逐步解释两条等式性质。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "4809838b7b30bbd0c07b484d0242c807e867e1f798b117da9143934af0643219"
+    },
+    {
+      "id": "m7a.5.1.2-q2",
+      "source": "data/content/qishang.json",
+      "before": {
+        "prompt": "若 x+5=8，根据等式性质两边同时减去 5，得到什么？",
+        "answer": "o2",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "若 x+5=8，根据等式性质两边同时减去 5，得到什么？",
+        "answer": "o2",
+        "tested_criterion_indices": null,
+        "family_id": "equation.solve-linear",
+        "variant_id": "m7a.5.1.2-q2",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "题干已给两边同减5的动作，只观察8−5的结果，未要求说出性质或解释变形依据，保留主题练习。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "题干已给两边同减5的动作，只观察8−5的结果，未要求说出性质或解释变形依据，保留主题练习。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "53664f8f27c5496707544b358fb48707d3f84899784d628d6c2f956d97227fea"
+    },
+    {
+      "id": "m7a.5.1.2-q3",
+      "source": "data/content/qishang.json",
+      "before": {
+        "prompt": "由 2x=6 得到 x=3，依据是什么？",
+        "answer": "o2",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "由 2x=6 得到 x=3，依据是什么？",
+        "answer": "o2",
+        "tested_criterion_indices": [
+          0,
+          1
+        ],
+        "family_id": "equation.property-operation-justification",
+        "variant_id": "m7a.5.1.2-q3",
+        "representation": "symbolic",
+        "cognitive_demand": "choose_strategy",
+        "alignment_note": "为一次同除以非零数选择依据，仅观察乘除性质这一部分，尚未观察加减性质的自主表达。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "为一次同除以非零数选择依据，仅观察乘除性质这一部分，尚未观察加减性质的自主表达。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "bf4f2771560b456ab059c3766af5cc188a044e752c13e9730aa81b3886dab2e1"
+    },
+    {
+      "id": "m7a.5.1.2-q4",
+      "source": "data/content/qishang.json",
+      "before": {
+        "prompt": "若 x+5=8，根据等式性质两边同时减去 5，x 等于多少？",
+        "answer": "3",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "若 x+5=8，根据等式性质两边同时减去 5，x 等于多少？",
+        "answer": "3",
+        "tested_criterion_indices": null,
+        "family_id": "equation.solve-linear",
+        "variant_id": "m7a.5.1.2-q4",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "与q2为同一题族且数值相同；题干已给变形动作，填写3不能说明会解释依据。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "与q2为同一题族且数值相同；题干已给变形动作，填写3不能说明会解释依据。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "983fd2053e1d9d7e5a41afc77968c027a4d296719067a3286913cd92ae910c67"
+    },
+    {
+      "id": "m7a.5.2-q1",
+      "source": "data/content/qishang.json",
+      "before": {
+        "prompt": "解方程 3x-5=7，x 等于多少？",
+        "answer": "4",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "解方程 3x-5=7，x 等于多少？",
+        "answer": "4",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "equation.solve-linear",
+        "variant_id": "m7a.5.2-q1",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "观察含常数项的一元一次方程数值解；步骤和回代仍需作品自检确认。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "观察含常数项的一元一次方程数值解；步骤和回代仍需作品自检确认。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "b2178b2bace1953ca74e6fbaaee21ff6d4cfd4ea6bb3488f93e9a03d5400064f"
+    },
+    {
+      "id": "m7a.5.2-q2",
+      "source": "data/content/qishang.json",
+      "before": {
+        "prompt": "解方程 2(x-1)=6，x 等于多少？",
+        "answer": "4",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "解方程 2(x-1)=6，x 等于多少？",
+        "answer": "4",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "equation.solve-linear",
+        "variant_id": "m7a.5.2-q2",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "观察带括号方程的数值解；同除系数或展开都允许，单一结果不证明每步等价。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "观察带括号方程的数值解；同除系数或展开都允许，单一结果不证明每步等价。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "44f971698923a33809497ddc5af92dc956c55466f9cf43b4e98f55af5ccb49c2"
+    },
+    {
+      "id": "m7a.5.2-q3",
+      "source": "data/content/qishang.json",
+      "before": {
+        "prompt": "解方程 (x-1)/2=3，x 等于多少？",
+        "answer": "7",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "解方程 (x-1)/2=3，x 等于多少？",
+        "answer": "7",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "equation.solve-linear",
+        "variant_id": "m7a.5.2-q3",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "观察单个分式方程的数值解；题中没有额外常数项，不能据此确认会修正漏乘错误。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "观察单个分式方程的数值解；题中没有额外常数项，不能据此确认会修正漏乘错误。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "d46ea7e551ac91029fc42e5cf26fee29b0bd649cbee5e8e9443fa11d29c202f2"
+    },
+    {
+      "id": "m7a.5.2-q4",
+      "source": "data/content/qishang.json",
+      "before": {
+        "prompt": "解方程 x+2=5，x 等于多少？",
+        "answer": "3",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "解方程 x+2=5，x 等于多少？",
+        "answer": "3",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "equation.solve-linear",
+        "variant_id": "m7a.5.2-q4",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "观察最简单的加法方程数值解，是完整解题过程的局部练习。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "观察最简单的加法方程数值解，是完整解题过程的局部练习。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "c26f422f3d57d48d9b6ef33e8734267ab54db7f82e073efc97c95ecaa74258b5"
+    },
+    {
+      "id": "m7a.5.3-q1",
+      "source": "data/content/qishang.json",
+      "before": {
+        "prompt": "某数的 3 倍减去 5 等于 16，这个数是多少？",
+        "answer": "7",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "某数的 3 倍减去 5 等于 16，这个数是多少？",
+        "answer": "7",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "equation.verbal-affine-model",
+        "variant_id": "m7a.5.3-q1",
+        "representation": "verbal",
+        "cognitive_demand": "model",
+        "alignment_note": "由倍数减常数关系求未知量；数值答案只能给建模的局部线索，需在自检写等量关系。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "由倍数减常数关系求未知量；数值答案只能给建模的局部线索，需在自检写等量关系。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "bb6668075cb3a5b677b027e54747dd593cb3e962dd3d41dc840c1a9f226ffd16"
+    },
+    {
+      "id": "m7a.5.3-q2",
+      "source": "data/content/qishang.json",
+      "before": {
+        "prompt": "一件商品按标价的八折出售，售价是 240 元，标价是多少元？",
+        "answer": "300",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "一件商品按标价的八折出售，售价是 240 元，标价是多少元？",
+        "answer": "300",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "equation.discount-base-model",
+        "variant_id": "m7a.5.3-q2",
+        "representation": "verbal",
+        "cognitive_demand": "model",
+        "alignment_note": "把售价与标价的八折关系还原为等量关系，仍需查看方程及单位。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "把售价与标价的八折关系还原为等量关系，仍需查看方程及单位。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "8d0f0fb49b363a1205b3b8f235ef5b4a248d72d1b5df6c5f9bf29fbfd70725b7"
+    },
+    {
+      "id": "m7a.5.3-q3",
+      "source": "data/content/qishang.json",
+      "before": {
+        "prompt": "甲、乙两人相距 30 千米，相向而行，甲每小时走 4 千米、乙每小时走 6 千米，几小时后两人相遇？",
+        "answer": "3",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "甲、乙两人相距30千米，同时沿同一直路相向匀速而行，甲每小时走4千米、乙每小时走6千米。几小时后两人相遇？",
+        "answer": "3",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "equation.meeting-model",
+        "variant_id": "m7a.5.3-q3",
+        "representation": "verbal",
+        "cognitive_demand": "model",
+        "alignment_note": "同时相向匀速运动时以速度和建立路程关系；答案不能单独证明已说明同时出发条件。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "同时相向匀速运动时以速度和建立路程关系；答案不能单独证明已说明同时出发条件。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "951c6ffc49e49f5602a04903406beb8ed52b6305ff7b1eaa733df4a5bae7a87e"
+    },
+    {
+      "id": "m7a.5.3-q4",
+      "source": "data/content/qishang.json",
+      "before": {
+        "prompt": "某数的 2 倍是 10，这个数是多少？",
+        "answer": "5",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "某数的 2 倍是 10，这个数是多少？",
+        "answer": "5",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "equation.verbal-affine-model",
+        "variant_id": "m7a.5.3-q4",
+        "representation": "verbal",
+        "cognitive_demand": "model",
+        "alignment_note": "由倍数关系还原未知量；与倍数减常数同为线性数量关系，不能当作全新迁移题族。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "由倍数关系还原未知量；与倍数减常数同为线性数量关系，不能当作全新迁移题族。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "b174b675ca898113d063bfb5f559cdc796b8fe1f206bef515e22e69d08bc68ec"
+    },
+    {
+      "id": "m8b.22.2-q1",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "下列不属于函数三种表示方法的是哪一个？",
+        "answer": "o1",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "下列不属于函数三种表示方法的是哪一个？",
+        "answer": "o1",
+        "tested_criterion_indices": null,
+        "family_id": "function.representation-name-recall",
+        "variant_id": "m8b.22.2-q1",
+        "representation": "verbal",
+        "cognitive_demand": "recall",
+        "alignment_note": "只识记表示法名称，没有按具体用途选择，也不读取图象，保留主题支持练习。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "只识记表示法名称，没有按具体用途选择，也不读取图象，保留主题支持练习。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "88cfae7ed1bcc448711754dce4b1b94748087ea315ec591051b07ae4c85525f8"
+    },
+    {
+      "id": "m8b.22.2-q2",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "函数图象上一点的坐标是 (3,7)，当 x=3 时函数值是多少？（只填数字）",
+        "answer": "7",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "观察坐标图中的点P。当x=3时，点P表示的函数值是多少？只填数值。",
+        "answer": "7",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "linear.graph-point-read",
+        "variant_id": "m8b.22.2-q2",
+        "representation": "graph",
+        "cognitive_demand": "execute",
+        "alignment_note": "采用实际带刻度坐标图，替代文本保留同样数据；记录对应值读取的结果，不单凭答案证明视觉定位过程。",
+        "diagram": {
+          "src": "/static/diagrams/function-point-read-v5.svg",
+          "alt": "坐标网格横轴0至4、纵轴0至8，点P位于横坐标3、纵坐标7的位置。"
+        },
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "采用实际带刻度坐标图，替代文本保留同样数据；记录对应值读取的结果，不单凭答案证明视觉定位过程。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "73421a0707d0a9f6eaee871eb5ccdd37211cd7e15e1c1821d7fcd5e09e87972c"
+    },
+    {
+      "id": "m8b.23.1-q1",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "下列函数中是一次函数的是哪一个？",
+        "answer": "o4",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "下列函数中是一次函数的是哪一个？",
+        "answer": "o4",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "linear.affine-classification",
+        "variant_id": "m8b.23.1-q1",
+        "representation": "symbolic",
+        "cognitive_demand": "choose_strategy",
+        "alignment_note": "辨认k≠0的一次函数形式；本题仅观察一次函数识别部分，不同时确认正比例边界。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "辨认k≠0的一次函数形式；本题仅观察一次函数识别部分，不同时确认正比例边界。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "07733f99808910d897a1a689f34370adb88e5427cbc5926e3686f9677e09c525"
+    },
+    {
+      "id": "m8b.23.1-q2",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "一次函数 y=2x+b 的图象经过点 (0,3)，b 等于多少？（只填数字）",
+        "answer": "3",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "一次函数 y=2x+b 的图象经过点 (0,3)，b 等于多少？（只填数字）",
+        "answer": "3",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "linear.table-to-parameters",
+        "variant_id": "m8b.23.1-q2",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "把x=0处的坐标用于求截距；只涉及两个待定系数中的b。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "把x=0处的坐标用于求截距；只涉及两个待定系数中的b。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "8c612cd640b14c2e966622456e30b73666b5402e0cd7009127fc2749d7feda65"
+    },
+    {
+      "id": "m8b.23.2-q1",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "一次函数 y=-2x+1 中，y 随 x 增大而怎样变化？",
+        "answer": "o2",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "一次函数 y=-2x+1 中，y 随 x 增大而怎样变化？",
+        "answer": "o2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "linear.slope-monotonicity",
+        "variant_id": "m8b.23.2-q1",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "从斜率负号判断递减，仅观察复合目标中的增减性部分。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "从斜率负号判断递减，仅观察复合目标中的增减性部分。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "6be7a1f60334a446ca0bb8588621f7a66b926b93d96d18e77843f3f23351a722"
+    },
+    {
+      "id": "m8b.23.2-q2",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "直线 y=3x-6 与 x 轴交点的横坐标是多少？（只填数字）",
+        "answer": "2",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "直线 y=3x-6 与 x 轴交点的横坐标是多少？（只填数字）",
+        "answer": "2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "linear.axis-intercepts",
+        "variant_id": "m8b.23.2-q2",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "令y=0求x轴交点横坐标；不同时证明会求y轴交点或解释增减性。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "令y=0求x轴交点横坐标；不同时证明会求y轴交点或解释增减性。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "10217153dd2c0478c1fb4bfda2a4961b28f1ac42bbe205887b70e9c9ec7fd46d"
+    },
+    {
+      "id": "m8b.23.4-q1",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "汽车以 60 千米/时匀速行驶，路程 s=60t。当 t=3 时，s 是多少千米？（只填数字）",
+        "answer": "180",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "汽车以 60 千米/时匀速行驶，路程 s=60t。当 t=3 时，s 是多少千米？（只填数字）",
+        "answer": "180",
+        "tested_criterion_indices": null,
+        "family_id": "linear.formula-evaluation",
+        "variant_id": "m8b.23.4-q1",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "题干已给完整模型s=60t，仅代入求值，不能说明会自主建立模型或写实际范围。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "题干已给完整模型s=60t，仅代入求值，不能说明会自主建立模型或写实际范围。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "296d846b2bc881d597fbf19157254bf7674afabc7f1ab68b4404f4201fcb491b"
+    },
+    {
+      "id": "m8b.23.4-q2",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "用一次函数解决实际问题时，确定自变量取值范围主要依据什么？",
+        "answer": "o3",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "用一次函数解决实际问题时，确定自变量取值范围主要依据什么？",
+        "answer": "o3",
+        "tested_criterion_indices": null,
+        "family_id": "model.domain-recall",
+        "variant_id": "m8b.23.4-q2",
+        "representation": "verbal",
+        "cognitive_demand": "recall",
+        "alignment_note": "选择泛泛原则没有写任何具体取值范围；保留建模前的支持练习。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "选择泛泛原则没有写任何具体取值范围；保留建模前的支持练习。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "15f998f65b547676ca59ce26513c343ced7e5c8792689778df19065d75744b58"
+    },
+    {
+      "id": "m8b.22.2-q201",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "要准确列出某地周一到周日每天已测得的最高气温，且不推测其他时刻，哪种表示最直接？",
+        "answer": "o1",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "要准确列出某地周一到周日每天已测得的最高气温，且不推测其他时刻，哪种表示最直接？",
+        "answer": "o1",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "function.representation-choice",
+        "variant_id": "m8b.22.2-q201",
+        "representation": "verbal",
+        "cognitive_demand": "choose_strategy",
+        "alignment_note": "在保留日期与实测值、不作外推的目的下选择列表法；仍需核对选择理由。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "在保留日期与实测值、不作外推的目的下选择列表法；仍需核对选择理由。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "20217445e4e3588e578fe0a430798866ebbb6c2768816f80cddbfe079cc7c6ef"
+    },
+    {
+      "id": "m8b.22.2-q202",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "函数图象由连接(0,0)与(2,6)、再连接(2,6)与(5,6)的两条线段组成。当x=4时，y是多少？",
+        "answer": "6",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "观察图中的函数图象。当x=4时，对应的y是多少？只填数值。",
+        "answer": "6",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "function.piecewise-graph-read",
+        "variant_id": "m8b.22.2-q202",
+        "representation": "graph",
+        "cognitive_demand": "execute",
+        "alignment_note": "从真实分段线段图象中按输入位置读取水平段的纵坐标，不只依据文字中直接给出的坐标。",
+        "diagram": {
+          "src": "/static/diagrams/function-piecewise-read-v5.svg",
+          "alt": "函数图象从原点上升到横坐标2纵坐标6，再水平延伸至横坐标5，横纵轴每格均为1。"
+        },
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "从真实分段线段图象中按输入位置读取水平段的纵坐标，不只依据文字中直接给出的坐标。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "0fdf06eec8abebe5d1ed4471a5546dcd258b1b0d1b168551cd2e5dc81fe8af8d"
+    },
+    {
+      "id": "m8b.23.1-q201",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "下列关系中，是一次函数但不是正比例函数的是哪一个？",
+        "answer": "o2",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "下列关系中，是一次函数但不是正比例函数的是哪一个？",
+        "answer": "o2",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "linear.affine-classification",
+        "variant_id": "m8b.23.1-q201",
+        "representation": "symbolic",
+        "cognitive_demand": "choose_strategy",
+        "alignment_note": "同时检查一次项非零与截距非零以区分一次函数和正比例函数。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "同时检查一次项非零与截距非零以区分一次函数和正比例函数。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "19354d88b625a5708d17739f7ffeec79e1c0a439666bba8da255d8a6cd374ec3"
+    },
+    {
+      "id": "m8b.23.1-q202",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "一次函数经过(0,−2)与(3,4)，写出解析式。",
+        "answer": "y=2x-2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "一次函数经过(0,−2)与(3,4)，写出解析式。",
+        "answer": "y=2x-2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "linear.table-to-parameters",
+        "variant_id": "m8b.23.1-q202",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "由两个不同横坐标的点求完整一次函数式；应通过过程自检确认代入与复核。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "由两个不同横坐标的点求完整一次函数式；应通过过程自检确认代入与复核。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "771b42f4d0c229f212c5cbe12c325f12cab8adfdbd7bc9337a759e2d8334d47b"
+    },
+    {
+      "id": "m8b.23.2-q201",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "一次函数y=−2x+4的图象不经过哪个象限？",
+        "answer": "o3",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "一次函数y=−2x+4的图象不经过哪个象限？",
+        "answer": "o3",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "linear.quadrant-sign-analysis",
+        "variant_id": "m8b.23.2-q201",
+        "representation": "symbolic",
+        "cognitive_demand": "choose_strategy",
+        "alignment_note": "根据x与y符号和零点分段判断不经过的象限；仍需自检给出区间依据。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "根据x与y符号和零点分段判断不经过的象限；仍需自检给出区间依据。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "f56359b3b59ad786f5c519ede974fe5537b5ae675ea6f368bca5fcbab0306e4c"
+    },
+    {
+      "id": "m8b.23.2-q202",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "函数y=−3x+9的图象与x轴交点的横坐标是多少？",
+        "answer": "3",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "函数y=−3x+9的图象与x轴交点的横坐标是多少？",
+        "answer": "3",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "linear.axis-intercepts",
+        "variant_id": "m8b.23.2-q202",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "只观察x轴交点这一部分；完整目标的递减性与两轴交点在自检中分别要求。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "只观察x轴交点这一部分；完整目标的递减性与两轴交点在自检中分别要求。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "25a371e6c8b49efb31e2d4d06b4586f3ccfe971c2bdf9c97d788ed402a2ac21b"
+    },
+    {
+      "id": "m8b.23.4-q201",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "租车每次固定收费20元，另按每小时8元计费，可按实际小时数计费。租3.5小时共付多少元？",
+        "answer": "48",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "租车每次固定收费20元，另按每小时8元计费，可按实际小时数计费。租3.5小时共付多少元？",
+        "answer": "48",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "equation.single-fee-model",
+        "variant_id": "m8b.23.4-q201",
+        "representation": "verbal",
+        "cognitive_demand": "model",
+        "alignment_note": "固定费加按实际时长计费，与月租题同属固定加变量费用模型，未把换情境算新结构。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "固定费加按实际时长计费，与月租题同属固定加变量费用模型，未把换情境算新结构。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "180e8cdea48951a80c43d149853b9dce7af9ca3d8ab48802bcaed91c3115737f"
+    },
+    {
+      "id": "m8b.23.4-q202",
+      "source": "data/content/baxia.json",
+      "before": {
+        "prompt": "水箱原有60升水，以每分钟3升匀速放水，直至放空。以开始放水为t=0，写出模型V=60−3t的实际自变量范围。",
+        "answer": "0≤t≤20",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "水箱原有60升水，以每分钟3升匀速放水，直至放空。以开始放水为t=0，写出模型V=60−3t的实际自变量范围。",
+        "answer": "0≤t≤20",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "linear.capacity-boundary-model",
+        "variant_id": "m8b.23.4-q202",
+        "representation": "verbal",
+        "cognitive_demand": "model",
+        "alignment_note": "以开始时间和水量非负共同限制排水模型区间，要求含两个边界。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "以开始时间和水量非负共同限制排水模型区间，要求含两个边界。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "a8d5c47eaf6eae22804cc5f92a44fecda9bd454a3340c05cf7f452bdabaf23df"
+    },
+    {
+      "id": "mh2.10.2-q1",
+      "source": "data/content/bx2.json",
+      "before": {
+        "prompt": "A、B 相互独立的条件是什么？",
+        "answer": "o4",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "A、B 相互独立的条件是什么？",
+        "answer": "o4",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "probability.independence-definition",
+        "variant_id": "mh2.10.2-q1",
+        "representation": "symbolic",
+        "cognitive_demand": "recall",
+        "alignment_note": "识别独立的乘积定义是判断的组成部分；仍需用具体边际和交概率进行检验。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "识别独立的乘积定义是判断的组成部分；仍需用具体边际和交概率进行检验。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "8beebf40dbfb33bc90006c8bf1afd74342a2bbd5270217e91e6575fb1782a1bb"
+    },
+    {
+      "id": "mh2.10.2-q2",
+      "source": "data/content/bx2.json",
+      "before": {
+        "prompt": "A、B 相互独立，P(A)=0.5，P(B)=0.4，则 P(AB) 等于多少？",
+        "answer": "0.2",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "A、B 相互独立，P(A)=0.5，P(B)=0.4，则 P(AB) 等于多少？",
+        "answer": "0.2",
+        "tested_criterion_indices": null,
+        "family_id": "probability.independent-intersection",
+        "variant_id": "mh2.10.2-q2",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "题干已给独立，求交概率只检验乘法运用，不能说明会判断独立性或区分互斥。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "题干已给独立，求交概率只检验乘法运用，不能说明会判断独立性或区分互斥。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "1fa34b360ccf2c32384383adce63bdaa97be7d4a15b827fcbb48a926436b529e"
+    },
+    {
+      "id": "mh2.10.2-q201",
+      "source": "data/content/bx2.json",
+      "before": {
+        "prompt": "A、B独立，P(A)=0.3、P(B)=0.6，P(A∩B)是多少？",
+        "answer": "0.18",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "A、B独立，P(A)=0.3、P(B)=0.6，P(A∩B)是多少？",
+        "answer": "0.18",
+        "tested_criterion_indices": null,
+        "family_id": "probability.independent-intersection",
+        "variant_id": "mh2.10.2-q201",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "原先映射独立性判断不当：独立已给，只做0.3×0.6，撤去目标映射并保留练习。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "原先映射独立性判断不当：独立已给，只做0.3×0.6，撤去目标映射并保留练习。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "76e61e078bdbb847f12b987061eb09201fab34cac4bc1785aab51b2d3dd3cc18"
+    },
+    {
+      "id": "mh2.10.2-q202",
+      "source": "data/content/bx2.json",
+      "before": {
+        "prompt": "掷均匀骰，A为偶数、B为大于4，求P(A∩B)。",
+        "answer": "1/6",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "掷均匀骰，A为偶数、B为大于4，求P(A∩B)。",
+        "answer": "1/6",
+        "tested_criterion_indices": null,
+        "family_id": "probability.enumerated-independence",
+        "variant_id": "mh2.10.2-q202",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "只提交交集概率，没有计算边际概率并比较乘积；参考中虽演示独立性，学生作答并未展示判断。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "只提交交集概率，没有计算边际概率并比较乘积；参考中虽演示独立性，学生作答并未展示判断。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "051f2462673b68788a7e5f4e312d960f324a407da2429cc428db6fec445bed21"
+    },
+    {
+      "id": "mh2.10.2-q203",
+      "source": "data/content/bx2.json",
+      "before": {
+        "prompt": "A、B互斥且P(A)>0、P(B)>0，下列关系正确的是哪项？",
+        "answer": "o2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "A、B互斥且P(A)>0、P(B)>0，下列关系正确的是哪项？",
+        "answer": "o2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "probability.independence-vs-exclusive",
+        "variant_id": "mh2.10.2-q203",
+        "representation": "symbolic",
+        "cognitive_demand": "choose_strategy",
+        "alignment_note": "正概率互斥的交概率为0而乘积正，按定义区分互斥与独立，并保留正概率条件。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "正概率互斥的交概率为0而乘积正，按定义区分互斥与独立，并保留正概率条件。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "5b8b1b1f6f479ac546d38599de2071ee6a9d1e1cd76a83755eb0cd3b058953f5"
+    },
+    {
+      "id": "mh2.10.2-q204",
+      "source": "data/content/bx2.json",
+      "before": {
+        "prompt": "袋中2红2白，随机不放回先后取球。A为第一次红，B为第二次红。是否独立？",
+        "answer": "o2",
+        "tested_criterion_indices": [
+          0,
+          1
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "袋中2红2白，随机不放回先后取球。A为第一次红，B为第二次红。是否独立？",
+        "answer": "o2",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "probability.without-replacement",
+        "variant_id": "mh2.10.2-q204",
+        "representation": "verbal",
+        "cognitive_demand": "choose_strategy",
+        "alignment_note": "用不放回机制下的条件概率改变判断不独立；未单独要求说明互斥关系，撤去第二目标映射。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "用不放回机制下的条件概率改变判断不独立；未单独要求说明互斥关系，撤去第二目标映射。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "3af9f6254e72a9fe9e44432ec359354ed4b4c40b9c08ba3f28ebbe7cf2bfc30d"
+    },
+    {
+      "id": "mh4.5.3.1-q1",
+      "source": "data/content/xby2.json",
+      "before": {
+        "prompt": "在某区间上 f'(x)>0，函数在该区间上是什么状态？",
+        "answer": "o2",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "在某区间上 f'(x)>0，函数在该区间上是什么状态？",
+        "answer": "o2",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "derivative.positive-sign-theorem",
+        "variant_id": "mh4.5.3.1-q1",
+        "representation": "symbolic",
+        "cognitive_demand": "recall",
+        "alignment_note": "识别可导区间内处处正导数的充分条件；不证明会求导或处理零点与断点。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "识别可导区间内处处正导数的充分条件；不证明会求导或处理零点与断点。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "a18f25e1baf71a74e994ffadb8cbc3fc29db27b2d4661a2619e46ad24be5dfb1"
+    },
+    {
+      "id": "mh4.5.3.1-q2",
+      "source": "data/content/xby2.json",
+      "before": {
+        "prompt": "函数 f(x)=x²-2x 的单调递增区间从 x 大于多少开始？",
+        "answer": "1",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "函数f(x)=x²−2x在实数范围内定义。导数由负变正的分界点横坐标是多少？只填数值。",
+        "answer": "1",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "derivative.linear-sign",
+        "variant_id": "mh4.5.3.1-q2",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "求线性导数的分界点，作为完整单调区间分析的一部分；须另写左右符号。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "求线性导数的分界点，作为完整单调区间分析的一部分；须另写左右符号。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "1f29924d6715ee72d6e8f31f391fa55b79a3a0880f93f3916a16c0baea65461d"
+    },
+    {
+      "id": "mh4.5.3.2-q1",
+      "source": "data/content/xby2.json",
+      "before": {
+        "prompt": "可导函数在 x0 处取极值的必要条件是什么？",
+        "answer": "o4",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "函数在定义区间的内点x0处可导，并在该点取得局部极大值或极小值。下面哪一项是必要条件？",
+        "answer": "o4",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "derivative.extremum-necessary-condition",
+        "variant_id": "mh4.5.3.2-q1",
+        "representation": "symbolic",
+        "cognitive_demand": "recall",
+        "alignment_note": "识别可导内点极值的必要条件；仍需符号变化或定义判断，不能由f′=0直接确认极值。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "识别可导内点极值的必要条件；仍需符号变化或定义判断，不能由f′=0直接确认极值。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "6c4f8bb123e37eaa0166f84a0edba72f00b58d8e3fdbb89f986903d35a8e6b74"
+    },
+    {
+      "id": "mh4.5.3.2-q2",
+      "source": "data/content/xby2.json",
+      "before": {
+        "prompt": "函数 f(x)=x²-4x 的极小值点的横坐标是多少？",
+        "answer": "2",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "函数 f(x)=x²-4x 的极小值点的横坐标是多少？",
+        "answer": "2",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "derivative.polynomial-extrema",
+        "variant_id": "mh4.5.3.2-q2",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "求二次函数极小值点横坐标；需另核对导数由负变正，不把横坐标当极小值。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "求二次函数极小值点横坐标；需另核对导数由负变正，不把横坐标当极小值。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "9eef3bc139e69391a3ee28be476992fe718a503faaa733e3a22df6deedfed917"
+    },
+    {
+      "id": "mh4.5.3.1-q201",
+      "source": "data/content/xby2.json",
+      "before": {
+        "prompt": "f(x)=x³在实数上严格递增，但f′(0)=0。这说明哪一项？",
+        "answer": "o3",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "f(x)=x³在实数上严格递增，但f′(0)=0。这说明哪一项？",
+        "answer": "o3",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "derivative.nonnegative-vs-strict",
+        "variant_id": "mh4.5.3.1-q201",
+        "representation": "symbolic",
+        "cognitive_demand": "choose_strategy",
+        "alignment_note": "用x³在0处导数为0的反例区分充分条件与必要条件。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "用x³在0处导数为0的反例区分充分条件与必要条件。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "5d827a63e265e420447a1940444ece55ff1283c9e1e69948f904a8ca4b632aac"
+    },
+    {
+      "id": "mh4.5.3.1-q202",
+      "source": "data/content/xby2.json",
+      "before": {
+        "prompt": "f(x)=x²-6x的递增区间是哪一个？",
+        "answer": "o2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "f(x)=x²-6x的递增区间是哪一个？",
+        "answer": "o2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "derivative.linear-sign",
+        "variant_id": "mh4.5.3.1-q202",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "根据线性导数的符号选择单调区间，与q2的分界结构相同。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "根据线性导数的符号选择单调区间，与q2的分界结构相同。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "40e958934d7c74782820ac99e59a618e4190b148f48f9a344edbde859afd4e9d"
+    },
+    {
+      "id": "mh4.5.3.1-q203",
+      "source": "data/content/xby2.json",
+      "before": {
+        "prompt": "f(x)=x³-12x的导数在正数范围内为0的x是多少？",
+        "answer": "2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "f(x)=x³-12x的导数在正数范围内为0的x是多少？",
+        "answer": "2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "derivative.stationary-candidates",
+        "variant_id": "mh4.5.3.1-q203",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "只找导数的一个正零点，为分区候选步骤；不能单凭此结果确认四则符号或完整单调区间。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "只找导数的一个正零点，为分区候选步骤；不能单凭此结果确认四则符号或完整单调区间。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "41d4a9cee594fde9fdd57a8b9ca575e6d9280964e6b8c4a929770e0dbcb5dd9c"
+    },
+    {
+      "id": "mh4.5.3.1-q204",
+      "source": "data/content/xby2.json",
+      "before": {
+        "prompt": "f(x)=1/x的单调性应怎样表述？",
+        "answer": "o2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "f(x)=1/x的单调性应怎样表述？",
+        "answer": "o2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "derivative.disconnected-domain",
+        "variant_id": "mh4.5.3.1-q204",
+        "representation": "symbolic",
+        "cognitive_demand": "choose_strategy",
+        "alignment_note": "区分两个连通区间上分别递减与跨断点整体递减，观察定义域边界处理。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "区分两个连通区间上分别递减与跨断点整体递减，观察定义域边界处理。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "3973d31aaf7475ea25c964f6e7c07d2c6042c56b2b3e634b39c1bac800c49e69"
+    },
+    {
+      "id": "mh4.5.3.2-q201",
+      "source": "data/content/xby2.json",
+      "before": {
+        "prompt": "f(x)=x²-6x+2在区间[0,4]上的最小值是多少？",
+        "answer": "-7",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "f(x)=x²-6x+2在区间[0,4]上的最小值是多少？",
+        "answer": "-7",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "derivative.closed-interval-extrema",
+        "variant_id": "mh4.5.3.2-q201",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "比较候选值得闭区间最小值，不从导数为零直接跳到全局结论。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "比较候选值得闭区间最小值，不从导数为零直接跳到全局结论。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "80c7df107628c560ac564fdf78ece41fb28fde36ec527918abc187f13c62056b"
+    },
+    {
+      "id": "mh4.5.3.2-q202",
+      "source": "data/content/xby2.json",
+      "before": {
+        "prompt": "f(x)=x²-6x+2在区间[0,4]上的最大值是多少？",
+        "answer": "2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "f(x)=x²-6x+2在区间[0,4]上的最大值是多少？",
+        "answer": "2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "derivative.closed-interval-extrema",
+        "variant_id": "mh4.5.3.2-q202",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "与q201同函数同候选结构，只改变问最大还是最小，不算新题族。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "与q201同函数同候选结构，只改变问最大还是最小，不算新题族。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "4b15f754f71156a3aefcdeb851a790c96501f06bb5246009186418d0bcc2a135"
+    },
+    {
+      "id": "mh4.5.3.2-q203",
+      "source": "data/content/xby2.json",
+      "before": {
+        "prompt": "f(x)=x³在x=0处导数为0，是否有极值？",
+        "answer": "o3",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "f(x)=x³在x=0处导数为0，是否有极值？",
+        "answer": "o3",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "derivative.stationary-not-extremum",
+        "variant_id": "mh4.5.3.2-q203",
+        "representation": "symbolic",
+        "cognitive_demand": "choose_strategy",
+        "alignment_note": "识别驻点但两侧同增时没有极值，观察必要与充分条件的区别。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "识别驻点但两侧同增时没有极值，观察必要与充分条件的区别。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "4ab1e475315ed24f620c7ebd031ee5b5ce76f27eefdab65fa8440ce2b28eed07"
+    },
+    {
+      "id": "mh4.5.3.2-q204",
+      "source": "data/content/xby2.json",
+      "before": {
+        "prompt": "求连续函数在闭区间上的最值时，哪一组候选点应检查？",
+        "answer": "o3",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "after": {
+        "prompt": "求连续函数在闭区间上的最值时，哪一组候选点应检查？",
+        "answer": "o3",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "derivative.extremum-candidate-completeness",
+        "variant_id": "mh4.5.3.2-q204",
+        "representation": "symbolic",
+        "cognitive_demand": "choose_strategy",
+        "alignment_note": "识别端点、驻点及不可导内点的完整候选集合，尚未观察实际求值比较。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "识别端点、驻点及不可导内点的完整候选集合，尚未观察实际求值比较。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "9e692c5d83e150741d0869da2140006d6ba34db32ade38076dcc7bfb18964df2"
+    },
+    {
+      "id": "m7a.5.1.2-q101",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "天平左盘放着 3 个相同的小球和 20 克砝码，右盘放着 80 克砝码，天平平衡。每个小球重多少克？",
+        "answer": "20",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "天平左盘放着 3 个相同的小球和 20 克砝码，右盘放着 80 克砝码，天平平衡。每个小球重多少克？",
+        "answer": "20",
+        "tested_criterion_indices": null,
+        "family_id": "equation.balance-model",
+        "variant_id": "m7a.5.1.2-q101",
+        "representation": "verbal",
+        "cognitive_demand": "model",
+        "alignment_note": "数值答案只观察天平情境的建模求值，没有收集两边同做何种操作的解释，不能作为本节两条说明性目标的证据。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "数值答案只观察天平情境的建模求值，没有收集两边同做何种操作的解释，不能作为本节两条说明性目标的证据。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "f612fe6e778dd979e6355ca63203561aa73c09424bafc469f5e9b06780928681"
+    },
+    {
+      "id": "m7a.5.1.2-q102",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "某数的 5 倍减去 12，等于这个数的 3 倍加 8。这个数是多少？",
+        "answer": "10",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "某数的 5 倍减去 12，等于这个数的 3 倍加 8。这个数是多少？",
+        "answer": "10",
+        "tested_criterion_indices": null,
+        "family_id": "equation.solve-linear",
+        "variant_id": "m7a.5.1.2-q102",
+        "representation": "verbal",
+        "cognitive_demand": "execute",
+        "alignment_note": "只填写数值不展示等式性质；可继续练习线性方程，但不能由结果确认变形依据的说明。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "只填写数值不展示等式性质；可继续练习线性方程，但不能由结果确认变形依据的说明。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "79e983df66237af9ee5a34ef8aed11ecaee84c385ff83872eaf59f6ea54fee43"
+    },
+    {
+      "id": "m7a.5.2-q101",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "解方程 4x-7=2x+9，x 等于多少？",
+        "answer": "8",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "解方程 4x-7=2x+9，x 等于多少？",
+        "answer": "8",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "equation.solve-linear",
+        "variant_id": "m7a.5.2-q101",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "观察两边含未知数的方程求解结果；与其他数字改写同属求线性方程解的题族。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "观察两边含未知数的方程求解结果；与其他数字改写同属求线性方程解的题族。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "65a5d86ecafcf069e72df99a6c71ec11682594ef275e1f43c6603fe4d6802ae8"
+    },
+    {
+      "id": "m7a.5.2-q102",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "关于 x 的方程 2x+a=4 的解是 x=3，a 的值是多少？",
+        "answer": "-2",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "关于 x 的方程 2x+a=4 的解是 x=3，a 的值是多少？",
+        "answer": "-2",
+        "tested_criterion_indices": null,
+        "family_id": "equation.solution-substitution-parameter",
+        "variant_id": "m7a.5.2-q102",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "已知x的解后求参数a，观察代入解的含义；不要求解未知x的步骤，也没有去分母漏乘，保留主题支持练习。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "已知x的解后求参数a，观察代入解的含义；不要求解未知x的步骤，也没有去分母漏乘，保留主题支持练习。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "122a7c4c1a20f96591cb165164689fc3ad73330f7fd01bc72bb3ed5516b46a0a"
+    },
+    {
+      "id": "m7a.5.3-q101",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "甲、乙两地相距 36 千米，两人骑车同时从两地出发相向而行，甲每小时行 10 千米、乙每小时行 8 千米。几小时后两人相遇？",
+        "answer": "2",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "甲、乙两地相距 36 千米，两人骑车同时从两地出发相向而行，甲每小时行 10 千米、乙每小时行 8 千米。几小时后两人相遇？",
+        "answer": "2",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "equation.meeting-model",
+        "variant_id": "m7a.5.3-q101",
+        "representation": "verbal",
+        "cognitive_demand": "model",
+        "alignment_note": "与q3同为相向同时匀速运动的相遇模型；更换数字不构成新的独立题族。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "与q3同为相向同时匀速运动的相遇模型；更换数字不构成新的独立题族。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "4559b39535c286914308b2b07a68e8df14dd5e7544ee015b7e5261743000d56e"
+    },
+    {
+      "id": "m7a.5.3-q102",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "某商品进价 200 元，标价 300 元。商店打折销售后，仍获得 20% 的利润。这件商品打了几折？",
+        "answer": "8",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "某商品进价 200 元，标价 300 元。商店打折销售后，仍获得 20% 的利润。这件商品打了几折？",
+        "answer": "8",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "equation.discount-base-model",
+        "variant_id": "m7a.5.3-q102",
+        "representation": "verbal",
+        "cognitive_demand": "model",
+        "alignment_note": "需要分清进价作为利润率基数、标价作为折扣基数；填折数不能确认完整建模说明。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "需要分清进价作为利润率基数、标价作为折扣基数；填折数不能确认完整建模说明。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "00ab68d9ca38b5c6d70d7fe0a3f864df2aa1fa7c079bc1c2507fc269cf99d832"
+    },
+    {
+      "id": "m8b.22.2-q101",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "某水果店苹果每千克 6 元，会员按标价打八折。会员买 5 千克苹果要付多少元？",
+        "answer": "24",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "某水果店苹果每千克 6 元，会员按标价打八折。会员买 5 千克苹果要付多少元？",
+        "answer": "24",
+        "tested_criterion_indices": null,
+        "family_id": "arithmetic.price-discount",
+        "variant_id": "m8b.22.2-q101",
+        "representation": "verbal",
+        "cognitive_demand": "execute",
+        "alignment_note": "单次价格乘折扣计算，不要求选择函数表示或读图；不以主题标签冒充目标覆盖。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "单次价格乘折扣计算，不要求选择函数表示或读图；不以主题标签冒充目标覆盖。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "d3bf407f88da83997b314ee2d2a3d0856baf091bbef1de415f25234e85ff8bb5"
+    },
+    {
+      "id": "m8b.22.2-q102",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "下表记录了某网约车的计费规则：3 公里内 10 元，超过 3 公里后每公里 2.4 元。会员在此基础上再减 3 元。会员行驶 8 公里比非会员少付多少元？",
+        "answer": "3",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "某网约车3公里内收费10元，超过3公里的部分按每公里2.4元收费。会员在同一计费结果上统一减3元。会员与非会员各行驶8公里，会员少付多少元？",
+        "answer": "3",
+        "tested_criterion_indices": null,
+        "family_id": "arithmetic.fixed-discount-difference",
+        "variant_id": "m8b.22.2-q102",
+        "representation": "verbal",
+        "cognitive_demand": "execute",
+        "alignment_note": "会员统一少付3元已在题干给出；仅练习识别所问差额，未观察任何函数表示行为。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "会员统一少付3元已在题干给出；仅练习识别所问差额，未观察任何函数表示行为。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "6930119186f97e06a25fb63497e37f41d0244a16ca67730260c06ac7a7aa1b26"
+    },
+    {
+      "id": "m8b.23.1-q101",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "一次函数 y=kx+3 的图象经过点 (2,7)。k 是多少？",
+        "answer": "2",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "一次函数 y=kx+3 的图象经过点 (2,7)。k 是多少？",
+        "answer": "2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "linear.table-to-parameters",
+        "variant_id": "m8b.23.1-q101",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "已知截距后代入一个点求斜率，是完整待定系数过程的一部分。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "已知截距后代入一个点求斜率，是完整待定系数过程的一部分。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "9b253aae7e2e6993bfe9f654fe4e6c6261d19338bed4602bbaa89ecaf5e4f8db"
+    },
+    {
+      "id": "m8b.23.1-q102",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "已知 y 与 x 成正比例，当 x=4 时 y=10。当 x=6 时 y 是多少？",
+        "answer": "15",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "已知 y 与 x 成正比例，当 x=4 时 y=10。当 x=6 时 y 是多少？",
+        "answer": "15",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "linear.proportional-parameters",
+        "variant_id": "m8b.23.1-q102",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "利用正比例前提由一组值求系数再求另一输出；结果不能代替系数推导和前提说明。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "利用正比例前提由一组值求系数再求另一输出；结果不能代替系数推导和前提说明。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "89da0423b9336108cbce095e92a9e6ba291bff3c8ba4d3cd973c38906547382a"
+    },
+    {
+      "id": "m8b.23.2-q101",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "直线 y=2x-6 与 x 轴交点的横坐标是多少？",
+        "answer": "3",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "直线 y=2x-6 与 x 轴交点的横坐标是多少？",
+        "answer": "3",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "linear.axis-intercepts",
+        "variant_id": "m8b.23.2-q101",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "与q2同属令y=0求轴交点的结构，更换系数不算新题族。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "与q2同属令y=0求轴交点的结构，更换系数不算新题族。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "3cfac75662c1d7201a2f8cfcbed6ec9dedfb1cf620c37c4eb094bb608dfff2e0"
+    },
+    {
+      "id": "m8b.23.2-q102",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "一次函数的图象经过点 (1,5) 和 (3,11)。当 x=5 时 y 是多少？",
+        "answer": "17",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "一次函数的图象经过点 (1,5) 和 (3,11)。当 x=5 时 y 是多少？",
+        "answer": "17",
+        "tested_criterion_indices": null,
+        "family_id": "linear.table-to-parameters",
+        "variant_id": "m8b.23.2-q102",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "由两点求式后求值，没有问象限、增减性或轴交点；保留对待定系数的支持练习。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "由两点求式后求值，没有问象限、增减性或轴交点；保留对待定系数的支持练习。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "96074d32f96ca926937b2331657cd489f2bdc4a50d797dbdbf306bbd74e57848"
+    },
+    {
+      "id": "m8b.23.4-q101",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "某手机套餐月租 18 元，通话每分钟 0.1 元。一个月通话 200 分钟，话费是多少元？",
+        "answer": "38",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "某手机套餐月租 18 元，通话每分钟 0.1 元。一个月通话 200 分钟，话费是多少元？",
+        "answer": "38",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "equation.single-fee-model",
+        "variant_id": "m8b.23.4-q101",
+        "representation": "verbal",
+        "cognitive_demand": "model",
+        "alignment_note": "由固定月租与每分钟费求费用，观察建模结果的一部分；需要作品记录函数式与系数单位。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "由固定月租与每分钟费求费用，观察建模结果的一部分；需要作品记录函数式与系数单位。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "dd2d3a88d8469b766f4209f6346920c8f02ec1c498867a0653639d1b28ab5dbd"
+    },
+    {
+      "id": "m8b.23.4-q102",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "A 套餐月租 18 元、每分钟 0.1 元；B 套餐无月租、每分钟 0.25 元。通话多少分钟时两种套餐的费用相同？",
+        "answer": "120",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "A 套餐月租 18 元、每分钟 0.1 元；B 套餐无月租、每分钟 0.25 元。通话多少分钟时两种套餐的费用相同？",
+        "answer": "120",
+        "tested_criterion_indices": [
+          0
+        ],
+        "family_id": "linear.equal-cost-intersection",
+        "variant_id": "m8b.23.4-q102",
+        "representation": "verbal",
+        "cognitive_demand": "model",
+        "alignment_note": "为两方案写费用关系再求交点；所给分钟数不单独证明函数式和适用条件。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "为两方案写费用关系再求交点；所给分钟数不单独证明函数式和适用条件。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "3aaca78baa80208a30319c6881dbba9621d0d7ae375856b3ed26ffcb45f2021a"
+    },
+    {
+      "id": "mh2.10.2-q101",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "甲、乙两人独立射击，命中率分别是 0.8 和 0.7。两人都命中的概率是多少？",
+        "answer": "0.56",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "甲、乙两人独立射击，命中率分别是 0.8 和 0.7。两人都命中的概率是多少？",
+        "answer": "0.56",
+        "tested_criterion_indices": null,
+        "family_id": "probability.independent-intersection",
+        "variant_id": "mh2.10.2-q101",
+        "representation": "verbal",
+        "cognitive_demand": "execute",
+        "alignment_note": "独立射击前提已给，数值乘积不能反向证明会检验独立性；与q2同族。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "独立射击前提已给，数值乘积不能反向证明会检验独立性；与q2同族。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "0b4147fef6a99dee1e734c4ad4ad751cdc41556c6edc058a6859882bc86ca03d"
+    },
+    {
+      "id": "mh2.10.2-q102",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "甲、乙两人独立射击，命中率分别是 0.8 和 0.7。至少有一人命中的概率是多少？",
+        "answer": "0.94",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "甲、乙两人独立射击，命中率分别是 0.8 和 0.7。至少有一人命中的概率是多少？",
+        "answer": "0.94",
+        "tested_criterion_indices": null,
+        "family_id": "probability.at-least-one-independent",
+        "variant_id": "mh2.10.2-q102",
+        "representation": "verbal",
+        "cognitive_demand": "execute",
+        "alignment_note": "在明确独立的前提下求至少一人的概率，练习补事件方法，未要求检验独立或区分互斥。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "在明确独立的前提下求至少一人的概率，练习补事件方法，未要求检验独立或区分互斥。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "446af1d5bab061304fb0910de6ade280f150e2b2f28f10541b396950baa46a7b"
+    },
+    {
+      "id": "mh4.5.3.1-q101",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "某产品利润 f(x)=x^2-4x（万元），x 是产量。利润开始由降转升的产量是多少？",
+        "answer": "2",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "在一个连续产量模型中，x的单位为吨，允许0≤x≤5，利润f(x)=x²−4x（万元）。利润在何产量处由下降转为上升？请填吨数。",
+        "answer": "2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "derivative.linear-sign",
+        "variant_id": "mh4.5.3.1-q101",
+        "representation": "verbal",
+        "cognitive_demand": "model",
+        "alignment_note": "在明确连续产量模型范围内定位下降转上升的分界；仍需解释导数两侧符号。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "在明确连续产量模型范围内定位下降转上升的分界；仍需解释导数两侧符号。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "cfc3560390e8c855af1780a4c4e1d272eb26d771315b8c6376a5b89b61809f8f"
+    },
+    {
+      "id": "mh4.5.3.1-q102",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "函数 f(x)=x^3-3x 在 x=-1 处取极大值。这个极大值是多少？",
+        "answer": "2",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "函数 f(x)=x^3-3x 在 x=-1 处取极大值。这个极大值是多少？",
+        "answer": "2",
+        "tested_criterion_indices": null,
+        "family_id": "function.value-at-given-point",
+        "variant_id": "mh4.5.3.1-q102",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "极大值位置已由题干告知，只需代入求函数值；不能作为导数判断单调性或求区间的证据。",
+        "diagram": null,
+        "diagnosis_eligible": false,
+        "for_diagnosis": false
+      },
+      "rationale": "极大值位置已由题干告知，只需代入求函数值；不能作为导数判断单调性或求区间的证据。",
+      "answer_changed": false,
+      "admission_decision": "practice_only_no_target_evidence",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "68d8a50c821e0272039195607b1562a6ef4c6b6d5bfca4bcd68a8625e4cfc874"
+    },
+    {
+      "id": "mh4.5.3.2-q101",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "某商品利润 f(x)=-x^2+4x（万元），x 是售价。最大利润是多少万元？",
+        "answer": "4",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "某商品的简化利润模型为f(x)=−x²+4x（万元），x表示售价（百元），允许0≤x≤4且可连续取值。在这一允许范围内，最大利润是多少万元？",
+        "answer": "4",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "derivative.closed-interval-extrema",
+        "variant_id": "mh4.5.3.2-q101",
+        "representation": "verbal",
+        "cognitive_demand": "model",
+        "alignment_note": "在明确允许售价闭区间内比较驻点和端点利润；求最大值只是完整最值任务的一部分。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "在明确允许售价闭区间内比较驻点和端点利润；求最大值只是完整最值任务的一部分。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "cf5dda9bd1e7b9ccb26759b212a4f6e2be634c54596fb0ffacee84a54c3d3c04"
+    },
+    {
+      "id": "mh4.5.3.2-q102",
+      "source": "data/question_sources/application.json",
+      "before": {
+        "prompt": "函数 f(x)=x^3-3x 在区间 [-2,2] 上的最大值是多少？",
+        "answer": "2",
+        "tested_criterion_indices": null,
+        "family_id": null,
+        "representation": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "after": {
+        "prompt": "函数 f(x)=x^3-3x 在区间 [-2,2] 上的最大值是多少？",
+        "answer": "2",
+        "tested_criterion_indices": [
+          1
+        ],
+        "family_id": "derivative.closed-interval-extrema",
+        "variant_id": "mh4.5.3.2-q102",
+        "representation": "symbolic",
+        "cognitive_demand": "execute",
+        "alignment_note": "比较内点驻点及两端点求闭区间最大值；同值在两个位置取得，不能只报端点。",
+        "diagram": null,
+        "diagnosis_eligible": null,
+        "for_diagnosis": null
+      },
+      "rationale": "比较内点驻点及两端点求闭区间最大值；同值在两个位置取得，不能只报端点。",
+      "answer_changed": false,
+      "admission_decision": "retain_original_ceiling",
+      "reviewer_kind": "ai",
+      "review_status": "reviewed",
+      "author_payload_sha256": "cd7a1f2c30b10911c4e5fc40b9c05852045009f2484bb352482d12353b8bd4a0"
+    }
+  ],
+  "limits": [
+    "显式局部映射仅表示题目涉及目标的某一行为，单一答案不自动确认完整过程或稳定掌握。",
+    "没有提高任何原准入用途；未观察承诺目标的题明确保留主题练习并禁止诊断。",
+    "最终编译哈希、模式校验和图示预览由集成验收固定。"
+  ],
+  "card_review": [
+    {
+      "topic_id": "m7a.5.1.2",
+      "goals_reviewed": 2,
+      "self_check_families": [
+        "equation.property-operation-justification",
+        "equation.divide-variable-zero"
+      ],
+      "concrete_changes": [
+        "观察能否把两条性质说成“两边同做”和“除数非零”，并解释给定的两步；只算出x=4尚未展示这些依据。",
+        "观察是否检查非零条件并能给出0x=0y的反例；选择“不能除以0”不能单独说明已理解解集为何扩大。"
+      ],
+      "reviewer_kind": "ai"
+    },
+    {
+      "topic_id": "m7a.5.2",
+      "goals_reviewed": 2,
+      "self_check_families": [
+        "equation.solve-linear",
+        "equation.denominator-missed-term"
+      ],
+      "concrete_changes": [
+        "观察每一行是否与原方程等价、常数是否也乘公分母、解是否代回；最后填5只能说明候选结果一致。",
+        "观察能否定位最早的漏乘项并修正，而不是只替换最终答案；同一方程另一自检的参考会使这里成为已看同族方法的练习。"
+      ],
+      "reviewer_kind": "ai"
+    },
+    {
+      "topic_id": "m7a.5.3",
+      "goals_reviewed": 2,
+      "self_check_families": [
+        "equation.single-fee-model",
+        "equation.discrete-domain"
+      ],
+      "concrete_changes": [
+        "观察未知数的含义、总量的两种表达、单位及包装费只计一次；只填6不能区分用方程还是试算得到。",
+        "观察能否把代数解与整数、坐满的实际约束分别核对；若改成允许空座，需要另问至少几辆，不能偷偷改变原题。"
+      ],
+      "reviewer_kind": "ai"
+    },
+    {
+      "topic_id": "m8b.22.2",
+      "goals_reviewed": 2,
+      "self_check_families": [
+        "function.representation-choice",
+        "function.piecewise-graph-read"
+      ],
+      "concrete_changes": [
+        "观察选择是否服务于保留逐日实测值的目的；只记住三种名称还不能说明在不同任务中如何选择。",
+        "观察能否在真实图中先定位横坐标再读纵坐标，区分上升段与水平段；文字给出坐标后的抄数不能替代读图。"
+      ],
+      "reviewer_kind": "ai"
+    },
+    {
+      "topic_id": "m8b.23.1",
+      "goals_reviewed": 2,
+      "self_check_families": [
+        "linear.affine-classification",
+        "linear.table-to-parameters"
+      ],
+      "concrete_changes": [
+        "观察能否同时检查一次项系数非零和截距是否为0；说“有x就是一次函数”仍需纠正。",
+        "观察能否把坐标代入同一解析式、求两个系数并回代两个点；只写正确式子尚未展示这些检查。"
+      ],
+      "reviewer_kind": "ai"
+    },
+    {
+      "topic_id": "m8b.23.2",
+      "goals_reviewed": 2,
+      "self_check_families": [
+        "linear.quadrant-sign-analysis",
+        "linear.axis-intercepts"
+      ],
+      "concrete_changes": [
+        "观察能否按横坐标区间解释x、y符号，并排除坐标轴点；只凭一张示意图外观选择仍需确认。",
+        "观察斜率符号、与两条轴的交点分别是否正确；只给x轴交点不能确认这个复合目标的其余部分。"
+      ],
+      "reviewer_kind": "ai"
+    },
+    {
+      "topic_id": "m8b.23.4",
+      "goals_reviewed": 2,
+      "self_check_families": [
+        "linear.fixed-variable-cost",
+        "linear.capacity-boundary-model"
+      ],
+      "concrete_changes": [
+        "观察固定费用与按时长费用是否分开、单位是否匹配、函数式能否解释；只填48还不能确认模型已建立。",
+        "观察是否同时写下t≥0与水量非负限制，并包含题设允许的开始和放空端点；不能只写一个上界。"
+      ],
+      "reviewer_kind": "ai"
+    },
+    {
+      "topic_id": "mh4.5.3.1",
+      "goals_reviewed": 2,
+      "self_check_families": [
+        "derivative.nonnegative-vs-strict",
+        "derivative.disconnected-domain"
+      ],
+      "concrete_changes": [
+        "观察能否区分处处正导数的充分性与必要性，并对x³的严格递增给出依据；仅背诵f′≥0仍不能处理平坦区间。",
+        "观察定义域、导数、零点与无定义点是否全部进入分区；只算±1不能确认单调区间，跨0合并会丢失条件。"
+      ],
+      "reviewer_kind": "ai"
+    },
+    {
+      "topic_id": "mh4.5.3.2",
+      "goals_reviewed": 2,
+      "self_check_families": [
+        "derivative.stationary-not-extremum",
+        "derivative.closed-interval-extrema"
+      ],
+      "concrete_changes": [
+        "观察左右导数符号及函数值比较，区分极值点的位置与极值；f′=0只是可导内点的必要条件。",
+        "观察允许区间、内部驻点或不可导点、端点及函数值是否完整比较；得到−3却漏掉最大值位置仍未完成。"
+      ],
+      "reviewer_kind": "ai"
+    },
+    {
+      "topic_id": "mh2.10.2",
+      "goals_reviewed": 2,
+      "self_check_families": [
+        "probability.enumerated-independence",
+        "probability.independence-vs-exclusive"
+      ],
+      "concrete_changes": [
+        "观察能否分别求两个边际和交集概率并比较乘积；只算1/6或在题设已经独立时直接相乘，都不足以展示独立性判断。",
+        "观察互斥的不能同现与独立的乘积关系是否分别核对；两个正概率条件不能丢，两个不同时间也不自动独立。"
+      ],
+      "reviewer_kind": "ai"
+    }
+  ],
+  "visual_assets": [
+    "function-piecewise-read-v5.svg",
+    "derivative-signs-v5.svg",
+    "function-bounded-line-v5.svg",
+    "equation-all-terms-v5.svg",
+    "independence-die-table-v5.svg",
+    "function-point-read-v5.svg",
+    "linear-quadrants-v5.svg"
+  ],
+  "shared_family_decisions": [
+    "固定费用加单位数量费用，题库与自检共用equation.single-fee-model；不同消费背景不视为新结构。",
+    "解线性方程所有数值变化保守共用equation.solve-linear；找错误与完整求解的同一参考通过reference_family_ids同时曝光。",
+    "函数待定系数、轴交点、相遇模型、独立性枚举与闭区间极值分别跨材料保持题族身份。"
+  ],
+  "unmapped_practice_only_ids": [
+    "m7a.5.1.2-q2",
+    "m7a.5.1.2-q4",
+    "m8b.22.2-q1",
+    "m8b.23.4-q1",
+    "m8b.23.4-q2",
+    "mh2.10.2-q2",
+    "mh2.10.2-q201",
+    "mh2.10.2-q202",
+    "m7a.5.1.2-q101",
+    "m7a.5.1.2-q102",
+    "m7a.5.2-q102",
+    "m8b.22.2-q101",
+    "m8b.22.2-q102",
+    "m8b.23.2-q102",
+    "mh2.10.2-q101",
+    "mh2.10.2-q102",
+    "mh4.5.3.1-q102"
+  ],
+  "validation": {
+    "targeted_tests": "14 passed; tests.test_quality_v5_secondary + GoalPathwayTests + ExactTaskSelectionTests",
+    "test_log": "build/v5-batch2-secondary-tests.log",
+    "visual_preview": "build/v5-batch2-secondary-diagrams.png",
+    "visual_result": "Chrome 151实际渲染并检查7幅图：中文可读，坐标与数值一致，无裁切；分段图的坐标另由独立SVG解码测试复算。",
+    "full_integration": "pending_root_build_and_frozen_release",
+    "http_regressions": "tests.test_quality_v5_pathways.GoalPathwayHTTPTests已编写，待最终编译目录后执行"
+  },
+  "file_hashes_at_review": {
+    "data/content/qishang.json": "c5f3c37a7e3a3645f72b2cc3e2d31ee25bead8fa90d8fdbf64cca9d49c99d3a2",
+    "data/content/baxia.json": "4cec3b5999f36cac461e8c0a2a4ef17ac00f03dddccd7d4300a572dd591cdd8b",
+    "data/content/bx2.json": "ecfd3a4d093f2ec56c8183a8195fb36a7c8a270bbea807f8be86aa27c18a8a75",
+    "data/content/xby2.json": "416d18f72bf2a35140df7ad8f19a8929f7971b2811553526f9df9bae8c7954be",
+    "data/question_sources/application.json": "6e3ee3e335f79b5283611102a4350eab2aeb703e41a7027548dc4d9f6ba380ce",
+    "data/teach/m7a.5.1.2.json": "d51ba9957d1c7815b5d5bc1230c501fd0a67e5911a0267dc3fb861f30612a458",
+    "data/teach/m7a.5.2.json": "ca101494488a7f756866457a2ee5f0bf5f2da001b94dc34e84211f6816471363",
+    "data/teach/m7a.5.3.json": "fc6a4dc5c5316f8ebb787b390a197f7ce44b9f59928cccbbe78283c48d1926ec",
+    "data/teach/m8b.22.2.json": "c2aabfdfbc1dd9deabb45f519f3f765a64688df4b32936adb4bea1d6694b1847",
+    "data/teach/m8b.23.1.json": "ccb5bd0166fb680af2c1eb9cea5ebe4943fe75c1a8a2213c6b1ce8a7fa98fc37",
+    "data/teach/m8b.23.2.json": "a066cf5bb48b14ee9ab6e2cc849065496780d1fd3640cbb091c67dd880cf3586",
+    "data/teach/m8b.23.4.json": "c0d87d200c4685ba34aba2171e38f7dd36a9310df229e6b220b3a4c304cf9188",
+    "data/teach/mh2.10.2.json": "e07377aada92a8667410a2242847ebc75d1795cabab37e8ee98782291a55cf9a",
+    "data/teach/mh4.5.3.1.json": "3e2035d785dbfe69050afadce82e45a5d217cab09307303851478d5bc5cb291c",
+    "data/teach/mh4.5.3.2.json": "42921c6ca8d0f7574a05060dc99c7d12a6921df860a54a9a0a4f8ef434efb698",
+    "web/static/diagrams/function-piecewise-read-v5.svg": "7795f68ff8363b0fcc55ab4d6ae3c1c77ec31e7083c50409498999d4f6cc1103",
+    "web/static/diagrams/derivative-signs-v5.svg": "cbe29026ecf8f81cc19c0ec565220352755094db75addab96f2d66768bee4a0c",
+    "web/static/diagrams/function-bounded-line-v5.svg": "63fb0e16ff95621f44de13ac104b37dfda06e7118bda517c72903a38cd34689a",
+    "web/static/diagrams/equation-all-terms-v5.svg": "7427486d2b77e1d07ef725df24089cb7250e5651102be84e5d9f2caa57aeb860",
+    "web/static/diagrams/independence-die-table-v5.svg": "772e0ccb49bdc3622a3a9e65fb697127d73059666a0c96b26c1ec24b7abb40fe",
+    "web/static/diagrams/function-point-read-v5.svg": "1c4900d44825439981e011bb104773df2d6f2100a176f716cd0ef6a69589f540",
+    "web/static/diagrams/linear-quadrants-v5.svg": "621fadca48e209733ad98d063f4412e49acf3981a6a3801bca5ce69a8e980d23",
+    "data/learning_units/equation_equivalence.json": "a63a06fc4456e14f5d4cd6df0bd6ebdf4b0bbffc06d9e4da69f665d9f638df34",
+    "data/learning_units/linear_function_representations.json": "6fb6783c74ecd0cf0f120a81161a817a5b81674cdf5722da5e6b4d1579d6039c",
+    "data/learning_units/derivative_monotonicity.json": "66efb6f00f50afe666ca57fd298e6d90e2677b3559107ef9faa855654e087a33",
+    "data/learning_units/independent_events.json": "4d6391a2d12d2dfc556ed51b67cbb607121d9a9267ac99cd9ac2c9727a67e220"
+  },
+  "hash_note": "author_payload_sha256采用JSON ensure_ascii=False、sort_keys=True的UTF-8字节；file_hashes_at_review记录此时共享作者源，后续集成以最终版本哈希重新验收。"
+}

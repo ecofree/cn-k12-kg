@@ -1,0 +1,222 @@
+{
+  "schema": 1,
+  "base_commit": "c905d0fd2306a05d0edc54fa342767a9c5d73dca",
+  "reviewer_kind": "ai",
+  "review_status": "development_reviewed_fixed_release_pending",
+  "reviewed_at": "2026-10-27T02:07:31+00:00",
+  "teacher_independent_review": "deferred",
+  "student_effect_validation": "deferred",
+  "scope": {
+    "unit_id": "equation_equivalence",
+    "cases": [
+      {
+        "case_id": "one_solution",
+        "initial_equation": "3(x−2)=12",
+        "family_ids": [
+          "equation.solve-linear"
+        ]
+      },
+      {
+        "case_id": "no_solution",
+        "initial_equation": "2(x+3)=2x+7",
+        "family_ids": [
+          "equation.solution-set-degeneracy"
+        ]
+      },
+      {
+        "case_id": "identity",
+        "initial_equation": "2(x+3)=2x+6",
+        "family_ids": [
+          "equation.solution-set-degeneracy"
+        ]
+      }
+    ],
+    "domain": "实数域，仅一个未知数 x；有理数系数的一次表达式，分母限已知常数。",
+    "operations": {
+      "simplify": "两边各自化简、去括号或合并同类项",
+      "swap": "交换等号两边",
+      "add": "两边同加",
+      "subtract": "两边同减",
+      "multiply": "两边同乘非零常数",
+      "divide": "两边同除非零常数",
+      "equivalent": "只检查等价式，暂未说明操作理由"
+    },
+    "rules_version_at_review": "2ea8c9f721b1bbe0715186491ec25bfdc95729e701607577d92c227bfafef388",
+    "input_limits": {
+      "equation_chars": 256,
+      "operand_chars": 128,
+      "conclusion_chars": 128,
+      "submitted_attempts_per_activity": 60,
+      "hints_per_activity": 12
+    },
+    "event_types": [
+      "step_practice_started",
+      "step_practice_answered",
+      "step_practice_hint_opened",
+      "step_practice_draft_saved"
+    ],
+    "evidence_boundary": "这是会提供答案、反例和提示的指导练习。接受一步或结论不确认掌握、不自动关闭原事项、不制造独立后续证据。"
+  },
+  "api_contract": {
+    "GET /api/steps?unit_id=equation_equivalence": "列出当前案例与所属档案活动，支持 offset/limit；只列元信息不提供方法。",
+    "GET /api/steps?activity_id=<id>": "读回冻结原始记录、反馈和草稿；打开历史按实际时间记录已展示的题族帮助。",
+    "POST /api/steps/start": "unit_id/case_id/expected_resource_version/request_id；返回活动。",
+    "POST /api/steps/answer": "activity_id/expected_revision/request_id；kind=equation 时提供 equation/operation/operand/used_help，kind=conclusion 时提供 conclusion/value/used_help。",
+    "POST /api/steps/hint": "activity_id/expected_revision/request_id/level；提供并记录三级帮助。",
+    "POST /api/steps/draft": "activity_id/expected_revision/request_id/draft；六个字段完整保存，允许不完整表达式；不调用解析器、不产生反馈、不增加 timeline。",
+    "JavaScript": "window.CNKGSteps.mount(root,{unitId:\"equation_equivalence\"})；前端接 CNKGWork.registerActivity 保护草稿和在途操作。",
+    "ownership": "所有读取与写入使用服务器 owner；拒绝客户端 owner、反馈和版本快照注入。"
+  },
+  "findings_and_changes": [
+    {
+      "issue": "仅检查最终数值无法区分等价式、所称操作与中间错误。",
+      "change": "分别检查解集及左右两边的声明操作；支持不同合法顺序与精确分数。x=6 虽与起始式等价，声明为直接化简时仍返回操作理由不符。"
+    },
+    {
+      "issue": "同乘 0、同除含 x 的量和消去 x 后除以 0 会丢失条件。",
+      "change": "同乘 0 用实际数值反例说明约束丢失；原式已经恒等时明确解集恰好相同但该操作不能成为普遍等价规则。无解、恒等分别核对；含 x 的除数不在支持范围。"
+    },
+    {
+      "issue": "安全解析支持以外的输入容易被误报为学生数学错误。",
+      "change": "复用有限安全 AST/Fraction 解析；拒绝中间出现二次项、含 x 分母、未知 y、函数及代码；返回尚未判定，保留原输入，不替换当前有效行。"
+    },
+    {
+      "issue": "新的过程练习不能静默删除错步、帮助或旧版本解释。",
+      "change": "owner 隔离的追加事件保存原字符串、每步反馈、帮助来源和修订顺序。活动冻结起始题、解析器/判定器/渲染器摘要和配置；内容或规则变化只读回放旧反馈，不能按新规则改判。"
+    },
+    {
+      "issue": "历史重开或幂等重试仍会重新看到方法，不能避开真实间隔。",
+      "change": "题族按实际反馈内容记录，包含乘零、未知数除数、去括号和解集退化；重开及反馈重试更新真实接触时间，不重复作答、不触发掌握事件。"
+    },
+    {
+      "issue": "页面内存中的未提交输入在刷新与切换后会丢失。",
+      "change": "增加独立草稿事件及 500ms 防抖保存，未写完的式子也原样保存。导航先 flush；失败时阻止切换并触发刷新保护。明确仅保存草稿与核对记录两个动作，不把自动保存当作答。"
+    },
+    {
+      "issue": "换安装恢复必须覆盖过程活动与未提交草稿。",
+      "change": "使用既有 events 加密备份路径；真实两安装 HTTP 恢复比对完整原始错步、提示、冻结规则及草稿，并验证其他浏览器无权读写。"
+    }
+  ],
+  "validation": [
+    {
+      "command": "../cnkg-venv/bin/python -B -m unittest tests.test_step_practice_v5 tests.test_step_practice_http_v5 -v",
+      "result": "passed",
+      "tests": 24,
+      "elapsed_seconds": 3.474,
+      "log": "build/v5-step-tests.log",
+      "covers": [
+        "两种不同合法解法",
+        "解集一致但操作理由不符",
+        "同乘零反例及恒等特例",
+        "无解与恒等",
+        "未知变量与非线性/变量分母/危险语法不判错",
+        "有理数精确性",
+        "错步保留与最后有效行",
+        "owner 隔离和分页",
+        "请求幂等与并发版本冲突",
+        "内容及规则版本变化只读",
+        "完整原始事件加密恢复到新环境",
+        "反馈实际题族和历史重开的接触时间",
+        "未提交草稿不判定、不增作答、进程重启及加密恢复",
+        "草稿身份、版本、长度边界和真实编辑时间",
+        "真实 HTTP 身份隔离、答案流程及双安装恢复"
+      ]
+    },
+    {
+      "command": "python -B tools/browser_check.py --journey equation_steps --output build/v5-step-browser-ready",
+      "journey_result": "passed",
+      "release_context_result": "failed_manifest_not_rebuilt",
+      "journeys": 1,
+      "elapsed_seconds": 12.25,
+      "report": "build/v5-step-browser-ready/report.json",
+      "changed_inputs": [],
+      "script_errors": [],
+      "server_errors": [],
+      "observations": {
+        "layout": [
+          {
+            "label": "equation_steps_390",
+            "viewport": 390,
+            "width": 390,
+            "offenders": []
+          }
+        ],
+        "equation_step_activity": {
+          "cases": 3,
+          "preserved_first_attempts": 6,
+          "invalid_unknown_preserved": true,
+          "zero_multiplication_rejected": true,
+          "mastery_confirmed": false,
+          "unsubmitted_draft_restored": true,
+          "failed_draft_write_blocks_navigation": true,
+          "dirty_draft_cancels_beforeunload_event": true
+        }
+      },
+      "notice": "方程功能旅程通过；第三批尚未生成新的发行清单，完整报告 ok=false。这不算固定提交验收。"
+    },
+    {
+      "kind": "visual_review",
+      "screenshots": [
+        "build/v5-step-browser-ready/equation_steps/steps-desktop.png",
+        "build/v5-step-browser-ready/equation_steps/steps-mobile.png"
+      ],
+      "result": "reviewed",
+      "checks": [
+        "1280px 页面中的完整控制区可读",
+        "390px 历史与中文无解/恒等结论可读、无横向溢出",
+        "核对记录与仅保存草稿清楚分开"
+      ],
+      "reference_viewed": "build/v5-step-browser-draft-preflight/equation_steps/*.png；最终图像与该已读图像逐字节一致。"
+    },
+    {
+      "command": "git diff --check -- cnkg/step_practice.py web/static/steps.js web/server.py tests/test_step_practice_v5.py tests/test_step_practice_http_v5.py tests/browser/step-practice.cjs",
+      "result": "passed"
+    }
+  ],
+  "retained_attempts": [
+    {
+      "report": "build/v5-step-browser/report.json",
+      "result": "journey_passed_release_context_failed",
+      "finding": "较早开发预览中 app.js 在验收期间变化，且发行清单未重建；未据此宣布固定版本通过。"
+    },
+    {
+      "report": "build/v5-step-browser-draft-preflight/report.json",
+      "result": "journey_passed_release_context_failed",
+      "finding": "新增草稿断线导航反例通过；清单仍旧，随后仅补只读草稿字段展示与失败提示。"
+    }
+  ],
+  "limitations": [
+    "只覆盖三个固定一元一次方程案例；没有覆盖任意数学题、所有等价变形或自然语言证明，也没有引入外部 AI 批改。",
+    "选择仅检查等价式时只确认解集相同，操作理由仍待说明；直接提交正确结论不能证明完整解题过程。",
+    "未知或不支持的语法保留为未判定；不把机器支持范围当课程知识边界。",
+    "已有待解决事项保留，分步练习不会自动关闭；本模块未将每个错步新建为独立学习事项，错步与理由缺口保留在活动记录。",
+    "草稿自动保存需要服务端连接；保存失败时保留当前页并阻止无提示导航，不能承诺在浏览器被强制终止后恢复尚未到达服务端的字符。",
+    "换浏览器需要档案恢复码；换环境需要实际备份文件及对应恢复码。加密备份与草稿保存不会替用户保管文件。",
+    "旧规则变化后的活动仅只读回放；不执行旧解析器，也不将历史反馈用新规则重算。",
+    "这些是合成数学反例、软件和浏览器验证，没有教师独立审核或真实学生教学效果证据；最终全量构建及固定提交验收由集成流程完成。"
+  ],
+  "source_sha256_at_review": {
+    "cnkg/step_practice.py": "e05863d714c4b4bc4e31be0d696bad8b89aa8e01939b7ca963a725dcbfc6abf9",
+    "web/static/steps.js": "bd96d4256ed1695761e4970a87dd620860c9fa9bf81e91e4e123a6842902a647",
+    "tests/test_step_practice_v5.py": "29a4e9979c99b03636a3cab58f58df8eea72e4c457059b55385c9dfd2047efd5",
+    "tests/test_step_practice_http_v5.py": "63e4c7037b84e6fcc0c5092f19646fb8b5e7d38500f314b1828392014b42dd28",
+    "tests/browser/step-practice.cjs": "84021fd0e2e6192447019679160d68c0d84c91521f411f231a8e9b48880e8b0c"
+  },
+  "shared_integration_review": {
+    "path": "web/server.py",
+    "scope": [
+      "step_practice import",
+      "steps.js allow-list and frozen static snapshot",
+      "GET /api/steps",
+      "POST /api/steps/start|answer|hint|draft"
+    ],
+    "sha256_at_review": "a9fa2c43c477df297d3235c2d669429785533d16135263137b4e3a9d85a7930f"
+  },
+  "artifact_sha256": {
+    "build/v5-step-tests.log": "f3384512f4a68107e4ef45fbcfc15fa5e2add0688375b4ad4805f15a75f8bd88",
+    "build/v5-step-browser-ready/report.json": "490704f1f615f9010d38c6a1edd4773351e35f3e08448e365b1cd84e41840919",
+    "build/v5-step-browser-ready/equation_steps/result.json": "7b813bea84f77219a0f88782487076297e0703ac8fdac60f73195300f29ef9e6",
+    "build/v5-step-browser-ready/equation_steps/steps-desktop.png": "000a54e03e966943c37a6b70f94080261851c1a1f45a5036cd949c78501afc80",
+    "build/v5-step-browser-ready/equation_steps/steps-mobile.png": "cb7c70970c6304c205251ef5c73aca914375b0b74c45914ffc506714d7b292dd"
+  }
+}

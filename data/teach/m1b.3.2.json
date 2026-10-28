@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "topicId": "m1b.3.2",
+  "name": "读法和写法",
+  "tier": "tool",
+  "author": "ai",
+  "author_type": "ai",
+  "review_status": "draft",
+  "hook": "五十七里的“五十”和“七”分别写在哪个位置，为什么不是75？",
+  "definition": "读两位数先读十位的几个十，再读个位的几个一；整十数个位为0，读到十就结束。写数按十位、个位依次填写，没有散的一时个位写0。",
+  "why": "十位和个位代表不同单位，交换数字会改变数量。57是5个十7个一，75是7个十5个一。50虽然不读出“零”，写数仍必须用0占住个位。",
+  "when_to_use": [
+    "需要把实物、数位或图示中的数量说清楚。",
+    "需要核对自己的读数、写数或表示方法。"
+  ],
+  "steps": [
+    "先看或听这个数有几个十、几个一。",
+    "从十位开始读出几个十。",
+    "有几个一就接着读，没有则读到整十。",
+    "写数时把两个数位填齐，再用组成核验。"
+  ],
+  "worked_example": {
+    "prompt": "“五十七”写作多少？",
+    "steps": [
+      "五十表示十位写5。",
+      "七表示个位写7，合起来57。"
+    ],
+    "answer": "57",
+    "verify": "5*10+7",
+    "family_id": "placevalue.chinese-number.transcribe",
+    "variant_id": "m1b.3.2:worked-example-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "按读词顺序把五十七写成507。",
+    "整十数漏写0，或把十位个位互换。"
+  ],
+  "practice": [
+    {
+      "id": "m1b.3.2-q1",
+      "note": "结合实物或数位说明结果；自检量规另列。"
+    },
+    {
+      "id": "m1b.3.2-q2",
+      "note": "结合实物或数位说明结果；自检量规另列。"
+    }
+  ],
+  "check": "逐项目标完成下面的操作或解释，先留下过程，再对照量规修改；记录仍不确定的地方。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能正确读出两位数",
+      "explanation": "读68时先读6个十即六十，再读8；读60时只说六十，不把0额外读出来。",
+      "self_check": {
+        "prompt": "实际读68、60、86，并分别说十位代表的数量。",
+        "reference_answer": "六十八、六十、八十六；十位分别表示60、60、80。",
+        "criteria": [
+          "实际读数与顺序正确",
+          "区分68与86",
+          "整十读法正确"
+        ],
+        "family_id": "placevalue.two-digit-oral-reading",
+        "variant_id": "m1b.3.2:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "placevalue.compose.from-units"
+        ]
+      },
+      "observation_note": "需要口头读或陪同记录；文字填写不是读音测量。",
+      "difficulty_support": {
+        "discriminating_prompt": "68与86的十位分别是谁？",
+        "hint": "先圈最左的十位数字再读。",
+        "revision_prompt": "把读错的数配上“几个十几个一”后重读。"
+      }
+    },
+    {
+      "criterion_index": 1,
+      "title": "能按数位写出两位数",
+      "explanation": "写数要按位而不是逐字抄写读法；几十中的数字放十位，剩余的一放个位。",
+      "self_check": {
+        "prompt": "写“三十四”“七十”“九十二”，分别填入十位个位表。",
+        "reference_answer": "34、70、92，十位依次3、7、9，个位4、0、2。",
+        "criteria": [
+          "按位写数正确",
+          "整十保留0"
+        ],
+        "family_id": "placevalue.number-from-words",
+        "variant_id": "m1b.3.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "placevalue.compose.from-units"
+        ]
+      },
+      "observation_note": "数字输入观察数位选择，手写字形还需实际纸笔。",
+      "difficulty_support": {
+        "discriminating_prompt": "“七十”有没有散的一？没有时个位怎么办？",
+        "hint": "先填十位7，个位空缺要用0占住。",
+        "revision_prompt": "用数位表重写并读回原数。"
+      }
+    }
+  ],
+  "conditions": [
+    "两位自然数，十位非0，个位可以为0。"
+  ],
+  "representation_note": "数位表、口述读法与手写对应。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh1.4.3.1",
+  "name": "对数的概念",
+  "tier": "core",
+  "hook": "2的几次方等于8？把这个指数直接记成一个运算，便得到什么？",
+  "definition": "logₐN=b等价于a^b=N，要求a>0、a≠1、N>0。对数反求的是指数b，b可以为负数或0；特别地logₐ1=0，logₐa=1。不能把真数必须为正误解成对数值必须为正。",
+  "why": "固定合法底数的指数函数把R一一映到正数，因此每个N>0有且仅有一个指数b。对数正是反求这个指数，底数和真数限制来自指数函数的定义与值域。",
+  "when_to_use": [
+    "需要把未知指数转成对数",
+    "给出简单整数幂关系，要求对数值"
+  ],
+  "steps": [
+    "检查底数及真数是否合法",
+    "把对数式改写成指数式",
+    "求出指数并代回a^b=N核验"
+  ],
+  "worked_example": {
+    "prompt": "求log₂(1/8)。",
+    "steps": [
+      "设结果为b，则2^b=1/8。",
+      "因为1/8=2^(-3)，所以b=-3。",
+      "代回2^(-3)=1/8满足条件。"
+    ],
+    "answer": "-3",
+    "verify": "-3",
+    "family_id": "logarithm.simple-evaluation",
+    "variant_id": "mh1.4.3.1:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "把对数值误当作底数或真数",
+    "以为真数为正就意味着对数一定为正"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能进行指数式与对数式的互化",
+      "explanation": "同一关系的指数与对数形式分别突出幂和指数，三个位置须对应。",
+      "self_check": {
+        "prompt": "把3⁴=81与log₅(1/25)=-2互化。",
+        "reference_answer": "log₃81=4；5^(-2)=1/25。",
+        "criteria": [
+          "底数保持不变",
+          "真数与指数位置正确"
+        ],
+        "family_id": "logarithm.exponential-conversion",
+        "variant_id": "mh1.4.3.1:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "log₃81=4中，81是底数还是幂的结果？",
+        "hint": "保持底数3，把对数值4放回指数位置。",
+        "revision_prompt": "将2^(-4)=1/16互化为log₂(1/16)=-4，并逐项对应。"
+      },
+      "observation_note": "观察三个位置互化；仅记符号不代表可解任意对数方程。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能求简单对数的值",
+      "explanation": "将真数写成底数的幂可直接读出对数。",
+      "self_check": {
+        "prompt": "求log₃27、log₃1、log₃(1/9)，并说明其符号。",
+        "reference_answer": "3、0、-2，分别因为3³=27、3⁰=1、3^(-2)=1/9。",
+        "criteria": [
+          "三个结果均正确",
+          "用指数式逐项验证"
+        ],
+        "family_id": "logarithm.simple-evaluation",
+        "variant_id": "mh1.4.3.1:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "真数必须正，是否意味着对数值也必须正？",
+        "hint": "log₃(1/9)的真数为正，但对应指数为-2。",
+        "revision_prompt": "求log₂(1/8)、log₂1、log₂4，分别-3、0、2，并还原指数核对。"
+      },
+      "observation_note": "观察用幂反求指数；区分真数限制和结果符号。"
+    }
+  ],
+  "check": "独立完成两项自检并保留推导或作图：底数保持不变；三个结果均正确。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh1.4.3.1-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.4.3.1-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh1.4.3.1-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "底数正且不为1，真数严格大于0；对数值可负。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

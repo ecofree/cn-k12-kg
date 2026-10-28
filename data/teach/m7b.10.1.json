@@ -1,0 +1,177 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.10.1",
+  "name": "二元一次方程组的概念",
+  "tier": "core",
+  "hook": "一对数满足第一个方程，却不满足第二个，它能算方程组的解吗？",
+  "definition": "含有两个未知数、未知项次数都是 1 的整式方程叫二元一次方程；两个二元一次方程合起来组成方程组，其解是同时满足两个方程的未知数的值。",
+  "why": "一个二元一次方程通常描述许多有序数对；方程组要求同一对值同时满足每个方程，相当于取两个条件的共同部分。检查其中一式只是必要步骤，不能替代全部检查。",
+  "when_to_use": [
+    "两个未知量同时受两个等量关系限制",
+    "要判断一组数是不是共同解"
+  ],
+  "steps": [
+    "先检查各方程都是二元一次整式方程",
+    "把同一对数分别代入每个方程",
+    "只有每式成立才认定为方程组的解"
+  ],
+  "worked_example": {
+    "prompt": "检验x=2、y=1是否为方程组x+y=3、2x−y=3的解。",
+    "answer": "是该方程组的解",
+    "steps": [
+      "第一式代入得2+1=3，成立。",
+      "第二式代入得2×2−1=3，也成立，因此这对数是共同解。"
+    ],
+    "family_id": "system.solution.verify-both",
+    "variant_id": "m7b.10.1:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "二元一次中的一次是未知项总次数，xy属于二次项。",
+    "满足一个方程的数对不一定满足整个方程组。"
+  ],
+  "check": "独立完成并解释：判断x+y=3与xy=2组成的方程组是不是二元一次方程组。；方程组x+y=7、2x−y=2的解是哪一组？ 备选：A. x=2，y=5；B. x=3，y=4；C. x=4，y=3 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断二元一次方程与二元一次方程组",
+      "explanation": "每个方程需是含两个未知数、总次数为1的整式方程。",
+      "self_check": {
+        "prompt": "判断x+y=3与xy=2组成的方程组是不是二元一次方程组。",
+        "reference_answer": "不是；xy=2含二次项xy，虽然有两个未知数但不满足一次条件。",
+        "criteria": [
+          "指出xy总次数为2",
+          "不能只按未知数个数判断"
+        ],
+        "family_id": "system.linear.identify-degree",
+        "variant_id": "m7b.10.1:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "xy中每个字母指数是1，就能说这一项总次数1吗？",
+        "hint": "单项式次数相加：x¹y¹的总次数2；还需每个方程都是整式的一次关系。",
+        "revision_prompt": "比较x+y=3与2x−y=1的组合，再用含x²或1/y的式子指出不符合之处。"
+      },
+      "observation_note": "观察未知数个数、整式条件与总次数；不能仅凭出现两个字母判断。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能检验一组值是否为方程组的解",
+      "explanation": "方程组的解必须同时满足两式，顺序和变量对应不能换。",
+      "self_check": {
+        "prompt": "方程组x+y=7、2x−y=2的解是哪一组？ 备选：A. x=2，y=5；B. x=3，y=4；C. x=4，y=3 请写出判断或计算依据。",
+        "reference_answer": "代入x=3、y=4，3+4=7且2×3−4=2，同时满足两式；其他选项不能同时满足。 正确选项内容：x=3，y=4。",
+        "criteria": [
+          "两式都代入",
+          "确认3、4共同满足"
+        ],
+        "family_id": "system.solution.verify-both",
+        "variant_id": "m7b.10.1:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "一对数满足x+y=7，就已是整个方程组的解吗？",
+        "hint": "同一对x、y必须原样代入两式；分别列左边值与右边值。",
+        "revision_prompt": "把(2,5)、(3,4)、(4,3)逐行代入两式制成核对表，圈出共同成立的一行。"
+      },
+      "observation_note": "观察同时满足两条约束；验证共同解不证明已经会系统求解或唯一性。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能求给定二元一次方程组解的指定分量",
+      "explanation": "同一未知数的系数相反可相加消元，系数相同可相减消元。得到另一未知数后代回任一原方程，并用另一方程核对；只提交一个分量时不自动记录完整求解过程。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：方程组 x+y=5、x-y=1 的解中，x 等于多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：3。两式相加2x6得x3，y2。",
+        "criteria": [
+          "消元操作符合系数关系并满足原两式",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "system.elimination.opposite-coefficients",
+        "variant_id": "m7b.10.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "哪一个未知数会在这次相加或相减后消失？",
+        "hint": "将相同未知数上下对齐，先检验系数之和或差是否为0。",
+        "revision_prompt": "先回答这个辨别问题：哪一个未知数会在这次相加或相减后消失？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；消元操作符合系数关系并满足原两式。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由两类结果总次数和加权总量求一类的次数",
+      "explanation": "两类对象的总数与加权总量提供两条不同关系。可假设全部为一类，再用总量差除以每换一个对象增加或减少的量；也可列方程组求解。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：篮球比赛胜一场得 2 分、负一场得 1 分。某队共比赛 16 场，总得分 20 分。这个队胜了多少场？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：4。全负16分，多4分每胜多1，胜4场。",
+        "criteria": [
+          "总数、权重差和所求类别对应正确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "system.context.count-weighted-total",
+        "variant_id": "m7b.10.1:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "总量差是每个对象的差，还是全部对象累计的差？",
+        "hint": "先算全按一种计的基准总量，再算每替换一个改变多少，两者相除。",
+        "revision_prompt": "先回答这个辨别问题：总量差是每个对象的差，还是全部对象累计的差？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；总数、权重差和所求类别对应正确。"
+      }
+    },
+    {
+      "criterion_index": 4,
+      "title": "能由方程的已知解求缺失的系数",
+      "explanation": "已知某组数是方程的解，就把这些数代入原方程，得到关于缺失参数的等式。解中的负值应整体放入括号，不能把参数与未知数混当成同一对象。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：已知 x=2、y=-1 是二元一次方程 3x+my=8 的一组解。m 的值是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：-2。代入x2 y−1得6−m8，m−2。",
+        "criteria": [
+          "解的代入位置、符号与参数身份正确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "equation.solution-substitution-parameter",
+        "variant_id": "m7b.10.1:self-check:4:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "本题已知的是未知数的取值，还是参数的值？",
+        "hint": "逐个把已知解代入对应字母位置，保持乘法和负号后再解剩余参数。",
+        "revision_prompt": "先回答这个辨别问题：本题已知的是未知数的取值，还是参数的值？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；解的代入位置、符号与参数身份正确。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.10.1-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.10.1-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.10.1-q3",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

@@ -1,17 +1,15 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://example.local/cn-k12-kg/dependency.schema.json",
-  "title": "先修边",
-  "description": "topicId 依赖 prerequisiteId；只保留直接先修，已做传递约简。",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cn-k12-kg.local/schema/v1/dependency.schema.json",
+  "title": "Prerequisite edge v1",
+  "description": "Version 1 authoring contract. JSON Schema is the structural authority; reference and mathematical checks remain separate. Existing records without an optional schema_version are v1; unknown explicit versions are rejected.",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "topicId",
-    "prerequisiteId",
-    "strength",
-    "reason"
-  ],
   "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
     "topicId": {
       "type": "string",
       "pattern": "^m(?:[1-9][ab]|h[1-5])\\.\\d{1,2}\\.\\d{1,2}(?:\\.\\d{1,2})?$"
@@ -25,13 +23,18 @@
       "enum": [
         "hard",
         "soft"
-      ],
-      "description": "hard：不会前者基本无法学后者；soft：有帮助但非硬门槛"
+      ]
     },
     "reason": {
       "type": "string",
-      "minLength": 6,
-      "maxLength": 80
+      "minLength": 1,
+      "pattern": "\\S"
     }
-  }
+  },
+  "required": [
+    "topicId",
+    "prerequisiteId",
+    "strength",
+    "reason"
+  ]
 }

@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "topicId": "m1a.4.2",
+  "name": "11～20 的认识",
+  "tier": "tool",
+  "author": "ai",
+  "author_type": "ai",
+  "review_status": "draft",
+  "hook": "1捆小棒加4根写成14，左边的1为什么表示10根？",
+  "definition": "11到19分别由1个十和1到9个一组成；20由2个十、0个一组成。写两位数时，十位在左、个位在右，数字的位置决定它表示几个十或几个一。",
+  "why": "14中的1不是单独1根，而是1捆10根；4是4根散棒，合起来14。20需要2捆十，没有剩余散棒，因此个位写0占位，不能把20写成2。",
+  "when_to_use": [
+    "需要把实物、数位或图示中的数量说清楚。",
+    "需要核对自己的读数、写数或表示方法。"
+  ],
+  "steps": [
+    "把数量分成整捆十与散的一。",
+    "数清有几捆和几根散棒。",
+    "在十位填捆数，在个位填散棒数。",
+    "读数后拆成十与一，再核对原数量。"
+  ],
+  "worked_example": {
+    "prompt": "1个十与4个一合成多少？",
+    "steps": [
+      "1个十是10个一。",
+      "10和4合起来是14。"
+    ],
+    "answer": "14",
+    "verify": "10+4",
+    "family_id": "placevalue.ten-and-ones",
+    "variant_id": "m1a.4.2:worked-example-v5",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "把14解释为1个一加4个一。",
+    "把20写成2或把11到20一律说成1个十。"
+  ],
+  "practice": [
+    {
+      "id": "m1a.4.2-q1",
+      "note": "结合实物或数位说明结果；自检量规另列。"
+    },
+    {
+      "id": "m1a.4.2-q2",
+      "note": "结合实物或数位说明结果；自检量规另列。"
+    }
+  ],
+  "check": "逐项目标完成下面的操作或解释，先留下过程，再对照量规修改；记录仍不确定的地方。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能说出 11～20 各数由几个十和几个一组成",
+      "explanation": "11—19各有1个十；20是两组十。区分整捆与散根后再说数的组成。",
+      "self_check": {
+        "prompt": "分别摆出16与20，说有几个十、几个一；再把20的一捆拆开，数量变了吗？",
+        "reference_answer": "16是1个十6个一；20是2个十0个一。拆一捆可说1个十10个一，总量仍20。",
+        "criteria": [
+          "标准组成正确",
+          "理解20的两个十",
+          "换组后总量不变"
+        ],
+        "family_id": "placevalue.ten-and-ones",
+        "variant_id": "m1a.4.2:self-check:0:v5",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "placevalue.regroup-ten-ones"
+        ]
+      },
+      "observation_note": "观察标准组成与一次拆组；不由填写组成证明所有进退位运算。",
+      "difficulty_support": {
+        "discriminating_prompt": "20的个位0说明总共没有小棒吗？",
+        "hint": "0只说明没有散的一，十位仍有2捆。",
+        "revision_prompt": "同时写标准组成和拆组组成核对总数。"
+      }
+    },
+    {
+      "criterion_index": 1,
+      "title": "能正确读写 11～20",
+      "explanation": "读十四时对应十位1与个位4；写二十时十位2、个位0。读写要与实际数量来回核对。",
+      "self_check": {
+        "prompt": "读17、20并写出“十二”“十九”，在数位表标每个数字。",
+        "reference_answer": "17读十七，20读二十；十二写12，十九写19。十位分别1、2、1、1。",
+        "criteria": [
+          "读写对应正确",
+          "数位位置不颠倒"
+        ],
+        "family_id": "placevalue.two-digit-read-write",
+        "variant_id": "m1a.4.2:self-check:1:v5",
+        "representation": "verbal",
+        "cognitive_demand": "execute",
+        "reference_family_ids": [
+          "placevalue.ten-and-ones"
+        ]
+      },
+      "observation_note": "口头读数和手写字形需另留操作记录；输入正确不证明已口读。",
+      "difficulty_support": {
+        "discriminating_prompt": "十二的2应在个位还是十位？",
+        "hint": "先说1个十和2个一，再安排两个位置。",
+        "revision_prompt": "用一捆与散棒核对写出的每个数。"
+      }
+    }
+  ],
+  "conditions": [
+    "每捆恰好10根，十位在左、个位在右。",
+    "本卡的标准组成个位为0至9；拆捆时可以出现10个一，但须说明这不是标准数位写法。"
+  ],
+  "representation_note": "成捆小棒、数位表与数字读写对照。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.10.2.2",
+  "name": "加减消元法",
+  "tier": "core",
+  "hook": "两个等式中的同一个未知量，能否通过整体相加或相减消失？",
+  "definition": "加减消元法：同一未知数系数相同则相减、系数相反则相加，先消去一个未知数；系数不同时先把方程乘适当倍数化为相同或相反。",
+  "why": "等式两边同加等量、同减等量仍相等。使某未知数的系数相同或相反后，一次加减就把该项抵消，保留关于另一未知数的约束；回代补回被消去的信息。",
+  "when_to_use": [
+    "某未知数系数相同或互为相反数",
+    "两式系数可用小整数倍配齐"
+  ],
+  "steps": [
+    "选择较容易配齐的一组系数",
+    "必要时对整条方程两边同乘倍数",
+    "逐项相加减、解出一个数再回代检验"
+  ],
+  "worked_example": {
+    "prompt": "解2x+y=7、3x−y=8。",
+    "answer": "x=3，y=1",
+    "steps": [
+      "两式相加，y与−y抵消，得5x=15，所以x=3。",
+      "代入2x+y=7得y=1；第二式3×3−1=8也成立。"
+    ],
+    "family_id": "system.elimination.opposite-coefficients",
+    "variant_id": "m7b.10.2.2:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
+  },
+  "pitfalls": [
+    "同号相同系数用相减，异号相反系数用相加。",
+    "乘倍数时等式每项及右边常数都要乘。"
+  ],
+  "check": "独立完成并解释：用加减法解方程组2x+3y=13、4x−3y=5，求x。 请写出判断或计算依据。；方程组2x+3y=12、3x+2y=13中，第一式乘3、第二式乘2后相减，求y。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用加减法解二元一次方程组",
+      "explanation": "选择能够抵消的未知数，逐项相加减而非只处理未知项。",
+      "self_check": {
+        "prompt": "用加减法解方程组2x+3y=13、4x−3y=5，求x和y，写出消元、回代和两式检验。",
+        "reference_answer": "两式相加得6x=18，x=3；代回2x+3y=13得6+3y=13，y=7/3。检验2×3+3×(7/3)=13，4×3−3×(7/3)=5，故解为x=3、y=7/3。",
+        "criteria": [
+          "利用相反y系数相加消元得到x=3",
+          "回代准确保留y=7/3",
+          "将同一对值代回两条原式核验"
+        ],
+        "family_id": "system.elimination.opposite-coefficients",
+        "variant_id": "m7b.10.2.2:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "3y与−3y要相加还是相减才能消去？",
+        "hint": "先只看待消项，3y+(−3y)=0；等式两边同时逐项相加。",
+        "revision_prompt": "求x=3后回代y=7/3，保留分数并检查4×3−3×(7/3)=5。"
+      },
+      "observation_note": "观察消元和有理数回代；不能因为答案非整数而擅改题目或舍入。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能通过乘倍数构造相同或相反的系数",
+      "explanation": "通过乘倍数创造相同系数，方程两边必须同时改变。",
+      "self_check": {
+        "prompt": "方程组2x+3y=12、3x+2y=13中，第一式乘3、第二式乘2后相减，求y。 请写出判断或计算依据。",
+        "reference_answer": "两式变为6x+9y=36、6x+4y=26；相减得5y=10，所以y=2，回代x=3。",
+        "criteria": [
+          "构造两个6x",
+          "相减得5y=10"
+        ],
+        "family_id": "system.elimination.scale-equations",
+        "variant_id": "m7b.10.2.2:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "第一式乘3时，右边12及3y是否也都乘3？",
+        "hint": "在整个等式两边加括号乘倍数，确保每一项参与；再对齐相减。",
+        "revision_prompt": "写6x+9y=36与6x+4y=26，消去x求y=2，再检验x=3。"
+      },
+      "observation_note": "观察完整倍乘与同系数消元；漏乘常数会改变方程组。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能求已有相同或相反系数的方程组指定解分量",
+      "explanation": "同一未知数的系数相反可相加消元，系数相同可相减消元。得到另一未知数后代回任一原方程，并用另一方程核对；只提交一个分量时不自动记录完整求解过程。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：用加减法解方程组 2x+3y=12、2x-y=4，x 等于多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：3。两式相减4y8，y2；代回2x6，x3。",
+        "criteria": [
+          "消元操作符合系数关系并满足原两式",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "system.elimination.opposite-coefficients",
+        "variant_id": "m7b.10.2.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "哪一个未知数会在这次相加或相减后消失？",
+        "hint": "将相同未知数上下对齐，先检验系数之和或差是否为0。",
+        "revision_prompt": "先回答这个辨别问题：哪一个未知数会在这次相加或相减后消失？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；消元操作符合系数关系并满足原两式。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能求交叉对称系数二元一次方程组的指定解分量",
+      "explanation": "交叉对称的系数使两式相加常得到x+y关系，相减得到x−y关系。继续联立这两个关系求指定分量，不能把x+y的值直接当成x。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：解方程组 3x+2y=16、2x+3y=14，x 等于多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：4。相加x+y6，相减x−y2，x4。",
+        "criteria": [
+          "中间和差量与最终解分量区分",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "system.elimination.symmetric-coefficients",
+        "variant_id": "m7b.10.2.2:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你刚求到的是一个未知数，还是两个未知数的和？",
+        "hint": "将相加式和相减式分别标为和、差，再用和差求各分量。",
+        "revision_prompt": "先回答这个辨别问题：你刚求到的是一个未知数，还是两个未知数的和？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；中间和差量与最终解分量区分。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.10.2.2-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.10.2.2-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.10.2.2-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

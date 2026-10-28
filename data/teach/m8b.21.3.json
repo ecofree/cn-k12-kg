@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m8b.21.3",
+  "name": "特殊的平行四边形",
+  "tier": "core",
+  "hook": "一个四边形既是矩形又是菱形，为什么就一定是正方形？",
+  "definition": "矩形、菱形、正方形都是特殊的平行四边形：矩形四个角是直角且对角线相等；菱形四边相等且对角线互相垂直、平分各组对角；正方形兼具两者性质。",
+  "why": "矩形在平行四边形基础上增加直角，菱形增加邻边相等，正方形同时满足两种附加条件。因此正方形继承两者的性质；反向判定时必须看已有条件还缺直角还是等边。",
+  "when_to_use": [
+    "平行四边形进一步出现直角或等边条件",
+    "需要用对角线相等、垂直等性质判断特殊图形"
+  ],
+  "steps": [
+    "先确定基础图形为平行四边形",
+    "整理直角、邻边、对角线条件",
+    "选择矩形或菱形判定，若两者都满足再判正方形"
+  ],
+  "worked_example": {
+    "prompt": "矩形ABCD相邻边长为6、8，求对角线长度。",
+    "answer": "10",
+    "steps": [
+      "矩形的邻边垂直，对角线AC与AB、BC组成直角三角形。",
+      "AC=√(6²+8²)=10；矩形对角线相等，所以BD也长10。"
+    ],
+    "verify": "(6**2+8**2)**0.5",
+    "family_id": "pythagoras.model-rectangle-diagonal",
+    "variant_id": "m8b.21.3:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "model"
+  },
+  "pitfalls": [
+    "只有对角线垂直不一定是菱形，还需适用的基础条件。",
+    "矩形对角线相等、菱形对角线垂直，不要互相混淆。"
+  ],
+  "check": "独立完成并解释：关于矩形、菱形、正方形的关系，正确的是哪一个？ 备选：A. 每个矩形都是菱形；B. 既是矩形又是菱形的四边形是正方形；C. 每个菱形都是正方形 请写出判断或计算依据。；菱形两条对角线长6、8，求边长并给出依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能说出矩形、菱形、正方形之间的包含关系",
+      "explanation": "正方形是矩形与菱形的交集，二者又都属于平行四边形。",
+      "self_check": {
+        "prompt": "关于矩形、菱形、正方形的关系，正确的是哪一个？ 备选：A. 每个矩形都是菱形；B. 既是矩形又是菱形的四边形是正方形；C. 每个菱形都是正方形 请写出判断或计算依据。",
+        "reference_answer": "矩形有四个直角，菱形有四边相等；同时具备两种性质就是正方形。矩形或菱形单独都不保证另一个条件。 正确选项内容：既是矩形又是菱形的四边形是正方形。",
+        "criteria": [
+          "保留直角与四边相等",
+          "说明不能反推所有矩形或菱形都是正方形"
+        ],
+        "family_id": "quadrilateral.rectangle-rhombus-square.inclusion",
+        "variant_id": "m8b.21.3:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "长4宽2的矩形有四个直角，四边都相等吗？斜菱形的角都直吗？",
+        "hint": "正方形要同时满足矩形的直角条件与菱形的四边相等条件。",
+        "revision_prompt": "画一个非正方形矩形和一个非正方形菱形作反例，再用交集说明正方形关系。"
+      },
+      "observation_note": "观察包含关系与反向推断的限制；特殊图外观不能代替定义条件。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用各自特有的性质进行判断与计算",
+      "explanation": "菱形对角线互相垂直且平分，可以把半对角线与边组成直角三角形。",
+      "self_check": {
+        "prompt": "菱形两条对角线长6、8，求边长并给出依据。",
+        "reference_answer": "交点把对角线分成3与4且互相垂直，一条边是该直角三角形的斜边，因此边长√(3²+4²)=5。",
+        "criteria": [
+          "用到平分和垂直两性质",
+          "取半对角线而非整条"
+        ],
+        "family_id": "rhombus.half-diagonal-pythagoras",
+        "variant_id": "m8b.21.3:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "计算边长时应使用6与8，还是各一半3与4？直角来自何处？",
+        "hint": "菱形对角线互相平分且垂直，交点到两个邻顶点组成直角边。",
+        "revision_prompt": "画交点O，标3、4和直角，再算边长5；将对角线10、24同理求边长13。"
+      },
+      "observation_note": "观察平分与垂直联合使用；矩形对角线一般不垂直，不能套同一推理。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m8b.21.3-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.21.3-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m8b.21.3-q3",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

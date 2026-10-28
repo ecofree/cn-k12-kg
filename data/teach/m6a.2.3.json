@@ -1,52 +1,168 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m6a.2.3",
- "name": "分数、小数混合运算及运算律",
- "tier": "core",
- "hook": "0.25×4/5，是把 0.25 变分数，还是把 4/5 变小数？哪种更快？",
- "definition": "分数与小数混合运算，可以统一成分数或统一成小数再算；整数乘法的运算律对分数乘法同样适用。",
- "why": "分数和小数是同一个数的两种写法，统一形式之后才能用同一套法则。选哪种，看哪边更省事：能约分就走分数，能凑整就走小数。这和外币换算一样——先换成同一种货币，才能相加。",
- "when_to_use": [
-  "算式里同时出现分数和小数",
-  "有一对能凑整（0.25×4）或能约分（4/5×5）",
-  "题目要求结果写成分数或小数"
- ],
- "steps": [
-  "先看哪个形式更好算：能约分选分数，能凑整选小数",
-  "把所有数统一成同一种形式",
-  "能用运算律简算就用",
-  "最后按题目要求的形式写出结果"
- ],
- "worked_example": {
-  "prompt": "0.25×4/5=？",
-  "verify": "0.25*4/5",
-  "answer": "0.2",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "hand",
+  "topicId": "m6a.2.3",
+  "name": "分数、小数混合运算及运算律",
+  "tier": "core",
+  "hook": "0.25×4/5，是把 0.25 变分数，还是把 4/5 变小数？哪种更快？",
+  "definition": "分数与小数混合运算可选择方便的等值表示，或直接利用运算律；并不强制所有数统一形式。用近似小数替代不能化成有限小数的分数时，要明确结果只是近似。",
+  "why": "分数和小数可以是同一数的不同精确表示，例如1/4=0.25；选择哪一种取决于是否易约分或凑整。运算律也可直接用于混合表达。1/3与0.33并不相等，所以精确计算不能随意截断。",
+  "when_to_use": [
+    "算式里同时出现分数和小数",
+    "有一对能凑整（0.25×4）或能约分（4/5×5）",
+    "题目要求结果写成分数或小数"
+  ],
   "steps": [
-   "0.25 就是 1/4，换成 1/4 后可以和 4/5 直接乘。",
-   "1/4×4/5，4 和 4 约掉，得 1/5。",
-   "1/5=0.2。"
+    "先看哪个形式更好算：能约分选分数，能凑整选小数",
+    "需要合并同单位时选精确的等值形式；能直接用运算律凑整时，可以保留分数小数混合形式。",
+    "能用运算律简算就用",
+    "最后按题目要求的形式写出结果"
+  ],
+  "worked_example": {
+    "prompt": "0.25×4/5=？",
+    "verify": "0.25*4/5",
+    "answer": "0.2",
+    "steps": [
+      "0.25 就是 1/4，换成 1/4 后可以和 4/5 直接乘。",
+      "1/4×4/5，4 和 4 约掉，得 1/5。",
+      "1/5=0.2。"
+    ],
+    "family_id": "fraction.decimal-exact-representation",
+    "variant_id": "m6a.2.3:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "fraction.multiply-fractions"
+    ]
+  },
+  "pitfalls": [
+    "把1/3近似成0.33后仍把答案写成精确值。",
+    "约分时只除分子或分母，破坏数值相等。",
+    "简便计算中使用分配律时漏乘其中一项。"
+  ],
+  "practice": [
+    {
+      "id": "m6a.2.3-q1",
+      "note": "0.25 换成分数更好算"
+    },
+    {
+      "id": "m6a.2.3-q2",
+      "note": "逆用分配律，括号里正好凑成 1"
+    },
+    {
+      "id": "m6a.2.3-q95",
+      "note": "先取几分之几，再连减两次"
+    }
+  ],
+  "check": "能对同一道题用两种统一方式算，结果一致。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能选择合适形式进行分数小数混合运算",
+      "explanation": "选精确且方便的表示：0.25=1/4，1/3不能用0.33精确替代。",
+      "self_check": {
+        "prompt": "计算0.25+1/3，为什么不能先把1/3取成0.33后当精确答案？",
+        "reference_answer": "1/4+1/3=7/12；0.33是近似值，会改变精确结果。",
+        "criteria": [
+          "精确7/12",
+          "区别近似与相等"
+        ],
+        "family_id": "fraction.decimal-exact-representation",
+        "variant_id": "m6a.2.3:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "decimal.multiply-integer-place-value",
+          "fraction.add-common-unit",
+          "fraction.common-unit-equivalence-check"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "1/3与0.33真的相等吗？把3个0.33相加能得到1吗？",
+        "hint": "3×0.33=0.99，与1有差；精确计算把0.25写1/4，保持两个数等值。",
+        "revision_prompt": "精确计算0.2+1/6，说明为何选1/5+1/6；若给近似值，另写近似号和保留位数。"
+      },
+      "observation_note": "观察等值表示与近似值的区分；形式统一只是选择，不是每题必须步骤。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用运算律进行简便计算",
+      "explanation": "运算律对分数、小数成立，可先把能凑整的量结合，无需机械统一全部表示。",
+      "self_check": {
+        "prompt": "简算0.75×4/7+0.25×4/7。",
+        "reference_answer": "(0.75+0.25)×4/7=4/7，使用分配律。",
+        "criteria": [
+          "提取共同因数",
+          "结果4/7"
+        ],
+        "family_id": "arithmetic.distributive-multiplication",
+        "variant_id": "m6a.2.3:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.decimal-exact-representation"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "两项都含4/7，合并时是把0.75与0.25相加，还是把两个4/7也相加？",
+        "hint": "按分配律把公共的4/7提出，一份0.75倍加一份0.25倍合为1倍。",
+        "revision_prompt": "简算0.6×5/9+0.4×5/9，再展开回两项检查没有遗漏，也不必先把所有数写同一形式。"
+      },
+      "observation_note": "观察分配律保持两个原乘积；算得4/7本身不能说明所用等价关系。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能计算有限小数乘分数的数值",
+      "explanation": "有限小数可以化为等值分数，分数也可在合适时化为有限小数。保持数值等价后按乘法计算；仅凭一个结果看不出学生实际选择了哪种表示。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：0.75 千克的 2/3 是多少千克？\n写出每个问题的答案，并用算式、画图或文字说明怎样得到。用过提示或参考的地方也记下来。",
+        "reference_answer": "情境1参考：0.5。0.75×2/3=(3/4)×(2/3)=1/2=0.5。",
+        "criteria": [
+          "表示转换保持等值并正确计算乘积",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "fraction.decimal-exact-representation",
+        "variant_id": "m6a.2.3:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只交结果，不区分学生选择小数、分数还是其他等价计算形式。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你在小数与分数互化时是否保持同一个值？",
+        "hint": "先用分数核对0.75=3/4，再处理给定的分数乘法，最后按所需形式写结果。",
+        "revision_prompt": "先回答这个辨别问题：你在小数与分数互化时是否保持同一个值？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；表示转换保持等值并正确计算乘积。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能按给定分率求有限小数整体中的剩余数量",
+      "explanation": "已用分率对应的是原整体的一部分。先求用去数量再减，或用1减去分率直接求剩余，两个路径的基准都必须保持同一个原整体。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：一根 2.4 米长的木条，用去了 3/4。还剩多少米？\n写出每个问题的答案，并用算式、画图或文字说明怎样得到。用过提示或参考的地方也记下来。",
+        "reference_answer": "情境1参考：0.6。2.4−2.4×3/4=0.6米，也可2.4×1/4。",
+        "criteria": [
+          "整体基准一致，所求为剩余数量",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "fraction.mixed-product-then-subtract",
+        "variant_id": "m6a.2.3:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "仅观察所提交的数值、名称或方案；不把未提交的列式、解释、作图及选择算法过程记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "所用分率对应原长还是当时剩余长？",
+        "hint": "先画原整体并标已用份额，把所求剩余份额单独写出。",
+        "revision_prompt": "先回答这个辨别问题：所用分率对应原长还是当时剩余长？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；整体基准一致，所求为剩余数量。"
+      }
+    }
   ]
- },
- "pitfalls": [
-  "0.25 化成 25/100 后不约分就往里乘，越算越大。",
-  "只把其中一个数换形式，另一个还是原样，等于没统一。",
-  "题目要求写小数，最后却交了 1/5。"
- ],
- "practice": [
-  {
-   "id": "m6a.2.3-q1",
-   "note": "0.25 换成分数更好算"
-  },
-  {
-   "id": "m6a.2.3-q2",
-   "note": "逆用分配律，括号里正好凑成 1"
-  },
-  {
-   "id": "m6a.2.3-q95",
-   "note": "先取几分之几，再连减两次"
-  }
- ],
- "check": "能对同一道题用两种统一方式算，结果一致。"
 }

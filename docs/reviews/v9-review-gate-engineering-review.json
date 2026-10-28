@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "reviewer_kind": "ai",
+  "independent_teacher_review": false,
+  "student_validation": false,
+  "scope": "新增观察任务的逐题审读绑定、原版本续接与 V9 固定版本交付准备。",
+  "reviewed_changes": [
+    {
+      "path": "cnkg/assessment_review.py",
+      "finding": "旧任务完整作者对象的规范 JSON 哈希逐项续接，原任务入口和组件 ID 保留；旧审读记录本身须匹配冻结文件哈希。原源文件可因追加任务更新，但原任务未逐题重审的事实不改变。"
+    },
+    {
+      "path": "cnkg/assessment_review.py",
+      "finding": "当前新增任务逐题绑定完整作者对象（含元数据），每个新增客观任务另需实际交叉审读。重复、未知、缺失及过期记录不能仅凭总数通过。旧规范题族比较范围须覆盖目标原题族；代码不能代替区别是否真实的语义判断。"
+    },
+    {
+      "path": "cnkg/assessment_review.py",
+      "finding": "完整稳定目标对象与全部 1,778 个计划身份保留；原 1,039 个客观族不足目标逐项对照实际前后任务与规范客观族。量规不计客观族，不能删行、换名或缩小分母来消除缺口。"
+    },
+    {
+      "path": "cnkg/assessment_review.py",
+      "finding": "没有学习记录写操作。每项观察资源继续禁止自动独立证据、掌握与薄弱确认；AI 身份、未做教师审核和真实学生验证状态必须明确为 false。"
+    },
+    {
+      "path": "tools/check_assessment_reviews.py",
+      "finding": "独立检查入口写出当前实际覆盖及全部错误报告，失败返回非零，不创建或补写审读结论。"
+    },
+    {
+      "path": "tools/build_project.py",
+      "finding": "作者构建与只读检查都在目录/计划一致性后执行新逐题绑定门禁，失败停止后续工作。"
+    },
+    {
+      "path": "tools/release_check.py",
+      "finding": "新增 assessment_review 门禁，现有核心检查和 18 条浏览器旅程保留。完整发行将要求 22 项核心加 1 项完整浏览器门禁；尚未执行本轮最终整体验收。"
+    },
+    {
+      "path": "tools/status_report.py",
+      "finding": "原题索引中的前期 908 与续审 2,676 明确标为历史批次，避免 V9 沿用索引时被写成本轮重审；新增观察任务审读和原不足目标的本轮复查另列。观察任务数量明确为累计总数。"
+    },
+    {
+      "path": ".github/workflows/v6-verified-replay.yml",
+      "finding": "只将固定基线、提交前缀、候选名称、状态与资产名称从 V8 换为 V9。维持已验证的 setup-node@v7、32 分块上限、5 MB 压缩/50 MB 原文上限、每文件前后哈希、路径允许集合、完整干净提交验收、可达历史包和明确候选状态。未扩大权限或执行任意载荷脚本。"
+    },
+    {
+      "path": "cnkg/assessment_review.py",
+      "finding": "独立变异探针确认并修复四类遗漏：逐行不允许覆盖AI/教师/学生身份，交叉数学理由拒绝空白与非字符串，同一任务的同一文件不能充当作者与交叉两份报告，实际SVG字节必须与已视查的指纹一致。原1912题图示亦从精确Git基线冻结；原URL及alt相同不意味着图面未变。"
+    },
+    {
+      "path": "tests/browser/learning-flow.cjs",
+      "finding": "既有goal_observation_artifacts旅程保留原PNG/WAV与历史修订检查，再分别从小学、初中、高中新任务的确切目标启动真实phase；检查答案不提前下发、图示冻结加载、390px无横向溢出和合成作答的观察边界。初中固定实际取值表题，三阶段任务路径写入验收观测。18条旅程总数不变，实际结果须来自后续固定提交CI。"
+    }
+  ],
+  "focused_regressions": {
+    "command": "python -m unittest tests.test_assessment_review_v9 tests.test_status_report -q",
+    "result": "21 tests passed",
+    "scope": "17个新增审读绑定及具体反例回归，加4个原状态回归；实际门禁独立审计另执行六个隔离探针。"
+  },
+  "remaining_validation": [
+    "固定提交的全量核心、真实浏览器、受影响页面、发布包恢复与main目标PR检查。"
+  ],
+  "limits": [
+    "机械绑定不证明数学语义正确；逐题作者和交叉审读仍必须实际阅读任务。",
+    "旧任务如需后续纠错，应新建明确审读续接，不可改基线哈希来掩盖变化。",
+    "不代替独立教师审核和真实学生效果验证。"
+  ],
+  "independent_ai_cross_review": {
+    "path": "docs/reviews/v9-review-gate-cross-review.json",
+    "sha256": "959e3a918a1263cab47f897c50eb7dd182adc6fdb2b771627851d18090901f1d",
+    "result": "六个独立探针符合预期；原图及新图变更均拒绝过期审读。编译目录一致性由先执行的compile_catalog门禁保证。"
+  },
+  "derived_manifest_review": {
+    "current_entries": 836,
+    "changed": [
+      "data/catalog.json",
+      "data/skills/catalog-bindings.json",
+      "tools/build_project.py",
+      "tools/release_check.py",
+      "web/server.py"
+    ],
+    "added": [
+      "web/static/diagrams/v9-junior-annular-sector.svg",
+      "web/static/diagrams/v9-junior-linear-value-table.svg",
+      "web/static/diagrams/v9-junior-missing-pie-share.svg",
+      "web/static/diagrams/v9-junior-obtuse-triangle-work.svg",
+      "web/static/diagrams/v9-junior-stack-three-views.svg",
+      "web/static/diagrams/v9-junior-two-sided-balance.svg",
+      "web/static/diagrams/v9-primary-bar-completion.svg",
+      "web/static/diagrams/v9-primary-measure-angles.svg",
+      "web/static/diagrams/v9-senior-common-origin-vectors.svg",
+      "web/static/diagrams/v9-senior-growth-increments.svg",
+      "web/static/diagrams/v9-senior-scatter-curvature.svg",
+      "web/static/diagrams/v9-senior-zero-row-contingency.svg"
+    ],
+    "removed": [],
+    "all_current_entry_bytes_match": true
+  },
+  "local_full_regressions": {
+    "command": "python -m unittest discover -s tests -v",
+    "tests_run": 1076,
+    "passed": 1060,
+    "skipped": 16,
+    "failures": 0,
+    "errors": 0,
+    "result": "OK (skipped=16)",
+    "log_sha256": "eb9a44df4c70c1af6cf8a59426cf0658379beba53ba0813224314519ee082804",
+    "scope": "416任务冻结后的代码；结果页文案后续修订须以新固定提交完整CI为准。"
+  },
+  "local_authoring_build": {
+    "command": "python tools/build_project.py --write",
+    "step_count": 18,
+    "all_exit_zero": true
+  },
+  "visual_followup": {
+    "initial_candidate": "1390f8d19cd6aa3ba69be8966009f8fbf0aa7e61",
+    "run_url": "https://github.com/ecofree/cn-k12-kg/actions/runs/40663151654",
+    "artifact_id": 12804014654,
+    "initial_checks": 23,
+    "initial_browser_journeys": 18,
+    "initial_preview_pages": 2293,
+    "initial_artifact_recovery": "two_git_bundles_restored_and_fsck_passed",
+    "screenshot": "build/browser-check/goal_observation_artifacts/final.png",
+    "screenshot_sha256": "26c3cdc7f0b55e0d33c2f7317a25a771913bc07b951369477199c7e124617877",
+    "finding": "仅提交高中客观题，过程分项均为0次提交，但冻结结果提示仍写过程题已保存。",
+    "fix": "web/server.py的非topic结果提示改为对已提交的过程作品；既有结果快照读取与实际分项状态保持。",
+    "current_server_sha256": "1e7cc35f8c41d00a0557c19ac022b0081fc893c5260384ca34029d2bce363e3c",
+    "disposition": "首个候选不推广；修订版需新固定提交完整CI与证据包核验。"
+  }
+}

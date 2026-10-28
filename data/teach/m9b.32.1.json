@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m9b.32.1",
+  "name": "正弦、余弦与正切",
+  "tier": "core",
+  "hook": "同一个直角三角形，换一个锐角作参考时，哪两条边会交换角色？",
+  "definition": "在直角三角形中，锐角 A 的对边与斜边之比叫 sinA，邻边与斜边之比叫 cosA，对边与邻边之比叫 tanA；三个比值只与角的大小有关。",
+  "why": "同锐角的直角三角形彼此相似，对应边比不随大小改变，所以边长比可以定义角的函数。斜边始终对直角，对边和邻直角边却取决于所选锐角；sin、cos、tan分别编码对斜、邻斜、对邻的比。",
+  "when_to_use": [
+    "直角三角形已知边长要求三角函数值",
+    "要按指定锐角选对边和邻边"
+  ],
+  "steps": [
+    "先找直角对面的斜边",
+    "围绕题目指定锐角标对边与邻直角边",
+    "按sin=对/斜、cos=邻/斜、tan=对/邻写比并约简"
+  ],
+  "worked_example": {
+    "prompt": "Rt△ABC中C为直角，AC=12、BC=5、AB=13，求sin A、cos A、tan A。",
+    "answer": "sin A=5/13，cos A=12/13，tan A=5/12",
+    "steps": [
+      "以A为参考，对边BC=5，邻直角边AC=12，斜边AB=13。",
+      "依次取对/斜、邻/斜、对/邻，得到5/13、12/13、5/12。"
+    ],
+    "family_id": "trigonometry.evaluate-three-ratios",
+    "variant_id": "m9b.32.1:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "execute"
+  },
+  "pitfalls": [
+    "邻边专指邻直角边，不能把斜边也当作cos分子的邻边。",
+    "锐角正弦余弦在0与1之间，正切可以大于1。"
+  ],
+  "check": "独立完成并解释：在Rt△ABC中∠C=90°，只用边名写sin B、cos B、tan B。；Rt△ABC中∠C=90°、AC=4、BC=3、AB=5，求sin B、cos B、tan B。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能写出锐角三角函数的定义",
+      "explanation": "定义必须配合指定锐角和直角三角形，边比次序不可互换。",
+      "self_check": {
+        "prompt": "在Rt△ABC中∠C=90°，只用边名写sin B、cos B、tan B。",
+        "reference_answer": "sin B=AC/AB，cos B=BC/AB，tan B=AC/BC。",
+        "criteria": [
+          "斜边AB确定正确",
+          "对B的对边AC与邻边BC准确"
+        ],
+        "family_id": "trigonometry.define-relative-sides",
+        "variant_id": "m9b.32.1:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "trigonometry.complementary-angles"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "参考角从A换成B时，哪条仍是斜边，哪些直角边角色交换？",
+        "hint": "先找直角C的对边AB为斜边，再按B所对的AC与邻直角边BC配比。",
+        "revision_prompt": "同一图写sin A=BC/AB与cos B=BC/AB，说明互余角关系来自边角色。"
+      },
+      "observation_note": "观察三角函数定义依赖参考锐角；邻边不包括斜边。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能由边长求三角函数值",
+      "explanation": "给定参考角后先标对边、邻直角边和斜边，再分别组成三种函数值；换参考角需重新辨边。",
+      "self_check": {
+        "prompt": "Rt△ABC中∠C=90°、AC=4、BC=3、AB=5，求sin B、cos B、tan B。",
+        "reference_answer": "对B的对边为AC=4，邻直角边为BC=3，斜边AB=5；sin B=4/5、cos B=3/5、tan B=4/3。",
+        "criteria": [
+          "三条边角色对B确定正确",
+          "三种函数值全部正确"
+        ],
+        "family_id": "trigonometry.evaluate-three-ratios",
+        "variant_id": "m9b.32.1:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "对B而言长度4是哪条边？tan B大于1是否不合法？",
+        "hint": "sin与cos以斜边作分母，tan以邻直角边3作分母，锐角正切可以大于1。",
+        "revision_prompt": "给3、4、5三边分别标角色再求4/5、3/5、4/3；交换参考角求A的三比作核对。"
+      },
+      "observation_note": "观察边角色与三种分母区别；不可把sin、cos的范围限制照搬到tan。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m9b.32.1-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9b.32.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9b.32.1-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

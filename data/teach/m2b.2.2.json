@@ -1,0 +1,160 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "红花4朵，黄花是红花的3倍；“3倍”是3朵吗？",
+  "definition": "一个数是另一个数的几倍，表示把后者看成一份，前者含有这样的几份。求几倍的数用乘法；已知总量与一份量求倍数用除法；倍数本身不带物品单位。",
+  "why": "红花4朵作为一份，3份就是4+4+4=12朵。若知道黄花12朵、红花4朵，12里有3个4，所以倍数是3，而不是两者相差的8。",
+  "when_to_use": [
+    "题目用“几倍”比较两个同类数量",
+    "要在一份量、份数和总量之间选择运算"
+  ],
+  "steps": [
+    "找准作为一份的标准量。",
+    "画出几份，判断未知的是总量、倍数还是一份量。",
+    "选择乘除计算并把倍数与具体数量区分。"
+  ],
+  "worked_example": {
+    "prompt": "红花4朵，黄花是红花的3倍，黄花几朵？",
+    "steps": [
+      "把4朵看作一份，黄花有3份。",
+      "4×3=12（朵）；检验12÷4=3。"
+    ],
+    "answer": "12",
+    "verify": "4*3",
+    "family_id": "primary.multiply.multiplicative-comparison",
+    "variant_id": "m2b.2.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "几倍不同于多几，不能用4+3求3倍。",
+    "倍数3不写“3朵”，黄花数量12才写朵。"
+  ],
+  "check": "先独立完成下面各项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m2b.2.2",
+  "name": "用倍解决问题",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能根据已知条件选择乘法或除法",
+      "explanation": "已知一份量与倍数求总量用乘法，求有几份用除法。",
+      "self_check": {
+        "prompt": "蓝珠6颗，红珠18颗。红珠是蓝珠几倍？用什么算式？",
+        "reference_answer": "18÷6=3，是3倍，因为18含3个6。",
+        "criteria": [
+          "选择除法",
+          "明确以蓝珠6为标准"
+        ],
+        "family_id": "comparison.multiplicative-factor",
+        "variant_id": "m2b.2.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.compare.difference",
+          "primary.divide.group-count"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "18比6多12，所以是12倍吗？“多几”和“有几个6”问的是同一个量吗？",
+        "hint": "把18个点每6个圈一组，数出3组；差12是多出的颗数，不是份数。",
+        "revision_prompt": "用红珠20颗、蓝珠5颗分别求多几颗和几倍，给两种答案写不同含义。"
+      },
+      "observation_note": "观察比较基准和倍数与差的区分；分组示意应保持一份量固定。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能正确列式解决倍数问题",
+      "explanation": "数量问题要标单位，倍数问题只说明倍数。",
+      "self_check": {
+        "prompt": "小树高2米，大树高是它的4倍。大树高多少米？",
+        "reference_answer": "2×4=8米；大树高8米。",
+        "criteria": [
+          "乘法列式",
+          "8米而非8倍"
+        ],
+        "family_id": "primary.multiply.multiplicative-comparison",
+        "variant_id": "m2b.2.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.repeated-addition"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“4倍”是再加4米，还是有4份2米？",
+        "hint": "画4段同样2米的线段首尾相接，先写2+2+2+2再写乘法。",
+        "revision_prompt": "小树3米、大树是3倍，求大树高，并说明3倍本身为何不写“米”。"
+      },
+      "observation_note": "观察由一份量和份数求数量；这题不能证明会处理未知一份量。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由一份量及倍数求比较量",
+      "explanation": "把一份量看作基准，几倍就是几个相同的一份量。比较量等于一份量乘倍数；倍数本身没有长度或人数单位。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：红绳长6米，蓝绳长度是红绳的4倍，蓝绳长多少米？\n写出每个问题的答案。可以用小棒、画图或算式说明你怎样想；用了提示或参考，也记下来。",
+        "reference_answer": "情境1参考：24。6的一份量扩大4倍，6×4=24米。",
+        "criteria": [
+          "倍数表示相同份数而非加上的差量",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "primary.multiply.multiplicative-comparison",
+        "variant_id": "m2b.2.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "仅观察所提交的数值、名称或方案；不把未提交的列式、解释、作图及选择算法过程记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "“4倍”是比原来多4，还是有4个同样的一份？",
+        "hint": "画出题目所说的若干份等长线段，把一份量放在每一份上。",
+        "revision_prompt": "先回答这个辨别问题：“4倍”是比原来多4，还是有4个同样的一份？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；倍数表示相同份数而非加上的差量。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由两个同单位数量求前者是后者的几倍",
+      "explanation": "同单位的比较量除以基准量，得到比较量包含几个基准单位，即倍数；改变比较顺序会改变商。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：花园里黄花24盆，红花8盆，黄花盆数是红花的几倍？只填倍数。\n写出每个问题的答案。可以用小棒、画图或算式说明你怎样想；用了提示或参考，也记下来。",
+        "reference_answer": "情境1参考：3。24÷8=3，比较量是基准量3倍。",
+        "criteria": [
+          "比较顺序和基准量明确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "primary.multiple.find-factor",
+        "variant_id": "m2b.2.2:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "仅观察所提交的数值、名称或方案；不把未提交的列式、解释、作图及选择算法过程记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你求的是黄花是红花的几倍，还是反过来？",
+        "hint": "先给被比较的量与基准量贴标签，再计算比较量÷基准量。",
+        "revision_prompt": "先回答这个辨别问题：你求的是黄花是红花的几倍，还是反过来？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；比较顺序和基准量明确。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m2b.2.2-q1",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m2b.2.2-q101",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m2b.2.2-q102",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

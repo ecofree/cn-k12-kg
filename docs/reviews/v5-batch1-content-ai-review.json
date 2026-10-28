@@ -1,0 +1,185 @@
+{
+  "schema": 1,
+  "reviewer": "ai-quality-v5-content",
+  "reviewer_kind": "ai",
+  "date": "2026-10-27",
+  "base_commit": "3666ba3f00d4fb0f43ae0788a921689d9d505882",
+  "review_scope": "第一批两个主题的目标、任务用途、条件与过程审查。不是全课程语义完成声明。",
+  "teacher_independent_review": "deferred",
+  "real_student_effect_validation": "deferred",
+  "findings": [
+    {
+      "id": "V5-C01",
+      "finding": "棱台q204曾绑定旧柱、锥体积目标，题面仅称棱台而未展开平行截得条件。",
+      "action": "保留旧综合目标与ID；追加四个细目标，q204显式绑定新增棱台目标。补平行截得条件、由大锥减小锥的过程、反例与错误辨别。",
+      "checks": "4:16面积比对应1:2长度比；两锥高3与6，16×6/3−4×3/3=28；错误算术平均法给30，应判错。"
+    },
+    {
+      "id": "V5-C02",
+      "finding": "本轮初稿对q201/q202曾按题号推测用途，root交叉阅读发现实际分别为棱锥体积和长方体表面积。",
+      "action": "撤回错误映射，逐题重新核对实际prompt/answer/explanation/verify；q201→棱锥细目标4，q202→原表面积目标1。旧题面与身份未改成其他题。补逐题语义矩阵回归并新增真正的棱柱题q305。",
+      "checks": "q201=30×6/3=60；q202=2×(5×3+5×2+3×2)=62；q203=36+4×6×5/2=96；q305=18×7=126，排除侧棱8。",
+      "cross_reviewer": "root",
+      "status": "corrected_before_acceptance"
+    },
+    {
+      "id": "V5-C03",
+      "finding": "m1a.1.1-q1已直接给3，q2只观察后继数，旧诊断用途会超过题目能观察的行为。",
+      "action": "两个旧题均保留为练习，关闭diagnosis/may_confirm_mastery/may_judge_weak；保留历史准入。新q301/q303用真正的圆点图计数，q302做数字与物体组匹配，全部保持练习用途。",
+      "checks": "散排和直排SVG各有5个circle；匹配图三组分别3、4、5，乙组对应4；两个排列仍同一题族，未声称独立迁移。"
+    },
+    {
+      "id": "V5-C04",
+      "finding": "认、读、写是复合行为，数值输入不能验证口头发音或纸上书写。",
+      "action": "保留旧综合目标，新增数量配对、口头读数、纸上书写三项细目标。每项提供过程、观察边界、辨别、提示和修订；口头与手写自检仍为rubric，不从自动数值判分推断完成。",
+      "checks": "点数任务不绑定口头或手写skill；旧两项skill ID未变。"
+    },
+    {
+      "id": "V5-C05",
+      "finding": "register_catalog将所有已登记topic技能强制要求legacy_composite，阻挡显式人工审定粒度的细目标。",
+      "action": "既有技能尊重registry已声明的粒度并继续严格核对文字与身份；未登记新目标仍默认legacy_composite，不从措辞猜可观察性。",
+      "checks": "注册前后ID与粒度不变；重排目标继续抛CatalogError。"
+    }
+  ],
+  "task_semantic_matrix": [
+    {
+      "id": "mh2.8.3.1-q201",
+      "observes": "已知底面积与垂直高的棱锥体积",
+      "criterion_indices": [
+        4
+      ],
+      "answer": "60"
+    },
+    {
+      "id": "mh2.8.3.1-q202",
+      "observes": "长方体三组相对面表面积",
+      "criterion_indices": [
+        1
+      ],
+      "answer": "62"
+    },
+    {
+      "id": "mh2.8.3.1-q203",
+      "observes": "已知侧面高的正四棱锥表面积",
+      "criterion_indices": [
+        1
+      ],
+      "answer": "96"
+    },
+    {
+      "id": "mh2.8.3.1-q204",
+      "observes": "平行截得棱台体积",
+      "criterion_indices": [
+        5
+      ],
+      "answer": "28"
+    },
+    {
+      "id": "mh2.8.3.1-q305",
+      "observes": "排除斜棱干扰并求棱柱体积",
+      "criterion_indices": [
+        2,
+        3
+      ],
+      "answer": "126"
+    },
+    {
+      "id": "m1a.1.1-q301",
+      "observes": "散点总数与数字匹配",
+      "criterion_indices": [
+        0,
+        2
+      ],
+      "answer": "5"
+    },
+    {
+      "id": "m1a.1.1-q302",
+      "observes": "给定数字4与数量组匹配",
+      "criterion_indices": [
+        2
+      ],
+      "answer": "group_b"
+    },
+    {
+      "id": "m1a.1.1-q303",
+      "observes": "顺排点数，仍与q301同族",
+      "criterion_indices": [
+        0,
+        2
+      ],
+      "answer": "5"
+    }
+  ],
+  "tests": {
+    "command": "python -B -m unittest tests.test_quality_v5_content -v",
+    "tests": 8,
+    "pass": 8,
+    "failure": 0,
+    "note": "直接从作者源内存重建两个主题的独立fixture；未使用过期派生catalog。"
+  },
+  "representation_preview": {
+    "status": "pending_in_final_browser_acceptance",
+    "reason": "本轮尝试的历史Chromium绝对路径已不存在，未将旧截图当作本轮预览；图形圆点数量已用XML与答案独立核对。"
+  },
+  "remaining_boundaries": [
+    "未对其余三千余题批量提升或降级；constant verify本身不能判定题目无效，例如单位换算仍可能有有限观察价值。",
+    "目前所有新增题保持practice，独立学习证据和真实学效仍未知。",
+    "口头与纸上书写仍需实际活动记录；系统文字输入不声称验证它们。",
+    "两个主题新增7项细目标并不表示其余475主题已经完成目标分解。",
+    "当前准入内容指纹未包括全部目标映射/题族元数据，此缺口已交root后续统一处理。"
+  ],
+  "source_hashes": [
+    {
+      "path": "data/content/bx2.json",
+      "sha256": "f27b3e392ea76015138598b1c79719b0fca3f04e065b838b287617d7b8dcf0af"
+    },
+    {
+      "path": "data/content/yishang.json",
+      "sha256": "eeb18f6288534253baf31697d2e3034ea35fa8f59f77c0ca8ff366c3bad6f9e7"
+    },
+    {
+      "path": "data/teach/mh2.8.3.1.json",
+      "sha256": "9ef8a1bbcb29ba8bb48d5417f48b7b4ece60ecac62a057b9eea0779149d54614"
+    },
+    {
+      "path": "data/teach/m1a.1.1.json",
+      "sha256": "7c77a4b03f779e4123a216c317732d2bdde409a5d7007452f32fc1129f658ddb"
+    },
+    {
+      "path": "data/skills/registry.json",
+      "sha256": "0db7635a07eefc55da3b9030034d6181e3dfc6fb45eb5f5bff403fa15d91c9ca"
+    },
+    {
+      "path": "data/skills/catalog-bindings.json",
+      "sha256": "c769b6d5fe25117a96230ea6cf74159b762e3f8ba8f7d4a223d486facea3dca7"
+    },
+    {
+      "path": "data/task_admissions.json",
+      "sha256": "bd02425b345e83f8ab7a8512e7733982d2fa21ba0fc34014231d447215e33bb6"
+    },
+    {
+      "path": "tools/register_catalog.py",
+      "sha256": "b523a60387ba51602edeb08fc5ca858fab1017e150f8be38551c33e28aa6207e"
+    },
+    {
+      "path": "tests/test_quality_v5_content.py",
+      "sha256": "6ae519cdecfa6fa55ad8c78495e3ef4ae6402429603bbad4676bce0ea95fdc95"
+    },
+    {
+      "path": "web/static/diagrams/polyhedra-heights-v5.svg",
+      "sha256": "3455460203de95e4d33b10d016e087e0013f7c87eea3c5e6e46e305d19e35ddf"
+    },
+    {
+      "path": "web/static/diagrams/count-scattered-v5.svg",
+      "sha256": "8c01fc38442e1f97b2ec7f901cb44f071cc30c5797918eeb4fa2087046faa93b"
+    },
+    {
+      "path": "web/static/diagrams/count-row-v5.svg",
+      "sha256": "f9930c07f82a8ba29cdb20a4fa148bc683dadef31ca7c64396508c4235d8bf0a"
+    },
+    {
+      "path": "web/static/diagrams/count-groups-v5.svg",
+      "sha256": "dca41f9f32b8ef08d40b398c0ba0fb07c4a375b9955df8e34284bfa3ce10740b"
+    }
+  ]
+}

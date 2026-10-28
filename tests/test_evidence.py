@@ -116,5 +116,58 @@ class TestGraphGate(unittest.TestCase):
         self.assertGreater(len(g.questions), 0)
 
 
+class TestRuntimePolicy(unittest.TestCase):
+    def test_explicit_round_expression_is_computational_evidence(self):
+        card = q(type="numeric", choices=[], answer="683", verify="round(1000*0.6827)",
+                 prompt="一千人的期望人数为682.7人，按四舍五入取整数。",
+                 explanation="先计算期望人数682.7，再按题目要求四舍五入取683人。")
+        result = evidence.grade(card)
+        self.assertEqual(result["level"], "verified")
+        self.assertTrue(result["signals"]["verify_consistent"])
+        self.assertTrue(evidence.question_policy(card)["reviewer_pending"])
+
+    def test_explicit_lower_evidence_is_not_upgraded_by_verify(self):
+        card = q(type="numeric", choices=[], answer="2", verify="1+1",
+                 evidence_level="explained", source="external-fixture")
+        result = evidence.question_policy(card)
+        self.assertEqual(result["evidence_level"], "explained")
+        self.assertFalse(result["may_judge_weak"])
+
+    def test_bad_verify_blocks_even_an_explicit_verified_label(self):
+        card = q(type="numeric", choices=[], answer="3", verify="1+1", evidence_level="verified")
+        result = evidence.question_policy(card)
+        self.assertFalse(result["diagnosis_eligible"])
+        self.assertFalse(result["practice_eligible"])
+        self.assertEqual(result["reason"], "verify_failed")
+
+    def test_own_source_does_not_imply_verified(self):
+        card = q(explanation="答案:C", source="self-generated-fixture")
+        result = evidence.question_policy(card)
+        self.assertEqual(result["evidence_level"], "bare")
+        self.assertFalse(result["diagnosis_eligible"])
+        self.assertTrue(result["practice_eligible"])
+
+    def test_memory_drill_is_quarantined_until_version_bound_human_review(self):
+        card = q(source="self-generated-memory-drill", evidence_level="verified",
+                 diagnosis_eligible=True)
+        self.assertFalse(evidence.question_policy(card)["diagnosis_eligible"])
+        self.assertFalse(evidence.question_policy(card)["practice_eligible"])
+        card["quality_review"] = {
+            "status": "approved", "reviewer_type": "teacher", "reviewer_id": "fixture-teacher",
+            "record_id": "fixture-review", "content_sha256": evidence.question_content_sha256(card),
+        }
+        self.assertTrue(evidence.question_policy(card)["diagnosis_eligible"])
+        self.assertFalse(evidence.question_policy(card)["reviewer_pending"])
+        card["prompt"] += "修改后的题意"
+        self.assertFalse(evidence.question_policy(card)["diagnosis_eligible"])
+
+    def test_explicit_diagnosis_exclusion_cannot_be_overridden(self):
+        card = q(evidence_level="verified", diagnosis_eligible=False)
+        result = evidence.question_policy(card)
+        self.assertFalse(result["diagnosis_eligible"])
+        self.assertFalse(result["may_confirm_mastery"])
+        self.assertFalse(result["may_judge_weak"])
+
+
 if __name__ == "__main__":
     unittest.main()

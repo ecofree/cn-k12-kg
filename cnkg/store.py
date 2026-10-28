@@ -10,14 +10,16 @@ from __future__ import annotations
 import json
 import pathlib
 import sqlite3
+import tempfile
+from contextlib import closing
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 DEFAULT_DB = ROOT / "build" / "kg.sqlite"
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 DDL = """
-PRAGMA journal_mode = WAL;
+PRAGMA journal_mode = DELETE;
 
 CREATE TABLE meta (
     key TEXT PRIMARY KEY,
@@ -61,7 +63,17 @@ CREATE TABLE questions (
     choices_json TEXT,
     answer TEXT NOT NULL,
     verify TEXT,
-    explanation TEXT
+    explanation TEXT,
+    answer_spec_json TEXT
+);
+
+CREATE TABLE retired_questions (
+    id TEXT PRIMARY KEY,
+    topic_id TEXT NOT NULL,
+    reason TEXT NOT NULL,
+    content_json TEXT NOT NULL,
+    answer_spec_json TEXT,
+    resource_version TEXT
 );
 
 -- 复合题的「题目-知识点」多对多关系。
@@ -112,23 +124,61 @@ def read_json(name: str):
 def build(db_path: pathlib.Path | str = DEFAULT_DB, include_external: bool = True) -> dict:
     """从 data/*.json 重建 SQLite，返回各表行数。
 
-    include_external：是否把 questions_ext.json（外部真题）也灌进来。
-    默认 True——SQLite 是可重建的派生产物，应该反映完整题库，
-    否则题量统计会与 JSON 真源对不上。
+    include_external：是否同时导入 questions_ext.json（外部真题）。
+    正式自有题使用目录中的答案契约；停用题进入 retired_questions，
+    不参与活跃题量和知识点题库统计。临时旧数据目录仍可不带 catalog。
     """
     db_path = pathlib.Path(db_path)
     db_path.parent.mkdir(parents=True, exist_ok=True)
     if db_path.exists():
-        db_path.unlink()
+        # 即便误把 --db 指向学习库，也不能删除不可重建的学习证据。
+        try:
+            with closing(sqlite3.connect(db_path.resolve().as_uri() + "?mode=ro", uri=True)) as existing:
+                tables = {row[0] for row in existing.execute(
+                    "SELECT name FROM sqlite_master WHERE type='table'")}
+        except sqlite3.DatabaseError as exc:
+            raise ValueError("目标不是可识别的内容数据库，拒绝覆盖") from exc
+        if {"sessions", "events"} & tables:
+            raise ValueError("目标包含学习记录，不能作为内容库重建")
+    sidecars = [pathlib.Path(str(db_path) + suffix) for suffix in ("-wal", "-shm")]
+    if any(path.exists() for path in sidecars):
+        # Old builds used WAL. A crashed process can leave valid committed data
+        # in those files even when no session is alive. Let SQLite checkpoint
+        # them and acquire the required mode-change lock; never unlink a WAL.
+        try:
+            with closing(sqlite3.connect(db_path, timeout=0.5)) as existing:
+                checkpoint = existing.execute("PRAGMA wal_checkpoint(TRUNCATE)").fetchone()
+                if checkpoint and checkpoint[0]:
+                    raise ValueError("目标内容库仍有 WAL 会话，请关闭使用它的进程后再重建")
+                mode = existing.execute("PRAGMA journal_mode=DELETE").fetchone()[0]
+                if mode != "delete":
+                    raise ValueError("目标内容库无法安全切换为单文件，请关闭使用它的进程后再重建")
+        except sqlite3.DatabaseError as exc:
+            raise ValueError("目标内容库仍被使用，不能安全替换；请关闭使用它的进程后再重建") from exc
 
     topics = read_json("topics.json")
     deps = read_json("dependencies.json")
     questions = read_json("questions.json")
+    retired_questions = []
+    reserved_own_ids = {q["id"] for q in questions}
+    if (DATA / "catalog.json").is_file():
+        from .catalog import CatalogError, load_catalog
+        catalog = load_catalog(DATA)
+        active = []
+        for question in questions:
+            task = catalog.tasks.get(question["id"])
+            if task is None or task["source_kind"] != "bank":
+                raise CatalogError([f"自有题未登记：{question['id']}"])
+            if task["availability"] == "active":
+                active.append({**question, "answer_spec": task["answer_spec"]})
+            else:
+                retired_questions.append((question, task))
+        questions = active
     if include_external and (DATA / "questions_ext.json").exists():
         ext = read_json("questions_ext.json")
         # 外部题 id 可能与自有题冲突（不同来源的编号体系不同），
         # 冲突时加来源前缀，保证主键唯一。
-        own_ids = {q["id"] for q in questions}
+        own_ids = reserved_own_ids
         seen = set(own_ids)
         for q in ext:
             qid = q["id"]
@@ -143,7 +193,11 @@ def build(db_path: pathlib.Path | str = DEFAULT_DB, include_external: bool = Tru
             questions.append(q)
     standards = read_json("standards.json")
 
-    conn = sqlite3.connect(db_path)
+    # A failed compilation leaves the existing rebuildable content database
+    # intact; learning databases were rejected above before creating this file.
+    with tempfile.NamedTemporaryFile(dir=db_path.parent, suffix=".sqlite", delete=False) as staged:
+        staging_path = pathlib.Path(staged.name)
+    conn = sqlite3.connect(staging_path)
     try:
         conn.executescript(DDL)
         conn.executemany(
@@ -160,11 +214,16 @@ def build(db_path: pathlib.Path | str = DEFAULT_DB, include_external: bool = Tru
             [(d["topicId"], d["prerequisiteId"], d["strength"], d.get("reason", "")) for d in deps],
         )
         conn.executemany(
-            "INSERT INTO questions VALUES (?,?,?,?,?,?,?,?,?)",
+            "INSERT INTO questions VALUES (?,?,?,?,?,?,?,?,?,?)",
             [(q["id"], q["topicId"], q["difficulty"], q["type"], q["prompt"],
               json.dumps(q.get("choices"), ensure_ascii=False) if q.get("choices") else None,
-              q["answer"], q.get("verify"), q.get("explanation", "")) for q in questions],
+              q["answer"], q.get("verify"), q.get("explanation", ""),
+              json.dumps(q["answer_spec"], ensure_ascii=False) if "answer_spec" in q else None) for q in questions],
         )
+        conn.executemany("INSERT INTO retired_questions VALUES (?,?,?,?,?,?)", [
+            (q["id"], q["topicId"], task["policy"]["reason"], json.dumps(q, ensure_ascii=False),
+             json.dumps(task["answer_spec"], ensure_ascii=False), task["resource_version"])
+            for q, task in retired_questions])
         # 复合题展开成多行。没有 topicIds 的旧题退化成单行（主知识点）。
         qtopic_rows = []
         for q in questions:
@@ -193,9 +252,22 @@ def build(db_path: pathlib.Path | str = DEFAULT_DB, include_external: bool = Tru
         ])
         conn.commit()
         counts = {name: conn.execute(f"SELECT COUNT(*) FROM {name}").fetchone()[0]
-                  for name in ("topics", "dependencies", "questions", "standards")}
+                  for name in ("topics", "dependencies", "questions", "retired_questions", "standards")}
+    except Exception:
+        conn.close()
+        staging_path.unlink(missing_ok=True)
+        raise
     finally:
         conn.close()
+    try:
+        # A single-file content database can be replaced without pairing the
+        # new main file with an old process's WAL. Learner stores are separate.
+        if any(path.exists() for path in sidecars):
+            raise ValueError("目标内容库出现新的 WAL 会话，拒绝替换")
+        staging_path.replace(db_path)
+    except Exception:
+        staging_path.unlink(missing_ok=True)
+        raise
     return counts
 
 

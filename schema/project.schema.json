@@ -1,0 +1,362 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cn-k12-kg.local/schema/v1/project.schema.json",
+  "title": "Practical project v1",
+  "description": "Version 1 authoring contract. JSON Schema is the structural authority; reference and mathematical checks remain separate. Existing records without an optional schema_version are v1; unknown explicit versions are rejected.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "type": "integer",
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "stage": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/stage"
+    },
+    "outline_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "book_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "required": [
+          "book_id",
+          "title"
+        ]
+      },
+      "minItems": 0
+    },
+    "standard_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(cms-2022:[1-4]\\.(NA|GE|SP|CP)\\.\\d{2}|cms-2017:H\\.(PR|FU|GA|PS|MM)\\.\\d{2})$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "standard_alignment_note": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "duration_hint": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "task_brief": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "objectives": {
+      "type": "array",
+      "items": {
+        "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/objective"
+      },
+      "minItems": 1
+    },
+    "materials": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "minItems": 1
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "objective_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "instructions": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "deliverable": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "family_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "variant_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "representation": {
+            "type": "string",
+            "enum": [
+              "verbal",
+              "symbolic",
+              "number_line",
+              "area_model",
+              "table",
+              "graph",
+              "geometry",
+              "manipulative",
+              "mixed",
+              "unknown"
+            ]
+          },
+          "cognitive_demand": {
+            "type": "string",
+            "enum": [
+              "recall",
+              "execute",
+              "explain",
+              "choose_strategy",
+              "prove",
+              "model",
+              "unknown"
+            ]
+          },
+          "alignment_note": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "required": [
+          "title",
+          "objective_ids",
+          "instructions",
+          "deliverable"
+        ]
+      },
+      "minItems": 1
+    },
+    "deliverables": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "minItems": 1
+    },
+    "rubric": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/rubricRow"
+          },
+          {
+            "required": [
+              "objective_ids"
+            ]
+          }
+        ]
+      },
+      "minItems": 1
+    },
+    "assessment_note": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "teacher_notes": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 1
+        }
+      ]
+    },
+    "author_type": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/authorType"
+    },
+    "review_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "reviewed",
+        "rejected"
+      ]
+    },
+    "teacher_review": {
+      "$ref": "https://cn-k12-kg.local/schema/v1/common.schema.json#/$defs/teacherReview"
+    },
+    "teacher_reference_solution": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scenario": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 1
+        },
+        "conclusion": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "scenario",
+        "steps",
+        "conclusion"
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "original_activity"
+        },
+        "outline_used_for": {
+          "enum": [
+            "title_and_navigation",
+            "topic_navigation_only"
+          ]
+        },
+        "textbook_text_reproduced": {
+          "type": "boolean",
+          "const": false
+        }
+      },
+      "required": [
+        "kind",
+        "outline_used_for",
+        "textbook_text_reproduced"
+      ]
+    },
+    "coverage_kind": {
+      "enum": [
+        "outline_activity",
+        "curriculum_supplement"
+      ]
+    },
+    "topic_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "title",
+    "stage",
+    "outline_refs",
+    "standard_ids",
+    "standard_alignment_note",
+    "duration_hint",
+    "task_brief",
+    "objectives",
+    "materials",
+    "steps",
+    "deliverables",
+    "rubric",
+    "assessment_note",
+    "teacher_notes",
+    "author_type",
+    "review_status",
+    "teacher_review"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "coverage_kind": {
+            "const": "curriculum_supplement"
+          }
+        },
+        "required": [
+          "coverage_kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "topic_ids",
+          "provenance"
+        ],
+        "properties": {
+          "outline_refs": {
+            "maxItems": 0
+          },
+          "provenance": {
+            "properties": {
+              "outline_used_for": {
+                "const": "topic_navigation_only"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "outline_refs": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

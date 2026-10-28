@@ -1,0 +1,1623 @@
+{
+  "schema": 1,
+  "id": "sampling_and_variation",
+  "title": "抽样、代表性与数据的波动",
+  "stage": "junior",
+  "topic_ids": [
+    "m7b.12.1.1",
+    "m7b.12.1.2",
+    "m8b.24.1",
+    "m8b.24.2"
+  ],
+  "standard_ids": [
+    "cms-2022:4.SP.01"
+  ],
+  "review_status": "draft",
+  "author_type": "ai",
+  "objectives": [
+    {
+      "id": "sampling_and_variation:population",
+      "statement": "能对调查问题明确总体、实际样本和抽样名册，并指出名册遗漏的对象。",
+      "granularity": "observable",
+      "prerequisite_objective_ids": []
+    },
+    {
+      "id": "sampling_and_variation:sampling",
+      "statement": "能给出从完整编号名册进行不放回随机抽取的步骤，说明便利或自愿样本可能产生的偏差。",
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "sampling_and_variation:population"
+      ]
+    },
+    {
+      "id": "sampling_and_variation:centre",
+      "statement": "能计算给定小样本的平均数和中位数，并按典型个体或总量目的选择解释。",
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "data_reading_and_mean:mean"
+      ]
+    },
+    {
+      "id": "sampling_and_variation:spread",
+      "statement": "能在单位与背景可比时用描述性方差比较波动，并核对极差或单位变化不能替代方差比较。",
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "data_reading_and_mean:mean"
+      ]
+    },
+    {
+      "id": "sampling_and_variation:inference",
+      "statement": "能把样本描述与总体估计分开报告，指出样本量增加不能自动消除抽样方式的偏差。",
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "sampling_and_variation:population",
+        "sampling_and_variation:sampling",
+        "data_reading_and_mean:limited_claim"
+      ]
+    }
+  ],
+  "prerequisites": [
+    "能从表格或统计图读出数据、计算平均数。",
+    "能计算简单平方与分数；方差在本单元内定义。"
+  ],
+  "explanation": {
+    "intuition": "调查1000个主动回答的人，不一定比随机抽取100人更接近要研究的全体。两组平均数一样，也可能一组都靠近平均，另一组分得很开。",
+    "reasoning": "总体由问题决定，抽样名册应覆盖要研究的对象；若以对象描述，总体是所有目标对象，样本是实际取得记录的对象；若以数据描述，总体是目标对象的该项数据全体，样本是取得的部分数据。报告应说清采用哪种口径。从完整编号中不放回随机抽取，比只找方便接触或愿意回答的人更能控制选择偏差，但还须处理未回答。平均数保留总量，中位数取排序中间位置；描述性方差按s²=(1/n)Σ(xᵢ−x̄)²计算，记录所有离均值的偏离。样本统计量是样本内事实，用来估计总体时仍有抽样误差和潜在偏差。",
+    "conditions": [
+      "本单元方差采用除以n的描述性约定，n>0；不混用推断中另一用途的n−1公式。",
+      "比较波动须确认测量单位、背景和目标可比；方差单位为原单位的平方。",
+      "数据排序后再求中位数，偶数个时取中间两项平均；平均数对极端数值较敏感。",
+      "随机抽样依赖完整名册和实际随机步骤，不是“随便挑”；抽中后不答也可能影响代表性。",
+      "总体估计要说明样本来源与局限，不能把样本均值写成已查明的总体精确值。"
+    ],
+    "counterexample": "甲组4、5、6与乙组1、5、9均值均为5，但方差分别为2/3和32/3。另如只在运动社团调查运动时长，即使把社团成员全部问遍，也不自动代表全校所有学生。"
+  },
+  "worked_examples": [
+    {
+      "prompt": "要了解全校600名学生的通学时间，怎样从完整学籍名册抽60人？",
+      "steps": [
+        "给600人建立不重复的编号，核对名册包含全部目标学生。",
+        "用随机数方法在600个编号中不放回抽出60个，每人被选机会相同。",
+        "记录未回答情况并说明补访规则，不用“谁方便就问谁”替代随机步骤。"
+      ],
+      "answer": "完整名册、随机抽号、不放回、记录未响应。",
+      "family_id": "statistics.complete-frame-random-sample",
+      "variant_id": "sampling_and_variation:example-1",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy"
+    },
+    {
+      "prompt": "通学时间为2、3、3、4、18分钟。平均和中位数分别是多少？若描述多数人的典型位置需注意什么？",
+      "steps": [
+        "数据已排序，中间第3项为3，中位数3分钟。",
+        "总30分钟、5人，平均6分钟。",
+        "18分钟拉高均值；报告中位数3更接近多数人的位置，同时保留均值或说明极端值。"
+      ],
+      "answer": "平均6分钟，中位3分钟；应说明18分钟这一较大值。",
+      "family_id": "statistics.centre-for-purpose-outlier",
+      "variant_id": "sampling_and_variation:example-2",
+      "reference_family_ids": [
+        "statistics.mean-from-values",
+        "statistics.median-position"
+      ],
+      "representation": "verbal",
+      "cognitive_demand": "explain"
+    },
+    {
+      "prompt": "图中甲组4、5、6分钟，乙组1、5、9分钟，比较方差。",
+      "steps": [
+        "两组均值都是5分钟。",
+        "甲组平方离差为1、0、1，方差2/3平方分钟。",
+        "乙组平方离差为16、0、16，方差32/3平方分钟；同背景和单位下乙更分散。"
+      ],
+      "answer": "甲为2/3，乙为32/3，乙组波动更大。",
+      "family_id": "statistics.variance-comparison",
+      "variant_id": "sampling_and_variation:example-3",
+      "reference_family_ids": [
+        "statistics.variance-from-values"
+      ],
+      "representation": "graph",
+      "cognitive_demand": "explain"
+    },
+    {
+      "prompt": "一项网站自愿调查有2000份回答，可以据此说比随机抽取200人的调查一定更有代表性吗？",
+      "steps": [
+        "自愿回答可能与兴趣、时间和使用网站的习惯有关。",
+        "人数增加能增加记录，却不自动使没被覆盖的人进入样本。",
+        "先比较总体、名册、抽样及未响应，再解释不确定性，不能只比2000与200。"
+      ],
+      "answer": "不能；较大自愿样本仍可能有系统性选择偏差。",
+      "family_id": "statistics.large-biased-sample",
+      "variant_id": "sampling_and_variation:example-4",
+      "representation": "verbal",
+      "cognitive_demand": "explain"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "sampling_and_variation:practice-1",
+      "objective_ids": [
+        "sampling_and_variation:population"
+      ],
+      "phase": "practice",
+      "type": "rubric",
+      "prompt": "要估计全校600名学生每天通学时间，只从200名住宿生的名单中抽取40人。指出目标总体、实际样本，以及名单中的覆盖问题。",
+      "explanation": "研究对象是全校学生，而抽样名册只覆盖住宿生。随机抽取名册内40人并不能修复名册遗漏，结论不宜直接推广至600人。",
+      "feedback": {
+        "correct": "请按量规逐项自查并保留过程；自评不等于独立评价。",
+        "incorrect": "将“问题要了解谁”“实际问了谁”“谁可能被抽到”分开。"
+      },
+      "family_id": "statistics.population-sample-frame",
+      "variant_id": "sampling_and_variation:practice-1",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "明确总体与样本",
+          "points": 2,
+          "example": "以对象描述：总体为全校600名学生，实际样本为抽中的40名住宿生；以数据描述：总体为600名学生的每日通学时间，样本为这40人的通学时间。两种表述都须对应同一个调查问题。"
+        },
+        {
+          "criterion": "指出抽样名册遗漏",
+          "points": 2,
+          "example": "名册只含住宿生，其他400名学生没有被抽机会；不覆盖全校。"
+        }
+      ]
+    },
+    {
+      "id": "sampling_and_variation:practice-2",
+      "objective_ids": [
+        "sampling_and_variation:sampling"
+      ],
+      "phase": "practice",
+      "type": "choice",
+      "prompt": "已核对完整的600人编号名册，要不放回简单随机抽60人。哪个过程最符合要求？",
+      "explanation": "从完整名册等可能随机抽取不同编号能实施不放回简单随机抽样。早到和自愿报名均可能和调查变量有关；未响应仍要记录。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "检查每名学生能否通过相同规则进入样本。"
+      },
+      "family_id": "statistics.complete-frame-random-sample",
+      "variant_id": "sampling_and_variation:practice-2",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "answer": "B",
+      "choices": [
+        {
+          "id": "A",
+          "text": "只抽最先到食堂的60人"
+        },
+        {
+          "id": "B",
+          "text": "用等可能随机抽号选出60个不同编号，记录后续未回答情况"
+        },
+        {
+          "id": "C",
+          "text": "让愿意填表的人报名，凑够60人"
+        }
+      ]
+    },
+    {
+      "id": "sampling_and_variation:practice-3",
+      "objective_ids": [
+        "sampling_and_variation:centre"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "五个等待时间为2、3、3、4、18分钟。中位数是多少分钟？",
+      "explanation": "已按大小排序，5个数的中间第3项是3分钟；18分钟不改变中间位置。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "先确认排序，再找中间项，不是先算总和。"
+      },
+      "family_id": "statistics.median-position",
+      "variant_id": "sampling_and_variation:practice-3",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "answer": "3",
+      "verify": "3"
+    },
+    {
+      "id": "sampling_and_variation:practice-4",
+      "objective_ids": [
+        "sampling_and_variation:spread"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "配图甲组为4、5、6分钟。按除以n的描述性方差公式，其方差是多少平方分钟？请填小数或分数。",
+      "explanation": "均值5，平方离差为1、0、1，和2除以3得2/3平方分钟。它的单位是平方分钟，不是分钟。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "先减均值，再平方，最后除以三条记录。"
+      },
+      "family_id": "statistics.variance-from-values",
+      "variant_id": "sampling_and_variation:practice-4",
+      "representation": "graph",
+      "cognitive_demand": "execute",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "answer": "2/3",
+      "verify": "((4-5)**2+(5-5)**2+(6-5)**2)/3",
+      "diagram": {
+        "src": "/static/diagrams/statistics-junior-spread.svg",
+        "alt": "同一单位分钟、同一刻度0至10的两行点图。甲组三点在4、5、6，乙组三点在1、5、9；两组均值都为5分钟，乙组离均值更远。图例说明每个圆点代表一条观测。"
+      }
+    },
+    {
+      "id": "sampling_and_variation:practice-5",
+      "objective_ids": [
+        "sampling_and_variation:inference"
+      ],
+      "phase": "practice",
+      "type": "rubric",
+      "prompt": "从全校完整名册随机抽50人，记录到样本平均通学时间为12分钟。小明写“全校每个人的通学时间都是12分钟”。请改写成合适的结论并说明仍有什么不确定。",
+      "explanation": "样本平均是对这50条记录的统计。它不等于每人的数值，也不保证总体平均恰为12；总体估计应同时报告抽样和回答情况。",
+      "feedback": {
+        "correct": "请按量规逐项自查并保留过程；自评不等于独立评价。",
+        "incorrect": "把句子的主语从“每个人”改成“这份样本的平均”，再说明估计用途。"
+      },
+      "family_id": "statistics.sample-not-population-certainty",
+      "variant_id": "sampling_and_variation:practice-5",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "区分样本平均与个体",
+          "points": 2,
+          "example": "这50名回答者平均12分钟，不表示每个人都是12。"
+        },
+        {
+          "criterion": "说明总体估计边界",
+          "points": 2,
+          "example": "可用12分钟估计总体平均，须说明随机样本与未响应等限制；不是总体已知精确均值。"
+        }
+      ]
+    },
+    {
+      "id": "sampling_and_variation:transfer-1",
+      "objective_ids": [
+        "sampling_and_variation:population"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "调查“本年级所有学生上周是否到过图书馆”，名册却只有上周借过书的人。即使从这个名册随机抽取，能直接估计全体的到馆比例吗？解释缺少哪些对象。",
+      "explanation": "借书名单与全体学生名单不同。到馆未借书、没有到馆的学生都可能被遗漏；被抽者中的比例不能直接代表全体。",
+      "feedback": {
+        "correct": "请按量规逐项自查并保留过程；自评不等于独立评价。",
+        "incorrect": "没出现在借书名单的人，也可能属于研究对象吗？"
+      },
+      "family_id": "statistics.frame-conditioned-on-outcome",
+      "variant_id": "sampling_and_variation:transfer-1",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "识别目标与名册差异",
+          "points": 2,
+          "example": "目标含全部学生；名册遗漏未借书者，其中可能有人到馆但未借，也有人没到馆。"
+        },
+        {
+          "criterion": "解释不能直接推广",
+          "points": 2,
+          "example": "遗漏人没有入样机会，随机抽取已借书者不能消除覆盖偏差。"
+        }
+      ]
+    },
+    {
+      "id": "sampling_and_variation:transfer-2",
+      "objective_ids": [
+        "sampling_and_variation:sampling"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "随机抽中60人后，有15人没回答。调查者想直接换成身边最方便的15人，并仍称“60人随机样本”。指出风险并给出可说明的处理办法。",
+      "explanation": "抽样随机不保证实际响应也没有偏差。便利替换会改变入样机制；应记录未响应、执行事先说明的补访或随机后备规则并报告局限。",
+      "feedback": {
+        "correct": "请按量规逐项自查并保留过程；自评不等于独立评价。",
+        "incorrect": "区分抽中和最终回答，避免把方便替代说成原随机抽样。"
+      },
+      "family_id": "statistics.nonresponse-and-replacement",
+      "variant_id": "sampling_and_variation:transfer-2",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "识别替换改变选择机制",
+          "points": 2,
+          "example": "便利替换不再遵循原随机规则，未回答也可能与调查问题有关。"
+        },
+        {
+          "criterion": "提出透明处理与报告",
+          "points": 2,
+          "example": "先按预定方案补访或用预设随机后备名单；保留抽中和响应人数，报告局限，不默默换人。"
+        }
+      ]
+    },
+    {
+      "id": "sampling_and_variation:transfer-3",
+      "objective_ids": [
+        "sampling_and_variation:centre"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "两组等人数的等待时间分别为甲2、3、3、4、18分钟，乙5、6、6、6、7分钟。两组均值都是6分钟。要说明多数人的典型等待与长等待情况，仅报均值够吗？给出更完整比较。",
+      "explanation": "甲中位3、乙中位6，均值相同并未保留分布差异。甲的18分钟需要报告；乙集中在5至7分钟。应结合目的同时说明典型位置与较长等待。",
+      "feedback": {
+        "correct": "请按量规逐项自查并保留过程；自评不等于独立评价。",
+        "incorrect": "排序后找中间值，再看较远的记录，不要只选一个有利数字。"
+      },
+      "family_id": "statistics.equal-mean-different-distribution",
+      "variant_id": "sampling_and_variation:transfer-3",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "核对中位数与典型位置",
+          "points": 2,
+          "example": "甲中位3、乙中位6，多数人的典型位置不同。"
+        },
+        {
+          "criterion": "保留长等待和分布信息",
+          "points": 2,
+          "example": "甲有18分钟，乙较集中；均值相同不能说经历一样，也不能只删去甲的长等待。"
+        }
+      ]
+    },
+    {
+      "id": "sampling_and_variation:transfer-4",
+      "objective_ids": [
+        "sampling_and_variation:spread"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "同一背景、同一单位的两组数据甲0、5、5、10，乙0、0、10、10。两组均值为5、极差为10。按除以n的公式计算方差，说明“极差相同就一样分散”是否成立。",
+      "explanation": "甲方差12.5、乙25。两组的最小和最大值相同，但内部位置不同；极差只描述端点距离，不决定方差。",
+      "feedback": {
+        "correct": "请按量规逐项自查并保留过程；自评不等于独立评价。",
+        "incorrect": "逐项列出相对5的平方离差，不要仅看0和10。"
+      },
+      "family_id": "statistics.range-not-variance-counterexample",
+      "variant_id": "sampling_and_variation:transfer-4",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "独立计算两组方差",
+          "points": 2,
+          "example": "甲(25+0+0+25)/4=12.5；乙(25+25+25+25)/4=25。"
+        },
+        {
+          "criterion": "用结果反驳断言",
+          "points": 2,
+          "example": "乙方差更大；极差只用两端，不能决定内部数据的分散。"
+        }
+      ]
+    },
+    {
+      "id": "sampling_and_variation:transfer-5",
+      "objective_ids": [
+        "sampling_and_variation:inference"
+      ],
+      "phase": "transfer",
+      "type": "choice",
+      "prompt": "只在跑步社团调查运动时长，从100人扩大到社团全部300人，以下哪种解释合适？",
+      "explanation": "扩大同一特殊群体的样本可以改善对该群体的描述，却未覆盖社团外学生。人数不能自动修补抽样框和选择机制。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "增加的200人是否让原本没有机会的社团外学生进入？"
+      },
+      "family_id": "statistics.large-biased-sample",
+      "variant_id": "sampling_and_variation:transfer-5",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "answer": "C",
+      "choices": [
+        {
+          "id": "A",
+          "text": "人数大了就必然代表全校"
+        },
+        {
+          "id": "B",
+          "text": "300人都回答就能证明全校同样爱跑步"
+        },
+        {
+          "id": "C",
+          "text": "能更完整描述这个社团，但仍不能只凭人数消除对全校的选择偏差"
+        }
+      ]
+    },
+    {
+      "id": "sampling_and_variation:delayed-1",
+      "objective_ids": [
+        "sampling_and_variation:population"
+      ],
+      "phase": "delayed",
+      "type": "choice",
+      "prompt": "想调查“全校所有学生的午餐选择”，实际抽样名单只含在校食堂刷卡者。哪个判断正确？",
+      "explanation": "全校学生包括未在食堂刷卡者。抽样框遗漏不能由在现有名单内随机多抽来弥补。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "先列出目标总体，再检查名单没有哪些人。"
+      },
+      "family_id": "statistics.population-sample-frame",
+      "variant_id": "sampling_and_variation:delayed-1",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "answer": "A",
+      "choices": [
+        {
+          "id": "A",
+          "text": "名单遗漏没有在食堂刷卡的学生，调查范围与全校不一致"
+        },
+        {
+          "id": "B",
+          "text": "名单内随机抽就保证覆盖全校"
+        },
+        {
+          "id": "C",
+          "text": "刷卡次数多就能补齐没有刷卡的人"
+        }
+      ]
+    },
+    {
+      "id": "sampling_and_variation:delayed-2",
+      "objective_ids": [
+        "sampling_and_variation:sampling"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "某班40人，每人一张相同纸条写不同编号，充分混匀后不放回抽8张。说明为什么这比由班长挑选“最典型的8人”更符合简单随机抽样，并写一项实施时应核查的条件。",
+      "explanation": "抽签的随机性质来自可检查的操作，不是“抽签”这个名称。主观挑选典型人物不能保证所有人有相同机会。",
+      "feedback": {
+        "correct": "请按量规逐项自查并保留过程；自评不等于独立评价。",
+        "incorrect": "检查每人是否一张、纸条是否可辨认及抽后是否放回。"
+      },
+      "family_id": "statistics.complete-frame-random-sample",
+      "variant_id": "sampling_and_variation:delayed-2",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "解释随机机制",
+          "points": 2,
+          "example": "相同纸条充分混匀且不放回，使各人的入样机会相同，避免按主观印象挑人。"
+        },
+        {
+          "criterion": "检查实际条件",
+          "points": 2,
+          "example": "例如40人都有且只有一张、编号不重、纸条不可识别、按相同方式混匀抽取。"
+        }
+      ]
+    },
+    {
+      "id": "sampling_and_variation:delayed-3",
+      "objective_ids": [
+        "sampling_and_variation:centre"
+      ],
+      "phase": "delayed",
+      "type": "numeric",
+      "prompt": "六个已排序等待时间是1、2、2、4、6、21分钟，中位数是多少分钟？",
+      "explanation": "6个数取第3、4项平均，(2+4)÷2=3分钟。中位数不必等于某条已观察记录。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "偶数个数据要同时用中间两个位置。"
+      },
+      "family_id": "statistics.median-position",
+      "variant_id": "sampling_and_variation:delayed-3",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "answer": "3",
+      "verify": "(2+4)/2"
+    },
+    {
+      "id": "sampling_and_variation:delayed-4",
+      "objective_ids": [
+        "sampling_and_variation:spread"
+      ],
+      "phase": "delayed",
+      "type": "numeric",
+      "prompt": "同一组长度原用厘米记录，现每个数改用毫米，数值都乘10。按相同的描述性方差公式，新方差数值是原方差数值的多少倍？",
+      "explanation": "均值和各偏差都乘10，平方离差乘100，故方差数值乘100；测量对象并未变得更不稳定，只是单位换了。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "方差用平方离差；区分数据变化与单位变化。"
+      },
+      "family_id": "statistics.variance-unit-scaling",
+      "variant_id": "sampling_and_variation:delayed-4",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "answer": "100",
+      "verify": "10**2"
+    },
+    {
+      "id": "sampling_and_variation:delayed-5",
+      "objective_ids": [
+        "sampling_and_variation:inference"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "同一总体中两次分别随机抽样，样本平均数是12分钟与13分钟。有人说“两个数不同，所以一定有一次造假”。这个推断成立吗？给出合理解释及需要核查的信息。",
+      "explanation": "随机抽样具有波动，不同样本均值不必相同。也需检查口径和执行过程，但一个数值差异不足以证明造假。",
+      "feedback": {
+        "correct": "请按量规逐项自查并保留过程；自评不等于独立评价。",
+        "incorrect": "抽到的人是否完全一样？平均数是样本事实还是总体已知常数？"
+      },
+      "family_id": "statistics.sampling-variation-not-fraud",
+      "variant_id": "sampling_and_variation:delayed-5",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "承认抽样波动",
+          "points": 2,
+          "example": "不同随机样本可能包含不同个体，样本平均数自然可能不同。"
+        },
+        {
+          "criterion": "提出核查并保留边界",
+          "points": 2,
+          "example": "核查对象、时间、测量口径、抽样和响应；不能只凭差1分钟断定造假或哪次一定正确。"
+        }
+      ]
+    }
+  ],
+  "teacher_review": {
+    "status": "pending"
+  },
+  "prerequisite_topic_ids": [
+    "m4b.6.1",
+    "m7b.12.1.1"
+  ],
+  "prerequisite_unit_ids": [
+    "data_reading_and_mean"
+  ],
+  "prerequisite_objective_ids": [],
+  "coverage_note": "本单元细化所列教材主题中的统计任务；不代表整部统计课程已经覆盖。先修链接供需要时回看，不用学段或完成记录阻止进入。所有题族为作者分类，阶段名称不保证未曝光或独立测量。",
+  "diagram": {
+    "src": "/static/diagrams/statistics-junior-spread.svg",
+    "alt": "同一单位分钟、同一刻度0至10的两行点图。甲组三点在4、5、6，乙组三点在1、5、9；两组均值都为5分钟，乙组离均值更远。图例说明每个圆点代表一条观测。"
+  },
+  "instructional_support": {
+    "schema": 1,
+    "supports": [
+      {
+        "id": "sampling_and_variation:support:population",
+        "objective_id": "sampling_and_variation:population",
+        "title": "总体、样本和抽样名单不是同一个集合",
+        "observation_note": "观察抽样框遗漏；调查目的、拒访和样本代表性仍需进一步核对。",
+        "hypotheses": [
+          "可能把能联系到的人直接当成目标总体。",
+          "可能把样本人数当成调查对象的范围。"
+        ],
+        "diagnostic": {
+          "prompt": "想了解全校学生到校方式，却只从乘校车名单抽人。主要遗漏是什么？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "未乘校车的学生没有机会入样",
+              "feedback": "对，抽样框没有覆盖目标总体。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "B",
+              "text": "只要随机抽，名单范围无关",
+              "feedback": "名单内随机无法弥补名单外所有人被排除。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "C",
+              "text": "把人数增加到名单全部就能代表全校",
+              "feedback": "仍只覆盖乘校车者，扩大样本不能消除这个遗漏。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "总体由调查问题确定；抽样框必须检查是否包含目标总体中的对象。",
+          "family_id": "statistics.population-sample-frame",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "sampling_and_variation:support:population:diagnostic"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先写“结论想说明谁”，再写“实际上从谁的名单抽”。",
+            "reference_family_ids": [
+              "statistics.population-sample-frame"
+            ]
+          },
+          {
+            "level": 2,
+            "text": "比较两个集合，找遗漏、重复和不属于总体的对象。",
+            "reference_family_ids": [
+              "statistics.population-sample-frame"
+            ]
+          },
+          {
+            "level": 3,
+            "text": "研究全年级阅读时间，总体是全年级学生；若名单只有图书社成员，即使全查也不能自动代替全年级。需要完整名册与未应答记录。",
+            "reference_family_ids": [
+              "statistics.population-sample-frame"
+            ]
+          }
+        ],
+        "guided_task": {
+          "prompt": "调查全班午餐选择，随机名单只含当天出勤者。报告首先应说明什么？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "已代表所有同学"
+            },
+            {
+              "id": "B",
+              "text": "缺勤者不在抽样框内，结论范围受限"
+            },
+            {
+              "id": "C",
+              "text": "缺勤者一定和出勤者一样"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "先承认覆盖范围；是否可推广需要关于缺勤者和缺勤机制的更多信息。",
+          "family_id": "statistics.population-sample-frame",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "sampling_and_variation:support:population:guided"
+        },
+        "followup_task_ids": [
+          "sampling_and_variation:practice-1",
+          "sampling_and_variation:transfer-1",
+          "sampling_and_variation:delayed-1"
+        ],
+        "default_route": {
+          "title": "继续：总体、样本和抽样名单不是同一个集合",
+          "rationale": "已找出名单遗漏；接着核对出勤名册与全班总体的范围差异。",
+          "observation_note": "观察抽样框遗漏；调查目的、拒访和样本代表性仍需进一步核对。"
+        },
+        "guided_branches": [
+          {
+            "id": "zero_chance_outside_frame",
+            "choice_ids": [
+              "B"
+            ],
+            "title": "名单外对象的入样机会仍为零",
+            "rationale": "这次只检查了名单内随机；下一题直接核对名单外学生有没有被抽到的机会。",
+            "observation_note": "只发现抽样框遗漏；没有量化由遗漏引起的偏差大小或方向。",
+            "guided_task": {
+              "prompt": "全校600人，校车名单只有200人。程序只从这200个编号中随机抽50人。某位不在名单上的学生被该程序抽到的概率是多少？",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "0",
+              "verify": "0/1",
+              "explanation": "程序没有名单外学生的编号，所以这位学生入样概率为0。名单内抽取得再随机，也不能给名单外对象机会。",
+              "family_id": "statistics.population-sample-frame",
+              "representation": "verbal",
+              "cognitive_demand": "execute",
+              "variant_id": "sampling_and_variation:support:population:guided:zero_chance_outside_frame"
+            }
+          },
+          {
+            "id": "census_of_subset",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "部分群体的全数调查仍有边界",
+            "rationale": "这次想用名单全数调查补足全校覆盖；下一题区别“查全这份名单”和“查全目标总体”。",
+            "observation_note": "只核对调查对象的覆盖范围；不声称已知遗漏群体的实际到校方式。",
+            "guided_task": {
+              "prompt": "全校600人，校车名单200人。调查并收到这200人的全部回答后，哪个结论直接成立？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "已经得到全校600人的到校方式记录"
+                },
+                {
+                  "id": "B",
+                  "text": "得到这200名校车名单成员的记录，仍缺其他400人的记录"
+                },
+                {
+                  "id": "C",
+                  "text": "其他400人必定与这200人比例相同"
+                }
+              ],
+              "answer": "B",
+              "explanation": "全数调查的“全数”相对于这份200人名单；目标仍是600人，其他400人没有被覆盖。",
+              "family_id": "statistics.population-sample-frame",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "sampling_and_variation:support:population:guided:census_of_subset"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先找调查问题里的全体对象",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只识别目标总体，之后还要检查实际名单与样本。",
+          "guided_task": {
+            "prompt": "问题是“本年级所有学生上周是否到过图书馆”。目标总体按对象说是谁？",
+            "type": "choice",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "choices": [
+              {
+                "id": "A",
+                "text": "本年级所有学生"
+              },
+              {
+                "id": "B",
+                "text": "只限借书名单上的学生"
+              },
+              {
+                "id": "C",
+                "text": "只限主动回答的学生"
+              }
+            ],
+            "answer": "A",
+            "explanation": "总体由“本年级所有学生”这个问题范围确定，不能由方便取得的名单反过来缩小。按数据口径则是这些学生上周到馆与否的全部记录。",
+            "family_id": "statistics.population-sample-frame",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "variant_id": "sampling_and_variation:support:population:guided:skip"
+          }
+        }
+      },
+      {
+        "id": "sampling_and_variation:support:sampling",
+        "objective_id": "sampling_and_variation:sampling",
+        "title": "随机选择不能替代完整覆盖和回应",
+        "observation_note": "观察随机抽样与方便样本的区别；随机化执行和不回应仍需要实际记录。",
+        "hypotheses": [
+          "可能把“随便问”理解为随机。",
+          "可能只保留愿意回应者，却仍声称原随机样本完整。"
+        ],
+        "diagnostic": {
+          "prompt": "全班40人有完整编号1到40，想抽10人。哪种方法给每人相同入样机会且不重复？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "问最先走进教室的10人",
+              "feedback": "到达顺序可能与研究量有关，不是规定的等机会抽取。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "用均匀随机方式从40个编号中不放回抽10个",
+              "feedback": "对，同时需记录被抽者是否回应。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "请愿意参加的10人自荐",
+              "feedback": "自愿样本可能偏向更感兴趣的人。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "随机抽取要有明确机会机制，方便或自愿不能自动视为随机。",
+          "family_id": "statistics.complete-frame-random-sample",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "sampling_and_variation:support:sampling:diagnostic"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "说明从哪个完整名单、用什么随机机制、是否允许重复。",
+            "reference_family_ids": [
+              "statistics.complete-frame-random-sample"
+            ]
+          },
+          {
+            "level": 2,
+            "text": "给每个对象唯一编号，均匀不放回抽取；抽中不回应时记录原因，不随意找方便对象顶替。",
+            "reference_family_ids": [
+              "statistics.complete-frame-random-sample",
+              "statistics.nonresponse-and-replacement"
+            ]
+          },
+          {
+            "level": 3,
+            "text": "从100名册抽20人，若5人未回应，实际回答者15人。报告抽取方案与未回应情况，并考虑未回应是否与研究问题有关，不能只写“随机20人”。",
+            "reference_family_ids": [
+              "statistics.nonresponse-and-replacement"
+            ]
+          }
+        ],
+        "guided_task": {
+          "prompt": "随机抽到的同学有3人未交问卷，下一步哪项合理？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "删掉3人记录并报告人人回应"
+            },
+            {
+              "id": "B",
+              "text": "记录未回应，按预设方式跟进并说明结论限制"
+            },
+            {
+              "id": "C",
+              "text": "随便找3位好友代填且沿用原抽样声明"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "抽取与回应是两个阶段，必须保留这3人的未回应信息。",
+          "family_id": "statistics.nonresponse-and-replacement",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "sampling_and_variation:support:sampling:guided"
+        },
+        "followup_task_ids": [
+          "sampling_and_variation:practice-2",
+          "sampling_and_variation:transfer-2",
+          "sampling_and_variation:delayed-2"
+        ],
+        "default_route": {
+          "title": "继续：随机选择不能替代完整覆盖和回应",
+          "rationale": "已选对抽取过程；接着处理随机抽中后仍有未回应的情况，保留抽取与回答两个阶段。",
+          "observation_note": "观察随机抽样与方便样本的区别；随机化执行和不回应仍需要实际记录。"
+        },
+        "guided_branches": [
+          {
+            "id": "replace_arrival_with_random_selection",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "用明确随机步骤替换到达顺序",
+            "rationale": "这次使用了先到的10人；下一题先保留完整名册，再明确随机、等机会与不重复的操作。",
+            "observation_note": "只核对抽取设计，后续未回应仍可能影响实际收集到的记录。",
+            "guided_task": {
+              "prompt": "要从完整的40人名册中抽10人调查通学时间，哪种改法满足题设的不放回简单随机抽样？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "仍选先到的10人，只把名单打乱后再公布"
+                },
+                {
+                  "id": "B",
+                  "text": "给40人各一张相同纸条编号，充分混匀，不放回抽10张"
+                },
+                {
+                  "id": "C",
+                  "text": "由班长挑10个通学时间看起来典型的人"
+                }
+              ],
+              "answer": "B",
+              "explanation": "相同纸条、完整编号、充分混匀和不放回构成可检查的随机抽取过程；事后重排已选名单不会改变谁被选中。",
+              "family_id": "statistics.complete-frame-random-sample",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "sampling_and_variation:support:sampling:guided:replace_arrival_with_random_selection"
+            }
+          },
+          {
+            "id": "separate_invitation_and_response",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "自愿回答不等于随机抽中",
+            "rationale": "这次把自荐者当作随机样本；下一步分别看邀请方式和谁最终愿意回答。",
+            "observation_note": "只说明自愿回应可能有选择偏差，不断言这些自荐者已经表现出特定偏差。",
+            "guided_task": {
+              "prompt": "给全班40人发同一链接，前10名自愿提交问卷者进入样本。为什么不能据此称为不放回简单随机抽样？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "最终只有10人，所以一定不是样本"
+                },
+                {
+                  "id": "B",
+                  "text": "进入样本由自愿与提交时间决定，没有对40人实施等机会随机抽取"
+                },
+                {
+                  "id": "C",
+                  "text": "只要40人都能看到链接，每组10人的入样机会就必然相同"
+                }
+              ],
+              "answer": "B",
+              "explanation": "邀请范围完整不等于响应机制随机。是否愿意回答、何时提交可能与调查量有关，需说明实际选择过程和局限。",
+              "family_id": "statistics.voluntary-response-selection",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "sampling_and_variation:support:sampling:guided:separate_invitation_and_response"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先保证一人一个且完整的编号",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只核对名册准备，随机机制与未回应处理仍需后续说明。",
+          "guided_task": {
+            "prompt": "全班40人准备不放回抽样，编号名册应怎样安排？",
+            "type": "choice",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "choices": [
+              {
+                "id": "A",
+                "text": "每人一个不同编号，且40人全部列入"
+              },
+              {
+                "id": "B",
+                "text": "方便接触的人给两个编号"
+              },
+              {
+                "id": "C",
+                "text": "只给愿意参加者编号"
+              }
+            ],
+            "answer": "A",
+            "explanation": "重复编号会改变机会，遗漏对象会使其没有机会。完整唯一编号是实施所述随机抽取的一项前提。",
+            "family_id": "statistics.complete-frame-random-sample",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "variant_id": "sampling_and_variation:support:sampling:guided:skip"
+          }
+        }
+      },
+      {
+        "id": "sampling_and_variation:support:centre",
+        "objective_id": "sampling_and_variation:centre",
+        "title": "中心指标要对应问题",
+        "observation_note": "观察极端值对平均数与中位数的影响；哪个指标更适合还取决于报告目的。",
+        "hypotheses": [
+          "可能认为平均数一定是实际出现过的数据。",
+          "可能认为中位数或平均数总有一个普遍更好。"
+        ],
+        "diagnostic": {
+          "prompt": "记录为2、3、3、4、18。若想描述居中者而减少18的影响，哪项合适？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "中位数3，并同时交代数据范围",
+              "feedback": "对，中位数对应排序后的中间位置。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "B",
+              "text": "平均数6说明每个人都是6",
+              "feedback": "平均数不是每个个体的取值。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "C",
+              "text": "删去18再说原数据平均数",
+              "feedback": "删除需有依据，不能为了得到想要结果改动记录。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "平均数6反映总量分摊，中位数3反映位置；两者回答不同问题。",
+          "family_id": "statistics.centre-for-purpose-outlier",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "sampling_and_variation:support:centre:diagnostic"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先问是要按总量分摊，还是描述排序后的中间位置。",
+            "reference_family_ids": [
+              "statistics.mean-from-values",
+              "statistics.median-position"
+            ]
+          },
+          {
+            "level": 2,
+            "text": "平均数用总量÷个数；中位数要先排序，偶数个时取中间两数平均。",
+            "reference_family_ids": [
+              "statistics.mean-from-values",
+              "statistics.median-position"
+            ]
+          },
+          {
+            "level": 3,
+            "text": "1、2、2、3、12的平均4，中位数2。若做总预算，平均有用；若说明典型位置，中位数可同时报告极端值，避免隐藏差异。",
+            "reference_family_ids": [
+              "statistics.mean-from-values",
+              "statistics.median-position",
+              "statistics.centre-for-purpose-outlier"
+            ]
+          }
+        ],
+        "guided_task": {
+          "prompt": "数据1、9、3、5，先排序，求中位数。",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "4",
+          "verify": "(3+5)/2",
+          "explanation": "排序为1、3、5、9，中间两数平均为4。",
+          "family_id": "statistics.median-position",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "variant_id": "sampling_and_variation:support:centre:guided"
+        },
+        "followup_task_ids": [
+          "sampling_and_variation:practice-3",
+          "sampling_and_variation:transfer-3",
+          "sampling_and_variation:delayed-3"
+        ],
+        "default_route": {
+          "title": "继续：中心指标要对应问题",
+          "rationale": "已按典型位置选中位数；接着处理偶数条记录，核对中间两条平均的规则。",
+          "observation_note": "观察极端值对平均数与中位数的影响；哪个指标更适合还取决于报告目的。"
+        },
+        "guided_branches": [
+          {
+            "id": "average_is_not_every_person",
+            "choice_ids": [
+              "B"
+            ],
+            "title": "用同一均值的不同个体构造反例",
+            "rationale": "这次把平均数读成每个人的数；下一题用两条不同记录检验这种推断。",
+            "observation_note": "只反驳平均数等于每个人的误读；选择均值还是中位数仍须结合报告目的。",
+            "guided_task": {
+              "prompt": "两人的等待时间为2分钟与10分钟，平均6分钟。哪一句被这组记录直接支持？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "两人各等6分钟"
+                },
+                {
+                  "id": "B",
+                  "text": "总等待12分钟；平均6分钟，但两人都不等于6分钟"
+                },
+                {
+                  "id": "C",
+                  "text": "因为没人等6分钟，所以平均数6无效"
+                }
+              ],
+              "answer": "B",
+              "explanation": "平均数用总量除人数，(2+10)/2=6；它不要求有某条记录等于平均数，更不要求人人相同。",
+              "family_id": "statistics.mean-not-every-individual",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "sampling_and_variation:support:centre:guided:average_is_not_every_person"
+            }
+          },
+          {
+            "id": "report_without_deleting_valid_outlier",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "先保留有效极端记录，再选择摘要",
+            "rationale": "这次想删去18再称原数据均值；下一题明确记录无误，比较如实报告与擅自删除。",
+            "observation_note": "只处理已确认有效的长等待；真实数据若怀疑录入错误，应另行核查并记录处理依据。",
+            "guided_task": {
+              "prompt": "2、3、3、4、18分钟已核对为真实等待记录。要描述典型等待且不隐藏长等待，哪项合适？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "删18后仍说这是原五人的平均"
+                },
+                {
+                  "id": "B",
+                  "text": "报告中位数3、原数据均值6，并说明有18分钟的长等待"
+                },
+                {
+                  "id": "C",
+                  "text": "把18改成4，使数据更整齐"
+                }
+              ],
+              "answer": "B",
+              "explanation": "原五条总和30，均值6，中位数3；两种摘要配合18分钟这条有效记录，可以同时说明中心与长等待，不篡改原资料。",
+              "family_id": "statistics.centre-for-purpose-outlier",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "sampling_and_variation:support:centre:guided:report_without_deleting_valid_outlier"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先排序再找中间位置",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只练习中位数位置；尚未比较不同统计量的用途。",
+          "guided_task": {
+            "prompt": "三条等待记录为8、2、5分钟。先按从小到大排序，其中间的一条是多少分钟？",
+            "type": "numeric",
+            "answer_spec": {
+              "kind": "number",
+              "comparison": "exact",
+              "representation": "any"
+            },
+            "answer": "5",
+            "verify": "(2+5+8)-2-8",
+            "explanation": "排序为2、5、8，中间第2条为5。中位数先看位置，不能直接取原记录顺序的中间。",
+            "family_id": "statistics.median-position",
+            "representation": "verbal",
+            "cognitive_demand": "execute",
+            "variant_id": "sampling_and_variation:support:centre:guided:skip"
+          }
+        }
+      },
+      {
+        "id": "sampling_and_variation:support:spread",
+        "objective_id": "sampling_and_variation:spread",
+        "title": "同单位比较离散程度",
+        "observation_note": "观察本单元描述性方差的分母与平方偏差；不把这一定义混同于其他用途的无偏估计量。",
+        "hypotheses": [
+          "可能忽略偏差需平方，正负相抵。",
+          "可能混用n和n−1，或在不同单位尺度下直接比较方差。"
+        ],
+        "diagnostic": {
+          "prompt": "按本单元描述性方差定义，数据2、4、6均值4。应如何计算方差？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "[(2−4)+(4−4)+(6−4)]÷3",
+              "feedback": "偏差总和为0不能反映波动，需要平方。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "[(2−4)²+0²+(6−4)²]÷3",
+              "feedback": "对，描述这3条数据的平均平方偏差。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "不管定义，一定除以2",
+              "feedback": "n−1用于另一类估计目的；本题已指定描述性方差。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "平方偏差和8，除以记录数3，得到8/3；方差单位为原单位的平方。",
+          "family_id": "statistics.variance-from-values",
+          "representation": "symbolic",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "sampling_and_variation:support:spread:diagnostic"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先确定比较同一种量、同一单位，且方差定义已经说明。",
+            "reference_family_ids": [
+              "statistics.variance-from-values"
+            ]
+          },
+          {
+            "level": 2,
+            "text": "逐项求与均值的差，平方后相加，再按本单元定义除以n。",
+            "reference_family_ids": [
+              "statistics.variance-from-values"
+            ]
+          },
+          {
+            "level": 3,
+            "text": "数据3、3、3方差0；数据1、3、5均值也为3，方差8/3，波动更大。把米改成厘米会把方差乘10000，不能直接与原单位数值比较。",
+            "reference_family_ids": [
+              "statistics.variance-from-values",
+              "statistics.variance-unit-scaling"
+            ]
+          }
+        ],
+        "guided_task": {
+          "prompt": "按除以n的描述性方差，数据1、3的方差是多少？",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "1",
+          "verify": "((1-2)**2+(3-2)**2)/2",
+          "explanation": "均值2，两个平方偏差都是1，平均为1。",
+          "family_id": "statistics.variance-from-values",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "variant_id": "sampling_and_variation:support:spread:guided"
+        },
+        "followup_task_ids": [
+          "sampling_and_variation:practice-4",
+          "sampling_and_variation:transfer-4",
+          "sampling_and_variation:delayed-4"
+        ],
+        "default_route": {
+          "title": "继续：同单位比较离散程度",
+          "rationale": "已按描述性定义选对平方偏差平均；接着对完整小样本执行计算。",
+          "observation_note": "观察本单元描述性方差的分母与平方偏差；不把这一定义混同于其他用途的无偏估计量。"
+        },
+        "guided_branches": [
+          {
+            "id": "square_before_averaging",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "先平方，避免正负偏差相互抵消",
+            "rationale": "这次直接相加了有符号偏差；下一题对照偏差和与平方偏差和。",
+            "observation_note": "只核对平方这一步，随后还要按题设分母求方差并保留平方单位。",
+            "guided_task": {
+              "prompt": "数据为1、5，均值为3。偏差−2与2相加为0，但它们并不相同。两条平方偏差的和是多少？",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "8",
+              "verify": "(1-3)**2+(5-3)**2",
+              "explanation": "先平方得4与4，平方偏差和为8；0只是有符号偏差抵消后的和，不能表示这组完全没有波动。",
+              "family_id": "statistics.variance-from-values",
+              "representation": "verbal",
+              "cognitive_demand": "execute",
+              "variant_id": "sampling_and_variation:support:spread:guided:square_before_averaging"
+            }
+          },
+          {
+            "id": "use_declared_description_denominator",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "先看本题描述哪一组记录",
+            "rationale": "这次不看目的就改用n−1；下一题明确计算已列记录的平均平方偏差。",
+            "observation_note": "只按本题的描述性定义计算；没有否定估计总体方差时使用n−1的另一种规则。",
+            "guided_task": {
+              "prompt": "任务明确要求：描述已列出的4条记录，方差定义为这4条记录的平均平方偏差。平方偏差和为20，应怎样计算？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "20÷4=5"
+                },
+                {
+                  "id": "B",
+                  "text": "20÷3，因为所有方差都必须除n−1"
+                },
+                {
+                  "id": "C",
+                  "text": "直接报告20，不除记录数"
+                }
+              ],
+              "answer": "A",
+              "explanation": "本题定义是4条记录的平均平方偏差，所以除4。用n−1属于另一个估计定义，不能忽略这里明确的任务。",
+              "family_id": "statistics.variance-from-values",
+              "representation": "symbolic",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "sampling_and_variation:support:spread:guided:use_declared_description_denominator"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先找到每条数据相对均值的偏差",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只计算一个有符号偏差；平方、平均和单位仍在后续。",
+          "guided_task": {
+            "prompt": "一组记录均值为4，其中一条记录为2。按“记录减均值”计算，这条偏差是多少？",
+            "type": "numeric",
+            "answer_spec": {
+              "kind": "number",
+              "comparison": "exact",
+              "representation": "any"
+            },
+            "answer": "-2",
+            "verify": "2-4",
+            "explanation": "偏差是2−4=−2，表示这条记录低于均值2；求方差时还要将偏差平方。",
+            "family_id": "statistics.variance-from-values",
+            "representation": "verbal",
+            "cognitive_demand": "execute",
+            "variant_id": "sampling_and_variation:support:spread:guided:skip"
+          }
+        }
+      },
+      {
+        "id": "sampling_and_variation:support:inference",
+        "objective_id": "sampling_and_variation:inference",
+        "title": "把观察到的样本与要推断的总体分开",
+        "observation_note": "短题检查“大样本消除偏差”的说法；设计完整推断仍需说明抽取机制、缺失与不确定性。",
+        "hypotheses": [
+          "可能把样本比例当总体的确定比例。",
+          "可能认为人数够多就能修复选择偏差。"
+        ],
+        "diagnostic": {
+          "prompt": "只在篮球社收集了很多运动时间记录，能保证估计全校平均运动时间准确吗？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "能，记录很多就没有偏差",
+              "feedback": "样本量不能补回未覆盖的其他学生。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "不能，选择机制可能系统性偏向运动较多者",
+              "feedback": "对，先检查覆盖与抽样机制。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "不能，所以这些记录完全没用",
+              "feedback": "记录仍可描述这些回答者，只是推广范围受限。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "增大有偏样本可能更稳定地描述一个偏向的群体；样本描述与总体推断不同。",
+          "family_id": "statistics.large-biased-sample",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "sampling_and_variation:support:inference:diagnostic"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先写“样本中观察到”，再单独写“打算推测总体”。",
+            "reference_family_ids": [
+              "statistics.sample-not-population-certainty"
+            ]
+          },
+          {
+            "level": 2,
+            "text": "核对随机机制、覆盖、不回应以及样本与总体的差别，再说明估计的不确定性。",
+            "reference_family_ids": [
+              "statistics.population-sample-frame",
+              "statistics.nonresponse-and-replacement"
+            ]
+          },
+          {
+            "level": 3,
+            "text": "从完整名册均匀抽样与只收自愿问卷的同样100份，推断依据不同。重复抽样结果也可能有波动，不能承诺样本均值等于总体均值。",
+            "reference_family_ids": [
+              "statistics.sample-not-population-certainty",
+              "statistics.sampling-variation-not-fraud",
+              "statistics.voluntary-response-selection"
+            ]
+          }
+        ],
+        "guided_task": {
+          "prompt": "随机抽取的一小组中60%选择方案A，哪项表述合适？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "全体一定恰好60%选A"
+            },
+            {
+              "id": "B",
+              "text": "样本中60%选A，推广到总体仍有抽样不确定性"
+            },
+            {
+              "id": "C",
+              "text": "总体每个人有60%的偏好"
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "样本比例是已观察结果，不能抹去抽样波动和设计条件。",
+          "family_id": "statistics.sample-not-population-certainty",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "sampling_and_variation:support:inference:guided"
+        },
+        "followup_task_ids": [
+          "sampling_and_variation:practice-5",
+          "sampling_and_variation:transfer-5",
+          "sampling_and_variation:delayed-5"
+        ],
+        "default_route": {
+          "title": "继续：把观察到的样本与要推断的总体分开",
+          "rationale": "已区分抽样方式与人数；接着对随机样本的比例保留总体估计的不确定性。",
+          "observation_note": "短题检查“大样本消除偏差”的说法；设计完整推断仍需说明抽取机制、缺失与不确定性。"
+        },
+        "guided_branches": [
+          {
+            "id": "separate_size_from_coverage",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "扩样人数与扩大覆盖是两件事",
+            "rationale": "这次把记录多等同于无偏；下一题保留原选择来源，检查扩大人数到底改善了什么。",
+            "observation_note": "只辨别抽样框的系统性遗漏，不给出未经数据支持的偏差数值。",
+            "guided_task": {
+              "prompt": "只向运动社成员发问卷，从30人扩大到300人且都回答。哪项变化可以直接确认？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "全校所有人都有了入样机会"
+                },
+                {
+                  "id": "B",
+                  "text": "获得更多运动社成员的记录，但社团外学生仍未被覆盖"
+                },
+                {
+                  "id": "C",
+                  "text": "社团外学生与社团内学生的平均运动时间现在必定相等"
+                }
+              ],
+              "answer": "B",
+              "explanation": "扩大同一抽样框内的人数改变了记录量，没有自动把社团外学生纳入；是否能推断全校还要检查覆盖与抽样机制。",
+              "family_id": "statistics.large-biased-sample",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "sampling_and_variation:support:inference:guided:separate_size_from_coverage"
+            }
+          },
+          {
+            "id": "retain_bounded_description",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "保留能描述的范围，不把记录全丢掉",
+            "rationale": "这次把推广受限理解成完全无用；下一题把结论缩回实际回答者。",
+            "observation_note": "只报告这组记录中的描述量；不把它自动升级为社团全体或全校的精确值。",
+            "guided_task": {
+              "prompt": "篮球社12名回答者记录完整，平均每天运动40分钟。仅根据这些记录，哪句话能直接成立？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "全校每个人每天运动40分钟"
+                },
+                {
+                  "id": "B",
+                  "text": "这12名回答者的已记录每日运动时间平均40分钟"
+                },
+                {
+                  "id": "C",
+                  "text": "无法对这12条记录作任何统计描述"
+                }
+              ],
+              "answer": "B",
+              "explanation": "描述已取得的12条记录是成立的；推广到未回答者或全校需要额外设计与证据。范围受限不意味着数据没有任何用途。",
+              "family_id": "statistics.sample-not-population-certainty",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "sampling_and_variation:support:inference:guided:retain_bounded_description"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先区分样本记录与总体断言",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只识别表述的对象范围，还未处理抽样波动的大小。",
+          "guided_task": {
+            "prompt": "随机抽取的20名回答者平均通学12分钟。“12分钟”首先是什么？",
+            "type": "choice",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "choices": [
+              {
+                "id": "A",
+                "text": "这20条已记录通学时间的样本平均数"
+              },
+              {
+                "id": "B",
+                "text": "全校每个学生的通学时间"
+              },
+              {
+                "id": "C",
+                "text": "全校平均数的永久精确值"
+              }
+            ],
+            "answer": "A",
+            "explanation": "这个平均数首先由20条记录计算；即使抽样随机，估计总体时仍有抽样不确定性。",
+            "family_id": "statistics.sample-not-population-certainty",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "variant_id": "sampling_and_variation:support:inference:guided:skip"
+          }
+        }
+      }
+    ]
+  }
+}

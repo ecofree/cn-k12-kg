@@ -1,0 +1,812 @@
+{
+  "schema": 1,
+  "base_commit": "829f5ddf1c9fb548b2b43e3b68463e3879dcd3b0",
+  "content_fingerprint": "da65cbd6cdb671e6d58109afc8e959bc217b6cdb6f9b6cec427167ea5d41a30c",
+  "status": "reviewed",
+  "items": [
+    {
+      "change_id": "change_cf51e9c593a36180a7a0cd08",
+      "path": "cnkg/catalog.py",
+      "after_sha256": "315a7e0076196212dde6cd180dd0f3b8ad10f68842cda417820bb2217d16ce8d",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "正式目录把冻结选项顺序文件计入源哈希；未更改评分、历史记录或其他任务的权限逻辑。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_1222afba9d69b7f8ad81c4d7",
+      "path": "cnkg/choice_order.py",
+      "after_sha256": "1a349d4afe7fcd12fd859aadd95c19a5e37714c57ee6c04b591d9f2fa48fd13c",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "旧题按V5稳定选项ID顺序输出；新题散列只依赖本题及选项ID，不使用正确答案或全库位置。",
+        "逐项检查输入与选项身份、位置引用；深复制不修改原题或审核记录；非法集合变化明确报错。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_8ca2248410472e59ca9c25c5",
+      "path": "data/alignment_targets.json",
+      "after_sha256": "70fcb082ab36f621ecfe1f477a32ef8c369784c2a07dcf97221bc462ae1fb3ea",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "原42主题与全部单元仍在范围；新增4个已逐目标核对的主题，范围外缺口继续列出；当前活跃加强范围278题，不能视为全库审查。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other",
+        "scope_and_identity"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_80c06ce91a319c043499f3c3",
+      "path": "data/choice_orders.json",
+      "after_sha256": "806481c2b55e44710a9e9d1080758b272116b6189c18f32a4d630fa63823342b",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "仅从V5正式输出冻结1151个选择题ID的选项ID顺序；不存答案或借此授予审核资格。测试核对每一条旧顺序。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_97c8f92c841b59e4d5046fce",
+      "path": "data/content/baxia.json",
+      "after_sha256": "d76a783c157f57971a326b0d37542a0dc7339298a1e9545b4533088d7c9c9e22",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "分组数量依赖起点、组距和端点；修正无条件向上取整的描述。频数、频率任务只对应实际局部目标，同结构补足频数题不因换数变新题族。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other",
+        "objectives",
+        "representations",
+        "review_claims",
+        "task_families"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_d297e390dd48be82e6d3c486",
+      "path": "data/content/xby3.json",
+      "after_sha256": "3873c2200684906a7e17719a50fd51b9c3fdcfa086696fe5f67061390e3113e3",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "均匀骰子的条件空间独立枚举得1/2，拒绝旧1/4；三道不放回题逐一核对更新后的红白球数量。全部相关任务限练习，不推断整个条件概率主题掌握。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "metadata_or_other",
+        "objectives",
+        "representations",
+        "review_claims",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_c56ad653ef2b5844fda08846",
+      "path": "data/content/yishang.json",
+      "after_sha256": "8a9b2716599885009a9cf8fa438d2e4128b5c5b23875d1908379d29b322d3e39",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "逆向用加法的作者目标与卡片一致；旧两个技能文字保留，新增单独目标。新增6题逐一核对部分—整体、未知位置和正向检验。",
+        "q95当前8再加1为9不是11；4道超出20以内且目标不匹配的题保留原ID及答案但停用。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "metadata_or_other",
+        "objectives",
+        "representations",
+        "review_claims",
+        "scope_and_identity",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_607445757e710a1e9b874148",
+      "path": "data/content_sources.json",
+      "after_sha256": "0770cfdafc2f8c434c5c0a7c69db0e1665223df79d10e77afc57ac63560350d1",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "只把正式选项变换换成版本1的稳定顺序，登记其精确入口和输入文件；历史来源和退役档案哈希未改变。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_e03c0822800a3683831a3704",
+      "path": "data/curriculum_scope.json",
+      "after_sha256": "cd951dc85abab289db68b10d25e2b39d0bab87069d97059caf03fd77104dcb91",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "保留477主题和所有原目标分母，追加两个稳定目标，不以降低角色或移除旧目标清除缺口。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "objectives",
+        "scope_and_identity"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_2d876c5a00569332b9fd4285",
+      "path": "data/manifest.json",
+      "after_sha256": "5960e76a30f23ad8c6134de3ee2d961e16ed97c86ba8135faeecb3b7a290fde4",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "由正式构建生成；内容来源、答案契约和稳定选项输入的哈希与当前文件一致。学习库不是构建产物。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_1ddd0550827bc97b1723fecd",
+      "path": "data/question_sources/application.json",
+      "after_sha256": "867685c1b4075a22299a79131976638510e3aac105fc57073e87a99857e96e7d",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "分组题明确左闭右开后6组；摩天轮用最低点旋转坐标得到2.68并绑定两位舍入。",
+        "甲厂条件概率补等可能抽样条件，简单人数换算及反求原数题降为basic，明确保留进阶任务不足。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "metadata_or_other",
+        "objectives",
+        "representations",
+        "review_claims",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_7ae5d6e98cf085541db0daa2",
+      "path": "data/questions.json",
+      "after_sha256": "08cda78f924ed7406ef85c2a3673748400101db0bfe1c0e94628427d07f3dd3e",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "只由登记作者源生成；3572个旧ID保留，新6个，4个新增停用，不修改历史作答。1151条旧选择题顺序逐条一致。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "metadata_or_other",
+        "objectives",
+        "representations",
+        "review_claims",
+        "scope_and_identity",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_9ef2ca8f69f71cc5a0304c24",
+      "path": "data/skills/catalog-bindings.json",
+      "after_sha256": "d3e0ac52f7134e05de9ae4f6360a099f6bc5744c0b8287331c680798459f88ce",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "旧题契约仍只在绑定表；摩天轮改成明确两位舍入。32道任务元数据按实际行为核对，q95不绑定逆向能力，重复结构使用同一题族。新自检和任务身份随正式登记流程产生。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "metadata_or_other",
+        "representations",
+        "scope_and_identity",
+        "task_families"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_302b63772a977d9ce920aa66",
+      "path": "data/skills/registry.json",
+      "after_sha256": "73a7505cc810d0a494f372690ceffca5f674a1acbd8eb91a342c96b700f1c2e4",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "原有954个旧复合身份保持；两个新增可观察目标对应不同数域的逆向问题。5以内逆向加法依赖加法部分整体关系，不冒充“理解拿走”的子类型。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "conditions",
+        "objectives",
+        "scope_and_identity"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_b02898dbf7d42605c6918856",
+      "path": "data/task_admissions.json",
+      "after_sha256": "6804ed45ccd09397203f00381c5c418b7b8fcdd3c70cd6c89d0fe639a74473b8",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "仅32个明确核对的任务变更当前用途，保留此前正式决策。所有本轮任务不允许整主题判强或判弱，4题退出练习，6题加入练习。",
+        "原判分不追溯重算；教师审核仍待定。未因新增选择题排列而重签无关95题。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other",
+        "scope_and_identity"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_8b8bc56e6172e3b92f103cd7",
+      "path": "data/teach/m1a.1.6.json",
+      "after_sha256": "4a8a473309a81aaf1e0a6bb5a3ec8a151cf4c4ebf62d660d7f660ed5f826ecfb",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "去掉求剩余与去掉后求原来分别说明；第三目标有解释、问题、参考和修订提示，元数据置于契约允许的self_check，非法reason移到审查记录。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "conditions",
+        "instructional_support",
+        "metadata_or_other",
+        "objectives",
+        "representations",
+        "review_claims",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_3ab9d557ba4ef651789fbc3d",
+      "path": "data/teach/m1a.5.5.json",
+      "after_sha256": "98634da1c2f773b91a6680da0650dc3fa6e8b3762e317e030f5c92b31322fe05",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "主例减少6后剩8，原来6+8=14；增加后用减法的旧目标仅保留作对照。三目标各自的自检、帮助、条件和观察边界一致。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "conditions",
+        "instructional_support",
+        "metadata_or_other",
+        "objectives",
+        "representations",
+        "review_claims",
+        "scope_and_identity",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_860ecbadd2f47c91c32d24cc",
+      "path": "data/teach/m8b.24.4.json",
+      "after_sha256": "c9bc116641a7b03d6b1ec81ea82ea06d3a610187a8952d33f5668650f54fa56f",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "组数必须覆盖最大端点，不能无条件ceil极差/组距；与新题同一端点语义。第二目标是频数频率关系，不扩张为会统计或绘图。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "conditions",
+        "instructional_support",
+        "representations",
+        "review_claims",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_ddb8f57079a4a1717003d8ab",
+      "path": "data/teach/mh5.7.1.1.json",
+      "after_sha256": "8701605386c45738809f134a217753c4e1891d7fbe9623eb99e860572bbc4743",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "明确P(A)>0；只有等可能条件结果才可直接按个数比计数。辨别分母、交集和不放回的变化，不把P(B|A)与P(A∩B)混同。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "conditions",
+        "instructional_support",
+        "representations",
+        "review_claims",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_b96a4127a667385aba22ff01",
+      "path": "data/topic_tiers.json",
+      "after_sha256": "c1013224317fd4cda8452524626646bb19318d679ba3ac4cfa6c2d5f5798b20d",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "只同步新增的实际目标要求，核心/基础数量不改变，未利用分层降级来满足覆盖。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_68c6e01415c2c44b6bc8799d",
+      "path": "data/topics.json",
+      "after_sha256": "2c8e98afe672b4578a710e899fd3b25a06ac1ec699e339a8348d00cdd31d2174",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "仅重建同步两项实际目标；原作者与派生物的m1a.5.5方向冲突已统一，旧身份陈述保留。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other",
+        "objectives"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    },
+    {
+      "change_id": "change_2d24c80daff0b6015d17e5b6",
+      "path": "tools/rebuild_data.py",
+      "after_sha256": "5f0cb51c14ca30da689d859613624909008933caeca0d2225b970e757c6a6818",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT AI作者语义核对 2026-10-27",
+      "findings": [
+        "支持明确登记的稳定顺序变换并校验版本/入口/输入；保留旧变换供历史fixture，正式源不再调用全库平衡。构建失败仍停止后续步骤。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v6-corrections-ai-review.json",
+          "sha256": "2815a8c922d26580d380811084085de70eaa35e0e711f4e186575e6604d6eb87"
+        },
+        {
+          "path": "tests/test_v6_correctness.py",
+          "sha256": "e7d159b239db755938955e151ae0b5706145532347556422226e665ba15c7f2a"
+        },
+        {
+          "path": "tests/test_quality_v6_followup.py",
+          "sha256": "8aaf8f386db0c0002fdd65aedc367ba99195e59e028e912bdf9bbc0748e2aea2"
+        },
+        {
+          "path": "tests/test_app_items.py",
+          "sha256": "60d44c7c41d689e4fc63ab25feef181f513d92a7c87e0cf68f0efbb1a7d86089"
+        }
+      ]
+    }
+  ],
+  "preview_results": [],
+  "teacher_review": "deferred_by_user",
+  "real_student_effect_validation": "deferred_by_user"
+}

@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2a.3.3",
+  "name": "除法（包含）及算式读法",
+  "tier": "tool",
+  "hook": "12颗糖每袋3颗，装4袋。请写除法并读出来。",
+  "definition": "已知总数和每份数，求份数，可以写总数÷每份数=份数。“÷”读作“除以”，先读左边的数，再读右边的数。",
+  "why": "12个圆片每3个一组，分成4组，写12÷3=4。算式把总数12、每组3和组数4的关系保留下来。",
+  "conditions": [
+    "每份数已知且不为0，本卡刚好分完。",
+    "读法采用“被除数除以除数等于商”。"
+  ],
+  "representation_note": "把每组圆片的图与总数÷每份数=份数放在一起，读算式时逐项指认。",
+  "when_to_use": [
+    "每份数已知且不为0，本卡刚好分完。",
+    "读法采用“被除数除以除数等于商”。"
+  ],
+  "steps": [
+    "辨认已知总数与规定每份数。",
+    "按每份数分组，数份数。",
+    "依次写总数、除号、每份数、等号与份数。",
+    "完整读作“几除以几等于几”，并带情境解释。"
+  ],
+  "worked_example": {
+    "prompt": "12颗糖每袋3颗，装4袋。请写除法并读出来。",
+    "steps": [
+      "总数12，每份3，求份数4，写12÷3=4。",
+      "读作“十二除以三等于四”。"
+    ],
+    "answer": "12÷3=4；十二除以三等于四",
+    "family_id": "primary.divide.group-count",
+    "variant_id": "m2a.3.3:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "primary.divide.symbol-read-write"
+    ]
+  },
+  "pitfalls": [
+    "写成3÷12会把总数与每份数颠倒。",
+    "“12除以3”和“3除12”措辞不同，本卡统一用“12除以3”清楚表达。"
+  ],
+  "practice": [
+    {
+      "id": "m2a.3.3-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m2a.3.3-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面各项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "包含分先看总数里有几个每份数。例如20根每4根一捆，20放在除号前，4放在除号后，得到5捆。",
+      "observation_note": "本项观察总数与每份数位置正确、商解释为袋数；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "20支铅笔每4支一袋，写求袋数的除法，并解释三个数。",
+        "reference_answer": "20÷4=5；20为总支数，4为每袋支数，5为袋数。",
+        "criteria": [
+          "总数与每份数位置正确",
+          "商解释为袋数"
+        ],
+        "family_id": "primary.divide.group-count",
+        "variant_id": "m2a.3.3:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "20与4哪个是全部铅笔的数量？",
+        "hint": "把所有铅笔圈成一个整体，在整体上标20，再圈每4支。",
+        "revision_prompt": "先写“总数÷每份数”，再把实际数字放进去。"
+      },
+      "criterion_index": 0,
+      "title": "能把包含分写成除法算式"
+    },
+    {
+      "explanation": "除法算式要按照书写顺序读。“十八除以六等于三”对应18÷6=3，不是6÷18。读算式时也可以回到分组图核对顺序。",
+      "observation_note": "本项观察读法包含除以且顺序正确、按读法正确书写；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。文字转写或自报只能记录算式与读法的书面对应，不能直接验证真实朗读或读音；口头表现仍待另外观察。",
+      "self_check": {
+        "prompt": "读出18÷6=3，再把“十六除以四等于四”写成算式。",
+        "reference_answer": "十八除以六等于三；16÷4=4。",
+        "criteria": [
+          "读法包含除以且顺序正确",
+          "按读法正确书写"
+        ],
+        "family_id": "primary.divide.symbol-read-write",
+        "variant_id": "m2a.3.3:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "读到“除以”以前的数应写在除号哪边？",
+        "hint": "按从左到右指读，手指停在除号时读“除以”。",
+        "revision_prompt": "给自己写错的一题逐个指读，再与原句核对左右顺序。"
+      },
+      "criterion_index": 1,
+      "title": "能正确读出除法算式"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能求已给表内除法算式的商",
+      "explanation": "已给除法算式时，可找与它对应的乘法事实：除数乘几等于被除数，几就是商。这个计算检查与从文字情境选择除法分别记录。",
+      "self_check": {
+        "prompt": "计算12÷3和20÷5，在每个商旁边写一条乘法核对式。",
+        "reference_answer": "12÷3=4，3×4=12；20÷5=4，5×4=20。",
+        "criteria": [
+          "两式商均为4",
+          "核对式恢复各自被除数",
+          "没有把除数与商直接相加"
+        ],
+        "family_id": "division.fact-family",
+        "variant_id": "m2a.3.3:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "算式已给；不观察从包含情境列式或口头读算式。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "你填的商乘除数，能回到被除数吗？",
+        "hint": "例如12÷3可想3×几=12；用乘法事实核对，不把12−3当商。",
+        "revision_prompt": "独立算18÷3，再把商乘3核对；记录是否借助口诀提示。"
+      }
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3a.5.2",
+  "name": "用圆规比较线段的长短",
+  "tier": "tool",
+  "hook": "不用看尺上的数字，怎样把一段长度搬到另一处比较？",
+  "definition": "圆规两脚之间的直线距离可以保存一个长度。固定开口，把两脚对准第一条线段端点，再把同样开口移到第二条线段上，能比较长短。",
+  "why": "固定开口相当于带着同一个长度单位移动。只转动或平移圆规不改变两脚距离，但调整开口会改变保存的长度；比较必须从第二条线段一个端点起。",
+  "conditions": [
+    "比较的线段已经明确两个端点且为直线段。",
+    "搬移圆规时保持开口不变，并从对应端点对齐。"
+  ],
+  "representation_note": "用圆规或两端固定的纸条转移长度，先由两脚对准端点形成开口。",
+  "when_to_use": [
+    "比较的线段已经明确两个端点且为直线段。",
+    "搬移圆规时保持开口不变，并从对应端点对齐。"
+  ],
+  "steps": [
+    "取第一条线段长度作固定开口。",
+    "保持开口，把一脚对准第二条的一个端点。",
+    "比较另一脚在终点之前、重合或超过，并说明关系。"
+  ],
+  "worked_example": {
+    "prompt": "圆规开口取AB长，移到CD后从C量起，另一脚落在D之前，哪条更长？",
+    "steps": [
+      "开口保持AB的长度。",
+      "从C量到的AB长度还没到D，故CD更长。"
+    ],
+    "answer": "CD长于AB。",
+    "family_id": "geometry.length-transfer-compass",
+    "variant_id": "m3a.5.2:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "不能为了碰到第二个端点而调开口，否则失去比较。",
+    "两脚距离是直线距离，不是圆规外侧弯曲杆长。"
+  ],
+  "practice": [
+    {
+      "id": "m3a.5.2-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3a.5.2-q3",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "比较可把第一条长度转移到第二条的一端。转移长度不足第二条则第一条短，超过则第一条长，恰好重合则相等。",
+      "observation_note": "观察操作与理由，单凭肉眼说长短不足以展示圆规方法。",
+      "self_check": {
+        "prompt": "画AB、CD两段，用圆规实际转移并记录步骤；再交换两段检查判断是否一致。",
+        "reference_answer": "开口取AB，对准C后看另一脚与D关系；交换次序应给一致的长短关系。",
+        "criteria": [
+          "保存开口",
+          "端点对齐后正确比较"
+        ],
+        "family_id": "geometry.length-transfer-compass",
+        "variant_id": "m3a.5.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "转移时开口变大了，原长度还被保留吗？",
+        "hint": "重新回到AB两端校准。",
+        "revision_prompt": "重做一次，并在记录中标出开口校准与对齐点。"
+      },
+      "criterion_index": 0,
+      "title": "能用圆规比较两条线段的长短"
+    },
+    {
+      "explanation": "两脚之间的距离代表本次保存的线段长度。圆规方向可以改变，这个距离应保持；脚长不是保存的长度。",
+      "observation_note": "观察“距离”含义与不变量；使用刻度只是复核。",
+      "self_check": {
+        "prompt": "取5厘米线段的开口，转动圆规再移到尺上检查，说明保持的是哪个量。",
+        "reference_answer": "两尖端直线距离仍5厘米，与圆规杆长或摆放方向无关。",
+        "criteria": [
+          "指出两尖端间距",
+          "转动后长度不变"
+        ],
+        "family_id": "geometry.length-transfer-compass",
+        "variant_id": "m3a.5.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.compass-opening-meaning"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "哪条是5厘米：两脚间直线，还是沿圆规杆绕一圈？",
+        "hint": "直接用纸条连两尖端比较。",
+        "revision_prompt": "画出并标注代表保存长度的那条连接线。"
+      },
+      "criterion_index": 1,
+      "title": "能说清圆规两脚距离的含义"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

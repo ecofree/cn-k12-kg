@@ -1,0 +1,260 @@
+{
+  "schema": 1,
+  "items": [
+    {
+      "id": "3bd6740d453d5649343b44d17783aa5947dc35f7044ee32afd77d2ceaa2904f2",
+      "source_sha256": "bb0b62943b6490e9ff3fe0eb9b8db6c5c1bd93c39297b1300ebb085ab0f163c4",
+      "decision": "intentional_counterexample",
+      "reason": "题面已给联立真直线后得到0=5，正文明确认定为矛盾、无解，进而在同一平面内判严格平行；不是把0=5断言为真。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending",
+      "path": "data/content/xby1.json",
+      "pointer": "/questions/107/explanation",
+      "statement": "0=5为矛盾，方程组无解；两条平面直线无公共点，故平行且不重合。"
+    },
+    {
+      "id": "74607318182266be3c1a42374cdb42251ecc5708ad5327bba18d9960002d9408",
+      "source_sha256": "264669dc8db939491fa9946e093137053a8db7c8ea4e239bfd2359eac647fc70",
+      "decision": "intentional_counterexample",
+      "reason": "10−7的正确值是3。此处在易错点中展示错把另一部分7当差的错误，并要求数空格找被减去7以外的3。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending",
+      "path": "data/teach/m1a.2.10.json",
+      "pointer": "/pitfalls/1",
+      "statement": "知道7+3=10却算10−7=7，应数空格所代表的另一部分。"
+    },
+    {
+      "id": "68a477fee613cd90821a353d1fa67464962a451eba5895274a3bd4c9f2802478",
+      "source_sha256": "0a49cce97277657b142908ffb90387d7deadd79f06754d7506d209db6b1a7e56",
+      "decision": "intentional_counterexample",
+      "reason": "5+3=8成立而5−3=2；原文明确说把加号误写成减号，展示待修正的运算符错误。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending",
+      "path": "data/teach/m1a.2.3.json",
+      "pointer": "/pitfalls/0",
+      "statement": "把5+3=8误写成5−3=8。"
+    },
+    {
+      "id": "ccb70330219e6c17c4876c38a2c49eecba85be59e0acd75e38d6b62ee323603c",
+      "source_sha256": "ee9231e9bb1f802a35cff0bb3c4b75b4a038fef1c743428c6c1cdb49d5b371ee",
+      "decision": "intentional_counterexample",
+      "reason": "56÷8的正确商是7。先暂列错误商6，再用6×8=48与被除数56不符定位少一组8，末句明确改为7；错误等式是验算反例。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending",
+      "path": "data/teach/m2a.5.4.json",
+      "pointer": "/objective_coverage/1/explanation",
+      "statement": "乘法检查需返回原来的被除数。例如56÷8=6若检查6×8=48，就能发现还少一组8，应把商改为7。"
+    },
+    {
+      "id": "ef6609544a5ce257f71316a5433dfbbb97ec8aec162ad619165af88034fc8c20",
+      "source_sha256": "d44e0cadddd0c50d91833b04b11ac5bac8fe8b504f4b8a73aebd9bb1b575dc09",
+      "decision": "intentional_counterexample",
+      "reason": "63−28=35且35+28=63；错误候选45回加28得73。修订任务明确要求比较正确值35与错误值45并指出矛盾。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending",
+      "path": "data/teach/m2b.4.3.json",
+      "pointer": "/objective_coverage/1/difficulty_support/revision_prompt",
+      "statement": "对63−28=35写加法验算，再对错误结果63−28=45做同样检查指出矛盾。"
+    },
+    {
+      "id": "b190b0df5b97ecdc8e66aa7410b3b6177a7ba37a78c2ba4c659363f675cb3557",
+      "source_sha256": "d259e3bfe6010d9e2921999b0b27ae9fdd3035b7ed69a355f33e214de2acc48a",
+      "decision": "intentional_counterexample",
+      "reason": "同分母相加应为3/6而不是3/12，原文明确要求指出分母随加法变化的错误并通过六等分条修正。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending",
+      "path": "data/teach/m3a.6.5.json",
+      "pointer": "/objective_coverage/1/difficulty_support/revision_prompt",
+      "statement": "指出1/6+2/6=3/12错在哪里，画六等分条修正，并解释分母为何保持6。"
+    },
+    {
+      "id": "793ac29e986201a7311a55290bf50448fee54e95b34e38896b6a46ca9ed192ac",
+      "source_sha256": "0e6cf8f614c906e9f65556dc5e81f9fbf1ebf0777da847328df44a0f414f5a2b",
+      "decision": "intentional_counterexample",
+      "reason": "此条位于易错点列表，1/2+1/3应为5/6，2/5是分子分母分别相加的错误；同卡正常解法给出等值通分，并不主张2/5成立。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending",
+      "path": "data/teach/m5b.3.1.json",
+      "pointer": "/pitfalls/0",
+      "statement": "分母直接相加：1/2+1/3=2/5。"
+    },
+    {
+      "id": "e6c48d1ab73dcd5fa1e378833e742530e64c130a4da40bfd597ac2590a6fbeb0",
+      "source_sha256": "96705269e5835d17b91295d2e015b86ac71388ed3fe1553a19526ad97fa19cd7",
+      "decision": "intentional_counterexample",
+      "reason": "0=1作为消元矛盾的一般例子与恒等式相对，用以区分无解和平面直线无交点；不作为有效数值等式使用。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending",
+      "path": "data/teach/mh3.2.3.1.json",
+      "pointer": "/why",
+      "statement": "方程的解集就是直线，联立表示取两个解集的交集。消元若得到一个确定坐标，说明方向不同；若得到矛盾如0=1则无交点，若只余恒等式则两约束等价。因而代数解的个数与几何位置一一对应。"
+    },
+    {
+      "id": "06558ca542145f8a79d0e4e0333e9605486decfd263313ec92c93faf3b5fbc63",
+      "source_sha256": "96705269e5835d17b91295d2e015b86ac71388ed3fe1553a19526ad97fa19cd7",
+      "decision": "intentional_counterexample",
+      "reason": "x+2y=3乘2后右端为6，第二式2x+4y=8减它得0=2。这个假等式说明联立无解，正是判断两线平行的矛盾结论。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending",
+      "path": "data/teach/mh3.2.3.1.json",
+      "pointer": "/objective_coverage/1/self_check/reference_answer",
+      "statement": "第一式乘2为2x+4y=6，与第二式相减得0=2，无解，所以两线平行。"
+    },
+    {
+      "id": "0c457b1dacc78aa02a1a04e978f0d36cc368e761dc7952cbd96eb6c5578c6dd7",
+      "source_sha256": "4f74feaf2612d1e6d878ff090a8b9b3545d4ea5207826b6e55c1cea59fc2a0f8",
+      "decision": "intentional_counterexample",
+      "reason": "0×2和0×3同为0，但不能除以0推出2=3；原文用此错误推理说明除数非零条件，并指出除以可能为零的x会漏掉x=0。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending",
+      "path": "data/learning_units/equation_equivalence.json",
+      "pointer": "/explanation/counterexample",
+      "statement": "从0×2=0×3不能两边除以0推出2=3。类似地，解2x=0时不能直接除以可能为0的x，否则会丢掉真正的解x=0。"
+    },
+    {
+      "id": "b6366c196c50570bbccb05e6b07fbe6b9d94e7b7526c5cd63d4a968992259001",
+      "source_sha256": "4f74feaf2612d1e6d878ff090a8b9b3545d4ea5207826b6e55c1cea59fc2a0f8",
+      "decision": "intentional_counterexample",
+      "reason": "第二个方程化成6=7这一不可能等式，任务要求识别无解并与第一种恒等式区分；没有用除以0制造单一解。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending",
+      "path": "data/learning_units/equation_equivalence.json",
+      "pointer": "/tasks/9/explanation",
+      "statement": "①化简为0=0，对所有实数x成立；②化简为6=7，不可能成立，所以无解。此时不是普通的非零系数一次方程，不能用除以0得到唯一解。"
+    },
+    {
+      "id": "1f891f39903d37222234f6a66bb9ede50027d0ad383b2c14529499b3d4f1cdf6",
+      "source_sha256": "4f74feaf2612d1e6d878ff090a8b9b3545d4ea5207826b6e55c1cea59fc2a0f8",
+      "decision": "intentional_counterexample",
+      "reason": "3x+2=3x+4两边消去3x得到2=4，因不成立而无解；与3x+2=3x+2的恒等情形和需代回的唯一解分别比较。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending",
+      "path": "data/learning_units/equation_equivalence.json",
+      "pointer": "/instructional_support/supports/5/hints/2/text",
+      "statement": "3x+2=3x+2化为2=2，对所有实数成立；3x+2=3x+4化为2=4，无解。唯一解也要代回原式而非只查最后一步。"
+    },
+    {
+      "id": "6050405f6691b8309d614c3499ced80c7dbd425777dd069413538ab225aa2d8a",
+      "source_sha256": "4f74feaf2612d1e6d878ff090a8b9b3545d4ea5207826b6e55c1cea59fc2a0f8",
+      "decision": "intentional_counterexample",
+      "reason": "给定候选x=4代入3x=10产生12=10，代入3x≥10产生12≥10；提示明确让学生检查哪条成立，前者是假候选检查而非正确等式。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending",
+      "path": "data/learning_units/equation_equivalence.json",
+      "pointer": "/instructional_support/supports/7/branch_hints/C/1/text",
+      "statement": "用x=4分别代入，查看12=10和12≥10哪条成立。"
+    },
+    {
+      "id": "839d45e847d939ea8202cc7b300edb360e1bd02dbb2eb112360099234224d264",
+      "source_sha256": "4423913f1394610eb7201428fc6ab668177be2c54026b101a9d70f6a57656c01",
+      "decision": "intentional_counterexample",
+      "reason": "该项明确比较2(x+3)=2x+6与2(x+3)=2x+7。前者恒等，后者消去2x后得到不成立的6=7，从而判无解；未把6=7当真，也未以零系数作除数求唯一解。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending"
+    },
+    {
+      "id": "6db9c12f2b901dd1731f42f2b5fc043795ef7020dbbd142ebd9dffc4a6bbfb2b",
+      "source_sha256": "4423913f1394610eb7201428fc6ab668177be2c54026b101a9d70f6a57656c01",
+      "decision": "intentional_counterexample",
+      "reason": "该项明确比较2(x+3)=2x+6与2(x+3)=2x+7。前者恒等，后者消去2x后得到不成立的6=7，从而判无解；未把6=7当真，也未以零系数作除数求唯一解。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending"
+    },
+    {
+      "id": "486ea92d98d3f4dc940a2a9c830673b04f8dd1f4bc027f55a150ee0acaf96025",
+      "source_sha256": "4423913f1394610eb7201428fc6ab668177be2c54026b101a9d70f6a57656c01",
+      "decision": "intentional_counterexample",
+      "reason": "该项明确比较2(x+3)=2x+6与2(x+3)=2x+7。前者恒等，后者消去2x后得到不成立的6=7，从而判无解；未把6=7当真，也未以零系数作除数求唯一解。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending"
+    },
+    {
+      "id": "8acf157b7efbcb28e4d920f5463572b48fa4c5f17d578f8903fa4a3915a93f73",
+      "source_sha256": "4423913f1394610eb7201428fc6ab668177be2c54026b101a9d70f6a57656c01",
+      "decision": "intentional_counterexample",
+      "reason": "实际题面为y=2x+1与y=2x+5。若有共同点，则两式相减得0=4这一矛盾；斜率均为2、截距相差4，故没有交点且方程组有0组实数解。解析明确把0=4标为矛盾，没有宣称该等式成立。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending"
+    },
+    {
+      "id": "0ec3ab2c99cedb2ac6f6e6729fc6cfccd8cd18a149d49403008f4c16259bc801",
+      "source_sha256": "464689d4cf8b756b87722f33e39ce1f4391c6f033e33e868d12313f5a1ec3349",
+      "decision": "intentional_counterexample",
+      "reason": "逐读最终题面、解释、两条反馈和量规：题目明确要求找出56÷8=6中的错误，最终解释补充了乘回与修订。6×8=48≠56，少一组8，所以正确商为7且7×8=56；49÷7=7的乘回7×7=49成立。保留不成立等式是具体纠错示例，不将它当正确结论。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending"
+    },
+    {
+      "id": "828f8e1dbb1a746cf9f1908e220a601cdb66695e61b9196bae1162f716a50fb9",
+      "source_sha256": "464689d4cf8b756b87722f33e39ce1f4391c6f033e33e868d12313f5a1ec3349",
+      "decision": "intentional_counterexample",
+      "reason": "逐读最终题面、解释、两条反馈和量规：题目明确要求找出56÷8=6中的错误，最终解释补充了乘回与修订。6×8=48≠56，少一组8，所以正确商为7且7×8=56；49÷7=7的乘回7×7=49成立。保留不成立等式是具体纠错示例，不将它当正确结论。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending"
+    },
+    {
+      "id": "f3f624ec0becf593db378e933d7a9d51a934922c3c8fa6965a88344a95c30af1",
+      "source_sha256": "464689d4cf8b756b87722f33e39ce1f4391c6f033e33e868d12313f5a1ec3349",
+      "decision": "intentional_counterexample",
+      "reason": "逐读最终题面、解释、两条反馈和量规：题目明确要求找出56÷8=6中的错误，最终解释补充了乘回与修订。6×8=48≠56，少一组8，所以正确商为7且7×8=56；49÷7=7的乘回7×7=49成立。保留不成立等式是具体纠错示例，不将它当正确结论。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending"
+    },
+    {
+      "id": "3267b162d0031080a41baa377493a8a76fc72f65f983841b24d8ea526bdd58c1",
+      "source_sha256": "464689d4cf8b756b87722f33e39ce1f4391c6f033e33e868d12313f5a1ec3349",
+      "decision": "intentional_counterexample",
+      "reason": "逐读最终题面、解释、两条反馈和量规：题目明确要求找出56÷8=6中的错误，最终解释补充了乘回与修订。6×8=48≠56，少一组8，所以正确商为7且7×8=56；49÷7=7的乘回7×7=49成立。保留不成立等式是具体纠错示例，不将它当正确结论。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending"
+    },
+    {
+      "id": "61537035da33908ce03aed778ea88a18456399ebebecf0dbe8b9be711c1639a4",
+      "source_sha256": "2e4bd9332943bfd7f6635d7364b0274f927f3d4c5b0332029dcea9576adee3cc",
+      "decision": "intentional_counterexample",
+      "reason": "原两直线x+2y=3与2x+4y=8均为有效直线。第一式乘2后右端6与另一式右端8矛盾，消元0=2用于说明无实交点且两线平行，不作为成立的等式。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending"
+    },
+    {
+      "id": "38f3b7d6f9f0e72152bd8a34c4fc4f7f42881d7d5f3e76ab0e370c8c04a9cc4f",
+      "source_sha256": "2e4bd9332943bfd7f6635d7364b0274f927f3d4c5b0332029dcea9576adee3cc",
+      "decision": "intentional_counterexample",
+      "reason": "原两直线x+2y=3与2x+4y=8均为有效直线。第一式乘2后右端6与另一式右端8矛盾，消元0=2用于说明无实交点且两线平行，不作为成立的等式。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending"
+    },
+    {
+      "id": "417105a522017b00af0687f6a1df13b3396cb45dd03a29855fc0e7854dfd9487",
+      "source_sha256": "2e4bd9332943bfd7f6635d7364b0274f927f3d4c5b0332029dcea9576adee3cc",
+      "decision": "intentional_counterexample",
+      "reason": "原两直线x+2y=3与2x+4y=8均为有效直线。第一式乘2后右端6与另一式右端8矛盾，消元0=2用于说明无实交点且两线平行，不作为成立的等式。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending"
+    },
+    {
+      "id": "a8de6439a03cffeea6908a094a73d48652582d0d9d3f8dad12debd7da35f6160",
+      "source_sha256": "2e4bd9332943bfd7f6635d7364b0274f927f3d4c5b0332029dcea9576adee3cc",
+      "decision": "intentional_counterexample",
+      "reason": "原两直线x+2y=3与2x+4y=8均为有效直线。第一式乘2后右端6与另一式右端8矛盾，消元0=2用于说明无实交点且两线平行，不作为成立的等式。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending"
+    },
+    {
+      "id": "052b0c589fe774b2b1d81440ddb767a8a2c29fcb49cc91768789e1fda66483fc",
+      "source_sha256": "2e4bd9332943bfd7f6635d7364b0274f927f3d4c5b0332029dcea9576adee3cc",
+      "decision": "intentional_counterexample",
+      "reason": "原两直线x+2y=3与2x+4y=8均为有效直线。第一式乘2后右端6与另一式右端8矛盾，消元0=2用于说明无实交点且两线平行，不作为成立的等式。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending"
+    },
+    {
+      "id": "cdb3064ac58fc7f1d8c152e8df5e450115f104861cea4234ac744eb4ed52f256",
+      "source_sha256": "2e4bd9332943bfd7f6635d7364b0274f927f3d4c5b0332029dcea9576adee3cc",
+      "decision": "intentional_counterexample",
+      "reason": "原两直线x+2y=3与2x+4y=8均为有效直线。第一式乘2后右端6与另一式右端8矛盾，消元0=2用于说明无实交点且两线平行，不作为成立的等式。",
+      "reviewer_kind": "ai",
+      "teacher_review": "pending"
+    }
+  ]
+}

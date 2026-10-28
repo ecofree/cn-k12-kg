@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh2.10.1.4",
+  "name": "概率的基本性质",
+  "tier": "core",
+  "hook": "‘至少出现一次’直接数很麻烦，为什么先算‘一次也没有’更方便？",
+  "definition": "概率在0与1之间，必然事件概率1、不可能事件概率0。P(A∪B)=P(A)+P(B)-P(A∩B)，互斥时交集为空才可直接相加；对立事件概率和1。用补事件计算“至少一次”时，其补为“全部不发生”，乘边际概率还需独立条件。",
+  "why": "互斥事件没有重叠结果，可以直接相加；有重叠时简单相加会把交集算两次，须减去一次。事件与补集把全部结果分成两部分，因此求补集再用1减去可简化计数。",
+  "when_to_use": [
+    "要求并事件且可检查是否互斥",
+    "‘至少一次’等事件的对立事件更容易描述"
+  ],
+  "steps": [
+    "写出目标事件的集合关系",
+    "互斥才直接相加，否则扣除交集",
+    "用对立法先写清补事件，再以1减其概率"
+  ],
+  "worked_example": {
+    "prompt": "独立抛三次公平硬币，求至少一次正面的概率。",
+    "steps": [
+      "对立事件是三次全反面。",
+      "独立且每次反面概率1/2，全反面概率(1/2)³=1/8。",
+      "目标概率1-1/8=7/8。"
+    ],
+    "answer": "0.875",
+    "verify": "1-(1/2)**3",
+    "family_id": "probability.at-least-one-complement",
+    "variant_id": "mh2.10.1.4:example",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "不检查互斥直接把概率相加",
+    "把至少一次的对立写成至多一次"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用互斥事件的加法公式",
+      "explanation": "并事件加法一般要减去交集，互斥时交集项才为零。",
+      "self_check": {
+        "prompt": "P(A)=0.4、P(B)=0.5、P(A∩B)=0.2，求P(A∪B)，说明为何不能写0.9。",
+        "reference_answer": "0.4+0.5-0.2=0.7；交集0.2被算两次，需扣一次。",
+        "criteria": [
+          "并概率计算正确",
+          "解释重复计数"
+        ],
+        "family_id": "probability.union-overlap",
+        "variant_id": "mh2.10.1.4:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "A、B相交时直接相加，哪部分被计两次？",
+        "hint": "画交集并在两次计数中各标一次，再扣一份。",
+        "revision_prompt": "P(A)=0.6,P(B)=0.5,P(交)=0.3，P(并)=0.8；若互斥则交概率为0。"
+      },
+      "observation_note": "观察加法的条件与重复计数；不能据并概率反推事件独立。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用对立事件求概率",
+      "explanation": "先把语句准确取补，再计算较简单事件概率。",
+      "self_check": {
+        "prompt": "独立进行两次成功概率0.8的试验，求至少成功一次概率。",
+        "reference_answer": "对立为两次均失败，概率0.2²=0.04，故所求0.96。",
+        "criteria": [
+          "补事件为全失败",
+          "独立乘积和补概率正确"
+        ],
+        "family_id": "probability.at-least-one-complement",
+        "variant_id": "mh2.10.1.4:criterion-1",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“至少一次成功”的对立是“至少一次失败”吗？",
+        "hint": "原事件失败意味着一次成功也没有，即全部失败。",
+        "revision_prompt": "三次独立成功率1/2，至少一次成功概率1-(1/2)³=7/8。"
+      },
+      "observation_note": "观察补事件与独立乘法；有依赖时不能直接乘边际失败率。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能识别互斥事件概率相加的公式",
+      "explanation": "互斥表示A∩B为空，在一般加法公式中交集概率为0，所以并事件公式化为P(A∪B)=P(A)+P(B)。这里是加法，独立交事件才对应乘法；若两互斥事件不穷尽样本空间，其和并不一定是1。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：若 A、B 互斥，则 P(A∪B) 等于什么？ 可选：o1．P(A)P(B)；o2．1；o3．0；o4．P(A)+P(B)。\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：P(A)+P(B)。互斥交空，P(A∪B)=P(A)+P(B)。",
+        "criteria": [
+          "由互斥消去交集项，识别并概率的加法公式而不混用独立乘法",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "probability.disjoint-sum-formula-recall",
+        "variant_id": "mh2.10.1.4:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "题目给的是互斥条件还是独立条件？你写的式子对应并集还是交集？",
+        "hint": "从一般并事件公式起步，把由于互斥而消失的交集项明确划去，剩下的就是应选公式。",
+        "revision_prompt": "先回答这个辨别问题：题目给的是互斥条件还是独立条件？你写的式子对应并集还是交集？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；由互斥消去交集项，识别并概率的加法公式而不混用独立乘法。"
+      }
+    }
+  ],
+  "check": "独立完成各项自检并保留推导或作图：并概率计算正确；补事件为全失败。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh2.10.1.4-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.10.1.4-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.10.1.4-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "一般并概率减交集；乘边际概率需独立或使用正确条件概率。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

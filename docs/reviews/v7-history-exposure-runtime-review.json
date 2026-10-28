@@ -1,0 +1,221 @@
+{
+  "schema": 1,
+  "review": "V7 historical family exposure runtime and evidence binding",
+  "created_at": "2026-10-28T03:06:36+00:00",
+  "baseline_commit": "de1244557d11a432f53bef00c9a3d094ab756bc8",
+  "reviewer_kind": "ai",
+  "independent_review": false,
+  "status": "runtime_fixes_targeted_tests_and_real_ledger_binding_complete_integrated_release_validation_pending",
+  "scope": [
+    "cnkg/task_families.py",
+    "cnkg/learning_needs.py",
+    "cnkg/engine.py",
+    "cnkg/instruction.py",
+    "cnkg/review_timing.py",
+    "cnkg/learning_store.py",
+    "web/server.py",
+    "cnkg/runtime_version.py",
+    "tests/test_historical_family_exposure_v7.py",
+    "tests/test_family_aliases_v6.py",
+    "tests/test_quality_v5_decisions.py"
+  ],
+  "modified_in_this_review": [
+    "cnkg/task_families.py",
+    "cnkg/learning_needs.py",
+    "tests/test_historical_family_exposure_v7.py"
+  ],
+  "code_sha256": {
+    "cnkg/task_families.py": "571503d57a21d6e9b51e388bf3ea362b93332f8fa6fb2d6e2c8785aa9e2ac6f6",
+    "cnkg/learning_needs.py": "7687a5fb115e086697275c93635f0259fa5e57b9eedf7db080c34f6474984db5",
+    "cnkg/engine.py": "a8e792b8ee6da9b9007a25ce8c25ecdaceb15147a63943e653d5cb6919003db5",
+    "cnkg/instruction.py": "5145fab4f4b97cf751114dab150212d2ad868a167f70a168df0fa4800307f362",
+    "cnkg/review_timing.py": "2ce7c1bf26d2d35f08e22290ee2d2efa836caa1cb53c25cfab005cc1926f533d",
+    "cnkg/learning_store.py": "223b40c2b8e49bfaa14dd1b440b2c44597535ffa062720c637876766897f6d14",
+    "web/server.py": "bf7fa16c68fc3a406a57f54e1fa2088f840c43dc4d4b75c644e5df2a6de96707",
+    "cnkg/runtime_version.py": "31cbacb1838e64fa1031f2fb86f967d702a8ddfe407c7f7e60cdf722f1bc8208",
+    "tests/test_historical_family_exposure_v7.py": "11739b6e60cdba018c7ff41f34190f523d99a9191bd8d25d5f976f1abf029e8b",
+    "tests/test_family_aliases_v6.py": "8f818171c84aebb75e929f48d32bfbaea687bcf60baaacd5bb6fc062ff963256",
+    "tests/test_quality_v5_decisions.py": "830f9cb5f6af869bc1429161e20710ef11eeabe60bb1fe1e125d6584b8fc807f"
+  },
+  "earlier_report_preserved": {
+    "path": "docs/reviews/v7-runtime-continuation-review.json",
+    "sha256": "94b170b09f5e8a9fcb76785ca27f5203625b96caf81db525b7866d1722db30ee",
+    "note": "原报告的代码版本指纹保留原值；本次不把较早测试或浏览器状态冒称为当前版本验证。"
+  },
+  "findings": [
+    {
+      "id": "historical-identity-followup-closure",
+      "severity": "high",
+      "status": "fixed",
+      "location": "cnkg/learning_needs.py:derive_needs independent_followup exclusion",
+      "before": "旧原题已保存 skill_ids=[compare]，但 family_id=unclassified:p；已有后来 new-family 的正确跟进及旧 eligible=true。即使历史映射已确认 p 与 new-family 同结构，关闭条件只比较普通 canonical_family，仍返回 resolved 并声称使用不同题族。最小反例已在修改前实际复现。",
+      "after": "仅在阻止同族关闭的负向条件中使用 exposure_family(original.family_id, question_id=original.source_ref.question_id)。同结构的旧 eligibility 不再关闭当前待办；原题仍为错误/未分类，原事件、答案、技能归属及评分均不改写。",
+      "regression": "test_historical_identity_cannot_close_an_old_different_family_followup 覆盖 unclassified:p、unknown、缺 family_id 三种保存形态；原记录已有技能不丢失，也不新增正证据；明确其他题族仍能依既有条件关闭。"
+    },
+    {
+      "id": "historical-review-row-binding",
+      "severity": "medium",
+      "status": "fixed",
+      "location": "cnkg/task_families.py:load_history",
+      "before": "登记只绑定整份审查文件的字节哈希，未确认该文件含有对应题目的唯一审查项、允许决定和一致的四个源/合同指纹。合同不同本身并不是错误准入的充分条件。",
+      "after": "按证据路径缓存一次读取和解析结果；题目必须在 tasks 列表唯一存在，报告 baseline_commit 一致，reviewer_kind=ai、independent_teacher_review=false，history_exposure_review.decision=allow_same_structure 且理由非空，四个 baseline/current 源题与任务合同哈希逐项匹配。当前作者源、显式判分合同、实际声明题族及路径限制继续校验。",
+      "regression": "重新计算文件哈希后，仍拒绝缺题、重复 id、缺决定、exclude_changed_structure、not_applicable、错误审查标记、空理由、基线不一致及四个逐题哈希各自错配；当前绑定答案合同改变仍拒绝。",
+      "mathematical_boundary": "哈希只证明正在使用所审版本，不证明结构等价。2*3 -> 2+3 的明确排除记录被拒绝；2+4 -> 2+3 的明确允许记录在前后合同哈希不同的情况下被接受。真实数学判断仍依赖有源证据的逐题审查，运行时不按题号、名称或数值相似性猜测。"
+    }
+  ],
+  "caller_review": [
+    {
+      "path": "cnkg/task_families.py",
+      "result": "exposure_family 只返回保守比较键；无明确历史登记的未知题不会凭当前 catalog 被重新归类。historical_question_ids 只展开所选题族。matching_exposures 合并原题族索引和历史题目索引，family_exposure 逐字段取最大值并标明 maximum_per_indexed_name。",
+      "evidence": "专项测试覆盖缺 family 索引但保留 question 索引、历史占位名/当前名/题目三份重复索引不相加、普通 alias 禁止接纳未知题族。"
+    },
+    {
+      "path": "cnkg/learning_needs.py",
+      "result": "task_options 同时检查已保存作答中的历史身份与历史 question 曝光，阻止重复家族和帮助后的伪未见。observation_metadata 只合并已保存快照/元数据/答案；skill_evidence 不从当前目录补造旧 skill_ids，正向题族仍须旧记录明确 declared。",
+      "evidence": "未知旧题只有已保存作答也能阻止新鲜性；原无技能记录仍无技能正证据；新修复覆盖旧同结构跟进不得关闭。"
+    },
+    {
+      "path": "cnkg/engine.py",
+      "result": "_pick_question 的历史比较只影响后续任务排序；_declared_family 仍拒绝未分类/未知族，原诊断正证据规则不由历史曝光映射扩张。",
+      "evidence": "只读核对调用；专项断言未知旧答仍不被 _declared_family 接纳，既有 alias 双名不构成第二种结构的回归通过。"
+    },
+    {
+      "path": "cnkg/instruction.py",
+      "result": "create 的候选题排序及 same_family_exposed 都向 family_exposure 传入 question 索引，故历史无 family 索引的帮助仍能影响选择；支持活动继续保留 help_used=true、independent_evidence=false。",
+      "evidence": "只读核对两个实际调用及冻结元数据路径；本次没有重复跑全部支持/浏览器流程。"
+    },
+    {
+      "path": "cnkg/review_timing.py",
+      "result": "unit_activity_scope 纳入所选题族的历史 question IDs；indexed_scope_activity 同时查原 family 与 question 行，取时间边界而非累计事件数。",
+      "evidence": "真实 SQLite 旧 reference_opened 事件在新题族范围可见，索引型计算与 store 查询都保留其时间。"
+    },
+    {
+      "path": "cnkg/learning_store.py",
+      "result": "exposures 所有 SQL 仍以 owner_id 与 entity_kind 过滤；None 是显式全量，空列表产生零查询 chunks。latest_scope_activity 仅把已选家族对应历史题加入范围。load/planning_records 的 owner 过滤不变；兼容查询不写回 events、exposures 或 session 评分。",
+      "evidence": "专项真实 SQLite 断言其他 owner 无活动，空 question/family 查询均为空，空资源/题/族范围没有活动，查询前后原事件与索引完全一致。"
+    },
+    {
+      "path": "web/server.py",
+      "result": "exposure_exclusions 从当前 owner 的 question 索引补出历史限制；support/start 与 task_options 接收同 owner 索引。_answer 先按 self._owner() 加载会话，再查询该 record.owner_id 的当前题和相关历史题，帮助计数影响新答案 help_used。现存原答案重复提交仍返回保存记录，不重新判分。",
+      "evidence": "只读核对所有新增历史 helper 调用、会话 owner 校验与既有快照/重复提交分支；本次未声称新增真实 HTTP 或浏览器执行。"
+    },
+    {
+      "path": "cnkg/runtime_version.py",
+      "result": "support/unit/topic 的冻结源指纹均含 task_families.py、普通 aliases 和历史 ledger；topic 指纹继续含 admissions.py。映射在模块导入冻结，后续文件变化不会重标已加载规则或改判旧答案。",
+      "evidence": "只读核对 GRADER_SOURCES、FrozenRuntimeVersion.capture、初始化捕获与 changed_sources 的只读诊断语义。"
+    }
+  ],
+  "validation": {
+    "before_fix_requested_regressions": {
+      "tests": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "modules": [
+        "tests.test_historical_family_exposure_v7",
+        "tests.test_family_aliases_v6"
+      ]
+    },
+    "final_targeted_run": {
+      "command": "/workspace/scratch/cdd6c485d2b6/cnkg-venv/bin/python -m unittest -v tests.test_historical_family_exposure_v7 tests.test_family_aliases_v6 tests.test_quality_v5_decisions.DecisionCounterexampleTests.test_only_explicit_qualified_goal_followup_closes_observation_not_mastery tests.test_quality_v5_decisions.DecisionCounterexampleTests.test_helped_success_keeps_bounded_resolution_and_separate_durable_goal_obligation",
+      "tests": 13,
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "unittest_reported_seconds": 0.033,
+      "coverage_note": "5 个历史专项方法含多组拒绝/允许反例，6 个既有 alias 方法，2 个既有目标跟进关闭/保留义务反例；未重复全套。"
+    },
+    "diff_whitespace_check": {
+      "command": "git diff --check -- cnkg/task_families.py cnkg/learning_needs.py tests/test_historical_family_exposure_v7.py",
+      "exit_code": 0
+    },
+    "browser_run": false,
+    "full_suite_rerun": false,
+    "teacher_review_performed": false,
+    "real_student_outcome_validation_performed": false,
+    "real_ledger_binding": {
+      "checked_at": "2026-10-28T03:07:34+00:00",
+      "method": "Actual cnkg.task_families.load_history(data/task_family_history.json, root=repository); explicit cardinality, unique review id, source/contract hash and excluded-id assertions.",
+      "ledger": "data/task_family_history.json",
+      "ledger_sha256": "ec2424551bc0de2c4a56a5349c45aeb3ece403a8a566d23425809afc3ec45403",
+      "evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "evidence_sha256": "85f9c5f4ec87c4c91d1a4a7789f743d075a675d964518e9b76f3cae6f900062e",
+      "loaded_mappings": 624,
+      "module_frozen_mappings": 624,
+      "unique_evidence_task_ids": 908,
+      "same_task_contract_mappings": 535,
+      "reviewed_different_task_contract_mappings": 89,
+      "decision_counts": {
+        "not_applicable": 275,
+        "allow_same_structure": 624,
+        "exclude_changed_structure": 9
+      },
+      "excluded_structure_change_ids": [
+        "m5a.6.4-q102",
+        "m7b.8.3-q102",
+        "m7b.9.2.1-q101",
+        "m7b.9.2.1-q102",
+        "m8a.15.2-q101",
+        "m8a.15.2-q102",
+        "m9a.28.1-q101",
+        "mh1.5.4.3-q102",
+        "mh2.8.5.2-q101"
+      ],
+      "excluded_ids_present_in_ledger": [],
+      "four_hash_and_baseline_commit_joins_passed": true,
+      "mathematical_semantics_of_all_908_tasks_independently_rereviewed": false,
+      "notice": "这是对最终真实台账、证据行与当前源版本的可执行一致性验证；并非重新独立审查全部908题数学结构，也不等于教师审核。"
+    },
+    "final_ledger_binding": {
+      "checked_at": "2026-10-28T03:21:13+00:00",
+      "method": "Fresh Python process imported the final mapping and explicitly called load_history; asserted final external expected ledger/report SHA256, 624 mappings, 535 equal-contract mappings, 89 reviewed changed-contract mappings, 908 unique evidence ids and 9 excluded ids absent from the ledger.",
+      "ledger": "data/task_family_history.json",
+      "ledger_sha256": "c6b5cfc51eb711d476daafa14983c517840c0d5c978159e5260476517253d128",
+      "evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "evidence_sha256": "a671bce6c2f988072a4556d53fa89318623714441b92862dbc6b89ae79aed668",
+      "loaded_mappings": 624,
+      "module_frozen_mappings": 624,
+      "unique_evidence_task_ids": 908,
+      "same_task_contract_mappings": 535,
+      "reviewed_different_task_contract_mappings": 89,
+      "decision_counts": {
+        "not_applicable": 275,
+        "allow_same_structure": 624,
+        "exclude_changed_structure": 9
+      },
+      "excluded_structure_change_ids": [
+        "m5a.6.4-q102",
+        "m7b.8.3-q102",
+        "m7b.9.2.1-q101",
+        "m7b.9.2.1-q102",
+        "m8a.15.2-q101",
+        "m8a.15.2-q102",
+        "m9a.28.1-q101",
+        "mh1.5.4.3-q102",
+        "mh2.8.5.2-q101"
+      ],
+      "excluded_ids_present_in_ledger": [],
+      "four_hash_and_baseline_commit_joins_passed": true,
+      "mathematical_semantics_of_all_908_tasks_independently_rereviewed": false,
+      "notice": "这是最终difficulty_basis源说明修订后的真实版本/决定绑定复验，原验证时间点和hash仍保留；没有新称独立复审全部908题数学或重跑V7全套/浏览器。",
+      "code_sha256_at_binding_check": {
+        "cnkg/task_families.py": "571503d57a21d6e9b51e388bf3ea362b93332f8fa6fb2d6e2c8785aa9e2ac6f6",
+        "cnkg/learning_needs.py": "7687a5fb115e086697275c93635f0259fa5e57b9eedf7db080c34f6474984db5",
+        "tests/test_historical_family_exposure_v7.py": "11739b6e60cdba018c7ff41f34190f523d99a9191bd8d25d5f976f1abf029e8b"
+      },
+      "source_note_revision": {
+        "path": "docs/reviews/v7-final-source-note-revision.json",
+        "sha256": "59c30b17d7a88ed039ef05991d47b6d5dc275e01843bdbdeea26e0f8d538e26c"
+      }
+    },
+    "latest_real_ledger_binding_key": "final_ledger_binding"
+  },
+  "limits_and_pending": [
+    "已实际加载最终624条历史映射并完成与908项审查证据的逐行版本/决定绑定；本次未重新逐题独立审查全部908项数学，535条合同相同及89条合同不同的真实结构判断仍归属于所绑定的AI内容审查。9条明确结构替换已验证不在历史映射中。",
+    "程序只绑定明确审查结论与版本。即使哈希全部正确，错误的 allow_same_structure 数学判断仍须通过逐题内容复核发现；本报告不把 AI 审查称作独立教师审核。",
+    "没有可识别 question_id/family_id 的旧事件无法凭空还原到某个数学结构；本轮不造证据，也不改原事件。",
+    "合并计数用于保守判断已有曝光；逐名字最大值不等于去重后的实际事件总数，不用于累计掌握证据。",
+    "最终作者源、台账、证据文件与派生发布产物的集成验证由主代理继续；本报告所列代码 SHA 只代表本次审查快照。"
+  ],
+  "updated_at": "2026-10-28T03:21:13+00:00"
+}

@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2a.3.5",
+  "name": "用2～6的乘法口诀求商（1）",
+  "tier": "tool",
+  "hook": "用口诀算24÷6，并说清先想什么。",
+  "definition": "用乘法口诀求商，就是想“除数乘几等于被除数”。口诀中缺少的另一个乘数，就是除法的商。",
+  "why": "24÷6可想6×几=24。四六二十四告诉我们另一个乘数是4，所以商4；不能直接把口诀结果24再写作商。",
+  "conditions": [
+    "已学2至6的口诀，题目均为相应整除关系。",
+    "除数非0，求的是乘法中缺少的一个乘数。"
+  ],
+  "representation_note": "把除法直接配成“除数×空格=被除数”，保留未知位置。",
+  "when_to_use": [
+    "已学2至6的口诀，题目均为相应整除关系。",
+    "除数非0，求的是乘法中缺少的一个乘数。"
+  ],
+  "steps": [
+    "圈出除数与被除数。",
+    "补成除数×□=被除数。",
+    "从2至6的已学口诀中找同时符合的句子。",
+    "把缺少的乘数填为商，用乘法检验。"
+  ],
+  "worked_example": {
+    "prompt": "用口诀算24÷6，并说清先想什么。",
+    "steps": [
+      "先想6×□=24。",
+      "四六二十四，所以□=4，24÷6=4。"
+    ],
+    "answer": "4",
+    "family_id": "primary.divide.inverse-table",
+    "variant_id": "m2a.3.5:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "verify": "24/6"
+  },
+  "pitfalls": [
+    "只看见6就随便选一条6的口诀，必须积也等于被除数。",
+    "把商当积，说明还未分清除法在找哪个数。"
+  ],
+  "practice": [
+    {
+      "id": "m2a.3.5-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m2a.3.5-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "12÷3要找积12且含乘数3的口诀，是三四十二，商4；12÷2则用二六十二，商6。相同被除数，除数不同，所用关系也不同。",
+      "observation_note": "本项观察口诀同时匹配除数与被除数、三道商正确；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "算12÷3、12÷2、20÷5，并写出对应口诀。",
+        "reference_answer": "4（三四十二）、6（二六十二）、4（四五二十）。",
+        "criteria": [
+          "口诀同时匹配除数与被除数",
+          "三道商正确"
+        ],
+        "family_id": "division.fact-family",
+        "variant_id": "m2a.3.5:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.table-facts"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "12÷3用三三得九行不行？哪个已知数对不上？",
+        "hint": "把口诀中的积9与题目被除数12对照。",
+        "revision_prompt": "先补“除数×□=被除数”，再重新选择两个条件都符合的口诀。"
+      },
+      "criterion_index": 0,
+      "title": "能用乘法口诀求商"
+    },
+    {
+      "explanation": "“想乘算除”中的想法应能写出来，例如18÷6先想6乘几得18。不是先随意猜商再只看答案熟不熟。",
+      "observation_note": "本项观察说明寻找缺少乘数的过程、检查返回30；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "用完整语句解释30÷6怎样求商，并写乘法检查。",
+        "reference_answer": "想6乘几得30；五六三十，所以商5；5×6=30。",
+        "criteria": [
+          "说明寻找缺少乘数的过程",
+          "检查返回30"
+        ],
+        "family_id": "division.fact-family",
+        "variant_id": "m2a.3.5:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.table-facts"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "30÷6的未知数放在6×□=30的哪里？",
+        "hint": "已知的6和30不要更换，空格就是题目所求。",
+        "revision_prompt": "将自己的说明补成“想……因为……所以……”，每处填实际数字。"
+      },
+      "criterion_index": 1,
+      "title": "能说清“想乘算除”的思路"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

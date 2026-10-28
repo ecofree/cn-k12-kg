@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "同一个饼，分成4份的一份与分成8份的一份，哪一份大？",
+  "definition": "比较同一整体的分数：分母相同且为正，表示每份大小相同，分子大的分数大；比较分子相同、分母为正的两个正分数，表示取的份数相同，分得越细每份越小，所以分母小的分数大。",
+  "why": "分母决定分数单位，分子决定有几个这样的单位。同分母可直接比较单位的个数；同分子时必须比较单位本身大小，不能照整数大小直接比较分母。",
+  "when_to_use": [
+    "两个分数的分母相同，可比较分子",
+    "两个正分数的分子相同，可比较每份的大小"
+  ],
+  "steps": [
+    "确认比较的是数值，或图示使用同样大小的整体。",
+    "判断同分母还是同分子，选对应比较办法。",
+    "写大小符号，并用分数单位解释。"
+  ],
+  "worked_example": {
+    "prompt": "比较3/8与5/8，再比较3/4与3/8。",
+    "steps": [
+      "3/8与5/8的每份都是1/8，5份比3份多，所以3/8<5/8。",
+      "同取3份，1/4比1/8大，所以3/4>3/8。"
+    ],
+    "answer": "3/8<5/8；3/4>3/8",
+    "family_id": "fraction.compare-equal-denominator",
+    "variant_id": "m3a.6.4:worked_example:v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "fraction.compare-equal-numerator"
+    ]
+  },
+  "pitfalls": [
+    "不同大小的两个饼，其一半的实物大小不一定相同。",
+    "同分子时分母越大，正分数反而越小。"
+  ],
+  "check": "先独立完成下面两项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m3a.6.4",
+  "name": "简单的分数大小比较",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能比较同分子分数的大小",
+      "explanation": "同分子正分数比较，先比较单位分数，份数相同保持大小关系。",
+      "self_check": {
+        "prompt": "比较2/3与2/5，解释原因。",
+        "reference_answer": "2/3>2/5；同一个整体分3份比5份时每份大，两者都取2份。",
+        "criteria": [
+          "大小符号正确",
+          "解释份数相同、每份不同"
+        ],
+        "family_id": "fraction.compare-equal-numerator",
+        "variant_id": "m3a.6.4:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "fraction.unequal-wholes-counterexample"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "同样一张饼分3份与分5份，哪一份更大？两题又各取几份？",
+        "hint": "用等大的两条纸分别三等分和五等分，都取2份；整体必须一样大。",
+        "revision_prompt": "用同一整体比较1/4与1/6，再比较3/4与3/6，指出固定的是份数而每份大小变化。"
+      },
+      "observation_note": "观察同分子、同整体条件下单位分数比较；不能推广为分母越大所有分数越小。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能比较同分母分数的大小",
+      "explanation": "同分母表示计数单位相同，可比较分子。",
+      "self_check": {
+        "prompt": "比较4/9与7/9，解释原因。",
+        "reference_answer": "4/9<7/9，因为都是1/9，4份少于7份。",
+        "criteria": [
+          "大小正确",
+          "用1/9为单位解释"
+        ],
+        "family_id": "fraction.compare-equal-denominator",
+        "variant_id": "m3a.6.4:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "4/9和7/9里每份大小一样吗？变化的是每份大小还是所取份数？",
+        "hint": "同一纸条九等分，先标4份再标7份；两者单位都是1/9。",
+        "revision_prompt": "用同一整体画3/8与5/8，圈出多出的两份并写比较符号。"
+      },
+      "observation_note": "观察同分母时按份数比较；不同整体的实际面积大小仍需另查。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "m3a.6.4-q3",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m3a.6.4-q90",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m3a.6.4-q91",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

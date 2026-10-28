@@ -19,7 +19,7 @@ class JudgeTest(unittest.TestCase):
                          {"id": "o3", "text": "丙"}, {"id": "o4", "text": "丁"}]}
         self.assertEqual(server.judge(q, "o3"), "correct")
         self.assertEqual(server.judge(q, "o1"), "wrong")
-        self.assertEqual(server.judge(q, ""), "wrong")
+        self.assertEqual(server.judge(q, ""), "invalid")
 
     def test_choice_letter_fallback(self):
         """兼容路径：旧客户端提交字母，按当前顺序换算。"""
@@ -38,7 +38,7 @@ class JudgeTest(unittest.TestCase):
 
     def test_numeric_rejects_text(self):
         q = {"type": "numeric", "answer": "4"}
-        self.assertEqual(server.judge(q, "四"), "wrong")
+        self.assertEqual(server.judge(q, "四"), "invalid")
 
     def test_short_exact_and_variants(self):
         q = {"type": "short", "answer": "平行", "accept": ["互相平行"]}

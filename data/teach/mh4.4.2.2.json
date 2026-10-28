@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh4.4.2.2",
+  "name": "等差数列的前n项和公式",
+  "tier": "core",
+  "hook": "把1到100首尾配成1+100、2+99，每对都是101；等差求和利用的正是首尾和不变。",
+  "definition": "等差数列前n项和Sₙ=n(a₁+aₙ)/2=na₁+n(n-1)d/2。对任意数列，从前n项和反求通项时a₁=S₁，n≥2时aₙ=Sₙ-Sₙ₋₁；必须单独核验n=1，不能默认含n-1的式子也适用首项。",
+  "why": "把Sₙ正写和倒写相加，每一对都是a₁+aₙ，共n对，故2Sₙ=n(a₁+aₙ)。前n项和减去前n-1项和时，前n-1项恰好抵消，只剩第n项；但S₀若未定义，不能在n=1直接套用。",
+  "when_to_use": [
+    "固定增量的数列要累计总量",
+    "题目给Sₙ，需要恢复通项或判断是否等差"
+  ],
+  "steps": [
+    "确认等差，确定首项、末项、项数或公差。",
+    "选择首末项平均乘项数，或首项加公差形式计算。",
+    "由和求项时先求a₁=S₁，再对n≥2作差，最后看能否合并公式。"
+  ],
+  "worked_example": {
+    "prompt": "等差数列a₁=3、d=2，求前10项和。",
+    "steps": [
+      "a₁₀=3+9×2=21，首末项平均为12。",
+      "S₁₀=10×(3+21)/2=120。"
+    ],
+    "answer": "120",
+    "verify": "10*(3+(3+9*2))/2",
+    "family_id": "sequence.arithmetic-sum-count",
+    "variant_id": "mh4.4.2.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "Sₙ是和，aₙ是第n项；两者不能互相代替。",
+    "若Sₙ=n²+1，则n≥2作差给2n-1，但a₁=2，不可直接说全体aₙ=2n-1。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用求和公式计算前 n 项和",
+      "explanation": "求和公式由首末配对得来，项数必须准确。",
+      "self_check": {
+        "prompt": "求5+8+11+⋯+32。",
+        "reference_answer": "n=(32-5)/3+1=10，S=10(5+32)/2=185。",
+        "criteria": [
+          "先求项数10",
+          "配对求和185"
+        ],
+        "family_id": "sequence.arithmetic-sum-count",
+        "variant_id": "mh4.4.2.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "5到32差27，公差3，为什么不是9项？",
+        "hint": "9是间隔数，项数还包括起点。",
+        "revision_prompt": "求2+6+…+38：间隔9、项数10，和10(2+38)/2=200。"
+      },
+      "observation_note": "观察项数与首末平均；末项必须真是该数列的一项。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能由 S_n 反求通项",
+      "explanation": "Sₙ-Sₙ₋₁只能先用于n≥2，首项需另算。",
+      "self_check": {
+        "prompt": "已知Sₙ=2n²+n，求aₙ并核验首项。",
+        "reference_answer": "n≥2时aₙ=(2n²+n)-[2(n-1)²+(n-1)]=4n-1；a₁=S₁=3，也符合，所以aₙ=4n-1。",
+        "criteria": [
+          "作差化简4n-1",
+          "单独检验n=1"
+        ],
+        "family_id": "sequence.partial-sum-difference-first-term",
+        "variant_id": "mh4.4.2.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "Sₙ=n²+1时，直接差分给a₁=1是否正确？",
+        "hint": "n≥2差分2n-1；首项必须由S₁=2单独确定。",
+        "revision_prompt": "写完整分段a₁=2，n≥2时aₙ=2n-1；复核前两项和2+3=5=S₂。"
+      },
+      "observation_note": "观察首项与后续差分；不能默认S₀等于通式代0所得值。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能识别等差数列前若干项和的首末项公式",
+      "explanation": "等差数列前n项的平均值为首项与第n项的平均(a₁+a_n)/2，因此总和S_n=n(a₁+a_n)/2。公式中的a_n是最后一项而不是项数，除以2不能漏；这一公式对奇数项数和偶数项数都成立，识别公式本身不等于已提交推导。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：等差数列前 n 项和的公式是什么？ 可选：o1．n·an；o2．n(a1+an)/2；o3．n(a1+an)；o4．(a1+an)/2。\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：n(a1+an)/2。S_n=n(a1+a_n)/2。",
+        "criteria": [
+          "识别首末项平均乘项数的求和公式，区分a_n与n并完整保留二分之一",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "sequence.arithmetic-sum-recall",
+        "variant_id": "mh4.4.2.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "n表示项数还是末项值？只写(a₁+a_n)/2得到的是平均值还是总和，写n(a₁+a_n)又多算了几倍？",
+        "hint": "先标清首项、末项、项数三种量，再按“首末项平均×项数”组成公式，对照选项检查乘n与除2均在。",
+        "revision_prompt": "先回答这个辨别问题：n表示项数还是末项值？只写(a₁+a_n)/2得到的是平均值还是总和，写n(a₁+a_n)又多算了几倍？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；识别首末项平均乘项数的求和公式，区分a_n与n并完整保留二分之一。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh4.4.2.2-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：等差数列首项2、末项29、共10项，求这10项之和。"
+    },
+    {
+      "id": "mh4.4.2.2-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：某数列Sₙ=3n²+2n，求第5项a₅。"
+    },
+    {
+      "id": "mh4.4.2.2-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：已知Sₙ=n²+2（n≥1），由Sₙ反求通项，哪项正确？"
+    }
+  ],
+  "check": "独立完成并写出依据：求5+8+11+⋯+32。；已知Sₙ=2n²+n，求aₙ并核验首项。",
+  "conditions": [
+    "求和反求通项先列a₁=S₁，n≥2再差分。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

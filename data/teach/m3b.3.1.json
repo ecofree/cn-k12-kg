@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3b.3.1",
+  "name": "多边形",
+  "tier": "tool",
+  "hook": "一条闭合折线有5条直边，它为什么叫五边形？",
+  "definition": "本卡多边形由至少3条线段在平面内首尾顺次连接，围成闭合且不自交的图形。按直线边的条数命名；一个简单多边形的边数与顶点数相同。",
+  "why": "沿边界走一圈，每走完一条边到一个新顶点，最后回到起点，边与顶点可一一对应。没闭合、有曲线或交叉的画痕不按本卡简单多边形的规则直接命名。",
+  "conditions": [
+    "只讨论不自交的简单平面多边形。",
+    "把每条完整直边计一次，内部辅助线不算边界。"
+  ],
+  "representation_note": "描边、在每个顶点贴点号，沿边界标序号而不重复起点。",
+  "when_to_use": [
+    "只讨论不自交的简单平面多边形。",
+    "把每条完整直边计一次，内部辅助线不算边界。"
+  ],
+  "steps": [
+    "检查直线边、闭合、不自交。",
+    "从一个顶点起沿边界数边。",
+    "按边数命名，并复核顶点数。"
+  ],
+  "worked_example": {
+    "prompt": "一个闭合不自交图形有6条直线边和1条内部辅助线，它是几边形？",
+    "steps": [
+      "只数围成外边界的6条边。",
+      "内部线没有增加边界条数。"
+    ],
+    "answer": "六边形。",
+    "family_id": "geometry.polygon-boundary-count",
+    "variant_id": "m3b.3.1:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "圆不是有无数条直边的多边形。",
+    "起点最后回到一次，顶点不能重复计数。"
+  ],
+  "practice": [
+    {
+      "id": "m3b.3.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3b.3.1-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "三边叫三角形，四边叫四边形，五边叫五边形；名称依据边数，凹进去的一处也按实际边界数。",
+      "observation_note": "观察命名与定义边界；不以画线段数单独判断。",
+      "self_check": {
+        "prompt": "画一个五边形，再画一个未闭合的五段折线，说明为什么后者不能叫五边形。",
+        "reference_answer": "前者五条边围合；后者没闭合，不满足定义。",
+        "criteria": [
+          "五边形合法",
+          "说明闭合条件"
+        ],
+        "family_id": "geometry.polygon-closed-simple",
+        "variant_id": "m3b.3.1:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "五段线只首尾缺一小口，已经围成封闭图形了吗？",
+        "hint": "沿边走，看能否不跳跃回起点。",
+        "revision_prompt": "补齐或重新连接形成合法五边形，标出改动。"
+      },
+      "criterion_index": 0,
+      "title": "能按边数给多边形命名"
+    },
+    {
+      "explanation": "每个相邻边连接点是一个顶点。简单多边形边数等于顶点数，辅助线交点不自动成为边界顶点。",
+      "observation_note": "观察边界与顶点对应，无法只凭内部线数量作答。",
+      "self_check": {
+        "prompt": "画一个六边形，加一条内部对角线，分别数边界边数、顶点数。",
+        "reference_answer": "仍为6条边、6个顶点，对角线不增加边界边数。",
+        "criteria": [
+          "沿边界逐项计数",
+          "不误算辅助线"
+        ],
+        "family_id": "geometry.plane-side-count",
+        "variant_id": "m3b.3.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.polygon-boundary"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "内部画线与边相交会把原图变成更多边吗？",
+        "hint": "只沿原外轮廓走，不穿内部线。",
+        "revision_prompt": "给外边编号1至6，对角线另用虚线标“辅助”。"
+      },
+      "criterion_index": 1,
+      "title": "能数出多边形的边数与顶点数"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

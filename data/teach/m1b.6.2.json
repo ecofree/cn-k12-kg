@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "甲有7颗珠子，乙比甲多3颗；若乙比甲少3颗，算式会怎样变化？",
+  "definition": "已知作为比较标准的数量，求比它多几的数用加法，求比它少几的数用减法。要先认清“谁比谁”，再判断所求量是较大还是较小。",
+  "why": "较大数=较小数+相差数。比较标准不一定总是较小数，不能机械地见“多”就加；应画出两段长短关系，判断未知量在等式中的位置。",
+  "when_to_use": [
+    "已知一个标准量与相差数，求另一个量",
+    "文字中“谁比谁多/少”需要转成大小关系"
+  ],
+  "steps": [
+    "找出“比谁”中的标准量。",
+    "判断所求量比标准量长还是短、多还是少。",
+    "求多几的加上差，求少几的减去差，并反向检查。"
+  ],
+  "worked_example": {
+    "prompt": "甲有7颗，乙比甲多3颗，乙有几颗？",
+    "steps": [
+      "甲7颗是标准，乙数量比7大3。",
+      "7+3=10（颗），检查10−7=3。"
+    ],
+    "answer": "10",
+    "verify": "7+3",
+    "family_id": "comparison.additive-unknown-quantity",
+    "variant_id": "m1b.6.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "“甲比乙多3，甲7”求乙，虽然出现多字仍用7−3。",
+    "比较基准找错，会把较大与较小颠倒。"
+  ],
+  "check": "先独立完成下面各项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m1b.6.2",
+  "name": "求比一个数多（或少）几的数是多少",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能区分“比…多”与“比…少”",
+      "explanation": "将“谁比谁多/少”先改写为谁大谁小，不依赖关键词。",
+      "self_check": {
+        "prompt": "甲有10张，甲比乙多4张。乙比甲多还是少？应加还是减？",
+        "reference_answer": "乙比甲少4张，应10−4。",
+        "criteria": [
+          "比较方向正确",
+          "选择减法"
+        ],
+        "family_id": "comparison.additive-unknown-quantity",
+        "variant_id": "m1b.6.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“甲比乙多4”是否表示乙也比甲多4？谁应画长一点？",
+        "hint": "先给甲画10的长条，乙条少一段4；把关系改说“乙比甲少4”。",
+        "revision_prompt": "改成“甲有9张，甲比乙少3张”，先画长短再求乙，检查不能只看多、少字选运算。"
+      },
+      "observation_note": "观察比较方向与未知量位置；熟悉正向语句不代表逆向语句也理解。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能正确列式求比一个数多（少）几的数",
+      "explanation": "根据标准量和差求另一个量后，用两者相减检验差。",
+      "self_check": {
+        "prompt": "小雨有8本书，小林比小雨多5本，小林有几本？",
+        "reference_answer": "8+5=13（本），13−8=5。",
+        "criteria": [
+          "列加法",
+          "结果及检验正确"
+        ],
+        "family_id": "comparison.additive-unknown-quantity",
+        "variant_id": "m1b.6.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.compare.difference"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "8本是小雨还是小林的书？多出的5本应加在哪条长条上？",
+        "hint": "给小雨画8本，小林先配同样8本，再添5本；新条总数才是小林的。",
+        "revision_prompt": "小雨有12本，小林比她少4本，先列式再算两人的差，核对仍是4本。"
+      },
+      "observation_note": "观察根据标准量与差求另一个量并反查；求两人总量不在本题观察范围。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由基准量及多或少的差量求另一数量",
+      "explanation": "先认出已知的基准量和两量相差多少，再判断所求量比基准大还是小；不能只看到“多”就加、看到“少”就减。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：小佳有8枚贴纸，小安比小佳多4枚，小安有多少枚贴纸？\n情境2：小林有14张卡片，小林比小周多5张。小周有多少张卡片？\n写出每个问题的答案。可以用小棒、画图或算式说明你怎样想；用了提示或参考，也记下来。",
+        "reference_answer": "情境1参考：12。基准8、多4，对比量8+4=12。\n情境2参考：9。已知较大量14且差5，较小量14−5=9；不能只凭“多”字加。",
+        "criteria": [
+          "比较方向和所求对象一致",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "comparison.additive-unknown-quantity",
+        "variant_id": "m1b.6.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "仅观察所提交的数值、名称或方案；不把未提交的列式、解释、作图及选择算法过程记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "句中“比谁多”说明的是谁更大？所求对象在比较的哪一边？",
+        "hint": "把两人的量画成一长一短两段，标出已知量和差量后再决定加减。",
+        "revision_prompt": "先回答这个辨别问题：句中“比谁多”说明的是谁更大？所求对象在比较的哪一边？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；比较方向和所求对象一致。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m1b.6.2-q1",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1b.6.2-q101",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m1b.6.2-q102",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

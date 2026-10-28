@@ -1,0 +1,129 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m9a.26.1",
+  "name": "二次函数的概念",
+  "tier": "core",
+  "hook": "两个随x变化的一次式相乘，为什么可能产生二次函数？",
+  "definition": "形如 y=ax²+bx+c（a、b、c 为常数，a≠0）的函数叫二次函数，自变量最高次数为 2，a 决定图象的开口方向与开口大小。",
+  "why": "二次函数y=ax²+bx+c的核心是非零二次项。面积等乘积模型会产生x·x项；但若化简时二次项抵消或系数为0，就不再是二次函数，因此应先整理再分类。",
+  "when_to_use": [
+    "表达式可整理为非零二次项加低次项",
+    "实际面积或乘积由同一个变量决定"
+  ],
+  "steps": [
+    "从情境列出数量关系并明确变量",
+    "展开合并为ax²+bx+c",
+    "检查a≠0，指出系数及实际定义域"
+  ],
+  "worked_example": {
+    "prompt": "矩形宽x、长比宽多4，写面积函数并指出系数。",
+    "answer": "S=x²+4x；a=1，b=4，c=0，x>0",
+    "steps": [
+      "面积等于宽乘长，所以S=x(x+4)。",
+      "展开得S=x²+4x，二次项系数1非零，且宽必须正，x>0。"
+    ],
+    "family_id": "quadratic-function.model.rectangle-difference",
+    "variant_id": "m9a.26.1:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "model"
+  },
+  "pitfalls": [
+    "没有常数项或一次项仍可能是二次函数。",
+    "图形的实际变量范围不能只写全体实数。"
+  ],
+  "check": "独立完成并解释：函数y=(m−2)x²+3x−1在什么条件下是二次函数？在该条件下分别指出a、b、c。；用20米篱笆围成一个长方形，设宽x米，写出面积S关于x的函数式。用^表示乘方。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能识别二次函数并指出各项系数",
+      "explanation": "化简后非零二次项决定是否为二次函数，系数需连同符号按x²、x、常数项识别。",
+      "self_check": {
+        "prompt": "函数y=(m−2)x²+3x−1在什么条件下是二次函数？在该条件下分别指出a、b、c。",
+        "reference_answer": "需m−2≠0，即m≠2；a=m−2、b=3、c=−1。若m=2，二次项消失，成为y=3x−1。",
+        "criteria": [
+          "写出m≠2的原因",
+          "三个系数含符号全部正确"
+        ],
+        "family_id": "quadratic-function.nonzero-leading-coefficient",
+        "variant_id": "m9a.26.1:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "m=2时二次项还存在吗？系数c是否包含−号？",
+        "hint": "先保证m−2≠0，再逐项与ax²+bx+c对齐。",
+        "revision_prompt": "取m=0写y=−2x²+3x−1是二次；取m=2写一次式，说明参数边界。"
+      },
+      "observation_note": "观察二次项存在条件与系数；不能因为写着x²就忽略乘数为0。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能由实际问题列出二次函数解析式",
+      "explanation": "先用约束表达两个因子，再相乘得到二次式及范围。",
+      "self_check": {
+        "prompt": "用20米篱笆围成一个长方形，设宽x米，写出面积S关于x的函数式。用^表示乘方。 请写出判断或计算依据。",
+        "reference_answer": "周长2(x+长)=20，所以长=10−x，S=x(10−x)=−x²+10x，实际范围0<x<10。",
+        "criteria": [
+          "长=10−x",
+          "面积与0<x<10一致"
+        ],
+        "family_id": "quadratic-function.model.fixed-perimeter",
+        "variant_id": "m9a.26.1:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "model"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "20米是长加宽，还是两倍的长加宽？x=0或10还能围成矩形吗？",
+        "hint": "周长先除2得长宽和10；宽x、长10−x均为正。",
+        "revision_prompt": "列S=x(10−x)，取x=3核对长7、面积21，再说明0<x<10的边界。"
+      },
+      "observation_note": "观察固定周长转为面积函数及非退化范围；后续最值需另验证可行性。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能代入已给二次函数模型求指定输入的函数值",
+      "explanation": "函数关系和输入值都已给出时，将同一个输入代入式中所有x，再按运算顺序求输出。面积、销售额、利润分别有自己的意义和单位；利润式中的单件利润与销量都可能含x，不能只替换一处。给定价格处的利润不等于最大利润。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：一个正方形的边长是 x 厘米，面积 y 与 x 的关系是 y=x^2。当边长是 7 厘米时，面积是多少平方厘米？\n情境2：某商品售价 x 元时，每天能卖出 (100-2x) 件，销售额 y=x(100-2x) 元。售价 30 元时，一天的销售额是多少元？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：49。已给y=x²，x7得49。\n情境2参考：1200。已给y=x(100−2x)，x30时30×40=1200。",
+        "criteria": [
+          "完整代入所有自变量并按原模型计算指定输出，单位与面积、销售额或利润情境一致",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "quadratic-function.given-formula.evaluate",
+        "variant_id": "m9a.26.1:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "函数式里每一处x都换成了给定值吗？题目是求这个输入的输出，还是要求寻找最优输入？",
+        "hint": "先给输入值做一个标记，逐一替换所有x；若式子由两个因式相乘组成，先分别算出两个因式并写清各自含义。",
+        "revision_prompt": "先回答这个辨别问题：函数式里每一处x都换成了给定值吗？题目是求这个输入的输出，还是要求寻找最优输入？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；完整代入所有自变量并按原模型计算指定输出，单位与面积、销售额或利润情境一致。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m9a.26.1-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.26.1-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.26.1-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

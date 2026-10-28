@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m4b.4.1",
+  "name": "小数的认识",
+  "tier": "tool",
+  "hook": "0.04与0.4都有数字4，为什么大小不同？",
+  "definition": "小数点右边依次是十分位、百分位、千分位，分别表示0.1、0.01、0.001的个数。保持数字顺序移动小数点时，向右一位数值乘10，向左一位数值除以10，必要时补0。",
+  "why": "0.04中4个0.01与0.4中4个0.1相差10倍。位置确定单位；每移动一位相当于所有数字对应的单位都改10倍。只在小数末尾添0，如0.4=0.40，并非移动了小数点。",
+  "conditions": [
+    "按十进位值解释，小数点方向和移动位数明确。",
+    "末尾添0与移动小数点要区分，数值变化规则对0也按乘除运算理解。"
+  ],
+  "representation_note": "使用个位、十分、百分、千分数位表，将相同数字卡移到不同位置比较。",
+  "when_to_use": [
+    "按十进位值解释，小数点方向和移动位数明确。",
+    "末尾添0与移动小数点要区分，数值变化规则对0也按乘除运算理解。"
+  ],
+  "steps": [
+    "找各数位名称与计数单位。",
+    "写出每个非零数字所代表的量。",
+    "移动小数点时说明乘除倍数，补0保持位置，并验回。"
+  ],
+  "worked_example": {
+    "prompt": "把0.36的小数点向右移动一位，得到多少？",
+    "steps": [
+      "十分位3变成个位3，百分位6变成十分位6。",
+      "整体乘10，得到3.6。"
+    ],
+    "answer": "3.6",
+    "family_id": "decimal.place-shift-times-ten",
+    "variant_id": "m4b.4.1:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "verify": "0.36*10"
+  },
+  "pitfalls": [
+    "0.40与0.4相等，末尾0不使数扩大。",
+    "小数位多不必更大，应从高位比较位值。"
+  ],
+  "practice": [
+    {
+      "id": "m4b.4.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m4b.4.1-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "数字含义=数字×所在数位单位。3.045中4在百分位，表示0.04；中间0保留了十分位空缺。",
+      "observation_note": "观察数位与比较依据，不能只按数字串长短比较。",
+      "self_check": {
+        "prompt": "说明5.207中2、0、7所在数位和代表的量，再与5.27比较。",
+        "reference_answer": "2十分位0.2，0百分位0，7千分位0.007；5.207<5.27，因为百分位0<7。",
+        "criteria": [
+          "数位单位正确",
+          "位置0的作用清楚"
+        ],
+        "family_id": "decimal.read-write-place-values",
+        "variant_id": "m4b.4.1:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "decimal.digit-place-value",
+          "decimal.place-value-comparison"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "5.207删去中间0，7的单位还一样吗？",
+        "hint": "7从千分位变到百分位，值变10倍。",
+        "revision_prompt": "在数位表补回空位0，再分别展开两数。"
+      },
+      "criterion_index": 0,
+      "title": "能说出各数位上的数字表示的含义"
+    },
+    {
+      "explanation": "右移一位乘10、两位乘100、三位乘1000，左移相应除以10、100、1000；原来没有的位用0占位。规则描述乘除关系，不是数字自己跳过单位。",
+      "observation_note": "观察操作与语义，不能把任何添0都当乘10。",
+      "self_check": {
+        "prompt": "把2.5右移两位、左移一位，分别写结果并用逆运算检查；比较2.50是否移动小数点。",
+        "reference_answer": "250；0.25；250÷100=2.5、0.25×10=2.5；2.50只是末尾添0，与2.5相等。",
+        "criteria": [
+          "方向与倍数正确",
+          "添0与移动区分"
+        ],
+        "family_id": "decimal.place-shift-times-ten",
+        "variant_id": "m4b.4.1:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "decimal.digit-place-value",
+          "decimal.trailing-zero-equivalence"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2.50比2.5多写一个0，为何不是25？",
+        "hint": "小数点没有移动，原数字单位未变。",
+        "revision_prompt": "分别在数位表展示2.50与25，标不同位置。"
+      },
+      "criterion_index": 1,
+      "title": "能说明小数点移动引起的大小变化"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

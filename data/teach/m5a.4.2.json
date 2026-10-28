@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m5a.4.2",
+  "name": "平移",
+  "tier": "tool",
+  "hook": "平移三角形时，是移动一个顶点，还是每个顶点都一样移动？",
+  "definition": "平移把图形每个点沿相同方向移动相同距离，形状、大小、朝向不变。说清方向和距离后，先找对应点，再按原连接关系画新图。",
+  "why": "若只移动一个顶点，边长和形状可能改变。所有顶点同向同距移动才保持图形；数距离应数格间隔，不把起点算成一步，终点数对变化也应一致。",
+  "conditions": [
+    "方格单位及方向约定明确，图形整体移动。",
+    "同一次平移的所有点使用相同方向与距离。"
+  ],
+  "representation_note": "方格纸标原图各顶点，用同色箭头表示对应点的同向同距移动。",
+  "when_to_use": [
+    "方格单位及方向约定明确，图形整体移动。",
+    "同一次平移的所有点使用相同方向与距离。"
+  ],
+  "steps": [
+    "选择并标记每个顶点。",
+    "按方向数相同格数找到所有新点。",
+    "保持原次序连线，检查边长与朝向。"
+  ],
+  "worked_example": {
+    "prompt": "一个顶点从第2列移到第6列，其余对应点也都水平右移同样距离，这次平移怎样描述？",
+    "steps": [
+      "列号差6−2=4，数的是4个间隔。",
+      "方向是向右，所有点相同。"
+    ],
+    "answer": "向右平移4格。",
+    "family_id": "geometry.translation-vector",
+    "variant_id": "m5a.4.2:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "只移动一个点不是整个图形平移。",
+    "数格含起点会多算1格。"
+  ],
+  "practice": [
+    {
+      "id": "m5a.4.2-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m5a.4.2-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成各项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "平移方向由原点指向对应点，距离是两点间沿该方向的格数或长度。必须是对应点，不能比较任意两点。",
+      "observation_note": "观察对应点与距离，不由图形外缘空隙判断平移量。",
+      "self_check": {
+        "prompt": "在方格上画A与A′，A′在A左方5格；写平移描述，并说每格2厘米时距离。",
+        "reference_answer": "向左5格，距离10厘米。",
+        "criteria": [
+          "方向与格数正确",
+          "按给定格长换算"
+        ],
+        "family_id": "geometry.translation-vector",
+        "variant_id": "m5a.4.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "ratio.unit-rate-projection"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "两个图形之间空了2格，就一定平移2格吗？",
+        "hint": "选同一个顶点比较，而不是相邻外边。",
+        "revision_prompt": "重标一对对应点，再量箭头的间隔。"
+      },
+      "criterion_index": 0,
+      "title": "能说出平移的方向与距离"
+    },
+    {
+      "explanation": "找齐所有对应顶点再连线，可保持原边和角。新旧图形朝向相同，转动后的图不符合纯平移。",
+      "observation_note": "观察完整作图与点对应，数对采用题目约定。",
+      "self_check": {
+        "prompt": "画三角形A(1,1)、B(3,1)、C(1,2)，按先列后行约定向右2格、向上1格平移并连线。",
+        "reference_answer": "A′(3,2)、B′(5,2)、C′(3,3)，连接次序与原图相同。",
+        "criteria": [
+          "三点均同向同距",
+          "新图形状朝向一致"
+        ],
+        "family_id": "geometry.translation-vector",
+        "variant_id": "m5a.4.2:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.translation-invariants",
+          "position.grid-translation"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "只有A移对，B和C仍不动，边长会保持吗？",
+        "hint": "给每个点画同样的右2上1箭头。",
+        "revision_prompt": "将漏移点修正，并检查三条对应边长度。"
+      },
+      "criterion_index": 1,
+      "title": "能在方格纸上画出平移后的图形"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能区分平移时改变的位置与保持的形状大小",
+      "explanation": "平移让图形所有点沿同一方向移动相同距离。图形所处位置改变，但对应边长、角度及形状大小保持；旋转方向改变或拉伸不是平移。",
+      "self_check": {
+        "prompt": "把纸上的三角形整体向右平移2格。列出“位置、边长、形状、大小”中哪项改变、哪些保持；说明对应点怎样移动。",
+        "reference_answer": "位置改变，边长、形状、大小保持；每个点都向右移动2格。",
+        "criteria": [
+          "位置列入改变项",
+          "形状大小列入保持项",
+          "所有点的方向和距离相同"
+        ],
+        "family_id": "geometry.translation-invariants",
+        "variant_id": "m5a.4.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "不求具体平移方向距离，也没有作图。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "你是否只移动了一个顶点，导致边长或形状也变了？",
+        "hint": "把整个图形看成一张不能拉伸的纸片，所有点同时同向移动。",
+        "revision_prompt": "把平移改为向上3格，重新列不变量，并保留实际作图是否完成的记录。"
+      }
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

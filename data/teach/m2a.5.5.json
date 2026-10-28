@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m2a.5.5",
+  "name": "用9的乘法口诀求商",
+  "tier": "tool",
+  "hook": "计算54÷9，并说明为什么不能用七九六十三。",
+  "definition": "用9的口诀求商，先固定被除数与除数，再寻找缺少的乘数。六九五十四、七九六十三、八九七十二等相近口诀要看完整数对。",
+  "why": "54÷9寻找9乘几是54，所以商6。若误用七九六十三，虽然都有9，积63却不符合题目的54。",
+  "conditions": [
+    "题目取自一九至九九的整除关系。",
+    "每次核对完整的除数与被除数，不能仅匹配一个数字。"
+  ],
+  "representation_note": "用相邻两组9的点阵或表，连接54、63与6组、7组。",
+  "when_to_use": [
+    "题目取自一九至九九的整除关系。",
+    "每次核对完整的除数与被除数，不能仅匹配一个数字。"
+  ],
+  "steps": [
+    "把除法补成除数×□=被除数。",
+    "选积完全等于被除数的9的口诀。",
+    "填入缺少的乘数。",
+    "对容易颠倒的两句，用乘法或相邻差9检查。"
+  ],
+  "worked_example": {
+    "prompt": "计算54÷9，并说明为什么不能用七九六十三。",
+    "steps": [
+      "六九五十四说明9×6=54，商6。",
+      "七九的积是63，不是被除数54。"
+    ],
+    "answer": "6",
+    "family_id": "primary.divide.inverse-table-nine",
+    "variant_id": "m2a.5.5:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "verify": "54/9"
+  },
+  "pitfalls": [
+    "把四九三十六和六九五十四混为一谈，不能只记有个6或4。",
+    "看到72就答9，若题目是72÷9，商应为8。"
+  ],
+  "practice": [
+    {
+      "id": "m2a.5.5-q1",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    },
+    {
+      "id": "m2a.5.5-q2",
+      "note": "先独立尝试；依据本卡的具体目标检查过程，遇到困难再使用辨别与提示。"
+    }
+  ],
+  "check": "分别完成下面两项目标自检，保留计算、摆放或解释过程。未达到的具体要求继续保留；提示后的改正不等于已经能独立完成。",
+  "objective_coverage": [
+    {
+      "explanation": "9的除法题也可能除以另一个乘数，如63÷7=9。判断商时只补空缺位置，不把9固定当除数。",
+      "observation_note": "本项观察四题准确、除数位置变化时仍能求商；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "算36÷9、63÷7、72÷9、81÷9，并选一题写乘法检查。",
+        "reference_answer": "4、9、8、9；如8×9=72检查72÷9=8。",
+        "criteria": [
+          "四题准确",
+          "除数位置变化时仍能求商"
+        ],
+        "family_id": "division.fact-family",
+        "variant_id": "m2a.5.5:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.multiply.table-facts"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "63÷7中的已知除数是7还是9？",
+        "hint": "先抄题中的7，再写7×□=63。",
+        "revision_prompt": "在原式里圈除数，把9放在该题实际应处的商位置。"
+      },
+      "criterion_index": 0,
+      "title": "能用 9 的口诀求商"
+    },
+    {
+      "explanation": "区分相近口诀可比较组数与总数：6个9是54，7个9是63，后者多一个9；六九与七九不能只凭末位猜。",
+      "observation_note": "本项观察区分54与63对应的组数、用多一组9解释差1；看过参考或得到提示后的完成须单独记录，仍需以后独立换题确认。",
+      "self_check": {
+        "prompt": "分别算54÷9与63÷9，并解释两道商为何相差1。",
+        "reference_answer": "商为6和7；63比54多9，正好多一组9，所以商多1。",
+        "criteria": [
+          "区分54与63对应的组数",
+          "用多一组9解释差1"
+        ],
+        "family_id": "division.fact-family",
+        "variant_id": "m2a.5.5:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.divide.group-count",
+          "primary.multiply.table-facts"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "从54添9得到63，添的是几个“9的一组”？",
+        "hint": "在6组9后再添1组，数总组数。",
+        "revision_prompt": "把六九与七九配成相邻两行，标出增加的9再重新回答。"
+      },
+      "criterion_index": 1,
+      "title": "能区分相近的两句口诀"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

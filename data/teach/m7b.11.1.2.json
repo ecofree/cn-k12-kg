@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.11.1.2",
+  "name": "不等式的性质",
+  "tier": "core",
+  "hook": "3>1，但−3<−1；为什么加负号会改变大小方向？",
+  "definition": "不等式两边加（减）同一个数或式，不等号方向不变；两边乘（除）同一个正数方向不变，乘（除）同一个负数方向必须改变。",
+  "why": "同时加减相同数相当于数轴整体平移，不改变左右顺序；乘正数只缩放，乘负数还把数轴关于原点翻转，左右颠倒，所以不等号要反向。除以负数有同样效果。",
+  "when_to_use": [
+    "要通过等价变形解不等式",
+    "未知数系数为负数须化成1"
+  ],
+  "steps": [
+    "确认当前操作是加减还是乘除",
+    "乘除时先检查数的正负和是否为0",
+    "写出变形后关系并选一个原解回查"
+  ],
+  "worked_example": {
+    "prompt": "由−2x≤6求x的范围。",
+    "answer": "x≥−3",
+    "steps": [
+      "两边同除以−2，因除数为负，不等号由≤改为≥。",
+      "6÷(−2)=−3，所以x≥−3；例如x=0代入成立。"
+    ],
+    "family_id": "inequality.divide-negative.reverse",
+    "variant_id": "m7b.11.1.2:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "execute"
+  },
+  "pitfalls": [
+    "移项只是两边同加减，不需要额外改变不等号方向。",
+    "若乘除量的符号未知，不能直接断言方向保持。"
+  ],
+  "check": "独立完成并解释：已知a<b，以下变形一定正确的是哪一个？ 备选：A. −2a<−2b；B. a−5<b−5；C. a/0<b/0 请写出判断或计算依据。；已知−3x<12，把x系数化为1后得到怎样的不等式？ 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能运用三条性质变形不等式",
+      "explanation": "加减同数不改方向，乘除正数不改，乘除负数反向。",
+      "self_check": {
+        "prompt": "已知a<b，以下变形一定正确的是哪一个？ 备选：A. −2a<−2b；B. a−5<b−5；C. a/0<b/0 请写出判断或计算依据。",
+        "reference_answer": "同减5保持大小；乘负数应反向；除以0没有意义，因此只有a−5<b−5成立。 正确选项内容：a−5<b−5。",
+        "criteria": [
+          "辨认同减5合法",
+          "指出负倍数与0的限制"
+        ],
+        "family_id": "inequality.properties.sign-conditions",
+        "variant_id": "m7b.11.1.2:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "a<b时乘−2为什么不能保持原方向？除以0有没有定义？",
+        "hint": "用1<3代入检查−2>−6，再回到一般规则；加减同量不改变方向。",
+        "revision_prompt": "写出a+4<b+4、−a>−b两种正确变形，注明乘数正负；说明乘0只得相等而非原严格不等式。"
+      },
+      "observation_note": "观察变形的符号与非零条件；一个数值例子用于辨别，不代替一般性质依据。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能在乘除负数时正确改变不等号方向",
+      "explanation": "负系数化为1时要同时改变不等号的方向。",
+      "self_check": {
+        "prompt": "已知−3x<12，把x系数化为1后得到怎样的不等式？ 请写出判断或计算依据。",
+        "reference_answer": "两边同除以负数−3必须改变方向，得到x>−4。",
+        "criteria": [
+          "同除以−3",
+          "方向由<变>"
+        ],
+        "family_id": "inequality.divide-negative.reverse",
+        "variant_id": "m7b.11.1.2:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把−3x<12写成x<−4后，x=0在原式与新式中是否一致？",
+        "hint": "同除−3必须反向；用候选值验证可发现错误方向。",
+        "revision_prompt": "对照解3x<12与−3x<12，写除数符号和所得方向，避免遇到负号一律翻转。"
+      },
+      "observation_note": "观察负数乘除的反向规则；移项出现负数本身并非改变方向的理由。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能求一元一次不等式的最大或最小整数解",
+      "explanation": "先求实数解的范围，再在范围内选择整数边界。严格不等号不包含端点，非严格不等号可包含；若乘除负数必须改变不等号方向。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：解不等式 3x-5<7，它最大的整数解是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：3。3x−5<7得x<4，最大整数3。",
+        "criteria": [
+          "解集方向、端点包含性及整数限制都正确",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "inequality.linear.integer-boundary",
+        "variant_id": "m7b.11.1.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "端点属于范围吗？当端点是整数时，能直接把它当解吗？",
+        "hint": "画开放或封闭端点，列出附近两个整数代入原不等式检验。",
+        "revision_prompt": "先回答这个辨别问题：端点属于范围吗？当端点是整数时，能直接把它当解吗？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；解集方向、端点包含性及整数限制都正确。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.11.1.2-q201",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.11.1.2-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.11.1.2-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "diagram": {
+    "src": "/static/diagrams/junior-inequality-reflection.svg",
+    "alt": "数轴上1在3左边；同乘−1后，−1在−3右边。颜色对应原数与相反数，展示乘负数后大小方向反转。"
+  },
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

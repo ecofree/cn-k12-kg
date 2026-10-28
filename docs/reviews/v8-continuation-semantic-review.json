@@ -1,0 +1,3721 @@
+{
+  "schema": 1,
+  "base_commit": "2aafccd7cc14ead9d05345374f27662e7d1ab9d9",
+  "content_fingerprint": "1a6e839d0865e4e63b690c29f06f15ccd4bc9f8f932c577589dd9e34a489c598",
+  "status": "reviewed",
+  "items": [
+    {
+      "change_id": "change_01e54d1e0b4bf7881bbc45ae",
+      "path": "cnkg/assessments.py",
+      "after_sha256": "df545e573834f4e79c4149ff3c6dd38b44ce7269ee18b7c91d12ea175e5db4ef",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "逐目标作者计划有稳定来源、分项和双向任务绑定；只统计实际客观任务的规范题族，量规不能消除缺口。导航隐藏私有判据；旧任务不被新适配器改写。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        }
+      ]
+    },
+    {
+      "change_id": "change_96efaf589899457db4fad40b",
+      "path": "cnkg/bank_review.py",
+      "after_sha256": "c81912d1935d1eefaa29e98777e5b8d2261110c8f91690983ca1941899eb4b10",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "完整原题集合逐条检查真实作者所有权、当前题目哈希、数学理由、观察边界与审读身份；前轮908与本轮2676不重复计数，493隔离仍隔离。程序核对证据绑定，不宣称程序理解题意。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "tests/test_bank_review_v8.py",
+          "sha256": "92ff01bdb714530dacb7d29c83dd01ba4612de81a960332b326dfc7641419fcd"
+        }
+      ]
+    },
+    {
+      "change_id": "change_01c612ae048eaf5290984e0f",
+      "path": "cnkg/catalog.py",
+      "after_sha256": "b8f2b6143965388d36169b4edbc89cdc934ef980c5c4dacf044ef04dab42f59f",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新assessment源明确登记任务/分项/材料；每个任务阶段保留为对应purpose，真实任务与图示决定资源版本，未建立新的技能身份。所有新任务禁止自动掌握与薄弱判断。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "tests/test_catalog.py",
+          "sha256": "f73dc7f18caf1864ebd1fe7eac2664c4ed7cfa7bd4d123db04f75a3302aefed4"
+        }
+      ]
+    },
+    {
+      "change_id": "change_c96c4517a5ea47878c8e3661",
+      "path": "cnkg/change_review.py",
+      "after_sha256": "7ebb0dc484e965f5fd40fa45642a82bf9c0e6f4f5ddf022d059301d8a07b4896",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "观察源、skill_id节点和单独SVG修改都能追到目标页面；全量2290材料及运行页面按实际影响生成预览，保留不可定位与未登记错误，不缩减浏览器清单。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_change_review_v4.py",
+          "sha256": "e94b9c1e628b26e49e789641572358efed9aead9212ee72de94c0264232a3318"
+        }
+      ]
+    },
+    {
+      "change_id": "change_cf2b96305cd30554c9de0ea5",
+      "path": "cnkg/contracts.py",
+      "after_sha256": "c1380b861f373630b159e33ade90377a55a59a827589f4e2c9cd41ef575cf73c",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "作者观察源参与严格Schema与答案合同验证，未知字段、无效评分规格和缺失分项不得由默认值掩盖。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        },
+        {
+          "path": "tests/test_catalog.py",
+          "sha256": "f73dc7f18caf1864ebd1fe7eac2664c4ed7cfa7bd4d123db04f75a3302aefed4"
+        }
+      ]
+    },
+    {
+      "change_id": "change_469d3c37891ac938278e576d",
+      "path": "cnkg/learning_needs.py",
+      "after_sha256": "9d2d507c7050fda4b210f844cdd2bda6ec0a4cc564a82ed9c2d329d24d00635a",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "共享任务的分项入口及推荐入口保留当前所选目标；仅返回准确服务器可核对动作。新鲜性继续核查题、规范题族、表征与已见帮助，不以任务标签代替独立表现。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        }
+      ]
+    },
+    {
+      "change_id": "change_b974668701cb654ccf1feb25",
+      "path": "cnkg/learning_store.py",
+      "after_sha256": "6b359120d5385c1432e57cb5dbe26616c81036ef74e2ef87dbac3cf132231bf4",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "保存附件前核对真实字段、原字节与上限；压缩索引保留实际组件、观察边界、附件数量，不存参考答案。原owner、修订和幂等规则不变。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        },
+        {
+          "path": "tests/test_portfolio_web.py",
+          "sha256": "0c49f31f54a655b054e5a14872a23709cbf17e694a69902709f220a8398d1825"
+        }
+      ]
+    },
+    {
+      "change_id": "change_d71429bd8c4fd0b5efffa648",
+      "path": "cnkg/math_statements.py",
+      "after_sha256": "5cf8444ef38951085642fb9d995c4cb49a175aff644f8559010c225dda62f003",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "将实际新增assessment作者源纳入完整数值等式扫描；不把变量表达式、近似式或故意矛盾无条件放行，反例仍须逐处审读并绑定来源。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "docs/reviews/v8-numeric-counterexample-review.json",
+          "sha256": "de97630ea784e256ea2c8416f23f5135f1e5e0518086d4b961451172864eba40"
+        },
+        {
+          "path": "tests/test_math_statements_v6.py",
+          "sha256": "edc88f2c5674637e54658ae9da57c210aaedcc431705e34d4beb3ef4b78942ac"
+        }
+      ]
+    },
+    {
+      "change_id": "change_676b2870f8f95246d20b4e7e",
+      "path": "cnkg/portfolio.py",
+      "after_sha256": "5048bfcec76073e185745eb117a997c2be2b4965fed8bcad00ba042b6385ba0b",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "作品只接受对应资源字段的附件，实际图稿/音频与文字共同形成新修订；仍为学习者提交和自评，不成为自动成绩。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        }
+      ]
+    },
+    {
+      "change_id": "change_67ccd1b3ef1f4a703186ee90",
+      "path": "cnkg/profile_recovery.py",
+      "after_sha256": "8ade95913efc4c48e32fa58c02e67c764e6a0d0ab4deaeda553d212c6ac61166",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "加密完整备份导入前校验各修订实际附件的字段、内容、长度和哈希，禁止跨作品绑定；新学习库恢复后的字节与旧修订相同。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        },
+        {
+          "path": "tests/test_profile_recovery.py",
+          "sha256": "522e5d1d3e1fc2ce0649fba5429eb785366cb9503459170c9b8115e69f63a852"
+        }
+      ]
+    },
+    {
+      "change_id": "change_c62f24fb0a6e06707dafb0bd",
+      "path": "cnkg/review_timing.py",
+      "after_sha256": "0c097b0bcfb075146af5909005248498e35f19699403bad36648e95c6be58f8b",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新分项会话按assessment材料准确取实际题目与题族曝光；原帮助和真实间隔要求仍适用，不以新材料名重置历史。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        },
+        {
+          "path": "tests/test_historical_family_exposure_v7.py",
+          "sha256": "11739b6e60cdba018c7ff41f34190f523d99a9191bd8d25d5f976f1abf029e8b"
+        }
+      ]
+    },
+    {
+      "change_id": "change_9c0857657e6e09a194393678",
+      "path": "cnkg/runtime_version.py",
+      "after_sha256": "d8771bfc3ad8e0700d1fb3d343a12303a0aa371a2769b5149cf3a68c09e3832e",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "逐题题族转换表纳入评分运行版本，规则变更不会静默当作旧会话规则。旧会话仍使用原题面、评分与结果。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_task_transitions_v8.py",
+          "sha256": "04963573fd2eec5edc33bca7c71fbc0d7a45f6375a4a44f62a9be2fe6dd87c62"
+        },
+        {
+          "path": "tests/test_runtime_learning_boundaries_v7.py",
+          "sha256": "8e5a7381eb5f23b7352797bff312a9f710ca794200afee33429a72ee55a9599f"
+        }
+      ]
+    },
+    {
+      "change_id": "change_88ab855042f3fe29b4f0d046",
+      "path": "cnkg/task_families.py",
+      "after_sha256": "410fcfd437c9a23b34d261f1a7e3ba0d8ac4344a43ca33ddc968500cee310767",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "m1b.2.4-q2只按具体题目及已审前后源/合同转换旧曝光；没有把remove-part整个题族全局别名为missing-part，旧正向技能、答案和事件不回写。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_task_transitions_v8.py",
+          "sha256": "04963573fd2eec5edc33bca7c71fbc0d7a45f6375a4a44f62a9be2fe6dd87c62"
+        },
+        {
+          "path": "tests/test_historical_family_exposure_v7.py",
+          "sha256": "11739b6e60cdba018c7ff41f34190f523d99a9191bd8d25d5f976f1abf029e8b"
+        }
+      ]
+    },
+    {
+      "change_id": "change_36c2f7da9ce2c388c5f389a0",
+      "path": "cnkg/work_attachments.py",
+      "after_sha256": "635022b0f32c9e87a94afb2b232d131f849cbde6c425c8240db75f03dc364b6d",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "严格检验实际PNG/JPEG/WebP或音频字节、字段归属、SHA、长度、名称及数量；不支持活动SVG，不以文件头校验冒称内容已审核。每份及单个容量有明确上限。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        }
+      ]
+    },
+    {
+      "change_id": "change_efa0fbd574cc60c360515db5",
+      "path": "data/assessments/junior.json",
+      "after_sha256": "ae05594652afbbc26c8b158b73f6e907d43b78aa1e2dcb0dc34a9d75ac45973e",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "goals": 518,
+          "tasks": 255,
+          "source_sha256": "ae05594652afbbc26c8b158b73f6e907d43b78aa1e2dcb0dc34a9d75ac45973e",
+          "decision_basis": "分项按原目标的实际行为逐项撰写，过程保留实际提交要求与量规；新增不同客观结构逐题核对条件、答案与不等价理由。同结构换数不计第二族，所有保留缺口与未观察范围仍列示。具体逐项目标/数学记录见对应报告。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "instructional_support",
+        "objectives",
+        "representations",
+        "review_claims",
+        "scope_and_identity",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-goal-evidence-review.json",
+          "sha256": "7635c85bf6542f989a5260a34c92b5409f2dffb2f34bea2333a39af2bedb8ef8"
+        },
+        {
+          "path": "docs/reviews/v8-junior-objective-root-review.json",
+          "sha256": "d4840466b65539f5a19a4c1466af59943ce9ce95353414542096b866c2100e7a"
+        },
+        {
+          "path": "docs/reviews/v8-junior-objective-cross-review.json",
+          "sha256": "4490273c5951229eb6eb931f54c944227da9a5385d8615b8efc6878c02cbd183"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-numeric-counterexample-review.json",
+          "sha256": "de97630ea784e256ea2c8416f23f5135f1e5e0518086d4b961451172864eba40"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        }
+      ]
+    },
+    {
+      "change_id": "change_6c91aa34ef5ed47143f45092",
+      "path": "data/assessments/primary-resources.json",
+      "after_sha256": "a454a432afc2ffd0768e7c47d9cd1a87b852336b2418aac3c3aa02ef79364ad2",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "goals": 73,
+          "tasks": 83,
+          "source_sha256": "a454a432afc2ffd0768e7c47d9cd1a87b852336b2418aac3c3aa02ef79364ad2",
+          "decision_basis": "分项按原目标的实际行为逐项撰写，过程保留实际提交要求与量规；新增不同客观结构逐题核对条件、答案与不等价理由。同结构换数不计第二族，所有保留缺口与未观察范围仍列示。具体逐项目标/数学记录见对应报告。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "instructional_support",
+        "objectives",
+        "representations",
+        "review_claims",
+        "scope_and_identity",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-resource-goal-review.json",
+          "sha256": "5625ecf6a0c706653bd457b0d3cb7eb36a0a64c2dee4632fc1af881928377214"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-numeric-counterexample-review.json",
+          "sha256": "de97630ea784e256ea2c8416f23f5135f1e5e0518086d4b961451172864eba40"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        }
+      ]
+    },
+    {
+      "change_id": "change_9d288d1475968588468a3960",
+      "path": "data/assessments/primary.json",
+      "after_sha256": "80364f9a804b6944fce51f34bb3d1ebef736b85b3a22396bf909c763f77956e4",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "goals": 539,
+          "tasks": 807,
+          "source_sha256": "80364f9a804b6944fce51f34bb3d1ebef736b85b3a22396bf909c763f77956e4",
+          "decision_basis": "分项按原目标的实际行为逐项撰写，过程保留实际提交要求与量规；新增不同客观结构逐题核对条件、答案与不等价理由。同结构换数不计第二族，所有保留缺口与未观察范围仍列示。具体逐项目标/数学记录见对应报告。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "instructional_support",
+        "objectives",
+        "representations",
+        "review_claims",
+        "scope_and_identity",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-goal-evidence-review.json",
+          "sha256": "b639567a68ba96567555df216d7a7b42fe9a3e394ceb4faea7e2ca430642581f"
+        },
+        {
+          "path": "docs/reviews/v8-primary-objective-cross-review.json",
+          "sha256": "5a104888a056d2d392c20705be45471616929e6e26ae6797dd46630479e8a576"
+        },
+        {
+          "path": "docs/reviews/v8-primary-visual-observation-review.json",
+          "sha256": "58e8b1fd4d669c502fe0b628abed55396da533df93149d7e37846db81ff9b96e"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-numeric-counterexample-review.json",
+          "sha256": "de97630ea784e256ea2c8416f23f5135f1e5e0518086d4b961451172864eba40"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        }
+      ]
+    },
+    {
+      "change_id": "change_1aa4ef205416c94a16c633ed",
+      "path": "data/assessments/senior.json",
+      "after_sha256": "aaf8ff3a2f24d10d947a2261c5e38a83ab9d69ed3cf65b7f23c2b541fb7b0b8e",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "goals": 648,
+          "tasks": 767,
+          "source_sha256": "aaf8ff3a2f24d10d947a2261c5e38a83ab9d69ed3cf65b7f23c2b541fb7b0b8e",
+          "decision_basis": "分项按原目标的实际行为逐项撰写，过程保留实际提交要求与量规；新增不同客观结构逐题核对条件、答案与不等价理由。同结构换数不计第二族，所有保留缺口与未观察范围仍列示。具体逐项目标/数学记录见对应报告。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "instructional_support",
+        "objectives",
+        "representations",
+        "review_claims",
+        "scope_and_identity",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-senior-goal-evidence-review.json",
+          "sha256": "5b89c3af93b9b15f2bdc2d6c64213116d28b8bac37d7c48f84ddc7bf69635d0c"
+        },
+        {
+          "path": "docs/reviews/v8-senior-objective-task-review.json",
+          "sha256": "f7f83adfa08a256adbf0632895c5dbe4ae3996f136d52efccd5188ec138d7c30"
+        },
+        {
+          "path": "docs/reviews/v8-senior-objective-cross-review.json",
+          "sha256": "e348072ba65d2e5394f2445c3f6c582719e4225545207fb04e35071b41a0d638"
+        },
+        {
+          "path": "tests/test_senior_assessment_semantics_v8.py",
+          "sha256": "3d815c2561193a8e4bd664cbea9d7318bd6655e975be017db393fe372ba888c2"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-numeric-counterexample-review.json",
+          "sha256": "de97630ea784e256ea2c8416f23f5135f1e5e0518086d4b961451172864eba40"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        }
+      ]
+    },
+    {
+      "change_id": "change_d5f56b81fc3192483c30b378",
+      "path": "data/content/bashang.json",
+      "after_sha256": "742e60665eaaaead1765f959ecb3b807ee563ac12186ea3a11cb3a7398631e93",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "this_round_bank_tasks_in_source": 76,
+          "reviewed_task_ids": [
+            "m8a.13.1-q1",
+            "m8a.13.1-q2",
+            "m8a.13.1-q201",
+            "m8a.13.1-q202",
+            "m8a.13.2-q1",
+            "m8a.13.2-q2",
+            "m8a.13.2-q201",
+            "m8a.13.2-q202",
+            "m8a.13.3-q1",
+            "m8a.13.3-q2",
+            "m8a.13.3-q201",
+            "m8a.13.3-q202",
+            "m8a.14.1-q1",
+            "m8a.14.1-q2",
+            "m8a.14.1-q201",
+            "m8a.14.1-q4",
+            "m8a.14.2-q1",
+            "m8a.14.2-q2",
+            "m8a.14.2-q3",
+            "m8a.14.2-q4",
+            "m8a.14.2-q5",
+            "m8a.14.3-q1",
+            "m8a.14.3-q2",
+            "m8a.14.3-q201",
+            "m8a.15.1-q1",
+            "m8a.15.1-q2",
+            "m8a.15.1-q201",
+            "m8a.15.1-q202",
+            "m8a.15.2-q1",
+            "m8a.15.2-q2",
+            "m8a.15.2-q201",
+            "m8a.15.2-q202",
+            "m8a.15.3-q1",
+            "m8a.15.3-q2",
+            "m8a.15.3-q201",
+            "m8a.15.3-q202",
+            "m8a.16.1-q1",
+            "m8a.16.1-q2",
+            "m8a.16.1-q201",
+            "m8a.16.1-q202",
+            "m8a.16.2-q1",
+            "m8a.16.2-q2",
+            "m8a.16.2-q201",
+            "m8a.16.2-q202",
+            "m8a.16.3-q1",
+            "m8a.16.3-q2",
+            "m8a.16.3-q201",
+            "m8a.16.3-q202",
+            "m8a.17.1-q1",
+            "m8a.17.1-q2",
+            "m8a.17.1-q201",
+            "m8a.17.1-q202",
+            "m8a.17.2-q1",
+            "m8a.17.2-q2",
+            "m8a.17.2-q201",
+            "m8a.17.2-q202",
+            "m8a.18.1-q1",
+            "m8a.18.1-q2",
+            "m8a.18.1-q201",
+            "m8a.18.1-q202",
+            "m8a.18.2-q1",
+            "m8a.18.2-q301",
+            "m8a.18.2-q302",
+            "m8a.18.2-q303",
+            "m8a.18.3-q2",
+            "m8a.18.3-q301",
+            "m8a.18.3-q302",
+            "m8a.18.3-q303",
+            "m8a.18.4-q1",
+            "m8a.18.4-q2",
+            "m8a.18.4-q201",
+            "m8a.18.4-q202",
+            "m8a.18.5-q1",
+            "m8a.18.5-q2",
+            "m8a.18.5-q201",
+            "m8a.18.5-q202"
+          ],
+          "decision_basis": "按题面、所有选项、答案、解析、条件、实际族与观察边界逐题审读，具体数学推导与保留隔离理由在逐题记录中。小学额外纠正12项不当教材说明；初中修正中点次序和约分条件等具体问题。没有把同文件的V7旧审题改称V8重审。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "objectives",
+        "review_claims",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-bank-review.json",
+          "sha256": "8ac83b17fe02835db8a763ae4339049a0f4547c7ce407d8473d88921652ef3bd"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-step-task-review.json",
+          "sha256": "adc3e71b62107683af27acf5b60b9e000c2a6d22b9bda2c5a1d20ac4b14875bf"
+        }
+      ]
+    },
+    {
+      "change_id": "change_6198220d345af66972b8ee74",
+      "path": "data/content/baxia.json",
+      "after_sha256": "4a32a0d5fd9eeef97795f09a062da96320ebbf2b43ca1fa041c365cc73e96af6",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "this_round_bank_tasks_in_source": 68,
+          "reviewed_task_ids": [
+            "m8b.19.1-q2",
+            "m8b.19.1-q201",
+            "m8b.19.1-q202",
+            "m8b.19.2-q1",
+            "m8b.19.2-q2",
+            "m8b.19.2-q201",
+            "m8b.19.2-q202",
+            "m8b.19.3-q1",
+            "m8b.19.3-q2",
+            "m8b.19.3-q201",
+            "m8b.19.3-q202",
+            "m8b.20.1-q1",
+            "m8b.20.1-q2",
+            "m8b.20.1-q201",
+            "m8b.20.1-q202",
+            "m8b.20.2-q1",
+            "m8b.20.2-q2",
+            "m8b.20.2-q201",
+            "m8b.20.2-q3",
+            "m8b.21.1-q1",
+            "m8b.21.1-q2",
+            "m8b.21.1-q201",
+            "m8b.21.1-q202",
+            "m8b.21.2-q1",
+            "m8b.21.2-q2",
+            "m8b.21.2-q201",
+            "m8b.21.2-q202",
+            "m8b.21.3-q1",
+            "m8b.21.3-q2",
+            "m8b.21.3-q201",
+            "m8b.21.3-q3",
+            "m8b.22.1-q1",
+            "m8b.22.1-q2",
+            "m8b.22.1-q201",
+            "m8b.22.1-q202",
+            "m8b.22.2-q2",
+            "m8b.22.2-q201",
+            "m8b.22.2-q202",
+            "m8b.23.1-q1",
+            "m8b.23.1-q2",
+            "m8b.23.1-q201",
+            "m8b.23.1-q202",
+            "m8b.23.2-q1",
+            "m8b.23.2-q2",
+            "m8b.23.2-q201",
+            "m8b.23.2-q202",
+            "m8b.23.3-q2",
+            "m8b.23.3-q201",
+            "m8b.23.3-q202",
+            "m8b.23.4-q201",
+            "m8b.23.4-q202",
+            "m8b.24.1-q1",
+            "m8b.24.1-q2",
+            "m8b.24.1-q201",
+            "m8b.24.1-q202",
+            "m8b.24.2-q2",
+            "m8b.24.2-q201",
+            "m8b.24.2-q202",
+            "m8b.24.3-q1",
+            "m8b.24.3-q2",
+            "m8b.24.3-q90",
+            "m8b.24.3-q91",
+            "m8b.24.3-q92",
+            "m8b.24.3-q93",
+            "m8b.24.4-q1",
+            "m8b.24.4-q2",
+            "m8b.24.4-q201",
+            "m8b.24.4-q202"
+          ],
+          "decision_basis": "按题面、所有选项、答案、解析、条件、实际族与观察边界逐题审读，具体数学推导与保留隔离理由在逐题记录中。小学额外纠正12项不当教材说明；初中修正中点次序和约分条件等具体问题。没有把同文件的V7旧审题改称V8重审。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "objectives"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-bank-review.json",
+          "sha256": "8ac83b17fe02835db8a763ae4339049a0f4547c7ce407d8473d88921652ef3bd"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-step-task-review.json",
+          "sha256": "adc3e71b62107683af27acf5b60b9e000c2a6d22b9bda2c5a1d20ac4b14875bf"
+        }
+      ]
+    },
+    {
+      "change_id": "change_923e96523d4722d05bd208eb",
+      "path": "data/content/erxia.json",
+      "after_sha256": "d6ed6f384f31949d6ac2743fa51af04ab0a6ae722b9bfdf0a444fe67c359aaf3",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "this_round_bank_tasks_in_source": 67,
+          "reviewed_task_ids": [
+            "m2b.1.1-q1",
+            "m2b.1.1-q2",
+            "m2b.1.1-q90",
+            "m2b.1.1-q91",
+            "m2b.1.1-q92",
+            "m2b.1.1-q93",
+            "m2b.1.2-q1",
+            "m2b.1.2-q2",
+            "m2b.1.2-q90",
+            "m2b.1.2-q91",
+            "m2b.1.2-q92",
+            "m2b.1.2-q93",
+            "m2b.1.3-q1",
+            "m2b.1.3-q2",
+            "m2b.1.3-q90",
+            "m2b.1.3-q91",
+            "m2b.1.3-q92",
+            "m2b.1.3-q93",
+            "m2b.2.1-q1",
+            "m2b.2.1-q2",
+            "m2b.2.2-q1",
+            "m2b.2.2-q2",
+            "m2b.3.1-q1",
+            "m2b.3.1-q2",
+            "m2b.3.1-q90",
+            "m2b.3.1-q91",
+            "m2b.3.1-q92",
+            "m2b.3.1-q93",
+            "m2b.3.1-q95",
+            "m2b.3.2-q1",
+            "m2b.3.2-q2",
+            "m2b.3.2-q90",
+            "m2b.3.2-q91",
+            "m2b.3.2-q92",
+            "m2b.3.2-q93",
+            "m2b.3.3-q1",
+            "m2b.3.3-q2",
+            "m2b.3.3-q90",
+            "m2b.3.3-q91",
+            "m2b.3.3-q92",
+            "m2b.3.3-q93",
+            "m2b.3.4-q1",
+            "m2b.3.4-q2",
+            "m2b.3.5-q1",
+            "m2b.3.5-q2",
+            "m2b.3.5-q90",
+            "m2b.3.5-q91",
+            "m2b.3.5-q92",
+            "m2b.3.5-q93",
+            "m2b.3.5-q95",
+            "m2b.4.1-q1",
+            "m2b.4.1-q2",
+            "m2b.4.1-q90",
+            "m2b.4.1-q91",
+            "m2b.4.1-q92",
+            "m2b.4.1-q93",
+            "m2b.4.2-q1",
+            "m2b.4.2-q2",
+            "m2b.4.2-q90",
+            "m2b.4.2-q91",
+            "m2b.4.2-q92",
+            "m2b.4.2-q93",
+            "m2b.4.3-q1",
+            "m2b.4.3-q90",
+            "m2b.4.3-q92",
+            "m2b.4.3-q93",
+            "m2b.4.3-q95"
+          ],
+          "decision_basis": "按题面、所有选项、答案、解析、条件、实际族与观察边界逐题审读，具体数学推导与保留隔离理由在逐题记录中。小学额外纠正12项不当教材说明；初中修正中点次序和约分条件等具体问题。没有把同文件的V7旧审题改称V8重审。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-bank-review.json",
+          "sha256": "3ca7f8960087b19408cdfbe49a3f43cc3114df1f80f2fbc5b9d5ddfa136bbaed"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-step-task-review.json",
+          "sha256": "adc3e71b62107683af27acf5b60b9e000c2a6d22b9bda2c5a1d20ac4b14875bf"
+        }
+      ]
+    },
+    {
+      "change_id": "change_30e07665df65c02b425b6c3f",
+      "path": "data/content/jiushang.json",
+      "after_sha256": "f9d6625663ee899cd15640085d03e6ecf39e06fe6a8ec707ebf89f3e61ba9613",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "this_round_bank_tasks_in_source": 73,
+          "reviewed_task_ids": [
+            "m9a.25.1-q1",
+            "m9a.25.1-q2",
+            "m9a.25.1-q201",
+            "m9a.25.1-q202",
+            "m9a.25.2-q1",
+            "m9a.25.2-q2",
+            "m9a.25.2-q201",
+            "m9a.25.2-q202",
+            "m9a.25.3-q1",
+            "m9a.25.3-q2",
+            "m9a.25.3-q201",
+            "m9a.25.3-q202",
+            "m9a.26.1-q1",
+            "m9a.26.1-q2",
+            "m9a.26.1-q201",
+            "m9a.26.1-q202",
+            "m9a.26.2-q1",
+            "m9a.26.2-q2",
+            "m9a.26.2-q201",
+            "m9a.26.2-q202",
+            "m9a.26.3-q1",
+            "m9a.26.3-q2",
+            "m9a.26.3-q201",
+            "m9a.26.3-q202",
+            "m9a.26.4-q1",
+            "m9a.26.4-q2",
+            "m9a.26.4-q201",
+            "m9a.26.4-q202",
+            "m9a.27.1-q1",
+            "m9a.27.1-q2",
+            "m9a.27.1-q201",
+            "m9a.27.1-q202",
+            "m9a.27.2-q1",
+            "m9a.27.2-q2",
+            "m9a.27.2-q201",
+            "m9a.27.3-q1",
+            "m9a.27.3-q2",
+            "m9a.27.3-q90",
+            "m9a.27.3-q91",
+            "m9a.27.3-q92",
+            "m9a.27.3-q93",
+            "m9a.28.1-q1",
+            "m9a.28.1-q2",
+            "m9a.28.1-q201",
+            "m9a.28.1-q202",
+            "m9a.28.2-q1",
+            "m9a.28.2-q2",
+            "m9a.28.2-q4",
+            "m9a.28.2-q5",
+            "m9a.29.1-q1",
+            "m9a.29.1-q2",
+            "m9a.29.1-q201",
+            "m9a.29.1-q202",
+            "m9a.29.2-q1",
+            "m9a.29.2-q2",
+            "m9a.29.2-q201",
+            "m9a.29.2-q202",
+            "m9a.29.3-q1",
+            "m9a.29.3-q2",
+            "m9a.29.3-q201",
+            "m9a.29.3-q202",
+            "m9a.30.1-q1",
+            "m9a.30.1-q2",
+            "m9a.30.1-q201",
+            "m9a.30.1-q202",
+            "m9a.30.2-q1",
+            "m9a.30.2-q2",
+            "m9a.30.2-q201",
+            "m9a.30.2-q202",
+            "m9a.30.3-q1",
+            "m9a.30.3-q2",
+            "m9a.30.3-q201",
+            "m9a.30.3-q202"
+          ],
+          "decision_basis": "按题面、所有选项、答案、解析、条件、实际族与观察边界逐题审读，具体数学推导与保留隔离理由在逐题记录中。小学额外纠正12项不当教材说明；初中修正中点次序和约分条件等具体问题。没有把同文件的V7旧审题改称V8重审。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "objectives"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-bank-review.json",
+          "sha256": "8ac83b17fe02835db8a763ae4339049a0f4547c7ce407d8473d88921652ef3bd"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-step-task-review.json",
+          "sha256": "adc3e71b62107683af27acf5b60b9e000c2a6d22b9bda2c5a1d20ac4b14875bf"
+        }
+      ]
+    },
+    {
+      "change_id": "change_df7e067fb6fff8bc4be7ef52",
+      "path": "data/content/jiuxia.json",
+      "after_sha256": "069cfecbfe76ed111acb4429943de2ed553d79b4495feab75776c1fcf2ffd55b",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "this_round_bank_tasks_in_source": 66,
+          "reviewed_task_ids": [
+            "m9b.31.1-q1",
+            "m9b.31.1-q2",
+            "m9b.31.1-q201",
+            "m9b.31.1-q202",
+            "m9b.31.2.1-q1",
+            "m9b.31.2.1-q2",
+            "m9b.31.2.1-q201",
+            "m9b.31.2.1-q202",
+            "m9b.31.2.2-q1",
+            "m9b.31.2.2-q2",
+            "m9b.31.2.2-q201",
+            "m9b.31.2.2-q3",
+            "m9b.31.2.3-q1",
+            "m9b.31.2.3-q2",
+            "m9b.31.2.3-q201",
+            "m9b.31.2.3-q202",
+            "m9b.31.3-q1",
+            "m9b.31.3-q2",
+            "m9b.31.3-q201",
+            "m9b.31.3-q202",
+            "m9b.31.4-q1",
+            "m9b.31.4-q2",
+            "m9b.31.4-q201",
+            "m9b.31.4-q202",
+            "m9b.32.1-q1",
+            "m9b.32.1-q2",
+            "m9b.32.1-q201",
+            "m9b.32.1-q202",
+            "m9b.32.2.1-q1",
+            "m9b.32.2.1-q2",
+            "m9b.32.2.1-q201",
+            "m9b.32.2.1-q202",
+            "m9b.32.2.2-q1",
+            "m9b.32.2.2-q2",
+            "m9b.32.2.2-q201",
+            "m9b.32.2.2-q202",
+            "m9b.33.1-q1",
+            "m9b.33.1-q2",
+            "m9b.33.1-q3",
+            "m9b.33.1-q4",
+            "m9b.33.2.1-q2",
+            "m9b.33.2.1-q4",
+            "m9b.33.2.1-q5",
+            "m9b.33.2.2-q1",
+            "m9b.33.2.2-q2",
+            "m9b.33.2.2-q3",
+            "m9b.33.2.2-q4",
+            "m9b.33.2.2-q5",
+            "m9b.34.1.1-q1",
+            "m9b.34.1.1-q2",
+            "m9b.34.1.1-q201",
+            "m9b.34.1.1-q3",
+            "m9b.34.1.2-q1",
+            "m9b.34.1.2-q2",
+            "m9b.34.1.2-q201",
+            "m9b.34.1.2-q202",
+            "m9b.34.2-q1",
+            "m9b.34.2-q2",
+            "m9b.34.2-q201",
+            "m9b.34.2-q202",
+            "m9b.34.3-q1",
+            "m9b.34.3-q2",
+            "m9b.34.3-q90",
+            "m9b.34.3-q91",
+            "m9b.34.3-q92",
+            "m9b.34.3-q93"
+          ],
+          "decision_basis": "按题面、所有选项、答案、解析、条件、实际族与观察边界逐题审读，具体数学推导与保留隔离理由在逐题记录中。小学额外纠正12项不当教材说明；初中修正中点次序和约分条件等具体问题。没有把同文件的V7旧审题改称V8重审。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "objectives"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-bank-review.json",
+          "sha256": "8ac83b17fe02835db8a763ae4339049a0f4547c7ce407d8473d88921652ef3bd"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-step-task-review.json",
+          "sha256": "adc3e71b62107683af27acf5b60b9e000c2a6d22b9bda2c5a1d20ac4b14875bf"
+        }
+      ]
+    },
+    {
+      "change_id": "change_76518f65f8999f6b7cab299b",
+      "path": "data/content/liushang.json",
+      "after_sha256": "9f5851fe558acee0a6ef2a3fe82b9f21ef9fcf82dd0c697bc09b8a05259ce6fa",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "this_round_bank_tasks_in_source": 72,
+          "reviewed_task_ids": [
+            "m6a.1.1-q2",
+            "m6a.1.2-q1",
+            "m6a.1.2-q2",
+            "m6a.1.2-q3",
+            "m6a.2.1-q1",
+            "m6a.2.1-q2",
+            "m6a.2.1-q90",
+            "m6a.2.1-q91",
+            "m6a.2.1-q92",
+            "m6a.2.1-q93",
+            "m6a.2.1-q95",
+            "m6a.2.2-q1",
+            "m6a.2.2-q2",
+            "m6a.2.2-q90",
+            "m6a.2.2-q91",
+            "m6a.2.2-q92",
+            "m6a.2.2-q93",
+            "m6a.2.3-q1",
+            "m6a.2.3-q2",
+            "m6a.2.3-q95",
+            "m6a.3.1-q1",
+            "m6a.3.1-q2",
+            "m6a.3.1-q90",
+            "m6a.3.1-q91",
+            "m6a.3.1-q92",
+            "m6a.3.1-q93",
+            "m6a.3.2-q1",
+            "m6a.3.2-q2",
+            "m6a.3.2-q90",
+            "m6a.3.2-q91",
+            "m6a.3.2-q92",
+            "m6a.3.2-q93",
+            "m6a.3.2-q95",
+            "m6a.3.3-q1",
+            "m6a.3.3-q2",
+            "m6a.3.3-q90",
+            "m6a.3.3-q91",
+            "m6a.3.3-q92",
+            "m6a.3.3-q93",
+            "m6a.4.1-q1",
+            "m6a.4.1-q2",
+            "m6a.4.1-q3",
+            "m6a.4.2-q1",
+            "m6a.4.2-q2",
+            "m6a.4.3-q1",
+            "m6a.4.3-q2",
+            "m6a.5.1-q1",
+            "m6a.5.1-q2",
+            "m6a.5.2-q1",
+            "m6a.5.2-q2",
+            "m6a.5.2-q90",
+            "m6a.5.2-q91",
+            "m6a.5.2-q92",
+            "m6a.5.2-q93",
+            "m6a.5.3-q1",
+            "m6a.5.3-q2",
+            "m6a.5.3-q90",
+            "m6a.5.3-q91",
+            "m6a.5.3-q92",
+            "m6a.5.3-q93",
+            "m6a.5.4-q1",
+            "m6a.5.4-q2",
+            "m6a.6.1-q1",
+            "m6a.6.1-q2",
+            "m6a.6.2-q1",
+            "m6a.6.2-q2",
+            "m6a.6.2-q90",
+            "m6a.6.2-q91",
+            "m6a.6.2-q92",
+            "m6a.6.2-q93",
+            "m6a.6.3-q1",
+            "m6a.6.3-q2"
+          ],
+          "decision_basis": "按题面、所有选项、答案、解析、条件、实际族与观察边界逐题审读，具体数学推导与保留隔离理由在逐题记录中。小学额外纠正12项不当教材说明；初中修正中点次序和约分条件等具体问题。没有把同文件的V7旧审题改称V8重审。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other",
+        "representations",
+        "task_families"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-bank-review.json",
+          "sha256": "3ca7f8960087b19408cdfbe49a3f43cc3114df1f80f2fbc5b9d5ddfa136bbaed"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-step-task-review.json",
+          "sha256": "adc3e71b62107683af27acf5b60b9e000c2a6d22b9bda2c5a1d20ac4b14875bf"
+        }
+      ]
+    },
+    {
+      "change_id": "change_61d075a963de9d90ff079178",
+      "path": "data/content/qishang.json",
+      "after_sha256": "6f107dcd360fc53399812c18ae4cf2294a793a260802b6af2f72752d54cc020c",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "this_round_bank_tasks_in_source": 102,
+          "reviewed_task_ids": [
+            "m7a.1.1-q1",
+            "m7a.1.1-q2",
+            "m7a.1.1-q3",
+            "m7a.1.2.1-q1",
+            "m7a.1.2.1-q2",
+            "m7a.1.2.1-q3",
+            "m7a.1.2.2-q201",
+            "m7a.1.2.3-q1",
+            "m7a.1.2.3-q2",
+            "m7a.1.2.3-q201",
+            "m7a.1.2.3-q3",
+            "m7a.1.2.4-q1",
+            "m7a.1.2.4-q2",
+            "m7a.1.2.4-q4",
+            "m7a.1.2.5-q1",
+            "m7a.1.2.5-q2",
+            "m7a.1.2.5-q3",
+            "m7a.2.1.1-q1",
+            "m7a.2.1.1-q2",
+            "m7a.2.1.1-q201",
+            "m7a.2.1.1-q3",
+            "m7a.2.1.2-q1",
+            "m7a.2.1.2-q2",
+            "m7a.2.1.2-q201",
+            "m7a.2.1.2-q3",
+            "m7a.2.2.1-q1",
+            "m7a.2.2.1-q2",
+            "m7a.2.2.1-q3",
+            "m7a.2.2.1-q90",
+            "m7a.2.2.1-q91",
+            "m7a.2.2.1-q92",
+            "m7a.2.2.1-q93",
+            "m7a.2.2.2-q1",
+            "m7a.2.2.2-q2",
+            "m7a.2.2.2-q3",
+            "m7a.2.2.2-q4",
+            "m7a.2.3.1-q1",
+            "m7a.2.3.1-q2",
+            "m7a.2.3.1-q201",
+            "m7a.2.3.1-q3",
+            "m7a.2.3.2-q1",
+            "m7a.2.3.2-q2",
+            "m7a.2.3.2-q3",
+            "m7a.2.3.3-q1",
+            "m7a.2.3.3-q2",
+            "m7a.2.3.3-q3",
+            "m7a.2.3.3-q4",
+            "m7a.3.1-q1",
+            "m7a.3.1-q2",
+            "m7a.3.1-q3",
+            "m7a.3.1-q4",
+            "m7a.3.2-q1",
+            "m7a.3.2-q2",
+            "m7a.3.2-q201",
+            "m7a.3.2-q3",
+            "m7a.4.1-q1",
+            "m7a.4.1-q2",
+            "m7a.4.1-q201",
+            "m7a.4.1-q3",
+            "m7a.4.2-q1",
+            "m7a.4.2-q2",
+            "m7a.4.2-q3",
+            "m7a.4.2-q4",
+            "m7a.5.1.1-q1",
+            "m7a.5.1.1-q201",
+            "m7a.5.1.1-q3",
+            "m7a.5.1.2-q1",
+            "m7a.5.1.2-q3",
+            "m7a.5.2-q1",
+            "m7a.5.2-q2",
+            "m7a.5.2-q3",
+            "m7a.5.2-q4",
+            "m7a.5.3-q1",
+            "m7a.5.3-q2",
+            "m7a.5.3-q3",
+            "m7a.5.3-q4",
+            "m7a.6.1.1-q1",
+            "m7a.6.1.1-q2",
+            "m7a.6.1.1-q201",
+            "m7a.6.1.1-q3",
+            "m7a.6.1.2-q1",
+            "m7a.6.1.2-q2",
+            "m7a.6.1.2-q3",
+            "m7a.6.1.2-q4",
+            "m7a.6.2.1-q1",
+            "m7a.6.2.1-q2",
+            "m7a.6.2.1-q201",
+            "m7a.6.2.1-q3",
+            "m7a.6.2.2-q1",
+            "m7a.6.2.2-q2",
+            "m7a.6.2.2-q201",
+            "m7a.6.3.1-q1",
+            "m7a.6.3.1-q2",
+            "m7a.6.3.1-q3",
+            "m7a.6.3.1-q4",
+            "m7a.6.3.2-q1",
+            "m7a.6.3.2-q2",
+            "m7a.6.3.2-q201",
+            "m7a.6.3.3-q1",
+            "m7a.6.3.3-q2",
+            "m7a.6.3.3-q201",
+            "m7a.6.3.3-q3"
+          ],
+          "decision_basis": "按题面、所有选项、答案、解析、条件、实际族与观察边界逐题审读，具体数学推导与保留隔离理由在逐题记录中。小学额外纠正12项不当教材说明；初中修正中点次序和约分条件等具体问题。没有把同文件的V7旧审题改称V8重审。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "metadata_or_other",
+        "objectives",
+        "review_claims",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-bank-review.json",
+          "sha256": "8ac83b17fe02835db8a763ae4339049a0f4547c7ce407d8473d88921652ef3bd"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-step-task-review.json",
+          "sha256": "adc3e71b62107683af27acf5b60b9e000c2a6d22b9bda2c5a1d20ac4b14875bf"
+        }
+      ]
+    },
+    {
+      "change_id": "change_ff73f5d3252c855bdd062cef",
+      "path": "data/content/qixia.json",
+      "after_sha256": "71e9bfe02372b73120c7cae1fa908d86da76835632597e1682403d6820ad556f",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "this_round_bank_tasks_in_source": 105,
+          "reviewed_task_ids": [
+            "m7b.10.1-q1",
+            "m7b.10.1-q2",
+            "m7b.10.1-q201",
+            "m7b.10.2.1-q1",
+            "m7b.10.2.1-q2",
+            "m7b.10.2.1-q201",
+            "m7b.10.2.1-q202",
+            "m7b.10.2.2-q1",
+            "m7b.10.2.2-q2",
+            "m7b.10.2.2-q201",
+            "m7b.10.2.2-q202",
+            "m7b.10.3-q1",
+            "m7b.10.3-q2",
+            "m7b.10.3-q90",
+            "m7b.10.3-q91",
+            "m7b.10.3-q92",
+            "m7b.10.3-q93",
+            "m7b.11.1.1-q2",
+            "m7b.11.1.1-q201",
+            "m7b.11.1.1-q202",
+            "m7b.11.1.2-q1",
+            "m7b.11.1.2-q2",
+            "m7b.11.1.2-q201",
+            "m7b.11.1.2-q202",
+            "m7b.11.2-q1",
+            "m7b.11.2-q2",
+            "m7b.11.2-q201",
+            "m7b.11.2-q202",
+            "m7b.11.3-q1",
+            "m7b.11.3-q2",
+            "m7b.11.3-q201",
+            "m7b.11.3-q202",
+            "m7b.12.1.1-q1",
+            "m7b.12.1.1-q201",
+            "m7b.12.1.1-q3",
+            "m7b.12.1.2-q1",
+            "m7b.12.1.2-q2",
+            "m7b.12.2.1-q1",
+            "m7b.12.2.1-q2",
+            "m7b.12.2.1-q201",
+            "m7b.12.2.1-q202",
+            "m7b.12.2.2-q1",
+            "m7b.12.2.2-q2",
+            "m7b.12.2.2-q201",
+            "m7b.12.2.2-q202",
+            "m7b.12.2.3-q2",
+            "m7b.12.2.3-q4",
+            "m7b.12.2.3-q5",
+            "m7b.12.2.3-q6",
+            "m7b.7.1.1-q1",
+            "m7b.7.1.1-q2",
+            "m7b.7.1.1-q201",
+            "m7b.7.1.1-q202",
+            "m7b.7.1.2-q1",
+            "m7b.7.1.2-q2",
+            "m7b.7.1.2-q201",
+            "m7b.7.1.2-q202",
+            "m7b.7.1.3-q1",
+            "m7b.7.1.3-q201",
+            "m7b.7.1.3-q202",
+            "m7b.7.2.1-q1",
+            "m7b.7.2.1-q2",
+            "m7b.7.2.1-q201",
+            "m7b.7.2.2-q1",
+            "m7b.7.2.2-q2",
+            "m7b.7.2.2-q4",
+            "m7b.7.2.2-q5",
+            "m7b.7.2.3-q1",
+            "m7b.7.2.3-q2",
+            "m7b.7.2.3-q4",
+            "m7b.7.2.3-q5",
+            "m7b.7.3-q1",
+            "m7b.7.3-q2",
+            "m7b.7.3-q201",
+            "m7b.7.3-q3",
+            "m7b.7.4-q1",
+            "m7b.7.4-q2",
+            "m7b.7.4-q201",
+            "m7b.7.4-q202",
+            "m7b.8.1-q1",
+            "m7b.8.1-q2",
+            "m7b.8.1-q201",
+            "m7b.8.1-q202",
+            "m7b.8.2-q1",
+            "m7b.8.2-q2",
+            "m7b.8.2-q201",
+            "m7b.8.2-q202",
+            "m7b.8.3-q1",
+            "m7b.8.3-q201",
+            "m7b.8.3-q202",
+            "m7b.9.1.1-q1",
+            "m7b.9.1.1-q2",
+            "m7b.9.1.1-q201",
+            "m7b.9.1.2-q1",
+            "m7b.9.1.2-q2",
+            "m7b.9.1.2-q201",
+            "m7b.9.1.2-q202",
+            "m7b.9.2.1-q1",
+            "m7b.9.2.1-q2",
+            "m7b.9.2.1-q201",
+            "m7b.9.2.1-q202",
+            "m7b.9.2.2-q1",
+            "m7b.9.2.2-q2",
+            "m7b.9.2.2-q201",
+            "m7b.9.2.2-q202"
+          ],
+          "decision_basis": "按题面、所有选项、答案、解析、条件、实际族与观察边界逐题审读，具体数学推导与保留隔离理由在逐题记录中。小学额外纠正12项不当教材说明；初中修正中点次序和约分条件等具体问题。没有把同文件的V7旧审题改称V8重审。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "objectives"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-bank-review.json",
+          "sha256": "8ac83b17fe02835db8a763ae4339049a0f4547c7ce407d8473d88921652ef3bd"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-step-task-review.json",
+          "sha256": "adc3e71b62107683af27acf5b60b9e000c2a6d22b9bda2c5a1d20ac4b14875bf"
+        }
+      ]
+    },
+    {
+      "change_id": "change_63684fdc3abbe768cedafabd",
+      "path": "data/content/sanshang.json",
+      "after_sha256": "541d110e488af74f6f55594bfedbcf7cf6cb66e6e7f52289f007f3e8043958ac",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "this_round_bank_tasks_in_source": 156,
+          "reviewed_task_ids": [
+            "m3a.1.1-q1",
+            "m3a.1.1-q2",
+            "m3a.1.1-q4",
+            "m3a.1.2-q1",
+            "m3a.1.2-q2",
+            "m3a.1.2-q3",
+            "m3a.2.1-q1",
+            "m3a.2.1-q2",
+            "m3a.2.1-q90",
+            "m3a.2.1-q91",
+            "m3a.2.1-q92",
+            "m3a.2.1-q93",
+            "m3a.2.2-q1",
+            "m3a.2.2-q2",
+            "m3a.2.2-q90",
+            "m3a.2.2-q91",
+            "m3a.2.2-q92",
+            "m3a.2.2-q93",
+            "m3a.2.3-q1",
+            "m3a.2.3-q2",
+            "m3a.2.3-q90",
+            "m3a.2.3-q91",
+            "m3a.2.3-q92",
+            "m3a.2.3-q93",
+            "m3a.2.4-q1",
+            "m3a.2.4-q90",
+            "m3a.2.4-q91",
+            "m3a.2.4-q92",
+            "m3a.2.4-q93",
+            "m3a.2.5-q1",
+            "m3a.2.5-q2",
+            "m3a.2.5-q90",
+            "m3a.2.5-q91",
+            "m3a.2.5-q92",
+            "m3a.2.5-q93",
+            "m3a.2.6-q1",
+            "m3a.2.6-q2",
+            "m3a.2.6-q90",
+            "m3a.2.6-q91",
+            "m3a.2.6-q92",
+            "m3a.2.6-q93",
+            "m3a.2.6-q95",
+            "m3a.3.1-q1",
+            "m3a.3.2-q1",
+            "m3a.3.2-q2",
+            "m3a.3.3-q1",
+            "m3a.3.3-q2",
+            "m3a.3.4-q1",
+            "m3a.3.4-q2",
+            "m3a.3.4-q3",
+            "m3a.3.5-q1",
+            "m3a.3.5-q2",
+            "m3a.4.1-q1",
+            "m3a.4.1-q2",
+            "m3a.4.1-q90",
+            "m3a.4.1-q91",
+            "m3a.4.1-q92",
+            "m3a.4.1-q93",
+            "m3a.4.1-q95",
+            "m3a.4.2-q1",
+            "m3a.4.2-q2",
+            "m3a.4.2-q90",
+            "m3a.4.2-q91",
+            "m3a.4.2-q92",
+            "m3a.4.2-q93",
+            "m3a.4.2-q95",
+            "m3a.4.3-q1",
+            "m3a.4.3-q2",
+            "m3a.4.3-q90",
+            "m3a.4.3-q91",
+            "m3a.4.3-q92",
+            "m3a.4.3-q93",
+            "m3a.4.3-q95",
+            "m3a.4.4-q1",
+            "m3a.4.4-q2",
+            "m3a.4.4-q90",
+            "m3a.4.4-q91",
+            "m3a.4.4-q92",
+            "m3a.4.4-q93",
+            "m3a.4.4-q95",
+            "m3a.4.5-q1",
+            "m3a.4.5-q2",
+            "m3a.4.5-q90",
+            "m3a.4.5-q91",
+            "m3a.4.5-q92",
+            "m3a.4.5-q93",
+            "m3a.4.6-q1",
+            "m3a.4.6-q2",
+            "m3a.4.6-q90",
+            "m3a.4.6-q91",
+            "m3a.4.6-q92",
+            "m3a.4.6-q93",
+            "m3a.4.6-q95",
+            "m3a.4.7-q1",
+            "m3a.4.7-q2",
+            "m3a.4.7-q90",
+            "m3a.4.7-q91",
+            "m3a.4.7-q92",
+            "m3a.4.7-q93",
+            "m3a.5.1-q1",
+            "m3a.5.1-q2",
+            "m3a.5.1-q3",
+            "m3a.5.2-q1",
+            "m3a.5.2-q2",
+            "m3a.5.2-q3",
+            "m3a.5.3-q1",
+            "m3a.5.3-q2",
+            "m3a.5.4-q1",
+            "m3a.5.4-q2",
+            "m3a.5.4-q3",
+            "m3a.6.1-q1",
+            "m3a.6.1-q2",
+            "m3a.6.1-q90",
+            "m3a.6.1-q91",
+            "m3a.6.1-q92",
+            "m3a.6.1-q93",
+            "m3a.6.1-q95",
+            "m3a.6.2-q1",
+            "m3a.6.2-q2",
+            "m3a.6.2-q90",
+            "m3a.6.2-q91",
+            "m3a.6.2-q92",
+            "m3a.6.2-q93",
+            "m3a.6.3-q1",
+            "m3a.6.3-q2",
+            "m3a.6.4-q1",
+            "m3a.6.4-q2",
+            "m3a.6.4-q3",
+            "m3a.6.4-q90",
+            "m3a.6.4-q91",
+            "m3a.6.4-q92",
+            "m3a.6.4-q93",
+            "m3a.6.4-q95",
+            "m3a.6.5-q1",
+            "m3a.6.5-q2",
+            "m3a.6.5-q90",
+            "m3a.6.5-q91",
+            "m3a.6.5-q92",
+            "m3a.6.5-q93",
+            "m3a.6.5-q95",
+            "m3a.6.6-q1",
+            "m3a.6.6-q2",
+            "m3a.6.6-q90",
+            "m3a.6.6-q91",
+            "m3a.6.6-q92",
+            "m3a.6.6-q93",
+            "m3a.6.6-q95",
+            "m3a.6.7-q1",
+            "m3a.6.7-q2",
+            "m3a.6.8-q1",
+            "m3a.6.8-q2",
+            "m3a.6.8-q90",
+            "m3a.6.8-q91",
+            "m3a.6.8-q92",
+            "m3a.6.8-q93",
+            "m3a.6.8-q95"
+          ],
+          "decision_basis": "按题面、所有选项、答案、解析、条件、实际族与观察边界逐题审读，具体数学推导与保留隔离理由在逐题记录中。小学额外纠正12项不当教材说明；初中修正中点次序和约分条件等具体问题。没有把同文件的V7旧审题改称V8重审。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-bank-review.json",
+          "sha256": "3ca7f8960087b19408cdfbe49a3f43cc3114df1f80f2fbc5b9d5ddfa136bbaed"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-step-task-review.json",
+          "sha256": "adc3e71b62107683af27acf5b60b9e000c2a6d22b9bda2c5a1d20ac4b14875bf"
+        }
+      ]
+    },
+    {
+      "change_id": "change_861b9c44d1599354194729c3",
+      "path": "data/content/sanxia.json",
+      "after_sha256": "c74eabe42585dc49a75310611f62cffbf61ca04d10059785005c762214b7df18",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "this_round_bank_tasks_in_source": 58,
+          "reviewed_task_ids": [
+            "m3b.1.1-q1",
+            "m3b.1.1-q2",
+            "m3b.1.1-q3",
+            "m3b.2.1-q1",
+            "m3b.2.1-q2",
+            "m3b.2.1-q90",
+            "m3b.2.1-q91",
+            "m3b.2.1-q92",
+            "m3b.2.1-q93",
+            "m3b.2.1-q95",
+            "m3b.2.2-q1",
+            "m3b.2.2-q2",
+            "m3b.2.2-q90",
+            "m3b.2.2-q91",
+            "m3b.2.2-q92",
+            "m3b.2.2-q93",
+            "m3b.2.2-q95",
+            "m3b.3.1-q1",
+            "m3b.3.1-q2",
+            "m3b.3.2-q1",
+            "m3b.3.2-q2",
+            "m3b.3.2-q90",
+            "m3b.3.2-q91",
+            "m3b.3.2-q92",
+            "m3b.3.2-q93",
+            "m3b.4.1-q1",
+            "m3b.4.2-q1",
+            "m3b.4.2-q2",
+            "m3b.4.2-q90",
+            "m3b.4.2-q91",
+            "m3b.4.2-q92",
+            "m3b.4.2-q93",
+            "m3b.4.3-q1",
+            "m3b.4.3-q2",
+            "m3b.4.3-q90",
+            "m3b.4.3-q91",
+            "m3b.4.3-q92",
+            "m3b.4.3-q93",
+            "m3b.5.1-q1",
+            "m3b.6.1-q1",
+            "m3b.6.1-q2",
+            "m3b.6.1-q90",
+            "m3b.6.1-q91",
+            "m3b.6.1-q92",
+            "m3b.6.1-q93",
+            "m3b.6.2-q1",
+            "m3b.6.2-q2",
+            "m3b.6.2-q3",
+            "m3b.6.2-q90",
+            "m3b.6.2-q91",
+            "m3b.6.2-q92",
+            "m3b.6.2-q93",
+            "m3b.6.3-q1",
+            "m3b.6.3-q2",
+            "m3b.6.3-q90",
+            "m3b.6.3-q91",
+            "m3b.6.3-q92",
+            "m3b.6.3-q93"
+          ],
+          "decision_basis": "按题面、所有选项、答案、解析、条件、实际族与观察边界逐题审读，具体数学推导与保留隔离理由在逐题记录中。小学额外纠正12项不当教材说明；初中修正中点次序和约分条件等具体问题。没有把同文件的V7旧审题改称V8重审。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-bank-review.json",
+          "sha256": "3ca7f8960087b19408cdfbe49a3f43cc3114df1f80f2fbc5b9d5ddfa136bbaed"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-step-task-review.json",
+          "sha256": "adc3e71b62107683af27acf5b60b9e000c2a6d22b9bda2c5a1d20ac4b14875bf"
+        }
+      ]
+    },
+    {
+      "change_id": "change_5fe737361793afccc7f5a11d",
+      "path": "data/content/sishang.json",
+      "after_sha256": "50b5d717e1064227ee017852cd681724c926adf68a1881badd84614c2c44cc7e",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "this_round_bank_tasks_in_source": 65,
+          "reviewed_task_ids": [
+            "m4a.1.1-q1",
+            "m4a.1.1-q2",
+            "m4a.1.1-q90",
+            "m4a.1.1-q91",
+            "m4a.1.1-q92",
+            "m4a.1.1-q93",
+            "m4a.1.2-q1",
+            "m4a.1.2-q2",
+            "m4a.1.2-q90",
+            "m4a.1.2-q91",
+            "m4a.1.2-q92",
+            "m4a.1.2-q93",
+            "m4a.1.3-q1",
+            "m4a.1.3-q2",
+            "m4a.2.1-q1",
+            "m4a.2.1-q2",
+            "m4a.2.1-q4",
+            "m4a.2.2-q2",
+            "m4a.3.1-q1",
+            "m4a.3.1-q2",
+            "m4a.3.1-q90",
+            "m4a.3.1-q91",
+            "m4a.3.1-q92",
+            "m4a.3.1-q93",
+            "m4a.3.1-q95",
+            "m4a.3.2-q1",
+            "m4a.3.2-q2",
+            "m4a.3.2-q90",
+            "m4a.3.2-q91",
+            "m4a.3.2-q92",
+            "m4a.3.2-q93",
+            "m4a.3.3-q1",
+            "m4a.3.3-q2",
+            "m4a.3.4-q1",
+            "m4a.3.4-q2",
+            "m4a.3.5-q1",
+            "m4a.3.5-q2",
+            "m4a.3.5-q90",
+            "m4a.3.5-q91",
+            "m4a.3.5-q92",
+            "m4a.3.5-q93",
+            "m4a.4.1-q1",
+            "m4a.4.1-q2",
+            "m4a.4.1-q90",
+            "m4a.4.1-q91",
+            "m4a.4.1-q92",
+            "m4a.4.1-q93",
+            "m4a.4.2-q1",
+            "m4a.4.2-q2",
+            "m4a.4.2-q90",
+            "m4a.4.2-q91",
+            "m4a.4.2-q92",
+            "m4a.4.2-q93",
+            "m4a.4.3-q1",
+            "m4a.4.3-q2",
+            "m4a.4.3-q90",
+            "m4a.4.3-q91",
+            "m4a.4.3-q92",
+            "m4a.4.3-q93",
+            "m4a.5.1-q1",
+            "m4a.5.1-q3",
+            "m4a.5.2-q1",
+            "m4a.6.1-q1",
+            "m4a.6.1-q2",
+            "m4a.6.2-q2"
+          ],
+          "decision_basis": "按题面、所有选项、答案、解析、条件、实际族与观察边界逐题审读，具体数学推导与保留隔离理由在逐题记录中。小学额外纠正12项不当教材说明；初中修正中点次序和约分条件等具体问题。没有把同文件的V7旧审题改称V8重审。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-bank-review.json",
+          "sha256": "3ca7f8960087b19408cdfbe49a3f43cc3114df1f80f2fbc5b9d5ddfa136bbaed"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-step-task-review.json",
+          "sha256": "adc3e71b62107683af27acf5b60b9e000c2a6d22b9bda2c5a1d20ac4b14875bf"
+        }
+      ]
+    },
+    {
+      "change_id": "change_68375bfba31c00bf64ae7a1c",
+      "path": "data/content/wushang.json",
+      "after_sha256": "c879dc3ae73ba0aa1327a73c8cc10875d83301a86b37dca5772fea2f6d25fb43",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "this_round_bank_tasks_in_source": 71,
+          "reviewed_task_ids": [
+            "m5a.1.1-q2",
+            "m5a.2.1-q1",
+            "m5a.2.1-q2",
+            "m5a.2.1-q90",
+            "m5a.2.1-q91",
+            "m5a.2.1-q92",
+            "m5a.2.1-q93",
+            "m5a.2.1-q95",
+            "m5a.2.2-q1",
+            "m5a.2.2-q2",
+            "m5a.2.2-q90",
+            "m5a.2.2-q91",
+            "m5a.2.2-q92",
+            "m5a.2.2-q93",
+            "m5a.2.2-q95",
+            "m5a.2.3-q1",
+            "m5a.2.3-q2",
+            "m5a.2.3-q90",
+            "m5a.2.3-q91",
+            "m5a.2.3-q92",
+            "m5a.2.3-q93",
+            "m5a.2.3-q95",
+            "m5a.3.1-q1",
+            "m5a.3.1-q2",
+            "m5a.3.1-q90",
+            "m5a.3.1-q91",
+            "m5a.3.1-q92",
+            "m5a.3.1-q93",
+            "m5a.3.1-q95",
+            "m5a.3.2-q1",
+            "m5a.3.2-q2",
+            "m5a.3.2-q90",
+            "m5a.3.2-q91",
+            "m5a.3.2-q92",
+            "m5a.3.2-q93",
+            "m5a.3.2-q95",
+            "m5a.4.1-q1",
+            "m5a.4.1-q2",
+            "m5a.4.2-q2",
+            "m5a.4.3-q1",
+            "m5a.4.3-q2",
+            "m5a.4.4-q1",
+            "m5a.5.1-q1",
+            "m5a.6.1-q1",
+            "m5a.6.1-q2",
+            "m5a.6.1-q90",
+            "m5a.6.1-q91",
+            "m5a.6.1-q92",
+            "m5a.6.1-q93",
+            "m5a.6.2-q1",
+            "m5a.6.2-q2",
+            "m5a.6.2-q90",
+            "m5a.6.2-q91",
+            "m5a.6.2-q92",
+            "m5a.6.2-q93",
+            "m5a.6.3-q1",
+            "m5a.6.3-q2",
+            "m5a.6.3-q90",
+            "m5a.6.3-q91",
+            "m5a.6.3-q92",
+            "m5a.6.3-q93",
+            "m5a.6.4-q1",
+            "m5a.6.4-q2",
+            "m5a.6.4-q90",
+            "m5a.6.4-q91",
+            "m5a.6.4-q92",
+            "m5a.6.4-q93",
+            "m5a.6.4-q95",
+            "m5a.7.1-q1",
+            "m5a.7.1-q2",
+            "m5a.7.1-q3"
+          ],
+          "decision_basis": "按题面、所有选项、答案、解析、条件、实际族与观察边界逐题审读，具体数学推导与保留隔离理由在逐题记录中。小学额外纠正12项不当教材说明；初中修正中点次序和约分条件等具体问题。没有把同文件的V7旧审题改称V8重审。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-bank-review.json",
+          "sha256": "3ca7f8960087b19408cdfbe49a3f43cc3114df1f80f2fbc5b9d5ddfa136bbaed"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-step-task-review.json",
+          "sha256": "adc3e71b62107683af27acf5b60b9e000c2a6d22b9bda2c5a1d20ac4b14875bf"
+        }
+      ]
+    },
+    {
+      "change_id": "change_7220ad18703396d967a93a33",
+      "path": "data/content/yishang.json",
+      "after_sha256": "f0afeadb273c93036e481301399e7e5e706b0b44010ef91aa8882a8bcd315017",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "this_round_bank_tasks_in_source": 150,
+          "reviewed_task_ids": [
+            "m1a.1.2-q2",
+            "m1a.1.3-q1",
+            "m1a.1.3-q2",
+            "m1a.1.4-q1",
+            "m1a.1.4-q2",
+            "m1a.1.4-q90",
+            "m1a.1.4-q91",
+            "m1a.1.4-q92",
+            "m1a.1.4-q93",
+            "m1a.1.4-q95",
+            "m1a.1.5-q1",
+            "m1a.1.5-q2",
+            "m1a.1.6-q1",
+            "m1a.1.6-q2",
+            "m1a.1.7-q1",
+            "m1a.1.7-q2",
+            "m1a.2.1-q1",
+            "m1a.2.1-q2",
+            "m1a.2.10-q1",
+            "m1a.2.10-q2",
+            "m1a.2.10-q90",
+            "m1a.2.10-q91",
+            "m1a.2.10-q92",
+            "m1a.2.10-q93",
+            "m1a.2.11-q1",
+            "m1a.2.11-q2",
+            "m1a.2.11-q90",
+            "m1a.2.11-q91",
+            "m1a.2.11-q92",
+            "m1a.2.11-q93",
+            "m1a.2.11-q95",
+            "m1a.2.2-q1",
+            "m1a.2.2-q2",
+            "m1a.2.3-q1",
+            "m1a.2.3-q2",
+            "m1a.2.4-q1",
+            "m1a.2.4-q2",
+            "m1a.2.4-q90",
+            "m1a.2.4-q91",
+            "m1a.2.4-q92",
+            "m1a.2.4-q93",
+            "m1a.2.4-q95",
+            "m1a.2.5-q1",
+            "m1a.2.5-q2",
+            "m1a.2.5-q90",
+            "m1a.2.5-q91",
+            "m1a.2.5-q92",
+            "m1a.2.5-q93",
+            "m1a.2.5-q95",
+            "m1a.2.6-q1",
+            "m1a.2.6-q2",
+            "m1a.2.6-q90",
+            "m1a.2.6-q91",
+            "m1a.2.6-q92",
+            "m1a.2.6-q93",
+            "m1a.2.6-q95",
+            "m1a.2.7-q1",
+            "m1a.2.7-q2",
+            "m1a.2.7-q90",
+            "m1a.2.7-q91",
+            "m1a.2.7-q92",
+            "m1a.2.7-q93",
+            "m1a.2.7-q95",
+            "m1a.2.8-q1",
+            "m1a.2.8-q2",
+            "m1a.2.8-q90",
+            "m1a.2.8-q91",
+            "m1a.2.8-q92",
+            "m1a.2.8-q93",
+            "m1a.2.8-q95",
+            "m1a.2.9-q1",
+            "m1a.2.9-q2",
+            "m1a.3.1-q1",
+            "m1a.3.1-q2",
+            "m1a.3.1-q3",
+            "m1a.3.2-q1",
+            "m1a.3.2-q2",
+            "m1a.3.2-q3",
+            "m1a.3.2-q90",
+            "m1a.3.2-q91",
+            "m1a.3.2-q92",
+            "m1a.3.2-q93",
+            "m1a.3.2-q95",
+            "m1a.3.3-q1",
+            "m1a.3.3-q2",
+            "m1a.4.1-q1",
+            "m1a.4.1-q2",
+            "m1a.4.1-q90",
+            "m1a.4.1-q91",
+            "m1a.4.1-q92",
+            "m1a.4.1-q93",
+            "m1a.4.1-q95",
+            "m1a.4.2-q1",
+            "m1a.4.2-q2",
+            "m1a.4.3-q1",
+            "m1a.4.3-q2",
+            "m1a.4.3-q90",
+            "m1a.4.3-q91",
+            "m1a.4.3-q92",
+            "m1a.4.3-q93",
+            "m1a.4.4-q1",
+            "m1a.4.4-q2",
+            "m1a.4.4-q90",
+            "m1a.4.4-q91",
+            "m1a.4.4-q92",
+            "m1a.4.4-q93",
+            "m1a.4.4-q95",
+            "m1a.5.1-q1",
+            "m1a.5.1-q2",
+            "m1a.5.1-q90",
+            "m1a.5.1-q91",
+            "m1a.5.1-q92",
+            "m1a.5.1-q93",
+            "m1a.5.1-q95",
+            "m1a.5.2-q1",
+            "m1a.5.2-q2",
+            "m1a.5.2-q90",
+            "m1a.5.2-q91",
+            "m1a.5.2-q92",
+            "m1a.5.2-q93",
+            "m1a.5.2-q95",
+            "m1a.5.3-q1",
+            "m1a.5.3-q2",
+            "m1a.5.3-q90",
+            "m1a.5.3-q91",
+            "m1a.5.3-q92",
+            "m1a.5.3-q93",
+            "m1a.5.3-q95",
+            "m1a.5.4-q1",
+            "m1a.5.4-q2",
+            "m1a.5.4-q90",
+            "m1a.5.4-q91",
+            "m1a.5.4-q92",
+            "m1a.5.4-q93",
+            "m1a.5.4-q95",
+            "m1a.5.5-q1",
+            "m1a.5.5-q2",
+            "m1a.5.5-q90",
+            "m1a.5.5-q91",
+            "m1a.5.5-q92",
+            "m1a.5.5-q93",
+            "m1a.1.1-q301",
+            "m1a.1.1-q302",
+            "m1a.1.1-q303",
+            "m1a.1.6-q401",
+            "m1a.1.6-q402",
+            "m1a.5.5-q401",
+            "m1a.5.5-q402",
+            "m1a.5.5-q403",
+            "m1a.5.5-q404"
+          ],
+          "decision_basis": "按题面、所有选项、答案、解析、条件、实际族与观察边界逐题审读，具体数学推导与保留隔离理由在逐题记录中。小学额外纠正12项不当教材说明；初中修正中点次序和约分条件等具体问题。没有把同文件的V7旧审题改称V8重审。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-bank-review.json",
+          "sha256": "3ca7f8960087b19408cdfbe49a3f43cc3114df1f80f2fbc5b9d5ddfa136bbaed"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-step-task-review.json",
+          "sha256": "adc3e71b62107683af27acf5b60b9e000c2a6d22b9bda2c5a1d20ac4b14875bf"
+        }
+      ]
+    },
+    {
+      "change_id": "change_1f650a26a2365b311192887f",
+      "path": "data/content/yixia.json",
+      "after_sha256": "c01aa0d72be051c8a14e1259e67891efa83559390b05f61c6dbe771f7fd0ee2f",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "this_round_bank_tasks_in_source": 119,
+          "reviewed_task_ids": [
+            "m1b.1.1-q1",
+            "m1b.1.1-q2",
+            "m1b.1.1-q90",
+            "m1b.1.1-q91",
+            "m1b.1.1-q92",
+            "m1b.1.1-q93",
+            "m1b.1.2-q1",
+            "m1b.1.2-q2",
+            "m1b.1.2-q90",
+            "m1b.1.2-q91",
+            "m1b.1.2-q92",
+            "m1b.1.2-q93",
+            "m1b.1.3-q1",
+            "m1b.1.3-q2",
+            "m1b.2.1-q1",
+            "m1b.2.1-q2",
+            "m1b.2.1-q90",
+            "m1b.2.1-q91",
+            "m1b.2.1-q92",
+            "m1b.2.1-q93",
+            "m1b.2.1-q95",
+            "m1b.2.2-q1",
+            "m1b.2.2-q2",
+            "m1b.2.2-q90",
+            "m1b.2.2-q91",
+            "m1b.2.2-q92",
+            "m1b.2.2-q93",
+            "m1b.2.2-q95",
+            "m1b.2.3-q1",
+            "m1b.2.3-q2",
+            "m1b.2.3-q90",
+            "m1b.2.3-q91",
+            "m1b.2.3-q92",
+            "m1b.2.3-q93",
+            "m1b.2.3-q95",
+            "m1b.2.4-q1",
+            "m1b.2.4-q2",
+            "m1b.2.4-q90",
+            "m1b.2.4-q91",
+            "m1b.2.4-q92",
+            "m1b.2.4-q93",
+            "m1b.2.4-q95",
+            "m1b.3.1-q1",
+            "m1b.3.1-q2",
+            "m1b.3.1-q90",
+            "m1b.3.1-q91",
+            "m1b.3.1-q92",
+            "m1b.3.1-q93",
+            "m1b.3.2-q1",
+            "m1b.3.2-q2",
+            "m1b.3.3-q1",
+            "m1b.3.3-q2",
+            "m1b.3.4-q1",
+            "m1b.3.4-q2",
+            "m1b.3.5-q1",
+            "m1b.3.5-q2",
+            "m1b.3.6-q1",
+            "m1b.3.6-q2",
+            "m1b.3.6-q3",
+            "m1b.3.7-q1",
+            "m1b.3.7-q2",
+            "m1b.3.7-q90",
+            "m1b.3.7-q91",
+            "m1b.3.7-q92",
+            "m1b.3.7-q93",
+            "m1b.3.7-q95",
+            "m1b.4.1-q1",
+            "m1b.4.1-q2",
+            "m1b.4.1-q90",
+            "m1b.4.1-q91",
+            "m1b.4.1-q92",
+            "m1b.4.1-q93",
+            "m1b.4.2-q1",
+            "m1b.4.2-q2",
+            "m1b.4.2-q90",
+            "m1b.4.2-q91",
+            "m1b.4.2-q92",
+            "m1b.4.2-q93",
+            "m1b.4.2-q95",
+            "m1b.4.3-q1",
+            "m1b.4.3-q2",
+            "m1b.4.3-q90",
+            "m1b.4.3-q91",
+            "m1b.4.3-q92",
+            "m1b.4.3-q93",
+            "m1b.4.3-q95",
+            "m1b.5.1-q1",
+            "m1b.5.1-q2",
+            "m1b.5.1-q90",
+            "m1b.5.1-q91",
+            "m1b.5.1-q92",
+            "m1b.5.1-q93",
+            "m1b.5.2-q1",
+            "m1b.5.2-q2",
+            "m1b.5.2-q90",
+            "m1b.5.2-q91",
+            "m1b.5.2-q92",
+            "m1b.5.2-q93",
+            "m1b.6.1-q1",
+            "m1b.6.1-q2",
+            "m1b.6.1-q90",
+            "m1b.6.1-q91",
+            "m1b.6.1-q92",
+            "m1b.6.1-q93",
+            "m1b.6.1-q95",
+            "m1b.6.2-q1",
+            "m1b.6.2-q2",
+            "m1b.6.2-q90",
+            "m1b.6.2-q91",
+            "m1b.6.2-q92",
+            "m1b.6.2-q93",
+            "m1b.6.2-q95",
+            "m1b.6.3-q2",
+            "m1b.6.3-q90",
+            "m1b.6.3-q91",
+            "m1b.6.3-q92",
+            "m1b.6.3-q93",
+            "m1b.6.4-q1",
+            "m1b.6.4-q2"
+          ],
+          "decision_basis": "按题面、所有选项、答案、解析、条件、实际族与观察边界逐题审读，具体数学推导与保留隔离理由在逐题记录中。小学额外纠正12项不当教材说明；初中修正中点次序和约分条件等具体问题。没有把同文件的V7旧审题改称V8重审。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other",
+        "review_claims",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-bank-review.json",
+          "sha256": "3ca7f8960087b19408cdfbe49a3f43cc3114df1f80f2fbc5b9d5ddfa136bbaed"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-step-task-review.json",
+          "sha256": "adc3e71b62107683af27acf5b60b9e000c2a6d22b9bda2c5a1d20ac4b14875bf"
+        }
+      ]
+    },
+    {
+      "change_id": "change_99f1794699b92ee92c482df6",
+      "path": "data/manifest.json",
+      "after_sha256": "b5027681cb7cc3ca1e01f9c8ed0c401e1738a0cb334d086cdb17a864810b1b89",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "当前作者源与目录重建兼容内容指纹；学习档案不是构建输入或输出，完整源码原始字节另由release-manifest绑定。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "tests/test_authoring_workflow.py",
+          "sha256": "33f0919a6e3ac41a358dd6df41140ba0b4510a7ba16358d09ca0e58a8b55cc66"
+        }
+      ]
+    },
+    {
+      "change_id": "change_5e65f518850c4d3ef5fa6321",
+      "path": "data/math_statement_reviews.json",
+      "after_sha256": "85a5e086a87cdd01014178b5960b67d6c94d8fcfad1701d6ca3b31ca70031554",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "每条新增不成立等式都逐读题面与解释，分别用于除法纠错、恒等/矛盾方程或平行无交点。旧例外保留，实际最终源哈希绑定；扫描未知差异不得批量忽略。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "review_claims",
+        "scope_and_identity"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-numeric-counterexample-review.json",
+          "sha256": "de97630ea784e256ea2c8416f23f5135f1e5e0518086d4b961451172864eba40"
+        },
+        {
+          "path": "tests/test_math_statements_v6.py",
+          "sha256": "edc88f2c5674637e54658ae9da57c210aaedcc431705e34d4beb3ef4b78942ac"
+        }
+      ]
+    },
+    {
+      "change_id": "change_38e09f35adfc7abddaaa4fd4",
+      "path": "data/question_sources/application.json",
+      "after_sha256": "ef96f89deedab81d7626fb57f0292d0d49ccfd1f02620db63685351f18dbc831",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        {
+          "this_round_bank_tasks_in_source": 41,
+          "reviewed_task_ids": [
+            "m1a.5.5-q101",
+            "m1a.5.5-q102",
+            "m4a.6.1-q101",
+            "m4a.6.1-q102",
+            "m5b.3.1-q101",
+            "m5b.3.1-q102",
+            "m5b.5.1-q102",
+            "m6a.1.2-q102",
+            "m6b.2.1-q101",
+            "m6b.2.1-q102",
+            "m6b.2.1-q103",
+            "m7a.5.2-q101",
+            "m7a.5.3-q101",
+            "m7a.5.3-q102",
+            "m7b.12.1.1-q101",
+            "m7b.12.1.1-q102",
+            "m8a.13.2-q101",
+            "m8a.13.3-q101",
+            "m8a.13.3-q102",
+            "m8b.23.1-q101",
+            "m8b.23.1-q102",
+            "m8b.23.2-q101",
+            "m8b.23.4-q101",
+            "m8b.23.4-q102",
+            "m8b.24.1-q101",
+            "m8b.24.1-q102",
+            "m8b.24.2-q101",
+            "m8b.24.2-q102",
+            "m8b.24.4-q101",
+            "m8b.24.4-q102",
+            "mh1.5.2.1-q101",
+            "mh2.8.2-q101",
+            "mh2.8.3.1-q101",
+            "mh2.8.3.1-q102",
+            "mh4.5.3.1-q101",
+            "mh4.5.3.2-q101",
+            "mh4.5.3.2-q102",
+            "mh5.7.1.1-q101",
+            "mh5.7.1.1-q102",
+            "mh5.8.2.1-q102",
+            "mh5.8.2.2-q101"
+          ],
+          "decision_basis": "按题面、所有选项、答案、解析、条件、实际族与观察边界逐题审读，具体数学推导与保留隔离理由在逐题记录中。小学额外纠正12项不当教材说明；初中修正中点次序和约分条件等具体问题。没有把同文件的V7旧审题改称V8重审。"
+        }
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-bank-review.json",
+          "sha256": "3ca7f8960087b19408cdfbe49a3f43cc3114df1f80f2fbc5b9d5ddfa136bbaed"
+        },
+        {
+          "path": "docs/reviews/v8-junior-bank-review.json",
+          "sha256": "8ac83b17fe02835db8a763ae4339049a0f4547c7ce407d8473d88921652ef3bd"
+        },
+        {
+          "path": "docs/reviews/v8-senior-bank-review.json",
+          "sha256": "46cf6200f5d8ca8eaeb78bdc4817c1e61af5eb4594949abcde2f4af82b65bae8"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "docs/reviews/v8-step-task-review.json",
+          "sha256": "adc3e71b62107683af27acf5b60b9e000c2a6d22b9bda2c5a1d20ac4b14875bf"
+        }
+      ]
+    },
+    {
+      "change_id": "change_d4da63f71affd8396d03c438",
+      "path": "data/questions.json",
+      "after_sha256": "06a1b7c917d5085f7da43896c09597b4a6a13df1de779f3ca8861f2b85a81852",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "原3584题的派生源重建；52条作者题对象有明确变更记录，51条准入指纹续接，0答案改变，隔离用途保持。其余存量亦有本轮或前轮精确当前版本的逐题记录。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "metadata_or_other",
+        "objectives",
+        "representations",
+        "review_claims",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        }
+      ]
+    },
+    {
+      "change_id": "change_69c723b7b688190b721e8244",
+      "path": "data/skills/catalog-bindings.json",
+      "after_sha256": "8c9c1da9faa7c6cf5b8bd166287d99c1be62b0391e91ee0631bc2fcb89142859",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "只为新assessment任务追加稳定作者ID绑定；原5511绑定key与记录保留，1778目标不重分配。阶段由实际作者任务保留。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations",
+        "scope_and_identity",
+        "task_families"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "tests/test_catalog.py",
+          "sha256": "f73dc7f18caf1864ebd1fe7eac2664c4ed7cfa7bd4d123db04f75a3302aefed4"
+        }
+      ]
+    },
+    {
+      "change_id": "change_0efbadd413217b742f2ca388",
+      "path": "data/task_admissions.json",
+      "after_sha256": "8d4febb691a23d5861e2e9ea96ef9f13b4d0e7188761b301a86af3823fe209e8",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "51条经过实际逐题复核的内容指纹重新绑定，旧决定留档，所有3584条用途与基线保持。没有借审读提高诊断、掌握或薄弱用途。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other",
+        "scope_and_identity"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-admission-bindings-review.json",
+          "sha256": "dbbcc5552f42962af18d837ff6c773ad8736293d4d8ef1b99e2a8fdfdd4bdacc"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "tests/test_bank_review_v8.py",
+          "sha256": "92ff01bdb714530dacb7d29c83dd01ba4612de81a960332b326dfc7641419fcd"
+        }
+      ]
+    },
+    {
+      "change_id": "change_a53b7209542ebae6dffcbab2",
+      "path": "data/task_family_transitions.json",
+      "after_sha256": "3886b4bc7f28908f049936d838d6c03512d9c8782ddcaaffdebb3f99b195a7a0",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "唯一逐题关系m1b.2.4-q2从被误称减去问题的静态总量/部分条件还原为缺失部分故事；只用于负向曝光比较，前后源和合同、明确审读决定均有绑定。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "objectives",
+        "representations",
+        "review_claims",
+        "scope_and_identity",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-bank-review.json",
+          "sha256": "3ca7f8960087b19408cdfbe49a3f43cc3114df1f80f2fbc5b9d5ddfa136bbaed"
+        },
+        {
+          "path": "tests/test_task_transitions_v8.py",
+          "sha256": "04963573fd2eec5edc33bca7c71fbc0d7a45f6375a4a44f62a9be2fe6dd87c62"
+        }
+      ]
+    },
+    {
+      "change_id": "change_1165de8d346f2fe3871b2e20",
+      "path": "data/teach/mh2.6.4.1.json",
+      "after_sha256": "fb58e6bb7fb67daf8a10f51cb5cb213f0c73bace75c55da5ad45186c22f700b0",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "用方向向量成比例判两线平行时补充两条不同直线，避免把重合当作平行；五处教材表达与已审源纠正表一致。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "instructional_support",
+        "review_claims",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-senior-source-corrections.json",
+          "sha256": "ed2b056ae400bf1b097314e71b715484ea9519b2c5f603950040aae65111f093"
+        },
+        {
+          "path": "docs/reviews/v8-senior-goal-evidence-review.json",
+          "sha256": "5b89c3af93b9b15f2bdc2d6c64213116d28b8bac37d7c48f84ddc7bf69635d0c"
+        }
+      ]
+    },
+    {
+      "change_id": "change_9585402bd72f1abc2d854a9c",
+      "path": "data/topics.json",
+      "after_sha256": "a3d1abb5bf3f5c93324074734c773047942e5032c9a8094774a0401418f50e08",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "仅12项已确认有误或条件不足的教材说明随作者源修正，477教材点身份与全部原目标文字/顺序保持；不因此重判旧会话。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-bank-review.json",
+          "sha256": "3ca7f8960087b19408cdfbe49a3f43cc3114df1f80f2fbc5b9d5ddfa136bbaed"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        }
+      ]
+    },
+    {
+      "change_id": "change_b403de8affe9c28fbe742408",
+      "path": "schema/assessment-source.schema.json",
+      "after_sha256": "efca879b742581b31e6c700a97fd3e3746171e487534a0b5a19d64b4e77ec957",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "逐目标来源、组件、公开提交要求、私有判据、真实任务、结构差异理由与未观察范围均显式填写；客观/过程类型继续使用统一学习任务合同。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "instructional_support",
+        "objectives",
+        "representations",
+        "review_claims",
+        "runtime_or_contract_preview",
+        "schema_contract",
+        "scope_and_identity",
+        "task_families",
+        "teaching_process"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        },
+        {
+          "path": "tests/test_catalog.py",
+          "sha256": "f73dc7f18caf1864ebd1fe7eac2664c4ed7cfa7bd4d123db04f75a3302aefed4"
+        }
+      ]
+    },
+    {
+      "change_id": "change_382d4f16ec2462754cf01c77",
+      "path": "schema/catalog.schema.json",
+      "after_sha256": "7e05e6a9ea37bd28b69dc1039bba7d5d4ba13e560feda48feba59c734347a69f",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "编译目录新增assessment资源类型及精确组件字段；原资源合同保留，目录可表示真实隔离项，新增字段不意味着观察或掌握已发生。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "answers_and_criteria",
+        "runtime_or_contract_preview",
+        "schema_contract",
+        "scope_and_identity"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_catalog.py",
+          "sha256": "f73dc7f18caf1864ebd1fe7eac2664c4ed7cfa7bd4d123db04f75a3302aefed4"
+        }
+      ]
+    },
+    {
+      "change_id": "change_831ceffb2741f51c55c8f2cb",
+      "path": "tools/browser_check.py",
+      "after_sha256": "4447a7ac72f11b83a873920aeef0e5e0019e13aebe05a3b74e2bf73ac45ee329",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "保留既有17条旅程并增加真实图稿/录音上传、恢复、手机布局及不可变修订；完整预览集合按当前影响重新核对，新增源码纳入输入指纹。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        },
+        {
+          "path": "tests/test_release_delivery.py",
+          "sha256": "ae7160b6b9c160912efa58033867ca9d73f7f4c1f33d20043b141b671f56ea70"
+        }
+      ]
+    },
+    {
+      "change_id": "change_1471ddac424084b62be83ccc",
+      "path": "tools/build_project.py",
+      "after_sha256": "a00cdd18938e51996a0f00b9d194ec941c2a498a4d5ff15e6731bb816c840cdf",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "正常构建新增全部分项计划及全原题审读绑定两道门禁，遇错即停止；旧内容、数值、数据库与完整发布清单检查保留。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_authoring_workflow.py",
+          "sha256": "33f0919a6e3ac41a358dd6df41140ba0b4510a7ba16358d09ca0e58a8b55cc66"
+        }
+      ]
+    },
+    {
+      "change_id": "change_39967d92a22bacafedbb7a30",
+      "path": "tools/check_assessments.py",
+      "after_sha256": "9cf4f97e95f97ef6792e87feeff42860ef2c0e88fd05ba02f075bf7ee5a4a7aa",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "完整1778目标均需实际分项计划并验证双向链接；仍不足两种客观族的目标原样报告，66实践目标单列，不以过程任务填充客观族数。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        }
+      ]
+    },
+    {
+      "change_id": "change_e15e76188c4871fe66985dca",
+      "path": "tools/check_bank_reviews.py",
+      "after_sha256": "eef52c6ab64322eee4ff8c10954b61e3883f1e7dafa945792437b3726ea76bb0",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "当前版本3584道原题须都有具体语义审查记录；908旧记录与2676新审读逐题可追溯，不借用旧总数或AI身份冒称教师独立审核。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "docs/reviews/v8-bank-review-index.json",
+          "sha256": "4ba953713032b535542bcab69e367637c67161b4eaddbc87453d944fb9857757"
+        },
+        {
+          "path": "tests/test_bank_review_v8.py",
+          "sha256": "92ff01bdb714530dacb7d29c83dd01ba4612de81a960332b326dfc7641419fcd"
+        }
+      ]
+    },
+    {
+      "change_id": "change_65efec1c4982e0d654c62565",
+      "path": "tools/package_release.py",
+      "after_sha256": "f23fb86dcaada3de17a1d1baed42171181e9f74fe0e7b6f5cb16db6dacf91912",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "允许实际新增的observation-mobile.png进入证据包，仍要求报告绑定该文件哈希并保持其它产物允许集合、固定提交、日志及bundle恢复检查。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_release_delivery.py",
+          "sha256": "ae7160b6b9c160912efa58033867ca9d73f7f4c1f33d20043b141b671f56ea70"
+        }
+      ]
+    },
+    {
+      "change_id": "change_17e5ddd9ef60e76b685569e6",
+      "path": "tools/register_catalog.py",
+      "after_sha256": "5d5ba7afef7104aa288b9ddc8e90d61ef244b85e2479fdb9feafaab485920a59",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新增观察任务使用作者稳定ID与显式答案合同，不按标题推断技能、重编号旧任务或自动迁移原目标。原5511任务绑定保留。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "docs/reviews/v8-identity-integration-review.json",
+          "sha256": "184249c774f10693ffb9b7cd3d9fc9be0c2211fc8d5522f4f7ba841db6f3f28b"
+        },
+        {
+          "path": "tests/test_catalog.py",
+          "sha256": "f73dc7f18caf1864ebd1fe7eac2664c4ed7cfa7bd4d123db04f75a3302aefed4"
+        }
+      ]
+    },
+    {
+      "change_id": "change_51e71f45e60dec491107658a",
+      "path": "tools/release_check.py",
+      "after_sha256": "ecc8bfcc1b5795c3d3bd2d76c97607844bd45ddb38ae99a0ec1818633d65c12e",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "完整发行新增两道强制门禁，共21核心加完整浏览器为22；不能凭工作树专项测试或前轮报告宣称本次发行通过。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_release_delivery.py",
+          "sha256": "ae7160b6b9c160912efa58033867ca9d73f7f4c1f33d20043b141b671f56ea70"
+        }
+      ]
+    },
+    {
+      "change_id": "change_0cc8cd2fdff89387656ee947",
+      "path": "tools/status_report.py",
+      "after_sha256": "c463218bec5561be76617c2853836c439b136e8e3de63a397d89785ae90c30e0",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "旧reviews.json未登记不再被写成从未审过；当前逐题证据绑定单列前轮/本轮、隔离数和错误，分项与客观族数是资源统计，不是学生事件或掌握人数。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_status_report.py",
+          "sha256": "9b9b037f760451b65d4c30e386c0f2fb995a251bf7724e8d43944797ca349558"
+        },
+        {
+          "path": "tests/test_bank_review_v8.py",
+          "sha256": "92ff01bdb714530dacb7d29c83dd01ba4612de81a960332b326dfc7641419fcd"
+        }
+      ]
+    },
+    {
+      "change_id": "change_2930bef4b45f36c3f0408805",
+      "path": "web/server.py",
+      "after_sha256": "0e4d0573b7d8e7b2da7ed735b848dc1ce662f758f916e0b4d2099e2e8b581e5d",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新会话冻结所选目标、组件、任务及附带参考族。反馈实际释放后才记附带方法曝光。作品和导出从原会话取图稿字节、组件名称及要求；单题正确不消除未答分项，过程保持待查看。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        },
+        {
+          "path": "tests/test_portfolio_web.py",
+          "sha256": "0c49f31f54a655b054e5a14872a23709cbf17e694a69902709f220a8398d1825"
+        }
+      ]
+    },
+    {
+      "change_id": "change_a94cd4faa66b70eb72be5675",
+      "path": "web/static/app.js",
+      "after_sha256": "dc1486d374f9bc691112af8afc8dfcbe8529d74d18b702fd00634510c2e8231b",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "目标页显示明确分项、提交要求及对应任务，结果分开显示result_recorded、needs_review与not_observed；继续入口回到准确目标，未见私有答案不随导航下发。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        }
+      ]
+    },
+    {
+      "change_id": "change_2b643cfba5abf533c3fbdfc3",
+      "path": "web/static/diagrams/primary-v6-abacus.svg",
+      "after_sha256": "41c5df7bbeb40d869ad4d80f7ad0f8a11e7c09bd2d090749d26a9bbdb378b8b4",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "只纠正读屏描述中的条件或答案泄漏，实际图形像素未改；三张图的具体说明与核对在可访问性审查记录中。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-accessibility-review.json",
+          "sha256": "900b513e449e23756ce0e5b1144355b13ea1362f8b975d2c93edebc6d5d419e2"
+        },
+        {
+          "path": "docs/reviews/v8-primary-bank-review.json",
+          "sha256": "3ca7f8960087b19408cdfbe49a3f43cc3114df1f80f2fbc5b9d5ddfa136bbaed"
+        }
+      ]
+    },
+    {
+      "change_id": "change_a08b7238e52fd27c757040e7",
+      "path": "web/static/diagrams/primary-v6-angle-benchmarks.svg",
+      "after_sha256": "c4affb893a88d0d9c1e2ee98b5738f060099e1736e0d824e269690d493838715",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "只纠正读屏描述中的条件或答案泄漏，实际图形像素未改；三张图的具体说明与核对在可访问性审查记录中。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-accessibility-review.json",
+          "sha256": "900b513e449e23756ce0e5b1144355b13ea1362f8b975d2c93edebc6d5d419e2"
+        },
+        {
+          "path": "docs/reviews/v8-primary-bank-review.json",
+          "sha256": "3ca7f8960087b19408cdfbe49a3f43cc3114df1f80f2fbc5b9d5ddfa136bbaed"
+        }
+      ]
+    },
+    {
+      "change_id": "change_4d55d7d033cecfbb360e8d63",
+      "path": "web/static/diagrams/primary-v6-circle-sector.svg",
+      "after_sha256": "3313150b1b826dab0bfe5363675488965bd87f4c317d27ad0d6cfd8b3608744b",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "只纠正读屏描述中的条件或答案泄漏，实际图形像素未改；三张图的具体说明与核对在可访问性审查记录中。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-accessibility-review.json",
+          "sha256": "900b513e449e23756ce0e5b1144355b13ea1362f8b975d2c93edebc6d5d419e2"
+        },
+        {
+          "path": "docs/reviews/v8-primary-bank-review.json",
+          "sha256": "3ca7f8960087b19408cdfbe49a3f43cc3114df1f80f2fbc5b9d5ddfa136bbaed"
+        }
+      ]
+    },
+    {
+      "change_id": "change_bbf9f61ab7a68804cc553d7d",
+      "path": "web/static/diagrams/v8-junior-circle-opposite-arcs.svg",
+      "after_sha256": "f6bdf5dd1ac5f7571ce49d13d569bb155af2190604795650b5fa5d7bab63a1a0",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新增图示给实际几何/统计任务提供必需条件，点序、坐标、射线或投影按逐题数学核对并实际渲染查看；准确目标页列入最终浏览器预览。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-goal-evidence-review.json",
+          "sha256": "7635c85bf6542f989a5260a34c92b5409f2dffb2f34bea2333a39af2bedb8ef8"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        }
+      ]
+    },
+    {
+      "change_id": "change_069150b2c578a87e56e4ccae",
+      "path": "web/static/diagrams/v8-junior-cube-row-views.svg",
+      "after_sha256": "60b4925caee3249724d17c7545e9f615775c56e86c7d2b9043f8614064363bae",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新增图示给实际几何/统计任务提供必需条件，点序、坐标、射线或投影按逐题数学核对并实际渲染查看；准确目标页列入最终浏览器预览。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-goal-evidence-review.json",
+          "sha256": "7635c85bf6542f989a5260a34c92b5409f2dffb2f34bea2333a39af2bedb8ef8"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        }
+      ]
+    },
+    {
+      "change_id": "change_efca97a8b74d31bb0e0e8b33",
+      "path": "web/static/diagrams/v8-junior-cylinder-view-set.svg",
+      "after_sha256": "670674d18893b52e3a5c325748f57b3ad0e93852a3967aee1b392fb949f41d92",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新增图示给实际几何/统计任务提供必需条件，点序、坐标、射线或投影按逐题数学核对并实际渲染查看；准确目标页列入最终浏览器预览。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-goal-evidence-review.json",
+          "sha256": "7635c85bf6542f989a5260a34c92b5409f2dffb2f34bea2333a39af2bedb8ef8"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        }
+      ]
+    },
+    {
+      "change_id": "change_9a9c221adef6d446cfce2205",
+      "path": "web/static/diagrams/v8-junior-isosceles-axis.svg",
+      "after_sha256": "096e67bfb17ce1020e27ee235ce28c0f1303993822f974220f97e4b40eb1fe04",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新增图示给实际几何/统计任务提供必需条件，点序、坐标、射线或投影按逐题数学核对并实际渲染查看；准确目标页列入最终浏览器预览。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-goal-evidence-review.json",
+          "sha256": "7635c85bf6542f989a5260a34c92b5409f2dffb2f34bea2333a39af2bedb8ef8"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        }
+      ]
+    },
+    {
+      "change_id": "change_3cacab9da43166f7c15841bd",
+      "path": "web/static/diagrams/v8-junior-numberline-read.svg",
+      "after_sha256": "e11afd57a162fed4e709cd88d3d20b22ecb19b501c84121e9f6f147f5fcfd149",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新增图示给实际几何/统计任务提供必需条件，点序、坐标、射线或投影按逐题数学核对并实际渲染查看；准确目标页列入最终浏览器预览。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-goal-evidence-review.json",
+          "sha256": "7635c85bf6542f989a5260a34c92b5409f2dffb2f34bea2333a39af2bedb8ef8"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        }
+      ]
+    },
+    {
+      "change_id": "change_b01881ef8373595306007543",
+      "path": "web/static/diagrams/v8-junior-parabola-no-roots.svg",
+      "after_sha256": "8c71a8954be85df7667a58cea584422426ddf5087c94f11404550f2527b447d9",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新增图示给实际几何/统计任务提供必需条件，点序、坐标、射线或投影按逐题数学核对并实际渲染查看；准确目标页列入最终浏览器预览。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-goal-evidence-review.json",
+          "sha256": "7635c85bf6542f989a5260a34c92b5409f2dffb2f34bea2333a39af2bedb8ef8"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        }
+      ]
+    },
+    {
+      "change_id": "change_b8341e8b14f7d0873a9da428",
+      "path": "web/static/diagrams/v8-junior-point-light-shadows.svg",
+      "after_sha256": "aa150adb8b73affab14e035267642143fd566583750dbaeb60027d59d3fbd323",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新增图示给实际几何/统计任务提供必需条件，点序、坐标、射线或投影按逐题数学核对并实际渲染查看；准确目标页列入最终浏览器预览。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-goal-evidence-review.json",
+          "sha256": "7635c85bf6542f989a5260a34c92b5409f2dffb2f34bea2333a39af2bedb8ef8"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        }
+      ]
+    },
+    {
+      "change_id": "change_942d958408e3dec670e69a89",
+      "path": "web/static/diagrams/v8-junior-rotation-correspondence.svg",
+      "after_sha256": "4d163f38bd56f5a766950a7dc72b449a058ccfc84f12e72547d1015296c87ac2",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新增图示给实际几何/统计任务提供必需条件，点序、坐标、射线或投影按逐题数学核对并实际渲染查看；准确目标页列入最终浏览器预览。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-goal-evidence-review.json",
+          "sha256": "7635c85bf6542f989a5260a34c92b5409f2dffb2f34bea2333a39af2bedb8ef8"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        }
+      ]
+    },
+    {
+      "change_id": "change_fea9dd257ca6c13e9e553357",
+      "path": "web/static/diagrams/v8-junior-transversal-angles.svg",
+      "after_sha256": "faa060ba537d248bf1bfd9e6432da8b8329ec793cd6dd10b928cc3f101e066c3",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新增图示给实际几何/统计任务提供必需条件，点序、坐标、射线或投影按逐题数学核对并实际渲染查看；准确目标页列入最终浏览器预览。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-goal-evidence-review.json",
+          "sha256": "7635c85bf6542f989a5260a34c92b5409f2dffb2f34bea2333a39af2bedb8ef8"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        }
+      ]
+    },
+    {
+      "change_id": "change_fff216e5ce3aae60fd26d883",
+      "path": "web/static/diagrams/v8-junior-unequal-time-trend.svg",
+      "after_sha256": "ed35ad5cefe28f5e70b947c90ef6b13c77fc01aa8b29475bce7c4180a712036a",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新增图示给实际几何/统计任务提供必需条件，点序、坐标、射线或投影按逐题数学核对并实际渲染查看；准确目标页列入最终浏览器预览。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-goal-evidence-review.json",
+          "sha256": "7635c85bf6542f989a5260a34c92b5409f2dffb2f34bea2333a39af2bedb8ef8"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        }
+      ]
+    },
+    {
+      "change_id": "change_6ef0f0a8f87e772676878fa4",
+      "path": "web/static/diagrams/v8-junior-walking-sector.svg",
+      "after_sha256": "ae24d1dbe361a1d7e9d2e4f7d5b358f070116f2e0ca06324a585f640bcb6a04a",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新增图示给实际几何/统计任务提供必需条件，点序、坐标、射线或投影按逐题数学核对并实际渲染查看；准确目标页列入最终浏览器预览。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-goal-evidence-review.json",
+          "sha256": "7635c85bf6542f989a5260a34c92b5409f2dffb2f34bea2333a39af2bedb8ef8"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        }
+      ]
+    },
+    {
+      "change_id": "change_80144ec18b82d5110317f274",
+      "path": "web/static/diagrams/v8-junior-water-level-trend.svg",
+      "after_sha256": "a92bb350ecd310d72f352202ffc9b4fc0b46c8a0506c8f03c3b9dd12ee4c5489",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新增图示给实际几何/统计任务提供必需条件，点序、坐标、射线或投影按逐题数学核对并实际渲染查看；准确目标页列入最终浏览器预览。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-junior-goal-evidence-review.json",
+          "sha256": "7635c85bf6542f989a5260a34c92b5409f2dffb2f34bea2333a39af2bedb8ef8"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        }
+      ]
+    },
+    {
+      "change_id": "change_25dabf48f5c322b6e235ffa2",
+      "path": "web/static/diagrams/v8-primary-cube-net-layouts.svg",
+      "after_sha256": "06896fe4f2e77a0a3bedc1345eef02836434071e61b1b21a3a21cfbdf0a1e02a",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "为实际观察提供不可省略的图形输入：六格折叠的面向与相对面、多视图相同但块数不同的反例、给定模型的补充观察方向。root实际渲染逐张查看并重新核对折叠与投影条件；题干要求读取图示，旧同族不因增加图示变成第二族。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-visual-observation-review.json",
+          "sha256": "58e8b1fd4d669c502fe0b628abed55396da533df93149d7e37846db81ff9b96e"
+        },
+        {
+          "path": "docs/reviews/v8-primary-objective-cross-review.json",
+          "sha256": "5a104888a056d2d392c20705be45471616929e6e26ae6797dd46630479e8a576"
+        },
+        {
+          "path": "docs/reviews/v8-primary-goal-evidence-review.json",
+          "sha256": "b639567a68ba96567555df216d7a7b42fe9a3e394ceb4faea7e2ca430642581f"
+        }
+      ]
+    },
+    {
+      "change_id": "change_c7fd7ba855da83be4a050b36",
+      "path": "web/static/diagrams/v8-primary-distinguishing-view.svg",
+      "after_sha256": "31a0bf07e632199268582cc5fd506851ee345c3bda02dfcca70b9e0f3aca837e",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "为实际观察提供不可省略的图形输入：六格折叠的面向与相对面、多视图相同但块数不同的反例、给定模型的补充观察方向。root实际渲染逐张查看并重新核对折叠与投影条件；题干要求读取图示，旧同族不因增加图示变成第二族。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-visual-observation-review.json",
+          "sha256": "58e8b1fd4d669c502fe0b628abed55396da533df93149d7e37846db81ff9b96e"
+        },
+        {
+          "path": "docs/reviews/v8-primary-objective-cross-review.json",
+          "sha256": "5a104888a056d2d392c20705be45471616929e6e26ae6797dd46630479e8a576"
+        },
+        {
+          "path": "docs/reviews/v8-primary-goal-evidence-review.json",
+          "sha256": "b639567a68ba96567555df216d7a7b42fe9a3e394ceb4faea7e2ca430642581f"
+        }
+      ]
+    },
+    {
+      "change_id": "change_dfd3bb50e920b665a8c8711b",
+      "path": "web/static/diagrams/v8-primary-multiview-candidates.svg",
+      "after_sha256": "66e7da28c0f02466f74965ce9ea5ce866ab6499280b5a9b9162a93cf75219b9c",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "为实际观察提供不可省略的图形输入：六格折叠的面向与相对面、多视图相同但块数不同的反例、给定模型的补充观察方向。root实际渲染逐张查看并重新核对折叠与投影条件；题干要求读取图示，旧同族不因增加图示变成第二族。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-visual-observation-review.json",
+          "sha256": "58e8b1fd4d669c502fe0b628abed55396da533df93149d7e37846db81ff9b96e"
+        },
+        {
+          "path": "docs/reviews/v8-primary-objective-cross-review.json",
+          "sha256": "5a104888a056d2d392c20705be45471616929e6e26ae6797dd46630479e8a576"
+        },
+        {
+          "path": "docs/reviews/v8-primary-goal-evidence-review.json",
+          "sha256": "b639567a68ba96567555df216d7a7b42fe9a3e394ceb4faea7e2ca430642581f"
+        }
+      ]
+    },
+    {
+      "change_id": "change_00de6cf3d95ea0344ba623e6",
+      "path": "web/static/diagrams/v8-primary-resources-truncated-bars.svg",
+      "after_sha256": "009874e1c42d9cb36cfc36ca8bc3bdf8ebd031213d147a67a93fb74797c841e4",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "纵轴明确从10起，柱端为12与14；可见柱高比为2但真实数量比不是2，图示与非零基线题及其可访问描述一致，已渲染核对。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-primary-resource-goal-review.json",
+          "sha256": "5625ecf6a0c706653bd457b0d3cb7eb36a0a64c2dee4632fc1af881928377214"
+        }
+      ]
+    },
+    {
+      "change_id": "change_8cea18c769916100807a4799",
+      "path": "web/static/diagrams/v8-senior-grouped-scatter.svg",
+      "after_sha256": "0a5567ffcee03e08f16feb9e022df9c7f9b709c9390a71156149988809c37130",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "两组六点按题设坐标绘制，组内上升与整体下降的关系可见；逐点计算总体离差乘积和为−59。图示不把局部方向当整体回归结论。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "representations"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-senior-goal-evidence-review.json",
+          "sha256": "5b89c3af93b9b15f2bdc2d6c64213116d28b8bac37d7c48f84ddc7bf69635d0c"
+        },
+        {
+          "path": "docs/reviews/v8-senior-objective-cross-review.json",
+          "sha256": "e348072ba65d2e5394f2445c3f6c582719e4225545207fb04e35071b41a0d638"
+        },
+        {
+          "path": "tests/test_senior_assessment_semantics_v8.py",
+          "sha256": "3d815c2561193a8e4bd664cbea9d7318bd6655e975be017db393fe372ba888c2"
+        }
+      ]
+    },
+    {
+      "change_id": "change_edaf1ebc2ea6fc70935f73f3",
+      "path": "web/static/style.css",
+      "after_sha256": "c520f6c5ad418a14b5dc3a83e7355dd1c73a417014cd7bccd65d41eb4e8c2ba6",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "新增分项及附件区域保留可换行内容、44px输入控件与自适应图片/音频；手机布局需由真实浏览器旅程核验后才算通过。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        }
+      ]
+    },
+    {
+      "change_id": "change_6e17cc0d762845886eed9d80",
+      "path": "web/static/work.js",
+      "after_sha256": "4a24f286b4864a3d9257c77a3730e9c1c56e806018675dfc62a8a8b7b3399c99",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "ChatGPT stage authors and root integration cross-review",
+      "findings": [
+        "实际文件读入并核对SHA后与文字一起保存，读入期间flush等待；失败保留草稿，旧修订仍有原附件。历史可播放/查看/下载，附件与过程分项绑定，原自评不改自动评分。"
+      ],
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v8-observation-engineering-review.json",
+          "sha256": "c7c5eedc83331d374e1c5980093fc79eec20e963434b69cf3472bd6b56c5f885"
+        },
+        {
+          "path": "tests/test_assessments_v8.py",
+          "sha256": "af9715ebf0f5460f411d76a19cd9d6009a8183bda8ad2c39f6f609f9bd71e2f5"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "ac50399d66cc846bc652a2972185e9b175d91e37b414c20f99348b3fc81decaa"
+        }
+      ]
+    }
+  ],
+  "preview_results": [],
+  "teacher_review": "deferred_by_user",
+  "real_student_effect_validation": "deferred_by_user",
+  "review_scope": "V8实际AI审读：本轮2676剩余原题、累计3584题绑定；1778原目标分项与新任务；原记录冻结、实际附件与逐方法曝光的工程续修。新增资源不宣称教师独立审核或真实学生独立掌握。",
+  "preview_status": "fixed_commit_browser_gate_required"
+}

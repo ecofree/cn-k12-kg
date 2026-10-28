@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "送出6张卡片后还剩8张，原来有多少张？为什么看到“送出”却要用加法？",
+  "definition": "减少后求原来，已知减少的部分和留下的部分，要把两部分合起来：原来数=减少数+剩余数。本页用20以内的数；增加后求原来则要减去增加数，作为对照保留。",
+  "why": "把送出的6张放回剩余的8张旁边，恢复的14张正是变化前的总数。把14再送出6得到8，说明反求与原过程一致。决定运算的是哪个数量未知，而不是“送出”“还剩”等词。",
+  "when_to_use": [
+    "已知拿走、卖出、用去等减少数量与剩余数量，求变化前总数。",
+    "对比“又来了后求原来”：区分增加与减少，列出相应数量关系。"
+  ],
+  "steps": [
+    "圈出题目问的是原来还是现在。",
+    "画“原来→减少→剩余”，分别标已知部分与未知总数。",
+    "已知减少和剩余时相加恢复；增加后反求原来时作相反方向的减法。",
+    "将求出的原来数代回正向过程，逐个数量核对。"
+  ],
+  "worked_example": {
+    "prompt": "送出6张卡片后还剩8张，原来有多少张？",
+    "steps": [
+      "原来的卡片分成送出的6张与留下的8张。",
+      "6+8=14（张）；不是8−6，因为8已经是减少后的数量。",
+      "把14张送出6张，还剩14−6=8张，符合原题。"
+    ],
+    "answer": "14",
+    "verify": "6+8",
+    "family_id": "primary.additive-structure.find-original-after-removal",
+    "variant_id": "m1a.5.5:worked:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "看到“送出”就从剩余再减一次，会把减少重复计算。",
+    "所有“求原来”都相加也不对：又来4人后12人，原来是12−4=8人。",
+    "“拿走2后剩8，又拿来1，现在多少”应从当前8接着算，得到9，而不是恢复原数后再加。"
+  ],
+  "check": "分别完成各项自检；两个旧技能保留身份，新增的逆向加法单独记录。若得到提示后改正，保留帮助记录并另做独立任务。",
+  "topicId": "m1a.5.5",
+  "name": "逆向用加法解决问题",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能识别“求原来”的逆向问题",
+      "explanation": "先确定未知的是变化前还是变化后。两题都问原来，但变化方向不同，不能由题中出现同一个词而选择相同运算。",
+      "self_check": {
+        "prompt": "甲：送出4本后还有9本。乙：又买4本后共有9本。两题各问原来几本，写出数量关系并解释运算。",
+        "reference_answer": "甲原来−4=9，所以原来9+4=13本；乙原来+4=9，所以原来9−4=5本。未知同为原来，变化方向相反。",
+        "criteria": [
+          "识别两题原来未知",
+          "区分减少与增加",
+          "分别列出9+4与9−4并说明依据"
+        ],
+        "family_id": "primary.additive-structure.contrast-change-direction",
+        "variant_id": "m1a.5.5:check:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "choose_strategy"
+      },
+      "observation_note": "比较两个逆向情境的数量关系，不根据其中一道数值正确宣布所有应用题已掌握。",
+      "difficulty_support": {
+        "discriminating_prompt": "两题中的9都是现在数，但4分别是移出还是移入？",
+        "hint": "将两题过程画成箭头；恢复移出的要添回，排除新添的要拿走。",
+        "revision_prompt": "在两条箭头旁标出方向和数量，再解释为什么两个运算不同。"
+      }
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用减法求出原来的数量",
+      "explanation": "这是为历史记录保留的增加后反求原来对照：现在总数含新添部分，去掉新添才是原来。它不替代本节主要的逆向加法目标。",
+      "self_check": {
+        "prompt": "又买4本后共有14本，原来几本？用减法计算，再按“再买4本”检验。",
+        "reference_answer": "14−4=10本；检验10+4=14。现在14本包含新增4本，去掉新增部分得到原来的10本。",
+        "criteria": [
+          "知道现在14含新买4",
+          "列出14−4=10",
+          "正向检验10+4=14"
+        ],
+        "family_id": "primary.additive-structure.find-original-after-addition",
+        "variant_id": "m1a.5.5:check:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "仅限增加后求原来；不能据此推断减少后会选择加法。保留旧技能身份但明确其范围。 对照任务使用无需退位的数，不把尚未系统学习的20以内退位减法作为本课先决条件。",
+      "difficulty_support": {
+        "discriminating_prompt": "现在14本包含新增4本吗？新增部分原来已经有了吗？",
+        "hint": "把14分为1个十与4个一，新增4本对应4个一；去掉它们后剩1个十。",
+        "revision_prompt": "又添3支后有9支，写出原来的支数并用加法检验。再说明这与“拿走3后剩9”的关系为什么不同。"
+      }
+    },
+    {
+      "criterion_index": 2,
+      "title": "能把减少的数量与剩余数量相加求原来，并用减法正向检验",
+      "explanation": "已知用去部分和剩余部分，两部分相加得到原数。应回到原来的正向减少过程检查，而非只记“逆向”一词。",
+      "self_check": {
+        "prompt": "盒里用去7支铅笔后还剩5支。原来几支？画两部分或写数量关系，再检查。",
+        "reference_answer": "用去的7支与剩余的5支来自同一原整体、互不重复；7+5=12，原来有12支。检验12−7=5。",
+        "criteria": [
+          "原数用7+5恢复",
+          "结果12且对象为铅笔",
+          "用12−7=5正向检查"
+        ],
+        "family_id": "primary.additive-structure.find-original-after-removal",
+        "variant_id": "m1a.5.5:check:2:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察单次减少后反求总数；多次变化、未知减少量、不同整体和复杂比较均需另行观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "5支是用去前的数量还是用去后留下的数量？",
+        "hint": "把用去的7支想象放回来，与留下的5支合在一起。",
+        "revision_prompt": "保留原错误算式，再画两堆修订，并用减少7后的结果验证。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能区分历史变化与当前数量，并由当前数量计算后续变化",
+      "explanation": "有些叙述先交代已经发生的变化，再给当前数量。计算“现在又怎样”要以当前数量为起点；只有问“原来”时才倒推已经发生的变化，不能把已拿走部分重复加回当前。",
+      "self_check": {
+        "prompt": "一盒原来有一些珠子，拿走2颗后还剩7颗，又放入3颗。现在有几颗？另写一句说明哪一个数字是后一步的起点。",
+        "reference_answer": "现在10颗；后一步从已经剩下的7颗开始，7+3=10。原来是9颗，但这不是后一步的起点。",
+        "criteria": [
+          "以剩7颗作为后一步起点",
+          "算得当前10颗",
+          "区分原来9颗与现在10颗"
+        ],
+        "family_id": "primary.additive-structure.continue-from-current",
+        "variant_id": "m1a.5.5:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "不把当前量变化替代逆向求原来的目标。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "你接着计算的是“已经剩下的7颗”，还是又把拿走的2颗加回去了？",
+        "hint": "在“还剩7颗”下画线，先只看它后面的“又放入3颗”。",
+        "revision_prompt": "把最后一步改成又拿走1颗，仍从7颗开始重算，并保留原答案作对照。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m1a.5.5-q401",
+      "note": "恢复减少前的数量。"
+    },
+    {
+      "id": "m1a.5.5-q402",
+      "note": "辨别相同词语中不同的未知量。"
+    },
+    {
+      "id": "m1a.5.5-q403",
+      "note": "检查同学的逆向列式。"
+    },
+    {
+      "id": "m1a.5.5-q1",
+      "note": "增加后反求原来的对照题，不代表逆向加法。"
+    }
+  ],
+  "conditions": [
+    "减少和剩余都是同一原整体中的不重叠部分，没有漏计或重复。",
+    "本页数量均为非负整数且原总数不超过20；有多次变化时应先画清时间顺序。"
+  ],
+  "representation_note": "先摆剩余的一堆，再用另一种颜色表示拿走的一堆，合在一起恢复原整体。文字里分别标明原来、变化、现在。只写数字不能替代对数量关系的解释。",
+  "author_type": "ai"
+}

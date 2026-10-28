@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3a.3.2",
+  "name": "分米的认识及单位换算",
+  "tier": "tool",
+  "hook": "一米的长度平均分成10段，每段是什么单位？",
+  "definition": "1分米=10厘米，1米=10分米，所以1米=100厘米。分米处于米和厘米之间；跨两级与跨一级的进率不同。",
+  "why": "把1米带分10段，每段1分米；每分米再分10段，每段1厘米，总共100小段。单位链可以说明为什么米到厘米不是只乘一次10。",
+  "conditions": [
+    "本卡在米、分米、厘米同类长度单位间换算。",
+    "复名数各部分先统一单位，不能直接拼接成任意单位。"
+  ],
+  "representation_note": "纸带做米—分米—厘米两层分割图，在每层写单位与份数。",
+  "when_to_use": [
+    "本卡在米、分米、厘米同类长度单位间换算。",
+    "复名数各部分先统一单位，不能直接拼接成任意单位。"
+  ],
+  "steps": [
+    "画出米、分米、厘米单位链。",
+    "每跨一级按10换算，跨两级按100。",
+    "复名数各部分换算后相加，再反向核对。"
+  ],
+  "worked_example": {
+    "prompt": "4分米6厘米共多少厘米？",
+    "steps": [
+      "4分米=40厘米。",
+      "40+6=46厘米。"
+    ],
+    "answer": "46",
+    "family_id": "measure.decimetre-conversion",
+    "variant_id": "m3a.3.2:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "verify": "4*10+6"
+  },
+  "pitfalls": [
+    "1分米不是100厘米。",
+    "大单位变小单位数值变大，实际长度不变。"
+  ],
+  "practice": [
+    {
+      "id": "m3a.3.2-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3a.3.2-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "米到分米是一层十等分，分米到厘米又是一层十等分。1米因此是10分米或100厘米。",
+      "observation_note": "观察单位层级，单记一个数字未必能区分。",
+      "self_check": {
+        "prompt": "分别写1米、1分米的厘米数，并解释为什么不同。",
+        "reference_answer": "1米100厘米，1分米10厘米；一米含10个分米。",
+        "criteria": [
+          "两个进率正确",
+          "两层关系说明清楚"
+        ],
+        "family_id": "measure.decimetre-conversion",
+        "variant_id": "m3a.3.2:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "measure.metres-centimetres"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把1米直接看成10厘米，漏掉了哪一级？",
+        "hint": "先换10分米，再每分米换10厘米。",
+        "revision_prompt": "在两条箭头各写×10，重算到厘米。"
+      },
+      "criterion_index": 0,
+      "title": "知道分米与厘米、米的进率"
+    },
+    {
+      "explanation": "分米换厘米乘10，厘米换分米除10；不足一分米的厘米可保留。",
+      "observation_note": "观察整数与复名换算，不要求把余量丢弃。",
+      "self_check": {
+        "prompt": "将7分米换厘米，再将83厘米换成分米和厘米。",
+        "reference_answer": "70厘米；8分米3厘米。",
+        "criteria": [
+          "方向正确",
+          "余下厘米保留"
+        ],
+        "family_id": "measure.decimetre-conversion",
+        "variant_id": "m3a.3.2:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "83厘米只写8分米，会少多少？",
+        "hint": "8分米是80厘米，尚余3。",
+        "revision_prompt": "补写3厘米，并用8×10+3验回。"
+      },
+      "criterion_index": 1,
+      "title": "能进行分米与厘米的换算"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

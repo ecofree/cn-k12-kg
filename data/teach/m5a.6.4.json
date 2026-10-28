@@ -1,52 +1,129 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m5a.6.4",
- "name": "组合图形的面积",
- "tier": "core",
- "hook": "一个「L」形花坛，没有现成公式，怎么算面积？",
- "definition": "组合图形由几个基本图形拼成。求面积时用分割法或添补法化成基本图形，再把各部分面积相加或相减。",
- "why": "面积可以加也可以减：不重叠的部分可以相加；把图形补成一个大的长方形，再减去补上去的那块，结果一样。所以关键不是背公式，而是「切在哪里、补成什么」——切法不同，答案必须相同。",
- "when_to_use": [
-  "图形不是标准的长方形、三角形或圆",
-  "题面出现「中间挖去」「拼在一起」「阴影部分」",
-  "需要先分割或先补形才能套公式"
- ],
- "steps": [
-  "用一条线把图形分成基本图形（或补成一个大图形）",
-  "把每个基本图形的尺寸标在图上，确认用的是自己的边长",
-  "分别算出各块面积",
-  "相加（分割法）或相减（添补法）"
- ],
- "worked_example": {
-  "prompt": "一个长方形（长 6、宽 4）和一个三角形（底 6、高 3）拼成的组合图形，面积是多少？",
-  "verify": "6*4+6*3/2",
-  "answer": "33",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "hand",
+  "topicId": "m5a.6.4",
+  "name": "组合图形的面积",
+  "tier": "core",
+  "hook": "一个「L」形花坛，没有现成公式，怎么算面积？",
+  "definition": "组合图形由几个基本图形拼成。求面积时用分割法或添补法化成基本图形，再把各部分面积相加或相减。",
+  "why": "面积可以加也可以减：不重叠的部分可以相加；把图形补成一个大的长方形，再减去补上去的那块，结果一样。所以关键不是背公式，而是「切在哪里、补成什么」——切法不同，答案必须相同。",
+  "when_to_use": [
+    "图形不是标准的长方形、三角形或圆",
+    "题面出现「中间挖去」「拼在一起」「阴影部分」",
+    "需要先分割或先补形才能套公式"
+  ],
   "steps": [
-   "分成两块：长方形和三角形。",
-   "长方形 6×4=24；三角形 6×3÷2=9。",
-   "两块相加：24+9=33。"
+    "用一条线把图形分成基本图形（或补成一个大图形）",
+    "把每个基本图形的尺寸标在图上，确认用的是自己的边长",
+    "分别算出各块面积",
+    "相加（分割法）或相减（添补法）"
+  ],
+  "worked_example": {
+    "prompt": "一个长6厘米、宽4厘米的长方形，与底6厘米、对应高3厘米的三角形沿6厘米整边拼接；两部分内部不重叠。组合图形面积是多少平方厘米？",
+    "verify": "6*4+6*3/2",
+    "answer": "33",
+    "steps": [
+      "题目说明两部分内部不重叠，拼接边没有面积，因此可将两块面积相加。",
+      "长方形6×4=24平方厘米；三角形6×3÷2=9平方厘米。",
+      "总面积24+9=33平方厘米。"
+    ],
+    "family_id": "geometry.composite-area-partition",
+    "variant_id": "m5a.6.4:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain",
+    "reference_family_ids": [
+      "geometry.rectangle-unit-area",
+      "geometry.triangle-base-height-area"
+    ]
+  },
+  "pitfalls": [
+    "分割后把整条边当成小图形的边，尺寸标错。",
+    "两块有重叠，却仍然直接相加，重叠部分算了两遍。",
+    "添补法算完忘记减去补上去的那块。"
+  ],
+  "practice": [
+    {
+      "id": "m5a.6.4-q1",
+      "note": "分割成两块后相加"
+    },
+    {
+      "id": "m5a.6.4-q2",
+      "note": "说清分割法与添补法"
+    },
+    {
+      "id": "m5a.6.4-q95",
+      "note": "大长方形减去中间的小正方形"
+    }
+  ],
+  "check": "能对同一个图形给出两种分法，且两次算出的面积相同。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能把组合图形分割成基本图形",
+      "explanation": "分割时覆盖原图形且各部分无重叠；添补时记清新添部分。",
+      "self_check": {
+        "prompt": "如图，一个8厘米×6厘米长方形右上角去掉3厘米×2厘米矩形。怎样用添补法求蓝色剩余部分的面积？",
+        "reference_answer": "用外大矩形面积减去缺角面积：8×6−3×2。",
+        "criteria": [
+          "明确外形与缺角",
+          "选择合理添补法"
+        ],
+        "family_id": "geometry.composite-area-subtract-hole",
+        "variant_id": "m5a.6.4:criterion:0:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-composite-area.svg",
+          "alt": "8厘米乘6厘米长方形的右上角去掉3厘米乘2厘米矩形；蓝色为剩余部分，虚线补出缺口并标出一种水平分割。"
+        },
+        "reference_family_ids": [
+          "geometry.composite-area-partition",
+          "geometry.rectangle-unit-area"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "8×6包含右上角已去掉的部分吗？3×2应加回还是减去？",
+        "hint": "先画完整大矩形，把右上角缺口单独涂色；目标是留下的区域。",
+        "revision_prompt": "画10×7矩形右上去掉4×3的缺角，分别圈整体、缺口和剩余，先写关系再算。"
+      },
+      "observation_note": "观察添补时大面积与缺口的关系；缺口超出大矩形或重叠情况需另核尺寸。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能正确计算组合图形的面积",
+      "explanation": "每段尺寸对应实际子图形，可用第二种分割检验同一总面积。",
+      "self_check": {
+        "prompt": "根据配图计算蓝色剩余面积，再沿水平虚线分割成两块核对；写出每块的尺寸和面积。",
+        "reference_answer": "48−6=42平方厘米；也可下方8×4=32，加左上5×2=10，共42。",
+        "criteria": [
+          "主算法42",
+          "第二种分割无重叠且尺寸正确"
+        ],
+        "family_id": "geometry.composite-area-partition",
+        "variant_id": "m5a.6.4:criterion:1:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-composite-area.svg",
+          "alt": "8厘米乘6厘米长方形的右上角去掉3厘米乘2厘米矩形；蓝色为剩余部分，虚线补出缺口并标出一种水平分割。"
+        },
+        "reference_family_ids": [
+          "geometry.composite-area-subtract-hole",
+          "geometry.rectangle-unit-area"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "把右上缺角后剩下左上小矩形，其宽还是8吗？应减去哪里3厘米？",
+        "hint": "下方高度6−2=4；左上宽8−3=5，高2。把每块尺寸标在各自区域。",
+        "revision_prompt": "对10×7去掉4×3的图用“整体减缺口”与“下块加左上块”两种方法核对，检查没有重叠遗漏。"
+      },
+      "observation_note": "观察子图形尺寸推导与等积核查；两个数值碰巧一致不能替代分区依据。"
+    }
   ]
- },
- "pitfalls": [
-  "分割后把整条边当成小图形的边，尺寸标错。",
-  "两块有重叠，却仍然直接相加，重叠部分算了两遍。",
-  "添补法算完忘记减去补上去的那块。"
- ],
- "practice": [
-  {
-   "id": "m5a.6.4-q1",
-   "note": "分割成两块后相加"
-  },
-  {
-   "id": "m5a.6.4-q2",
-   "note": "说清分割法与添补法"
-  },
-  {
-   "id": "m5a.6.4-q95",
-   "note": "大长方形减去中间的小正方形"
-  }
- ],
- "check": "能对同一个图形给出两种分法，且两次算出的面积相同。"
 }

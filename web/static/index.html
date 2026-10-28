@@ -3,85 +3,96 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>K12 数学知识图谱 · 先修补学</title>
+<title>K12 数学 · 学习与补学</title>
 <link rel="stylesheet" href="/static/style.css">
 <link rel="stylesheet" href="/static/vendor/katex/katex.min.css">
 </head>
 <body>
+<a class="skip-link" href="#main-content">跳到学习内容</a>
 <header class="topbar">
-  <div class="brand">
-    <span class="logo">kg</span>
-    <div>
-      <h1>K12 数学知识图谱 · 先修补学</h1>
-      <p class="sub" id="stats">加载中…</p>
-    </div>
-  </div>
-  <div class="topnav">
-    <a class="ghost" href="/static/review.html">题目复核</a>
-    <button class="ghost" id="restart" hidden>重新开始</button>
-  </div>
+  <div class="brand"><span class="logo">kg</span><div><h1>K12 数学 · 学习与补学</h1><p class="sub" id="stats">加载中…</p></div></div>
+  <nav class="topnav"><button class="ghost" id="open-history" disabled>学习记录与作品</button><button class="ghost" id="open-profile">档案恢复与备份</button><button class="ghost" id="restart" hidden>回到首页</button></nav>
 </header>
-
-<main>
+<main id="main-content" tabindex="-1">
+  <div id="save-notice" class="card save-notice" hidden role="alert"><p id="save-notice-text"></p><button id="retry-save" class="ghost">重试保存</button></div>
+  <div id="action-notice" class="card" hidden role="status"></div>
   <section id="view-home" class="view">
-    <div class="hero">
-      <p>选一个知识点诊断，或点册次右侧的「整册筛查」逐点过一遍；答错会往回追到最源头的那个概念。</p>
-    </div>
-    <div class="search-row">
-      <input id="search" type="search" placeholder="搜索知识点，如 绝对值 / 方程" autocomplete="off">
-    </div>
+    <div class="hero"><h2>从一个具体目标开始</h2><p>先理解一个概念，再动手练习。把你的思路留下来，下次从这里继续。</p></div>
+    <button id="open-scope" class="ghost">课程范围、目标与完成要求</button>
+    <button id="resume" class="ghost" hidden>继续上次作答</button>
+    <div class="stage-picker"><label for="stage-select">当前学习学段</label><select id="stage-select"><option value="">全部学段</option><option value="primary">小学</option><option value="junior">初中</option><option value="senior">高中</option></select></div>
+    <section class="card"><h3>接下来可以做什么</h3><div id="learning-plan" aria-live="polite">正在读取学习安排…</div><p id="need-counts" class="muted"></p><button id="open-needs" class="ghost">查看所有学习事项</button><p id="plan-policy" class="muted"></p></section>
+    <section id="path-section"><h3>连起来学 · 从分数到函数</h3><p class="muted">按需要回看基础。每个单元都有讲解、练习、迁移任务和稍后的复测。</p><div id="learning-path" class="unit-grid"></div></section>
+    <section id="data-path-section"><h3>连起来学 · 从读数据到回归</h3><p class="muted">从读懂图表与平均数，逐步学习抽样、波动和相关关系。按当前学段选择，也可以回看先修单元。</p><div id="data-learning-path" class="unit-grid"></div></section>
+    <h3>学习单元 · 理解、应用与解释</h3>
+    <div id="learning-units" class="unit-grid"></div>
+    <h3>综合与实践 · 动手、记录与解释</h3>
+    <p class="muted">按任务说明动手，把步骤、结果与反思保存在作品中。</p>
+    <div id="learning-projects" class="unit-grid"></div>
+    <div class="section-heading"><h2>按教材查找</h2><span class="muted">教材节点中可能包含多个细技能</span></div>
+    <div class="search-row"><input id="search" type="search" placeholder="搜索知识点，如 分数 / 方程 / 方向" autocomplete="off" aria-label="搜索教材知识点"></div>
     <div id="chapters"></div>
   </section>
-
+  <section id="view-teach" class="view" hidden>
+    <p class="eyebrow">教材讲解</p><h2 id="teach-title"></h2><p class="muted" id="teach-status"></p>
+    <div id="teach-content"></div><div id="teach-units" class="unit-grid"></div><div id="teach-actions" class="actions"></div>
+  </section>
+  <section id="view-unit" class="view" hidden>
+    <p class="eyebrow">学习单元</p><h2 id="unit-title"></h2><p class="muted" id="unit-status"></p>
+    <div id="unit-content"></div><div id="unit-actions" class="actions"></div>
+    <p class="muted">练习即时反馈；迁移任务与复测完成整组后再看解析。过程题可保存过程，按量规自查和修订。</p>
+  </section>
   <section id="view-quiz" class="view" hidden>
-    <div class="quiz-head">
-      <span class="pill" id="quiz-topic"></span>
-      <span class="muted" id="quiz-progress"></span>
-    </div>
+    <div class="quiz-head"><span class="pill" id="quiz-topic"></span><span class="muted" id="quiz-progress"></span></div>
+    <div class="card resume-notice" id="quiz-resume-notice" hidden role="status"><p id="quiz-resume-message"></p><div id="quiz-saved-answers"></div><button class="ghost" id="quiz-return">回到目录重新开始</button></div>
     <div class="card question">
-      <p class="qmeta" id="quiz-meta"></p>
-      <p class="prompt" id="quiz-prompt"></p>
-      <div id="choices" class="choices"></div>
-      <div id="numeric" class="numeric" hidden>
-        <input id="numeric-input" type="text" inputmode="decimal" placeholder="填数字，如 -3 或 1.5">
-      </div>
-      <button class="primary" id="submit">提交</button>
-      <p class="hint muted" id="quiz-hint"></p>
+      <p class="qmeta" id="quiz-meta"></p><div class="prompt" id="quiz-prompt" tabindex="-1" role="heading" aria-level="2"></div><div id="quiz-diagram"></div>
+      <div id="quiz-rubric"></div><fieldset id="choices" class="choices" aria-describedby="quiz-prompt quiz-hint"><legend class="sr-only">选择一个答案</legend></fieldset>
+      <div id="numeric" class="numeric" hidden><label for="numeric-input">你的答案</label><input id="numeric-input" type="text" aria-describedby="quiz-prompt quiz-hint" placeholder="如 -3、0.5 或 1/2"></div>
+      <div id="process-answer" hidden><label for="process-input">写出过程、依据和结论</label><textarea id="process-input" rows="6" maxlength="8000"></textarea></div>
+      <label class="help-declaration"><input id="quiz-used-help" type="checkbox">这道题使用了提示、参考答案或他人的帮助</label>
+      <div class="actions"><button class="primary" id="submit">提交</button><button class="ghost" id="skip">暂时不会</button></div>
+      <p class="hint muted" id="quiz-hint" aria-live="polite"></p>
     </div>
-    <div class="card feedback" id="feedback" hidden>
-      <p class="fb-title" id="fb-title"></p>
-      <p id="fb-answer"></p>
-      <p class="muted" id="fb-explain"></p>
-      <button class="primary" id="next">继续</button>
-    </div>
+    <div class="card feedback" id="feedback" hidden aria-live="polite"><p class="fb-title" id="fb-title"></p><div id="fb-answer"></div><div id="fb-explain"></div><div id="fb-rubric"></div><button class="primary" id="next">继续</button></div>
   </section>
-
   <section id="view-result" class="view" hidden>
-    <h2>诊断结果</h2>
-    <p class="verdict" id="verdict"></p>
-    <div class="grid">
-      <div class="card stat"><h3>薄弱</h3><p id="res-weak">—</p></div>
-      <div class="card stat"><h3>不稳</h3><p id="res-shaky">—</p></div>
-      <div class="card stat"><h3>根因（已判定）</h3><p id="res-roots">—</p></div>
+    <h2 id="result-title">本次结果</h2><p class="verdict" id="verdict"></p><p class="muted" id="result-context"></p>
+    <div id="diagnostic-result">
+      <div class="grid"><div class="card stat"><h3>补学线索</h3><p id="res-weak">—</p></div><div class="card stat"><h3>需要巩固</h3><p id="res-shaky">—</p></div><div class="card stat"><h3>已有先修证据的起点</h3><p id="res-roots">—</p></div></div>
+      <p class="muted" id="res-candidates"></p><div class="card"><h3>下一步</h3><ol id="res-path" class="path"></ol></div>
+      <details class="card"><summary>本次检查范围</summary><table id="res-chapters"></table></details>
     </div>
-    <div class="card">
-      <h3>建议补学顺序</h3>
-      <ol id="res-path" class="path"></ol>
-    </div>
-    <div class="card">
-      <h3>按章分布</h3>
-      <table id="res-chapters"></table>
-    </div>
-    <button class="primary" id="again">再测一次</button>
+    <div id="objective-result" class="card" hidden><h3>各目标的作答表现</h3><div id="objective-list"></div></div>
+    <div class="card"><h3>回看作答与依据</h3><div id="answer-review"></div></div>
+    <div id="result-actions" class="actions"></div><button class="ghost" id="again">返回目录</button>
   </section>
-
-  <p class="foot muted">
-    数据为 AI 生成初稿，未经教师审核；判定只作线索，不代替考试与课堂观察。
-  </p>
+  <section id="view-project" class="view" hidden>
+    <p class="eyebrow">综合与实践</p><h2 id="project-title"></h2><p class="muted" id="project-status"></p>
+    <div id="project-content"></div><button class="ghost" id="project-return">返回目录</button>
+  </section>
+  <section id="view-history" class="view" hidden>
+    <h2>学习记录与作品</h2><p class="muted">显示当前学习档案，时间以北京时间显示。设置恢复码并下载完整备份后，可以找回或迁移记录。</p>
+    <div class="actions"><button class="ghost" id="refresh-history">刷新记录</button><button class="ghost" id="export-history">导出本浏览器的学习记录</button></div>
+    <h3>我的过程与作品</h3><div id="history-works"></div><button id="works-more" class="ghost" hidden>更多作品</button>
+    <h3>练习与检查</h3><p class="muted" id="history-status" aria-live="polite"></p><div id="history-list"></div><button id="history-more" class="ghost" hidden>更早的作答</button>
+  </section>
+  <section id="view-work" class="view" hidden><p class="eyebrow">我的学习作品</p><h2 id="work-title"></h2><p class="muted">这里保留原任务与每次修订。可以继续补充，也可以查看以前怎样思考。</p><div id="work-content"></div><button class="ghost" id="work-return">返回学习记录</button></section>
+  <section id="view-needs" class="view" hidden><h2>所有学习事项</h2><p class="muted">保留各次作答和作品留下的具体问题。切换学段、开始新任务或更新内容不会自动清除它们。</p><label for="need-filter">查看状态</label><select id="need-filter"><option value="open">待处理</option><option value="deferred">已暂缓</option><option value="resolved">已有后续证据</option><option value="all">全部事项</option></select><p id="needs-status" class="muted" role="status"></p><div id="needs-list"></div></section>
+  <section id="view-support" class="view" hidden><div id="support-content"></div></section>
+  <section id="view-profile" class="view" hidden><h2>档案恢复与备份</h2><div id="profile-content"></div></section>
+  <section id="view-goal" class="view" hidden><p class="eyebrow">具体学习目标</p><h2 id="goal-title"></h2><div id="goal-content"></div></section>
+  <section id="view-scope" class="view" hidden><h2>课程范围与目标</h2><div id="scope-policy"></div><div class="scope-controls"><label for="scope-role">内容角色</label><select id="scope-role"><option value="">全部角色</option><option value="core">核心学习</option><option value="foundation_support">基础支持</option><option value="extension">扩展活动</option></select><label for="scope-stage">学段</label><select id="scope-stage"><option value="">全部学段</option><option value="primary">小学</option><option value="junior">初中</option><option value="senior">高中</option></select><label for="scope-search">查找目标</label><input id="scope-search" type="search" placeholder="主题、目标文字或目标ID"></div><div id="alignment-summary" class="card"></div><label for="scope-gap">继续核对的内容</label><select id="scope-gap"><option value="">全部目标</option><option value="goal_specific_help">缺目标专属帮助</option><option value="authored_observation_boundary">缺具体观察边界</option><option value="known_task_structure_and_representation">缺已核对的题族或表征</option><option value="multiple_objective_task_families">尚缺多种客观任务结构</option></select><p id="scope-summary" class="muted" role="status"></p><div id="scope-goals"></div></section>
+  <p class="foot muted">本项目提供数学学习材料与过程反馈。内容为作者初稿，独立学科审核与真实学习效果验证尚未完成。<a href="/static/review.html">内容说明与复核</a></p>
 </main>
-<script src="/static/app.js"></script>
 <script src="/static/vendor/katex/katex.min.js"></script>
 <script src="/static/vendor/katex/auto-render.min.js"></script>
 <script src="/static/math.js"></script>
+<script src="/static/work.js"></script>
+<script src="/static/support.js"></script>
+<script src="/static/profile.js"></script>
+<script src="/static/manipulatives.js"></script>
+<script src="/static/steps.js"></script>
+<script src="/static/app.js"></script>
 </body>
 </html>

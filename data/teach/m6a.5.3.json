@@ -1,52 +1,125 @@
 {
- "schema": 1,
- "review_status": "draft",
- "author": "hand",
- "topicId": "m6a.5.3",
- "name": "圆的面积",
- "tier": "core",
- "hook": "圆没有长和宽，面积为什么是 πr²？",
- "definition": "把圆平均分成若干份拼成近似长方形：长相当于圆周长的一半（πr），宽相当于半径，所以 S=πr²。",
- "why": "剪拼前后面积不变。拼成的长方形长是半个周长 πr，宽是半径 r，长乘宽就是 πr×r=πr²。所以公式里的平方来自「r 乘了两次」，不是凭空来的。",
- "when_to_use": [
-  "已知半径或直径求面积",
-  "环形、半圆、四分之一圆",
-  "已知周长先求半径再求面积"
- ],
- "steps": [
-  "先求半径（给直径就除以 2）",
-  "半径平方",
-  "乘 π（题目一般取 3.14）",
-  "单位写成平方单位"
- ],
- "worked_example": {
-  "prompt": "半径 3 厘米的圆，面积是多少平方厘米？（π 取 3.14）",
-  "verify": "3.14*3**2",
-  "answer": "28.26",
+  "schema": 1,
+  "review_status": "draft",
+  "author": "hand",
+  "topicId": "m6a.5.3",
+  "name": "圆的面积",
+  "tier": "core",
+  "hook": "圆没有长和宽，面积为什么是 πr²？",
+  "definition": "把圆等分成扇形并交错重排，分得越细，形状越接近长方形；近似长方形的长趋近半周长πr，宽趋近半径r，由面积不变得到S=πr²。",
+  "why": "等分扇形交错重排不改变面积。分得越细，拼成的图形越接近长方形，其长趋近半周长πr，宽趋近r，于是面积为πr×r=πr²。有限次剪拼只能直观近似，不能把弯曲边界说成已经完全变直。",
+  "when_to_use": [
+    "已知半径或直径求面积",
+    "环形、半圆、四分之一圆",
+    "已知周长先求半径再求面积"
+  ],
   "steps": [
-   "r=3，先算 r²=9。",
-   "S=πr²=3.14×9。",
-   "=28.26 平方厘米。"
-  ]
- },
- "pitfalls": [
-  "用直径平方，忘了先除以 2。",
-  "先乘 π 再平方，算成 (πr)²。",
-  "周长和面积公式混用，把 2πr 当面积。"
- ],
- "practice": [
-  {
-   "id": "m6a.5.3-q1",
-   "note": "标准型：πr²"
+    "先求半径（给直径就除以 2）",
+    "半径平方",
+    "乘 π（题目一般取 3.14）",
+    "单位写成平方单位"
+  ],
+  "worked_example": {
+    "prompt": "半径 3 厘米的圆，面积是多少平方厘米？（π 取 3.14）",
+    "verify": "3.14*3**2",
+    "answer": "28.26",
+    "steps": [
+      "r=3，先算 r²=9。",
+      "S=πr²=3.14×9。",
+      "=28.26 平方厘米。"
+    ],
+    "family_id": "geometry.circle-area",
+    "variant_id": "m6a.5.3:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
   },
-  {
-   "id": "m6a.5.3-q2",
-   "note": "数字换一组，先平方再乘 π"
+  "pitfalls": [
+    "用直径平方，忘了先除以 2。",
+    "先乘 π 再平方，算成 (πr)²。",
+    "周长和面积公式混用，把 2πr 当面积。"
+  ],
+  "practice": [
+    {
+      "id": "m6a.5.3-q1",
+      "note": "标准型：πr²"
+    },
+    {
+      "id": "m6a.5.3-q2",
+      "note": "数字换一组，先平方再乘 π"
+    },
+    {
+      "id": "m6a.5.3-q90",
+      "note": "半径 8，检查平方是否算对"
+    }
+  ],
+  "check": "能复述「长=πr、宽=r」的推导，并算对半径 8 的面积 200.96。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
   },
-  {
-   "id": "m6a.5.3-q90",
-   "note": "半径 8，检查平方是否算对"
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能说清圆面积公式的推导",
+      "explanation": "扇形越分越细，交错重排越接近长方形，其长趋近πr、宽趋近r，面积保持。",
+      "self_check": {
+        "prompt": "解释圆面积公式πr²中两个r分别从哪里来。",
+        "reference_answer": "长近似半周长πr含一个r，宽近似半径r；相乘得πr²。有限扇形拼图只是近似形状。",
+        "criteria": [
+          "长宽来源",
+          "认识近似到极限"
+        ],
+        "family_id": "geometry.circle-area-rearrangement",
+        "variant_id": "m6a.5.3:criterion:0:v6",
+        "representation": "geometry",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-circle-area-rearrangement.svg",
+          "alt": "同半径圆的8等份与32等份交错重排；扇形面积保持，有限边界仍弯曲。细分时近似长方形的长趋近πr、宽趋近r，不把有限图形说成准确长方形。"
+        },
+        "reference_family_ids": [
+          "geometry.circle-area",
+          "geometry.circle-circumference",
+          "geometry.rectangle-unit-area"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "剪拼后长接近整个圆周长还是半个？两条长边分别由哪些弧组成？",
+        "hint": "交错放置时一半小弧到上边、一半到下边，单条长边接近πr，高接近r。",
+        "revision_prompt": "画出少分与多分两种扇形拼图，标两条近似边与原半径，解释有限剪拼还不是严格长方形。"
+      },
+      "observation_note": "观察面积守恒和近似长宽来源；直观剪拼不冒充严格极限证明。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能计算圆的面积",
+      "explanation": "已知直径先除2得半径，再用面积公式，不能把π也平方。",
+      "self_check": {
+        "prompt": "圆直径10厘米，取π≈3.14，面积约多少？",
+        "reference_answer": "r=5厘米，S≈3.14×25=78.5平方厘米。",
+        "criteria": [
+          "先求r=5",
+          "平方单位正确"
+        ],
+        "family_id": "geometry.circle-area",
+        "variant_id": "m6a.5.3:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.radius-diameter"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "直径10厘米时半径也是10吗？3.14×5²与(3.14×5)²相同吗？",
+        "hint": "先写r=10÷2=5，再只将半径平方为25，最后乘π；单位是平方厘米。",
+        "revision_prompt": "直径6厘米的圆求面积，用π保留精确形式后再取3.14算近似，注明两个结果的区别。"
+      },
+      "observation_note": "观察先求半径、只平方半径与面积单位；不从面积正确反推推导过程已理解。"
+    }
+  ],
+  "diagram": {
+    "src": "/static/diagrams/primary-circle-area-rearrangement.svg",
+    "alt": "同半径圆的8等份与32等份交错重排；扇形面积保持，有限边界仍弯曲。细分时近似长方形的长趋近πr、宽趋近r，不把有限图形说成准确长方形。"
   }
- ],
- "check": "能复述「长=πr、宽=r」的推导，并算对半径 8 的面积 200.96。"
 }

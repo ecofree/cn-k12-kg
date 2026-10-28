@@ -1,0 +1,1152 @@
+{
+  "schema_version": 1,
+  "reviewer_kind": "ai",
+  "reviewer": "v4_teaching_content-independent-content-cross-review",
+  "reviewed_on": "2026-10-26",
+  "scope": "24张小学数认识卡和11张初高中基础支持卡，共35张、70个目标；复核者不是这些卡的原作者。",
+  "source_of_findings": "逐字段阅读源内容、独立复算任务示例与检查目标自检及困难支持后整理；附加文件路径、目标名称和最终SHA256由脚本提取，不以结构门禁替代语义判断。",
+  "reviewed_topic_count": 35,
+  "reviewed_goal_count": 70,
+  "teacher_independent_review": {
+    "status": "pending",
+    "performed": false
+  },
+  "real_student_effect_validation": {
+    "status": "deferred",
+    "performed": false
+  },
+  "methods": [
+    "对照每项目标题逐读解释、自检题干、参考答案、量规、观察边界与困难辨别/提示/修订入口。",
+    "独立核算加减、位值、数级、舍入、有理数、样本配额和列联表比例；用零、方向反转、不同条件分母等反例核查限定条件。",
+    "检查低年级是否依赖尚未说明的数域或表征，口头/书写/实体操作是否留下超出文本自动判定范围的说明。",
+    "比较同构例题的family_id与variant_id，要求仅换数值、单位级别或情境记号的例题保守复用语义族。",
+    "所有提出的修订均在作者重新冻结后逐字段重读；核对21项最终例题族绑定及不变的variant_id。",
+    "解析三视图SVG的格数和布局，对照单行1、2、1堆叠的前、侧、俯投影；不把源图解析等同于完整浏览器预览。"
+  ],
+  "limits": [
+    "此记录为AI之间的内容交叉复核，不是教师独立审核。",
+    "未开展真实学生教学效果验证，也未以字段完整或一次作答正确声称学生已经掌握。",
+    "朗读、书写、拨珠、画图及实体操作的文本记录不能独自证明实际表现；相关目标保留观察边界。",
+    "本记录绑定下列具体文件字节；后续内容修改须重新审查并更新哈希。",
+    "固定版本浏览器预览与全部项目验收由主任务的发布证据另行记录。"
+  ],
+  "findings": [
+    {
+      "id": "F01",
+      "topic_ids": [
+        "m1a.1.1"
+      ],
+      "issue": "认读写1至5目标只有2、5自检，承诺范围与任务不齐。",
+      "resolution": "补齐1至5全部数字的认、读、写、数量配对，并保留实际口头书写观察边界。",
+      "status": "resolved_and_reread"
+    },
+    {
+      "id": "F02",
+      "topic_ids": [
+        "m1a.2.3"
+      ],
+      "issue": "有序列出8、9目标仅完整要求9，8只描述范围。",
+      "resolution": "分别要求8的七种、9的八种非空有序分法完整两表，允许分次完成并保留未完成项。",
+      "status": "resolved_and_reread"
+    },
+    {
+      "id": "F03",
+      "topic_ids": [
+        "m1a.2.2",
+        "m1a.2.3"
+      ],
+      "issue": "仅替换整体和已知部分的缺少部分例题拥有不同主题题族，可能夸大独立经验。",
+      "resolution": "与同构例题共用primary.parts.fixed-total，保留各variant_id。",
+      "status": "resolved_and_reread"
+    },
+    {
+      "id": "F04",
+      "topic_ids": [
+        "m1b.3.3"
+      ],
+      "issue": "“用十捆表示1捆”使操作数量含混。",
+      "resolution": "改为每捆10根、摆10捆，明确根数与捆数。",
+      "status": "resolved_and_reread"
+    },
+    {
+      "id": "F05",
+      "topic_ids": [
+        "m2b.3.1"
+      ],
+      "issue": "“十位没有数字”可能误导0不是数字。",
+      "resolution": "改为十位数字为0，表示没有余下的整十，保留0占位。",
+      "status": "resolved_and_reread"
+    },
+    {
+      "id": "F06",
+      "topic_ids": [
+        "m4a.1.2"
+      ],
+      "issue": "305000020跨数级读法遗漏万级前的零。",
+      "resolution": "改为三亿零五百万零二十，解释3|0500|0020两处衔接零。",
+      "status": "resolved_and_reread"
+    },
+    {
+      "id": "F07",
+      "topic_ids": [
+        "m4a.1.3"
+      ],
+      "issue": "四年级上册目标要求38.46万的多位小数转换，增加尚未学表征负担。",
+      "resolution": "改为380000=38万与384600≈38万，并用38万+4600解释差值。",
+      "status": "resolved_and_reread"
+    },
+    {
+      "id": "F08",
+      "topic_ids": [
+        "m1a.4.2",
+        "m1b.3.1"
+      ],
+      "issue": "同一按计数单位合成数的例题按主题产生不同题族。",
+      "resolution": "复核全部35例题，21个例题绑定整合为8个语义族；同构单位转换、构数、读写、舍入、正负和比例计数保守共用题族，原variant_id不变。",
+      "status": "resolved_and_reread"
+    }
+  ],
+  "related_assets": [
+    {
+      "path": "web/static/diagrams/primary-three-views.svg",
+      "sha256": "7677ffe16d604643e917af83a80e22c42093e45db2eb6601e38ce705e9f2944c",
+      "method": "核SVG矩形格数与对应尺寸，前视1/2/1、侧视一列2、俯视一行3，与卡中左右轮廓相同的特例说明一致。"
+    }
+  ],
+  "items": [
+    {
+      "path": "data/teach/m1a.1.1.json",
+      "sha256": "a0bab57a650d36b643c663b0a993a1dbd0c9e82ced5205836f166c0038fee469",
+      "topic_id": "m1a.1.1",
+      "goal_titles": [
+        "能一个一个地数出 5 以内物体的个数",
+        "能认、读、写 1～5"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "逐个点数4个物体、重排后仍为4，核对一一对应与最后数词表示总数；2加1的例题只观察这一次数量合并。",
+        "原读写自检只覆盖2和5，已改为1至5全部认、读、写、摆；明确文字输入不能证明口头读音与手写笔形。"
+      ],
+      "finding_ids": [
+        "F01"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m1a.1.2.json",
+      "sha256": "642d9142b9e827be79f989f60a795136b7479609b5787955256cf722f8e492a7",
+      "topic_id": "m1a.1.2",
+      "goal_titles": [
+        "能用一一对应比较 5 以内两数的大小",
+        "能正确使用 > < = 三个符号"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "复核3<5、5>3、4=4，并检查4个紧排与3个疏排的反例：数量比较不由占地长短决定。",
+        "比较符号开口与两侧数量对应，实际配对过程比单独填写符号提供更多可检查信息。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m1a.1.3.json",
+      "sha256": "decdb4a563c1c9bf0f53f8d511e642ab1002221b4a5871c32ab58f66ecb6c6ad",
+      "topic_id": "m1a.1.3",
+      "goal_titles": [
+        "能区分“几个”和“第几”",
+        "能按指定方向数出物体排在第几"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "区分总数5、选中1个与第二个的位置；5个位置从左第二对应从右第四，方向约定已写明。",
+        "自检要求改变起数方向重新定位，未把答对一个序号当作所有序数情境已掌握。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m1a.2.1.json",
+      "sha256": "4b8ddb9c2bcef7de2baa94c96168837d1ea7e69ceb8b02536b3bbd63f9912e40",
+      "topic_id": "m1a.2.1",
+      "goal_titles": [
+        "能数出 10 以内物体的个数",
+        "能认、读、写 6～9 并说出数的顺序"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "复核从5续数添2得到7，而非把5再数一次；9后为10，6和9的数字朝向区别与数量对应。",
+        "读写6至9的任务保留实际口头/书写观察边界；合并例题与相同结构的低数值例题使用共同题族。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m1a.2.2.json",
+      "sha256": "702e1ca40fd8a987103ba19708239bd81a4a89a7b3871b70924beba53a8e7c02",
+      "topic_id": "m1a.2.2",
+      "goal_titles": [
+        "能有序列出 6、7 的分与合",
+        "能由一部分推出另一部分"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "复核6的五个、7的六个有序非空分法，每行总数不变；6减2得4、7减5得2与部分整体关系一致。",
+        "条件明确两部分都至少1；求缺少部分的例题已与m1a.2.3及其他同构任务共用primary.parts.fixed-total。"
+      ],
+      "finding_ids": [
+        "F03"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m1a.2.3.json",
+      "sha256": "f8ff3ec7291d5562d119ae84b0c648b7cdc9aaf42139cf983e20d6f86079a9dc",
+      "topic_id": "m1a.2.3",
+      "goal_titles": [
+        "能有序列出 8、9 的分与合",
+        "能用分与合计算 8、9 的加减法"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "原自检完整列9而未完整列8，已改为8的七种和9的八种有序非空分法两表；逐行核对一增一减与固定总数。",
+        "9分成4和5导出四个加减式，8分成6和2的减法也一致；有序分法范围未冒充含0的全集。"
+      ],
+      "finding_ids": [
+        "F02",
+        "F03"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m1a.2.9.json",
+      "sha256": "0e42cd42817fa194c54d4d5b8691817b8a0692c44906576a792e40e9107b7c4e",
+      "topic_id": "m1a.2.9",
+      "goal_titles": [
+        "知道 10 个一是 1 个十",
+        "能认、读、写 10 并说出相邻的数"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "复核10个一换1个十、10的前后数9和11以及0占位；捆必须恰好含10根的条件明确。",
+        "相邻十进单位转换与m1a.4.1、m1b.3.3共享题族，数值或单位阶段变化不被计作全新独立经验。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m1a.4.1.json",
+      "sha256": "7b36637114244576179cbcfaa124b1ecfbe491690617b09181688d4941f96b00",
+      "topic_id": "m1a.4.1",
+      "goal_titles": [
+        "知道 10 个一等于 1 个十",
+        "能在“十”和“一”之间换算"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "1捆10根与10根散棒等量，双向换单位后总量不变；13的表示保留1个十与3个一。",
+        "观察单位交换过程，不把这次操作自动扩大为会计算进位加法。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m1a.4.2.json",
+      "sha256": "bc0a54c42ea61181a576243a3cc302279ec480432305a8c5dc16b43ad551126b",
+      "topic_id": "m1a.4.2",
+      "goal_titles": [
+        "能说出 11～20 各数由几个十和几个一组成",
+        "能正确读写 11～20"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "11至19由1个十与1至9个一组成，20为2个十0个一；1个十加10个一仍为20的非标准分组可兑换。",
+        "16/20的表示、读17/20、写12/19与目标相符；10加4与40加6等构数例题已共用placevalue.compose.from-units。"
+      ],
+      "finding_ids": [
+        "F08"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m1b.3.1.json",
+      "sha256": "e2a14007b3955f86da1cbcfc05d2b203ba990ccac66334c908aefaf0cb3bbf0c",
+      "topic_id": "m1b.3.1",
+      "goal_titles": [
+        "能一个一个或十个十个数到 100",
+        "能说出两位数由几个十和几个一组成"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "复核38数到42、60起按十数到100，以及72=7个十2个一、50=5个十0个一。",
+        "标准数位组成各位数字0至9，4个十6个一的例题结果46；构数变式共享题族并保留原variant_id。"
+      ],
+      "finding_ids": [
+        "F08"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m1b.3.2.json",
+      "sha256": "4fe40333f093c7b5e8fa062f8695dda4db3aafac9c1d4a06fc6282d74facbb7f",
+      "topic_id": "m1b.3.2",
+      "goal_titles": [
+        "能正确读出两位数",
+        "能按数位写出两位数"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "复核68、60、86的读法与三十四、七十、九十二的写法，末尾0占位而不单独读出。",
+        "中文数词转写与更高位同构例题共用题族；文字记录仍不直接验证实际朗读。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m1b.3.3.json",
+      "sha256": "32d61eb3aa295ba97e73c341110a00199ca3a1821bdd29ed50545d2ca7ae0771",
+      "topic_id": "m1b.3.3",
+      "goal_titles": [
+        "知道 10 个十是 100",
+        "能正确写出 100 并说出各数位上的数"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "原“用十捆表示1捆”表述矛盾已改成“每捆10根，摆10捆”；100根包含10个十，正反向换算均正确。",
+        "100、10、1对齐比较时三个1的计数单位不同，100的两个0分别保留十位和个位。"
+      ],
+      "finding_ids": [
+        "F04"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m1b.3.4.json",
+      "sha256": "1bda493aa8859fb3e5187aaaead37136f57bb1fc546e8c59821879e0c1e7dba9",
+      "topic_id": "m1b.3.4",
+      "goal_titles": [
+        "能说出某数相邻的数",
+        "能按十个十个数数"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "复核40的相邻数39和41、79的相邻数78和80，以及从25依次加10得到35、45、55。",
+        "相邻自然数相差1与按十计数相差10有明确区分，不把任务步长默认为同一值。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m1b.3.5.json",
+      "sha256": "2cd12764c9e11a32e1c24d0512e9385a0e7875e8db254f310a9d00838cfdbb9c",
+      "topic_id": "m1b.3.5",
+      "goal_titles": [
+        "能按十位、个位顺序比较两位数",
+        "能用 > < = 表示比较结果"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "复核38<83、64<69及49/46比较，位数相同的两位自然数从十位开始，首个不同位决定大小。",
+        "方法限定在当前自然数范围，没有将“位数多就大”直接推广到小数。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m1b.3.6.json",
+      "sha256": "436fbff2273ee11c728bec4c7552aabde56687851d78dd70640fa48f3b572fdb",
+      "topic_id": "m1b.3.6",
+      "goal_titles": [
+        "能区分“大得多”与“大一些”",
+        "能根据差距大小选择合适的说法"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "52与50差2、98与20差78、95与48差47均复算；大一些/大得多要求结合情境说明。",
+        "未设未经依据的固定差值阈值，也未将定性用语自动判为唯一标准答案。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m2b.3.1.json",
+      "sha256": "55a80bc6a8977a416d1c1822cf4373668ab72208d42171c842c6efcb9f680b18",
+      "topic_id": "m2b.3.1",
+      "goal_titles": [
+        "能说出 1000 以内数的组成",
+        "能按数位读写出三位数"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "复核608=6百0十8一、370=3百7十0一、10百=1000，以及405/450读法和409/620写法。",
+        "原“十位没有数字”已改为“十位数字是0，表示没有余下的整十”，不否认0也是数字。"
+      ],
+      "finding_ids": [
+        "F05"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m2b.3.2.json",
+      "sha256": "29bae5984b587ee8d6aeb736b99caabc82dc937903fdd9f344e95f773dc3682f",
+      "topic_id": "m2b.3.2",
+      "goal_titles": [
+        "知道相邻计数单位间的进率是 10",
+        "能用算盘表示万以内的数"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "核对一上四下算盘约定，上珠值本档5、下珠值本档1且仅靠梁珠计数；734和3057的逐档拨珠描述正确。",
+        "相邻单位十进与跨两位百进分开；1万=100百，实际拨珠仍需操作记录。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m2b.3.3.json",
+      "sha256": "b0f81bfdfcec36dbb559d617099f8af095c717f42c308f43899c1901938aade0",
+      "topic_id": "m2b.3.3",
+      "goal_titles": [
+        "能正确读出中间或末尾有 0 的数",
+        "能按数位写出万以内的数"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "复核4008、4050、4500读法及7006、5030、8200写法：内部连续缺位只读一个零，末尾零不读但写时占位。",
+        "三千零五十为3050，中文写数例题与较低数位同构题共用题族，未因主题ID不同增加独立题族。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m2b.3.4.json",
+      "sha256": "62c68ca6cc5ecdceb6afaacdd9be9dcdb92a026aaa04855dc68acb215fafe3ed",
+      "topic_id": "m2b.3.4",
+      "goal_titles": [
+        "能比较万以内数的大小",
+        "能用四舍五入求近似数"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "复核3986到百位为4000、2346到十位2350/百位2300，目标保留位决定所看下一位。",
+        "准确数与近似数符号、保留位置均明确；与小数位舍入例题共用相同舍入结构题族。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m4a.1.1.json",
+      "sha256": "f2a2be42356da2689f0d93aa60e9686f0231277164cb4d078e4f91dda9245d96",
+      "topic_id": "m4a.1.1",
+      "goal_titles": [
+        "能说出亿以内各计数单位与数位顺序",
+        "能按级读写亿以内的数"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "复核3050000=305万、6004002读六百万四千零二、3050008读三百零五万零八。",
+        "万级包含四个数位，与单独万位区分；3百万加5万属于按计数单位构数的既有题族。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m4a.1.2.json",
+      "sha256": "c9fe21ac12c77c1fd5022483c7d2146958f2cc38fb3cec9c2336249bb181a2ef",
+      "topic_id": "m4a.1.2",
+      "goal_titles": [
+        "知道亿级各计数单位及进率",
+        "能读写亿以上的数"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "亿、十亿、百亿、千亿相邻十进；1亿=10000万跨四位，未与相邻单位进率混淆。",
+        "原三亿五百万零二十已补为三亿零五百万零二十，对应3|0500|0020=305000020；2|0003|0004读二亿零三万零四。"
+      ],
+      "finding_ids": [
+        "F06"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m4a.1.3.json",
+      "sha256": "4bf64444855bfbc0d1749f20b6c802ffe899383124bf76b86a7b5ddcffaff5ed",
+      "topic_id": "m4a.1.3",
+      "goal_titles": [
+        "能比较亿以内数的大小",
+        "能区分改写与求近似数并正确使用 = 和 ≈"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "复核999999<1000000，3050800<3058000且第一个不同位为千位0和8。",
+        "删除必须使用38.46万的多位小数前提，改用380000=38万、384600≈38万及38万+4600区分精确改写与到万位舍入。"
+      ],
+      "finding_ids": [
+        "F07"
+      ],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m6a.4.1.json",
+      "sha256": "61691e9c1c72325397266bad71cc224824af27db5214e3591bc9b5f963a719d8",
+      "topic_id": "m6a.4.1",
+      "goal_titles": [
+        "能认识并读写负数",
+        "知道 0 既不是正数也不是负数"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "负数与0的关系清楚，0℃不表示没有温度；−3℃、−8的读法与−6、−2℃的写法区分数和单位。",
+        "例题−5℃按低于0℃的方向记号，口头读法仍需实际观察，文本只能留存报告。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m6a.4.2.json",
+      "sha256": "a7edb640121e8384534ce39f967baf3b6a0ccb13adaf90d5c56339f3d052702f",
+      "topic_id": "m6a.4.2",
+      "goal_titles": [
+        "能用正负数表示相反意义的量",
+        "能根据规定判断正负"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "向东/向西正负约定反转时同一事件记号改变，实际事件不变；收入+120与支出−45同一口径。",
+        "−30表示变化而不是结余，与其他相反方向记号例题共用题族而不把数字换新视作独立证明。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m7a.1.1.json",
+      "sha256": "f0f33cb219a51d762f42fec9e50f1838d86782ffa7fc8b8d883098bb8970f3ec",
+      "topic_id": "m7a.1.1",
+      "goal_titles": [
+        "能说出一个正数或负数在具体情境中表示什么",
+        "能判断 0 既不是正数也不是负数"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "温度降低4℃表示变化−4℃，不是当天气温；存取+60/−25和相反约定−60/+25保持事件同一。",
+        "零单列、单位与正方向先约定，结论边界未由正负号书写扩大为掌握全部有理数运算。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m7a.1.2.1.json",
+      "sha256": "a49e128599357b375a58d46cc6fc12098fce940bf9d8b6bb703a7d7a1f0d9ef9",
+      "topic_id": "m7a.1.2.1",
+      "goal_titles": [
+        "能判断一个给定的数是不是有理数",
+        "能按“正有理数 / 0 / 负有理数”完成分类"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "有理数a/b要求a、b整数且b非0；整数n=n/1，−1.25=−5/4，0.2727…=27/99均正确。",
+        "有限显示的前10位不能证明无限小数循环；2/2按数值1分类而不按原显示形状分类，原6条记录均须保留。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m7a.1.2.4.json",
+      "sha256": "63a7a65cc5a7f689dc269c721956744ac86736608fefab82205099c8336a6c87",
+      "topic_id": "m7a.1.2.4",
+      "goal_titles": [
+        "能求一个有理数的绝对值",
+        "能由 |a| 反推 a 的可能取值"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "绝对值为到0距离；|a|=正数有两个数、等于0只有0、等于负数无解；−|−3/4|=−3/4。",
+        "已知a<0时由|a|=7选−7，绝对值内部去号与外部负号两步明确。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m7a.1.2.5.json",
+      "sha256": "858879e875a8965c1f4b7a9c828e3d1d02b875163988f18fb84bc59adb8a36a8",
+      "topic_id": "m7a.1.2.5",
+      "goal_titles": [
+        "能比较两个有理数的大小",
+        "能说明“两个负数比大小”为什么绝对值大的反而小"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "复核−2/3=−10/15<−9/15=−3/5、0>−0.01、−1.50=−1.5。",
+        "绝对值较大反而较小只用于两个负数，正数反例与数轴位置提供区分。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m7a.2.3.2.json",
+      "sha256": "cab9d3a94cb8746a41fe434b65be99604b5e64b0fa92c68853fa88da3f922c18",
+      "topic_id": "m7a.2.3.2",
+      "goal_titles": [
+        "能把大数写成科学记数法",
+        "能由 a×10ⁿ 还原原数并确定 n"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "科学记数法非零a满足1≤|a|<10，n为整数；本卡当前绝对值至少1的范围有说明，0不硬套标准形式。",
+        "6500000末尾5个0但指数6，4.8×10⁶及−7.2×10⁴正确；48×10⁵等值却非标准，3.05×10⁴=30500。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m7a.2.3.3.json",
+      "sha256": "9a84da64569014eeeae12ced44df7d08f1a498bee9044f0a2b2534c6914dcb49",
+      "topic_id": "m7a.2.3.3",
+      "goal_titles": [
+        "能说出一个近似数精确到哪一位",
+        "能按要求取近似值"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "近似数2.0与2数值相同但所报告精度不同；2.30×10⁴精确到百位，9.995到百分位写10.00。",
+        "1.249直接到十分位为1.2，中间先舍到百分位再舍得到1.3，指出重复舍入风险；表达精度不自动证明测量准确。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m7b.12.1.2.json",
+      "sha256": "02713bf58d8388d91bc00414c0b0dc119b3c468aa60a0d1316f35af0bf7cdaad",
+      "topic_id": "m7b.12.1.2",
+      "goal_titles": [
+        "能区分总体、个体、样本与样本容量",
+        "能判断抽样是否具有代表性"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "1200人中抽100人、20人未回复时区分计划抽样数100与可用80条；术语绑定同一阅读时间指标。",
+        "篮球队便利样本的遗漏与随机抽100但仅60回复的非回复风险分别辨别；20/100×1200=240为估计不是全校已知事实。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/m9b.33.2.1.json",
+      "sha256": "8c81b145a0ec8ba378569b291dab0b842202a65d2f16cfd05ea2d4dde8259ede",
+      "topic_id": "m9b.33.2.1",
+      "goal_titles": [
+        "能画出简单几何体的三视图",
+        "能说出三视图之间的对应关系"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "长4宽3高2且正面为长高面时三图4×2、3×2、4×3；复核主视图面积8及主俯长4/5冲突的修订。",
+        "要求实际三幅图，保留内腔/隐藏结构不可由外轮廓唯一恢复的边界；核SVG单行1/2/1各侧投影，左、右视在该特定结构下轮廓一致。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/mh2.9.1.1.json",
+      "sha256": "5a1c04b85db12d1ec837bbab758cfb20c80fd35680343121a228c7cfd9092f49",
+      "topic_id": "mh2.9.1.1",
+      "goal_titles": [
+        "能说明简单随机抽样的等可能性",
+        "能用随机数法抽取样本"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "4选2共有6组合，只等可能选{1,2}/{3,4}时每人1/2但非简单随机；固定n不放回定义要求所有n元素样本等可能。",
+        "01至12读05、14、05、00、12、03、09、07时入选05/12/03/09，三次舍弃理由和达到4人停止正确；不把给定序列当随机源可靠性证明。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/mh2.9.1.2.json",
+      "sha256": "bab61ecd4694f2e4b331fe672a83729ec98dc541e7def5a8f59b334625feefed",
+      "topic_id": "mh2.9.1.2",
+      "goal_titles": [
+        "能按比例计算各层样本量",
+        "能判断何时应使用分层抽样"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "400人三层120/80/200抽40得到12/8/20，合计40且各层1/10；小数配额须事先说明保总量规则。",
+        "分层互斥穷尽、层内随机与指标相关性都有说明；年级住校政策可支持通勤研究，却不必提高左右利手调查精度。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    },
+    {
+      "path": "data/teach/mh5.8.3.1.json",
+      "sha256": "ee6fbcb9ba769cdc17c6bbb380882e577789f49894753721e950c0d2141634f6",
+      "topic_id": "mh5.8.3.1",
+      "goal_titles": [
+        "能根据数据列出列联表",
+        "能由列联表读出条件比例"
+      ],
+      "reviewed_fields": [
+        "hook",
+        "definition",
+        "why",
+        "conditions",
+        "representation_note",
+        "when_to_use",
+        "steps",
+        "worked_example",
+        "pitfalls",
+        "practice",
+        "check",
+        "objective_coverage"
+      ],
+      "semantic_checks": [
+        "四格16/24/18/42，行40/60、列34/66、总100；A/B组参加率0.4−0.3=0.1即10个百分点。",
+        "三种比例16/40=2/5、16/34=8/17、16/100=4/25各分母与条件相符；样本关联未被扩大为独立性检验完成或因果证据。"
+      ],
+      "finding_ids": [],
+      "decision": "accept_with_limits"
+    }
+  ]
+}

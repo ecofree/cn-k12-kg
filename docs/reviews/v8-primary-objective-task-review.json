@@ -1,0 +1,4963 @@
+{
+  "schema": 1,
+  "baseline_commit": "2aafccd7cc14ead9d05345374f27662e7d1ab9d9",
+  "reviewer": "AI assistant",
+  "review_role": "final read-through of the authored primary objectives; not an independent teacher review",
+  "independent_teacher_review": false,
+  "student_effectiveness_evidence": false,
+  "assessment_source_sha256": "80364f9a804b6944fce51f34bb3d1ebef736b85b3a22396bf909c763f77956e4",
+  "scope": {
+    "tasks": 157,
+    "choice": 112,
+    "numeric": 45,
+    "all_options_read": true,
+    "numeric_expected_from_prompts": 45
+  },
+  "method": "最终逐题读取当前题干、全部选项、答案、解释、题族理由与观察边界；45道数值题先依题面关系重算再核对登记结果，verify另作一致性检查。高年级32道选择保留既有逐选项数学理由；本报告将其绑定到最终对象。",
+  "validation": {
+    "schema_errors": [],
+    "grading_errors": [],
+    "link_errors": []
+  },
+  "tasks": [
+    {
+      "task_id": "v8p_count_trace",
+      "task_content_sha256": "15b0c0c6812ddf44d0f739de83fd105bae26cb0dba1edce17f4d377ecfa7f88e",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "count.verify-bijection-trace",
+      "canonical_family_id": "count.verify-bijection-trace",
+      "skill_ids": [
+        "sk_8d5fd54e49d34c4b8e33"
+      ],
+      "component_ids": [
+        "ev_8d5fd54e49d34c4b8e33_2"
+      ],
+      "prompt": "桌上有甲、乙、丙、丁四个不同圆片。一份点数记录是：甲—1，乙—2，乙—3，丁—4。下面哪条核对准确？",
+      "family_basis_reviewed": "检查一一对应记录的重复与遗漏，特别构造最后数词碰巧正确的反例；不把正确总数视为正确点数路线。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "仅观察本任务列出的组件；不得据此自动完成父目标。口头、书写或操作如无实际记录仍待核对，帮助后的表现另行记录。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "甲乙乙丁的对象多重集缺丙而多乙，末词4无法证明一一对应。"
+    },
+    {
+      "task_id": "v8p_successor_result",
+      "task_content_sha256": "57d067bd791029a16e3d701632b9ff8a3e7f4520444bb80d2b367a689a99a819",
+      "type": "numeric",
+      "phase": "practice",
+      "family_id": "primary.order.successor-within-five",
+      "canonical_family_id": "primary.order.successor-within-five",
+      "skill_ids": [
+        "sk_28f53e2d8aa8597bb38f"
+      ],
+      "component_ids": [
+        "ev_28f53e2d8aa8597bb38f_1"
+      ],
+      "prompt": "在1、2、3、4、5的顺序中，紧接3后面的一个数是几？只填数字。",
+      "family_basis_reviewed": "直接根据自然数顺序求后继，保持已有同族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "仅观察本任务列出的组件；不得据此自动完成父目标。口头、书写或操作如无实际记录仍待核对，帮助后的表现另行记录。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "3+1",
+      "independently_computed_expected": "4",
+      "mathematical_review": "自然数顺序3的紧后一个是4。",
+      "registered_verify_consistency": {
+        "id": "v8p_successor_result",
+        "status": "pass",
+        "detail": "3+1 = 4"
+      }
+    },
+    {
+      "task_id": "v8p_successor_trace",
+      "task_content_sha256": "65de56ada6f80fb2050de4414e166309ce92cbe59923ba9fb1af195fb28192ec",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "primary.order.validate-one-step-trace",
+      "canonical_family_id": "primary.order.validate-one-step-trace",
+      "skill_ids": [
+        "sk_28f53e2d8aa8597bb38f"
+      ],
+      "component_ids": [
+        "ev_28f53e2d8aa8597bb38f_2"
+      ],
+      "prompt": "数字卡按1、2、3、4、5排好。小明把手指放在2上，说‘这算走了一步，所以向后一步还在2’。哪条核对准确？",
+      "family_basis_reviewed": "审查零步与一步的动作记录，区别于直接求一个后继数。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "仅观察本任务列出的组件；不得据此自动完成父目标。口头、书写或操作如无实际记录仍待核对，帮助后的表现另行记录。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "放在2还没有跨到下一位置；真正一步的终点是3。"
+    },
+    {
+      "task_id": "v8p_bijection_compare",
+      "task_content_sha256": "9a0712f2ba225a73d76d9585ae203561c4671bcb234a126d0db22c743b9a625e",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "primary.compare.bijection-unmatched",
+      "canonical_family_id": "primary.compare.bijection-unmatched",
+      "skill_ids": [
+        "sk_dcc20616b4964dfd8209"
+      ],
+      "component_ids": [
+        "ev_dcc20616b4964dfd8209_1"
+      ],
+      "prompt": "红片为甲、乙、丙，蓝片为A、B、C、D。已配成甲—A、乙—B、丙—C，D未配上。两组哪个多？",
+      "family_basis_reviewed": "由有效一一对应后的未匹配对象判断基数关系；不要求实际做配对就声称已观察手部操作。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "红三蓝四，给定有效配对只剩蓝D，故蓝多一。"
+    },
+    {
+      "task_id": "v8p_bijection_invalid",
+      "task_content_sha256": "d096dbb344bd6ab447be5b0c28bdc070a776b6ee78291b55832658badc478999",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "count.verify-bijection-trace",
+      "canonical_family_id": "count.verify-bijection-trace",
+      "skill_ids": [
+        "sk_dcc20616b4964dfd8209"
+      ],
+      "component_ids": [
+        "ev_dcc20616b4964dfd8209_1"
+      ],
+      "prompt": "甲、乙、丙三个红片与A、B两个蓝片的记录为甲—A、乙—A、丙—B。有人说‘每个红片都有蓝片相配，所以一样多’。哪条检查准确？",
+      "family_basis_reviewed": "检查配对映射是否重复使用对象，与在已有效的配对中比较剩余量不同。",
+      "reference_family_ids": [
+        "primary.compare.bijection-unmatched"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "A有两个原像，非单射；三条连线不构成等势的双射。"
+    },
+    {
+      "task_id": "v8p_order_two_constraints_five",
+      "task_content_sha256": "bf68e474026b1dab4d6ad0e959e04c74594f15a652a5ac5cb96f4d15d6637978",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "primary.order.interval-constraint",
+      "canonical_family_id": "primary.order.interval-constraint",
+      "skill_ids": [
+        "sk_adb152d656ea4b6a99bf"
+      ],
+      "component_ids": [
+        "ev_adb152d656ea4b6a99bf_1"
+      ],
+      "prompt": "□里只能填一个数。哪一个选项能使2＜□＜5的两处比较同时成立？",
+      "family_basis_reviewed": "未知数须同时满足两个严格次序约束；不同于对两个已给数填一个比较符号。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "3严格在2与5之间，两个端点均不合格。"
+    },
+    {
+      "task_id": "v8p_ordinal_direct",
+      "task_content_sha256": "3e95dcf7eab30d6f635833284440758e8273431217af4c350e2acc189fd39929",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "count.ordinal-position",
+      "canonical_family_id": "count.ordinal-position",
+      "skill_ids": [
+        "sk_b1346294b99744d19943"
+      ],
+      "component_ids": [
+        "ev_b1346294b99744d19943_1"
+      ],
+      "prompt": "从左到右依次是甲、乙、丙、丁、戊。从右边开始数，第2个是谁？",
+      "family_basis_reviewed": "在完整的有向排列中直接定位序位。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "反向列表为戊丁丙乙甲，第二个丁。"
+    },
+    {
+      "task_id": "v8p_ordinal_reverse",
+      "task_content_sha256": "97d7eb4906fe7eb20dee6e751b35fd7bd61cf807a3b2b564c308eb7c0c030016",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "count.reverse-ordinal",
+      "canonical_family_id": "count.reverse-ordinal",
+      "skill_ids": [
+        "sk_b1346294b99744d19943"
+      ],
+      "component_ids": [
+        "ev_b1346294b99744d19943_1"
+      ],
+      "prompt": "一排共有5人，小华从左数第2。大家不换位置，从右数小华是第几？只填数字。",
+      "family_basis_reviewed": "只有总数和一侧序位时恢复另一侧序位，需把本人只计一次；不是在已展开列表中换一个对象。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "5-2+1",
+      "independently_computed_expected": "4",
+      "mathematical_review": "右侧有3人，再数到本人为4；本人不能重复扣除。",
+      "registered_verify_consistency": {
+        "id": "v8p_ordinal_reverse",
+        "status": "pass",
+        "detail": "5+1-2 = 4"
+      }
+    },
+    {
+      "task_id": "v8p_parts_five_enumeration",
+      "task_content_sha256": "4f4b3c1a5f8387f0a53a957d32370e633afb86d77cb48fe98784d56ae2af9784",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "primary.parts.enumerate-fixed-total",
+      "canonical_family_id": "primary.parts.enumerate-fixed-total",
+      "skill_ids": [
+        "sk_2f3daff315da47bf9779"
+      ],
+      "component_ids": [
+        "ev_2f3daff315da47bf9779_1"
+      ],
+      "prompt": "4个圆片分放左、右两盘，两盘都至少1个，左右位置不同算不同分法。哪份列表恰好列全且不重复？",
+      "family_basis_reviewed": "检查固定和下全部有序正整数解的完备性与唯一性，而非只求一个给定部分的补数。",
+      "reference_family_ids": [
+        "primary.parts.fixed-total"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "左1、2、3各一行恰穷尽；另两表分别遗漏、重复。"
+    },
+    {
+      "task_id": "v8p_combine_five",
+      "task_content_sha256": "debd6c16f4d6674427fe7fc0d033376caaf08e489130d989263f931288f87d27",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "primary.add.combine-parts",
+      "canonical_family_id": "primary.add.combine-parts",
+      "skill_ids": [
+        "sk_972369afdc8446b48bfc"
+      ],
+      "component_ids": [
+        "ev_972369afdc8446b48bfc_1"
+      ],
+      "prompt": "左盘2枚棋子、右盘3枚棋子，两盘没有同一枚棋子。把它们全放到空盘里，共有几枚？只填数字。",
+      "family_basis_reviewed": "把互不重叠的两个部分合成一个整体求总量。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "2+3",
+      "independently_computed_expected": "5",
+      "mathematical_review": "两个不交集合大小相加为5。",
+      "registered_verify_consistency": {
+        "id": "v8p_combine_five",
+        "status": "pass",
+        "detail": "2+3 = 5"
+      }
+    },
+    {
+      "task_id": "v8p_combine_overlap_condition",
+      "task_content_sha256": "5467c31686bc7eaa2f2cc3f52fbad7e9c338aea8ae7eb94744f6dfc974d379d1",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "primary.add.disjoint-combination-condition",
+      "canonical_family_id": "primary.add.disjoint-combination-condition",
+      "skill_ids": [
+        "sk_972369afdc8446b48bfc"
+      ],
+      "component_ids": [
+        "ev_972369afdc8446b48bfc_2"
+      ],
+      "prompt": "红圈圈住甲、乙，蓝圈圈住乙、丙。要数被至少一个圈圈住的不同物体，能直接把两圈各有的2个相加吗？",
+      "family_basis_reviewed": "审查两个计数集合是否相交；这是直接合并互斥部分成立的条件，不用换故事制造新题族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "乙属于两圈交集，总并集只有甲乙丙，直接相加会重复。"
+    },
+    {
+      "task_id": "v8p_zero_target_objects",
+      "task_content_sha256": "fdcfc6559641a4942475a44df8847eadab39656e0cf40e17bf101e9bf0c58489",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "primary.zero.empty-target-set",
+      "canonical_family_id": "primary.zero.empty-target-set",
+      "skill_ids": [
+        "sk_7e16f9d1dc1d46c3bc5f"
+      ],
+      "component_ids": [
+        "ev_7e16f9d1dc1d46c3bc5f_1"
+      ],
+      "prompt": "甲盒有2个红球，乙盒只有1个蓝球，丙盒有1个红球。只数红球，哪盒的红球个数记作0？",
+      "family_basis_reviewed": "用0表示指定对象集合为空；并不把‘盒里有其他物体’误认作红球非零。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "乙盒虽非空，所数红球集合为空；限定对象后才计零。"
+    },
+    {
+      "task_id": "v8p_count_seven_objects",
+      "task_content_sha256": "4ce3dab683d66499990d059a277be6cb1dba782fe404b6fdc99dad7d2298663d",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "primary.count.distinct-objects",
+      "canonical_family_id": "primary.count.distinct-objects",
+      "skill_ids": [
+        "sk_503067da023b40dcad63"
+      ],
+      "component_ids": [
+        "ev_503067da023b40dcad63_1"
+      ],
+      "prompt": "一组卡片的名字依次为甲、乙、丙、丁、戊、己、庚，每个名字只对应一张卡。共有几张？只填数字。",
+      "family_basis_reviewed": "直接逐个计数，同1至5计数保留同一题族，扩展数量不冒充新方法。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "7",
+      "independently_computed_expected": "7",
+      "mathematical_review": "列出的七个不同名字恰对应七张卡。",
+      "registered_verify_consistency": {
+        "id": "v8p_count_seven_objects",
+        "status": "pass",
+        "detail": "1+1+1+1+1+1+1 = 7"
+      }
+    },
+    {
+      "task_id": "v8p_count_seven_trace",
+      "task_content_sha256": "172d19b105a3b311f6b8fcd5d15927270ebedbc3a77ea939d46ae31903e3b29e",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "count.verify-bijection-trace",
+      "canonical_family_id": "count.verify-bijection-trace",
+      "skill_ids": [
+        "sk_503067da023b40dcad63"
+      ],
+      "component_ids": [
+        "ev_503067da023b40dcad63_1"
+      ],
+      "prompt": "卡片为甲、乙、丙、丁、戊、己、庚。记录为甲1、乙2、丙3、丁4、丁5、己6、庚7。哪条核对准确？",
+      "family_basis_reviewed": "逐一审查对象身份与数词的对应；与给出基数的直接点数不同。",
+      "reference_family_ids": [
+        "primary.count.distinct-objects"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "丁占两次且戊没有记录，七个数词不能修复身份遗漏。"
+    },
+    {
+      "task_id": "v8p_parts_six_missing",
+      "task_content_sha256": "9c355f9deceb4b1d77f32c2f31843e6c78566f0c0a84b3f937b6b30ba0771d09",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "primary.parts.fixed-total",
+      "canonical_family_id": "primary.parts.fixed-total",
+      "skill_ids": [
+        "sk_9a45d7d222bd461cbf08"
+      ],
+      "component_ids": [
+        "ev_9a45d7d222bd461cbf08_1"
+      ],
+      "prompt": "6个圆片分到左右两盘。左盘2个，右盘几个？只填数字。",
+      "family_basis_reviewed": "固定整体和一部分求另一部分；不把该行答对当作全部分法已列全。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "6-2",
+      "independently_computed_expected": "4",
+      "mathematical_review": "整体6扣除左盘2，右盘4。",
+      "registered_verify_consistency": {
+        "id": "v8p_parts_six_missing",
+        "status": "pass",
+        "detail": "6-2 = 4"
+      }
+    },
+    {
+      "task_id": "v8p_parts_six_complete",
+      "task_content_sha256": "bd47d594693b8b260a6217801c68af66ce1a2ef44617650d2a4fcb88b58c272d",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "primary.parts.enumerate-fixed-total",
+      "canonical_family_id": "primary.parts.enumerate-fixed-total",
+      "skill_ids": [
+        "sk_9a45d7d222bd461cbf08"
+      ],
+      "component_ids": [
+        "ev_9a45d7d222bd461cbf08_2"
+      ],
+      "prompt": "把6分成左右两个正整数，左右不同算不同分法。哪种列法恰好列全？",
+      "family_basis_reviewed": "检查固定和有序正整数解集的边界与覆盖，而非求单个补数。",
+      "reference_family_ids": [
+        "primary.parts.fixed-total"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "正整数左盘范围1到5，每个左数有唯一补数；0与6不在约定内。"
+    },
+    {
+      "task_id": "v8p_parts_eight_number_of_splits",
+      "task_content_sha256": "68f355ef1a63d20f25b1c9549797f6534bcae3b9a924a1946ff2a09b9dbdc205",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "primary.parts.enumerate-fixed-total",
+      "canonical_family_id": "primary.parts.enumerate-fixed-total",
+      "skill_ids": [
+        "sk_67eb956283c44bc2816f"
+      ],
+      "component_ids": [
+        "ev_67eb956283c44bc2816f_1"
+      ],
+      "prompt": "把8个圆片分到左、右两盘，每盘至少1个，左右不同算不同分法。完整列表共有多少行？只填数字。",
+      "family_basis_reviewed": "求固定和有序正整数解的个数，不是把一组补数换数字。",
+      "reference_family_ids": [
+        "primary.parts.fixed-total"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "7",
+      "independently_computed_expected": "7",
+      "mathematical_review": "左盘可取1至7且每值唯一确定右盘，共7个有序正整数解。",
+      "registered_verify_consistency": {
+        "id": "v8p_parts_eight_number_of_splits",
+        "status": "pass",
+        "detail": "8-1 = 7"
+      }
+    },
+    {
+      "task_id": "v8p_parts_to_sum_nine",
+      "task_content_sha256": "b14ec763b4ae4b6bc9f6794a52654b7ce442be146b759a8ef1849869ef7cec7e",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "primary.add.combine-parts",
+      "canonical_family_id": "primary.add.combine-parts",
+      "skill_ids": [
+        "sk_d2383642bc2440ad8e85"
+      ],
+      "component_ids": [
+        "ev_d2383642bc2440ad8e85_1"
+      ],
+      "prompt": "计算4+5。只填数字。",
+      "family_basis_reviewed": "从两部分求整体；与本目标旧题固定整体求一部分的方向不同。",
+      "reference_family_ids": [
+        "primary.parts.fixed-total"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "4+5",
+      "independently_computed_expected": "9",
+      "mathematical_review": "两个已知部分求总和9。",
+      "registered_verify_consistency": {
+        "id": "v8p_parts_to_sum_nine",
+        "status": "pass",
+        "detail": "4+5 = 9"
+      }
+    },
+    {
+      "task_id": "v8p_ten_successor",
+      "task_content_sha256": "c5886514ec0320af177fdcc8745be708b1dcf31da1aec3391075c754b3c9cdd0",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "primary.order.successor-within-five",
+      "canonical_family_id": "primary.order.successor-within-five",
+      "skill_ids": [
+        "sk_1b3aa541ca2b4e15bfac"
+      ],
+      "component_ids": [
+        "ev_1b3aa541ca2b4e15bfac_2"
+      ],
+      "prompt": "按一个一个往后数，紧接10后面的整数是几？只填数字。",
+      "family_basis_reviewed": "后继的同一加一结构沿用已有后继题族；名称中的旧范围不被当作新数学方法。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "10+1",
+      "independently_computed_expected": "11",
+      "mathematical_review": "后继定义给11，不是前驱9。",
+      "registered_verify_consistency": {
+        "id": "v8p_ten_successor",
+        "status": "pass",
+        "detail": "10+1 = 11"
+      }
+    },
+    {
+      "task_id": "v8p_ten_complement",
+      "task_content_sha256": "749de8cb814dc0602a1e9b9c5d64518b5c368ec7fbad3f55893ff6df44a7c8e5",
+      "type": "numeric",
+      "phase": "practice",
+      "family_id": "primary.ten.complements",
+      "canonical_family_id": "primary.ten.complements",
+      "skill_ids": [
+        "sk_0923db2f3f854b8581ec"
+      ],
+      "component_ids": [
+        "ev_0923db2f3f854b8581ec_1"
+      ],
+      "prompt": "10分成6和几？只填数字。",
+      "family_basis_reviewed": "固定整体10与一部分求补数，整套换数字仍为同一关系。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "10-6",
+      "independently_computed_expected": "4",
+      "mathematical_review": "6的补十数是4。",
+      "registered_verify_consistency": {
+        "id": "v8p_ten_complement",
+        "status": "pass",
+        "detail": "10-6 = 4"
+      }
+    },
+    {
+      "task_id": "v8p_solid_insufficient_rolling",
+      "task_content_sha256": "8c0604a0e8b480621f99137d4542056480e5500aff064f9861e3802f59cbf81c",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.solid-feature-sufficiency",
+      "canonical_family_id": "geometry.solid-feature-sufficiency",
+      "skill_ids": [
+        "sk_e5a99a8fe0f74257bcf4",
+        "sk_f5744c1badbd4bfab8e1"
+      ],
+      "component_ids": [
+        "ev_e5a99a8fe0f74257bcf4_1",
+        "ev_f5744c1badbd4bfab8e1_2"
+      ],
+      "prompt": "只知道一个模型放在桌上能够滚动，就一定能断定它是球吗？",
+      "family_basis_reviewed": "用具体反例检查单一性质能否充分确定类别；区别于根据完整面特征直接分类。",
+      "reference_family_ids": [
+        "geometry.solid-classify-features"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "圆柱侧放是能滚却不是球的反例；反驳充分性而非球不能滚。"
+    },
+    {
+      "task_id": "v8p_solid_insufficient_flat_face",
+      "task_content_sha256": "709972dcc4ca024b81a65fbcc8dafffab2f0d3a74498ca053249a5f852e6869e",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.solid-feature-sufficiency",
+      "canonical_family_id": "geometry.solid-feature-sufficiency",
+      "skill_ids": [
+        "sk_64dc6068f7b545228450"
+      ],
+      "component_ids": [
+        "ev_64dc6068f7b545228450_1"
+      ],
+      "prompt": "只看见一个平的正方形面，能断定整个立体一定是正方体吗？",
+      "family_basis_reviewed": "一个面只提供局部条件，反例检验局部到整体的推断是否充分。",
+      "reference_family_ids": [
+        "geometry.solid-classify-features"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "例如2×2×3长方体有正方形面但不是正方体。"
+    },
+    {
+      "task_id": "v8p_bundle_ten_ones",
+      "task_content_sha256": "ecdb86b187c0f545140854b075691961239eb680502eba0a593311aeeb0d4772",
+      "type": "numeric",
+      "phase": "practice",
+      "family_id": "placevalue.ten-adjacent-units",
+      "canonical_family_id": "placevalue.ten-adjacent-units",
+      "skill_ids": [
+        "sk_ce40fd09a5944448becf"
+      ],
+      "component_ids": [
+        "ev_ce40fd09a5944448becf_1"
+      ],
+      "prompt": "把10根小棒恰好捆成每捆10根，得到几捆？只填数字。",
+      "family_basis_reviewed": "相邻十进计数单位间的等量换组，反复换数不新增题族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "10/10",
+      "independently_computed_expected": "1",
+      "mathematical_review": "10根按每捆10根恰分成1捆。",
+      "registered_verify_consistency": {
+        "id": "v8p_bundle_ten_ones",
+        "status": "pass",
+        "detail": "10/10 = 1"
+      }
+    },
+    {
+      "task_id": "v8p_regroup_sixteen",
+      "task_content_sha256": "cd83d885690eab991e5ca2ccf0596efb2892b279286247415a041577e66fb8b2",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "placevalue.regroup-same-quantity",
+      "canonical_family_id": "placevalue.regroup-same-quantity",
+      "skill_ids": [
+        "sk_99a6809b395d481cb16f"
+      ],
+      "component_ids": [
+        "ev_99a6809b395d481cb16f_1"
+      ],
+      "prompt": "原有1捆十根的小棒和6根散棒。只拆开这捆，不增减小棒，哪种记录正确？",
+      "family_basis_reviewed": "保持总量时在不同计数单位表示间换组；区别于从标准十位个位直接提取数字。",
+      "reference_family_ids": [
+        "placevalue.ten-adjacent-units",
+        "placevalue.ten-and-ones"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "16保持不变，拆掉唯一十捆后为0十16一。"
+    },
+    {
+      "task_id": "v8p_no_regroup_sum",
+      "task_content_sha256": "08b87937252b1e1e8182cac9931d2eb41582aeff24a26ff52cfafa8be10c6531",
+      "type": "numeric",
+      "phase": "practice",
+      "family_id": "primary.base-ten.no-regroup-add-sub",
+      "canonical_family_id": "primary.base-ten.no-regroup-add-sub",
+      "skill_ids": [
+        "sk_469e069d19e942d0a832"
+      ],
+      "component_ids": [
+        "ev_469e069d19e942d0a832_1"
+      ],
+      "prompt": "计算13+4。只填数字。",
+      "family_basis_reviewed": "原族已经包含本题的加法或减法结构；本题补实际分项练习，沿用同族，数字变化和分栏保存不构成新的独立数学结构。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "13+4",
+      "independently_computed_expected": "17",
+      "mathematical_review": "个位3加4没有进位，结果17。",
+      "registered_verify_consistency": {
+        "id": "v8p_no_regroup_sum",
+        "status": "pass",
+        "detail": "13+4 = 17"
+      }
+    },
+    {
+      "task_id": "v8p_no_regroup_difference",
+      "task_content_sha256": "36222ec12a166a34b92c713e9e4a29d4a36c140d83162cc498294ebb3d22d413",
+      "type": "numeric",
+      "phase": "practice",
+      "family_id": "primary.base-ten.no-regroup-add-sub",
+      "canonical_family_id": "primary.base-ten.no-regroup-add-sub",
+      "skill_ids": [
+        "sk_469e069d19e942d0a832"
+      ],
+      "component_ids": [
+        "ev_469e069d19e942d0a832_2"
+      ],
+      "prompt": "计算17−4。只填数字。",
+      "family_basis_reviewed": "原族已经包含本题的加法或减法结构；本题补实际分项练习，沿用同族，数字变化和分栏保存不构成新的独立数学结构。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "17-4",
+      "independently_computed_expected": "13",
+      "mathematical_review": "个位7减4不用退十，结果13。",
+      "registered_verify_consistency": {
+        "id": "v8p_no_regroup_difference",
+        "status": "pass",
+        "detail": "17-4 = 13"
+      }
+    },
+    {
+      "task_id": "v8p_make_ten_required_piece",
+      "task_content_sha256": "5ddca6246ea6700cda75039f24ac5f956c5698790a89bf04c12fd144bbd87158",
+      "type": "numeric",
+      "phase": "practice",
+      "family_id": "addition.make-ten",
+      "canonical_family_id": "addition.make-ten",
+      "skill_ids": [
+        "sk_16f4024e87f3464eb035"
+      ],
+      "component_ids": [
+        "ev_16f4024e87f3464eb035_1"
+      ],
+      "prompt": "准备把8凑成10，需要从另一加数中拿出几？只填数字。",
+      "family_basis_reviewed": "凑十法中确定补到10的部分，保持addition.make-ten同族，不把一个步骤另名为独立第二族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "10-8",
+      "independently_computed_expected": "2",
+      "mathematical_review": "补8到10需2。",
+      "registered_verify_consistency": {
+        "id": "v8p_make_ten_required_piece",
+        "status": "pass",
+        "detail": "10-8 = 2"
+      }
+    },
+    {
+      "task_id": "v8p_commute_addends",
+      "task_content_sha256": "d2d47dc1f636071ccb604efd7cba69cb134d78425a8c56711d84ee9586c3cac3",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "arithmetic.commutative-addition",
+      "canonical_family_id": "arithmetic.commutative-addition",
+      "skill_ids": [
+        "sk_a8a070b3c60b46d68085"
+      ],
+      "component_ids": [
+        "ev_a8a070b3c60b46d68085_1"
+      ],
+      "prompt": "为了计算3+9，先把它写成9+3再凑十。哪条说明正确？",
+      "family_basis_reviewed": "判断加法交换律及其适用运算边界，不将较小加数换前后当新计算题族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "交换两加数保持12；减法没有对应的普遍交换律。"
+    },
+    {
+      "task_id": "v8p_carry_threshold",
+      "task_content_sha256": "5fd6b86c7f6f1dfbc2f9e9780a88a06d74566150008184134f4d78614fb21dab",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "placevalue.carry-threshold",
+      "canonical_family_id": "placevalue.carry-threshold",
+      "skill_ids": [
+        "sk_d7fb36131e4e43ffbca9"
+      ],
+      "component_ids": [
+        "ev_d7fb36131e4e43ffbca9_1"
+      ],
+      "prompt": "7加一个1至9的整数，要在个位凑够一个十，这个整数最小是几？只填数字。",
+      "family_basis_reviewed": "求触发进位的最小输入，检查小于边界和达到边界两种情形；不是计算某个已给的和。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "10-7",
+      "independently_computed_expected": "3",
+      "mathematical_review": "2仍不足10，最小3达到换十边界。",
+      "registered_verify_consistency": {
+        "id": "v8p_carry_threshold",
+        "status": "pass",
+        "detail": "10-7 = 3"
+      }
+    },
+    {
+      "task_id": "v8p_restore_after_increase",
+      "task_content_sha256": "ecfcc2f9ce5f9d8165fff53a7f5aa77e7349114bc7dbf6b5973233527f1cd8c0",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "primary.additive-structure.find-original-after-increase",
+      "canonical_family_id": "primary.additive-structure.find-original-after-increase",
+      "skill_ids": [
+        "sk_6823add8ae974742ad3c"
+      ],
+      "component_ids": [
+        "ev_6823add8ae974742ad3c_1"
+      ],
+      "prompt": "盒里放入4个圆片后共9个，中间没有取走。原来几个？只填数字。",
+      "family_basis_reviewed": "增加后的总量已知，恢复增加前的原量。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "9-4",
+      "independently_computed_expected": "5",
+      "mathematical_review": "把新增4从最终9中扣回，原来5。",
+      "registered_verify_consistency": {
+        "id": "v8p_restore_after_increase",
+        "status": "pass",
+        "detail": "9-4 = 5"
+      }
+    },
+    {
+      "task_id": "v8p_restore_after_removal",
+      "task_content_sha256": "4fb63ac18e2e979046851ae24928515d61925367e7a8369f0ba859c5a7fd3fa5",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "primary.additive-structure.find-original-after-removal",
+      "canonical_family_id": "primary.additive-structure.find-original-after-removal",
+      "skill_ids": [
+        "sk_6823add8ae974742ad3c"
+      ],
+      "component_ids": [
+        "ev_6823add8ae974742ad3c_2"
+      ],
+      "prompt": "盒里取走4个圆片后还剩9个，中间没有放入。原来几个？只填数字。",
+      "family_basis_reviewed": "减少后的剩余与移去量已知，恢复移去前原量。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "9+4",
+      "independently_computed_expected": "13",
+      "mathematical_review": "把取走4补回剩余9，原来13。",
+      "registered_verify_consistency": {
+        "id": "v8p_restore_after_removal",
+        "status": "pass",
+        "detail": "9+4 = 13"
+      }
+    },
+    {
+      "task_id": "v8p_plane_four_sides_insufficient",
+      "task_content_sha256": "3bca0a41ae1cbfdf3451d581f86f782f7a1398e2634472416331136d615414ff",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.plane-feature-sufficiency",
+      "canonical_family_id": "geometry.plane-feature-sufficiency",
+      "skill_ids": [
+        "sk_6608ab4003ef4d83837f"
+      ],
+      "component_ids": [
+        "ev_6608ab4003ef4d83837f_1"
+      ],
+      "prompt": "一个平面图形有4条直线边，只凭这条信息能断定它是正方形吗？",
+      "family_basis_reviewed": "检查边数能否唯一确定图形，区别于直接数边或由名称回忆边数。",
+      "reference_family_ids": [
+        "geometry.plane-side-count"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "非正方形长方形同为四边，边数不决定正方形类别。"
+    },
+    {
+      "task_id": "v8p_sticks_four_corners",
+      "task_content_sha256": "409525d82ea614e9063446414c595bf81d81d7260a941c332395faa0dfa67e34",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.quadrilateral-angle-condition",
+      "canonical_family_id": "geometry.quadrilateral-angle-condition",
+      "skill_ids": [
+        "sk_ac0b611a6ed14aabbeb7"
+      ],
+      "component_ids": [
+        "ev_ac0b611a6ed14aabbeb7_1"
+      ],
+      "prompt": "4根同样长的小棒首尾相接，围成没有交叉的四边形。要确认它是正方形，还必须检查什么？",
+      "family_basis_reviewed": "在等边四边形中检查角的约束，区别于三根小棒闭合成三角形的边数结构。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "等边非直角菱形为反例，还须检查直角条件。"
+    },
+    {
+      "task_id": "v8p_two_crossing_cuts",
+      "task_content_sha256": "1bf4c7848ad0eab02ea4e3d4852f00d3467f59abee59f833fdacc916a81e9df8",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "geometry.cut-intersection-regions",
+      "canonical_family_id": "geometry.cut-intersection-regions",
+      "skill_ids": [
+        "sk_88561dc9778a4520815d"
+      ],
+      "component_ids": [
+        "ev_88561dc9778a4520815d_1"
+      ],
+      "prompt": "长方形纸片平放，先沿横向中线从左边切到右边；各片保持原位置，再沿竖向中线从上边切到底边。两条切线在内部相交，最后几片？只填数字。",
+      "family_basis_reviewed": "第二条切线穿过已有两个区域，片数取决于交点关系，不是把单条对角线切割换数字。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "2*2",
+      "independently_computed_expected": "4",
+      "mathematical_review": "第二刀穿过原位两片，每片又分两片，得到4片。",
+      "registered_verify_consistency": {
+        "id": "v8p_two_crossing_cuts",
+        "status": "pass",
+        "detail": "2*2 = 4"
+      }
+    },
+    {
+      "task_id": "v8p_subtract_inverse_check",
+      "task_content_sha256": "a7ba23cc942eb5fb0f0c4e51953d3b1d08783560347c5b1afebb97f0dbbd8760",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "arithmetic.inverse-add-sub-check",
+      "canonical_family_id": "arithmetic.inverse-add-sub-check",
+      "skill_ids": [
+        "sk_bafb81fe04224128b228"
+      ],
+      "component_ids": [
+        "ev_bafb81fe04224128b228_1"
+      ],
+      "prompt": "小林算14−5=8。哪条加法检查能发现错误？",
+      "family_basis_reviewed": "用加回恢复整体的关系核对候选差；保留一个逆运算检查族，不因错误数字不同再分族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "候选差8加减数5只恢复13，不能恢复被减数14。"
+    },
+    {
+      "task_id": "v8p_borrow_threshold",
+      "task_content_sha256": "d6961d40888f6b7048d6edda99d21552700d43576a8f8374640c28d318259317",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "placevalue.borrow-threshold",
+      "canonical_family_id": "placevalue.borrow-threshold",
+      "skill_ids": [
+        "sk_28dd98bbc367423da1b2"
+      ],
+      "component_ids": [
+        "ev_28dd98bbc367423da1b2_1"
+      ],
+      "prompt": "15减一个1至9的整数，用个位直接减时，最小减几就需要从十位退一？只填数字。",
+      "family_basis_reviewed": "求退位发生的最小减数，并核对严格超过个位的边界；区别于已给减数求剩余。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "5+1",
+      "independently_computed_expected": "6",
+      "mathematical_review": "个位5能减到5；最小减6时不足，首次需要退位。",
+      "registered_verify_consistency": {
+        "id": "v8p_borrow_threshold",
+        "status": "pass",
+        "detail": "5+1 = 6"
+      }
+    },
+    {
+      "task_id": "v8p_regroup_thirty_six",
+      "task_content_sha256": "8969c7defca0b5d01797d4f3a826f323c75b886e1a73c60b650d0a567b5ef10f",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "placevalue.regroup-same-quantity",
+      "canonical_family_id": "placevalue.regroup-same-quantity",
+      "skill_ids": [
+        "sk_1918f38386c14099a326"
+      ],
+      "component_ids": [
+        "ev_1918f38386c14099a326_1"
+      ],
+      "prompt": "36原记3个十和6个一。拆开其中1个十而不增减小棒，应改记为什么？",
+      "family_basis_reviewed": "保持总量的非标准换组表示；不是换一组三位数或更换叙事。",
+      "reference_family_ids": [
+        "placevalue.ten-adjacent-units",
+        "placevalue.ten-and-ones"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "36等于20+16，另两表达为26和46。"
+    },
+    {
+      "task_id": "v8p_predecessor_cross_ten",
+      "task_content_sha256": "b83cb58d28279aaf1241c3da9c0f696c4b3d35e51fbc6346ce9f2d6e52ec403f",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "primary.order.predecessor",
+      "canonical_family_id": "primary.order.predecessor",
+      "skill_ids": [
+        "sk_6ea5f053c42543588e2a"
+      ],
+      "component_ids": [
+        "ev_6ea5f053c42543588e2a_1"
+      ],
+      "prompt": "按一个一个数，50的前一个整数是几？只填数字。",
+      "family_basis_reviewed": "求前驱，沿用前驱族，与现有后继未知方向相反。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "50-1",
+      "independently_computed_expected": "49",
+      "mathematical_review": "前驱49，跨整十仍仅减1。",
+      "registered_verify_consistency": {
+        "id": "v8p_predecessor_cross_ten",
+        "status": "pass",
+        "detail": "50-1 = 49"
+      }
+    },
+    {
+      "task_id": "v8p_order_two_constraints_hundred",
+      "task_content_sha256": "5a1b3853653947345f0ad1eb351df998f2534de1db0c311c16b5facef135ed2d",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "primary.order.interval-constraint",
+      "canonical_family_id": "primary.order.interval-constraint",
+      "skill_ids": [
+        "sk_9c0ddfbb81084c428116"
+      ],
+      "component_ids": [
+        "ev_9c0ddfbb81084c428116_1"
+      ],
+      "prompt": "哪一个选项能同时满足50＜□和□＜54？",
+      "family_basis_reviewed": "合取两个大小约束筛选未知数，沿用区间约束族，不因数域扩大另造族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "52满足两端严格约束；50与54各违背一条。"
+    },
+    {
+      "task_id": "v8p_tens_addition_unit",
+      "task_content_sha256": "c3b9f796ecc32492a7b6832158bc45ca8807d6b40371b7a74ffe325f27c9a99b",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "placevalue.count-unit-addition",
+      "canonical_family_id": "placevalue.count-unit-addition",
+      "skill_ids": [
+        "sk_53289850353042c1be9c"
+      ],
+      "component_ids": [
+        "ev_53289850353042c1be9c_1"
+      ],
+      "prompt": "30+40按‘几个十’计算，哪条记录的数和计数单位都正确？",
+      "family_basis_reviewed": "检查同单位数量相加时单位保持；选项正确仍不等于已经口头解释。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "相同计数单位十相加后仍为十，7十等于70。"
+    },
+    {
+      "task_id": "v8p_dependent_question_remove",
+      "task_content_sha256": "190435dad3c7cbeecba3ae6a72ec497abde523e10bda251128c730b4351618c0",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "primary.compare.quantity-then-remove",
+      "canonical_family_id": "primary.compare.quantity-then-remove",
+      "skill_ids": [
+        "sk_c992702b4de04fc687f5",
+        "sk_6189e1bf84fb457a8c00"
+      ],
+      "component_ids": [
+        "ev_c992702b4de04fc687f5_1",
+        "ev_6189e1bf84fb457a8c00_1"
+      ],
+      "prompt": "红盒有12枚，蓝盒比红盒少3枚。第一问蓝盒有几枚；第二问只从蓝盒取走2枚后蓝盒还剩几枚。两问结果依次是哪组？",
+      "family_basis_reviewed": "前一步比较量作为后一步移去的整体，区别于现有‘先求比较量再两量合计’的依赖图。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "蓝初量12−3为9，再只从蓝取2得7；合计无关。"
+    },
+    {
+      "task_id": "v8p_classification_duplicate",
+      "task_content_sha256": "8a9fbb2667e60e0fb3cf0006c7bf456c911e5f1cd413be52e2a4c46898ffbdda",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "classification.partition-integrity",
+      "canonical_family_id": "classification.partition-integrity",
+      "skill_ids": [
+        "sk_9758e99cd37b4ed086fc"
+      ],
+      "component_ids": [
+        "ev_9758e99cd37b4ed086fc_1"
+      ],
+      "prompt": "四张单色卡分别是红圆R1、红三角R2、蓝圆B1、蓝三角B2。按颜色分类，记录‘红类R1、R2，蓝类R1、B2’，两类各2张。哪条核对准确？",
+      "family_basis_reviewed": "检查分类记录是否形成原集合的无漏无重划分；区别于给一个对象指定颜色类别。",
+      "reference_family_ids": [
+        "statistics.classify-given-attribute"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "正确红R1R2蓝B1B2，错误记录重复R1并丢B1，合计巧合不证明分类。"
+    },
+    {
+      "task_id": "v8p_classification_infer_attribute",
+      "task_content_sha256": "00b4885702da816b8d49e4a5ed6aaf0b41b86ced727dc8ee03e6ac1af6b91d23",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "classification.infer-rule",
+      "canonical_family_id": "classification.infer-rule",
+      "skill_ids": [
+        "sk_75e6cfb9d2004d758475"
+      ],
+      "component_ids": [
+        "ev_75e6cfb9d2004d758475_1"
+      ],
+      "prompt": "第一组有红圆、红三角；第二组有蓝圆、蓝三角。只在‘颜色’和‘形状’两个标准中选，这份分类用了哪一个？",
+      "family_basis_reviewed": "由交叉搭配后的成员分组反推属性标准；控制颜色与形状不再完全共变。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "每组同色但异形，唯颜色解释当前两组。"
+    },
+    {
+      "task_id": "v8p_classification_ambiguous_attribute",
+      "task_content_sha256": "6800bf8a0dd418c1c4ba42cc470c17df3de86453bcd98b551ba3f2409c84f9ed",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "classification.rule-identifiability",
+      "canonical_family_id": "classification.rule-identifiability",
+      "skill_ids": [
+        "sk_75e6cfb9d2004d758475"
+      ],
+      "component_ids": [
+        "ev_75e6cfb9d2004d758475_1"
+      ],
+      "prompt": "现有的卡只有两张红圆和两张蓝三角，记录为红圆一组、蓝三角一组。没有其他说明，能唯一断定是按颜色还是按形状分的吗？",
+      "family_basis_reviewed": "检查属性共变造成的规则不可识别性，与在可区分样本中直接识别标准不同。",
+      "reference_family_ids": [
+        "statistics.classify-given-attribute"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o3",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "颜色与形状在该样本完全共变，两标准给相同划分，无法唯一识别。"
+    },
+    {
+      "task_id": "v8p_classification_nonempty_leaves",
+      "task_content_sha256": "f5e3cda3a672f14bf936fc6d3e8a2527d643c14220d4c46bd7ece062f2ef15bb",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "classification.nonempty-leaves",
+      "canonical_family_id": "classification.nonempty-leaves",
+      "skill_ids": [
+        "sk_8966c25a81744aa2a743"
+      ],
+      "component_ids": [
+        "ev_8966c25a81744aa2a743_1"
+      ],
+      "prompt": "先按红、蓝两色，再按圆、三角、正方形分类。实际只有红圆2张、红三角1张、蓝正方形3张。最终有卡片的类别共有几个？只填数字。",
+      "family_basis_reviewed": "数实际数据支持的分类树叶节点，区别于用乘法数所有可能组合。",
+      "reference_family_ids": [
+        "statistics.hierarchical-classification"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "3",
+      "independently_computed_expected": "3",
+      "mathematical_review": "实际非空叶类为红圆、红三角、蓝正方形，不是全部六种可能组合。",
+      "registered_verify_consistency": {
+        "id": "v8p_classification_nonempty_leaves",
+        "status": "pass",
+        "detail": "1+1+1 = 3"
+      }
+    },
+    {
+      "task_id": "v8p_multiplication_term_roles",
+      "task_content_sha256": "c275ff3afd3df7a1cb6acf1cf02fcb4fb748a17c27c90f275028210d4026faf9",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "arithmetic.multiply-term-roles",
+      "canonical_family_id": "arithmetic.multiply-term-roles",
+      "skill_ids": [
+        "sk_3dcbf189366542bfab88"
+      ],
+      "component_ids": [
+        "ev_3dcbf189366542bfab88_1"
+      ],
+      "prompt": "在4×3=12中，哪条名称对应正确？",
+      "family_basis_reviewed": "识别乘法式中因数与积的角色，仅一个术语—位置契约。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "因数4与3产生积12；商是除法的结果名称。"
+    },
+    {
+      "task_id": "v8p_table_five_quotient",
+      "task_content_sha256": "d19ef73c9bbeb90f15fa308f83f36aae89c2450f5c47d4ba1aaed2493ebb3ec6",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "primary.divide.inverse-table",
+      "canonical_family_id": "primary.divide.inverse-table",
+      "skill_ids": [
+        "sk_18d40c221ac74b8ab249"
+      ],
+      "component_ids": [
+        "ev_18d40c221ac74b8ab249_2"
+      ],
+      "prompt": "计算20÷5。只填数字。",
+      "family_basis_reviewed": "原宽目标明确含求积与求商；沿用表内除法逆乘法题族，口诀数字变化不再细分族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "20/5",
+      "independently_computed_expected": "4",
+      "mathematical_review": "每组5，20中4组。",
+      "registered_verify_consistency": {
+        "id": "v8p_table_five_quotient",
+        "status": "pass",
+        "detail": "20/5 = 4"
+      }
+    },
+    {
+      "task_id": "v8p_table_two_three_four_quotient",
+      "task_content_sha256": "325c9430f821257413f1d477d00f99b4b19bd1ce33847f408bc4fde0cf24b99b",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "primary.divide.inverse-table",
+      "canonical_family_id": "primary.divide.inverse-table",
+      "skill_ids": [
+        "sk_e5e284300bd04b859f39"
+      ],
+      "component_ids": [
+        "ev_e5e284300bd04b859f39_2"
+      ],
+      "prompt": "计算12÷3。只填数字。",
+      "family_basis_reviewed": "原宽目标明确含求积与求商；沿用表内除法逆乘法题族，口诀数字变化不再细分族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "12/3",
+      "independently_computed_expected": "4",
+      "mathematical_review": "每组3，12中4组。",
+      "registered_verify_consistency": {
+        "id": "v8p_table_two_three_four_quotient",
+        "status": "pass",
+        "detail": "12/3 = 4"
+      }
+    },
+    {
+      "task_id": "v8p_table_six_quotient",
+      "task_content_sha256": "2eb7311134bfb557b6fba7b7a41b4de0e26b1b16748ebe69ab53f0dd848662c6",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "primary.divide.inverse-table",
+      "canonical_family_id": "primary.divide.inverse-table",
+      "skill_ids": [
+        "sk_3affee1d72c148749b60"
+      ],
+      "component_ids": [
+        "ev_3affee1d72c148749b60_2"
+      ],
+      "prompt": "计算30÷6。只填数字。",
+      "family_basis_reviewed": "原宽目标明确含求积与求商；沿用表内除法逆乘法题族，口诀数字变化不再细分族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "30/6",
+      "independently_computed_expected": "5",
+      "mathematical_review": "每组6，30中5组。",
+      "registered_verify_consistency": {
+        "id": "v8p_table_six_quotient",
+        "status": "pass",
+        "detail": "30/6 = 5"
+      }
+    },
+    {
+      "task_id": "v8p_table_seven_quotient",
+      "task_content_sha256": "6d8c22caab9b9e353b8e862152664b37b6f828c4edf52b4b6b917b287fa34bc2",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "primary.divide.inverse-table",
+      "canonical_family_id": "primary.divide.inverse-table",
+      "skill_ids": [
+        "sk_e928370bfee4461185bc"
+      ],
+      "component_ids": [
+        "ev_e928370bfee4461185bc_2"
+      ],
+      "prompt": "计算42÷7。只填数字。",
+      "family_basis_reviewed": "原宽目标明确含求积与求商；沿用表内除法逆乘法题族，口诀数字变化不再细分族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "42/7",
+      "independently_computed_expected": "6",
+      "mathematical_review": "每组7，42中6组。",
+      "registered_verify_consistency": {
+        "id": "v8p_table_seven_quotient",
+        "status": "pass",
+        "detail": "42/7 = 6"
+      }
+    },
+    {
+      "task_id": "v8p_table_eight_quotient",
+      "task_content_sha256": "a326007c0df39aabdc466fcc4daa4d4940fc7ad714e4f5c0bc8594c8cf2533a8",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "primary.divide.inverse-table",
+      "canonical_family_id": "primary.divide.inverse-table",
+      "skill_ids": [
+        "sk_8ac6395ad5b2446188b6"
+      ],
+      "component_ids": [
+        "ev_8ac6395ad5b2446188b6_2"
+      ],
+      "prompt": "计算56÷8。只填数字。",
+      "family_basis_reviewed": "原宽目标明确含求积与求商；沿用表内除法逆乘法题族，口诀数字变化不再细分族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "56/8",
+      "independently_computed_expected": "7",
+      "mathematical_review": "每组8，56中7组。",
+      "registered_verify_consistency": {
+        "id": "v8p_table_eight_quotient",
+        "status": "pass",
+        "detail": "56/8 = 7"
+      }
+    },
+    {
+      "task_id": "v8p_multiply_adjust_context",
+      "task_content_sha256": "8808eb427bd967e7e030e2c097d26c85f0fec7938f5a572bfde91a8e604e60f4",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "arithmetic.multiply-then-adjust",
+      "canonical_family_id": "arithmetic.multiply-then-adjust",
+      "skill_ids": [
+        "sk_e00dca1a8209430eb188"
+      ],
+      "component_ids": [
+        "ev_e00dca1a8209430eb188_1"
+      ],
+      "prompt": "4个盘子每盘3块饼，盘子外另有2块，没有重复。求一共有多少块，哪个式子对应这些条件？",
+      "family_basis_reviewed": "核对等量组总量与一次额外变化的结构，仍使用multiply-then-adjust，不把式子选项另算新族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "盘内12加盘外2，额外2只计一次，选4×3+2。"
+    },
+    {
+      "task_id": "v8p_equal_groups_condition",
+      "task_content_sha256": "452ed04f17c78b53c74db3f4a699f2ea39e1caa78494b439bf9711ee26664b84",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "primary.multiply.choose-equation",
+      "canonical_family_id": "primary.multiply.choose-equation",
+      "skill_ids": [
+        "sk_a85f4f61745649209dbc"
+      ],
+      "component_ids": [
+        "ev_a85f4f61745649209dbc_1"
+      ],
+      "prompt": "三盘分别有2、2、3个桃。有人用3×2求总数，哪条理由准确？",
+      "family_basis_reviewed": "检查选择等量组乘式的条件，仍保留既有建模选择题族；选择解释不代替自主口述。",
+      "reference_family_ids": [
+        "arithmetic.multiply-then-adjust"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "第三组多1，3×2只计6而真实7；条件是每组相等。"
+    },
+    {
+      "task_id": "v8p_unit_price_total",
+      "task_content_sha256": "d4f18fb56bdc8e25553e4de647058b453dd86d99455f8e9fcc2f3449d134d2b6",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "ratio.unit-rate-projection",
+      "canonical_family_id": "ratio.unit-rate-projection",
+      "skill_ids": [
+        "sk_fa920e9dd0b546fbaab0"
+      ],
+      "component_ids": [
+        "ev_fa920e9dd0b546fbaab0_1"
+      ],
+      "prompt": "每本练习本4元，买3本，无折扣或其他收费，共多少元？只填数字。",
+      "family_basis_reviewed": "固定单价与数量给定后投影总价，不推定真实支付行为。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "4*3",
+      "independently_computed_expected": "12",
+      "mathematical_review": "单价4、数量3且无额外收费，共12元。",
+      "registered_verify_consistency": {
+        "id": "v8p_unit_price_total",
+        "status": "pass",
+        "detail": "4*3 = 12"
+      }
+    },
+    {
+      "task_id": "v8p_fixed_price_covariation",
+      "task_content_sha256": "dcaa3941cf4b35176923df5eb3f0503ce3ad574efa99a5c0d9486d1a4a21896f",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "ratio.fixed-rate-covariation",
+      "canonical_family_id": "ratio.fixed-rate-covariation",
+      "skill_ids": [
+        "sk_fa920e9dd0b546fbaab0"
+      ],
+      "component_ids": [
+        "ev_fa920e9dd0b546fbaab0_1"
+      ],
+      "prompt": "同样练习本单价始终不变、没有折扣或额外收费。购买数量变成原来的2倍，总价怎样变化？",
+      "family_basis_reviewed": "在固定单价条件下判断两次购买间的共同缩放规律，而非只代入一次单价与数量求乘积。",
+      "reference_family_ids": [
+        "ratio.unit-rate-projection"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "总价p×数量，固定p且无附费，数量翻倍则总价翻倍。"
+    },
+    {
+      "task_id": "v8p_division_think_multiplication",
+      "task_content_sha256": "029b46b20e5503ded04693bebf5842427d4153138af66cd1b378a4c07af87111",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "primary.divide.inverse-table",
+      "canonical_family_id": "primary.divide.inverse-table",
+      "skill_ids": [
+        "sk_65448fa62c4741359126"
+      ],
+      "component_ids": [
+        "ev_65448fa62c4741359126_1"
+      ],
+      "prompt": "算12÷3时，哪一个乘法填空与所求的商对应？",
+      "family_basis_reviewed": "想乘算除的同一逆关系，填空形式不是新的独立题族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "商须满足除数3乘商等于被除数12，另外两式改变关系。"
+    },
+    {
+      "task_id": "v8p_division_product_check",
+      "task_content_sha256": "6342f3c329af1d8a0b35a5a7089f32f82d244a3d5bea6fd1f4c3719516d89aba",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "primary.divide.inverse-table",
+      "canonical_family_id": "primary.divide.inverse-table",
+      "skill_ids": [
+        "sk_961cf01ac09e4f00893e"
+      ],
+      "component_ids": [
+        "ev_961cf01ac09e4f00893e_1"
+      ],
+      "prompt": "有人算24÷6=3。用乘法检查，应选哪一条？",
+      "family_basis_reviewed": "核对乘积恢复被除数，保留同一个除法逆乘法契约，不把验算输出改名计族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "候选3乘6为18≠24，可直接否定；正确候选为4。"
+    },
+    {
+      "task_id": "v8p_table_seven_eight_product_check",
+      "task_content_sha256": "bb1a755c13c67896f31172973692e5e48c3182a56fa1721fc9bc10cc5ea6156e",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "primary.divide.inverse-table",
+      "canonical_family_id": "primary.divide.inverse-table",
+      "skill_ids": [
+        "sk_f00794f644644ab99305"
+      ],
+      "component_ids": [
+        "ev_f00794f644644ab99305_1"
+      ],
+      "prompt": "有人算56÷7=7。哪条乘法检查准确？",
+      "family_basis_reviewed": "用7、8的乘法事实验证除法结果，沿用同一个逆乘法族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "7×7只为49，恢复56需要8×7，不能看重复数字。"
+    },
+    {
+      "task_id": "v8p_nine_adjacent_products",
+      "task_content_sha256": "c600b65b668b5cb4a4ccf18066fed12d00868ac2b6472059e81b02257096f8c1",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "primary.table-nine.adjacent-products",
+      "canonical_family_id": "primary.table-nine.adjacent-products",
+      "skill_ids": [
+        "sk_34943c06ad1d4e93bac2"
+      ],
+      "component_ids": [
+        "ev_34943c06ad1d4e93bac2_1"
+      ],
+      "prompt": "9的乘法口诀按一九、二九、三九……排列，相邻后一句的积比前一句多几？只填数字。",
+      "family_basis_reviewed": "因组数每次增一而产生的乘积相邻差结构。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "9",
+      "independently_computed_expected": "9",
+      "mathematical_review": "9(n+1)−9n恒为9；限制在相邻口诀仍成立。",
+      "registered_verify_consistency": {
+        "id": "v8p_nine_adjacent_products",
+        "status": "pass",
+        "detail": "2*9-1*9 = 9"
+      }
+    },
+    {
+      "task_id": "v8p_nine_digit_complement",
+      "task_content_sha256": "8cb9ed680da545ae173b7f216c7b55b6edc42887a77e2216057c554be2b5cb9d",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "primary.table-nine.digit-sum-nine",
+      "canonical_family_id": "primary.table-nine.digit-sum-nine",
+      "skill_ids": [
+        "sk_34943c06ad1d4e93bac2"
+      ],
+      "component_ids": [
+        "ev_34943c06ad1d4e93bac2_1"
+      ],
+      "prompt": "只考虑1×9到9×9的积。45、46、54中，哪一个不可能出现在这些积里？",
+      "family_basis_reviewed": "在十进位值中检验九的乘积的数字互补性质，区别于仅向后多加一组9的相邻差。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "实际九个倍数包含45与54，46不被9整除；给定范围防止滥用位和叙述。"
+    },
+    {
+      "task_id": "v8p_nearby_table_quotient_difference",
+      "task_content_sha256": "c91c9f482b172b46740c6530b203481b5ace03929c01e84ace79d5df98b38a1c",
+      "type": "numeric",
+      "phase": "practice",
+      "family_id": "primary.table-neighbour-group-difference",
+      "canonical_family_id": "primary.table-neighbour-group-difference",
+      "skill_ids": [
+        "sk_b45aa75a97304d86b63e"
+      ],
+      "component_ids": [
+        "ev_b45aa75a97304d86b63e_1"
+      ],
+      "prompt": "用9的口诀分别求45÷9和54÷9，后一题的商比前一题大多少？只填数字。",
+      "family_basis_reviewed": "比较相邻乘积所代表的同单位组数差，仅一个相邻事实关系。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "54/9-45/9",
+      "independently_computed_expected": "1",
+      "mathematical_review": "两个商为6与5，相差1。",
+      "registered_verify_consistency": {
+        "id": "v8p_nearby_table_quotient_difference",
+        "status": "pass",
+        "detail": "54/9-45/9 = 1"
+      }
+    },
+    {
+      "task_id": "v8p_product_then_share_results",
+      "task_content_sha256": "96ba6dd30f9646c56de1d4db307a50e70143f66c2947a16c7ccc9ebde88b20ea",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "arithmetic.multiply-then-share",
+      "canonical_family_id": "arithmetic.multiply-then-share",
+      "skill_ids": [
+        "sk_a17c7c067f7d4259a0b1",
+        "sk_f6bc80351b3042b1b983"
+      ],
+      "component_ids": [
+        "ev_a17c7c067f7d4259a0b1_2",
+        "ev_f6bc80351b3042b1b983_2"
+      ],
+      "prompt": "4盒铅笔，每盒6支。第一问共有多少支；第二问把全部铅笔平均分给3组，每组几支？两问结果依次是什么？",
+      "family_basis_reviewed": "先形成乘积总量，再把该总量作为等分除法的被除数，区别于乘积后的一次增减。",
+      "reference_family_ids": [
+        "primary.divide.share-size",
+        "primary.multiply.equal-groups"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "先4×6求24，再对整体24分3组得8；6÷3遗漏三盒。"
+    },
+    {
+      "task_id": "v8p_euclidean_pair_constraints",
+      "task_content_sha256": "b3834a9b543fcd890f9ffca9012950d0cd420f2f3e59097e5964f801148db435",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "division.euclidean-pair-validity",
+      "canonical_family_id": "division.euclidean-pair-validity",
+      "skill_ids": [
+        "sk_03f36a8b0a854b79afef"
+      ],
+      "component_ids": [
+        "ev_03f36a8b0a854b79afef_1"
+      ],
+      "prompt": "计算21÷4。下列商、余数中，哪组同时符合‘商×除数+余数=被除数’与‘余数小于除数’？",
+      "family_basis_reviewed": "检验欧几里得除法表示的两个独立必要条件，特设恒等式正确但余数越界的反例；不由此声称已列出竖式。",
+      "reference_family_ids": [
+        "division.remainder-bound"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "(4,5)虽满足还原等式但余数越界；(5,1)两条件同时成立；(5,2)还原为22。"
+    },
+    {
+      "task_id": "v8p_division_column_product_role",
+      "task_content_sha256": "2d022bf9222ddeb44931542df3a06e54618ae31512dccf9fbe90c6569f8c7b2d",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "division.column-quantity-roles",
+      "canonical_family_id": "division.column-quantity-roles",
+      "skill_ids": [
+        "sk_a53744863a1947e4beb1"
+      ],
+      "component_ids": [
+        "ev_a53744863a1947e4beb1_1"
+      ],
+      "prompt": "23个圆片按每组5个分。竖式得到商4，乘回20，剩3。其中乘回的20表示什么？",
+      "family_basis_reviewed": "解释除法中乘回量的对象与单位，只有一个数量角色判定；选择不代替完整口述。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "20是4完整组每组5合计的对象数，非组数4或每组5。"
+    },
+    {
+      "task_id": "v8p_regroup_four_hundred_seven",
+      "task_content_sha256": "ed7735688a7e88b6c612f38df69ca280fc690ce0d7550ae21755a13a995823f4",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "placevalue.regroup-same-quantity",
+      "canonical_family_id": "placevalue.regroup-same-quantity",
+      "skill_ids": [
+        "sk_6d197e2c22bf43b9a0ed"
+      ],
+      "component_ids": [
+        "ev_6d197e2c22bf43b9a0ed_1"
+      ],
+      "prompt": "407记作4个百、0个十、7个一。把1个百换成10个十，其余不动，哪条记录等值？",
+      "family_basis_reviewed": "非标准百十个计数单位的保量换组，沿用既有换组结构，不因位数增加另造方法。",
+      "reference_family_ids": [
+        "placevalue.hundreds-tens-ones",
+        "placevalue.ten-adjacent-units"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "300+100+7保持407；其他为317和507。"
+    },
+    {
+      "task_id": "v8p_hundreds_sum",
+      "task_content_sha256": "cfd2f8c74ce1e831c699cbc5c921ba349025988d9fd668affc57f16ccf710b7c",
+      "type": "numeric",
+      "phase": "practice",
+      "family_id": "primary.base-ten.hundreds-thousands-add-sub",
+      "canonical_family_id": "primary.base-ten.hundreds-thousands-add-sub",
+      "skill_ids": [
+        "sk_6fad6e6f1ae24c6d96c0"
+      ],
+      "component_ids": [
+        "ev_6fad6e6f1ae24c6d96c0_1"
+      ],
+      "prompt": "计算1200+500。只填数字。",
+      "family_basis_reviewed": "原族已经包含本题的加法或减法结构；本题补实际分项练习，沿用同族，数字变化和分栏保存不构成新的独立数学结构。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "1200+500",
+      "independently_computed_expected": "1700",
+      "mathematical_review": "12百加5百等于17百。",
+      "registered_verify_consistency": {
+        "id": "v8p_hundreds_sum",
+        "status": "pass",
+        "detail": "1200+500 = 1700"
+      }
+    },
+    {
+      "task_id": "v8p_hundreds_difference",
+      "task_content_sha256": "748595950fc572cad1fdbd7f523ecb1fefbd8adc0ccc3d5a451d53d32321d3f1",
+      "type": "numeric",
+      "phase": "practice",
+      "family_id": "primary.base-ten.hundreds-thousands-add-sub",
+      "canonical_family_id": "primary.base-ten.hundreds-thousands-add-sub",
+      "skill_ids": [
+        "sk_6fad6e6f1ae24c6d96c0"
+      ],
+      "component_ids": [
+        "ev_6fad6e6f1ae24c6d96c0_2"
+      ],
+      "prompt": "计算1700−500。只填数字。",
+      "family_basis_reviewed": "原族已经包含本题的加法或减法结构；本题补实际分项练习，沿用同族，数字变化和分栏保存不构成新的独立数学结构。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "1700-500",
+      "independently_computed_expected": "1200",
+      "mathematical_review": "17百减5百等于12百。",
+      "registered_verify_consistency": {
+        "id": "v8p_hundreds_difference",
+        "status": "pass",
+        "detail": "1700-500 = 1200"
+      }
+    },
+    {
+      "task_id": "v8p_hundreds_count_unit",
+      "task_content_sha256": "0b385ffb8a29ba1a041d04b6e0ea7af362452154938e8728ab5dfc33d24aa5bc",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "primary.base-ten.hundreds-thousands-add-sub",
+      "canonical_family_id": "primary.base-ten.hundreds-thousands-add-sub",
+      "skill_ids": [
+        "sk_998092e65c08470985e6"
+      ],
+      "component_ids": [
+        "ev_998092e65c08470985e6_1"
+      ],
+      "prompt": "算1200−300时，哪条中间记录的计数单位正确？",
+      "family_basis_reviewed": "原整千整百加减法中的单位含义检查，保留原族，不以中间步骤另名计族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "1200及300分别12百与3百，差9仍以百计为900。"
+    },
+    {
+      "task_id": "v8p_subtraction_add_back_check",
+      "task_content_sha256": "626c77f2673ad968fa0fe837a7478e286de40f43da41ef6eed3c2f1b9b39ff2e",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "arithmetic.inverse-add-sub-check",
+      "canonical_family_id": "arithmetic.inverse-add-sub-check",
+      "skill_ids": [
+        "sk_ab30754dc266469e963b"
+      ],
+      "component_ids": [
+        "ev_ab30754dc266469e963b_1"
+      ],
+      "prompt": "有人算502−278=234。哪条加法检查能直接核对原减法？",
+      "family_basis_reviewed": "检查减法的差与减数合成原整体，沿用加减逆关系同族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "差加减数应恢复502，而234+278为512，否定错误候选；正确224。"
+    },
+    {
+      "task_id": "v8p_views_nonunique_three",
+      "task_content_sha256": "a36247a8e57c2232b63f90da00e77ba63d0cedda3989166259900b2a7f35b4ff",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.multiview-nonuniqueness",
+      "canonical_family_id": "geometry.multiview-nonuniqueness",
+      "skill_ids": [
+        "sk_4a005ab3ef12409ca737",
+        "sk_0163b4bd190b4ad8ade0"
+      ],
+      "component_ids": [
+        "ev_4a005ab3ef12409ca737_2",
+        "ev_0163b4bd190b4ad8ade0_2"
+      ],
+      "prompt": "观察附图上方给定的正视、右视、俯视轮廓，再按下方柱高图核对甲、乙两个候选模型。每柱从底面连续堆叠，没有空洞。仅凭这三个外轮廓，能区分甲乙吗？",
+      "family_basis_reviewed": "比较可行模型集合的唯一性，特设三个方向全相同但块数不同的反例；不能仅因方向数为3就断定确定。",
+      "reference_family_ids": [
+        "geometry.single-view-nonuniqueness"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "实际柱高甲总8、乙总6；每行列最大值都2且底格全占，三外轮廓相同，选不能区分。",
+      "diagram_binding": {
+        "path": "web/static/diagrams/v8-primary-multiview-candidates.svg",
+        "source_sha256": "66e7da28c0f02466f74965ce9ea5ce866ab6499280b5a9b9162a93cf75219b9c",
+        "alt_reviewed": "上方正视、右视、俯视轮廓均为完整两行两列格子。下方柱高图前排在下：甲两行都是2、2；乙后排2、1，前排1、2。每格数是该底面位置连续无空洞堆叠的高度。"
+      }
+    },
+    {
+      "task_id": "v8p_views_add_direction",
+      "task_content_sha256": "f16691de641cb072ed46f61e56c0f812d27632ce304f256aae629ece996497de",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.views-distinguishing-direction",
+      "canonical_family_id": "geometry.views-distinguishing-direction",
+      "skill_ids": [
+        "sk_0163b4bd190b4ad8ade0"
+      ],
+      "component_ids": [
+        "ev_0163b4bd190b4ad8ade0_1"
+      ],
+      "prompt": "观察附图两个候选模型及前方箭头，上方给出它们共有的正面轮廓。为区分甲、乙，再从哪个方向看有效？",
+      "family_basis_reviewed": "针对一个候选对选择能分离它们的额外观测，与泛称三个方向一定足够不同。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "图中一排三块与两排各三块正面相同，俯视1×3及2×3能区分给定候选。",
+      "diagram_binding": {
+        "path": "web/static/diagrams/v8-primary-distinguishing-view.svg",
+        "source_sha256": "31a0bf07e632199268582cc5fd506851ee345c3bda02dfcca70b9e0f3aca837e",
+        "alt_reviewed": "图上方给定共同的宽三格高一格正面轮廓。下方甲是一排三个小正方体，乙是前后两排、每排三个小正方体，都只有一层。箭头分别标明各模型的前方。"
+      }
+    },
+    {
+      "task_id": "v8p_cuboid_face_dimensions",
+      "task_content_sha256": "458909f2a81c5f51f1aa083a7e126315d7244bf18d22a6501e64772f517f58ce",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.cuboid-opposite-face-pairs",
+      "canonical_family_id": "geometry.cuboid-opposite-face-pairs",
+      "skill_ids": [
+        "sk_0d4c46dc44904676aef3"
+      ],
+      "component_ids": [
+        "ev_0d4c46dc44904676aef3_1"
+      ],
+      "prompt": "要制作长3厘米、宽2厘米、高1厘米的封闭长方体，只先检查六张面的尺寸是否齐全，不判断摆成的布局能否折叠。哪组材料正确？",
+      "family_basis_reviewed": "核对目标长方体三对面的度量一致性，独立于展开布局的折叠邻接与重叠条件。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "3、2、1三边两两组合形成三对面；2×2与六面全3×2均不符。"
+    },
+    {
+      "task_id": "v8p_cube_net_layout",
+      "task_content_sha256": "579eee5114376860b42c812d65ee8cc3715b37cdb9815908c327f48e512f58aa",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.cube-net-valid-layout",
+      "canonical_family_id": "geometry.cube-net-valid-layout",
+      "skill_ids": [
+        "sk_0d4c46dc44904676aef3"
+      ],
+      "component_ids": [
+        "ev_0d4c46dc44904676aef3_2"
+      ],
+      "prompt": "观察附图甲、乙、丙的六格布局。格子等大且沿完整边连接，哪种能沿公共边折成六面不重叠的正方体？",
+      "family_basis_reviewed": "检查折叠邻接是否给出六个不同面方向；不是六面尺寸都合适就一定成立。",
+      "reference_family_ids": [
+        "geometry.cube-net-opposite-faces"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "实际甲可赋六个不同面法向；乙2×3产生冲突，丙直条重复法向而缺上下。",
+      "diagram_binding": {
+        "path": "web/static/diagrams/v8-primary-cube-net-layouts.svg",
+        "source_sha256": "06896fe4f2e77a0a3bedc1345eef02836434071e61b1b21a3a21cfbdf0a1e02a",
+        "alt_reviewed": "三组等大正方形布局。甲的A、B、C、D横排，E接B上方、F接B下方；乙为完整两行三列；丙为六格一条直线。格子沿完整边相接。"
+      }
+    },
+    {
+      "task_id": "v8p_cube_net_opposites",
+      "task_content_sha256": "e4203abf232b1a65cebba22212c276f397559f2a28c0df00d1397c85548b7f5c",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "geometry.cube-net-opposite-faces",
+      "canonical_family_id": "geometry.cube-net-opposite-faces",
+      "skill_ids": [
+        "sk_4630f0d965fa4a2b9cc2"
+      ],
+      "component_ids": [
+        "ev_4630f0d965fa4a2b9cc2_2"
+      ],
+      "prompt": "只看附图甲，按图中字母标记把它折成正方体，B固定为前面。B的相对面、E的相对面依次是哪两个？",
+      "family_basis_reviewed": "固定一面后跟踪折叠方位寻找对面，保持现有展开图相对面族，换标签不造第二族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "固定B前面，横带D折至后面，E与F折至上下，因此依次D、F。",
+      "diagram_binding": {
+        "path": "web/static/diagrams/v8-primary-cube-net-layouts.svg",
+        "source_sha256": "06896fe4f2e77a0a3bedc1345eef02836434071e61b1b21a3a21cfbdf0a1e02a",
+        "alt_reviewed": "三组等大正方形布局。甲的A、B、C、D横排，E接B上方、F接B下方；乙为完整两行三列；丙为六格一条直线。格子沿完整边相接。"
+      }
+    },
+    {
+      "task_id": "v8p_precedence_context_reason",
+      "task_content_sha256": "6233941268efa798b8817a245e169560193e143f1b65a719f8bd03efbebc58f9",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "arithmetic.two-level-precedence",
+      "canonical_family_id": "arithmetic.two-level-precedence",
+      "skill_ids": [
+        "sk_040011b9e2ae44e39b85"
+      ],
+      "component_ids": [
+        "ev_040011b9e2ae44e39b85_1"
+      ],
+      "prompt": "桌上有3支散笔和4盒笔，每盒2支。式子3+4×2中，先算4×2对应什么？",
+      "family_basis_reviewed": "用相同单位的等量组情境解释乘法子式，沿用两级运算契约，单选说明不等于自主解释。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "4盒×2支先化为8支才与3支合并；盒与支不能直接相加。"
+    },
+    {
+      "task_id": "v8p_net_change_check",
+      "task_content_sha256": "f8fa03efdd2bf78ce658d7de7b5ff019857526a8db239f6dd1a6c57f2ce46ce7",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "primary.change.net-direction-check",
+      "canonical_family_id": "primary.change.net-direction-check",
+      "skill_ids": [
+        "sk_2223a24682ce4564aaca"
+      ],
+      "component_ids": [
+        "ev_2223a24682ce4564aaca_1"
+      ],
+      "prompt": "车上原有18人，下车6人后上车4人，除此没有变化。有人算最后20人，不重算全式也能用哪条检查排除？",
+      "family_basis_reviewed": "用全程增减的净方向作为结果必要条件，不靠完整求值就能排除反方向答案。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "净变化−2必须低于初始18，因此20不可能；方向本身不唯一确定最终16。"
+    },
+    {
+      "task_id": "v8p_event_feasibility_check",
+      "task_content_sha256": "259a35e48868c696c124ab92ed0ef81da4cc0632091e46c2779733b773f7276a",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "primary.change.event-order-feasibility",
+      "canonical_family_id": "primary.change.event-order-feasibility",
+      "skill_ids": [
+        "sk_2223a24682ce4564aaca"
+      ],
+      "component_ids": [
+        "ev_2223a24682ce4564aaca_2"
+      ],
+      "prompt": "车上开始3人。记录说‘先下车5人，再上车4人’，没有其他人或变化。虽然3−5+4=2，能把它当作可能发生的乘客记录吗？",
+      "family_basis_reviewed": "检验有序中间状态的可行性，与只看最终净变化符号不同。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "第一时刻只有3人无法下5人，即使末代数和2为非负也不可执行。"
+    },
+    {
+      "task_id": "v8p_reference_length_interval",
+      "task_content_sha256": "7e8842cb6d13b7f84f97aab8b9b211e3cb6edc2a18b56a607afe67e4c83f72d6",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "measure.reference-interval-estimate",
+      "canonical_family_id": "measure.reference-interval-estimate",
+      "skill_ids": [
+        "sk_9926c5fb8fdc419787ee",
+        "sk_3b0e0e157722499ba4c6"
+      ],
+      "component_ids": [
+        "ev_9926c5fb8fdc419787ee_2",
+        "ev_3b0e0e157722499ba4c6_2"
+      ],
+      "prompt": "直线走20步，题设每一步都至少50厘米、至多60厘米。总路程一定落在哪个范围（含端点）？",
+      "family_basis_reviewed": "把参照量的不确定区间传播到总量，区别于给单一近似单位长度乘步数得到一个估值。",
+      "reference_family_ids": [
+        "measure.metres-centimetres"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "20个区间[50,60]厘米相加为[1000,1200]厘米，即[10,12]米。"
+    },
+    {
+      "task_id": "v8p_multiply_tens_unit_reason",
+      "task_content_sha256": "504c9845a437227dc39b99f1a78e44cd9a0bcb965f95b9dd48f6a005e7d6f5e9",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "primary.multiply.place-value-scaling",
+      "canonical_family_id": "primary.multiply.place-value-scaling",
+      "skill_ids": [
+        "sk_5a7fd0cbed5544b2a930"
+      ],
+      "component_ids": [
+        "ev_5a7fd0cbed5544b2a930_1"
+      ],
+      "prompt": "30×4为什么得到120？哪份带单位的说明正确？",
+      "family_basis_reviewed": "整十数乘法中的计数单位守恒，沿用已有位值缩放族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "3十的四份是12十，即120；单位决定零的位置。"
+    },
+    {
+      "task_id": "v8p_multiply_partial_place",
+      "task_content_sha256": "74847ae06e67ec65a8f9e9b4a7d78449c825cd9424d5b208fc17c4f5eddb018b",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "primary.multiply.column-no-regroup",
+      "canonical_family_id": "primary.multiply.column-no-regroup",
+      "skill_ids": [
+        "sk_a94a704d137a483996cc"
+      ],
+      "component_ids": [
+        "ev_a94a704d137a483996cc_1"
+      ],
+      "prompt": "列竖式算23×3，十位上2×3=6，这个6表示多少个一？",
+      "family_basis_reviewed": "核对无进位乘法的部分积位值，不把读取中间项另名为独立算法。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "十位2表示20，乘3为60，不是6。"
+    },
+    {
+      "task_id": "v8p_multiply_carry_where",
+      "task_content_sha256": "fac58371b35e0eddfb32aac4483846771c4aac5a774e74025d51b408cde99cc2",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "primary.multiply.column-regroup",
+      "canonical_family_id": "primary.multiply.column-regroup",
+      "skill_ids": [
+        "sk_135ba10883484755b263"
+      ],
+      "component_ids": [
+        "ev_135ba10883484755b263_1"
+      ],
+      "prompt": "算18×5，个位8×5=40，个位写0后，应把什么带到十位？",
+      "family_basis_reviewed": "乘法进位量由实际部分积决定，保留原进位乘法题族并纠正固定进一的边界。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "40一换4十，不能把多位乘法进位固定为1。"
+    },
+    {
+      "task_id": "v8p_multiply_missing_carry",
+      "task_content_sha256": "b9438654ed63459f27f7e3cb8c4821e4737d81e38d04b1935e9128cc23e1358a",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "primary.multiply.column-regroup",
+      "canonical_family_id": "primary.multiply.column-regroup",
+      "skill_ids": [
+        "sk_7d21da21ae3a4a1aba42"
+      ],
+      "component_ids": [
+        "ev_7d21da21ae3a4a1aba42_1"
+      ],
+      "prompt": "算236×4，记录：个位6×4=24，写4进2；十位只算3×4=12，写2进1；百位2×4+1=9。第一次出错在哪里？",
+      "family_basis_reviewed": "逐列追踪进位来源定位遗漏，仍属同一进位乘法算法，不因选择错误位置另造独立结构。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "个位进来2十，十位3×4须加2得14；首错在十位漏进位，完整积944。"
+    },
+    {
+      "task_id": "v8p_product_estimate_bound",
+      "task_content_sha256": "b372a48d4f5540e4c697cd0f86c255aa235a8901686f367817e5b1910dee5d6e",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "arithmetic.product-bound-check",
+      "canonical_family_id": "arithmetic.product-bound-check",
+      "skill_ids": [
+        "sk_53c20258ab8947f28fce"
+      ],
+      "component_ids": [
+        "ev_53c20258ab8947f28fce_1"
+      ],
+      "prompt": "已知40＜48＜50，不求48×6的精确值。下列哪一个候选有可能是48×6的结果？",
+      "family_basis_reviewed": "用输入上下界传播到乘积范围，严格区分必要范围检查与精确计算。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "正乘6保持不等号，乘积在240与300之间，三个候选仅288在内。"
+    },
+    {
+      "task_id": "v8p_angle_ray_length_invariance",
+      "task_content_sha256": "9fd2672b10db0cc38127f896ef772a979132aa4b196225bf1df7ffe6ff83b787",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "geometry.angle-opening-invariant",
+      "canonical_family_id": "geometry.angle-opening-invariant",
+      "skill_ids": [
+        "sk_c06fde4b8f2b47958a99"
+      ],
+      "component_ids": [
+        "ev_c06fde4b8f2b47958a99_1"
+      ],
+      "prompt": "两条射线的共同端点和张开方向都不动，只把纸上画出的两段边延长。角会怎样？",
+      "family_basis_reviewed": "保持射线方向时检验笔画长度变化的不变量，沿用角开口不变族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "共同端点及两射线方向都不变，延长可见笔画不改变夹角。"
+    },
+    {
+      "task_id": "v8p_fraction_unequal_four_parts",
+      "task_content_sha256": "166cc63870732e6ebd179b27a07aceffc6e807429f4f863f3e47905ad8ecae35",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "fraction.equal-partition-condition",
+      "canonical_family_id": "fraction.equal-partition-condition",
+      "skill_ids": [
+        "sk_68686872474744e3b386",
+        "sk_225a9e05c69f4c6ea90a"
+      ],
+      "component_ids": [
+        "ev_68686872474744e3b386_1",
+        "ev_225a9e05c69f4c6ea90a_1"
+      ],
+      "prompt": "同一长方形被平行切成4条，宽依次1、1、1、3厘米，高相同。取最左一条，仅凭‘共4条’能说它占整体1/4吗？",
+      "family_basis_reviewed": "先检验等分这一分数表示的必要条件；区别于在已明确等分时计取份数。",
+      "reference_family_ids": [
+        "fraction.unit-fraction-partition"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "同高宽1、1、1、3对应不等面积，总宽6，第一条实际1/6而非1/4。"
+    },
+    {
+      "task_id": "v8p_fraction_equal_strip_read",
+      "task_content_sha256": "79370287feebed29bcefd312759088b8a2bf543d42d75af01c9b742a102e93df",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "fraction.part-count-over-equal-whole",
+      "canonical_family_id": "fraction.part-count-over-equal-whole",
+      "skill_ids": [
+        "sk_225a9e05c69f4c6ea90a"
+      ],
+      "component_ids": [
+        "ev_225a9e05c69f4c6ea90a_1"
+      ],
+      "prompt": "下面12个同样大的方格合成一个整体，■为涂色、□为未涂色：■■■■■□□□□□□□。涂色部分占这个整体的几分之几？",
+      "family_basis_reviewed": "在等份面积模型中分别确定整体份数与所取份数，沿用已存在的分子分母计数族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "实际字符有5个涂色和7个空白，共12等大格，涂色份额5/12。"
+    },
+    {
+      "task_id": "v8p_fraction_denominator_unit",
+      "task_content_sha256": "49be2ca6bff3caf267b86d0847f2078c9274ce971236a9f50561079e4eb795ca",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "fraction.add-common-unit",
+      "canonical_family_id": "fraction.add-common-unit",
+      "skill_ids": [
+        "sk_24d6a006a5c54b54823a"
+      ],
+      "component_ids": [
+        "ev_24d6a006a5c54b54823a_1"
+      ],
+      "prompt": "同一个整体平均分成5份，先取1份再取另外2份，为什么1/5+2/5的分母仍为5？",
+      "family_basis_reviewed": "共同分数单位下合并份数的同一结构，正确选择不能替代自主说理。",
+      "reference_family_ids": [
+        "fraction.equal-partition-condition"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "同一整体的五等份单位不变，互不重叠的1份加2份为3/5。"
+    },
+    {
+      "task_id": "v8p_whole_two_colours",
+      "task_content_sha256": "8c18c97a692be7712d5c72bca471fd99dae9fcf073c1ed3f381ed575922583f0",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "fraction.part-count-over-equal-whole",
+      "canonical_family_id": "fraction.part-count-over-equal-whole",
+      "skill_ids": [
+        "sk_286a571a045a4dedadbd"
+      ],
+      "component_ids": [
+        "ev_286a571a045a4dedadbd_1"
+      ],
+      "prompt": "同一条纸带平均分成6格，其中2格灰色、4格白色。灰色、白色各占整条纸带多少？",
+      "family_basis_reviewed": "直接数同一整体中的两个等分部分，沿用份数计数族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "两部分都以全体6为单位整体，分别2/6及4/6，不能互作分母。"
+    },
+    {
+      "task_id": "v8p_whole_complement_fraction",
+      "task_content_sha256": "72a298ca576efae8b4a83a1ba524d813b687ee4b4e583178bcc778d4e7af1c63",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "fraction.remainder-from-original",
+      "canonical_family_id": "fraction.remainder-from-original",
+      "skill_ids": [
+        "sk_286a571a045a4dedadbd"
+      ],
+      "component_ids": [
+        "ev_286a571a045a4dedadbd_1"
+      ],
+      "prompt": "一条纸带的2/6涂灰，剩余全部涂白，没有重叠或遗漏。白色占原整条纸带多少？",
+      "family_basis_reviewed": "给部分分率后由完整整体求补部分，区别于直接看到两部分格数分别计数。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "整体6/6扣已知2/6留下4/6，仍以原整体为参照。"
+    },
+    {
+      "task_id": "v8p_symmetry_equal_area_not_enough",
+      "task_content_sha256": "034916f6e10ba25e49465ab717d9777520ea0eb6a529ba22b82caab9cbfa073c",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "geometry.reflection-fold-test",
+      "canonical_family_id": "geometry.reflection-fold-test",
+      "skill_ids": [
+        "sk_6e3fcd58dca54be3bcb1"
+      ],
+      "component_ids": [
+        "ev_6e3fcd58dca54be3bcb1_1"
+      ],
+      "prompt": "一张2行2列方格纸，只涂左上格和右下格，其余不涂。竖直中线两边涂色面积相等，这条中线就是涂色图案的对称轴吗？",
+      "family_basis_reviewed": "以具体反射对应核对轴对称，明确等面积只是不足条件；未提交折纸记录不记为已操作。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "反射左上应到右上空格，等面积不充分；竖中线不是该图对称轴。"
+    },
+    {
+      "task_id": "v8p_divide_tens_unit",
+      "task_content_sha256": "defc26d4bdcc88ae265c179e7a0413f533c76a91905e2830c53ddf2843cd36e2",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "primary.divide.place-value-scaling",
+      "canonical_family_id": "primary.divide.place-value-scaling",
+      "skill_ids": [
+        "sk_cf857ea0cecc4643b1f8"
+      ],
+      "component_ids": [
+        "ev_cf857ea0cecc4643b1f8_1"
+      ],
+      "prompt": "320÷4按计数单位计算，哪一条正确？",
+      "family_basis_reviewed": "整十整百除法的单位保持与换组，仍用原位值除法题族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "32十分4份得8十即80，忽略计数单位会错成8。"
+    },
+    {
+      "task_id": "v8p_perimeter_direct_boundary",
+      "task_content_sha256": "ecb10b6e067d34127dc003d000975bc8c25fa7e0bc0e2046fb328ef5f0823665",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "geometry.rectangle-perimeter",
+      "canonical_family_id": "geometry.rectangle-perimeter",
+      "skill_ids": [
+        "sk_dc5a53c5fa9e4447937c"
+      ],
+      "component_ids": [
+        "ev_dc5a53c5fa9e4447937c_1"
+      ],
+      "prompt": "长方形长6厘米、宽3厘米，沿它的封闭外边界走一周，共几厘米？只填数字。",
+      "family_basis_reviewed": "在完整矩形上合计外边界，沿用已有矩形周长族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "6+3+6+3",
+      "independently_computed_expected": "18",
+      "mathematical_review": "封闭边界两长两宽为18厘米。",
+      "registered_verify_consistency": {
+        "id": "v8p_perimeter_direct_boundary",
+        "status": "pass",
+        "detail": "2*(6+3) = 18"
+      }
+    },
+    {
+      "task_id": "v8p_perimeter_join_squares",
+      "task_content_sha256": "ce979624a6f435710f623ef9304533182e6c0199f0df61059655909bb2595d92",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "geometry.join-squares-outer-perimeter",
+      "canonical_family_id": "geometry.join-squares-outer-perimeter",
+      "skill_ids": [
+        "sk_dc5a53c5fa9e4447937c",
+        "sk_a151672155744100a7e7"
+      ],
+      "component_ids": [
+        "ev_dc5a53c5fa9e4447937c_1",
+        "ev_a151672155744100a7e7_3"
+      ],
+      "prompt": "两个边长3厘米的正方形沿一条完整边拼成一个长方形，无重叠或空隙。新图形外周长几厘米？只填数字。",
+      "family_basis_reviewed": "拼合后追踪外边界并消去内部接缝的两次贡献，区别于四条已给外边的直接合计。",
+      "reference_family_ids": [
+        "geometry.rectangle-perimeter"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "4*3*2-2*3",
+      "independently_computed_expected": "18",
+      "mathematical_review": "总周长24中重计公共边两次，扣6得18。",
+      "registered_verify_consistency": {
+        "id": "v8p_perimeter_join_squares",
+        "status": "pass",
+        "detail": "2*(3+3+3) = 18"
+      }
+    },
+    {
+      "task_id": "v8p_boundary_cover_quantity",
+      "task_content_sha256": "12f98dc429a3c768848aa00dd60c27a471102b02f766ae7496b7e4651329d71b",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "measure.boundary-versus-cover",
+      "canonical_family_id": "measure.boundary-versus-cover",
+      "skill_ids": [
+        "sk_2238e129ea0a45659a9d"
+      ],
+      "component_ids": [
+        "ev_2238e129ea0a45659a9d_1"
+      ],
+      "prompt": "给一张长方形画的四周装细框条，又用纸覆盖整个画面。忽略厚度和损耗，框条长度和覆盖纸面积分别对应什么？",
+      "family_basis_reviewed": "区分边界一维长度与内部二维覆盖的测量对象。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "框条计边界长度为周长，覆盖纸计平面大小为面积。"
+    },
+    {
+      "task_id": "v8p_equal_perimeter_different_area",
+      "task_content_sha256": "2a4973066e7d353b20c9601f5ed2c51d7c653f3177f62d51c2b476d481779193",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.equal-perimeter-area-counterexample",
+      "canonical_family_id": "geometry.equal-perimeter-area-counterexample",
+      "skill_ids": [
+        "sk_2238e129ea0a45659a9d"
+      ],
+      "component_ids": [
+        "ev_2238e129ea0a45659a9d_2"
+      ],
+      "prompt": "甲长方形长6厘米宽2厘米，乙长5厘米宽3厘米。它们的周长与面积有什么关系？",
+      "family_basis_reviewed": "用同边长和但不同乘积的两个矩形反驳周长决定面积，区别于仅辨认测量单位。",
+      "reference_family_ids": [
+        "geometry.rectangle-perimeter",
+        "geometry.rectangle-unit-area"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "两边长和都8所以周长16，积分别12、15，构成反例。"
+    },
+    {
+      "task_id": "v8p_square_area_from_perimeter",
+      "task_content_sha256": "8a23875733d7e0d8c8d1b4bbfef09a9410f5e2032bdb244d6baa9d6736b870a8",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "geometry.square-area-from-perimeter",
+      "canonical_family_id": "geometry.square-area-from-perimeter",
+      "skill_ids": [
+        "sk_66b55067a64c4e618cba"
+      ],
+      "component_ids": [
+        "ev_66b55067a64c4e618cba_3"
+      ],
+      "prompt": "正方形的周长为20厘米，面积是多少平方厘米？只填数字。",
+      "family_basis_reviewed": "先由一维总边长约束恢复未知边，再求二维乘积，区别于直接给定长宽求面积。",
+      "reference_family_ids": [
+        "geometry.rectangle-perimeter",
+        "geometry.rectangle-unit-area"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "(20/4)**2",
+      "independently_computed_expected": "25",
+      "mathematical_review": "先用四边等长求边长5，再求面积25。",
+      "registered_verify_consistency": {
+        "id": "v8p_square_area_from_perimeter",
+        "status": "pass",
+        "detail": "(20/4)**2 = 25"
+      }
+    },
+    {
+      "task_id": "v8p_area_rows_origin",
+      "task_content_sha256": "f3f68bf14cc43de4b1f756a52a3343918428472698eba1ed09521866b841e363",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "geometry.rectangle-unit-area",
+      "canonical_family_id": "geometry.rectangle-unit-area",
+      "skill_ids": [
+        "sk_9f8efecd9c034e03b39d"
+      ],
+      "component_ids": [
+        "ev_9f8efecd9c034e03b39d_1"
+      ],
+      "prompt": "一个长方形恰好铺4行单位正方形，每行5个，既不重叠也无空隙。为什么可用4×5求面积的单位个数？",
+      "family_basis_reviewed": "单位面积数组的乘法来源，保持矩形单位面积族，选择现成说明不证明独立推导。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "4行每行5个形成20个唯一行列位置，无重叠无空隙才覆盖完整面积。"
+    },
+    {
+      "task_id": "v8p_frequency_missing_cell",
+      "task_content_sha256": "e12551ac1af942aa084a77ce3dbc18d15779f755eb9215ae19ba93f73a24d1f3",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "statistics.missing-frequency-from-total",
+      "canonical_family_id": "statistics.missing-frequency-from-total",
+      "skill_ids": [
+        "sk_f158524775e448439959"
+      ],
+      "component_ids": [
+        "ev_f158524775e448439959_1"
+      ],
+      "prompt": "10名同学每人恰选一种活动且全部已作答，只有跑步、跳绳、踢毽三类。表中跑步4人、踢毽3人，跳绳一格漏写。跳绳应填几人？只填数字。",
+      "family_basis_reviewed": "由完整互斥频数表的总量约束恢复缺失类别频数，区别于已知各类频数直接求总数。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "10-4-3",
+      "independently_computed_expected": "3",
+      "mathematical_review": "互斥完备且全部回应，第三类3人。",
+      "registered_verify_consistency": {
+        "id": "v8p_frequency_missing_cell",
+        "status": "pass",
+        "detail": "10-4-3 = 3"
+      }
+    },
+    {
+      "task_id": "v8p_decimal_compare_place_reason",
+      "task_content_sha256": "b049eb09a84dae9413dd4642073330206b96a1c0005ffd1ef0f7493dcfc5be44",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "decimal.place-value-comparison",
+      "canonical_family_id": "decimal.place-value-comparison",
+      "skill_ids": [
+        "sk_2cac79702609470bb379"
+      ],
+      "component_ids": [
+        "ev_2cac79702609470bb379_1"
+      ],
+      "prompt": "比较0.5与0.45，哪条按数位的理由正确？",
+      "family_basis_reviewed": "核对小数比较的同位优先规则，仍为原位值比较族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "同换百分之一单位50比45大，所以0.5较大；字串位数不是比较规则。"
+    },
+    {
+      "task_id": "v8p_decimal_sum",
+      "task_content_sha256": "4902496429f232193ac10899a8382cc255c4501c38f8ee0baf123802d249c9f3",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "decimal.add-subtract-alignment",
+      "canonical_family_id": "decimal.add-subtract-alignment",
+      "skill_ids": [
+        "sk_aa700310b1654a749655"
+      ],
+      "component_ids": [
+        "ev_aa700310b1654a749655_1"
+      ],
+      "prompt": "计算3.4+2.8，结果是哪一个？",
+      "family_basis_reviewed": "原族已经包含本题的加法或减法结构；本题补实际分项练习，沿用同族，数字变化和分栏保存不构成新的独立数学结构。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "34个十分之一加28个十分之一为62个十分之一，即6.2。"
+    },
+    {
+      "task_id": "v8p_decimal_difference",
+      "task_content_sha256": "5b34dff2a848593aa4d2fbdd430e9699ec6050d31c3193c1ec3bbf1531aa753a",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "decimal.add-subtract-alignment",
+      "canonical_family_id": "decimal.add-subtract-alignment",
+      "skill_ids": [
+        "sk_aa700310b1654a749655"
+      ],
+      "component_ids": [
+        "ev_aa700310b1654a749655_2"
+      ],
+      "prompt": "计算8−3.5，结果是哪一个？",
+      "family_basis_reviewed": "原族已经包含本题的加法或减法结构；本题补实际分项练习，沿用同族，数字变化和分栏保存不构成新的独立数学结构。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "80个十分之一减35个十分之一为45个，即4.5。"
+    },
+    {
+      "task_id": "v8p_large_number_exact_rewrite",
+      "task_content_sha256": "5c6fe0f159fdbae619898ddf52d9cdad9671dd64a165fb4d363ad043b49cf52f",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "placevalue.exact-ten-thousand-rewrite",
+      "canonical_family_id": "placevalue.exact-ten-thousand-rewrite",
+      "skill_ids": [
+        "sk_45facb08889343d88afc"
+      ],
+      "component_ids": [
+        "ev_45facb08889343d88afc_1"
+      ],
+      "prompt": "把2300000准确改写成以‘万’为单位的数：2300000=（　）万。只填括号里的数。",
+      "family_basis_reviewed": "按固定单位作无损换算，区别于舍弃较低位后的近似。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "2300000/10000",
+      "independently_computed_expected": "230",
+      "mathematical_review": "整万单位精确换算230，没有舍入。",
+      "registered_verify_consistency": {
+        "id": "v8p_large_number_exact_rewrite",
+        "status": "pass",
+        "detail": "2300000/10000 = 230"
+      }
+    },
+    {
+      "task_id": "v8p_large_number_rounded_ten_thousand",
+      "task_content_sha256": "554980a8a4f11fa787a7e4e890bc81d7da9c5e6fba8c44be515cb495b530d074",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "placevalue.round.to-specified-position",
+      "canonical_family_id": "placevalue.round.to-specified-position",
+      "skill_ids": [
+        "sk_45facb08889343d88afc"
+      ],
+      "component_ids": [
+        "ev_45facb08889343d88afc_2"
+      ],
+      "prompt": "把2456789四舍五入到万位，写成（　）万。只填括号里的整数。",
+      "family_basis_reviewed": "按指定万位作有损量化，需判断舍入位与进位；不是整万数的准确单位改写。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "246",
+      "independently_computed_expected": "246",
+      "mathematical_review": "245万余6789，按万位舍入需进一为246万。",
+      "registered_verify_consistency": {
+        "id": "v8p_large_number_rounded_ten_thousand",
+        "status": "pass",
+        "detail": "round(2456789/10000) = 246"
+      }
+    },
+    {
+      "task_id": "v8p_multiply_trailing_zero_units",
+      "task_content_sha256": "44023781de6b8f346a626e6ed141f34b49168244f203ba7fa9b603ecc7a04a8a",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "primary.multiply.place-value-scaling",
+      "canonical_family_id": "primary.multiply.place-value-scaling",
+      "skill_ids": [
+        "sk_77ad6406cb404f0c8ed4"
+      ],
+      "component_ids": [
+        "ev_77ad6406cb404f0c8ed4_1"
+      ],
+      "prompt": "20×30中，把2×3=6算出后，为什么结果是600？",
+      "family_basis_reviewed": "说明两因数的位值单位共同进入乘积，沿用整十整百乘法缩放族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "(2×10)(3×10)为6×100，两个十单位共同给百。"
+    },
+    {
+      "task_id": "v8p_two_digit_partial_alignment",
+      "task_content_sha256": "943d5dcb58a5353ab041bbe8a3593e423b8bfce9302ac270babe37302c865cc4",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "primary.multiply.column-two-digits",
+      "canonical_family_id": "primary.multiply.column-two-digits",
+      "skill_ids": [
+        "sk_8501627e4d954b528c03"
+      ],
+      "component_ids": [
+        "ev_8501627e4d954b528c03_1"
+      ],
+      "prompt": "竖式计算24×13，第二部分积对应13的十位1。它实际应表示多少？",
+      "family_basis_reviewed": "两位乘数竖式中第二部分积的位值对齐，仍为同一竖式算法。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "13十位1实为10，第二部分积24×10为240。"
+    },
+    {
+      "task_id": "v8p_compensating_factors",
+      "task_content_sha256": "d7c462e1d090c186668b9271291055a68aa912f0f94b9f18422b181f060c0c2f",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "arithmetic.compensating-factor-changes",
+      "canonical_family_id": "arithmetic.compensating-factor-changes",
+      "skill_ids": [
+        "sk_9343faefd9e24dab871d",
+        "sk_917581979c9442d386ed"
+      ],
+      "component_ids": [
+        "ev_9343faefd9e24dab871d_2",
+        "ev_917581979c9442d386ed_1"
+      ],
+      "prompt": "两个正整数A、B满足A×B=72，B能被3整除。A改成A×3，同时B改成B÷3。新乘积是多少？只填数字。",
+      "family_basis_reviewed": "两个因数的补偿变化保持乘积，区别于一因数固定时的单因素缩放。",
+      "reference_family_ids": [
+        "arithmetic.product-factor-scaling"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "72*3/3",
+      "independently_computed_expected": "72",
+      "mathematical_review": "两个正因子同时乘3及除3，乘积保持72。",
+      "registered_verify_consistency": {
+        "id": "v8p_compensating_factors",
+        "status": "pass",
+        "detail": "72*3/3 = 72"
+      }
+    },
+    {
+      "task_id": "v8p_associative_shortcut",
+      "task_content_sha256": "34af5387d4d2ce61ee672c7a59c5b925b4feb9683ce33022cb47d6ed858e9528",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "arithmetic.associative-multiplication",
+      "canonical_family_id": "arithmetic.associative-multiplication",
+      "skill_ids": [
+        "sk_f481d35fb05c46debcd9"
+      ],
+      "component_ids": [
+        "ev_f481d35fb05c46debcd9_1"
+      ],
+      "prompt": "计算125×8×7。只填数字。",
+      "family_basis_reviewed": "在三个相乘因子之间重新结合形成易算部分积，区别于已给一个积后只追踪单因数倍率。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "125*8*7",
+      "independently_computed_expected": "7000",
+      "mathematical_review": "先合125和8为1000，再乘7得7000；路径须另看过程。",
+      "registered_verify_consistency": {
+        "id": "v8p_associative_shortcut",
+        "status": "pass",
+        "detail": "125*8*7 = 7000"
+      }
+    },
+    {
+      "task_id": "v8p_money_upper_bound_enough",
+      "task_content_sha256": "3d2d2c621186fcb54db7d64096aaf7109f85e76a70d3e60d3b7f4e46d7c9d8a8",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "money.estimate-bound-sufficiency",
+      "canonical_family_id": "money.estimate-bound-sufficiency",
+      "skill_ids": [
+        "sk_18ff8da68553487695b8"
+      ],
+      "component_ids": [
+        "ev_18ff8da68553487695b8_1"
+      ],
+      "prompt": "每本练习本19元，买8本，没有其他费用。小明用每本20元估成160元，带160元能否据此确认够付？",
+      "family_basis_reviewed": "用总价上界给出足够付款的充分条件；明确估计方向与推论边界，不凭近似值贴够或不够标签。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "每本20是19的上界，8本最多按160计；160足够，不从上界反推不足。"
+    },
+    {
+      "task_id": "v8p_bar_legend_relabel",
+      "task_content_sha256": "a044b64f42e8938e44ec458f78e2062e4ba926fd3faa73981d07cca8fc2e32d0",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "statistics.legend-label-permutation",
+      "canonical_family_id": "statistics.legend-label-permutation",
+      "skill_ids": [
+        "sk_3dd8aef8470241aebc58"
+      ],
+      "component_ids": [
+        "ev_3dd8aef8470241aebc58_1"
+      ],
+      "prompt": "看附图，实条表示男生，斜线条表示女生。若只把图例的两个组名误交换，条高不变，哪条说法准确？",
+      "family_basis_reviewed": "检查标签置换对组别解释及总和的不同行为；区别于按图例和刻度读数后只求合计。",
+      "reference_family_ids": [
+        "statistics.double-bar-legend-scale"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "实际条高22与20之和42不受类别置换影响，但两组归属被颠倒。",
+      "diagram_binding": {
+        "path": "web/static/diagrams/primary-double-bar-legend.svg",
+        "source_sha256": "c568af43959bec901d67288df5c31e63612fa0be12782420c87dae9611170c9a",
+        "alt_reviewed": "纵轴每格2人，实条男生22人、斜线条女生20人，图例不只靠颜色区分。"
+      }
+    },
+    {
+      "task_id": "v8p_stratified_group_difference",
+      "task_content_sha256": "bf300af46732126e0a5f5ba54dc7b24f611bf6d1dddc01112181c733635c2ae9",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "statistics.stratified-group-comparison",
+      "canonical_family_id": "statistics.stratified-group-comparison",
+      "skill_ids": [
+        "sk_475f056c28584b82b249"
+      ],
+      "component_ids": [
+        "ev_475f056c28584b82b249_1"
+      ],
+      "prompt": "四(1)班男24人、女21人；四(2)班男20人、女25人。按班分别比较男女人数，哪条正确？",
+      "family_basis_reviewed": "保留分层方向与差值的比较，区别于把各组先汇总后只求一个总差。",
+      "reference_family_ids": [
+        "statistics.aggregate-groups-difference"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "逐班差为男多3与女多5，合并女多2抵消方向信息。"
+    },
+    {
+      "task_id": "v8p_distributive_valid_rewrite",
+      "task_content_sha256": "57872f912f8e25440b62f10414c92ce04da82682118f987811f9c0bb7bc2bda6",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "arithmetic.distributive-multiplication",
+      "canonical_family_id": "arithmetic.distributive-multiplication",
+      "skill_ids": [
+        "sk_1394b6598f154d1fa89b"
+      ],
+      "component_ids": [
+        "ev_1394b6598f154d1fa89b_1"
+      ],
+      "prompt": "为了简算99×36+36，哪一步等值变形正确？",
+      "family_basis_reviewed": "把共同因数对应的两个乘积合并，区别于只在一串相乘因子中重新结合。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "提公共因数36得到(99+1)×36，末项36等于1×36。"
+    },
+    {
+      "task_id": "v8p_triangle_angle_classification",
+      "task_content_sha256": "bcce85613ed15daad9a7f4ec8a05f5a7e303273761f25fd43a02c8cc14bd5a26",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.triangle-angle-classification",
+      "canonical_family_id": "geometry.triangle-angle-classification",
+      "skill_ids": [
+        "sk_ab5a36961f474757a785"
+      ],
+      "component_ids": [
+        "ev_ab5a36961f474757a785_1"
+      ],
+      "prompt": "一个三角形的三个内角为50°、60°、70°。按角分类属于哪类？",
+      "family_basis_reviewed": "以最大内角与直角的关系分类三角形，不提供边是否相等的信息。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "三个角和180且最大70小于90，全为锐角。"
+    },
+    {
+      "task_id": "v8p_triangle_side_classification",
+      "task_content_sha256": "92594f16a528aaa41085ed652dcd5f38501190dcedf208d9f0e5ad1854a5d384",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.triangle-side-classification",
+      "canonical_family_id": "geometry.triangle-side-classification",
+      "skill_ids": [
+        "sk_ab5a36961f474757a785"
+      ],
+      "component_ids": [
+        "ev_ab5a36961f474757a785_2"
+      ],
+      "prompt": "一个三角形的三边长为3厘米、3厘米、5厘米。按边分类，哪条最准确？",
+      "family_basis_reviewed": "以边长相等关系分类三角形，独立于最大角的类型。",
+      "reference_family_ids": [
+        "geometry.triangle-inequality"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "3、3、5满足三角不等式，恰两边相等，等腰非等边。"
+    },
+    {
+      "task_id": "v8p_triangle_strict_inequality",
+      "task_content_sha256": "57ccd43ecfbad0679acc72444bcae2a41f65d3ad18281411136f0c03e9668d36",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.triangle-inequality",
+      "canonical_family_id": "triangle.side-feasibility",
+      "skill_ids": [
+        "sk_7048320837f3445eb2fb"
+      ],
+      "component_ids": [
+        "ev_7048320837f3445eb2fb_2"
+      ],
+      "prompt": "长度2厘米、3厘米、5厘米的三根直小棒只在端点相接，能围成有内部面积的三角形吗？",
+      "family_basis_reviewed": "严格三边可行条件，区别于已存在三角形中的内角和约束。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "两短边和等最长边只能共线，不能形成非退化内部面积。"
+    },
+    {
+      "task_id": "v8p_decimal_regroup_units",
+      "task_content_sha256": "00d398720ca07d49cd38b13faff93ee187226e34fe559355294493ec55310938",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "placevalue.regroup-same-quantity",
+      "canonical_family_id": "placevalue.regroup-same-quantity",
+      "skill_ids": [
+        "sk_61995d5f57244ea7aff4"
+      ],
+      "component_ids": [
+        "ev_61995d5f57244ea7aff4_2"
+      ],
+      "prompt": "0.35原为3个十分之一和5个百分之一。把其中1个十分之一换成百分之一，哪份新记录与0.35等值？",
+      "family_basis_reviewed": "小数相邻计数单位间的非标准保量换组，复用同一位值换组族，不因出现小数另造方法。",
+      "reference_family_ids": [
+        "decimal.digit-place-value"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "0.2+0.15仍0.35；另两表示分别0.25、0.45。"
+    },
+    {
+      "task_id": "v8p_decimal_tail_zero_vs_shift",
+      "task_content_sha256": "3e1e81453075af70d24ea55df5c0ef04d9e89a56e6b501327db514a9d020dc22",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "decimal.trailing-zero-equivalence",
+      "canonical_family_id": "decimal.trailing-zero-equivalence",
+      "skill_ids": [
+        "sk_d0185ee88ea74cb6a91b"
+      ],
+      "component_ids": [
+        "ev_d0185ee88ea74cb6a91b_1"
+      ],
+      "prompt": "甲把3.5写成3.50，乙把3.5的小数点向右移一位写成35。哪条关于数值的说明正确？",
+      "family_basis_reviewed": "比较等值补尾零与真正移动数位带来的缩放，两种操作有不同的不变量。",
+      "reference_family_ids": [
+        "decimal.place-shift-times-ten"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "3.50=3.5为表示改变；35=10×3.5为值改变，两者不能等同。"
+    },
+    {
+      "task_id": "v8p_decimal_two_place_sum",
+      "task_content_sha256": "7d33591e4131a3b34a0c111d9f522faedc7d301adc5720a71f74844c55e61c85",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "decimal.add-subtract-alignment",
+      "canonical_family_id": "decimal.add-subtract-alignment",
+      "skill_ids": [
+        "sk_b91697b4b68c40aeb24e"
+      ],
+      "component_ids": [
+        "ev_b91697b4b68c40aeb24e_1"
+      ],
+      "prompt": "计算2.75+3.6，结果是哪一个？",
+      "family_basis_reviewed": "原族已经包含本题的加法或减法结构；本题补实际分项练习，沿用同族，数字变化和分栏保存不构成新的独立数学结构。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o1",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "275百分之一加360百分之一为635百分之一，即6.35。"
+    },
+    {
+      "task_id": "v8p_decimal_two_place_difference",
+      "task_content_sha256": "2d2979cf60399ddbe9f753be8b37e63cfba9fc93ddbe7bfe5bc8a751a558be86",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "decimal.add-subtract-alignment",
+      "canonical_family_id": "decimal.add-subtract-alignment",
+      "skill_ids": [
+        "sk_b91697b4b68c40aeb24e"
+      ],
+      "component_ids": [
+        "ev_b91697b4b68c40aeb24e_2"
+      ],
+      "prompt": "计算8−3.65，结果是哪一个？",
+      "family_basis_reviewed": "原族已经包含本题的加法或减法结构；本题补实际分项练习，沿用同族，数字变化和分栏保存不构成新的独立数学结构。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "reviewed_answer": "o2",
+      "all_option_ids_reviewed": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "mathematical_review": "800百分之一减365百分之一为435百分之一，即4.35。"
+    },
+    {
+      "task_id": "v8p_pooled_mean_unequal_groups",
+      "task_content_sha256": "8316978d76f2b60c8393338010111b32f5a342d7f7bbeb94aa403015d3c4aee1",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "statistics.mean-from-unequal-group-means",
+      "canonical_family_id": "statistics.mean-from-unequal-group-means",
+      "skill_ids": [
+        "sk_3c96fdff452b40f080b1"
+      ],
+      "component_ids": [
+        "ev_3c96fdff452b40f080b1_2"
+      ],
+      "prompt": "甲组2人平均每人有6本书，乙组4人平均每人有9本书，两组没有同一人。合并后6人平均每人有多少本？只填数字。",
+      "family_basis_reviewed": "由不等大小组的均值与人数恢复总量再加权合并，区别于一列原始数值直接求均值。",
+      "reference_family_ids": [
+        "statistics.mean-from-values"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "(2*6+4*9)/6",
+      "independently_computed_expected": "8",
+      "mathematical_review": "从两组总量12与36重建合并平均，48/6为8。",
+      "registered_verify_consistency": {
+        "id": "v8p_pooled_mean_unequal_groups",
+        "status": "pass",
+        "detail": "(2*6+4*9)/(2+4) = 8"
+      }
+    },
+    {
+      "task_id": "v8p_mean_extreme_replacement",
+      "task_content_sha256": "b7f27f6b6a8088384f68f58ea34948405b33f9e812a30d2309cc435a7f3ce2f4",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "statistics.mean-shift-fixed-count",
+      "canonical_family_id": "statistics.mean-shift-fixed-count",
+      "skill_ids": [
+        "sk_4c614d80f2ee4c3b9c30"
+      ],
+      "component_ids": [
+        "ev_4c614d80f2ee4c3b9c30_1"
+      ],
+      "prompt": "原数据为4、5、6，只把6改为60，个数不变。平均数增加多少？只填数字。",
+      "family_basis_reviewed": "固定样本个数时单个极端变化对均值的线性影响。",
+      "reference_family_ids": [
+        "statistics.mean-from-values"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "(60-6)/3",
+      "independently_computed_expected": "18",
+      "mathematical_review": "换一个值使总和加54，分母仍3，均值加18。",
+      "registered_verify_consistency": {
+        "id": "v8p_mean_extreme_replacement",
+        "status": "pass",
+        "detail": "((4+5+60)-(4+5+6))/3 = 18"
+      }
+    },
+    {
+      "task_id": "v8p_mean_extreme_append",
+      "task_content_sha256": "d5ad2bdba4bdc34d9babaf3fbebfc246ef212849dd068b3e0a625c7959e1c771",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "statistics.mean-after-appended-value",
+      "canonical_family_id": "statistics.mean-after-appended-value",
+      "skill_ids": [
+        "sk_4c614d80f2ee4c3b9c30"
+      ],
+      "component_ids": [
+        "ev_4c614d80f2ee4c3b9c30_2"
+      ],
+      "prompt": "原数据为4、5、6，再加入一个数25，原三个数都保留。新平均数是多少？只填数字。",
+      "family_basis_reviewed": "加入极端值时分子分母同时改变，区别于固定个数替换原值。",
+      "reference_family_ids": [
+        "statistics.mean-from-values"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "(4+5+6+25)/4",
+      "independently_computed_expected": "10",
+      "mathematical_review": "增加数据后总和40且个数4，均值10。",
+      "registered_verify_consistency": {
+        "id": "v8p_mean_extreme_append",
+        "status": "pass",
+        "detail": "(4+5+6+25)/4 = 10"
+      }
+    },
+    {
+      "task_id": "v8p_upper_distributive_law",
+      "task_content_sha256": "02739bfe828dd128a40b7ed9ee3c6207cc5e3d93a6a13332760e1d7d90711479",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "arithmetic.distributive-multiplication",
+      "canonical_family_id": "arithmetic.distributive-multiplication",
+      "skill_ids": [
+        "sk_ab60dce453c94254a984"
+      ],
+      "component_ids": [
+        "ev_ab60dce453c94254a984_1"
+      ],
+      "prompt": "把2.5×(4+0.6)改成2.5×4+2.5×0.6，关键依据是哪一项？",
+      "family_basis_reviewed": "旧任务仅重新结合三个因数；本题改变乘法与加法的嵌套结构，分别作用于和式各项，使用不同运算律。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "乘法分配律：括号中的每一项都与2.5相乘。",
+          "mathematically_correct": true,
+          "reason": "一个因数乘两项和展开为两乘积之和，正确使用分配律。"
+        },
+        {
+          "id": "o2",
+          "text": "乘法结合律：只改变三个因数的括号。",
+          "mathematically_correct": false,
+          "reason": "连续乘积改括号才是结合律，本式有加法嵌套并被展开。"
+        },
+        {
+          "id": "o3",
+          "text": "乘法交换律：只互换两个因数的位置。",
+          "mathematically_correct": false,
+          "reason": "式中不是只交换两个因数，不能用交换律解释全部变形。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_quotient_zero_value",
+      "task_content_sha256": "0e7662b074a269e36a9490815c9010fcd09a904df2c9c2b26753fba4c26ad98c",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "decimal.trailing-zero-equivalence",
+      "canonical_family_id": "decimal.trailing-zero-equivalence",
+      "skill_ids": [
+        "sk_e312932f225742f98dc2"
+      ],
+      "component_ids": [
+        "ev_e312932f225742f98dc2_2"
+      ],
+      "prompt": "两个已经算对的商分别是0.40和1.05。只考察小数点后的那个0，下面哪项能在删零后保持两个商的原值？",
+      "family_basis_reviewed": "旧任务在除法算法中决定何处商0；本题在已知商上核对末尾零省略的等值性质，并与内部占位零区分，未换一组除法数值冒充新族。",
+      "reference_family_ids": [
+        "decimal.digit-place-value"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "都删去，分别写成0.4和1.5。",
+          "mathematically_correct": false,
+          "reason": "1.05删内部零成1.5后，5从百分位移到十分位，数值改变。"
+        },
+        {
+          "id": "o2",
+          "text": "0.40可写0.4；1.05中的0必须保留。",
+          "mathematically_correct": true,
+          "reason": "0.40与0.4同值，1.05内部零必须占住十分位，判断正确。"
+        },
+        {
+          "id": "o3",
+          "text": "两个0都不能删。",
+          "mathematically_correct": false,
+          "reason": "末尾零不改变小数值，0.40确实可写0.4，不能说两个都不可删。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_rectangle_diagonal_fold",
+      "task_content_sha256": "7cc019088f8fcf8bb077908aab88a3d181457bcd39f482bf7a25a3be50c3897c",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.reflection-fold-test",
+      "canonical_family_id": "geometry.reflection-fold-test",
+      "skill_ids": [
+        "sk_b48ab441007e4a88914d"
+      ],
+      "component_ids": [
+        "ev_b48ab441007e4a88914d_1"
+      ],
+      "prompt": "一个长6厘米、宽2厘米的长方形，沿一条对角线对折。哪项判断有正确依据？",
+      "family_basis_reviewed": "旧题只要求正方形对称轴数量；本题检验候选轴的反射重合条件，并排除“等面积就对称”的错误依据。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "对角线平分面积，所以一定是对称轴。",
+          "mathematically_correct": false,
+          "reason": "等面积不保证沿给定线反射后重合；非正方形长方形是明确反例。"
+        },
+        {
+          "id": "o2",
+          "text": "所有长方形都只按对角线对折。",
+          "mathematically_correct": false,
+          "reason": "非正方形长方形的对称轴为过中心的两中线，不是对角线。"
+        },
+        {
+          "id": "o3",
+          "text": "不能完全重合，对角线不是对称轴；要核对折后边界，而非只比较面积。",
+          "mathematically_correct": true,
+          "reason": "正确按反射边界重合判断；坐标反射也显示一个顶点被移到原长方形外。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_translation_net_path",
+      "task_content_sha256": "9b8327bedf57d46429ffb8b5506bacdd21b329e3a1602096b4be20860027db7f",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.translation-net-versus-path",
+      "canonical_family_id": "geometry.translation-net-versus-path",
+      "skill_ids": [
+        "sk_136820c25ef141dc8cbc"
+      ],
+      "component_ids": [
+        "ev_136820c25ef141dc8cbc_1"
+      ],
+      "prompt": "一个图形先向右平移5格，再向左平移8格。比较最后与最初的位置，等效于怎样的一次平移？",
+      "family_basis_reviewed": "旧同向连续平移只需相加；这里有相反方向抵消，必须区分路径总长与净位移并确定剩余方向。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "向左3格。",
+          "mathematically_correct": true,
+          "reason": "右5和左8抵消后为左3，给的是最终相对位移。"
+        },
+        {
+          "id": "o2",
+          "text": "向左13格。",
+          "mathematically_correct": false,
+          "reason": "13是路程5+8，不能当净位移的距离。"
+        },
+        {
+          "id": "o3",
+          "text": "向右3格。",
+          "mathematically_correct": false,
+          "reason": "剩余方向为左，不是右。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_rotation_complete_instruction",
+      "task_content_sha256": "729fc40d3f422cd6925dffddd8e4494d69c3f44686bbc4c5f98307628f075861",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.rotation-parameters",
+      "canonical_family_id": "geometry.rotation-parameters",
+      "skill_ids": [
+        "sk_b7dfc018cd6b4f61831a"
+      ],
+      "component_ids": [
+        "ev_b7dfc018cd6b4f61831a_1"
+      ],
+      "prompt": "给定一个L形图案和纸上点O。下面哪条指令把旋转的三要素都说清，能据此执行？",
+      "family_basis_reviewed": "旧钟面题按周角计算旋转角度；本题检查一个变换指令是否完整指定中心、方向和角度，缺项不能由角度补足。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "顺时针旋转90°。",
+          "mathematically_correct": false,
+          "reason": "有方向和角度而没有中心，不能唯一执行。"
+        },
+        {
+          "id": "o2",
+          "text": "绕点O逆时针旋转90°。",
+          "mathematically_correct": true,
+          "reason": "中心O、逆时针方向和90度角度齐备。"
+        },
+        {
+          "id": "o3",
+          "text": "绕点O旋转90°。",
+          "mathematically_correct": false,
+          "reason": "缺顺时针或逆时针方向，90度转动可有两种结果。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_additive_letter_model",
+      "task_content_sha256": "90eee028f4888bdc89010903a098f4adb201f45f05aa315c0ea33ee65b6782f7",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "algebra.quantity-expression-with-fixed-fee",
+      "canonical_family_id": "algebra.quantity-expression-with-fixed-fee",
+      "skill_ids": [
+        "sk_6a066f2a18014292a596"
+      ],
+      "component_ids": [
+        "ev_6a066f2a18014292a596_1"
+      ],
+      "prompt": "小林有a本书，小叶比小林多6本。表示两人合计本数的式子是哪一项？",
+      "family_basis_reviewed": "旧任务是单价乘数量的乘性关系；本题先建立一个加性比较，再把两个相关数量合并，不能用换字母视作同一总价模型。",
+      "reference_family_ids": [
+        "algebra.product-sum-notation"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "a+6",
+          "mathematically_correct": false,
+          "reason": "a+6只给小叶，不是两人合计。"
+        },
+        {
+          "id": "o2",
+          "text": "6a",
+          "mathematically_correct": false,
+          "reason": "6a是六份a，不能表示多6后的合计；可用a=1检验不同。"
+        },
+        {
+          "id": "o3",
+          "text": "2a+6",
+          "mathematically_correct": true,
+          "reason": "两数量a与a+6合计2a+6，正确表达。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_letter_square_sum_notation",
+      "task_content_sha256": "d61e328f6c7c7cf3385c8b121d53e19d9d6f9c80ac7398bf3d40ef51d1681c6e",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "algebra.product-sum-notation",
+      "canonical_family_id": "algebra.product-sum-notation",
+      "skill_ids": [
+        "sk_6ea670bd57da49ebaa9e"
+      ],
+      "component_ids": [
+        "ev_6ea670bd57da49ebaa9e_1"
+      ],
+      "prompt": "对任意数a，分别简写a×a与a+a。哪组对应正确？",
+      "family_basis_reviewed": "旧总价式只体现两个不同字母相乘；本题区分重复因数的幂记号与重复加数的系数记号，涉及不同运算及一般表达。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "a²与2a。",
+          "mathematically_correct": true,
+          "reason": "重复因数记平方、重复加数记两倍，二者按各自运算对应。"
+        },
+        {
+          "id": "o2",
+          "text": "2a与a²。",
+          "mathematically_correct": false,
+          "reason": "把平方和两倍的运算对应颠倒。"
+        },
+        {
+          "id": "o3",
+          "text": "a²与a²。",
+          "mathematically_correct": false,
+          "reason": "a+a不对所有a等于a²，例如a=3分别为6与9。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_parallelogram_diagonal_half",
+      "task_content_sha256": "b63a331d29e88f23321eef7d37966c3d4bcfb62786d1f34fff68ee5040876650",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "geometry.parallelogram-area-from-diagonal-half",
+      "canonical_family_id": "geometry.parallelogram-area-from-diagonal-half",
+      "skill_ids": [
+        "sk_6166ecd677494105a142"
+      ],
+      "component_ids": [
+        "ev_6166ecd677494105a142_2"
+      ],
+      "prompt": "平行四边形ABCD沿对角线AC分开，三角形ABC面积12平方厘米。整个平行四边形面积是多少平方厘米？只填数字。",
+      "family_basis_reviewed": "旧任务给对应底高再相乘；本题不给底高而给对角线分割后的一半面积，使用等积剖分恢复整体。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "12*2",
+      "independently_computed_expected": "24",
+      "mathematical_review": "同底等高的两半三角形等积，总面积24。",
+      "registered_verify_consistency": {
+        "id": "v8p_upper_parallelogram_diagonal_half",
+        "status": "pass",
+        "detail": "12*2 = 24"
+      }
+    },
+    {
+      "task_id": "v8p_upper_triangle_base_share",
+      "task_content_sha256": "003c14128754b87596569631b5c17afd0be93d6e5707d0ad79cb2191b01d52c4",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "geometry.triangle-common-height-area-share",
+      "canonical_family_id": "geometry.triangle-common-height-area-share",
+      "skill_ids": [
+        "sk_793d53cf3211498c9ce7"
+      ],
+      "component_ids": [
+        "ev_793d53cf3211498c9ce7_2"
+      ],
+      "prompt": "三角形ABC面积36平方厘米。D在边BC上，BD长2厘米、DC长4厘米。三角形ABD面积是多少平方厘米？只填数字。",
+      "family_basis_reviewed": "旧任务直接给底高；本题给整体面积和底的分割，依同高面积比例求部分，未把换尺寸算另一族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "36*2/(2+4)",
+      "independently_computed_expected": "12",
+      "mathematical_review": "共高三角形按底2:6取面积，得到12。",
+      "registered_verify_consistency": {
+        "id": "v8p_upper_triangle_base_share",
+        "status": "pass",
+        "detail": "36*2/(2+4) = 12"
+      }
+    },
+    {
+      "task_id": "v8p_upper_trapezoid_complement",
+      "task_content_sha256": "74e76318a9a52b173ad08af04f2ec53e209eedec1591187877cc7f4db19ef42b",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.trapezoid-rectangle-triangle-complement",
+      "canonical_family_id": "geometry.trapezoid-rectangle-triangle-complement",
+      "skill_ids": [
+        "sk_9910ce685554411192cd"
+      ],
+      "component_ids": [
+        "ev_9910ce685554411192cd_2"
+      ],
+      "prompt": "8厘米×4厘米长方形的右上角切去一个直角三角形，两直角边沿原上边与右边，长3厘米和4厘米，剩余为梯形。按“原面积减切去面积”计算，哪一式正确？",
+      "family_basis_reviewed": "旧任务代入两底和高公式；本题检查一个具体切割下的面积可加性，以长方形减直角三角形建立计算。",
+      "reference_family_ids": [
+        "geometry.rectangle-unit-area",
+        "geometry.triangle-base-height-area"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "8×4−3×4",
+          "mathematically_correct": false,
+          "reason": "把切去的三角形按完整3×4长方形减去，少保留6平方厘米。"
+        },
+        {
+          "id": "o2",
+          "text": "8×4−3×4÷2",
+          "mathematically_correct": true,
+          "reason": "原长方形减切去直角三角形，32−6=26，与坐标面积核验相符。"
+        },
+        {
+          "id": "o3",
+          "text": "8×4+3×4÷2",
+          "mathematically_correct": false,
+          "reason": "切去部分应减，不应添加，38大于原面积32。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_draw_guarantee",
+      "task_content_sha256": "e75d6ffb9450204795ea09eed7e8f8f183270655b40bcdb5f6f5b3c513db3589",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "probability.finite-pigeonhole-certainty",
+      "canonical_family_id": "probability.finite-pigeonhole-certainty",
+      "skill_ids": [
+        "sk_01b76e5f829d4d278a6f"
+      ],
+      "component_ids": [
+        "ev_01b76e5f829d4d278a6f_1"
+      ],
+      "prompt": "袋里只有3红2蓝共5个球，每次摸出的球不放回。关于“至少摸到1个红球”，哪项准确？",
+      "family_basis_reviewed": "旧题仅从全红盒中取1个；本题盒中混色仍可由无放回次数超过非红数量得到必然性，使用抽取上界与保证次数。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "摸2个就一定有红球。",
+          "mathematically_correct": false,
+          "reason": "两个蓝球可在前两次都被摸出，摸2个不能保证红球。"
+        },
+        {
+          "id": "o2",
+          "text": "只要袋中还有蓝球，无论摸几个都不能保证红球。",
+          "mathematically_correct": false,
+          "reason": "非红球最多2个，所以摸3个已保证红球；此项忽略无放回的数量限制。"
+        },
+        {
+          "id": "o3",
+          "text": "摸3个一定有红球，摸2个则不保证。",
+          "mathematically_correct": true,
+          "reason": "枚举所有3球组合都有红球，而2球组合中有全蓝组合，判断正确。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_compare_two_urns",
+      "task_content_sha256": "b21d94e91801550ccd0f03f40a1dd13a30d33569eb89cdff0ec09938fd9a462b",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "probability.compare-urn-composition",
+      "canonical_family_id": "probability.compare-urn-composition",
+      "skill_ids": [
+        "sk_3dd73eb0f60f4df5afbc"
+      ],
+      "component_ids": [
+        "ev_3dd73eb0f60f4df5afbc_2"
+      ],
+      "prompt": "甲袋2红3白，乙袋3红7白，各球在自己袋内被随机摸到的机会相同。从哪个袋摸1个球时红球更可能？",
+      "family_basis_reviewed": "旧同袋颜色比较有共同总数；跨袋总数不同，需要先建立各自分母再比较份额，绝对红球数次序反转。",
+      "reference_family_ids": [
+        "fraction.common-unit-equivalence-check"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "甲袋，因为2/5比3/10大。",
+          "mathematically_correct": true,
+          "reason": "甲2/5等于4/10，大于乙3/10，且题面保证袋内单球等机会。"
+        },
+        {
+          "id": "o2",
+          "text": "乙袋，因为3个红球比2个红球多。",
+          "mathematically_correct": false,
+          "reason": "不同总数下不能只比较红球个数；3/10小于2/5。"
+        },
+        {
+          "id": "o3",
+          "text": "两袋一样，因为都有红球与白球。",
+          "mathematically_correct": false,
+          "reason": "两袋都有两种颜色不意味着份额相同。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_factors_finite_bound",
+      "task_content_sha256": "14513b63418ad52b5efc06988489451c2793ff7e6aaf9c341f89d62537f15e8c",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "number.factors-bounded-enumeration",
+      "canonical_family_id": "number.factors-bounded-enumeration",
+      "skill_ids": [
+        "sk_3a025dfa2d44475e97f1"
+      ],
+      "component_ids": [
+        "ev_3a025dfa2d44475e97f1_1"
+      ],
+      "prompt": "只讨论正因数。为什么12的正因数能通过有限次检查列全？",
+      "family_basis_reviewed": "原目标没有客观题；本题核验有限上界穷举的依据，不把背一个因数表当作无限倍数的观察。",
+      "reference_family_ids": [
+        "number.factors-enumerate"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "只要试几个小数就够了。",
+          "mathematically_correct": false,
+          "reason": "任务只讨论正整数因数，任意试几个小数既非对象也不能穷尽。"
+        },
+        {
+          "id": "o2",
+          "text": "正因数一定在1到12之间，逐个检查这12个正整数即可。",
+          "mathematically_correct": true,
+          "reason": "正因数不超过原正整数12，有限上界保证逐个检查可列全。"
+        },
+        {
+          "id": "o3",
+          "text": "因为12只有偶数因数。",
+          "mathematically_correct": false,
+          "reason": "1、3是12的奇数因数，直接反驳。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_multiples_no_largest",
+      "task_content_sha256": "cdfd5873061172371fc5feffb7c793fa11b9e7982d71735746e1f13ae5712c3f",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "number.multiples-successor-unbounded",
+      "canonical_family_id": "number.multiples-successor-unbounded",
+      "skill_ids": [
+        "sk_3a025dfa2d44475e97f1"
+      ],
+      "component_ids": [
+        "ev_3a025dfa2d44475e97f1_1"
+      ],
+      "prompt": "小明说某个正整数M是6的最大正倍数。只用“ M是6的倍数 ”这个条件，哪种构造一定能反驳他？",
+      "family_basis_reviewed": "相对于正因数的有限上界，这里从任意候选构造一个更大的倍数，检查的是可继续构造的无上界论证。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "用M+1，因为它一定仍是6的倍数。",
+          "mathematically_correct": false,
+          "reason": "6的倍数加1除以6余1，不一定且实际不可能仍为6的倍数。"
+        },
+        {
+          "id": "o2",
+          "text": "仍用M，因为它和自己一样大。",
+          "mathematically_correct": false,
+          "reason": "M没有比自身大，不能反驳其最大性。"
+        },
+        {
+          "id": "o3",
+          "text": "用M+6，它仍是6的倍数且比M大。",
+          "mathematically_correct": true,
+          "reason": "若M=6k，则M+6=6(k+1)，是更大的正倍数，对任意候选成立。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_common_denominator",
+      "task_content_sha256": "c16295ed12869d2e83dd563572d904a07a7bbcdb1a9c9a2e60ac5577e24c6a45",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "fraction.common-unit-equivalence-check",
+      "canonical_family_id": "fraction.common-unit-equivalence-check",
+      "skill_ids": [
+        "sk_93f698faed82421f853c"
+      ],
+      "component_ids": [
+        "ev_93f698faed82421f853c_2"
+      ],
+      "prompt": "把2/3与3/4分别通分成分母为12的分数，哪一组同时保持两个原分数的值？",
+      "family_basis_reviewed": "旧目标只有单个分数约分的客观题；本题为两个不同分母建立共同计量单位，并逐一保持等值，正好补通分这一明确行为。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "8/12与9/12。",
+          "mathematically_correct": true,
+          "reason": "8/12=2/3且9/12=3/4，两次等值变形均正确。"
+        },
+        {
+          "id": "o2",
+          "text": "2/12与3/12。",
+          "mathematically_correct": false,
+          "reason": "只扩大分母，2/12与3/12都不等于原分数。"
+        },
+        {
+          "id": "o3",
+          "text": "8/12与3/12。",
+          "mathematically_correct": false,
+          "reason": "第一个分数正确，但3/12并非3/4，漏乘第二个分子。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_cuboid_face_pairs",
+      "task_content_sha256": "4c59b4db81bd47737239febc5761c0b39a70a110cd2966c70a9b4f02b49e8306",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.cuboid-opposite-face-pairs",
+      "canonical_family_id": "geometry.cuboid-opposite-face-pairs",
+      "skill_ids": [
+        "sk_df862c27e4504040a413"
+      ],
+      "component_ids": [
+        "ev_df862c27e4504040a413_1"
+      ],
+      "prompt": "一个封闭长方体长5厘米、宽3厘米、高2厘米。下面哪组恰好描述它的六个面？",
+      "family_basis_reviewed": "以实际三种尺寸对应三对相对面，观察面及其配对特征；没有只问一个无对象的“6”。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "六个面全是5厘米×3厘米。",
+          "mathematically_correct": false,
+          "reason": "长宽高互不相同，不可能六面都为5×3；另两种相邻维度必须出现。"
+        },
+        {
+          "id": "o2",
+          "text": "两面5×3、两面5×2、两面3×2，单位均为厘米。",
+          "mathematically_correct": true,
+          "reason": "三组相对面分别5×3、5×2、3×2，每组2面，共6面。"
+        },
+        {
+          "id": "o3",
+          "text": "一面5×3、一面5×2、一面3×2，共三面。",
+          "mathematically_correct": false,
+          "reason": "只列三种尺寸各一面，漏了每个相对面。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_cuboid_edge_groups",
+      "task_content_sha256": "24879888b2bc2ca1081856260db79869e1a71a1f997043c1dc1727780ad83554",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.cuboid-directional-edge-count",
+      "canonical_family_id": "geometry.cuboid-directional-edge-count",
+      "skill_ids": [
+        "sk_df862c27e4504040a413"
+      ],
+      "component_ids": [
+        "ev_df862c27e4504040a413_2"
+      ],
+      "prompt": "同样一个长5厘米、宽3厘米、高2厘米的长方体，把所有棱按长、宽、高三个方向分组。哪项正确？",
+      "family_basis_reviewed": "面尺寸配对之外，本题按空间方向组织一维边的计数，区分面、棱以及投影遮挡，不以换长宽高重复同一个数。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "每个方向各2条，共6条。",
+          "mathematically_correct": false,
+          "reason": "每方向有4条而非2条，6误把相对面数当棱数。"
+        },
+        {
+          "id": "o2",
+          "text": "每个方向各1条，共3条。",
+          "mathematically_correct": false,
+          "reason": "三个方向各有多条棱，只取各一条遗漏同方向的其余棱。"
+        },
+        {
+          "id": "o3",
+          "text": "每个方向各4条，共12条，隐藏在后面的棱也要计入。",
+          "mathematically_correct": true,
+          "reason": "从8顶点按只变一个坐标连接可枚举12条，三个方向各4条。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_line_local_overall",
+      "task_content_sha256": "0693773f50e594eaf496e4f8724456754447c67fcc55f4e5628531cc6fa328c1",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "statistics.line-local-and-overall-trend",
+      "canonical_family_id": "statistics.line-local-and-overall-trend",
+      "skill_ids": [
+        "sk_27409887d8d7476ea183"
+      ],
+      "component_ids": [
+        "ev_27409887d8d7476ea183_1"
+      ],
+      "prompt": "读附图。哪项同时描述了四天之间的局部变化与第1天到第4天的总体变化？",
+      "family_basis_reviewed": "目标原无客观图题。本题在实际折线中区分局部方向序列与首末总体变化，保留真实图源。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "先升、后降、再升；第4天比第1天高。",
+          "mathematically_correct": true,
+          "reason": "实际SVG点依次18、20、19、23，局部升降升，首末总体升。"
+        },
+        {
+          "id": "o2",
+          "text": "每天都上升，因为第4天最高。",
+          "mathematically_correct": false,
+          "reason": "第二天20到第三天19下降，最高终点不能推出每天都上升。"
+        },
+        {
+          "id": "o3",
+          "text": "先升、后降、再升；第4天比第1天低。",
+          "mathematically_correct": false,
+          "reason": "局部描述对，但终点23高于起点18，不能说总体下降。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8",
+      "diagram_binding": {
+        "path": "web/static/diagrams/statistics-v5-line-self-check.svg",
+        "source_sha256": "00d65e30b729356ab6c3e786d9703b12533e47be464e8cc8d05fd3a119482a4a",
+        "alt_reviewed": "连续四天最高气温的等距折线图：横轴依次第1、2、3、4天，纵轴0至24摄氏度，每格2度；四点依次18、20、19、23摄氏度。"
+      }
+    },
+    {
+      "task_id": "v8p_upper_line_largest_increment",
+      "task_content_sha256": "69a314adfa623d43428a7575a0098d2febcad98ddbd00ba2c216a17eb4ccab4e",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "statistics.line-adjacent-change",
+      "canonical_family_id": "statistics.line-adjacent-change",
+      "skill_ids": [
+        "sk_27409887d8d7476ea183"
+      ],
+      "component_ids": [
+        "ev_27409887d8d7476ea183_1"
+      ],
+      "prompt": "读同一幅折线图，哪一相邻两天的升温幅度最大，升了多少摄氏度？",
+      "family_basis_reviewed": "相对于识别趋势方向，本题要对相邻观测作差并比较变化量，最高点与最大增量不是同一对象。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "第1天到第2天，升2℃。",
+          "mathematically_correct": false,
+          "reason": "该段升2属实，但另一段升4更大，没有回答最大值。"
+        },
+        {
+          "id": "o2",
+          "text": "第3天到第4天，升4℃。",
+          "mathematically_correct": true,
+          "reason": "相邻差2、−1、4，第三段升4最大。"
+        },
+        {
+          "id": "o3",
+          "text": "第4天，23℃就是升温幅度。",
+          "mathematically_correct": false,
+          "reason": "23是第四天温度水平，不是相邻变化量。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8",
+      "diagram_binding": {
+        "path": "web/static/diagrams/statistics-v5-line-self-check.svg",
+        "source_sha256": "00d65e30b729356ab6c3e786d9703b12533e47be464e8cc8d05fd3a119482a4a",
+        "alt_reviewed": "连续四天最高气温的等距折线图：横轴依次第1、2、3、4天，纵轴0至24摄氏度，每格2度；四点依次18、20、19、23摄氏度。"
+      }
+    },
+    {
+      "task_id": "v8p_upper_cancel_factors_not_terms",
+      "task_content_sha256": "e6b44c15f059795a453ba08e190c525826e83c1646a1a2ec78aeced73fd27230",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "fraction.cancel-factors-not-summands",
+      "canonical_family_id": "fraction.cancel-factors-not-summands",
+      "skill_ids": [
+        "sk_0220175b801f4fcb8b4f"
+      ],
+      "component_ids": [
+        "ev_0220175b801f4fcb8b4f_1"
+      ],
+      "prompt": "计算((3+5)/5)×10。有人想把分子括号中的5与分母5直接约去。哪条处理正确？",
+      "family_basis_reviewed": "旧题在单纯乘积中直接约整数与分母；本题检查加法嵌套时合法的因数范围，并区分加数与因数。",
+      "reference_family_ids": [
+        "fraction.multiply-integer-common-unit"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "可以直接约掉这个加数5，因为分子分母都出现5。",
+          "mathematically_correct": false,
+          "reason": "和中的加数不是整个分子的因数，不能只消一个加数。"
+        },
+        {
+          "id": "o2",
+          "text": "先把分子3也约去，才能约5。",
+          "mathematically_correct": false,
+          "reason": "分母5与加数3没有所声称的公因数关系，这不是合法约分步骤。"
+        },
+        {
+          "id": "o3",
+          "text": "不能只约去和式中的一个加数；可以先把因数10与分母5同除5。",
+          "mathematically_correct": true,
+          "reason": "整个乘积的因数10与分母5可同除5，保留括号，正确得到16。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_part_quantity_reason",
+      "task_content_sha256": "4e737643291cc990a42b8fd9c1bd2be6f14074df38e31a3fe21915325551e3c2",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "fraction.part-of-quantity",
+      "canonical_family_id": "fraction.part-of-quantity",
+      "skill_ids": [
+        "sk_b95e8b4ba16a48859900"
+      ],
+      "component_ids": [
+        "ev_b95e8b4ba16a48859900_1"
+      ],
+      "prompt": "18米绳的2/3是多少米？哪条说明把“求几分之几”的理由说清？",
+      "family_basis_reviewed": "原目标没有客观任务，本题只补一个原量等分取份的有界核对，不宣称选择了说明就已独立作出解释。",
+      "reference_family_ids": [
+        "primary.divide.share-size",
+        "fraction.multiply-integer-common-unit"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "先把18米平均分3份，再取2份，18÷3×2=12米，等价于18×2/3。",
+          "mathematically_correct": true,
+          "reason": "平均分3份取2份，18÷3×2=12，正确解释分母分子和乘法。"
+        },
+        {
+          "id": "o2",
+          "text": "18米减去2/3米，所以用减法。",
+          "mathematically_correct": false,
+          "reason": "2/3是分率，不是题面另给的米数；18−2/3不是该部分长度。"
+        },
+        {
+          "id": "o3",
+          "text": "只要看到分数就把18除以2/3。",
+          "mathematically_correct": false,
+          "reason": "除以2/3求的是另一逆问题，不能因出现分数就倒数。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_nested_part_reference",
+      "task_content_sha256": "84c8943360fd3f0a30804725438fb044c83ce0c4d5c3f2e397c37fc7e18122ad",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "fraction.nested-part-reference",
+      "canonical_family_id": "fraction.nested-part-reference",
+      "skill_ids": [
+        "sk_b95e8b4ba16a48859900"
+      ],
+      "component_ids": [
+        "ev_b95e8b4ba16a48859900_1"
+      ],
+      "prompt": "一张纸先把整张的3/4涂蓝，再把蓝色部分平均分3份，其中1份加斜线。斜线部分占整张纸的几分之几，哪条理由正确？",
+      "family_basis_reviewed": "单层整数原量的等分之外，本题有嵌套部分，需要追踪第二个分率的单位整体并回到初始整张，不能把两个分率看成并列部分。",
+      "reference_family_ids": [
+        "fraction.multiply-fractions"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "占整张1/3，因为最后分成3份。",
+          "mathematically_correct": false,
+          "reason": "第二次三等分的是蓝色部分，不是整张，因此不能直接认定整张1/3。"
+        },
+        {
+          "id": "o2",
+          "text": "占整张1/4，因为最后取的是蓝色3/4的1/3，要用3/4×1/3。",
+          "mathematically_correct": true,
+          "reason": "第二整体为原3/4，取其1/3得到整张1/4，乘法及整体追踪正确。"
+        },
+        {
+          "id": "o3",
+          "text": "占整张3/4+1/3，因为两次涂色必须相加。",
+          "mathematically_correct": false,
+          "reason": "两份额为嵌套关系；3/4+1/3大于1，也与斜线在蓝色内的包含关系矛盾。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_fraction_factor_grouping",
+      "task_content_sha256": "6d7a78420021ec509195f5f82760c6e409a5956e63750a0ddbe22e8141355a04",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "arithmetic.associative-commutative-factor-grouping",
+      "canonical_family_id": "arithmetic.associative-commutative-factor-grouping",
+      "skill_ids": [
+        "sk_d04dccde8a6b4443adfa"
+      ],
+      "component_ids": [
+        "ev_d04dccde8a6b4443adfa_2"
+      ],
+      "prompt": "简算(3/7)×(5/11)×(7/3)，哪条变形和所用运算律对应正确？",
+      "family_basis_reviewed": "旧任务提取两个加项的共同因数，使用分配律；本题重排纯乘积，把互为倒数的因数结合，不含加法嵌套。",
+      "reference_family_ids": [
+        "fraction.reciprocal-product-one"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "把三个分数相加，使用加法交换律。",
+          "mathematically_correct": false,
+          "reason": "不能把原来的乘法擅改成加法。"
+        },
+        {
+          "id": "o2",
+          "text": "将5/11拆成5+1/11，使用分配律。",
+          "mathematically_correct": false,
+          "reason": "5/11不等于5+1/11，拆分本身错误。"
+        },
+        {
+          "id": "o3",
+          "text": "先交换后两因数，再把3/7与7/3结合相乘；用乘法交换律和结合律。",
+          "mathematically_correct": true,
+          "reason": "交换后两因数再结合互倒的一对，三个原因数完整，结果5/11。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_zero_reciprocal_boundary",
+      "task_content_sha256": "1f1285b9948fb4670e68103d56a72eee2fe2cd4a521758c7c74fe897a5c91c54",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "fraction.reciprocal-zero-exclusion",
+      "canonical_family_id": "fraction.reciprocal-zero-exclusion",
+      "skill_ids": [
+        "sk_c22ae701afce4ea1b853"
+      ],
+      "component_ids": [
+        "ev_c22ae701afce4ea1b853_1"
+      ],
+      "prompt": "为什么0没有倒数？哪一说明符合倒数的定义？",
+      "family_basis_reviewed": "为原来没有客观题的有限边界补一个定义核对；未把反复改写零乘积或零分母另计为第二种族。",
+      "reference_family_ids": [
+        "arithmetic.zero-product",
+        "fraction.reciprocal-product-one"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "0乘任何数都得0，不能得到倒数定义要求的乘积1。",
+          "mathematically_correct": true,
+          "reason": "倒数定义需乘积1，而零乘任何数均0，足以排除所有候选。"
+        },
+        {
+          "id": "o2",
+          "text": "0的倒数就是0，因为相同数字可以交换。",
+          "mathematically_correct": false,
+          "reason": "零与零相乘不是1，不能仅交换符号当倒数。"
+        },
+        {
+          "id": "o3",
+          "text": "可以把1/0当作0的倒数，不用检查分母。",
+          "mathematically_correct": false,
+          "reason": "分母0无定义，1/0不是合法实数倒数。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_signed_reference_offset",
+      "task_content_sha256": "dc2e82632ed105e8f2bf6c0d8fb951361a12185ff10a19309c3fdc8d047891ed",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "number.signed-offset-from-reference",
+      "canonical_family_id": "number.signed-offset-from-reference",
+      "skill_ids": [
+        "sk_779f92bc101f46b7aad7"
+      ],
+      "component_ids": [
+        "ev_779f92bc101f46b7aad7_2"
+      ],
+      "prompt": "以500克为食品质量标准，超出记正、不足记负。490克与515克相对于标准分别怎样记录？",
+      "family_basis_reviewed": "旧题把已给的相反方向或收支直接赋符号；本题先从实际量与非零标准求偏差，再给偏差定方向，区分原量与相对量。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "−490克、+515克。",
+          "mathematically_correct": false,
+          "reason": "把实际量加符号，遗漏了与标准500之差。"
+        },
+        {
+          "id": "o2",
+          "text": "−10克、+15克。",
+          "mathematically_correct": true,
+          "reason": "两差量490−500与515−500分别为−10、+15，正确。"
+        },
+        {
+          "id": "o3",
+          "text": "+10克、−15克。",
+          "mathematically_correct": false,
+          "reason": "差量绝对值对但方向与约定相反。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_reverse_sign_convention",
+      "task_content_sha256": "a4b0aa564bf19ad8cdea5211a0ccda6bc5d4b83d36a8e316c7a37e4869638a6a",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "number.signed-context.reverse-convention",
+      "canonical_family_id": "number.signed-context.reverse-convention",
+      "skill_ids": [
+        "sk_0bd7dde311904ab1a179"
+      ],
+      "component_ids": [
+        "ev_0bd7dde311904ab1a179_1"
+      ],
+      "prompt": "同一段向西4米的运动，甲规定向东为正，乙规定向西为正。甲、乙应分别怎样记录？",
+      "family_basis_reviewed": "旧题在固定约定下赋符号；本题保持物理事件不变而改变约定，要求说明符号是相对规则，不是方向词固定属性。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "都记−4米，因为向西永远为负。",
+          "mathematically_correct": false,
+          "reason": "向西并非固定为负，乙已规定向西为正。"
+        },
+        {
+          "id": "o2",
+          "text": "都记+4米，因为距离是4米。",
+          "mathematically_correct": false,
+          "reason": "方向记录不同于非负的路程大小，甲应为负。"
+        },
+        {
+          "id": "o3",
+          "text": "甲记−4米，乙记+4米；运动本身没有改变。",
+          "mathematically_correct": true,
+          "reason": "两个坐标约定相反，分别−4与+4，同一运动未改变。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_pi_ratio_meaning",
+      "task_content_sha256": "e777f50e5c7a13516681b7e0c9364b0032f9027ad574485f741d5e3d563b6484",
+      "type": "choice",
+      "phase": "practice",
+      "family_id": "geometry.pi-circumference-diameter-ratio",
+      "canonical_family_id": "geometry.pi-circumference-diameter-ratio",
+      "skill_ids": [
+        "sk_8c55abc273224cb58f8d"
+      ],
+      "component_ids": [
+        "ev_8c55abc273224cb58f8d_1"
+      ],
+      "prompt": "量得一个圆的周长约31.4厘米、直径约10厘米。哪种计算能估计圆周率π？",
+      "family_basis_reviewed": "补一个同圆周长与直径之比的客观核对；测量数值与定义仍同一关系，不拆成虚假的两个独立族。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "周长除以直径，约31.4÷10=3.14。",
+          "mathematically_correct": true,
+          "reason": "按同圆周长/直径定义，用给定近似测量估计3.14。"
+        },
+        {
+          "id": "o2",
+          "text": "周长除以半径，约31.4÷5=6.28。",
+          "mathematically_correct": false,
+          "reason": "分母半径会得到约2π而非π。"
+        },
+        {
+          "id": "o3",
+          "text": "直径除以周长，约10÷31.4。",
+          "mathematically_correct": false,
+          "reason": "比值倒置为直径/周长，是π的倒数的估计。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_circle_roll_circumference",
+      "task_content_sha256": "4e2051a70064a4eef6bcbb2badabdf4829f06d27da4adec1425efc5b941007c6",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.circumference-from-rolling-distance",
+      "canonical_family_id": "geometry.circumference-from-rolling-distance",
+      "skill_ids": [
+        "sk_100f4c137d11464f8ffe"
+      ],
+      "component_ids": [
+        "ev_100f4c137d11464f8ffe_2"
+      ],
+      "prompt": "一个圆形轮子沿直线不打滑地完整滚动3圈，共前进94.2厘米。这个圆的周长是多少？",
+      "family_basis_reviewed": "旧题从半径或直径代入圆周长公式；本题不给半径而由无滑动的完整周期与路程对应求一周长度，计算关系及条件来源不同。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "94.2厘米。",
+          "mathematically_correct": false,
+          "reason": "94.2是三圈总路程，不是一圈周长。"
+        },
+        {
+          "id": "o2",
+          "text": "31.4厘米。",
+          "mathematically_correct": true,
+          "reason": "每圈无滑动前进一个周长，94.2除3为31.4。"
+        },
+        {
+          "id": "o3",
+          "text": "282.6厘米。",
+          "mathematically_correct": false,
+          "reason": "再乘3把已经合计的总路程重复放大。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_equal_circles_positions",
+      "task_content_sha256": "4f468544500226ed1d821df0cfda0e1ec7d0f412b4dd638a30e80c73d4c21ec7",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.equal-circles-centre-distance",
+      "canonical_family_id": "geometry.equal-circles-centre-distance",
+      "skill_ids": [
+        "sk_f65a94f375a740ecbc7c"
+      ],
+      "component_ids": [
+        "ev_f65a94f375a740ecbc7c_1"
+      ],
+      "prompt": "两圆半径都为2厘米，圆心距依次为4厘米、3厘米、5厘米。三个情形的位置关系依次是哪一组？",
+      "family_basis_reviewed": "旧题给小圆过大圆心且内切，求特定内接图案的圆心与半径；本题按可变圆心距和半径和分类一般两圆位置。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "都相交于两点。",
+          "mathematically_correct": false,
+          "reason": "距离4只相切一点、距离5不相交，不能都为两点。"
+        },
+        {
+          "id": "o2",
+          "text": "内切、外切、相交。",
+          "mathematically_correct": false,
+          "reason": "等半径两圆的内切距离为半径差0，此处4不是内切，其他两项也错位。"
+        },
+        {
+          "id": "o3",
+          "text": "外切、相交于两点、外离。",
+          "mathematically_correct": true,
+          "reason": "半径和4，距离4外切、3两交点、5外离，分类正确。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_percent_and_count_charts",
+      "task_content_sha256": "5f8c2c783088c143a9f6f90f87080dc5ad440b5554c3959aa35084693071890a",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "ratio.percent-versus-absolute-amount",
+      "canonical_family_id": "ratio.percent-versus-absolute-amount",
+      "skill_ids": [
+        "sk_e75af9bc1f1a44488b2d",
+        "sk_e2d15db1a4434921ad20"
+      ],
+      "component_ids": [
+        "ev_e75af9bc1f1a44488b2d_1",
+        "ev_e2d15db1a4434921ad20_1"
+      ],
+      "prompt": "两张扇形统计图分别标出甲班80%到场、乙班75%到场，但都没有给全班人数。想比较两班到场人数，哪项判断准确？",
+      "family_basis_reviewed": "原百分数定义或统计图用途题只识别“占整体百分比”；本题比较不同整体上的比例，发现仅有扇形占比无法支持绝对数量比较，并指出所缺信息。",
+      "reference_family_ids": [
+        "ratio.part-from-percentage"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "不能仅比较这两个百分数；还需各班总人数，或另给标出实际人数的统计图。",
+          "mathematically_correct": true,
+          "reason": "两个整体大小未知，需各自总人数或直接人数资料，才能求或比较绝对量。"
+        },
+        {
+          "id": "o2",
+          "text": "80%大于75%，所以甲到场人数一定更多。",
+          "mathematically_correct": false,
+          "reason": "甲20人80%=16，乙40人75%=30给出反例；比例大不保证人数多。"
+        },
+        {
+          "id": "o3",
+          "text": "扇形统计图中的百分数就是到场人数。",
+          "mathematically_correct": false,
+          "reason": "百分数是相对份额，不是人数的单位或数值。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_compound_percent_change",
+      "task_content_sha256": "011722172751b7ed3b7b90a4f9350c3095955697b8d5d68a2ca7f8d1deb765d8",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "ratio.successive-percentage-changes",
+      "canonical_family_id": "ratio.successive-percentage-changes",
+      "skill_ids": [
+        "sk_0fb9d351578d4e6e8a02"
+      ],
+      "component_ids": [
+        "ev_0fb9d351578d4e6e8a02_3"
+      ],
+      "prompt": "某商品先比原价涨20%，再比涨价后的价格降20%。最终相对原价怎样变化？",
+      "family_basis_reviewed": "旧题由一次前后量求增减率；本题连续应用两个分率，中途基准随价格更新，再回到最初基准求总变化。",
+      "reference_family_ids": [
+        "ratio.part-from-percentage",
+        "ratio.percentage-change-base"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "回到原价，增减互相抵消。",
+          "mathematically_correct": false,
+          "reason": "两次20%的基准不同，不能代数相消。"
+        },
+        {
+          "id": "o2",
+          "text": "仍比原价高4%。",
+          "mathematically_correct": false,
+          "reason": "合成系数为(6/5)(4/5)=24/25，小于1，方向不是上涨。"
+        },
+        {
+          "id": "o3",
+          "text": "比原价低4%。",
+          "mathematically_correct": true,
+          "reason": "终值为原价96%，比原价少4%，精确分数核对成立。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_combined_group_mean",
+      "task_content_sha256": "fdc1cafc3e1f9a8319898a961aa40717347f2e5a47253a966c1d7d85e4c26078",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "statistics.mean-from-unequal-group-means",
+      "canonical_family_id": "statistics.mean-from-unequal-group-means",
+      "skill_ids": [
+        "sk_554c937ee8394e9096d2"
+      ],
+      "component_ids": [
+        "ev_554c937ee8394e9096d2_1"
+      ],
+      "prompt": "甲组2人平均70分，乙组3人平均80分。合并这5人的平均分是多少？已约定本次讨论线取这5人的平均分。只填平均分。",
+      "family_basis_reviewed": "旧题直接给逐人原始分数求均值；本题只给不等人数两组的均值，必须先恢复各组总量再按人数合并，不是把同一列表换成表格。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "(2*70+3*80)/5",
+      "independently_computed_expected": "76",
+      "mathematical_review": "原始总分140加240，除全体5人得76；讨论线仅按题定。",
+      "registered_verify_consistency": {
+        "id": "v8p_upper_combined_group_mean",
+        "status": "pass",
+        "detail": "(2*70+3*80)/(2+3) = 76"
+      }
+    },
+    {
+      "task_id": "v8p_upper_threshold_declared_requirement",
+      "task_content_sha256": "7dca42eaeae1d2aeb503eaaf9d7078b4564d089de8b41f3ecff7dc008ed97b1e",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "statistics.threshold-versus-descriptive-data",
+      "canonical_family_id": "statistics.threshold-versus-descriptive-data",
+      "skill_ids": [
+        "sk_cb92d9f513d84627a23a"
+      ],
+      "component_ids": [
+        "ev_cb92d9f513d84627a23a_1"
+      ],
+      "prompt": "某任务事先规定“至少完成8项才达标”。本次四人的完成项数是8、8、8、0，平均6项。哪项关于达标线的依据正确？",
+      "family_basis_reviewed": "旧题泛指达标线要参考整体水平与实际要求；这里给定具体外部标准与被低值拉低的均值，检验描述数据不能自动变成评价标准。",
+      "reference_family_ids": [],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "平均6项，所以必须把事先的8项改成6项。",
+          "mathematically_correct": false,
+          "reason": "描述本组的平均数不能自动改变事先规定的评价规则。"
+        },
+        {
+          "id": "o2",
+          "text": "平均数描述本组表现；不能仅凭平均6就改动事先规定的8项标准。",
+          "mathematically_correct": true,
+          "reason": "平均6的算术与原阈值8的规则分别成立，结论准确限定了两者角色。"
+        },
+        {
+          "id": "o3",
+          "text": "只要有人完成8项，其他人也都算达标。",
+          "mathematically_correct": false,
+          "reason": "达标按个人完成项数判断，别人达到8不能替代其本人。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_proportion_repeated_unknown",
+      "task_content_sha256": "51c05afa6eb5d304e78bc79ff93c05b22db113fe6091d21156a8a04cb911ceb9",
+      "type": "numeric",
+      "phase": "transfer",
+      "family_id": "ratio.proportion-shared-unknown",
+      "canonical_family_id": "ratio.proportion-shared-unknown",
+      "skill_ids": [
+        "sk_cfb7f269fe1d45d18300"
+      ],
+      "component_ids": [
+        "ev_cfb7f269fe1d45d18300_1"
+      ],
+      "prompt": "x是正数，且x:6=(x+2):9。用比例的基本性质求x，只填数字，并保留纸上的变形与代回核对。",
+      "family_basis_reviewed": "旧比例只有一个比项含未知量；本题同一个未知量出现在两个比项中，需同时保留它们并合并两侧未知项，不能按一次直接倍乘求解。",
+      "reference_family_ids": [
+        "ratio.solve-proportion"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "independent_recomputation": "12/3",
+      "independently_computed_expected": "4",
+      "mathematical_review": "9x=6x+12唯一正解4；代回两比均2/3。",
+      "registered_verify_consistency": {
+        "id": "v8p_upper_proportion_repeated_unknown",
+        "status": "pass",
+        "detail": "(6*2)/(9-6) = 4"
+      }
+    },
+    {
+      "task_id": "v8p_upper_cylinder_surface",
+      "task_content_sha256": "af686551ff0e12bed3f6f14f36d01fec61f456ccaaf1afedb9f7308b191193a5",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.cylinder-surface-area",
+      "canonical_family_id": "geometry.cylinder-surface-area",
+      "skill_ids": [
+        "sk_6c37da4153b6444b917c"
+      ],
+      "component_ids": [
+        "ev_6c37da4153b6444b917c_1"
+      ],
+      "prompt": "一个封闭直圆柱半径3厘米、高4厘米。用π表示完整表面积，哪项正确？",
+      "family_basis_reviewed": "旧题只计算圆柱体积；本题求覆盖外表面的面积，必须将侧面和两个底面相加，量纲与组成均不同，直接补原目标的表面积行为。",
+      "reference_family_ids": [
+        "geometry.circle-area",
+        "geometry.circle-circumference",
+        "geometry.cylinder-volume"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "42π平方厘米。",
+          "mathematically_correct": true,
+          "reason": "展开侧面24π加两个底18π为42π平方厘米。"
+        },
+        {
+          "id": "o2",
+          "text": "36π平方厘米。",
+          "mathematically_correct": false,
+          "reason": "36π是体积的数值表达，应为立方厘米，不是表面积。"
+        },
+        {
+          "id": "o3",
+          "text": "24π平方厘米。",
+          "mathematically_correct": false,
+          "reason": "24π只算侧面，漏两个底面。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    },
+    {
+      "task_id": "v8p_upper_cone_condition_counterexample",
+      "task_content_sha256": "4d561fc80e7b15e01753bac87c6643e14438688c46dabbd8ecdbc705c4273834",
+      "type": "choice",
+      "phase": "transfer",
+      "family_id": "geometry.cone-cylinder-volume-condition",
+      "canonical_family_id": "geometry.cone-cylinder-volume-condition",
+      "skill_ids": [
+        "sk_6dc66275b3d7461db787"
+      ],
+      "component_ids": [
+        "ev_6dc66275b3d7461db787_1"
+      ],
+      "prompt": "圆锥底面半径2厘米、垂直高3厘米；圆柱底面半径1厘米、高3厘米。有人只因两者等高就说锥体积是柱体积的1/3。哪项准确？",
+      "family_basis_reviewed": "旧题代入圆锥体积公式求一个体积；本题比较两个实际不同底面的物体并检验比例结论的条件，反例说明仅等高不够。",
+      "reference_family_ids": [
+        "geometry.cone-volume",
+        "geometry.cylinder-volume"
+      ],
+      "observation_boundary_reviewed": "只核对本题实际提交的选项或数值，不据此确认未提交的列式、口读、解释、图稿或实物操作。即使同一目标有多种客观数学结构，仍不自动完成父目标；原答、帮助和修订分别保存。",
+      "independent_teacher_review": false,
+      "student_effectiveness_evidence": false,
+      "all_option_reviews": [
+        {
+          "id": "o1",
+          "text": "只要等高就能直接用1/3关系。",
+          "mathematically_correct": false,
+          "reason": "等高没有保证等底，直接套三分之一缺条件。"
+        },
+        {
+          "id": "o2",
+          "text": "底面积不同，不能直接用等底等高结论；本例圆锥体积4π，圆柱体积3π。",
+          "mathematically_correct": true,
+          "reason": "两公式给4π和3π，确实反驳仅等高的推断。"
+        },
+        {
+          "id": "o3",
+          "text": "圆锥永远比任何圆柱的体积小。",
+          "mathematically_correct": false,
+          "reason": "本例圆锥体积已大于所给圆柱，直接否定这个全称说法。"
+        }
+      ],
+      "mathematical_review": "逐项对照当前最终题干和三个选项；独立数学理由沿用已经审读的高年级计算/有限模型记录。",
+      "prior_upper_review_sha256": "95ecdeccd027be75b5a42e80f09b498335339c6e1c7c38ff63dce8cf28ad29a8"
+    }
+  ],
+  "limits": [
+    "任务和量规提供观察机会，不是已有学生作品、独立掌握或教师验收。",
+    "650道量规任务不算客观题族，原始目标及全部旧任务身份保持。",
+    "不足两种客观结构的目标仍逐项保留；同族换数、分栏保存及新题号不增加结构数。",
+    "新157道客观题不计入原题库本轮2676题的复核分母。",
+    "本阶段报告未声称浏览器全旅程通过；最终运行与发布验收由集成报告给出。"
+  ]
+}

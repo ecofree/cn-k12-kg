@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7b.7.1.2",
+  "name": "两条直线垂直",
+  "tier": "core",
+  "hook": "从路边一点走到笔直的道路，怎样走距离最短？",
+  "definition": "两条直线相交成直角时互相垂直；在同一平面内，过一点有且只有一条直线与已知直线垂直，垂线段最短。",
+  "why": "垂直将相交形成的平角分成两个相等直角。点到直线有许多连线，但其中垂线段最短，故用它的长度定义距离；斜着量会把实际距离量大。",
+  "when_to_use": [
+    "出现直角标记或90°交角",
+    "要求点到直线的最短距离"
+  ],
+  "steps": [
+    "先确认垂足位于目标直线或延长线上",
+    "过给定点画与直线成90°的线段",
+    "用⊥写关系，并把距离对应到垂线段"
+  ],
+  "worked_example": {
+    "prompt": "点P在直线l外，PH⊥l于H，PH=3，PA=5且A在l上。点P到l的距离是什么？",
+    "answer": "3",
+    "steps": [
+      "点线距离按定义取垂线段的长度，PH是垂线段。",
+      "所以距离为PH=3；PA是斜线段，不能代替PH。"
+    ],
+    "verify": "3",
+    "family_id": "geometry.point-line-distance",
+    "variant_id": "m7b.7.1.2:worked-example-v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "距离是长度，不是整条垂线。",
+    "垂足可能落在给定线段的延长线上，不能强行画到端点。"
+  ],
+  "check": "独立完成并解释：直线AB与CD交于O，一对相邻角相等。可以推出什么？ 备选：A. 两直线平行；B. 两直线垂直；C. 不能确定交角大小 请写出判断或计算依据。；画直线l及线外点P，作PH⊥l；再取l上另一点A，比较PH与PA。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断两直线是否垂直并用⊥表示",
+      "explanation": "交角为90°是垂直的判定依据，符号写作AB⊥CD。",
+      "self_check": {
+        "prompt": "直线AB与CD交于O，一对相邻角相等。可以推出什么？ 备选：A. 两直线平行；B. 两直线垂直；C. 不能确定交角大小 请写出判断或计算依据。",
+        "reference_answer": "相邻角为邻补角，和为180°；又相等，因此各为90°，所以AB⊥CD。 正确选项内容：两直线垂直。",
+        "criteria": [
+          "由邻补和为180°",
+          "两个相等角均为90°"
+        ],
+        "family_id": "angle.equal-adjacent.implies-perpendicular",
+        "variant_id": "m7b.7.1.2:criterion-0-v6",
+        "representation": "verbal",
+        "cognitive_demand": "prove"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "相等的两角若不是邻补角，还能断言每角90°吗？",
+        "hint": "相等与和180°必须一起使用；设每角x，则2x=180°。",
+        "revision_prompt": "写出相交直线一对相邻角各90°从而AB⊥CD的完整理由，并举两个30°角说明仅相等不够。"
+      },
+      "observation_note": "观察邻补角相等推出直角的推理；不把任意等角当垂直证据。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "理解垂线段最短并能画出点到直线的垂线段",
+      "explanation": "过线外点作垂线，垂足与该点之间的线段给出点线距离。",
+      "self_check": {
+        "prompt": "画直线l及线外点P，作PH⊥l；再取l上另一点A，比较PH与PA。",
+        "reference_answer": "用三角尺一条直角边贴l，平移到另一边过P，交点为H。PH<PA（A≠H），PH长是距离。",
+        "criteria": [
+          "作出直角及垂足H",
+          "明确PH最短且是距离"
+        ],
+        "family_id": "construction.point-line-perpendicular",
+        "variant_id": "m7b.7.1.2:criterion-1-v6",
+        "representation": "verbal",
+        "cognitive_demand": "execute"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "P到l上A的斜线段比PH长，哪条长度才叫点线距离？",
+        "hint": "作图时三角尺一条直角边贴l，另一条经过P；标直角后确定垂足。",
+        "revision_prompt": "在l上左右各取一点比较与PH，保留垂足和直角标记；A与H重合时长度才相等。"
+      },
+      "observation_note": "观察实际垂线作图与最短线段定义；需要图和量取过程，文字选择不代替作图。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由题面已给定的最短路长和单位费用计算总费用",
+      "explanation": "已给长度乘每单位长度费用得到总费用。题目已经提供最短路径及长度时，计算结果只观察按长度计价，不能据此认定学生独立确定了最短路线。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：从村庄 P 向公路修一条最短的小路，垂足为 Q，PQ=1.2 千米。修路费每千米 8 万元，修这条小路最少要花多少万元？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：9.6。给定最短距离1.2，乘每千米8为9.6。",
+        "criteria": [
+          "使用给定量正确计价且不扩张作图观察",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "ratio.unit-rate-projection",
+        "variant_id": "m7b.7.1.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "路线长度是你求出的，还是题目已经提供的？单位费用以米还是千米计？",
+        "hint": "把长度和每千米费用的单位配好，再相乘并保留金额单位。",
+        "revision_prompt": "先回答这个辨别问题：路线长度是你求出的，还是题目已经提供的？单位费用以米还是千米计？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；使用给定量正确计价且不扩张作图观察。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能用三角形面积相等求顶点到指定边所在直线的距离",
+      "explanation": "同一三角形面积不随所选底改变。先用互相垂直的两边算面积，再以指定边为底，用2×面积÷底求相应的高；斜边本身不是高。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：直角三角形 ABC 中 ∠C=90°，AC=6 厘米、BC=8 厘米、AB=10 厘米。点 C 到斜边 AB 的距离是多少厘米？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：4.8。两种面积相等6×8/2=10h/2，h4.8。",
+        "criteria": [
+          "两种底高组合均垂直且给出相同面积",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "geometry.triangle.height-by-area",
+        "variant_id": "m7b.7.1.2:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "你换底后，仍沿用了原来那条不垂直的边作高吗？",
+        "hint": "分别写两种底高面积式，用同一个面积连接它们。",
+        "revision_prompt": "先回答这个辨别问题：你换底后，仍沿用了原来那条不垂直的边作高吗？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；两种底高组合均垂直且给出相同面积。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m7b.7.1.2-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.7.1.2-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m7b.7.1.2-q102",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

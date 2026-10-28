@@ -1,0 +1,362 @@
+{
+  "schema": 1,
+  "review_kind": "ai_author_review_preview_workflow_with_independent_ai_cross_review",
+  "reviewer": {
+    "type": "ai",
+    "agent": "/root/v4_teaching_content",
+    "relationship": "implementation_author_and_development_runner",
+    "independent_teacher_review": false
+  },
+  "reviewed_at": "2026-10-26T16:26:00+00:00",
+  "baseline_commit": "dda16826ea8fc2c2860a54a6bf358167c4604c4c",
+  "official_semantic_review_baseline_unchanged": "9f0471009f13590beee850ca5dd4999ff64d14fd",
+  "review_status": "reviewed",
+  "decision": "accept_scoped_preview_change_pending_new_fixed_commit_release_acceptance",
+  "teacher_review": "deferred_by_user",
+  "real_student_effect_validation": "deferred_by_user",
+  "scope": {
+    "changed_source_files": 1,
+    "full_repository_audit": false,
+    "full_core_suite_run_by_reviewer": false,
+    "completed_full_preview_runs": 1,
+    "failed_or_stopped_development_attempts": 2,
+    "bounded_single_material_diagnostic_runs": 1,
+    "other_journeys_executed_in_this_followup": false,
+    "product_api_or_content_modified": false,
+    "formal_review_config_or_raw_manifest_modified_by_reviewer": false,
+    "actual_checklist_generation": "只重新计算build/content-review.json；review_status仍pending，该计算不是批准。"
+  },
+  "methods": [
+    "逐行阅读本文件diff及生产app/work/manipulative/profile/server/portfolio的相关路由和挂载合同。",
+    "A独立只读核对真实catalog/source_index与生产版本哈希，阅读已安装Playwright追踪和waitForFunction实现；没有由A启动测试。",
+    "保留旧正式运行、两次不完整开发运行、一次单页逐位诊断以及最后完整开发运行的真实结果，逐一限定能支持的结论。",
+    "最后实际核清单路径顺序和唯一性、输入文件SHA、各类页面/自检/作品/操作组件数量、HTTP状态和错误数组。"
+  ],
+  "findings": [
+    {
+      "id": "PREVIEW-01",
+      "origin": "actual_frozen_dda16826_run_and_source_inspection",
+      "paths": [
+        "tests/browser/learning-flow.cjs"
+      ],
+      "problem": "原循环为每个预览路径执行完整document goto，重复运行全站目录初始化。旧正式运行实际完成110页、用时517.72秒后由root主动终止，不能据此声称441页已验收。",
+      "resolution": "仅本旅程先真实goto首页一次，再逐个await生产openTeach/openUnit/openProject/openScope/openNeeds/openHistory/openProfile函数；保留应用原有草稿flush、导航token、真实API和渲染。",
+      "verification": "最终441路径顺序与唯一性完全匹配清单；实际document导航1次，topics请求2次（初始化与首页刷新），units/projects列表各1次。",
+      "status": "fixed_and_complete_development_preview_passed"
+    },
+    {
+      "id": "PREVIEW-02",
+      "origin": "independent_ai_read_only_review_of_intermediate_helper",
+      "paths": [
+        "tests/browser/learning-flow.cjs"
+      ],
+      "problem": "中间版本以objective_coverage || []处理缺失自检数组，可能把漏掉整组自检误当作零项完成。这是静态发现的检查漏洞，不是已证实的教材接口实际漏题事故。",
+      "resolution": "读取已加载catalog的self_check:<topic>:<criterion>稳定索引，要求明确非空的应有集合与返回criterion索引严格相等；逐项核题干、外部输入ID、编辑器完成标记和实际启用状态。",
+      "verification": "最终真实840项自检集合与DOM题干逐项核对通过；A对空集路径拒绝逻辑只读复核通过。",
+      "status": "fixed_with_static_review_and_real_complete_data_run"
+    },
+    {
+      "id": "PREVIEW-03",
+      "origin": "independent_ai_read_only_review_of_intermediate_helper",
+      "paths": [
+        "tests/browser/learning-flow.cjs"
+      ],
+      "problem": "中间版本只验resource_id的版本后缀和项目字段文字，未精确绑定稳定作品ID与项目task id；首项还只等待goto的完成。",
+      "resolution": "按生产哈希合同重算自检/项目版本，unit绑定catalog版本；完整比较resource_id、source_ref、snapshot.task_ids、项目fields.id及字段/量规。首项goto首页后也统一await真实open*返回true。",
+      "verification": "最终857个作品描述符通过精确身份、版本、字段和量规检查；4个操作组件通过主内容/表征版本及实际控件完成检查。A已逐式核对生产合同。",
+      "status": "fixed_with_static_review_and_real_complete_data_run"
+    },
+    {
+      "id": "PREVIEW-04",
+      "origin": "source_inspection_and_incomplete_development_timing",
+      "paths": [
+        "tests/browser/learning-flow.cjs"
+      ],
+      "problem": "本环境Playwright 1.62.1会在evaluate/query/wait等动作前后收集整个document快照，递归经过隐藏的全站目录。首次SPA开发仍保留此设置，实际35页/236.42秒后为补审查发现而主动终止；没有可用trace量化其中快照耗时占比。",
+      "resolution": "仅changed_content_preview重启追踪为screenshots=true,snapshots=false,sources=true；保留全部实际DOM、公式、图示、控件、布局断言及原代表PNG。Playwright内置HAR与snapshots耦合，故明确HAR关闭，网络证据为真实HTTP日志及逐页精确endpoint/status/identity记录。",
+      "verification": "其余11旅程、公共goto/helpers及全局浏览器生命周期逐字节等于dda16826；900秒预算未改。最终完整441页377.13秒，循环372314毫秒。这些是实际观察值，非控制变量基准测试，不能把改善全部归因于单一设置。",
+      "status": "scoped_capture_efficiency_change_verified"
+    },
+    {
+      "id": "PREVIEW-05",
+      "origin": "actual_strict_spa_attempt_and_bounded_diagnosis",
+      "paths": [
+        "tests/browser/learning-flow.cjs"
+      ],
+      "problem": "严格SPA第二开发运行完成53页后，在m1b.6.2的15秒readiness等待超时。两个work GET均200，script/server_errors为空，图片显示编辑器不能证明当时disabled状态。",
+      "diagnosis": "动作trace的参数count=2、indices=[0,1]正确；该段querySelector约4.990秒、openTeach evaluate约4.954秒、teach body约2.135秒、首work body约2.847秒、wait约17.953秒，涉及多类操作延迟。一次新上下文单页诊断6.54秒通过，wait前后逐位predicate都为true；原超时根因仍未被证明。",
+      "resolution": "原DOM合取条件和默认15秒保留，改为polling:100检查异步挂载；失败时只读采集view.hidden、编辑器数量、history标记、所有控件disabled、自检ID、操作组件、visibility和API证据后重抛原异常。没有重试、跳页、增加预算或把超时转为通过。",
+      "verification": "A逐项核对谓词原样保留；最终完整441页真实通过且无readiness_failure。此结果不证明之前一定由RAF或环境导致。",
+      "status": "bounded_wait_mechanism_adjusted_and_complete_run_passed_root_cause_unproven"
+    }
+  ],
+  "new_unresolved_blocking_findings": [],
+  "files": [
+    {
+      "path": "tests/browser/learning-flow.cjs",
+      "sha256": "02f737b291c22ee239168e35ad196ca181b29c9a119d5b6b05726924d8c336be",
+      "semantic_checks": [
+        "修改仅为changed_content_preview及其专用helper；其余11旅程、公共goto/helpers和全局启动/失败/退出逻辑与dda16826逐字节相同。",
+        "每页只接受清单内单一、受支持、同源的精确URL；主GET的方法、路径、参数、状态和材料ID均与请求匹配；生产路由返回false不能通过。",
+        "捕获本次目标类型容器此前的首子节点，要求新内容加载后旧节点脱离；不误要求跨类型隐藏视图被删除。",
+        "真实DOM目标、题干、量规、作品字段与本次响应逐项比较；从现有KaTeX annotation取公式源码做空白归一，不构造预期DOM、不mock API。",
+        "自检集合来自catalog稳定索引，拒绝缺失/空集代替应有任务；作品完整稳定ID、source_ref、task_ids、项目field id和生产版本哈希均绑定实际目录合同。",
+        "主open函数未await的工作区和操作组件被单独等待：.work-revisions尾标记、对应输入存在并启用、操作组件真实GET/双版本/SVG/启用状态。闭合details中的笔记按附着和控件状态检查，不错误要求其可见。",
+        "history与profile即使生产函数内部catch后返回true，也必须具有实际成功响应、正确数据形状和对应DOM列表/状态/恢复输入；scope/needs同样核对应响应和当前数量。",
+        "原字体/图示加载、KaTeX错误、命名控件、桌面溢出、代表截图和完整路径断言保留；展开参考过程仍等待对应真实exposure POST成功。",
+        "完整清单441项不得重复/漏页，最终路径顺序逐项相等；document导航实测1次，topics实测2次，不把所有bootstrap误写为1次。",
+        "追踪策略仅此旅程snapshots=false，明确内置HAR也关闭；成功分支沿用原行为，不导出trace包，保留HTTP/API/DOM记录与PNG；普通异常可导出不含DOM/HAR的动作trace。SIGTERM不保证导出trace。",
+        "只把readiness后续轮询改100毫秒；原15秒与900秒上限未变。超时诊断不放宽条件且重抛；不把单页通过替代441页验收。"
+      ],
+      "reviewed_changes": [
+        "PREVIEW-01",
+        "PREVIEW-02",
+        "PREVIEW-03",
+        "PREVIEW-04",
+        "PREVIEW-05"
+      ],
+      "conclusion": "该固定候选的完整441页开发预览已通过；正式发行仍需新提交、更新清单和全套门禁。"
+    }
+  ],
+  "independent_ai_cross_review": {
+    "agent": "/root/v4_learning_decisions",
+    "type": "read_only_source_and_contract_review",
+    "source_sha256": "02f737b291c22ee239168e35ad196ca181b29c9a119d5b6b05726924d8c336be",
+    "executed_tests": false,
+    "modified_files": false,
+    "confirmed": [
+      "中间版本空自检与非精确ID/版本两项漏检已关闭。",
+      "首项也统一await生产open函数。",
+      "原readiness每项条件与15秒、441页、900秒均保留；失败即时快照后重抛，无隐藏重试。",
+      "其他11旅程与全局生命周期未动；仅本旅程关闭DOM快照并明确HAR关闭。"
+    ],
+    "conclusion": "最终diff未发现新实质阻断；这份静态结论不代替作者的动态441页结果，也不是教师审核。"
+  },
+  "execution": {
+    "environment": {
+      "node_version": "v24.22.1",
+      "playwright_version": "1.62.1",
+      "browser_version": "131.0.6778.204"
+    },
+    "python": "/workspace/scratch/cdd6c485d2b6/cnkg-venv/bin/python",
+    "chromium_executable": "/tmp/cnkg-chrome-shell/chrome-headless-shell-linux64/chrome-headless-shell",
+    "fontconfig_file": "/tmp/cnkg-fonts.conf",
+    "per_journey_budget_seconds": 900,
+    "readiness_timeout_ms": 15000,
+    "readiness_polling_ms": 100,
+    "final_command": "CNKG_CHROMIUM_EXECUTABLE=/tmp/cnkg-chrome-shell/chrome-headless-shell-linux64/chrome-headless-shell FONTCONFIG_FILE=/tmp/cnkg-fonts.conf PYTHONUNBUFFERED=1 /workspace/scratch/cdd6c485d2b6/cnkg-venv/bin/python -u tools/browser_check.py --journey changed_content_preview --output build/browser-check-preview-dev-v3",
+    "attempts": [
+      {
+        "id": "baseline",
+        "description": "旧dda16826正式预览",
+        "head": "dda16826ea8fc2c2860a54a6bf358167c4604c4c",
+        "generated_at": "2026-10-26T15:30:24+00:00",
+        "journey_ok": false,
+        "returncode": 143,
+        "elapsed_seconds": 517.72,
+        "completed_preview_pages": 110,
+        "aggregate_ok": false,
+        "source_clean": true,
+        "manifest_valid": true,
+        "source_sha256": "b7bdfdd276f5e2c34ca32e18cf529dfe5695165bb22b3247831b8add20cedfc4",
+        "report": {
+          "path": "build/acceptance-attempts/dda16826-first/browser-check/report.json",
+          "sha256": "5849ecaa101a267e1d713061a75b2a8d40f8af3c078488fbb14587d8b56d1625"
+        },
+        "interpretation": "由root主动终止；110页和517.72秒是实际部分运行，不是完整441页耗时，也不把143当作自动900秒超时。"
+      },
+      {
+        "id": "initial_spa",
+        "description": "首次SPA开发，仍启用整DOM快照",
+        "head": "dda16826ea8fc2c2860a54a6bf358167c4604c4c",
+        "generated_at": "2026-10-26T15:57:43+00:00",
+        "journey_ok": false,
+        "returncode": 143,
+        "elapsed_seconds": 236.42,
+        "completed_preview_pages": 35,
+        "aggregate_ok": false,
+        "source_clean": false,
+        "manifest_valid": false,
+        "source_sha256": "ce1ea49cef22144d8171f1acd5a8d5bb9e06019b9b5860e461291c2a44a2324e",
+        "report": {
+          "path": "build/browser-check-preview-dev/report.json",
+          "sha256": "94f5dd97874f123df5f692b9f479cee672d867eaf19da52bbbc4877a648ce0c7"
+        },
+        "interpretation": "35页后为修正具体审查发现和采集效率主动停止，returncode143；不计PASS，无可用trace量化快照开销占比。"
+      },
+      {
+        "id": "strict_raf",
+        "description": "精确身份/集合已补齐，snapshots关闭，默认RAF轮询",
+        "head": "dda16826ea8fc2c2860a54a6bf358167c4604c4c",
+        "generated_at": "2026-10-26T16:07:42+00:00",
+        "journey_ok": false,
+        "returncode": 1,
+        "elapsed_seconds": 91.09,
+        "completed_preview_pages": 53,
+        "aggregate_ok": false,
+        "source_clean": false,
+        "manifest_valid": false,
+        "source_sha256": "aa33b91d4e8e7ae03606034ccd69b1bf44f5facbfaac9505c14b45018fad7a04",
+        "report": {
+          "path": "build/browser-check-preview-dev-final/report.json",
+          "sha256": "5e71a3f73facfe9e34ac77193a8ce962894b3397ddb18e627a8589ff98ebb2b5"
+        },
+        "interpretation": "53页后m1b.6.2发生真实15秒readiness超时，保留失败，不将正确截图或200响应当作就绪证明。"
+      },
+      {
+        "id": "single_page",
+        "description": "一次临时脚本的单页逐位定位",
+        "head": "dda16826ea8fc2c2860a54a6bf358167c4604c4c",
+        "generated_at": "2026-10-26T16:12:46+00:00",
+        "journey_ok": true,
+        "returncode": 0,
+        "elapsed_seconds": 6.54,
+        "completed_preview_pages": 0,
+        "aggregate_ok": false,
+        "source_clean": false,
+        "manifest_valid": false,
+        "source_sha256": "aa33b91d4e8e7ae03606034ccd69b1bf44f5facbfaac9505c14b45018fad7a04",
+        "report": {
+          "path": "build/browser-check-preview-readiness-diagnostic/report.json",
+          "sha256": "4f81eafacf8e659ab751c5fdd964a4381b9f319331040fb0bc0caaf33c5b06b8"
+        },
+        "interpretation": "只打开m1b.6.2。6.54秒通过，wait前后各条件均true；不是完整预览，未复现原超时，不证明根因。"
+      },
+      {
+        "id": "final",
+        "description": "最终完整开发预览",
+        "head": "dda16826ea8fc2c2860a54a6bf358167c4604c4c",
+        "generated_at": "2026-10-26T16:15:54+00:00",
+        "journey_ok": true,
+        "returncode": 0,
+        "elapsed_seconds": 377.13,
+        "completed_preview_pages": 441,
+        "aggregate_ok": false,
+        "source_clean": false,
+        "manifest_valid": false,
+        "source_sha256": "02f737b291c22ee239168e35ad196ca181b29c9a119d5b6b05726924d8c336be",
+        "report": {
+          "path": "build/browser-check-preview-dev-v3/report.json",
+          "sha256": "a319607bbaf05e8a4eb3b44c3e4a3027946e5009054c4e3113a44822d581beb3"
+        },
+        "interpretation": "441/441全部真实通过，浏览器子进程0；runner进程1只因旧发行manifest无效，聚合报告仍false，不能宣称正式发行已通过。"
+      }
+    ],
+    "final_observations": {
+      "content_fingerprint": "f500157c716591afc660e4080a194ef89d07668f76f680ebeac13901aecf978d",
+      "pages": 441,
+      "page_kinds": {
+        "project": 3,
+        "teach": 420,
+        "unit": 14,
+        "scope": 1,
+        "needs": 1,
+        "history": 1,
+        "profile": 1
+      },
+      "unique_paths": 441,
+      "exact_checklist_order_match": true,
+      "self_checks": 840,
+      "work_descriptors": 857,
+      "operation_components": 4,
+      "document_navigation_count": 1,
+      "bootstrap_requests": {
+        "/api/topics": 2,
+        "/api/learning/units": 1,
+        "/api/projects": 1
+      },
+      "elapsed_seconds": 377.13,
+      "loop_elapsed_ms": 372314,
+      "api_response_count": 1303,
+      "api_responses_all_200": true,
+      "image_instance_checks": 31,
+      "images_all_loaded": true,
+      "math_error_count": 0,
+      "unnamed_control_count": 0,
+      "overflow_page_count": 0,
+      "readiness_failure": null,
+      "script_errors": [],
+      "server_errors": [],
+      "dialogs": [],
+      "changed_inputs": [],
+      "source_clean": false,
+      "manifest_valid": false,
+      "aggregate_ok": false,
+      "aggregate_context_errors": [
+        "The source manifest was invalid at the start of verification",
+        "The source manifest is no longer valid after verification"
+      ],
+      "tracing": {
+        "screenshots": true,
+        "snapshots": false,
+        "sources": true,
+        "built_in_har": false,
+        "network_evidence": [
+          "http.log",
+          "previews[].identity.api_responses"
+        ]
+      }
+    },
+    "static_checks": [
+      "node --check tests/browser/learning-flow.cjs：实际退出0。",
+      "git diff --check：实际退出0。",
+      "其他11旅程/共享goto及全局生命周期与dda16826逐字节比较：实际通过。"
+    ],
+    "evidence": [
+      {
+        "path": "build/browser-check-preview-dev-v3/report.json",
+        "sha256": "a319607bbaf05e8a4eb3b44c3e4a3027946e5009054c4e3113a44822d581beb3"
+      },
+      {
+        "path": "build/browser-check-preview-dev-v3/changed_content_preview/result.json",
+        "sha256": "029fbb89bd62e9c2c57bb97204af286ebec435e1bd6c06038ebd6f26b35c0b68"
+      },
+      {
+        "path": "build/browser-check-preview-dev-v3/changed_content_preview/browser.log",
+        "sha256": "1938aa719bc78b24a0a42683db308ad57708f26d85f8985683a11342b09cf989"
+      },
+      {
+        "path": "build/browser-check-preview-dev-v3/changed_content_preview/http.log",
+        "sha256": "3fb82dc4da8afe97e42e978fbcf448470be7c17c41bf48d502681d95402f8b55"
+      },
+      {
+        "path": "build/browser-check-preview-dev-final/changed_content_preview/trace.zip",
+        "sha256": "125f72c55afb6e5e93e2bd562dd2271747e4a275d101d9cbf86873e0c44a4535"
+      },
+      {
+        "path": "build/browser-check-preview-readiness-diagnostic/changed_content_preview/browser.log",
+        "sha256": "cc6294791b85b24a445a64e34a0e23d5cc71002fd1bd70872c550f7fb81d3918"
+      }
+    ],
+    "representative_screenshots": [
+      {
+        "path": "build/browser-check-preview-dev-v3/changed_content_preview/primary-entry.png",
+        "sha256": "a233f12b374dff2a2d334e6640952ccb5f846c93230f6d168116137912d3c379"
+      },
+      {
+        "path": "build/browser-check-preview-dev-v3/changed_content_preview/desktop-project.png",
+        "sha256": "3ab3d6c12438ebfc61e9c0cb153fc54a96647ba99bda93e83bc6e26c04b8ffea"
+      },
+      {
+        "path": "build/browser-check-preview-dev-v3/changed_content_preview/desktop-unit.png",
+        "sha256": "b0cdac6ab476d418b8048b46f3ff420602bae01112231e142f6060d9d1f1ac79"
+      },
+      {
+        "path": "build/browser-check-preview-dev-v3/changed_content_preview/desktop-home.png",
+        "sha256": "0590753653fac53969bebdf4d1abdb933ff6f9c6b014eccd28feb0c3dd91e19b"
+      },
+      {
+        "path": "build/browser-check-preview-dev-v3/changed_content_preview/final.png",
+        "sha256": "cd4ce4bf32a549c51c8fe523eb8adca7418bb5c66cd1f25e2d426f5840dc9d6b"
+      }
+    ]
+  },
+  "limits": [
+    "这是一项实际本地合成浏览器开发验收，未在本轮重新运行另外11旅程或完整核心测试。新固定提交的正式发行验收仍待root执行。",
+    "未把441页自动检查声称为441页人工逐文审阅，未把AI审查称作教师独立审核或真实学生学习效果。",
+    "旧正式运行和两次开发失败/中止全部保留。当前通过不追溯改变这些结果，也不把原readiness超时归因于已证实的RAF故障。",
+    "前后时长是实际记录，路径完成数、追踪设置和并发环境并非控制变量实验；没有估算并声称旧完整441页耗时。",
+    "开发输出目录是该候选的本地证据；正式可交付证据应由更新清单后的固定提交重新生成。",
+    "成功分支未导出动作trace；当前成功证据是完整逐页API/DOM结果、HTTP日志与代表PNG。普通异常可导出动作trace，snapshots:false时不含完整DOM/HAR。"
+  ]
+}

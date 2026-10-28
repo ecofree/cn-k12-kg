@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh3.2.3.3",
+  "name": "点到直线的距离公式",
+  "tier": "core",
+  "hook": "从点走到一条斜路，直接代入直线方程会得到一个有符号的数；除去法向量的长度，才会变成真实距离。",
+  "definition": "点P=(x₀,y₀)到直线Ax+By+C=0的距离为d=|Ax₀+By₀+C|/√(A²+B²)，其中A、B不同时为0。分母是法向量(A,B)的模，分子绝对值消除点在直线两侧的方向差异。",
+  "why": "取直线上Q，则Aqₓ+Bqᵧ+C=0，故(A,B)·QP=Ax₀+By₀+C。把QP投影到法向量，除以法向量模得到有向垂距，取绝对值得距离。直线系数整体乘λ≠0时，分子分母同乘|λ|，结果保持不变。",
+  "when_to_use": [
+    "求点到一般式直线的最短距离",
+    "求三角形高、圆心到直线距离或点与平行线的距离"
+  ],
+  "steps": [
+    "把直线化为Ax+By+C=0，读出含符号的A、B、C。",
+    "代入点坐标算分子并取绝对值。",
+    "除以√(A²+B²)，确认距离非负、方程缩放后不变。"
+  ],
+  "worked_example": {
+    "prompt": "求P=(1,1)到直线3x+4y-12=0的距离。",
+    "steps": [
+      "分子为|3×1+4×1-12|=5。",
+      "法向量长度√(3²+4²)=5，距离为5/5=1。"
+    ],
+    "answer": "1",
+    "verify": "((3+4-12)**2)**0.5/(3**2+4**2)**0.5",
+    "family_id": "distance.point-line",
+    "variant_id": "mh3.2.3.3:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "漏绝对值会让直线某一侧的点得到负距离。",
+    "分母不是A+B，也不是A²+B²；需开平方归一化。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用公式求点到直线的距离",
+      "explanation": "公式能处理竖直和水平直线，无须先转成斜截式。",
+      "self_check": {
+        "prompt": "求P=(-1,3)到4x+3y+5=0的距离。",
+        "reference_answer": "d=|-4+9+5|/5=2。",
+        "criteria": [
+          "正确代入含符号常数",
+          "分母5且答案2"
+        ],
+        "family_id": "distance.point-line",
+        "variant_id": "mh3.2.3.3:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "分子代入值是-10时距离能写-2吗？",
+        "hint": "先取绝对值，分母是非零法向量长度。",
+        "revision_prompt": "P=(0,0)到3x+4y-10=0距离10/5=2；再试线上点(2,1)得0。"
+      },
+      "observation_note": "观察符号、归一化和线上边界；不把代入值直接当距离。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能解释公式中分母的意义",
+      "explanation": "分母把任意长度的法向量归一化，保证距离与方程写法无关。",
+      "self_check": {
+        "prompt": "把x+y-2=0整体乘3，距离公式为什么不变？",
+        "reference_answer": "分子从|x₀+y₀-2|变为3倍，分母从√2变为√18=3√2，3约去，距离不变。",
+        "criteria": [
+          "分子分母同倍缩放",
+          "解释分母为法向量模"
+        ],
+        "family_id": "distance.line-equation-scaling",
+        "variant_id": "mh3.2.3.3:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "方程整体乘-2，距离会负或翻倍吗？",
+        "hint": "分子绝对值与分母模都乘2，相互抵消。",
+        "revision_prompt": "比较x+2y-3=0与-2x-4y+6=0，到原点均为3/√5。"
+      },
+      "observation_note": "观察表示不变性；若只乘部分系数就不是同一直线。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能识别点到直线距离公式中分母的表达式",
+      "explanation": "点到直线Ax+By+C=0的距离为|Ax₀+By₀+C|/√(A²+B²)，分母是法向量(A,B)的模。A、B不同时为0保证分母正，不能省略根号或用A+B，因为后者可能抵消为0。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：点到直线距离公式的分母是什么？ 可选：o1．√(A²+B²)；o2．A+B；o3．|C|；o4．A²+B²。\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：√(A²+B²)。分母为法向量(A,B)的模√(A²+B²)。",
+        "criteria": [
+          "识别分母为非零法向量模√(A²+B²)",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "geometry.point-line-formula-denominator-recall",
+        "variant_id": "mh3.2.3.3:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "分母是在求法向量长度还是长度平方？A与B一正一负时直接相加是否合理？",
+        "hint": "把分母对应到直角三角形边长的平方和开方，并核对非退化直线条件。",
+        "revision_prompt": "先回答这个辨别问题：分母是在求法向量长度还是长度平方？A与B一正一负时直接相加是否合理？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；识别分母为非零法向量模√(A²+B²)。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh3.2.3.3-q201",
+      "note": "完成后对照解析检查条件、步骤和结果：求P=(2,-1)到直线3x+4y+8=0的距离。"
+    },
+    {
+      "id": "mh3.2.3.3-q202",
+      "note": "完成后对照解析检查条件、步骤和结果：求P=(-4,6)到直线x=1的距离。"
+    },
+    {
+      "id": "mh3.2.3.3-q203",
+      "note": "完成后对照解析检查条件、步骤和结果：点到直线公式的分母√(A²+B²)表示什么？"
+    }
+  ],
+  "check": "独立完成并写出依据：求P=(-1,3)到4x+3y+5=0的距离。；把x+y-2=0整体乘3，距离公式为什么不变？",
+  "conditions": [
+    "法向量非零；分子绝对值与分母模缺一不可。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

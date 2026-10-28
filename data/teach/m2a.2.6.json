@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "tier": "core",
+  "hook": "同样出现3和4，“3盘每盘4块”与“3块又添4块”为什么运算不同？",
+  "definition": "加法表示合并不一定相同的两部分，减法表示去掉或比较；乘法表示几个相同加数的和；除法表示把总量等分或求其中有几个同样大的组。",
+  "why": "运算由量之间的关系决定。每盘4块共有3盘是4+4+4，能改写成乘法；3块又添4块是两部分合并，不能因为有两个数就相乘。",
+  "when_to_use": [
+    "题中有多个数量，需要自己选择一种运算",
+    "需要说明为什么不是另一种运算"
+  ],
+  "steps": [
+    "说清每个数表示每份数、份数、总数还是相差数。",
+    "用画图或完整口头关系表示数量结构。",
+    "选择相应运算，算后用关系检验。"
+  ],
+  "worked_example": {
+    "prompt": "每盘4块饼干，有3盘，一共几块？",
+    "steps": [
+      "相同的4块有3份：4+4+4。",
+      "写成4×3=12（块），所以用乘法。"
+    ],
+    "answer": "12",
+    "verify": "4*3",
+    "family_id": "primary.multiply.equal-groups",
+    "variant_id": "m2a.2.6:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "有“一共”不一定直接加两个数，等量多份可用乘法。",
+    "除法要有等分或等量分组条件，不能随意分。"
+  ],
+  "check": "先独立完成下面各项目标自检，再展开参考答案，逐条检查列式、过程和结果的意义。",
+  "topicId": "m2a.2.6",
+  "name": "选择一种运算解决问题",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能判断该用哪种运算",
+      "explanation": "先辨认关系再选运算，不用某个词替代思考。",
+      "self_check": {
+        "prompt": "每袋5个共4袋；有5个再买4个。分别用什么运算？",
+        "reference_answer": "第一题5×4，因为4个相同的5相加；第二题5+4，因为两部分合并。",
+        "criteria": [
+          "运算选择正确",
+          "分别说明等量多份与两部分"
+        ],
+        "family_id": "arithmetic.choose-add-or-multiply",
+        "variant_id": "m2a.2.6:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.add.combine-parts",
+          "primary.multiply.equal-groups"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "“每袋5个，共4袋”中的4是4个物品还是4份？与“5个又添4个”相同吗？",
+        "hint": "把第一题画成4圈、每圈5点；第二题只画5点和4点两堆，数每堆是否相同。",
+        "revision_prompt": "比较“每排3人共5排”和“原有3人又来5人”，各画数量图再选运算并解释。"
+      },
+      "observation_note": "观察等量多份与两部分合并的区分；正确选乘法仍不说明乘法口诀已熟练。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能说明选择该运算的理由",
+      "explanation": "运算理由应包含每个数的角色，而不是只说“题目要求”。",
+      "self_check": {
+        "prompt": "18支笔平均分给3人，为什么用除法？答案表示什么？",
+        "reference_answer": "总数18、份数3，求每份数，用18÷3=6，表示每人6支。",
+        "criteria": [
+          "说明平均分",
+          "指出商为每人支数"
+        ],
+        "family_id": "primary.divide.share-size",
+        "variant_id": "m2a.2.6:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.divide.group-count",
+          "primary.divide.share-versus-group"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "18÷3的3是人数还是每人分到的支数？商应带什么单位？",
+        "hint": "把18个点轮流放进3个人的圈，直到分完且每圈同样多；数一圈而非圈的个数。",
+        "revision_prompt": "把题改成“18支笔每人分3支”，对照两题圈出商的单位并说明相同算式不同意义。"
+      },
+      "observation_note": "观察平均分中的数量角色与商的含义；不平均分时不能直接推断人人都是6支。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由总量及平均分成的份数求每份数",
+      "explanation": "平均分时每份相同。总量除以份数得到每份数量；商的单位是每份有几个，不是分成几份。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：把24张卡片平均分给4个小组，每组分得几张？请根据平均分关系选择运算。\n写出每个问题的答案。可以用小棒、画图或算式说明你怎样想；用了提示或参考，也记下来。",
+        "reference_answer": "情境1参考：6。24平均分4组，每组24÷4=6。",
+        "criteria": [
+          "除数是份数，商表示每份数量",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "primary.divide.share-size",
+        "variant_id": "m2a.2.6:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "仅观察所提交的数值、名称或方案；不把未提交的列式、解释、作图及选择算法过程记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "题目已告诉有几组，还是告诉每组几个？",
+        "hint": "把题中已知份数画成同样大小的空框，再把总量平均放进这些框。",
+        "revision_prompt": "先回答这个辨别问题：题目已告诉有几组，还是告诉每组几个？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；除数是份数，商表示每份数量。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m2a.2.6-q102",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m2a.2.6-q3",
+      "note": "完成后说清数量关系与每步依据。"
+    },
+    {
+      "id": "m2a.2.6-q90",
+      "note": "完成后说清数量关系与每步依据。"
+    }
+  ]
+}

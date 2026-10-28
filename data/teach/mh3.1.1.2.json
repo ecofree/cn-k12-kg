@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh3.1.1.2",
+  "name": "空间向量的数量积运算",
+  "tier": "core",
+  "hook": "同样大小的拉力沿物体前进方向能做更多功；数量积把两向量长度和方向的配合变成一个数。",
+  "definition": "非零空间向量a、b的数量积为a·b=|a||b|cosθ，θ∈[0,π]。数量积是数，满足交换、分配和数乘规律；a·a=|a|²。两个非零向量垂直当且仅当a·b=0。零向量与任意向量数量积为0，但没有确定方向或夹角。",
+  "why": "把b投影到a的方向，投影的有向长度是|b|cosθ，再乘|a|就得到数量积。正交时投影为0，故积为0；夹角锐、钝分别对应正、负。展开(a+b)·(a+b)还能得到模长平方，联系余弦定理。",
+  "when_to_use": [
+    "已知两向量长度和夹角，要求一个数值",
+    "需要证明两个有确定方向的向量互相垂直",
+    "求向量和的模长或两向量夹角"
+  ],
+  "steps": [
+    "检查需要夹角的两个向量是否非零。",
+    "由长度夹角代入定义，或把数量积按分配律展开。",
+    "求角时先算cosθ，再按θ∈[0,π]选角；判垂直时检查数量积是否0。"
+  ],
+  "worked_example": {
+    "prompt": "|a|=2，|b|=3，夹角60°，求a·b。",
+    "steps": [
+      "用a·b=|a||b|cos60°，其中cos60°=1/2。",
+      "所以a·b=2×3×1/2=3；正值也符合夹角为锐角。"
+    ],
+    "answer": "3",
+    "verify": "2*3*0.5",
+    "family_id": "vector.dot-angle",
+    "variant_id": "mh3.1.1.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "a·b是实数，不能再把它当作向量求方向。",
+    "a·b=0时须先排除零向量，才能讨论两向量夹角为90°。",
+    "数量积一般不满足向量形式的结合律，(a·b)c与a(b·c)未必相等。"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能计算空间向量的数量积",
+      "explanation": "用分配律可把复杂表达式化为已知模长和夹角。",
+      "self_check": {
+        "prompt": "已知|a|=2、|b|=3且a⊥b，求(a+b)·(a-b)。",
+        "reference_answer": "展开为a·a-a·b+b·a-b·b=4-9=-5。",
+        "criteria": [
+          "展开四项并抵消交叉项",
+          "用模长平方得-5"
+        ],
+        "family_id": "vector.dot-expand-cancellation",
+        "variant_id": "mh3.1.1.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "(a+b)·(a-b)中的交叉项必须靠垂直才能消去吗？",
+        "hint": "交换律给a·b=b·a，正负项本来相消。",
+        "revision_prompt": "对任意a,b推得|a|²-|b|²；说明题给垂直在这次展开中并非必需。"
+      },
+      "observation_note": "观察分配、交换与平方模；不把多余条件当作运算必要条件。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用数量积判断垂直",
+      "explanation": "非零向量的数量积为0等价于cosθ=0；零向量不能用于角度结论。",
+      "self_check": {
+        "prompt": "a=(1,2,0)、b=(2,-1,0)是否垂直？写出计算依据。",
+        "reference_answer": "a·b=1×2+2×(-1)+0=0；两向量均非零，所以垂直。",
+        "criteria": [
+          "数量积计算为0",
+          "说明非零并据此判垂直"
+        ],
+        "family_id": "vector.dot-cartesian",
+        "variant_id": "mh3.1.1.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "点积为0时若a=0，还能说夹角90°吗？",
+        "hint": "夹角公式需要非零模；先核查两向量。",
+        "revision_prompt": "取a=(1,1,1)、b=(1,-1,0)点积0且均非零，判垂直；与零向量情况对照。"
+      },
+      "observation_note": "观察点积和非零前提；零向量不建立确定夹角。"
+    }
+  ],
+  "practice": [
+    {
+      "id": "mh3.1.1.2-q101",
+      "note": "完成后对照解析检查条件、步骤和结果：棱长 2 的正方体中，AB 与 AD 是同一个顶点出发的两条棱。它们对应向量的数量积是多少？"
+    },
+    {
+      "id": "mh3.1.1.2-q102",
+      "note": "完成后对照解析检查条件、步骤和结果：棱长 1 的正方体中，AC1 是体对角线。求 AB 与 AC1 的数量积。"
+    },
+    {
+      "id": "mh3.1.1.2-q1",
+      "note": "完成后对照解析检查条件、步骤和结果：已知 a=(1,2,3)，b=(2,-1,0)，则 a·b 等于多少？"
+    }
+  ],
+  "check": "独立完成并写出依据：已知|a|=2、|b|=3且a⊥b，求(a+b)·(a-b)。；a=(1,2,0)、b=(2,-1,0)是否垂直？写出计算依据。",
+  "conditions": [
+    "数量积为数；夹角和垂直方向判断要求非零向量。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

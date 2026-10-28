@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m1b.1.1",
+  "name": "认识平面图形",
+  "tier": "tool",
+  "hook": "描一个盒子的面和一个圆片边缘，纸上留下的形状一样吗？",
+  "definition": "长方形、正方形、三角形和圆是常见平面图形。长方形与正方形有4条直线边，三角形有3条；圆的边界弯曲，没有直线边和顶点。",
+  "why": "把立体模型的平面贴在纸上描边，可以得到平面图形。辨认时沿边界走一圈，数直线边和拐角；图形转斜了，边与角的特征仍保留。",
+  "conditions": [
+    "观察闭合的平面图形，分清图形与立体物体。",
+    "数边时本卡的“边”指多边形的直线边，圆另说明曲线边界。"
+  ],
+  "representation_note": "用纸片描边、转动与触摸轮廓，给每条直线边做小记号。",
+  "when_to_use": [
+    "观察闭合的平面图形，分清图形与立体物体。",
+    "数边时本卡的“边”指多边形的直线边，圆另说明曲线边界。"
+  ],
+  "steps": [
+    "先看轮廓是否由直线段围成。",
+    "沿边界数边与顶点，不重复起点。",
+    "依据特征说名称，转动纸片后再次核对。"
+  ],
+  "worked_example": {
+    "prompt": "把正方形纸片转斜，看起来像“菱形”，它还是正方形吗？",
+    "steps": [
+      "四条边仍一样长，四个角仍是直角。",
+      "转动只改朝向，没有改变形状。"
+    ],
+    "answer": "仍是正方形。",
+    "family_id": "geometry.plane-shape-orientation",
+    "variant_id": "m1b.1.1:worked-v4",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "不能凭“尖朝上”认三角形，旋转不改变边数。",
+    "正方形也是特殊长方形；圆不是由许多很短的直线边组成。"
+  ],
+  "practice": [
+    {
+      "id": "m1b.1.1-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m1b.1.1-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "先比较直线边和曲线边界，再观察边长与角。正方形四边相等、四角为直角；长方形四角为直角，对边相等。",
+      "observation_note": "观察辨认与朝向不变性，画得不够精确应结合口述和模型核对。",
+      "self_check": {
+        "prompt": "画或找出长方形、正方形、三角形、圆各一个，并将三角形转斜后重新命名。",
+        "reference_answer": "四类正确；三角形转斜后仍为三角形。",
+        "criteria": [
+          "四类例子符合特征",
+          "不以朝向代替形状特征"
+        ],
+        "family_id": "geometry.plane-shape-orientation",
+        "variant_id": "m1b.1.1:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.plane-side-count"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "一个有3条边的图形尖朝下，还是三角形吗？",
+        "hint": "数三条首尾围合的线段，不看尖朝哪边。",
+        "revision_prompt": "把误认的纸片旋转两次，记录名称保持不变。"
+      },
+      "criterion_index": 0,
+      "title": "能辨认长方形、正方形、三角形、圆"
+    },
+    {
+      "explanation": "多边形的边是一段段直线。长方形、正方形各4边，三角形3边；圆没有直线边，边界是一条闭合曲线。",
+      "observation_note": "观察数边标准；只填0尚未说明圆的曲线边界。",
+      "self_check": {
+        "prompt": "沿四种图形边界各走一圈，说明直线边的数量，并说明圆的边界。",
+        "reference_answer": "长方形4、正方形4、三角形3；圆没有直线边，有曲线边界。",
+        "criteria": [
+          "三类直线边数正确",
+          "不把圆说成有直线边的多边形"
+        ],
+        "family_id": "geometry.polygon-boundary",
+        "variant_id": "m1b.1.1:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "geometry.plane-side-count"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "为什么摸圆的一圈找不到拐角和直线段？",
+        "hint": "用手指连续沿曲线走，与三角形每条直线边比较。",
+        "revision_prompt": "给直线边逐段编号，给圆写“曲线边界”而不编直线边号。"
+      },
+      "criterion_index": 1,
+      "title": "能说出各平面图形的边数"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

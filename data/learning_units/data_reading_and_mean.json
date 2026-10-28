@@ -1,0 +1,1567 @@
+{
+  "schema": 1,
+  "id": "data_reading_and_mean",
+  "title": "读懂统计图与平均数",
+  "stage": "primary",
+  "topic_ids": [
+    "m3b.5.1",
+    "m4a.6.1",
+    "m4b.6.1",
+    "m5b.5.1",
+    "m6b.2.1"
+  ],
+  "standard_ids": [
+    "cms-2022:2.SP.01",
+    "cms-2022:3.SP.01"
+  ],
+  "review_status": "draft",
+  "author_type": "ai",
+  "objectives": [
+    {
+      "id": "data_reading_and_mean:read_scale",
+      "statement": "能根据统计图的轴名、单位和刻度读出数量，并核对条长比较是否受截断刻度影响。",
+      "granularity": "observable",
+      "prerequisite_objective_ids": []
+    },
+    {
+      "id": "data_reading_and_mean:mean",
+      "statement": "能把一组可比数据的总量平均分到对应份数，计算或反求平均数关系中的未知量。",
+      "granularity": "observable",
+      "prerequisite_objective_ids": []
+    },
+    {
+      "id": "data_reading_and_mean:combine",
+      "statement": "能用各组人数和每组平均数还原总量，再求合并平均数。",
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "data_reading_and_mean:mean"
+      ]
+    },
+    {
+      "id": "data_reading_and_mean:choose_chart",
+      "statement": "能依据比较类别、观察时间变化或表示整体中各部分的目的，选择相应统计图并说明理由。",
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "data_reading_and_mean:read_scale"
+      ]
+    },
+    {
+      "id": "data_reading_and_mean:limited_claim",
+      "statement": "能指出统计结论中超出已给数据的断言，并写出只涉及已知对象的结论。",
+      "granularity": "observable",
+      "prerequisite_objective_ids": [
+        "data_reading_and_mean:read_scale"
+      ]
+    }
+  ],
+  "prerequisites": [
+    "能读懂简单表格，进行整数加减乘除。",
+    "知道“每份”“总量”和“份数”的关系；不要求已学方差或相关系数。"
+  ],
+  "explanation": {
+    "intuition": "条形画得高不等于差距一定大，先读清一格代表多少。平均数好比把原来不一样多的数量重新平均分；每组有多少份，也会影响合并后的平均。",
+    "reasoning": "先说明统计对象、时间、单位和记录是否完整，再按轴刻度读数。平均数=总量÷份数，既不必是某个原数据，也不说明每一份都等于它。合并组时先用每组平均数×份数还原总量，再除以总份数。条形图适合比较类别，折线图适合显示有时间顺序的变化；扇形图表示同一整体的各部分。",
+    "conditions": [
+      "求平均的数据应针对同一可比较量并使用同一单位，份数必须大于0。",
+      "未记录不等于数值0；若缺数据，须明确只求已有记录的平均，或补齐后再求总体平均。",
+      "两组份数相等时，可以把两组平均数相加再除以2。份数不等时通常须按份数加权；若两组平均数本来相同，合并平均仍为这个数。",
+      "图形的轴范围与间距要清楚。截断纵轴的条长不能直接当作本数的倍数。",
+      "小组或自愿填表者的数据只能直接说明这些记录，不自动说明全班或全校。"
+    ],
+    "counterexample": "1人平均借10本，另9人平均借0本，合起来10人共借10本，平均1本；把两个组平均成(10+0)÷2=5本会错。平均为5本也不说明每个人都借5本，例如1本与9本的平均就是5本。"
+  },
+  "worked_examples": [
+    {
+      "prompt": "三名同学分别借了3、5、7本书，平均每人几本？",
+      "steps": [
+        "先求总量：3+5+7=15本。",
+        "共有3人，平均分成3份：15÷3=5本。",
+        "平均5本是这一组的总量描述，不说明三个人原来都借5本。"
+      ],
+      "answer": "5",
+      "family_id": "statistics.mean-from-values",
+      "variant_id": "data_reading_and_mean:example-1",
+      "verify": "(3+5+7)/3",
+      "representation": "verbal",
+      "cognitive_demand": "execute"
+    },
+    {
+      "prompt": "图中四周借阅量为4、6、2、8本。第4周比第1周多几本？",
+      "steps": [
+        "纵轴单位是本，起点是0，每格2本。",
+        "读得第4周8本，第1周4本。",
+        "数量差为8−4=4本；结论只涉及这两周。"
+      ],
+      "answer": "4",
+      "family_id": "statistics.bar-axis-reading",
+      "variant_id": "data_reading_and_mean:example-2",
+      "verify": "8-4",
+      "representation": "graph",
+      "cognitive_demand": "execute"
+    },
+    {
+      "prompt": "甲组2人平均借4本，乙组3人平均借6本，合并平均每人几本？",
+      "steps": [
+        "甲组总量2×4=8本，乙组3×6=18本。",
+        "总量26本，总人数5人。",
+        "平均26÷5=5.2本；人数不等，不能直接平均4和6。"
+      ],
+      "answer": "5.2",
+      "family_id": "statistics.combine-group-means",
+      "variant_id": "data_reading_and_mean:example-3",
+      "verify": "(2*4+3*6)/(2+3)",
+      "reference_family_ids": [
+        "statistics.mean-from-values"
+      ],
+      "representation": "verbal",
+      "cognitive_demand": "execute"
+    },
+    {
+      "prompt": "想比较四种图书的借阅量，又想展示连续四周借阅总量变化，各选什么图？",
+      "steps": [
+        "四种图书是不同类别，条形图可直接比较多少。",
+        "连续四周有时间顺序，折线图能显示上升和下降。",
+        "无论选哪种图，都写清对象、时间与单位；只有四周的数据不能保证下一周继续同样变化。"
+      ],
+      "answer": "类别比较可用条形图；时间变化可用折线图。",
+      "family_id": "statistics.chart-purpose",
+      "variant_id": "data_reading_and_mean:example-4",
+      "representation": "verbal",
+      "cognitive_demand": "choose_strategy"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "data_reading_and_mean:practice-1",
+      "objective_ids": [
+        "data_reading_and_mean:read_scale"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "读配图：第2周比第3周多借多少本？请只填本数。",
+      "explanation": "第2周是6本，第3周是2本，相差6−2=4本。每格2本，不能把两格读成2本。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "先看纵轴单位和每格表示的本数，再读两根条。"
+      },
+      "family_id": "statistics.bar-axis-reading",
+      "variant_id": "data_reading_and_mean:practice-1",
+      "representation": "graph",
+      "cognitive_demand": "execute",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "answer": "4",
+      "verify": "6-2",
+      "diagram": {
+        "src": "/static/diagrams/statistics-primary-books.svg",
+        "alt": "四周借阅本数的条形图，纵轴从0开始、每格2本；第1至4周分别为4、6、2、8本。条形上方同时印有数值，单位为本。"
+      }
+    },
+    {
+      "id": "data_reading_and_mean:practice-2",
+      "objective_ids": [
+        "data_reading_and_mean:mean"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "四名同学分别整理2、4、6、8本书，平均每人整理几本？请只填数值。",
+      "explanation": "总量为20本，共4人，20÷4=5本。平均可以不是某名同学原来的数量。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "先把四个数量相加，再除以人数4。"
+      },
+      "family_id": "statistics.mean-from-values",
+      "variant_id": "data_reading_and_mean:practice-2",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "answer": "5",
+      "verify": "(2+4+6+8)/4"
+    },
+    {
+      "id": "data_reading_and_mean:practice-3",
+      "objective_ids": [
+        "data_reading_and_mean:combine"
+      ],
+      "phase": "practice",
+      "type": "numeric",
+      "prompt": "甲组2人平均每人借3本，乙组3人平均每人借8本。这5人平均每人借几本？",
+      "explanation": "甲组6本，乙组24本，合计30本、5人，平均30÷5=6本。两组人数不相等，不能把3与8直接平均。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "分别还原两组总量，再合并人数。"
+      },
+      "family_id": "statistics.combine-group-means",
+      "variant_id": "data_reading_and_mean:practice-3",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "answer": "6",
+      "verify": "(2*3+3*8)/(2+3)"
+    },
+    {
+      "id": "data_reading_and_mean:practice-4",
+      "objective_ids": [
+        "data_reading_and_mean:choose_chart"
+      ],
+      "phase": "practice",
+      "type": "choice",
+      "prompt": "要展示连续7天中午气温怎样变化，哪一种图最方便看出时间变化？",
+      "explanation": "日期有自然顺序，折线图便于观察温度随时间上升或下降。每天温度不是同一整体的几个组成份额。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "先想要回答的是“各部分占比”还是“随时间变化”。"
+      },
+      "family_id": "statistics.chart-purpose",
+      "variant_id": "data_reading_and_mean:practice-4",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "answer": "B",
+      "choices": [
+        {
+          "id": "A",
+          "text": "把每天当作整体一部分的扇形图"
+        },
+        {
+          "id": "B",
+          "text": "按日期顺序的折线统计图"
+        },
+        {
+          "id": "C",
+          "text": "没有日期标签的图形"
+        }
+      ]
+    },
+    {
+      "id": "data_reading_and_mean:practice-5",
+      "objective_ids": [
+        "data_reading_and_mean:limited_claim"
+      ],
+      "phase": "practice",
+      "type": "rubric",
+      "prompt": "阅读小组5名自愿参加者本月都借了至少3本书。小林说“全班每个人都借了至少3本”。请指出哪里超出了数据，并写一句数据能支持的话。",
+      "explanation": "数据只描述5名自愿参加者。没有全班每个人的记录，不能把“这5人”扩大成“全班每人”。",
+      "feedback": {
+        "correct": "请按量规逐项自查并保留过程；自评不等于独立评价。",
+        "incorrect": "比较资料收集了谁与结论说的是谁。"
+      },
+      "family_id": "statistics.scope-of-observation",
+      "variant_id": "data_reading_and_mean:practice-5",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "指出结论范围扩大",
+          "points": 2,
+          "example": "只知道5名参加者，未知道全班其他同学。"
+        },
+        {
+          "criterion": "写出限定范围的结论",
+          "points": 2,
+          "example": "这5名有记录的参加者本月各借了至少3本。"
+        }
+      ]
+    },
+    {
+      "id": "data_reading_and_mean:transfer-1",
+      "objective_ids": [
+        "data_reading_and_mean:read_scale"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "图中甲18本、乙20本，纵轴从16本起。有人只看画出的条长，说“乙是甲的2倍”。请用图上的刻度和本数判断。",
+      "explanation": "可见条长是18−16=2和20−16=4，所以图上看起来是两倍；但实际数量是18和20，乙只比甲多2本。截断纵轴改变了可见条长比例。",
+      "feedback": {
+        "correct": "请按量规逐项自查并保留过程；自评不等于独立评价。",
+        "incorrect": "条的起点是0本还是16本？比较的应是18与20。"
+      },
+      "family_id": "statistics.truncated-bar-counterexample",
+      "variant_id": "data_reading_and_mean:transfer-1",
+      "representation": "graph",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "读出轴起点和真实本数",
+          "points": 2,
+          "example": "纵轴从16开始，甲18、乙20；画出的是超出16的部分。"
+        },
+        {
+          "criterion": "否定错误倍数并给出正确数量关系",
+          "points": 2,
+          "example": "乙比甲多2本；20不等于18×2，不能按可见条长说2倍。"
+        }
+      ],
+      "diagram": {
+        "src": "/static/diagrams/statistics-primary-truncated.svg",
+        "alt": "甲乙两组借阅量为18本、20本。图的纵轴从16本截起，甲条从16至18、乙条从16至20，显示出的条长为2格和4格。纵轴下端有断轴标记与“从16起”的说明；实际本数仍为18与20。"
+      }
+    },
+    {
+      "id": "data_reading_and_mean:transfer-2",
+      "objective_ids": [
+        "data_reading_and_mean:mean"
+      ],
+      "phase": "transfer",
+      "type": "numeric",
+      "prompt": "三次整理图书，前两次为4本和6本；三次平均每次5本。第三次整理几本？",
+      "explanation": "三次共3×5=15本，前两次共10本，第三次为15−10=5本。平均关系可以先还原总量。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "先求三次总量，再减去已知两次。"
+      },
+      "family_id": "statistics.missing-value-from-mean",
+      "variant_id": "data_reading_and_mean:transfer-2",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "answer": "5",
+      "verify": "3*5-4-6"
+    },
+    {
+      "id": "data_reading_and_mean:transfer-3",
+      "objective_ids": [
+        "data_reading_and_mean:combine"
+      ],
+      "phase": "transfer",
+      "type": "numeric",
+      "prompt": "甲班10名参加者平均整理6本书，乙班30名参加者平均整理2本。两班这40名参加者合计平均每人整理几本？",
+      "explanation": "两组总量分别60本和60本，合计120本，平均120÷40=3本。这里描述40名参加者，不是两班所有学生。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "人数应作为每组平均数对应的份数，不能遗漏。"
+      },
+      "family_id": "statistics.combine-group-means",
+      "variant_id": "data_reading_and_mean:transfer-3",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "answer": "3",
+      "verify": "(10*6+30*2)/(10+30)"
+    },
+    {
+      "id": "data_reading_and_mean:transfer-4",
+      "objective_ids": [
+        "data_reading_and_mean:choose_chart"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "有“故事、科普、历史、艺术”四类图书的借阅本数。小明把类别按任意顺序连成折线，说线向上就表示借阅量随时间增加。请指出问题，并建议更合适的呈现方法。",
+      "explanation": "这里的横轴是图书类别，没有时间先后关系。用条形图比较数量更合适；不能把类别排序造成的折线上升解读成随时间增长。",
+      "feedback": {
+        "correct": "请按量规逐项自查并保留过程；自评不等于独立评价。",
+        "incorrect": "题目有没有给出四个不同时间？类别换个顺序，线还会一样吗？"
+      },
+      "family_id": "statistics.nominal-categories-not-time",
+      "variant_id": "data_reading_and_mean:transfer-4",
+      "representation": "verbal",
+      "cognitive_demand": "model",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "区分类别和时间",
+          "points": 2,
+          "example": "四类不是四个时间点，连线次序可随意改变，不能说明时间趋势。"
+        },
+        {
+          "criterion": "按目的选图",
+          "points": 2,
+          "example": "用条形图比较四类本数，写清类别和本数单位。"
+        }
+      ]
+    },
+    {
+      "id": "data_reading_and_mean:transfer-5",
+      "objective_ids": [
+        "data_reading_and_mean:limited_claim"
+      ],
+      "phase": "transfer",
+      "type": "rubric",
+      "prompt": "两名同学平均每人借5本书。有人说“两人一定各借5本”。请举一个不同于5与5的例子反驳，并解释平均数能说明什么。",
+      "explanation": "1与9、2与8等都平均为5，已经否定“一定各5本”。平均数压缩了总量关系，没有保留每个人的实际数量。",
+      "feedback": {
+        "correct": "请按量规逐项自查并保留过程；自评不等于独立评价。",
+        "incorrect": "先求两人总量，再把总量拆成两个不同的数。"
+      },
+      "family_id": "statistics.mean-not-every-individual",
+      "variant_id": "data_reading_and_mean:transfer-5",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "给出满足平均数但个体不同的例子",
+          "points": 2,
+          "example": "例如1本与9本，共10本，平均5本。"
+        },
+        {
+          "criterion": "区分平均和每人实际数量",
+          "points": 2,
+          "example": "平均5说明总量为人数×5，不保证每个人恰好5。"
+        }
+      ]
+    },
+    {
+      "id": "data_reading_and_mean:delayed-1",
+      "objective_ids": [
+        "data_reading_and_mean:read_scale"
+      ],
+      "phase": "delayed",
+      "type": "numeric",
+      "prompt": "一张从0开始的条形图，纵轴每格表示5件作品。甲条高3格，乙条高5格。乙比甲多几件作品？",
+      "explanation": "甲为15件，乙为25件，相差10件；相差2格还要乘每格5件。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "把格数换成件数后再比较。"
+      },
+      "family_id": "statistics.bar-axis-reading",
+      "variant_id": "data_reading_and_mean:delayed-1",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "answer": "10",
+      "verify": "(5-3)*5"
+    },
+    {
+      "id": "data_reading_and_mean:delayed-2",
+      "objective_ids": [
+        "data_reading_and_mean:mean"
+      ],
+      "phase": "delayed",
+      "type": "numeric",
+      "prompt": "三天读书页数记录完整，分别为0、6、12页。平均每天读几页？",
+      "explanation": "第一天的0是已确认记录，也算一天；总18页除以3天得6页。不能因一天为0就把天数减成2。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "0页表示这一天已记录但没读，不是缺失的一天。"
+      },
+      "family_id": "statistics.mean-from-values",
+      "variant_id": "data_reading_and_mean:delayed-2",
+      "representation": "verbal",
+      "cognitive_demand": "execute",
+      "answer_spec": {
+        "kind": "number",
+        "comparison": "exact",
+        "representation": "any"
+      },
+      "answer": "6",
+      "verify": "(0+6+12)/3"
+    },
+    {
+      "id": "data_reading_and_mean:delayed-3",
+      "objective_ids": [
+        "data_reading_and_mean:combine"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "甲组2人平均借8本，乙组6人平均借0本。小林用(8+0)÷2得平均4本。请算出两组8人真正的平均数，并指出错误。",
+      "explanation": "合计16本、8人，平均2本。把两个组的平均数直接平均，相当于错把两组人数当成一样多。",
+      "feedback": {
+        "correct": "请按量规逐项自查并保留过程；自评不等于独立评价。",
+        "incorrect": "检查分母2代表两组还是全部8个人。"
+      },
+      "family_id": "statistics.unequal-group-mean-counterexample",
+      "variant_id": "data_reading_and_mean:delayed-3",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "还原总量和总人数",
+          "points": 2,
+          "example": "总量2×8+6×0=16本，总人数8人。"
+        },
+        {
+          "criterion": "算出平均并解释权重",
+          "points": 2,
+          "example": "平均2本；两个组人数不同，不能把组当作两个人。"
+        }
+      ]
+    },
+    {
+      "id": "data_reading_and_mean:delayed-4",
+      "objective_ids": [
+        "data_reading_and_mean:choose_chart"
+      ],
+      "phase": "delayed",
+      "type": "choice",
+      "prompt": "已经统计同一天图书馆借出的所有图书，想突出每一类占这批图书整体的多少，应优先选择哪种图？",
+      "explanation": "扇形图适合表示同一整体中各部分的份额。各类别应互不重复并合成这次统计的整体。",
+      "feedback": {
+        "correct": "请对照解释核对依据、单位和适用条件。",
+        "incorrect": "这次关注的是各部分与同一整体的关系。"
+      },
+      "family_id": "statistics.chart-purpose",
+      "variant_id": "data_reading_and_mean:delayed-4",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "choice"
+      },
+      "answer": "C",
+      "choices": [
+        {
+          "id": "A",
+          "text": "把各类名称当作时间的折线图"
+        },
+        {
+          "id": "B",
+          "text": "不写总量也不写单位的图"
+        },
+        {
+          "id": "C",
+          "text": "把同一整体分成各类份额的扇形统计图"
+        }
+      ]
+    },
+    {
+      "id": "data_reading_and_mean:delayed-5",
+      "objective_ids": [
+        "data_reading_and_mean:limited_claim"
+      ],
+      "phase": "delayed",
+      "type": "rubric",
+      "prompt": "计划记录5天借阅量，现只记到4天：2、4、6、8本，第5天忘了记录。小明把缺失记成0后求5天平均。这样可靠吗？现在能可靠计算哪个平均数？",
+      "explanation": "缺失值不是已确认的0。现可求4个已记录日平均20÷4=5本；要得到完整5天平均，须补齐第5天或明确额外假设。",
+      "feedback": {
+        "correct": "请按量规逐项自查并保留过程；自评不等于独立评价。",
+        "incorrect": "先说明记录是否齐全；不要用猜测填补未知数据。"
+      },
+      "family_id": "statistics.missing-not-zero",
+      "variant_id": "data_reading_and_mean:delayed-5",
+      "representation": "verbal",
+      "cognitive_demand": "explain",
+      "answer_spec": {
+        "kind": "rubric"
+      },
+      "rubric": [
+        {
+          "criterion": "区分缺失和已知零",
+          "points": 2,
+          "example": "忘记记录不等于借0本，5天平均暂不能确定。"
+        },
+        {
+          "criterion": "报告已知数据的平均和范围",
+          "points": 2,
+          "example": "已记录4天共20本，平均5本；应明确这是4个已记录日的平均。"
+        }
+      ]
+    }
+  ],
+  "teacher_review": {
+    "status": "pending"
+  },
+  "prerequisite_topic_ids": [
+    "m3a.4.1"
+  ],
+  "prerequisite_unit_ids": [],
+  "prerequisite_objective_ids": [],
+  "coverage_note": "本单元细化所列教材主题中的统计任务；不代表整部统计课程已经覆盖。先修链接供需要时回看，不用学段或完成记录阻止进入。所有题族为作者分类，阶段名称不保证未曝光或独立测量。",
+  "diagram": {
+    "src": "/static/diagrams/statistics-primary-books.svg",
+    "alt": "四周借阅本数的条形图，纵轴从0开始、每格2本；第1至4周分别为4、6、2、8本。条形上方同时印有数值，单位为本。"
+  },
+  "instructional_support": {
+    "schema": 1,
+    "supports": [
+      {
+        "id": "data_reading_and_mean:support:read_scale",
+        "objective_id": "data_reading_and_mean:read_scale",
+        "title": "先读刻度，再比较数量",
+        "observation_note": "短题分辨“格数”和“实际数量”；能正确读数还不足以证明能识别截断轴造成的倍数错觉，须继续做截断图任务。",
+        "hypotheses": [
+          "可能把格数直接当作数量。",
+          "可能读出了两个数，却把截断后画出的条长当成数量的倍数。"
+        ],
+        "diagnostic": {
+          "prompt": "纵轴从10本开始，每格2本；一根条的顶端在起点上方3格。实际表示多少本？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "3本",
+              "feedback": "3是格数。先用每格2本换成增加的本数。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "6本",
+              "feedback": "6本是超过起点的部分，还需加上起点10本。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "C",
+              "text": "16本",
+              "feedback": "对，10+3×2=16本。请保留“起点+格数×每格量”的依据。",
+              "next_hint_level": 1
+            }
+          ],
+          "answer": "C",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "起点10本，加上3格共6本，得到16本。截断轴不改变标注的实际值。",
+          "family_id": "statistics.bar-axis-reading",
+          "representation": "graph",
+          "cognitive_demand": "choose_strategy",
+          "diagram": {
+            "src": "/static/diagrams/support-scale-probe-v5.svg",
+            "alt": "纵轴从10到18本，每格2本；条顶在起点上方3格。"
+          },
+          "variant_id": "data_reading_and_mean:support:read_scale:diagnostic"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "先圈出纵轴的单位、起点和相邻两刻度的差。图上长度要通过刻度换成数量。",
+            "reference_family_ids": [
+              "statistics.bar-axis-reading"
+            ]
+          },
+          {
+            "level": 2,
+            "text": "从起点往上数格，把“起点值+格数×每格值”写出来；比较多少用读出的数相减。",
+            "reference_family_ids": [
+              "statistics.bar-axis-reading"
+            ]
+          },
+          {
+            "level": 3,
+            "text": "例如纵轴从20件起、每格5件，条顶在上方2格，表示30件。另一条表示25件，实际相差5件；画出部分的10与5之比不能说明30是25的2倍。",
+            "reference_family_ids": [
+              "statistics.bar-axis-reading",
+              "statistics.truncated-bar-counterexample"
+            ]
+          }
+        ],
+        "guided_task": {
+          "prompt": "纵轴从0开始，每格4件；甲条高2格，乙条高5格。先分别读数，再填乙比甲多多少件。",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "12",
+          "verify": "5*4-2*4",
+          "explanation": "甲8件、乙20件，数量差20−8=12件。",
+          "family_id": "statistics.bar-axis-reading",
+          "representation": "graph",
+          "cognitive_demand": "execute",
+          "diagram": {
+            "src": "/static/diagrams/support-bars-basic-v5.svg",
+            "alt": "纵轴从0到20件，每格4件，甲条高2格，乙条高5格。"
+          },
+          "variant_id": "data_reading_and_mean:support:read_scale:guided"
+        },
+        "followup_task_ids": [
+          "data_reading_and_mean:practice-1",
+          "data_reading_and_mean:transfer-1",
+          "data_reading_and_mean:delayed-1"
+        ],
+        "default_route": {
+          "title": "继续核对这个目标",
+          "rationale": "本次辨别已选到有依据的回答，继续原有指导任务检查是否能落实到操作；一次选择不等于目标已经完成。",
+          "observation_note": "短题分辨“格数”和“实际数量”；能正确读数还不足以证明能识别截断轴造成的倍数错觉，须继续做截断图任务。"
+        },
+        "guided_branches": [
+          {
+            "id": "scale_per_grid",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "先把格数换成数量",
+            "rationale": "你选择了图上格数，可能尚未把每格表示的数量带入；下一步先使用从0开始的刻度图。",
+            "observation_note": "这条路线隔离每格量的换算；还没有检查截断起点或条长倍数的问题。",
+            "guided_task": {
+              "prompt": "观察配图。纵轴的单位是本，图中这一根条表示多少本？请按刻度读数。",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "15",
+              "verify": "3*5",
+              "explanation": "纵轴从0开始，每格5本。条顶在第3格，所以表示3×5=15本；3是格数，不能直接当成本数。",
+              "family_id": "statistics.bar-axis-reading",
+              "representation": "graph",
+              "cognitive_demand": "execute",
+              "diagram": {
+                "src": "/static/diagrams/support-scale-per-grid-v5.svg",
+                "alt": "纵轴从0到20本，每格5本，条顶从0起向上3格。"
+              },
+              "variant_id": "data_reading_and_mean:support:read_scale:guided:scale_per_grid"
+            }
+          },
+          {
+            "id": "restore_axis_origin",
+            "choice_ids": [
+              "B"
+            ],
+            "title": "把被截去的起点加回来",
+            "rationale": "你把超过起点的6本当成全部数量；下一步专门比较起点值与起点以上的增加量。",
+            "observation_note": "这条路线只观察读出完整数值，尚未确认能解释截断轴造成的倍数错觉。",
+            "guided_task": {
+              "prompt": "观察配图。纵轴从20本开始，每格5本，条顶所在刻度表示多少本？",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "30",
+              "verify": "20+2*5",
+              "explanation": "条顶在起点20本上方2格，实际数量为20+2×5=30本。图上画出的10本是超过起点的部分。",
+              "family_id": "statistics.bar-axis-reading",
+              "representation": "graph",
+              "cognitive_demand": "execute",
+              "diagram": {
+                "src": "/static/diagrams/support-axis-origin-v5.svg",
+                "alt": "截断纵轴的起点为20本，每格5本，条顶高出起点2格。"
+              },
+              "variant_id": "data_reading_and_mean:support:read_scale:guided:restore_axis_origin"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先读相邻刻度的差",
+          "rationale": "暂时不会时先不推测错误原因，先从纵轴标注中确认每一格代表的量。",
+          "observation_note": "只认识每格量不代表完成读图比较，后续还要检查起点和图中条顶。",
+          "guided_task": {
+            "prompt": "图中纵轴相邻刻度依次标0、4、8、12、16、20（件）。一小格代表多少件？",
+            "type": "numeric",
+            "answer_spec": {
+              "kind": "number",
+              "comparison": "exact",
+              "representation": "any"
+            },
+            "answer": "4",
+            "verify": "8-4",
+            "explanation": "相邻两个刻度的差为4，所以每格4件。单位“件”也要与读数一起保留。",
+            "family_id": "statistics.bar-axis-reading",
+            "representation": "graph",
+            "cognitive_demand": "execute",
+            "diagram": {
+              "src": "/static/diagrams/support-bars-basic-v5.svg",
+              "alt": "纵轴从0到20件，每格4件，甲条高2格，乙条高5格。"
+            },
+            "variant_id": "data_reading_and_mean:support:read_scale:guided:skip"
+          }
+        }
+      },
+      {
+        "id": "data_reading_and_mean:support:mean",
+        "objective_id": "data_reading_and_mean:mean",
+        "title": "平均分之前先确定总量和份数",
+        "observation_note": "观察能否把记录的0计入份数，并用总量÷份数；反求未知量和区分缺失记录仍需后续确认。",
+        "hypotheses": [
+          "可能把平均误解为只在非零记录之间平均。",
+          "可能把缺失记录擅自当成0，或把总量当成平均量。"
+        ],
+        "diagnostic": {
+          "prompt": "三天的完整记录为0、4、8页。求平均每天页数，应除以几？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "2，因为只有两天读了书",
+              "feedback": "0页仍是一天的已知记录，求三天平均要有三份。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "3，因为三天都有记录",
+              "feedback": "对，0+4+8共12页，平均分给三天。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "12，因为总共12页",
+              "feedback": "12是总量，除数应是天数，单位不能混淆。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "份数由统计的三天确定，0页不是缺失。平均为12÷3=4页。",
+          "family_id": "statistics.mean-from-values",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "data_reading_and_mean:support:mean:diagnostic"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "说清“平均每什么”：每人就数人数，每天就数已记录的天数。",
+            "reference_family_ids": [
+              "statistics.mean-from-values"
+            ]
+          },
+          {
+            "level": 2,
+            "text": "把可比较且同单位的量全部相加，再除以对应份数；完整记录的0也占一份。未知平均中的一个量时，先用平均×份数还原总量。",
+            "reference_family_ids": [
+              "statistics.mean-from-values",
+              "statistics.missing-value-from-mean"
+            ]
+          },
+          {
+            "level": 3,
+            "text": "三次投球得分2、6、10，总分18，平均6。若只知道三次平均6和前两次2、6，第三次为6×3−2−6=10。忘记记录的一次不能直接写成0。",
+            "reference_family_ids": [
+              "statistics.missing-value-from-mean",
+              "statistics.missing-not-zero"
+            ]
+          }
+        ],
+        "guided_task": {
+          "prompt": "四次整理图书平均每次6本，前三次为3、5、7本。先求四次总数，再求第四次，填本数。",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "9",
+          "verify": "4*6-3-5-7",
+          "explanation": "总数24本，前三次15本，第四次9本。",
+          "family_id": "statistics.missing-value-from-mean",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "variant_id": "data_reading_and_mean:support:mean:guided"
+        },
+        "followup_task_ids": [
+          "data_reading_and_mean:practice-2",
+          "data_reading_and_mean:transfer-2",
+          "data_reading_and_mean:delayed-2"
+        ],
+        "default_route": {
+          "title": "继续：平均分之前先确定总量和份数",
+          "rationale": "已分清总量与份数且保留0记录；接着由平均数还原总量，再反求缺少的一次。",
+          "observation_note": "观察能否把记录的0计入份数，并用总量÷份数；反求未知量和区分缺失记录仍需后续确认。"
+        },
+        "guided_branches": [
+          {
+            "id": "keep_zero_record_in_count",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "零记录也占一份",
+            "rationale": "这次只数了非零天数；下一题把每天的记录逐一保留后再平均。",
+            "observation_note": "只核对完整记录中的0，不能把漏记也补为0。",
+            "guided_task": {
+              "prompt": "三天阅读记录完整，依次为0、3、6页。0页那天也算一天，这三天平均每天读几页？",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "3",
+              "verify": "(0+3+6)/3",
+              "explanation": "三天共9页，份数是3天，平均9÷3=3页。0页是已知记录，与没有记录不同。",
+              "family_id": "statistics.mean-from-values",
+              "representation": "verbal",
+              "cognitive_demand": "execute",
+              "variant_id": "data_reading_and_mean:support:mean:guided:keep_zero_record_in_count"
+            }
+          },
+          {
+            "id": "separate_total_and_number_of_shares",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "总量和份数分别写单位",
+            "rationale": "这次把12页当作除数；下一题先把页数总量与天数对应到平均式。",
+            "observation_note": "只检查总量÷份数的含义；未知量反求仍需后续任务。",
+            "guided_task": {
+              "prompt": "4天完整记录共读20页，求平均每天页数。哪式的数量和单位匹配？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "20页÷4天，得平均每天5页"
+                },
+                {
+                  "id": "B",
+                  "text": "4天÷20页，得平均每天页数"
+                },
+                {
+                  "id": "C",
+                  "text": "20页÷20页，得平均每天1页"
+                }
+              ],
+              "answer": "A",
+              "explanation": "“平均每天”要把总页数分给4天；总量是20页，份数是4天，不能把总量同时当作份数。",
+              "family_id": "statistics.mean-from-values",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "data_reading_and_mean:support:mean:guided:separate_total_and_number_of_shares"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先数已经完整记录的份数",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只识别份数，之后还要合计总量并平均。",
+          "guided_task": {
+            "prompt": "记录表有周一0页、周二4页、周三8页，三天都已填写。求这三天平均数时有几份？",
+            "type": "numeric",
+            "answer_spec": {
+              "kind": "number",
+              "comparison": "exact",
+              "representation": "any"
+            },
+            "answer": "3",
+            "verify": "1+1+1",
+            "explanation": "每个已记录的一天是一份，包括0页那天，共3份。",
+            "family_id": "statistics.mean-from-values",
+            "representation": "verbal",
+            "cognitive_demand": "execute",
+            "variant_id": "data_reading_and_mean:support:mean:guided:skip"
+          }
+        }
+      },
+      {
+        "id": "data_reading_and_mean:support:combine",
+        "objective_id": "data_reading_and_mean:combine",
+        "title": "先把每组平均数还原成总量",
+        "observation_note": "观察合并平均的分母和各组权重；选对式子不等于能解释人数改变的影响，后续需保留计算与说理。",
+        "hypotheses": [
+          "可能把两组当成两个人，直接平均两个组平均数。",
+          "可能加对总量却只除以其中一组人数。"
+        ],
+        "diagnostic": {
+          "prompt": "甲组1人平均8本，乙组3人平均4本。哪一个算式求这4人的平均？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "(8+4)÷2",
+              "feedback": "这是两个组平均数的简单平均，给人数不同的组相同权重。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "(1×8+3×4)÷4",
+              "feedback": "对，先还原总量20本，再除以总人数4。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "(1×8+3×4)÷3",
+              "feedback": "总量已合并两组，份数也要包括两组的4人。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "合并平均为总量÷总人数，结果为5本。",
+          "family_id": "statistics.combine-group-means",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "data_reading_and_mean:support:combine:diagnostic"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "把“每人几本”和“有几人”分别写成两列，别把每组看作一人。",
+            "reference_family_ids": [
+              "statistics.combine-group-means"
+            ]
+          },
+          {
+            "level": 2,
+            "text": "每组平均数×该组人数=该组总量；总量相加，人数也相加。",
+            "reference_family_ids": [
+              "statistics.combine-group-means"
+            ]
+          },
+          {
+            "level": 3,
+            "text": "2人平均3本、4人平均9本：总量6+36=42本，总人数6人，平均7本。人数相等才通常可把组平均数直接相加除以2；组平均数相同是另一种特殊情况。",
+            "reference_family_ids": [
+              "statistics.combine-group-means"
+            ]
+          }
+        ],
+        "guided_task": {
+          "prompt": "甲组3人平均4件，乙组1人平均8件。合并平均每人几件？先还原两组总量。",
+          "type": "numeric",
+          "answer_spec": {
+            "kind": "number",
+            "comparison": "exact",
+            "representation": "any"
+          },
+          "answer": "5",
+          "verify": "(3*4+1*8)/(3+1)",
+          "explanation": "12+8=20件，4人，平均5件。人数多的甲组使结果更靠近4。",
+          "family_id": "statistics.combine-group-means",
+          "representation": "verbal",
+          "cognitive_demand": "execute",
+          "variant_id": "data_reading_and_mean:support:combine:guided"
+        },
+        "followup_task_ids": [
+          "data_reading_and_mean:practice-3",
+          "data_reading_and_mean:transfer-3",
+          "data_reading_and_mean:delayed-3"
+        ],
+        "default_route": {
+          "title": "继续：先把每组平均数还原成总量",
+          "rationale": "已选对按人数合并的式子；接着独立还原两组总量并计算，换数仍属于相同题族。",
+          "observation_note": "观察合并平均的分母和各组权重；选对式子不等于能解释人数改变的影响，后续需保留计算与说理。"
+        },
+        "guided_branches": [
+          {
+            "id": "expand_group_weights",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "展开每组人数，看看平均数代表几个人",
+            "rationale": "这次给两个组相同权重；下一题把各组展开为实际人数的记录。",
+            "observation_note": "只观察人数不同为何要加权，不声称所有组成员都恰好等于组平均数。",
+            "guided_task": {
+              "prompt": "甲组1人借8本；乙组3人各借4本。本题的四条实际记录为8、4、4、4，正确的合并平均式是哪一个？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "(8+4)÷2"
+                },
+                {
+                  "id": "B",
+                  "text": "(8+4+4+4)÷4"
+                },
+                {
+                  "id": "C",
+                  "text": "(8+4+4+4)÷2"
+                }
+              ],
+              "answer": "B",
+              "explanation": "乙组的4本在本题对应3人，不能只算一份。总量20本除以4人得5本；一般组平均也须先乘对应人数还原总量。",
+              "family_id": "statistics.combine-group-means",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "data_reading_and_mean:support:combine:guided:expand_group_weights"
+            }
+          },
+          {
+            "id": "count_all_people",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "总量合并时，人数也合并",
+            "rationale": "这次的总量包括两组，除数却只包括乙组；下一题单独检查平均要分给几个人。",
+            "observation_note": "只核对分母，随后仍需用组平均与人数还原总量。",
+            "guided_task": {
+              "prompt": "甲组2人、乙组5人。已经把两组借书总数相加，求合计平均每人本数应除以几人？",
+              "type": "numeric",
+              "answer_spec": {
+                "kind": "number",
+                "comparison": "exact",
+                "representation": "any"
+              },
+              "answer": "7",
+              "verify": "2+5",
+              "explanation": "总量来自全部2+5=7人，分母也必须是7人，不能只除某一组人数。",
+              "family_id": "statistics.combine-group-means",
+              "representation": "verbal",
+              "cognitive_demand": "execute",
+              "variant_id": "data_reading_and_mean:support:combine:guided:count_all_people"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先用组平均还原一组总量",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只观察平均数乘人数；两组总量和人数还要同时合并。",
+          "guided_task": {
+            "prompt": "一组3人平均每人4本，这一组合计有几本？",
+            "type": "numeric",
+            "answer_spec": {
+              "kind": "number",
+              "comparison": "exact",
+              "representation": "any"
+            },
+            "answer": "12",
+            "verify": "3*4",
+            "explanation": "平均每人4本乘3人还原总量12本。平均数不要求每个人实际都拿4本。",
+            "family_id": "statistics.combine-group-means",
+            "representation": "verbal",
+            "cognitive_demand": "execute",
+            "variant_id": "data_reading_and_mean:support:combine:guided:skip"
+          }
+        }
+      },
+      {
+        "id": "data_reading_and_mean:support:choose_chart",
+        "objective_id": "data_reading_and_mean:choose_chart",
+        "title": "先说想比较什么，再选图",
+        "observation_note": "观察类别、时间顺序和整体份额的区别；选择题不能代替自己画出有轴名、单位和清楚刻度的图。",
+        "hypotheses": [
+          "可能把任意排列的类别连线误说成时间趋势。",
+          "可能把互不构成同一整体的量画成份额。"
+        ],
+        "diagnostic": {
+          "prompt": "记录同一天故事、科普、历史三类书的借阅本数，想直接比较哪类多。哪种呈现最合适？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "横轴为书类的条形图",
+              "feedback": "对，书类是类别，条高直接比较本数。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "B",
+              "text": "把三类任意排序连线，说成随时间增加",
+              "feedback": "类别顺序不是时间，换一种排列就会改变所谓趋势。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "C",
+              "text": "不写类别和单位的圆圈",
+              "feedback": "缺少标签和数量含义，别人不能核对比较。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "要比较类别数量，可用有类别标签、单位和刻度的条形图。",
+          "family_id": "statistics.chart-purpose",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "data_reading_and_mean:support:choose_chart:diagnostic"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "把问题中的目的圈出来：比较类别、看时间变化，还是看同一整体中的占比？",
+            "reference_family_ids": [
+              "statistics.chart-purpose"
+            ]
+          },
+          {
+            "level": 2,
+            "text": "类别数量可用条形图；按时间排列的连续记录可用折线图；同一整体中不重叠且合计为整体的部分可用扇形图。",
+            "reference_family_ids": [
+              "statistics.chart-purpose"
+            ]
+          },
+          {
+            "level": 3,
+            "text": "若比较三种运动参加人数，画三根条；若看一周每天参加人数，按日期连线；若看同一天所有参加者按互不重叠项目的分配，才可画份额图。图名、对象、单位都要写清。",
+            "reference_family_ids": [
+              "statistics.chart-purpose",
+              "statistics.nominal-categories-not-time"
+            ]
+          }
+        ],
+        "guided_task": {
+          "prompt": "记录一株植物连续5天的高度，主要想看长得快慢怎样变化。应选哪种方案？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "按日期顺序画折线图，横轴日期、纵轴厘米"
+            },
+            {
+              "id": "B",
+              "text": "把5个高度相加作为一个整体画扇形图"
+            },
+            {
+              "id": "C",
+              "text": "把日期打乱后连线"
+            }
+          ],
+          "answer": "A",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "日期提供自然顺序，折线展示高度随时间的变化；五天高度不构成某个整体的份额。",
+          "family_id": "statistics.chart-purpose",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "data_reading_and_mean:support:choose_chart:guided"
+        },
+        "followup_task_ids": [
+          "data_reading_and_mean:practice-4",
+          "data_reading_and_mean:transfer-4",
+          "data_reading_and_mean:delayed-4"
+        ],
+        "default_route": {
+          "title": "继续：先说想比较什么，再选图",
+          "rationale": "已认出类别比较；接着换成连续日期的记录，按明确的时间顺序选择表达方式。",
+          "observation_note": "观察类别、时间顺序和整体份额的区别；选择题不能代替自己画出有轴名、单位和清楚刻度的图。"
+        },
+        "guided_branches": [
+          {
+            "id": "category_order_is_not_time",
+            "choice_ids": [
+              "B"
+            ],
+            "title": "类别重排不能变成时间变化",
+            "rationale": "这次把任意类别顺序当作时间；下一题保持同一数据，只改变类别排列来检查结论。",
+            "observation_note": "只区别类别与时间顺序，不替代自己绘制带清楚刻度的图。",
+            "guided_task": {
+              "prompt": "故事8本、科普4本、历史6本。若把类别顺序改成“科普、历史、故事”，连线就一路上升。能据此说借阅量随时间增加吗？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "能，线向上就表示时间趋势"
+                },
+                {
+                  "id": "B",
+                  "text": "不能，记录是同一天的三个类别，没有日期先后信息"
+                },
+                {
+                  "id": "C",
+                  "text": "能，因为把数按大小排序总能显示真实时间"
+                }
+              ],
+              "answer": "B",
+              "explanation": "重排类别没有改变实际借阅量，却改变了连线形状；这里没有时间轴，不能解释成时间趋势。比较类别可用有标签的条形图。",
+              "family_id": "statistics.nominal-categories-not-time",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "data_reading_and_mean:support:choose_chart:guided:category_order_is_not_time"
+            }
+          },
+          {
+            "id": "labels_make_comparison_auditable",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "让别人能从标签核对数量",
+            "rationale": "这次选择了没有类别和单位的图；下一题先把必须表达的对象与数量补清楚。",
+            "observation_note": "只检查图表标签是否支持问题，尚未检查完整作图和刻度比例。",
+            "guided_task": {
+              "prompt": "要直接比较同一天故事、科普、历史三类书的借阅本数，哪组标注能让别人核对？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "横轴写三类书名，纵轴写借阅本数并标统一刻度"
+                },
+                {
+                  "id": "B",
+                  "text": "只画三根不同颜色的条，不标书类或数量"
+                },
+                {
+                  "id": "C",
+                  "text": "横轴写第1天、第2天、第3天，代替三个书类"
+                }
+              ],
+              "answer": "A",
+              "explanation": "书类说明比较对象，“本数”和统一刻度说明数量含义；日期不能替代并不存在的时间信息。",
+              "family_id": "statistics.chart-purpose",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "data_reading_and_mean:support:choose_chart:guided:labels_make_comparison_auditable"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先辨认要比较的是哪一种信息",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只确定表达目的，尚未完成选图或作图。",
+          "guided_task": {
+            "prompt": "想知道同一天哪一类书借得多，主要是在比较什么？",
+            "type": "choice",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "choices": [
+              {
+                "id": "A",
+                "text": "不同类别的数量"
+              },
+              {
+                "id": "B",
+                "text": "同一对象随日期的变化"
+              },
+              {
+                "id": "C",
+                "text": "明天一定会发生什么"
+              }
+            ],
+            "answer": "A",
+            "explanation": "这里比较故事、科普等类别在同一天的本数，不是在比较不同日期。",
+            "family_id": "statistics.chart-purpose",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "variant_id": "data_reading_and_mean:support:choose_chart:guided:skip"
+          }
+        }
+      },
+      {
+        "id": "data_reading_and_mean:support:limited_claim",
+        "objective_id": "data_reading_and_mean:limited_claim",
+        "title": "让结论中的人和时间留在数据范围内",
+        "observation_note": "短题只检查结论的对象范围；能否自写有边界的结论、举平均数反例和处理缺失数据，仍由后续开放任务检查。",
+        "hypotheses": [
+          "可能把一小组的记录扩大到未调查的人。",
+          "可能把平均数当成每个人的数，或把未记录当作0。"
+        ],
+        "diagnostic": {
+          "prompt": "只记录了读书小组4名成员本周借书数，四人都不少于2本。现在可以肯定哪一句？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "全校每人本周都借了至少2本",
+              "feedback": "没有其他学生的记录，不能扩大到全校。",
+              "next_hint_level": 2
+            },
+            {
+              "id": "B",
+              "text": "这4名已记录成员本周都借了至少2本",
+              "feedback": "对，对象和时间都与记录一致。",
+              "next_hint_level": 1
+            },
+            {
+              "id": "C",
+              "text": "这4人下周仍会各借至少2本",
+              "feedback": "本周的记录不能保证下周的行为。",
+              "next_hint_level": 2
+            }
+          ],
+          "answer": "B",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "保留“这4名”“本周”“已记录”的边界，才是数据直接支持的结论。",
+          "family_id": "statistics.scope-of-observation",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "data_reading_and_mean:support:limited_claim:diagnostic"
+        },
+        "hints": [
+          {
+            "level": 1,
+            "text": "给数据中的“谁、何时、记录了什么”分别画线，再与结论比较。",
+            "reference_family_ids": [
+              "statistics.scope-of-observation"
+            ]
+          },
+          {
+            "level": 2,
+            "text": "若结论多出了全班、所有人、将来一定等范围，先缩回实际记录；平均数只能说明总量与份数关系。",
+            "reference_family_ids": [
+              "statistics.scope-of-observation",
+              "statistics.mean-not-every-individual"
+            ]
+          },
+          {
+            "level": 3,
+            "text": "两名同学借2本和8本，平均5本，但没有人借5本。若第五天漏记，只能先报告其余四天的平均并注明缺失；不能悄悄补0后声称五天平均。",
+            "reference_family_ids": [
+              "statistics.mean-not-every-individual",
+              "statistics.missing-not-zero"
+            ]
+          }
+        ],
+        "guided_task": {
+          "prompt": "仅有周一到周三的完整记录2、4、6本，周四漏记。哪句话可直接成立？",
+          "type": "choice",
+          "choices": [
+            {
+              "id": "A",
+              "text": "这四天平均3本"
+            },
+            {
+              "id": "B",
+              "text": "周四一定没有借书"
+            },
+            {
+              "id": "C",
+              "text": "已记录的前三天平均4本，四天平均还不能确定"
+            }
+          ],
+          "answer": "C",
+          "answer_spec": {
+            "kind": "choice"
+          },
+          "explanation": "前三天总量12本，平均4本；缺失不等于0，第四天未知。",
+          "family_id": "statistics.missing-not-zero",
+          "representation": "verbal",
+          "cognitive_demand": "choose_strategy",
+          "variant_id": "data_reading_and_mean:support:limited_claim:guided"
+        },
+        "followup_task_ids": [
+          "data_reading_and_mean:practice-5",
+          "data_reading_and_mean:transfer-5",
+          "data_reading_and_mean:delayed-5"
+        ],
+        "default_route": {
+          "title": "继续：让结论中的人和时间留在数据范围内",
+          "rationale": "已把对象和时间留在记录范围；接着核对漏记与0的区别，避免用补出的数据作确定结论。",
+          "observation_note": "短题只检查结论的对象范围；能否自写有边界的结论、举平均数反例和处理缺失数据，仍由后续开放任务检查。"
+        },
+        "guided_branches": [
+          {
+            "id": "limit_people_to_observed_group",
+            "choice_ids": [
+              "A"
+            ],
+            "title": "结论里的人必须有对应记录",
+            "rationale": "这次把4名成员扩大成全校；下一题核对记录名单与结论名单是否相同。",
+            "observation_note": "只限制结论的对象范围，不推测没有调查的同学表现如何。",
+            "guided_task": {
+              "prompt": "只记录阅读小组甲、乙、丙、丁本周各借2本，班里还有36人未记录。哪项得到这些资料直接支持？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "全班40人本周各借2本"
+                },
+                {
+                  "id": "B",
+                  "text": "这4名有记录成员本周各借2本，其他36人的本数未知"
+                },
+                {
+                  "id": "C",
+                  "text": "其余36人本周一定没借书"
+                }
+              ],
+              "answer": "B",
+              "explanation": "四条记录只对应甲乙丙丁；未记录的36人既不能补成2本，也不能补成0本。",
+              "family_id": "statistics.scope-of-observation",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "data_reading_and_mean:support:limited_claim:guided:limit_people_to_observed_group"
+            }
+          },
+          {
+            "id": "limit_time_to_observed_week",
+            "choice_ids": [
+              "C"
+            ],
+            "title": "本周记录不能保证下周",
+            "rationale": "这次把本周的事实推到下周；下一题把已经发生的记录与尚未观察的时间分开。",
+            "observation_note": "只辨别时间范围，不禁止有依据的预测；预测需另给方法和不确定性。",
+            "guided_task": {
+              "prompt": "甲本周每天都读10页，尚无下周记录。哪句话是本周记录直接支持的事实？",
+              "type": "choice",
+              "answer_spec": {
+                "kind": "choice"
+              },
+              "choices": [
+                {
+                  "id": "A",
+                  "text": "甲下周每天必定读10页"
+                },
+                {
+                  "id": "B",
+                  "text": "甲本周每天读10页；下周是否相同尚未观察"
+                },
+                {
+                  "id": "C",
+                  "text": "甲今后永远每天读10页"
+                }
+              ],
+              "answer": "B",
+              "explanation": "已记录的是本周；把时间换成下周或永远，便增加了没有观察支持的保证。",
+              "family_id": "statistics.scope-of-observation",
+              "representation": "verbal",
+              "cognitive_demand": "choose_strategy",
+              "variant_id": "data_reading_and_mean:support:limited_claim:guided:limit_time_to_observed_week"
+            }
+          }
+        ],
+        "skip_route": {
+          "title": "先标出记录中的对象和时间",
+          "rationale": "这次选择暂时不会，尚不能判断是哪一种困难；先完成这个目标的一步基础活动。",
+          "observation_note": "只识别资料范围，接下来还要检查平均数与缺失记录等断言。",
+          "guided_task": {
+            "prompt": "资料标题是“阅读小组4人本周借书记录”。哪项范围与标题一致？",
+            "type": "choice",
+            "answer_spec": {
+              "kind": "choice"
+            },
+            "choices": [
+              {
+                "id": "A",
+                "text": "全校学生全年"
+              },
+              {
+                "id": "B",
+                "text": "这4人本周"
+              },
+              {
+                "id": "C",
+                "text": "这4人下周"
+              }
+            ],
+            "answer": "B",
+            "explanation": "“4人”限制对象，“本周”限制时间；结论应先保留这两项。",
+            "family_id": "statistics.scope-of-observation",
+            "representation": "verbal",
+            "cognitive_demand": "choose_strategy",
+            "variant_id": "data_reading_and_mean:support:limited_claim:guided:skip"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m7a.2.3.2",
+  "name": "科学记数法",
+  "tier": "tool",
+  "hook": "6500000中的零很多，怎样让数量级一眼可见，又能准确还原？",
+  "definition": "科学记数法把非零数写成a×10ⁿ，其中1≤|a|<10，n为整数。本卡重点处理绝对值不小于1的大数，此时n≥0；负数保留a的负号，0不按这个标准写成科学记数法。",
+  "why": "把6500000改写为6.5时，数值缩小了1000000倍，所以要乘10⁶补回来。n数的是位值变化的次数，而不是原数末尾有几个0；6500000末尾虽有5个0，指数仍是6。",
+  "when_to_use": [
+    "要简洁记录很大的数量并保留有效数字。",
+    "要在a×10ⁿ与普通十进制写法之间往返核对。"
+  ],
+  "steps": [
+    "把小数点移到第一个非零数字之后，保证1≤|a|<10。",
+    "记录小数点移动了几位，写出相应的10的幂。",
+    "负数的负号留在系数a上。",
+    "用乘10ⁿ还原，检查位数与原数是否一致。"
+  ],
+  "worked_example": {
+    "prompt": "5600000写成5.6×10ⁿ，n是多少？",
+    "steps": [
+      "5.6要扩大1000000倍才得到5600000。",
+      "1000000=10⁶，故n=6。"
+    ],
+    "answer": "6",
+    "verify": "7-1",
+    "family_id": "v4.foundation.m7a.2.3.2.example",
+    "variant_id": "m7a.2.3.2:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "按末尾0的个数确定指数，会把5600000错误写成5.6×10⁵。",
+    "把56×10⁵当作已经规范的科学记数法，系数56不满足范围。"
+  ],
+  "practice": [
+    {
+      "id": "m7a.2.3.2-q1",
+      "note": "已登记练习；逐目标解释与观察边界见下面的目标自检。"
+    },
+    {
+      "id": "m7a.2.3.2-q2",
+      "note": "已登记练习；逐目标解释与观察边界见下面的目标自检。"
+    },
+    {
+      "id": "m7a.2.3.2-q3",
+      "note": "已登记练习；逐目标解释与观察边界见下面的目标自检。"
+    }
+  ],
+  "check": "能规范写出系数与指数，并通过还原解释指数，而不只数零。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能把大数写成科学记数法",
+      "explanation": "科学记数法需要数值相等与系数规范两个条件。48×10⁵虽能表示一个数，但规范形式是4.8×10⁶；系数缩小10倍时幂因子须扩大10倍。",
+      "observation_note": "观察大数与负数的规范化；小于1的数与负指数另需继续学习。",
+      "self_check": {
+        "prompt": "把4800000和−72000写成科学记数法，再判断48×10⁵是否已经规范。",
+        "reference_answer": "4.8×10⁶，−7.2×10⁴；48×10⁵数值正确但系数不规范，应改4.8×10⁶。",
+        "criteria": [
+          "数值与符号正确",
+          "系数绝对值在[1,10)内",
+          "区分等值表示与规范表示"
+        ],
+        "family_id": "placevalue.scientific.normalize-large",
+        "variant_id": "m7a.2.3.2:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "48在1到10之间吗？把它改成4.8后另一个因子怎样变化？",
+        "hint": "缩小一个因子10倍，同时扩大另一个因子10倍。",
+        "revision_prompt": "规范后把每个结果展开，逐位核对原数。"
+      }
+    },
+    {
+      "criterion_index": 1,
+      "title": "能由 a×10ⁿ 还原原数并确定 n",
+      "explanation": "还原a×10ⁿ就是乘相应的位值因子。例如3.05×10⁴=30500，其中内部的0仍是占位数字。由原数求n时，比较原数与规范系数之间的倍数。",
+      "observation_note": "这道题观察位值还原，不能证明所有数量级估算或有效数字判断。",
+      "self_check": {
+        "prompt": "还原3.05×10⁴，并确定305000=3.05×10ⁿ中的n；说明为何不是按末尾0计数。",
+        "reference_answer": "3.05×10⁴=30500；305000对应n=5。指数表示乘10的次数，与末尾0个数不总相同。",
+        "criteria": [
+          "还原正确保留内部0",
+          "指数5正确",
+          "说明位值而非数零依据"
+        ],
+        "family_id": "placevalue.scientific.expand-exponent",
+        "variant_id": "m7a.2.3.2:criterion-1-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "3.05乘10一次、两次分别是多少？",
+        "hint": "逐次写30.5、305，再继续扩大到目标数。",
+        "revision_prompt": "补写一条展开等式作为检验。"
+      }
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "conditions": [
+    "采用十进制；大数部分n为非负整数，0单列。"
+  ],
+  "representation_note": "用系数、10的幂、普通写法三栏往返表。"
+}

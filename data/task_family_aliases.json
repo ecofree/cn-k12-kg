@@ -1,0 +1,674 @@
+{
+  "schema": 1,
+  "policy": "Explicit reviewed equivalence for comparisons only; historical tasks, answers, events and original names remain unchanged. Rejected broad-to-narrow and different-direction proposals are not aliases.",
+  "aliases": [
+    {
+      "alias": "primary.add.make-ten",
+      "canonical": "addition.make-ten",
+      "reason": "相同3+8先拆3为2+1，8+2+1；显式凑十策略一致。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "arithmetic.subtraction-addition-inverse",
+      "canonical": "primary.subtract.fact-and-inverse-check",
+      "reason": "减法a−b=c用c+b=a检验；旧5−1、4−2及新14−5纠错均使用同一逆关系。；旧13−5通过5+8=13求差及验算；与当前减法结果用加法反验同一逆运算关系。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.subtract.inverse-addition",
+      "canonical": "primary.subtract.fact-and-inverse-check",
+      "reason": "减法a−b=c用c+b=a检验；旧5−1、4−2及新14−5纠错均使用同一逆关系。；旧13−5通过5+8=13求差及验算；与当前减法结果用加法反验同一逆运算关系。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "classification.change-attribute",
+      "canonical": "statistics.reclassify-same-objects",
+      "reason": "相同红圆红方蓝圆蓝方四物，用颜色或形状对同一全集重新分组；属性变化但对象总数不变。；同一四张卡改按颜色或形状分类，改变的是分类依据而非对象集合。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "classification.given-attribute",
+      "canonical": "statistics.classify-given-attribute",
+      "reason": "相同按颜色统计红圆2红方1蓝圆3，归并同属性数量；与自主改换分类属性分开。；原红圆/红方/蓝圆材料按已给颜色属性分类，没有换属性的额外要求。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "classification.two-level-leaf-count",
+      "canonical": "statistics.hierarchical-classification",
+      "reason": "相同先颜色后形状的两层分类，4个可能叶类、3个非空叶类；不能把非空类数当对象总数。；原红蓝与圆方材料先颜色后形状，区分四种可能叶类与实际非空三类，结构未改变。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "derivative.interior-extremum-necessary-condition",
+      "canonical": "derivative.extremum-necessary-condition",
+      "reason": "两侧均为同一道 mh4.5.3.2-q1：定义区间内点、可导、已知局部极值，选择 f′(x0)=0 这一必要条件。内点与可导前提未被增删，没有把必要条件升级为充分条件；新增 interior 只是把既有题设写进名字。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "derivative.positive-sign-monotone",
+      "canonical": "derivative.positive-sign-theorem",
+      "reason": "两侧均为 mh4.5.3.1-q1：在一个区间上处处 f′>0，判断该区间递增。区间、严格正号及结论完全相同，没有导数非负、零点或跨定义域断点的边界扩展。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "derivative.stationary-equation",
+      "canonical": "derivative.stationary-candidates",
+      "reason": "两侧均为 mh4.5.3.1-q203：对 x³−12x 求导，解 3x²−12=0 后选正根 2。只是 stationary-candidates 改称 stationary-equation；既未判断极值，也未增加导数符号分段。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "division.fact-family",
+      "canonical": "primary.divide.inverse-table",
+      "reason": "已审题均为整除且落在乘法表内，用除数×商=被除数求商；7、8、9与其他表内除数只改数字，不引入余数或长除法。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.divide.inverse-table-nine",
+      "canonical": "primary.divide.inverse-table",
+      "reason": "已审题均为整除且落在乘法表内，用除数×商=被除数求商；7、8、9与其他表内除数只改数字，不引入余数或长除法。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.divide.inverse-table-seven-eight",
+      "canonical": "primary.divide.inverse-table",
+      "reason": "已审题均为整除且落在乘法表内，用除数×商=被除数求商；7、8、9与其他表内除数只改数字，不引入余数或长除法。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "equation.affine-word-model",
+      "canonical": "equation.verbal-affine-model",
+      "reason": "旧、新族均恰含同两道任务 m7a.5.3-q1/q4，把“3倍减5等于16”“2倍等于10”翻译为一次等量关系并求未知数。数量关系、未知量位置和解法均保留，没有新增逆命题或额外约束。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "equation.price-before-discount",
+      "canonical": "equation.discount-base-model",
+      "reason": "两侧均为 m7a.5.3-q2：已知八折与售价240，设标价 x，解 0.8x=240，得300。未知量仍是折前基数，没有把“已知原价求售价”或连续折扣混入。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "motion.opposing-speeds-meeting",
+      "canonical": "equation.meeting-model",
+      "reason": "当前旧族的 bank 与 teach 题均为同一直路、同时出发、相向匀速、已知相距路程与两速度，统一用 (v1+v2)t=D 求相遇时间。草稿新族仍是相同条件的 m7a.5.3-q3；36/(10+8) 与 30/(4+6) 只有数值差异，没有追及、异时或折返。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "fraction.region-complement",
+      "canonical": "fraction.remainder-from-original",
+      "reason": "同一整体减去两个互不重叠部分，图中(12−4−3)/12=5/12；与原总量连续取出已给原量分数后求余同一模型，画格与文字是表征变化。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "function.domain-from-meaning",
+      "canonical": "model.domain-recall",
+      "reason": "两侧均为 m8b.23.4-q2：选择“实际意义的限制”这一泛泛原则。function.domain-from-meaning 这个新名没有伴随具体求取值范围的新任务，因此仅批准该现有识记任务的改名；它不能作为会求实际定义域的证据。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "function.representation-methods-recall",
+      "canonical": "function.representation-name-recall",
+      "reason": "两侧均为 m8b.22.2-q1：识别解析式法、列表法、图象法，排除只给面积公式名称。仍仅为表示法名称识记，没有读取具体图表、选择用途或表示间转换。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "linear.evaluate-given-motion-model",
+      "canonical": "linear.formula-evaluation",
+      "reason": "两侧均为 m8b.23.4-q1：已经给定 s=60t，代入 t=3 得180。模型是题目给出的，未把代值升级为从情境建立模型或求参数。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "linear.monotonicity.slope-sign",
+      "canonical": "linear.slope-monotonicity",
+      "reason": "两侧均为 m8b.23.2-q1：从 y=−2x+1 的负斜率判断随 x 增大而减小。k 的符号、定义域情境和判断方向相同，不涉及由图像/数据反求 k 或 k=0 的边界。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "number.missing-part-story",
+      "canonical": "primary.parts.fixed-total",
+      "reason": "相同固定整体5分成已知2及未知部分，关系已知总量减已知部分；与动态增加后的逆运算分开。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "number.rational.sign-partition",
+      "canonical": "v4.foundation.m7a.1.2.1.example",
+      "reason": "旧例题与新族题目都对含负整数、负小数、正分数、正整数及0的给定列表按与0的大小关系作符号分类；数负数是取负数这一栏计数，新自检是列出三栏并核对总数。2/2仍以正数原条目保留，没有加入整数/分数分类或求值运算的新方法，判断谓词与零的边界完全一致。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "number.restore-whole-story",
+      "canonical": "primary.additive-structure.find-original-after-removal",
+      "reason": "已知拿走部分与剩余求原量，原量=拿走+剩余；现有新名实例吃2剩4也完全同结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "placevalue.abacus-five-and-one",
+      "canonical": "v4.foundation.m2b.3.2.example",
+      "reason": "相同百位1上珠2下珠、十位3下珠、个位4下珠，(5+2)×100+3×10+4；算盘计数规则一致。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "placevalue.number-from-words",
+      "canonical": "placevalue.chinese-number.transcribe",
+      "reason": "相同五十七及三千零五十转数字，按数级和空位占位组成数，无计算模型变化。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "placevalue.compare-two-digit",
+      "canonical": "v4.foundation.m1b.3.5.example",
+      "reason": "相同46与49比较，十位相同再看个位；两位数按位比较同结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "placevalue.exact-unit-rewrite",
+      "canonical": "v4.foundation.m4a.1.3.example",
+      "reason": "相同380000改写成38万；精确除以单位10000，不是四舍五入求近似。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "placevalue.round.direct-target-position",
+      "canonical": "placevalue.round.to-specified-position",
+      "reason": "相同2.36精确到十分位，直接观察目标位后一位决定舍入；不与两次舍入/误差界混合。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "placevalue.skip-count-tens",
+      "canonical": "v4.foundation.m1b.3.4.example",
+      "reason": "相同30、40、50后续一项，按十为单位递增。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "position.ordered-pair-notation",
+      "canonical": "position.ordered-pair-location",
+      "reason": "现有旧族题只询问明确约定(列,行)中首分量3的意义，新名对应完全同一题；不与移动距离或变换题族合并。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "position.ordinal-before-count",
+      "canonical": "v4.foundation.m1a.1.3.example",
+      "reason": "相同从前数第2名之前的人数=2−1；序数与前方人数区别相同。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.change.sequential-add-subtract",
+      "canonical": "primary.add-sub.sequence",
+      "reason": "相同8支笔先送3支再送2支，按发生顺序更新当前量；不能与求原来的逆向模型合并。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.add.single-digit-facts",
+      "canonical": "primary.ten.complements",
+      "reason": "旧题6+4、7+3与当前4+3等均为给定两个一位数求和；当前该族不含需另教进位的方法，和为10本身不产生新模型。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.additive-structure.find-original-after-addition",
+      "canonical": "primary.additive-structure.find-original-after-increase",
+      "reason": "只限当前已审实例：增加后总量与增加量已知，求原量=现量−增加量；不含拿走后求原量。；增加/买入之后求原量，14−4并以10+4=14检验；与find-original-after-increase语义一致。；选择减法与实际计算都围绕原量+增加量=现量；选择题虽观察较窄，但方法已曝光，不能把同模型计算题当结构全新。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.additive-structure.select-inverse-after-increase",
+      "canonical": "primary.additive-structure.find-original-after-increase",
+      "reason": "只限当前已审实例：增加后总量与增加量已知，求原量=现量−增加量；不含拿走后求原量。；增加/买入之后求原量，14−4并以10+4=14检验；与find-original-after-increase语义一致。；选择减法与实际计算都围绕原量+增加量=现量；选择题虽观察较窄，但方法已曝光，不能把同模型计算题当结构全新。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.change.unknown-start",
+      "canonical": "primary.additive-structure.find-original-after-increase",
+      "reason": "只限当前已审实例：增加后总量与增加量已知，求原量=现量−增加量；不含拿走后求原量。；增加/买入之后求原量，14−4并以10+4=14检验；与find-original-after-increase语义一致。；选择减法与实际计算都围绕原量+增加量=现量；选择题虽观察较窄，但方法已曝光，不能把同模型计算题当结构全新。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.change.remove-part",
+      "canonical": "primary.subtract.remove-part",
+      "reason": "同一情境4只气球飞走1只求剩余，已知整体及拿走部分，直接作4−1；新旧题文一致。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.compare.integer-magnitude",
+      "canonical": "v4.foundation.m1a.1.2.example",
+      "reason": "相同3和5比较大小；同一整数数量大小关系。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.compare.qualitative-gap",
+      "canonical": "v4.foundation.m1b.3.6.example",
+      "reason": "相同52比50多几，先求52−50=2再描述多一点；不是只比较大小。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.multiply.table-facts",
+      "canonical": "primary.table-eight.equal-groups",
+      "reason": "已审例题均按相同组的数量与每组数量求积，并可用同一句乘法口诀求逆向商；2至9只更换口诀数字，不构成新运算结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.table-five.equal-groups",
+      "canonical": "primary.table-eight.equal-groups",
+      "reason": "已审例题均按相同组的数量与每组数量求积，并可用同一句乘法口诀求逆向商；2至9只更换口诀数字，不构成新运算结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.table-nine.equal-groups",
+      "canonical": "primary.table-eight.equal-groups",
+      "reason": "已审例题均按相同组的数量与每组数量求积，并可用同一句乘法口诀求逆向商；2至9只更换口诀数字，不构成新运算结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.table-seven.equal-groups",
+      "canonical": "primary.table-eight.equal-groups",
+      "reason": "已审例题均按相同组的数量与每组数量求积，并可用同一句乘法口诀求逆向商；2至9只更换口诀数字，不构成新运算结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.table-six.equal-groups",
+      "canonical": "primary.table-eight.equal-groups",
+      "reason": "已审例题均按相同组的数量与每组数量求积，并可用同一句乘法口诀求逆向商；2至9只更换口诀数字，不构成新运算结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.tables-two-three-four",
+      "canonical": "primary.table-eight.equal-groups",
+      "reason": "已审例题均按相同组的数量与每组数量求积，并可用同一句乘法口诀求逆向商；2至9只更换口诀数字，不构成新运算结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.order.successor",
+      "canonical": "primary.order.successor-within-five",
+      "reason": "相同4后面的一个数；都是自然数后继n+1，扩大取值范围不改变结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "subtraction.break-ten",
+      "canonical": "primary.subtract.break-ten",
+      "reason": "相同14−9、13−7的破十法，将十拆为10−减数再加个位；明确方法完全相同。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "primary.subtract.single-digit-facts",
+      "canonical": "primary.subtract.compute-within-five",
+      "reason": "旧题5−2与当前7−3、8−3都观察10以内已知被减数、减数求差；数量范围变化不引入退位或未知数位置变化。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.at-least-one-complement",
+      "canonical": "probability.at-least-one-independent",
+      "reason": "共同独立尝试中以1减全部失败乘积求至少一次；两次与三次不因次数变化自动成为新结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.event-complement-partition",
+      "canonical": "probability.complement-event",
+      "reason": "两名称在实际支持中均表示把至少一次与零次发生划分成互补结果集合；没有声明算概率这一步已独立掌握。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.condition-event-denominator",
+      "canonical": "probability.conditional.identify-denominator",
+      "reason": "两名称都指辨认P(B|A)分母为条件事件P(A)，没有扩成完整概率计算。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.conditional-from-intersection",
+      "canonical": "probability.conditional.joint-over-condition",
+      "reason": "给交集及正概率条件事件，计算P(A∩B)/P(A)；joint与intersection在此两名称指同一给定量。；旧题mh5.7.1.1-q1与q101都给P(A)、P(A∩B)求P(B|A)，与单元delayed-3的求解方向一致。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.conditional-from-joint",
+      "canonical": "probability.conditional.joint-over-condition",
+      "reason": "给交集及正概率条件事件，计算P(A∩B)/P(A)；joint与intersection在此两名称指同一给定量。；旧题mh5.7.1.1-q1与q101都给P(A)、P(A∩B)求P(B|A)，与单元delayed-3的求解方向一致。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.conditional-restricted-space",
+      "canonical": "probability.conditional.finite-uniform-intersection",
+      "reason": "完整有限等可能集合内先按条件限制，再数交集与条件集合之比；眼镜人数与骰子子集是同结构表征。；mh5.7.1.1-q91保留同一骰子条件空间与交集计数，修正算漏一个结果后仍是原条件计数结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.conditioned-die-subset",
+      "canonical": "probability.conditional.finite-uniform-intersection",
+      "reason": "完整有限等可能集合内先按条件限制，再数交集与条件集合之比；眼镜人数与骰子子集是同结构表征。；mh5.7.1.1-q91保留同一骰子条件空间与交集计数，修正算漏一个结果后仍是原条件计数结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.conditional-versus-joint",
+      "canonical": "probability.conditional-to-joint",
+      "reason": "同一旧目标自检给P(A)=0.4与P(B|A)=0.5求联合0.2并解释区别；保留乘法方向，不与conditional-from-joint合并。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.without-replacement-conditional",
+      "canonical": "probability.conditional.without-replacement-known-first",
+      "reason": "已知第一次结果后，从剩余同类数除以剩余总数求第二次条件概率；不把两次联合概率族并入。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.disjoint-positive-not-independent",
+      "canonical": "probability.independence-vs-exclusive",
+      "reason": "逐项查到旧族使用正概率互斥事件，比较零交集与正的边际乘积；零概率例外仍单列。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.given-independent-product",
+      "canonical": "probability.independent-intersection",
+      "reason": "已明确独立且给边际概率，求同时发生概率，都是按已知独立关系相乘；不包含条件概率反求。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "probability.independence-formula-recall",
+      "canonical": "probability.independence-definition",
+      "reason": "同一旧题mh2.10.2-q1只要求选择独立定义式；更改名称没有新增结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "ratio.part-from-percentage",
+      "canonical": "statistics.part-from-percentage",
+      "reason": "已知整体数量和部分百分比求部分数量，同为整体×百分比；图或借书情境不改变这个数学结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "sampling.inclusion-probability",
+      "canonical": "v4.foundation.mh2.9.1.1.example",
+      "reason": "原讲解例题明确从100人不放回简单随机抽10人，问每人入样概率10/100；未把抽样配额或总体估计纳入。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "solid.cuboid-face-decomposition",
+      "canonical": "solid.cuboid.surface-area",
+      "reason": "两侧均为 mh2.8.3.1-q202：已知长宽高5、3、2，按三对相对矩形面积相加 2(ab+ac+bc)=62。face-decomposition 是原解释已有的同一计算结构；没有开放盒、展开图判断或逆求尺寸。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "statistics.census.non-sampling-error",
+      "canonical": "statistics.census-error-boundary",
+      "reason": "原全面调查题辨认全查仍会漏登、测错和记错的边界，名称变化不改变观察内容。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "statistics.compare-conditional-rates",
+      "canonical": "v4.foundation.mh5.8.3.1.example",
+      "reason": "原A组40人16参加与B组60人18参加的例题比较两个组内参加率之差，保留分组分母。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "statistics.correlation-range-recall",
+      "canonical": "statistics.correlation-range",
+      "reason": "旧题只问相关系数取值区间，改名没有变成符号、强弱或零方差定义域任务。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "statistics.grouping.frequency-conservation",
+      "canonical": "statistics.frequency.remaining-count",
+      "reason": "复核该旧讲解自检为40个数据减前三组整数频数，与remaining-count同是求剩余个数；明确不合并频率补1。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "statistics.grouping.fixed-origin-boundaries",
+      "canonical": "statistics.grouping.endpoint-coverage",
+      "reason": "原题与自检都从已定起点列等组距区间，按左右端点覆盖最大数据；自检选择组距仍沿同一边界核对结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "statistics.ols-centre-property-recall",
+      "canonical": "statistics.ols-centre-property",
+      "reason": "原两题均在含截距且Sxx>0前提下辨认最小二乘线经过样本中心，没有把求系数也合并。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "statistics.residual-definition-recall",
+      "canonical": "statistics.residual-definition",
+      "reason": "原两题均辨认观测减预测的残差定义；不将代模型计算残差族一并视为定义回忆。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "triangle.elements.basic-count",
+      "canonical": "triangle.elements.classification",
+      "reason": "草稿新族完整承接旧族的同两题 m8a.13.1-q1/q2：辨别不存在的三角形对角线与顶点数3，题面、答案及认识对象未变。尽管新名 basic-count 较窄，审查批准范围只限这组实际相同任务，绝不把标签当作证明边角对应或作图的证据。",
+      "reviewer_kind": "ai",
+      "independent_review": false
+    },
+    {
+      "alias": "circle.external-tangency-centre-distance",
+      "canonical": "circle.external-tangency-center-distance",
+      "reason": "mh3.2.5.2-q101与旧q201均已给两圆外切和两半径，求圆心距r1+r2；2+3与4+3只换数值，centre/center仅拼写不同。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "geometry.externally-tangent-centres",
+      "canonical": "circle.external-tangency-center-distance",
+      "reason": "m6a.5.4-q101的等半径外切圆3+3，与mh3.2.5.2-q201不等半径4+3同为外切圆心距r1+r2；等半径是同一公式实例，不另算独立结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "circle.chord-from-radius-distance",
+      "canonical": "circle.chord-from-center-distance",
+      "reason": "mh3.2.5.1-q101/q102由半径r及圆心到弦的垂距d求2√(r²−d²)；旧q201给x²+y²=169与y=5，也得到r13,d5和同一弦长24。直接给量与从标准方程读量不改变弦半长直角三角形结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "line.point-distance",
+      "canonical": "geometry.point-line-distance",
+      "reason": "mh3.2.3.3-q101/q102和旧q1/q201/q202/q204均由P坐标与Ax+By+C=0求|Ax0+By0+C|/√(A²+B²)；竖直线是该公式B0的合法实例。未把点线距离定义识别或证明任务并入。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "parabola.focus-distance-definition",
+      "canonical": "parabola.focus-radius-directrix",
+      "reason": "mh3.3.3.2-q101与旧q1完全同为y²4x、点横坐标3求焦半径4；旧q201/q202换输入或开口方向，仍由点到准线距离等于点到焦点距离。未合并反求横坐标的新族。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "counting.ordered-distinct-pairs",
+      "canonical": "counting.permutation-count",
+      "reason": "m7a.6.2.1-q101给5点选不同起终点，mh1.1.1-q102给三数字组成不重复两位编码，均为n个不同元素无放回有序取2；与旧mh5.6.2.1-q2/q201及mh5.6.2.2-q1/q92的A(n,2)相同，不把角色名、城市名当新结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "fraction.part-from-whole",
+      "canonical": "fraction.part-of-quantity",
+      "reason": "m3a.6.6-q102为12的1/4，mh2.9.2.2-q102为500的20%；既有m3a.6.1-q90至q93和自检sc_a94ced950395474d8ca1均由整体和分率求部分，计算N×a/b。分率用百分数或单位分数表达不改变求部分的方向。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "statistics.frequency-to-count",
+      "canonical": "statistics.frequency.from-proportion",
+      "reason": "mh2.9.2.1-q101的50×0.2与既有m8b.24.4-q102的50×0.24，均给总数与组频率求组频数Nf，题面均为文字直接给频率。未把需先由柱面积读频率的任务并入。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "percentage.relative-change",
+      "canonical": "ratio.percentage-change-base",
+      "reason": "m7b.12.2.3-q102与既有m6a.6.2-q1均由初末数量计算(末−初)/初的百分数，先确定原数量作基数；新标签不是新的变化率算法。既有材料的正反变化比较仍保留其自身任务目标。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "quadratic-equation.repeated-percent-inverse",
+      "canonical": "quadratic-equation.model.repeated-percentage",
+      "reason": "m9a.25.3-q101与既有q1/q202均为100连续两次按同一率降低到81，解100(1−r)²=81且0≤r≤1。答案写百分号前数字10或小数0.1是输出表示差异，不是新题族。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "quadratic-equation.rectangle-area-difference",
+      "canonical": "quadratic-equation.model.reject-negative-length",
+      "reason": "m9a.25.2-q102以长宽差2、面积63求宽，既有m9a.25.3-q2/q201以差3、面积40求宽，均列x(x+d)=S并舍负长度根；只换参数，既有选根自检保留过程观察范围。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "quadratic-equation.discriminant.evaluate",
+      "canonical": "quadratic-equation.discriminant.real-root-cases",
+      "reason": "m9a.26.3-q101仅求x²−2x+3的Δ，既有m9a.25.2-q202和其自检同样只求x²−4x+7的Δ，均为b²−4ac的代入。未由新数值题认定学生独立完成根数分类。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "vector.geometric-dot",
+      "canonical": "vector.dot-from-length-angle",
+      "reason": "mh3.1.1.2-q101的正方体邻棱已知长度且夹角90°，与既有mh2.6.2.4-q1/q201/q202/q203均用|a||b|cosθ，垂直是θ90°的同一结构实例；不与坐标分量相乘求和的族混同。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "linear-system.solve-one-component",
+      "canonical": "system.elimination.opposite-coefficients",
+      "reason": "mh3.2.3.1-q101的x+y3、x−y1直接相加消去y求x，与旧m7b.10.1-q3及m7b.10.2.2-q1/q201同为已有相反系数的一步消元；几何交点背景不产生新的消元结构。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "probability.partition.missing-probability",
+      "canonical": "probability.distribution-missing-mass",
+      "reason": "mh2.10.1.4-q102给三个互斥完备结果概率0.2、0.3、x；既有mh5.7.2-q201给三个完备取值概率0.15、p、0.35。均用非负且和为1补唯一缺项，无需建立模型或计算条件概率。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "probability.given-model.expected-count",
+      "canonical": "probability.binomial-mean",
+      "reason": "mh2.10.3.2-q101/q102已给独立重复及固定成功概率1/4或3/10，求次数均值n p；与既有mh5.7.4.1-q1/q201的已给二项模型求E(X)=np同结构。未把经验频率估计或实际模拟计数并入。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "geometry.triangle-inequality",
+      "canonical": "triangle.side-feasibility",
+      "reason": "m4b.3.1-q102判断3、4、7三杆能否围成非退化三角形；旧m8a.13.2-q1和triangle_conditions的可行性选择同用两短边和严格大于最长边，等号只成直线。未并入求所有第三边整数范围的任务。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "probability.uniform-single-ball",
+      "canonical": "probability.equally-likely.single-draw",
+      "reason": "旧mh2.10.1.3-q2与m9b.34.2-q2均为两红三白、一次等可能抽球、红球概率2/5；新q101为3/5。既有单次等可能抽取组也包括硬币和骰子，核心均为单次有限等可能样本中有利数/总数，不与独立多次事件、无放回组抽取或估计频率合并。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    },
+    {
+      "alias": "statistics.grouped-frequency-total",
+      "canonical": "statistics.frequency-table-total",
+      "reason": "m4a.6.2-q101合计四个互斥班级性别格24+21+20+25；旧m3b.5.1-q1从覆盖全班且每人一次的频数表求总人数。都是不重不漏组频数求和，文字与表格输入形式不另算数学结构，表征标签仍分别保留。",
+      "reviewer_kind": "ai",
+      "independent_review": false,
+      "review_evidence": "docs/reviews/v7-bank-metadata-review.json",
+      "review_batch": "v7-active-bank-structure-audit"
+    }
+  ]
+}

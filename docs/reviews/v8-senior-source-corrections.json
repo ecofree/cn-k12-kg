@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "reviewer_kind": "ai",
+  "independent_teacher_review": false,
+  "student_validation": false,
+  "changes": [
+    {
+      "path": "data/teach/mh2.6.4.1.json",
+      "pointer": "/objective_coverage/0/self_check/prompt",
+      "before": "A、B不同，C、D不同，把AB∥CD与AB⊥CD分别写成向量条件。",
+      "after": "A、B不同，C、D不同，且AB、CD是同一平面内两条不同的直线。把AB∥CD与AB⊥CD分别写成方向向量条件。",
+      "reason": "方向向量成比例不能单独排除两直线重合；补齐原材料顶层已声明但本自检遗漏的前提。"
+    },
+    {
+      "path": "data/teach/mh2.6.4.1.json",
+      "pointer": "/objective_coverage/0/self_check/reference_answer",
+      "before": "平行：AB=λCD，λ为非零实数；垂直：AB·CD=0。",
+      "after": "已知两直线不同且方向向量非零，平行等价于向量AB=λ向量CD，λ为非零实数；垂直等价于向量AB·向量CD=0。若取消两直线不同这一前提，方向成比例还可能对应直线重合。",
+      "reason": "方向向量成比例不能单独排除两直线重合；补齐原材料顶层已声明但本自检遗漏的前提。"
+    },
+    {
+      "path": "data/teach/mh2.6.4.1.json",
+      "pointer": "/objective_coverage/0/self_check/criteria/0",
+      "before": "平行倍数与非零条件准确",
+      "after": "平行倍数、方向非零及两直线不同的条件准确",
+      "reason": "方向向量成比例不能单独排除两直线重合；补齐原材料顶层已声明但本自检遗漏的前提。"
+    },
+    {
+      "path": "data/teach/mh2.6.4.1.json",
+      "pointer": "/objective_coverage/0/difficulty_support/revision_prompt",
+      "before": "把AB∥CD写成AB=λCD并说明λ≠0；把垂直改为点积0，比较两式。",
+      "after": "先检查AB、CD是否为两条不同直线及方向向量是否非零，再把AB∥CD写成向量AB=λ向量CD并说明λ≠0；把垂直改为数量积0，比较两式。",
+      "reason": "方向向量成比例不能单独排除两直线重合；补齐原材料顶层已声明但本自检遗漏的前提。"
+    },
+    {
+      "path": "data/teach/mh2.6.4.1.json",
+      "pointer": "/objective_coverage/0/observation_note",
+      "before": "观察几何与向量条件的双向含义；不把零向量当直线方向。",
+      "after": "观察两条不同直线的几何与方向向量条件的双向含义；不把零向量当方向，也不把方向成比例单独当作排除重合的依据。",
+      "reason": "方向向量成比例不能单独排除两直线重合；补齐原材料顶层已声明但本自检遗漏的前提。"
+    }
+  ],
+  "source_sha256_before": "96cba68c990ab9a080e8f8b5ecd51aaf60e005c0933cfa82ba1b48ea78d023f6",
+  "source_sha256_after": "fb58e6bb7fb67daf8a10f51cb5cb213f0c73bace75c55da5ad45186c22f700b0",
+  "identity_and_family_ids_unchanged": true
+}

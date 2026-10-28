@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m3a.2.2",
+  "name": "两级运算",
+  "tier": "tool",
+  "hook": "5块零散饼干和3盘每盘4块，应该怎样让一个算式说清它们？",
+  "definition": "没有括号的加减乘除混合式，先乘除后加减；同一级再从左到右。这一约定使乘积或商可以表示整体中的一组量，不用每次都加括号。",
+  "why": "5+3×4把3盘总量作为12再加5，共17。若先算5+3再乘4，就把5也乘4，改变了数量关系。运算顺序服务于统一读式，想表达另一关系应写括号。",
+  "conditions": [
+    "无小括号时先乘除，乘除或加减内部从左到右。",
+    "文字情境要区分组总量与另外增加减少的量。"
+  ],
+  "representation_note": "用图框圈乘积或商，将它替换成单个中间值再画加减关系。",
+  "when_to_use": [
+    "无小括号时先乘除，乘除或加减内部从左到右。",
+    "文字情境要区分组总量与另外增加减少的量。"
+  ],
+  "steps": [
+    "先标出所有乘除段。",
+    "每段按左到右求值。",
+    "再处理剩下加减并检验是否符合数量关系。"
+  ],
+  "worked_example": {
+    "prompt": "8+24÷6×2是多少？",
+    "steps": [
+      "乘除同级从左到右，24÷6×2=4×2=8。",
+      "再8+8=16。"
+    ],
+    "answer": "16",
+    "family_id": "arithmetic.two-level-precedence",
+    "variant_id": "m3a.2.2:worked-v4",
+    "representation": "symbolic",
+    "cognitive_demand": "explain",
+    "verify": "8+24/6*2"
+  },
+  "pitfalls": [
+    "先乘除不等于先乘后除。",
+    "先算加法可能把本应单独出现的量重复乘。"
+  ],
+  "practice": [
+    {
+      "id": "m3a.2.2-q1",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    },
+    {
+      "id": "m3a.2.2-q2",
+      "note": "主题支持练习；逐目标观察以本卡自检量规为准。"
+    }
+  ],
+  "check": "分别完成两项目标自检，保留画图、操作或计算过程。先记录原答，再用量规自查并修订；有提示的改正不等于已经独立完成，未说明的部分继续保留。",
+  "objective_coverage": [
+    {
+      "explanation": "两级运算先完成乘除，之后的加减仍要按左到右。先后必须由符号和括号判定。",
+      "observation_note": "观察顺序和中间值，不因答案碰巧相同就认定过程正确。",
+      "self_check": {
+        "prompt": "计算7+4×3和20−12÷3，逐步写出。",
+        "reference_answer": "7+12=19；20−4=16。",
+        "criteria": [
+          "乘除优先",
+          "剩余加减正确"
+        ],
+        "family_id": "arithmetic.two-level-precedence",
+        "variant_id": "m3a.2.2:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "20−12÷3若先减成8，是否仍表示减去12的三分之一？",
+        "hint": "先求12÷3这一被减去的量。",
+        "revision_prompt": "用方框标被减量4，再算20−4。"
+      },
+      "criterion_index": 0,
+      "title": "能按先乘除后加减的顺序计算"
+    },
+    {
+      "explanation": "表达“零散数+几组等量”时，乘法先形成组总量，再相加；这也说明了规则下原式的含义。",
+      "observation_note": "观察为什么原式先算乘法，不宣称乘法在所有表达中永远先于加法。",
+      "self_check": {
+        "prompt": "解释2+5×3与(2+5)×3分别能表示什么，并给出两个结果。",
+        "reference_answer": "前者2个另加5组每组3个=17；后者3组每组(2+5)个=21。",
+        "criteria": [
+          "情境与表达对应",
+          "指出规则和括号作用"
+        ],
+        "family_id": "arithmetic.parenthesized-group",
+        "variant_id": "m3a.2.2:criterion:1:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "arithmetic.two-level-precedence",
+          "primary.multiply.equal-groups"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "括号里2+5为何在第二式先算？",
+        "hint": "第二式要重复的是整个2+5。",
+        "revision_prompt": "分别画两种分组，给2标出被计算一次或三次。"
+      },
+      "criterion_index": 1,
+      "title": "能说明为什么先算乘除"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "author_type": "ai",
+  "topicId": "m9a.26.3",
+  "name": "二次函数与一元二次方程",
+  "tier": "core",
+  "hook": "方程的根、图象与x轴的交点、不等式的分界点，为什么是同一批x？",
+  "definition": "抛物线 y=ax²+bx+c 与 x 轴交点的横坐标就是方程 ax²+bx+c=0 的根；判别式大于 0 有两个交点，等于 0 有一个交点，小于 0 没有交点。",
+  "why": "图象与x轴相交意味着y=0，所以交点横坐标恰是二次方程的根。根把数轴分成若干区间，图象在x轴上方代表正值，下方代表负值；判别式控制实根个数，也控制交点个数。",
+  "when_to_use": [
+    "判断抛物线与x轴相交、相切或不交",
+    "由图象求二次不等式的解集"
+  ],
+  "steps": [
+    "令y=0求零点或计算判别式",
+    "根据开口和顶点确定图象上下位置",
+    "按问题的>、<或含等号选区间及端点"
+  ],
+  "worked_example": {
+    "prompt": "对y=x²−5x+6，求零点并写y≤0的范围。",
+    "answer": "零点2、3；2≤x≤3",
+    "steps": [
+      "分解y=(x−2)(x−3)，所以与x轴交点横坐标为2和3。",
+      "a=1>0，图象在两根之间不高于x轴，且≤包含交点，故2≤x≤3。"
+    ],
+    "family_id": "quadratic-function.graph-sign-between-roots",
+    "variant_id": "m9a.26.3:worked-example-v6",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "没有实根并不总表示函数为正，还要看开口方向。",
+    "不等式含等号时不能漏掉使y=0的边界。"
+  ],
+  "check": "独立完成并解释：抛物线y=x²−2x+5与x轴有几个交点？ 备选：A. 0个；B. 1个；C. 2个 请写出判断或计算依据。；抛物线y=(x−1)(x−4)开口向上，与x轴交于x=1、4。写出y<0时x的范围。 请写出判断或计算依据。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能用判别式判断抛物线与 x 轴的交点个数",
+      "explanation": "Δ正、零、负分别对应两点、一点、无交点。",
+      "self_check": {
+        "prompt": "抛物线y=x²−2x+5与x轴有几个交点？ 备选：A. 0个；B. 1个；C. 2个 请写出判断或计算依据。",
+        "reference_answer": "交点需解x²−2x+5=0，判别式Δ=4−20=−16<0，无实根，所以没有交点。 正确选项内容：0个。",
+        "criteria": [
+          "计算Δ=−16",
+          "与无实根联系"
+        ],
+        "family_id": "quadratic-function.x-intersections.discriminant",
+        "variant_id": "m9a.26.3:criterion-0-v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "quadratic-function.complete-square.vertex"
+        ]
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "与x轴相交时是x=0还是y=0？Δ<0对应几个实横坐标？",
+        "hint": "先令y=0形成方程，再算Δ=4−20=−16。",
+        "revision_prompt": "将y=x²−2x+5配成(x−1)²+4，独立说明始终在x轴上方，与0交点互验。"
+      },
+      "observation_note": "观察根与轴交点的对应；不把与y轴有交点混为与x轴有交点。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能借图象写出不等式的解集",
+      "explanation": "图象在轴下意味着函数值负，区间边界由零点给出。",
+      "self_check": {
+        "prompt": "观察配图，指出y=(x−1)(x−4)的图象在哪一段低于x轴，并写出y<0的解集；说明两个零点是否包含。",
+        "reference_answer": "开口向上，图象在两个零点之间位于x轴下方，因此1<x<4；严格小于0不含两个端点。",
+        "criteria": [
+          "确定两根之间在轴下",
+          "排除1与4"
+        ],
+        "family_id": "quadratic-function.graph-sign-between-roots",
+        "variant_id": "m9a.26.3:criterion-1-v6",
+        "representation": "graph",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/quadratic-sign-v6.svg",
+          "alt": "抛物线y=(x−1)(x−4)开口向上，与x轴交于1和4，两轴每格1单位。"
+        }
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "y<0对应图在x轴上方还是下方？根的位置能取吗？",
+        "hint": "在配图标出低于横轴的弧段，把该段向x轴投影；严格小于不含交点。",
+        "revision_prompt": "从图读1<x<4，再取x=2验(2−1)(2−4)=−2，并用x=0、5核对外侧为正。"
+      },
+      "observation_note": "观察图象位置到横坐标区间的转换及端点；只背“两根之间”忽略开口会出错。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由二次式的系数计算判别式数值",
+      "explanation": "将二次式按ax²+bx+c对应系数，再计算b²−4ac；负的b要整体加括号后平方。判别式的数值计算与自行判断根或交点个数是不同的提交内容，本题已经给出“没有交点”，不能把这句题干当成学生的判断。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：抛物线 y=x^2-2x+3 与 x 轴没有交点。它的判别式 b^2-4ac 的值是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：-8。(−2)²−4×1×3=−8，题干已给无交点。",
+        "criteria": [
+          "完整带符号代入三个系数并计算判别式，观察限于所提交的数值及实际写出的过程",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "quadratic-equation.discriminant.evaluate",
+        "variant_id": "m9a.26.3:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "b是−2还是2？你算的是(−2)²还是−2²，4ac中的三个因数是否都计入？",
+        "hint": "先分别写a、b、c，再把带符号的数放入b²−4ac，先算两个乘积后相减。",
+        "revision_prompt": "先回答这个辨别问题：b是−2还是2？你算的是(−2)²还是−2²，4ac中的三个因数是否都计入？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；完整带符号代入三个系数并计算判别式，观察限于所提交的数值及实际写出的过程。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能由二次函数解析式求与y轴交点的纵坐标",
+      "explanation": "y轴上每个点的横坐标都为0，因此与y轴交点的纵坐标由函数式代入x=0得到。对ax²+bx+c而言就是常数项c；题干给出的x轴交点不是求这个纵坐标所必需的新计算。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：抛物线 y=x^2-4x+3 与 x 轴交于 (1,0) 和 (3,0)。它与 y 轴交点的纵坐标是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：3。代x0，y3，交点(0,3)。",
+        "criteria": [
+          "以x=0确定y轴交点，输出指定纵坐标而不混用x轴交点条件",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "quadratic-function.y-intercept",
+        "variant_id": "m9a.26.3:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察本题所提交的结果；未提交的作图、说明、选择方法或完整过程不据结果自动记为已观察。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "要求与y轴交点时，应该令x=0还是令y=0？题目最终要一个纵坐标还是完整坐标对？",
+        "hint": "先写交点形状(0,y)，将0代入横坐标位置，再从结果中取题目要求的纵坐标。",
+        "revision_prompt": "先回答这个辨别问题：要求与y轴交点时，应该令x=0还是令y=0？题目最终要一个纵坐标还是完整坐标对？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；以x=0确定y轴交点，输出指定纵坐标而不混用x轴交点条件。"
+      }
+    }
+  ],
+  "practice": [
+    {
+      "id": "m9a.26.3-q202",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.26.3-q1",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    },
+    {
+      "id": "m9a.26.3-q101",
+      "note": "独立作答后，按解析检查关键条件和推理。"
+    }
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "topicId": "m1a.1.3",
+  "name": "第几",
+  "tier": "tool",
+  "author": "ai",
+  "author_type": "ai",
+  "review_status": "draft",
+  "hook": "同一个人在队伍中，为什么从前数与从后数可能排得不一样？",
+  "definition": "“几个”问全部数量，“第几”问从约定方向开始数的位置。找第几时从起点数起，第一个说1；换起点方向，位置编号可能改变，总人数不变。",
+  "why": "5人排成一队时，每人都有一个从前数的位置，也有一个从后数的位置。位置取决于方向，而总数只取决于有多少人，所以回答“第2”不能代替回答“一共有5人”。",
+  "when_to_use": [
+    "需要把实物、数位或图示中的数量说清楚。",
+    "需要核对自己的读数、写数或表示方法。"
+  ],
+  "steps": [
+    "先判断问题问总数还是某个位置。",
+    "若问第几，先指明从前、从后、从左还是从右。",
+    "从指定起点逐个数到目标，并说第几。",
+    "换方向再数一次，比较位置变化与总数不变。"
+  ],
+  "worked_example": {
+    "prompt": "小明从前数排第2，他前面有几人？",
+    "steps": [
+      "从前开始，第1个人在他前面。",
+      "第2包含小明自己，所以前面只有1人。"
+    ],
+    "answer": "1",
+    "verify": "2-1",
+    "family_id": "v4.foundation.m1a.1.3.example",
+    "variant_id": "m1a.1.3:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "把第4个人前面的人数说成4，忘记第4包括本人。",
+    "没有说明起点就断言某物排第几。"
+  ],
+  "practice": [
+    {
+      "id": "m1a.1.3-q1",
+      "note": "结合实物或数位说明结果；自检量规另列。"
+    },
+    {
+      "id": "m1a.1.3-q2",
+      "note": "结合实物或数位说明结果；自检量规另列。"
+    }
+  ],
+  "check": "逐项目标完成下面的操作或解释，先留下过程，再对照量规修改；记录仍不确定的地方。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能区分“几个”和“第几”",
+      "explanation": "“5个”说全体有5个，“第5个”只指定一个位置。说清问的是整体还是被指出的一个对象。",
+      "self_check": {
+        "prompt": "把5个玩具排成一行，圈出从左数第2个；回答一共有几个、圈出的有几个、圈出的是第几个。",
+        "reference_answer": "共有5个；圈出1个；圈出的是从左数第2个。",
+        "criteria": [
+          "总量与被选对象数量区分",
+          "位置回答含第与方向"
+        ],
+        "family_id": "position.cardinal-versus-ordinal",
+        "variant_id": "m1a.1.3:criterion:0:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": [
+          "primary.count.distinct-objects"
+        ]
+      },
+      "observation_note": "观察数量与序数的区别；没有实际圈选只背词语仍需确认。",
+      "difficulty_support": {
+        "discriminating_prompt": "“第2个”是圈两个玩具还是一个？",
+        "hint": "先圈目标，再数被圈的数量。",
+        "revision_prompt": "分三行重写“全部数量、选中数量、选中位置”。"
+      }
+    },
+    {
+      "criterion_index": 1,
+      "title": "能按指定方向数出物体排在第几",
+      "explanation": "同一行从左与从右数都从1开始。五个物体中从左第2个，从右数是第4个。",
+      "self_check": {
+        "prompt": "把甲、乙、丙、丁、戊从左到右排好。乙从左第几、从右第几？",
+        "reference_answer": "乙从左第2，从右第4。",
+        "criteria": [
+          "起点选择正确",
+          "逐个数到同一目标"
+        ],
+        "family_id": "position.ordinal-reverse-direction",
+        "variant_id": "m1a.1.3:criterion:1:v6",
+        "representation": "verbal",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "observation_note": "仅观察这一排列；换成上下、前后位置仍需另一个情境确认。",
+      "difficulty_support": {
+        "discriminating_prompt": "从右开始第1个是谁？",
+        "hint": "先在指定起点画箭头，再沿箭头数。",
+        "revision_prompt": "保留两条方向箭头并重新写位置。"
+      }
+    }
+  ],
+  "conditions": [
+    "排列与起点明确，任务中的“前后”由同一约定确定。"
+  ],
+  "representation_note": "使用带方向箭头的一排玩具或姓名卡。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

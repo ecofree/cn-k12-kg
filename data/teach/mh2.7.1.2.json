@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "review_status": "draft",
+  "author": "ai",
+  "topicId": "mh2.7.1.2",
+  "name": "复数的几何意义",
+  "tier": "core",
+  "hook": "把3-4i画成点，它的模为什么是5，共轭点又落在哪里？",
+  "definition": "复数z=a+bi对应复平面点(a,b)及从原点到该点的向量。模|z|=√(a²+b²)是到原点的距离；共轭a-bi对应关于实轴的对称点，实部不变，两者模相同。",
+  "why": "复数与平面坐标一一对应，把代数问题变成位置和距离。模是点到原点的距离，故非负；共轭只反转虚部，保持距离不变，并令z与共轭的乘积等于模平方。",
+  "when_to_use": [
+    "需要在复平面定位复数",
+    "求模或共轭并解释几何变换"
+  ],
+  "steps": [
+    "把实部作为横坐标、虚部作为纵坐标",
+    "按符号确定象限并标点",
+    "用距离求模，把纵坐标反号求共轭"
+  ],
+  "worked_example": {
+    "prompt": "求z=-3+4i的对应点、模与共轭。",
+    "steps": [
+      "点为(-3,4)，位于第二象限。",
+      "模√(9+16)=5。",
+      "共轭为-3-4i，对应(-3,-4)，关于实轴对称。"
+    ],
+    "answer": "(-3,4)；5；-3-4i",
+    "family_id": "complex.modulus-conjugate",
+    "variant_id": "mh2.7.1.2:example",
+    "representation": "symbolic",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "共轭时把实部虚部都变号",
+    "把模直接写成实部与虚部之和"
+  ],
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "能在复平面内标出复数对应的点",
+      "explanation": "横轴为实轴、纵轴为虚轴，坐标中不再写i。",
+      "self_check": {
+        "prompt": "在复平面标出2-3i与-2+i，并写象限。",
+        "reference_answer": "点(2,-3)在第四象限；点(-2,1)在第二象限。",
+        "criteria": [
+          "坐标轴与点坐标正确",
+          "两个象限正确"
+        ],
+        "family_id": "complex.plane-coordinate",
+        "variant_id": "mh2.7.1.2:criterion-0",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "2-3i在图上横坐标与纵坐标哪个带负号？",
+        "hint": "实部沿实轴，虚部系数沿虚轴。",
+        "revision_prompt": "标-3-2i为(-3,-2)，第三象限；标3i在正虚轴而非象限内部。"
+      },
+      "observation_note": "观察轴名、坐标与象限；轴上点需单列。"
+    },
+    {
+      "criterion_index": 1,
+      "title": "能求复数的模与共轭复数",
+      "explanation": "模只看距离，共轭反映关于实轴的镜像，两者模相同。",
+      "self_check": {
+        "prompt": "求z=5-12i的模、共轭，以及共轭的模。",
+        "reference_answer": "|z|=13，共轭5+12i，其模仍13。",
+        "criteria": [
+          "距离计算正确",
+          "共轭仅虚部变号"
+        ],
+        "family_id": "complex.modulus-conjugate",
+        "variant_id": "mh2.7.1.2:criterion-1",
+        "representation": "symbolic",
+        "cognitive_demand": "explain"
+      },
+      "difficulty_support": {
+        "discriminating_prompt": "共轭会把实部也变号吗？模能因虚部负而为负吗？",
+        "hint": "共轭只翻虚部；模为到原点距离。",
+        "revision_prompt": "对-8+6i，共轭-8-6i，两者模均10；画关于实轴对称。"
+      },
+      "observation_note": "观察距离和共轭；不能把共轭当相反复数。"
+    },
+    {
+      "criterion_index": 2,
+      "title": "能由代数形式的实部虚部计算复数模的平方",
+      "explanation": "复数z=a+bi对应复平面上的点(a,b)，模|z|是该点到原点的非负距离，所以|z|²=a²+b²，|z|=√(a²+b²)。虚部是实数b而不是bi；先辨清要求距离还是距离平方，前者需要取非负平方根，后者保留平方和即可。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：复数 z=3+4i 在复平面内对应一个点。这个点到原点的距离的平方是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：25。|3+4i|²=3²+4²=25。",
+        "criteria": [
+          "使用实部与虚部系数的平方和，按所求模或模平方决定是否取非负平方根",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "complex.modulus",
+        "variant_id": "mh2.7.1.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "题目问模还是模的平方？你是在对虚部系数b平方，还是误把bi整体平方成负数？",
+        "hint": "先把实部a、虚部b列为两个坐标，算a²+b²，再与题目中的|z|或|z|²对照决定是否开方。",
+        "revision_prompt": "先回答这个辨别问题：题目问模还是模的平方？你是在对虚部系数b平方，还是误把bi整体平方成负数？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；使用实部与虚部系数的平方和，按所求模或模平方决定是否取非负平方根。"
+      }
+    },
+    {
+      "criterion_index": 3,
+      "title": "能求复数与共轭复数对应点之间的距离",
+      "explanation": "z=a+bi的共轭为a−bi，两点横坐标相同，纵坐标互为相反数，关于实轴对称。两点距离是|b−(−b)|=2|b|；它不是z到原点的模，也不能在b为负时直接写成负的2b。 先把这一小步做好。若还要求列式、解释、作图或选择方法，请分别写出相应过程。",
+      "self_check": {
+        "prompt": "先保留自己的回答，再核对参考。情境1：复数 z=1+2i 与其共轭复数在复平面内对应两个点。这两点之间的距离是多少？\n记录各情境的结果，并写出决定结果的数量关系或判定条件；只填结果的练习记录与本次实际写出的过程分别保留。",
+        "reference_answer": "情境1参考：4。点(1,2)与(1,−2)距4=2|2|。",
+        "criteria": [
+          "正确形成共轭点并以纵坐标差的绝对值求两点距离，保留2|b|的非负含义",
+          "各情境的结果与其参考关系分别对应，不漏单位或条件",
+          "保留自己实际写出的推理；借助参考或提示完成的部分单独标记"
+        ],
+        "family_id": "complex.conjugate-point-distance",
+        "variant_id": "mh2.7.1.2:self-check:3:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "只观察所提交的数值或选择；没有提交的模型、作图、解释与完整过程不由结果自动认定。 这些练习用到同一种方法；只换数字或补写过程，还不能说明在另一种情境中也会做。看过提示或参考后的重做，会保留帮助记录。",
+      "difficulty_support": {
+        "discriminating_prompt": "共轭改变的是实部还是虚部的符号？所求是两个共轭点之间的距离，还是其中一点到原点的距离？",
+        "hint": "分别写两点坐标(a,b)与(a,−b)，因横向差为0，只求纵向差的绝对值，再核对结果非负。",
+        "revision_prompt": "先回答这个辨别问题：共轭改变的是实部还是虚部的符号？所求是两个共轭点之间的距离，还是其中一点到原点的距离？ 再遮住参考重做刚才不确定的一项，保留原回答、改动处和是否用过提示；正确形成共轭点并以纵坐标差的绝对值求两点距离，保留2|b|的非负含义。"
+      }
+    }
+  ],
+  "check": "独立完成各项自检并保留推导或作图：坐标轴与点坐标正确；距离计算正确。过程目标按下列量规逐项核对，不由一道客观题的得分代替。",
+  "practice": [
+    {
+      "id": "mh2.7.1.2-q201",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.7.1.2-q202",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    },
+    {
+      "id": "mh2.7.1.2-q203",
+      "note": "完成后核对解析中的条件与步骤；完整目标另做下方独立自检。"
+    }
+  ],
+  "conditions": [
+    "实轴横向、虚轴纵向；模非负，共轭关于实轴对称。"
+  ],
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  }
+}

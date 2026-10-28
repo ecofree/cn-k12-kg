@@ -1,0 +1,142 @@
+{
+  "schema": 1,
+  "topicId": "m2b.3.2",
+  "name": "10000以内数的组成与算盘记数",
+  "tier": "tool",
+  "author": "ai",
+  "author_type": "ai",
+  "review_status": "draft",
+  "hook": "算盘同一颗上珠放在百位和个位，表示的数量为什么不同？",
+  "definition": "十进制相邻计数单位间的进率是10，10个一千是1个万。本卡用每档1颗上珠4颗下珠的算盘：靠梁的下珠每颗表示本位1个单位，上珠每颗表示本位5个单位；离梁的珠不计数。",
+  "why": "珠子本身不固定代表一个数，须结合所在数位。百位一颗上珠靠梁表示5个百即500，个位同样的上珠表示5。某档用上珠加两颗下珠表示7个本位单位，避免误把所有珠都当1。",
+  "when_to_use": [
+    "需要把实物、数位或图示中的数量说清楚。",
+    "需要核对自己的读数、写数或表示方法。"
+  ],
+  "steps": [
+    "先标定个位档，其左依次为十、百、千、万。",
+    "清盘使珠离梁，按各位数字拨靠梁珠。",
+    "0不拨珠，1—4拨下珠，5—9用1颗上珠与所需下珠。",
+    "逐档读出数量并用数位展开式核对。"
+  ],
+  "worked_example": {
+    "prompt": "百位上珠1颗和下珠2颗靠梁，十位下珠3颗、个位下珠4颗靠梁，表示多少？",
+    "steps": [
+      "百位为5+2=7个百。",
+      "十位3个十、个位4个一，共734。"
+    ],
+    "answer": "734",
+    "verify": "(5+2)*100+3*10+4",
+    "family_id": "v4.foundation.m2b.3.2.example",
+    "variant_id": "m2b.3.2:worked_example:v6",
+    "representation": "verbal",
+    "cognitive_demand": "explain"
+  },
+  "pitfalls": [
+    "把任何档的一颗上珠都说成总量5，而不看本位单位。",
+    "把离梁的珠也计入数，或漏定个位档。"
+  ],
+  "practice": [
+    {
+      "id": "m2b.3.2-q1",
+      "note": "结合实物或数位说明结果；自检量规另列。"
+    },
+    {
+      "id": "m2b.3.2-q2",
+      "note": "结合实物或数位说明结果；自检量规另列。"
+    }
+  ],
+  "check": "逐项目标完成下面的操作或解释，先留下过程，再对照量规修改；记录仍不确定的地方。",
+  "objective_coverage": [
+    {
+      "criterion_index": 0,
+      "title": "知道相邻计数单位间的进率是 10",
+      "explanation": "相邻单位是10进1，不是所有两个单位都相差10倍。例如千到万相邻，百到万隔两级，1万是100个百。",
+      "self_check": {
+        "prompt": "填10个百=○个千，10个千=○个万，再说1个万有多少个百。",
+        "reference_answer": "前两空均为1；1万=100个百。",
+        "criteria": [
+          "相邻进率正确",
+          "跨两个数位按两次乘10"
+        ],
+        "family_id": "placevalue.ten-adjacent-units",
+        "variant_id": "m2b.3.2:criterion:0:v6",
+        "representation": "symbolic",
+        "cognitive_demand": "explain",
+        "reference_family_ids": []
+      },
+      "observation_note": "观察指定单位的进率，不能把“进率10”误扩为任意两单位。",
+      "difficulty_support": {
+        "discriminating_prompt": "百到万中间还隔着哪个单位？",
+        "hint": "沿百→千→万每走一步乘10。",
+        "revision_prompt": "画出单位阶梯并在每条相邻箭头标×10。"
+      }
+    },
+    {
+      "criterion_index": 1,
+      "title": "能用算盘表示万以内的数",
+      "explanation": "算盘必须明确位档与靠梁状态。同一数可以用标准拨法或数位文字表记录，但文字说明不是实际拨珠动作的证明。 配图示范3057：先以个位档为基准标档，千档3个下珠、百档全离梁、十档1个上珠、个档1上2下。",
+      "self_check": {
+        "prompt": "先用配图说明3057每一档为什么这样拨；随后清盘，在同样约定的算盘上表示4068。没有算盘时画四档，并记录靠梁的上、下珠数。",
+        "reference_answer": "图中3057为千位0上3下、百位全离梁、十位1上0下、个位1上2下。新数4068为千位0上4下、百位0上0下、十位1上1下、个位1上3下；其余珠离梁。",
+        "criteria": [
+          "位档标定正确",
+          "0档不计珠",
+          "5和7用上珠的规则正确"
+        ],
+        "family_id": "placevalue.abacus-five-and-one",
+        "variant_id": "m2b.3.2:criterion:1:v6",
+        "representation": "manipulative",
+        "cognitive_demand": "explain",
+        "diagram": {
+          "src": "/static/diagrams/primary-v6-abacus.svg",
+          "alt": "千、百、十、个位从左到右。靠梁珠依次为：千位0上3下，百位全离梁，十位1上0下，个位1上2下；每上珠为该档5个单位，每下珠1个单位。"
+        },
+        "reference_family_ids": []
+      },
+      "observation_note": "需实际拨珠或留下逐档图；填3057本身不能证明会用算盘。",
+      "difficulty_support": {
+        "discriminating_prompt": "个位的7用7颗下珠能表示吗？",
+        "hint": "本卡每档只有4颗下珠，先用上珠表示5再补2。",
+        "revision_prompt": "清盘后逐档重拨或重画，并写出每档的值。"
+      }
+    },
+    {
+      "criterion_index": 2,
+      "title": "能根据千位和百位上的数量组成万以内的数",
+      "explanation": "某一数位上的数字要乘这一位的计数单位。4个千是4000，2个百是200；没有十和一时仍要用0占位，不能把4和2紧挨着写成42。",
+      "self_check": {
+        "prompt": "写出由4个千、2个百组成的数，再写出由4个千、0个百组成的数。指出十位和个位怎样处理。",
+        "reference_answer": "分别是4200和4000；十位、个位均写0，第二个数的百位也为0。",
+        "criteria": [
+          "第一数写4200",
+          "第二数写4000",
+          "零保留正确数位"
+        ],
+        "family_id": "placevalue.thousands-hundreds-composition",
+        "variant_id": "m2b.3.2:self-check:2:v7",
+        "representation": "verbal",
+        "cognitive_demand": "explain"
+      },
+      "observation_note": "不要求说明相邻单位十进关系，也没有算盘操作证据。 本记录仅观察本细目标；原综合目标、未提交的口头或操作过程仍须分别观察。",
+      "difficulty_support": {
+        "discriminating_prompt": "4个千中的4在个位上吗？如果写42，它还表示4个千吗？",
+        "hint": "先列千、百、十、个四个位置，再把各位数量放进去，缺少的位写0。",
+        "revision_prompt": "写出3个千与7个百组成的数，把它读回各数位数量核对。"
+      }
+    }
+  ],
+  "conditions": [
+    "采用一上四下算盘；靠梁计数，数位须先标定。"
+  ],
+  "representation_note": "算盘或带梁的逐档纸图；上珠、下珠与数位展开表对照。",
+  "content_revision": {
+    "author_type": "ai",
+    "date": "2026-10-27",
+    "teacher_review": "pending"
+  },
+  "diagram": {
+    "src": "/static/diagrams/primary-v6-abacus.svg",
+    "alt": "千、百、十、个位从左到右。靠梁珠依次为：千位0上3下，百位全离梁，十位1上0下，个位1上2下；每上珠为该档5个单位，每下珠1个单位。"
+  }
+}
