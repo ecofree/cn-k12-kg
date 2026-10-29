@@ -1,0 +1,325 @@
+{
+  "schema": 1,
+  "base_commit": "b37b63516d476b9eca015d367e823c2b26fdf260",
+  "content_fingerprint": "23646b9fff8cea8b7723c84bd55f8bea2cfab6dacf8940d5541e12bb31575852",
+  "status": "reviewed",
+  "items": [
+    {
+      "change_id": "change_83e25949242b843c69c8df00",
+      "path": "cnkg/learning_needs.py",
+      "after_sha256": "18e9f6aa8f5c65534739aaa2f156b34a644239154d9a795c2cc81df2f2a93ab3",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "same_assistant_static_review",
+      "findings": "替换只看自评/旧布尔标记的关闭条件，要求submitted、必需分项完整、非空量规全met。缺项、草稿与自报困难分别解释；后续移除内容可重新推导同need_id为open，原始needs_review和评分保持。有限自查关闭仍明确independent_evidence=false。",
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v10-engineering-review.json",
+          "sha256": "58cade76033c476cf7b2008ae119a0627c6e45af5af2412605f2fbc293994dab"
+        },
+        {
+          "path": "tests/test_submission_evidence.py",
+          "sha256": "a32c10d0c0e3f28c00503ffc4a12a0a11d5242f01dede4b1e1d9cb301698804c"
+        },
+        {
+          "path": "tests/test_portfolio_web.py",
+          "sha256": "09c14002e09357f167e51cc63b6af2d5eb630d07d1ffab33a19b8d146eba40cc"
+        },
+        {
+          "path": "tests/test_review_integrity.py",
+          "sha256": "777f3d3ef06eab5b0898db9a305c969c121f868863284e8c8735021405195cdb"
+        }
+      ]
+    },
+    {
+      "change_id": "change_32f1987e7dfaafacaa781837",
+      "path": "cnkg/learning_store.py",
+      "after_sha256": "a21d71e718dc0c127fe6b8f04f9be8b9788b9fd4d13ccbfdeadc3605e850db3a",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "same_assistant_static_review",
+      "findings": "v5只更新works.summary_json，从record_json重算提交摘要；会话、作品原记录、修订与事件字节未改。初始化在同一事务内顺序迁移，异常回滚并保留旧user_version；新旧作品保存走同一摘要函数。",
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v10-engineering-review.json",
+          "sha256": "58cade76033c476cf7b2008ae119a0627c6e45af5af2412605f2fbc293994dab"
+        },
+        {
+          "path": "tests/test_submission_evidence.py",
+          "sha256": "a32c10d0c0e3f28c00503ffc4a12a0a11d5242f01dede4b1e1d9cb301698804c"
+        },
+        {
+          "path": "tests/test_profile_recovery.py",
+          "sha256": "7dee83a1a1e90d1bf39176b56c5656637b15381210915013208b7371cadbbd3f"
+        }
+      ]
+    },
+    {
+      "change_id": "change_410b77158b90673462eb5083",
+      "path": "cnkg/planner.py",
+      "after_sha256": "1b1aadd62efc0ec985bb44670a8d787d90555ff7e945df5752b27c97cd42651d",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "same_assistant_static_review",
+      "findings": "在草稿和已报告困难后增加缺项优先级75，不把缺项当答错或掌握。使用同一服务端摘要与need语义，避免首页对空作品只建议核对量规。修订原fixture，使真正完整的提交而非伪造完成标记才关闭。",
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v10-engineering-review.json",
+          "sha256": "58cade76033c476cf7b2008ae119a0627c6e45af5af2412605f2fbc293994dab"
+        },
+        {
+          "path": "tests/test_planner.py",
+          "sha256": "7ea921e0faabfc4186b197b5487c5377f05d4c68bd26df62756dca4694332664"
+        },
+        {
+          "path": "tests/test_submission_evidence.py",
+          "sha256": "a32c10d0c0e3f28c00503ffc4a12a0a11d5242f01dede4b1e1d9cb301698804c"
+        }
+      ]
+    },
+    {
+      "change_id": "change_03579482dc4690d8978565c5",
+      "path": "cnkg/portfolio.py",
+      "after_sha256": "0b06bd9d4e7b64f128616d7fc00706c05136b5ff08501ae4fd0a6b1c34791b7b",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "same_assistant_static_review",
+      "findings": "新增只读提交存在性计算：原冻结分项决定必需字段；反思、自评、别的分项不能补缺；无字段旧作品仅取原始非空草稿。真实附件经现有校验再按field_id计入。函数不判语义正确或掌握，不修改任何历史对象。未知必需组件与无效附件保持未提供。",
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v10-engineering-review.json",
+          "sha256": "58cade76033c476cf7b2008ae119a0627c6e45af5af2412605f2fbc293994dab"
+        },
+        {
+          "path": "tests/test_submission_evidence.py",
+          "sha256": "a32c10d0c0e3f28c00503ffc4a12a0a11d5242f01dede4b1e1d9cb301698804c"
+        },
+        {
+          "path": "tests/test_portfolio_web.py",
+          "sha256": "09c14002e09357f167e51cc63b6af2d5eb630d07d1ffab33a19b8d146eba40cc"
+        }
+      ]
+    },
+    {
+      "change_id": "change_ea5c75b07c1db5bd0769cbc4",
+      "path": "cnkg/profile_recovery.py",
+      "after_sha256": "7f41c35737a334533ea7c93ba639139e30223ab4d8dd7ac49b468fb59b65b2a8",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "same_assistant_static_review",
+      "findings": "备份兼容明确扩展为学习记录schema4与5，不放宽其他格式、密文或所有者校验。旧格式的原始记录语义未改变；恢复时重建新摘要，v4空作品即使勾完也保持未完成。未允许客户端任意版本或重写原判分。",
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v10-engineering-review.json",
+          "sha256": "58cade76033c476cf7b2008ae119a0627c6e45af5af2412605f2fbc293994dab"
+        },
+        {
+          "path": "tests/test_profile_recovery.py",
+          "sha256": "7dee83a1a1e90d1bf39176b56c5656637b15381210915013208b7371cadbbd3f"
+        },
+        {
+          "path": "tests/test_profile_health_v5.py",
+          "sha256": "b3da86dbc0895b5eee560c079fab1fcbc6755e951250b678f4453f239079a938"
+        }
+      ]
+    },
+    {
+      "change_id": "change_c3248fc9b0454dc41c298318",
+      "path": "data/manifest.json",
+      "after_sha256": "273d7e41799bdce2d76f9da471f1ea7efe20044c5b9fd2ed3028d7009df22731",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "same_assistant_static_review",
+      "findings": "重建内容数据库后更新8个已审运行文件的原始字节指纹；逐行比较确认本变更仅替换对应SHA256，不更改题目、目标、历史证据或来源。由现有build_db工具重建，再由固定候选发布清单约束，不手工虚报旧版本。",
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "metadata_or_other"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v10-engineering-review.json",
+          "sha256": "58cade76033c476cf7b2008ae119a0627c6e45af5af2412605f2fbc293994dab"
+        },
+        {
+          "path": "tools/build_db.py",
+          "sha256": "55309cc59b61c6b35ff8ea83bda0d40d29df2e6dcc6112a3ab7dac6f740e2f84"
+        },
+        {
+          "path": "tests/test_submission_evidence.py",
+          "sha256": "a32c10d0c0e3f28c00503ffc4a12a0a11d5242f01dede4b1e1d9cb301698804c"
+        }
+      ]
+    },
+    {
+      "change_id": "change_1963c3c1663db66fde0f042f",
+      "path": "tools/browser_check.py",
+      "after_sha256": "6c6ce1a210bc73eb944a7c0eec18d0e406e34be5c8ae15b7db7e8a30c71f49c4",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "same_assistant_static_review",
+      "findings": "完整旅程增加submission_evidence并将模块列入输入指纹；旧18条旅程不删除、不放宽断言。新旅程通过真实浏览器表单、HTTP持久化、重载、实际内容补交与删去来验证open/draft/resolved/open转换，保留历史；本地导航策略阻断不能冒报通过，必须远程固定依赖执行。",
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v10-engineering-review.json",
+          "sha256": "58cade76033c476cf7b2008ae119a0627c6e45af5af2412605f2fbc293994dab"
+        },
+        {
+          "path": "tests/browser/submission-evidence.cjs",
+          "sha256": "fc6749271c44fca1b13341c9279b3596b02a2766de27ee38e2696472b82a091e"
+        },
+        {
+          "path": "tests/browser/learning-flow.cjs",
+          "sha256": "cce6f9ce6ac31d57e776a7173f6c7bee6af896560b835bb00c6bfa490bf3b19c"
+        }
+      ]
+    },
+    {
+      "change_id": "change_fdc3422b06fcf292ac178ea8",
+      "path": "tools/prepare_bank_reaudit.py",
+      "after_sha256": "b8a38c97a815ffc82cc4106946c75c6d95860fdcecd28519f91e9a32ba20dfa7",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "same_assistant_static_review",
+      "findings": "复现作者源choices被误读为options导致1154道选择题选项缺失，现保留稳定ID、作者顺序与编译顺序两份。完整作者题、accept/verify等字段、实际评分绑定和具体目标均保留并绑定指纹。全部队列仍not_reaudited；历史覆盖字段位于prior_review，不伪造当前语义审读，不改变493道隔离题。",
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v10-engineering-review.json",
+          "sha256": "58cade76033c476cf7b2008ae119a0627c6e45af5af2412605f2fbc293994dab"
+        },
+        {
+          "path": "tests/test_prepare_bank_reaudit.py",
+          "sha256": "5557a5ffbe6dc96aeb3aa47ebca07c29cce063586e024d499d80130e52816c68"
+        },
+        {
+          "path": "docs/reviews/v10-statistics-bank-reaudit.json",
+          "sha256": "1c6779efd901fba27f412c6c9c440caf648a11e78033e6830f4d343777fa9ab5"
+        }
+      ]
+    },
+    {
+      "change_id": "change_95c7855e456a63ae4cf6df21",
+      "path": "web/server.py",
+      "after_sha256": "f11bdc2843311677a4766332e00b3d81c08678765d14af7e97878b5c931070ca",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "same_assistant_static_review",
+      "findings": "GET/POST作品接口附加submission_evidence，读取实际保存或冻结描述符计算。提交仍经learner_payload白名单、版本/owner校验和幂等save_work；忽略客户端伪造complete字段。历史API与原始作答导出不改写。",
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v10-engineering-review.json",
+          "sha256": "58cade76033c476cf7b2008ae119a0627c6e45af5af2412605f2fbc293994dab"
+        },
+        {
+          "path": "tests/test_portfolio_web.py",
+          "sha256": "09c14002e09357f167e51cc63b6af2d5eb630d07d1ffab33a19b8d146eba40cc"
+        },
+        {
+          "path": "tests/test_submission_evidence.py",
+          "sha256": "a32c10d0c0e3f28c00503ffc4a12a0a11d5242f01dede4b1e1d9cb301698804c"
+        }
+      ]
+    },
+    {
+      "change_id": "change_28ebaf4b5987ea0880ca52b9",
+      "path": "web/static/app.js",
+      "after_sha256": "6b29972d51e41cb8c1a3d1adc1133f62e7d387c3c0720799ace6d3eb1360ea7d",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "same_assistant_static_review",
+      "findings": "待办显示服务端missing_field_labels并经现有转义渲染；不把全met直接当作已有内容，也不更改原评分。与工作编辑器使用同一个提交摘要；实际390px界面由新增旅程验证。",
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v10-engineering-review.json",
+          "sha256": "58cade76033c476cf7b2008ae119a0627c6e45af5af2412605f2fbc293994dab"
+        },
+        {
+          "path": "tests/browser/submission-evidence.cjs",
+          "sha256": "fc6749271c44fca1b13341c9279b3596b02a2766de27ee38e2696472b82a091e"
+        },
+        {
+          "path": "tests/test_portfolio_web.py",
+          "sha256": "09c14002e09357f167e51cc63b6af2d5eb630d07d1ffab33a19b8d146eba40cc"
+        }
+      ]
+    },
+    {
+      "change_id": "change_1cc1585be20fdc304949ca77",
+      "path": "web/static/work.js",
+      "after_sha256": "7c2720ad18afb087d38ba4eaff9faee4bf4614166a6b49f30252db633ced7c4e",
+      "review_status": "reviewed",
+      "reviewer_kind": "ai",
+      "reviewer": "same_assistant_static_review",
+      "findings": "新增独立可访问状态节点显示具体缺项，保留原保存状态与故障/冲突处理。编辑先显示待重算，只有成功服务端回复刷新提交证据；内容存在不说成图稿/证明正确。草稿自动保存与明确提交保持区分。JS语法检查通过，浏览器结果另由固定CI验证。",
+      "decision": "accept_with_limits",
+      "required_checks": [
+        "runtime_or_contract_preview",
+        "runtime_or_workflow"
+      ],
+      "evidence_refs": [
+        {
+          "path": "docs/reviews/v10-engineering-review.json",
+          "sha256": "58cade76033c476cf7b2008ae119a0627c6e45af5af2412605f2fbc293994dab"
+        },
+        {
+          "path": "tests/browser/submission-evidence.cjs",
+          "sha256": "fc6749271c44fca1b13341c9279b3596b02a2766de27ee38e2696472b82a091e"
+        },
+        {
+          "path": "tests/test_portfolio_web.py",
+          "sha256": "09c14002e09357f167e51cc63b6af2d5eb630d07d1ffab33a19b8d146eba40cc"
+        }
+      ]
+    }
+  ],
+  "preview_results": [],
+  "teacher_review": "deferred_by_user",
+  "real_student_effect_validation": "deferred_by_user",
+  "reviewer_kind": "ai",
+  "independent_teacher_review": false,
+  "student_validation": false
+}

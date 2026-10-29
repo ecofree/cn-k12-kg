@@ -195,6 +195,25 @@ class ProfileRecoveryTests(unittest.TestCase):
                 profiles.restore(bad, credentials["recovery_code"])
         self.assertEqual(self.dump(target), before)
 
+    def test_v4_encrypted_backup_restores_raw_records_and_rebuilds_submission_presence(self):
+        credentials, _ = self.seed()
+        payload = self.store.load_work(OWNER, "work-at-old-version")["payload"]
+        payload.update(draft="", status="submitted", self_assessment=[
+            {"criterion_index": 0, "status": "met"}, {"criterion_index": 1, "status": "met"}])
+        self.store.save_work(OWNER, "work-at-old-version", payload, 2, "empty-self-check")
+        original = self.original_rows(self.store)
+        secret = recovery._recovery_secret(credentials["recovery_code"])
+        plaintext = recovery._decrypt(self.profiles.backup(OWNER, credentials["recovery_code"]), secret)
+        plaintext["learning_schema"] = 4
+        target, profiles = self.new_install()
+        profiles.restore(recovery._encrypt(plaintext, secret), credentials["recovery_code"])
+        self.assertEqual(self.original_rows(target), original)
+        saved = target.works(OWNER)[0]
+        self.assertTrue(saved["all_criteria_met"])
+        self.assertFalse(saved["submission_evidence"]["complete"])
+        from cnkg.learning_needs import work_is_reviewed
+        self.assertFalse(work_is_reviewed(saved))
+
     def test_occupied_install_offsets_only_event_indexes_and_never_merges_profiles(self):
         credentials, _ = self.seed()
         envelope = self.profiles.backup(OWNER, credentials["recovery_code"])

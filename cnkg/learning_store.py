@@ -18,7 +18,7 @@ from .review_timing import timestamp, qualified_review
 from .task_families import equivalent_names, historical_question_ids
 
 ROOT = Path(__file__).resolve().parents[1]
-SCHEMA_VERSION = 4
+SCHEMA_VERSION = 5
 WORK_KINDS = frozenset({"self_check", "project", "unit", "session_task"})
 _IMMUTABLE_WORK_FIELDS = ("kind", "source_ref", "resource_version", "resource_snapshot")
 _EXPOSURE_EVENTS = {"question_presented": "presentation_count",
@@ -105,6 +105,7 @@ def _session_summary(record):
 
 def _work_summary(result):
     """Derived, rebuildable state; never change the learner's original payload."""
+    from .portfolio import submission_evidence
     payload = result["payload"]
     snapshot = payload["resource_snapshot"]
     criteria = snapshot.get("criteria", [])
@@ -146,6 +147,7 @@ def _work_summary(result):
                    unresolved_criterion_indices=unresolved,
                    revision_needed=any(status in {"partial", "revisit"} for status in outcomes.values()),
                    all_criteria_met=bool(criteria) and not unresolved,
+                   submission_evidence=submission_evidence(payload),
                    stage=snapshot.get("stage"), status=payload.get("status", "draft"))
     return summary
 
@@ -169,6 +171,8 @@ class LearningStore:
                 self._migrate_v3(db)
             if version < 4:
                 self._migrate_v4(db)
+            if version < 5:
+                self._migrate_v5(db)
 
     @contextmanager
     def _connect(self):
@@ -291,6 +295,15 @@ class LearningStore:
             db.execute("UPDATE works SET summary_json=? WHERE owner_id=? AND resource_id=?",
                        (_json(_work_summary(json.loads(row["record_json"]))), row["owner_id"], row["resource_id"]))
         db.execute("PRAGMA user_version = 4")
+
+    @classmethod
+    def _migrate_v5(cls, db):
+        # Only the rebuildable work index changes. Ratings and original work,
+        # including incomplete submissions, retain their exact historical bytes.
+        for row in db.execute("SELECT owner_id, resource_id, record_json FROM works").fetchall():
+            db.execute("UPDATE works SET summary_json=? WHERE owner_id=? AND resource_id=?",
+                       (_json(_work_summary(json.loads(row["record_json"]))), row["owner_id"], row["resource_id"]))
+        db.execute("PRAGMA user_version = 5")
 
     @staticmethod
     def _record(row):

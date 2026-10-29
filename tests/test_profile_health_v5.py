@@ -263,7 +263,7 @@ class ProfileHealthTests(unittest.TestCase):
             db.execute("DELETE FROM profile_backup_receipts WHERE owner_id=?", (OWNER,))
         health = self.profiles.status(OWNER)["backup_health"]
         self.assertEqual(envelope["version"], 1)
-        self.assertEqual(health["compatibility"]["learning_schemas"], [4])
+        self.assertEqual(health["compatibility"]["learning_schemas"], [4, 5])
         self.assertTrue(health["legacy_generation_at"])
         self.assertIsNone(health["generated"])
         self.assertIsNone(health["verified_file"])
