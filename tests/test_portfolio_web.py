@@ -96,6 +96,38 @@ class PortfolioWebTests(unittest.TestCase):
         self.assertEqual(code, 200, result)
         return result
 
+    def test_blank_checkboxes_survive_http_reload_until_actual_response_is_submitted(self):
+        resource = self.descriptor(kind="self_check", topic_id="m1a.1.1", criterion_index=0)
+        values = self.save_values(resource)
+        values.update(topic_id="m1a.1.1", criterion_index=0, draft={}, status="submitted",
+            self_assessment=[{"criterion_index": index, "status": "met"}
+                             for index in range(len(resource["resource_snapshot"]["criteria"]))])
+        code, first = self.request("/api/work", values)
+        self.assertEqual(code, 200, first)
+        self.assertEqual(first["submission_evidence"]["missing_field_ids"], ["response"])
+        needs = self.request("/api/plan")[1]["learning_needs"]
+        pending = next(row for row in needs if row.get("work_resource_id") == resource["resource_id"])
+        self.assertEqual(pending["status"], "open")
+        self.assertEqual(pending["revision_basis"], "missing_submission")
+        query = "/api/work?resource_id=" + urllib.parse.quote(resource["resource_id"], safe="")
+        restored = self.request(query)[1]
+        self.assertEqual(restored["work"], first["work"])
+        self.assertEqual(restored["submission_evidence"], first["submission_evidence"])
+        values.update(expected_revision=1, request_id="actual-response", draft={"response": "逐个对应，点数顺序为一、二、三。"})
+        code, second = self.request("/api/work", values)
+        self.assertEqual(code, 200, second)
+        self.assertTrue(second["submission_evidence"]["complete"])
+        closed = next(row for row in self.request("/api/plan")[1]["learning_needs"] if row["need_id"] == pending["need_id"])
+        self.assertEqual(closed["status"], "resolved")
+        self.assertFalse(closed["resolution"]["independent_evidence"])
+        revisions = self.request("/api/work/revisions?resource_id=" + urllib.parse.quote(resource["resource_id"], safe=""))[1]["revisions"]
+        self.assertEqual(revisions[-1], first["work"])
+        # A forged client-side completeness flag must never override the frozen descriptor.
+        values.update(expected_revision=2, request_id="remove-response", draft={}, submission_evidence={"complete": True})
+        self.assertEqual(self.request("/api/work", values)[0], 200)
+        reopened = next(row for row in self.request("/api/plan")[1]["learning_needs"] if row["need_id"] == pending["need_id"])
+        self.assertEqual(reopened["status"], "open")
+
     def test_old_session_reports_updated_or_removed_tasks_without_leaking_new_answers_or_rewriting_history(self):
         response = self.start_transfer()
         sid, qid = response["session"]["id"], response["item"]["question"]["id"]

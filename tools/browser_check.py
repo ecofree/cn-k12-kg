@@ -26,7 +26,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from tools.verification_context import capture, changes, raw_digest
 SCRIPT = ROOT / "tests/browser/learning-flow.cjs"
-JOURNEYS = ("self_check_autosave", "rubric_revision", "unit_phases",
+JOURNEYS = ("submission_evidence", "self_check_autosave", "rubric_revision", "unit_phases",
             "project_history", "mobile_stage", "pool_exhaustion",
             "navigation_recovery", "keyboard_accessibility", "learning_needs_support",
             "profile_backup_recovery", "scope_and_manipulatives", "goal_alignment", "goal_support_revision", "goal_observation_artifacts", "prerequisite_plan", "equation_steps", "support_branches", "changed_content_preview")
@@ -42,7 +42,7 @@ INPUTS = ("web/server.py", "web/static/index.html", "web/static/app.js", "web/st
           "cnkg/assessments.py", "cnkg/work_attachments.py", "schema/assessment-source.schema.json",
           "cnkg/alignment.py", "data/alignment_targets.json", "data/curriculum_scope.json", "data/catalog.json", "package-lock.json",
           "cnkg/step_practice.py", "web/static/steps.js", "tests/browser/step-practice.cjs", "tests/browser/support-branches.cjs",
-          "tools/browser_check.py", "tests/browser/learning-flow.cjs", "tests/browser/prerequisite-plan.cjs")
+          "tools/browser_check.py", "tests/browser/learning-flow.cjs", "tests/browser/submission-evidence.cjs", "tests/browser/prerequisite-plan.cjs")
 
 
 def fingerprints():

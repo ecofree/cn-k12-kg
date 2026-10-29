@@ -8,7 +8,7 @@ the distinction between historical review and a new review.
 from __future__ import annotations
 
 import argparse
-import hashlib
+import copy
 import json
 from pathlib import Path
 import sys
@@ -31,7 +31,8 @@ def build_queue(root: Path):
 
     registry = read_json(root / "data/content_sources.json")
     bindings = read_json(root / "data/skills/catalog-bindings.json").get("tasks", {})
-    catalog = read_json(root / "data/catalog.json").get("tasks", {})
+    compiled = read_json(root / "data/catalog.json")
+    catalog = compiled.get("tasks", {})
     bank_tasks = {key: value for key, value in catalog.items()
                   if value.get("source_kind") == "bank"}
     questions, owners = {}, {}
@@ -76,11 +77,19 @@ def build_queue(root: Path):
             "availability": task.get("availability", "unknown"),
             "quarantined": task.get("availability") == "quarantined",
             "prompt": q.get("prompt", q.get("question", "")),
-            "options": q.get("options"),
+            "type": q["type"],
+            "options": copy.deepcopy(q.get("choices", q.get("options"))),
+            "compiled_options": copy.deepcopy(task.get("choices")),
+            "source_question": copy.deepcopy(q),
+            "compiled_task_sha256": digest(task),
+            "binding_sha256": digest(binding),
+            "binding": copy.deepcopy(binding),
             "answer": q.get("answer", q.get("correct_answer")),
             "explanation": q.get("explanation", q.get("analysis", "")),
             "answer_spec": binding.get("answer_spec", task.get("answer_spec")),
             "skill_ids": task.get("skill_ids", binding.get("skill_ids", [])),
+            "goals": [{"id": sid, "definition": copy.deepcopy(compiled.get("skills", {}).get(sid))}
+                      for sid in task.get("skill_ids", binding.get("skill_ids", []))],
             "family_id": task.get("family_id", binding.get("family_id")),
             "representation": task.get("representation", binding.get("representation")),
             "audit": {

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import unittest
+import json
 
 from tools.prepare_bank_reaudit import ROOT, build_queue
 
@@ -16,6 +17,21 @@ class BankReauditQueueTests(unittest.TestCase):
         self.assertEqual(len({row["id"] for row in self.rows}), 3584)
         self.assertEqual(sum(row["quarantined"] for row in self.rows), 493)
         self.assertEqual(sum(row["availability"] == "active" for row in self.rows), 3091)
+
+    def test_every_choice_retains_actual_options_and_the_correct_stable_id(self):
+        bank = json.loads((ROOT / "data/catalog.json").read_text())["tasks"]
+        count = 0
+        for row in self.rows:
+            task = bank[row["id"]]
+            if task["type"] != "choice":
+                continue
+            count += 1
+            with self.subTest(identity=row["id"]):
+                self.assertTrue(row["options"], "A choice question without choices is not auditable")
+                self.assertEqual({x["id"]: x["text"] for x in row["options"]},
+                                 {x["id"]: x["text"] for x in task["choices"]})
+                self.assertIn(row["answer"], {x["id"] for x in row["options"]})
+        self.assertEqual(count, 1154)
 
     def test_queue_is_not_misrepresented_as_completed_review(self):
         self.assertTrue(all(row["audit"]["status"] == "not_reaudited" for row in self.rows))

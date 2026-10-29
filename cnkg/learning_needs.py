@@ -102,14 +102,13 @@ def need_identity(kind, source_ref, version):
 
 
 def work_is_reviewed(work):
-    if not work:
+    """Close only a submitted, presence-complete, fully self-checked work task."""
+    if (not work or work.get("status") != "submitted"
+            or work.get("submission_evidence", {}).get("complete") is not True):
         return False
     outcomes = work.get("criterion_outcomes")
-    if isinstance(outcomes, list):
-        return bool(outcomes) and all(row.get("status") == "met" for row in outcomes)
-    # Older compact summaries can only establish that a self-check was saved.
-    # All real store summaries are rebuilt to explicit per-criterion outcomes.
-    return bool(work.get("self_assessment_completed")) and not work.get("revision_needed")
+    return (isinstance(outcomes, list) and bool(outcomes)
+            and all(isinstance(row, dict) and row.get("status") == "met" for row in outcomes))
 
 
 def _observations(records, *, include_pending=False):
@@ -209,6 +208,11 @@ def derive_needs(catalog, records, works=(), states=()):
             need["criterion_outcomes"] = saved.get("criterion_outcomes", []) if saved else []
             need["unresolved_criterion_indices"] = saved.get("unresolved_criterion_indices", []) if saved else []
             need["revision_needed"] = bool(saved and saved.get("revision_needed"))
+            need["submission_evidence"] = saved.get("submission_evidence", {}) if saved else {}
+            if saved and not need["submission_evidence"].get("complete"):
+                need["notice"] = "自评已保留，但还有过程分项未提交文字或对应附件；待办继续保留，原判分不变。"
+            elif saved and saved.get("status") != "submitted":
+                need["notice"] = "当前仍为草稿；补充过程并提交自查后再核对，原判分不变。"
             if work_is_reviewed(saved):
                 need["resolution"] = {"kind": "learner_reported_revision", "work_resource_id": work_key,
                                       "revision": saved.get("revision", saved.get("_revision")),
@@ -295,8 +299,12 @@ def derive_needs(catalog, records, works=(), states=()):
         reported_difficulty = bool(work.get("revision_needed") or any(
             row.get("status") in {"partial", "revisit"} for row in outcomes))
         revision_basis = ("learner_reported_difficulty" if reported_difficulty else
+                          "missing_submission" if not work.get("submission_evidence", {}).get("complete") else
+                          "unsubmitted_work" if work.get("status") != "submitted" else
                           "learner_reported_met" if work_is_reviewed(work) else "unassessed_criteria")
-        notice = {"learner_reported_difficulty": "学习者明确记录了部分达到或需要重做，提交状态不会清除修订事项。",
+        notice = {"missing_submission": "还有过程分项没有实际文字或对应附件；勾选自评不能代替提交，待办继续保留。",
+                  "unsubmitted_work": "作品仍为草稿；已填写的过程和自评保留，明确提交自查前不关闭待办。",
+                  "learner_reported_difficulty": "学习者明确记录了部分达到或需要重做，提交状态不会清除修订事项。",
                   "unassessed_criteria": "还有量规项目尚未核对；这不表示已发现错误，草稿与待核对事项继续保留。",
                   "learner_reported_met": "量规逐项自报达到只关闭自查待办，不改变任务评分或证明掌握。"}[revision_basis]
         source = {"work_resource_id": resource_id}
@@ -312,6 +320,7 @@ def derive_needs(catalog, records, works=(), states=()):
                       "skill_ids": list(work.get("skill_ids", [])), "objective_ids": [], "targets": [], "source_kind": work.get("kind"),
                       "source_completed": work.get("status") == "submitted", "work_status": work.get("status", "draft"),
                       "revision_basis": revision_basis, "observed_at": work.get("updated_at"),
+                      "submission_evidence": work.get("submission_evidence", {}),
                       "criterion_outcomes": work.get("criterion_outcomes", []),
                       "unresolved_criterion_indices": work.get("unresolved_criterion_indices", []),
                       "revision_needed": bool(work.get("revision_needed")), "resolution": resolution,

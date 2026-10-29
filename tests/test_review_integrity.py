@@ -124,6 +124,16 @@ class ReviewTimingTests(unittest.TestCase):
         self.assertTrue(any(step.get("continuation") == "reflect_and_revise" for step in steps))
         partial["self_assessment_completed"] = True
         steps = plan(catalog(), [record], [partial], now=NOW)["next_steps"]
+        self.assertTrue(any(step.get("continuation") == "reflect_and_revise" for step in steps),
+                        "A legacy completed flag without actual submitted work must fail closed")
+        from cnkg.learning_store import _work_summary
+        complete = _work_summary({"resource_id": "session_task:s1:p1", "resource_version": "v1", "revision": 1,
+            "created_at": NOW, "updated_at": NOW, "evidence_type": "learner_work", "payload": {
+                "kind": "session_task", "source_ref": {"session_id": "s1", "question_id": "p1"},
+                "resource_snapshot": {"title": "过程", "fields": [{"id": "response"}], "criteria": ["依据", "检验"]},
+                "draft": {"response": "原条件、推导与验算的过程"}, "status": "submitted",
+                "self_assessment": [{"criterion_index": 0, "status": "met"}, {"criterion_index": 1, "status": "met"}]}})
+        steps = plan(catalog(), [record], [complete], now=NOW)["next_steps"]
         self.assertFalse(any(step.get("continuation") == "reflect_and_revise" for step in steps))
         self.assertEqual(record["answers"][0]["status"], "needs_review")
 

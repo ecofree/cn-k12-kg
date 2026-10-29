@@ -156,6 +156,19 @@ window.CNKGWork = (() => {
     const conflict = create("button", "保留两版并保存本页内容", "ghost"); conflict.type = "button"; conflict.hidden = true;
     controls.append(save); if (!draftOnly) controls.append(finish); controls.append(conflict); root.append(controls); root.prepend(status);
     if (draftOnly) root.append(create("p", "这里保存的是尚未提交的草稿及其修订。点击“记录这一步”后，正式作答另行保存；修改草稿不会改写已提交的答案。", "muted"));
+    const evidenceStatus = create("p", "", "muted work-evidence-status"); evidenceStatus.setAttribute("role", "status");
+    if (!draftOnly) root.insertBefore(evidenceStatus, controls);
+    function showSubmissionEvidence(value) {
+      if (draftOnly) return;
+      if (value?.missing_field_labels?.length) {
+        evidenceStatus.textContent = "尚缺实际过程：" + value.missing_field_labels.join("、") + "。请在对应项填写过程或上传图稿、录音；勾选自评不能代替提交。";
+      } else if (value?.complete) {
+        evidenceStatus.textContent = "各必需分项已有文字或附件；这只说明记录已提供，不表示作图、证明或解释正确。请继续按量规核对并提交自查。";
+      } else {
+        evidenceStatus.textContent = "过程记录仍须按原任务核对；自评和保存本身不证明已提供完整作品。";
+      }
+    }
+    showSubmissionEvidence(data.submission_evidence);
     let revision = data.work?.revision || 0, learnerStatus = saved.status || "draft";
     root.dataset.resourceId = descriptor.resource_id; root.dataset.revision = String(revision);
     let pending = null, timer = null, running = null, lastSaved = null, failed = false, conflictSeen = false;
@@ -183,6 +196,7 @@ window.CNKGWork = (() => {
           const response = await api("/api/work", request);
           revision = response.work.revision; pending = null; lastSaved = sent; failed = false;
           status.textContent = request.status === "submitted" ? "自查记录已保存，仍可继续修订。" : "已保存。";
+          showSubmissionEvidence(response.submission_evidence);
           root.dataset.resourceId = descriptor.resource_id; root.dataset.revision = String(revision);
         } catch (error) {
           failed = true; conflictSeen = error.status === 409; conflict.hidden = !conflictSeen;
@@ -212,7 +226,7 @@ window.CNKGWork = (() => {
       });
     }
     guardReference(supportPanel, "difficulty"); guardReference(hintPanel, "hint"); guardReference(referencePanel, "answer");
-    function changed() { learnerStatus = "draft"; clearTimeout(timer); status.textContent = "有修改，等待保存…"; timer = setTimeout(persist, 500); }
+    function changed() { learnerStatus = "draft"; if (!draftOnly) evidenceStatus.textContent = "有尚未保存的修改；提交情况将在保存后重新核对。"; clearTimeout(timer); status.textContent = "有修改，等待保存…"; timer = setTimeout(persist, 500); }
     function showAttachments() {
       attachmentList.replaceChildren();
       for (const item of attachments) {

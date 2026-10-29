@@ -63,3 +63,54 @@ def learner_payload(resource, values):
         from .work_attachments import validate_attachments
         result["attachments"] = validate_attachments(values["attachments"], fields)
     return result
+
+
+def submission_evidence(payload):
+    """Describe presence against the frozen work fields, never quality or mastery.
+
+    A checkbox, reflection or another component's answer cannot supply a missing
+    component. Legacy work without a field schema keeps its original nonblank
+    response as limited presence evidence; an absent schema is not a free pass.
+    Attachments are counted only after their real bytes and field ownership pass
+    the same validation used on save/restore. No historical payload is mutated.
+    """
+    snapshot = payload.get("resource_snapshot", {})
+    fields = snapshot.get("fields")
+    components = snapshot.get("component_ids", [])
+    components = components if isinstance(components, list) else []
+    draft = payload.get("draft", {})
+    draft_map = draft if isinstance(draft, dict) else {}
+    field_map = {row["id"]: row for row in fields or []
+                 if isinstance(row, dict) and isinstance(row.get("id"), str)}
+    if components:
+        # An unknown/missing frozen component must remain missing, not disappear.
+        required = list(dict.fromkeys(value for value in components if isinstance(value, str)))
+    elif isinstance(fields, list):
+        required = [identity for identity, row in field_map.items()
+                    if row.get("phase") not in {"discrimination", "revision"}
+                    and row.get("optional") is not True]
+    else:
+        required = ["__legacy_response__"]
+    from .work_attachments import validate_attachments
+    try:
+        attachments = validate_attachments(payload.get("attachments", []), set(field_map))
+    except (ValueError, TypeError, KeyError):
+        attachments = []  # Preserve raw old data but do not treat invalid bytes as evidence.
+    rows = []
+    for identity in required:
+        field = field_map.get(identity, {})
+        if identity == "__legacy_response__":
+            values = draft_map.values() if isinstance(draft, dict) else [draft]
+            text_present = any(isinstance(value, str) and bool(value.strip()) for value in values)
+        else:
+            value = draft_map.get(identity)
+            text_present = identity in field_map and isinstance(value, str) and bool(value.strip())
+        files = [item for item in attachments if item["field_id"] == identity]
+        rows.append({"field_id": identity, "label": field.get("label", "旧版本原作答" if identity == "__legacy_response__" else identity),
+                     "text_present": text_present, "attachment_count": len(files),
+                     "present": bool(text_present or files)})
+    missing = [row for row in rows if not row["present"]]
+    return {"schema": 1, "complete": bool(rows) and not missing,
+            "required_field_ids": required, "missing_field_ids": [row["field_id"] for row in missing],
+            "missing_field_labels": [row["label"] for row in missing], "fields": rows,
+            "evidence_basis": "submission_presence_only_not_quality_or_mastery"}

@@ -482,6 +482,9 @@ async function openContentPreview(task, first) {
 }
 
 const journeys = {
+  async submission_evidence() {
+    await require("./submission-evidence.cjs")({ page, goto, actionResponse, apiRead, saveText, visible, claim, result, noHorizontalOverflow });
+  },
   async support_branches() {
     await require("./support-branches.cjs")({ page, goto, actionResponse, apiRead, claim, result, noHorizontalOverflow });
   },

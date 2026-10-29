@@ -51,9 +51,8 @@ class PlannerTests(unittest.TestCase):
         self.assertEqual(revise["question_id"], "p1")
         self.assertEqual(revise["work_resource_id"], "session_task:s1:p1")
         self.assertIn("transfer", [action["action"] for action in first["next_steps"]])
-        work = {"resource_id": revise["work_resource_id"], "kind": "session_task", "self_assessment_reported": True,
-                "self_assessment_completed": True,
-                "has_draft": True, "source_ref": {"session_id": "s1", "question_id": "p1"}}
+        work = saved_work(revise["work_resource_id"], status="submitted", assessment="met")
+        work.update(kind="session_task", source_ref={"session_id": "s1", "question_id": "p1"})
         second = plan(catalog(), [original], [work], now=NOW)
         self.assertFalse(any(action.get("continuation") == "reflect_and_revise" for action in second["next_steps"]))
         self.assertEqual(original, before)
@@ -172,9 +171,9 @@ class PlannerTests(unittest.TestCase):
         session = record(status="needs_review")
         session["answers"] += [{"question_id": "p2", "status": "needs_review"},
                                {"question_id": "p3", "status": "needs_review"}]
-        works = [{"resource_id": "session_task:s1:p1", "kind": "session_task", "has_draft": True,
-                  "self_assessment_reported": True, "self_assessment_completed": True},
-                 {"resource_id": "session_task:earlier:p1", "kind": "session_task", "has_draft": True}]
+        completed = saved_work("session_task:s1:p1", status="submitted", assessment="met")
+        completed.update(kind="session_task", source_ref={"session_id": "s1", "question_id": "p1"})
+        works = [completed, {"resource_id": "session_task:earlier:p1", "kind": "session_task", "has_draft": True}]
         steps = plan(catalog(), [session], works, now=NOW)["next_steps"]
         revisions = [step for step in steps if step.get("continuation") == "reflect_and_revise"]
         self.assertEqual(len(revisions), 1)
@@ -208,7 +207,7 @@ class PlannerTests(unittest.TestCase):
                 self.assertTrue(all(step["continuation_basis"] == "unassessed_criteria" for step in steps[1:]))
                 self.assertEqual(result["total_candidates"], 1001)
                 self.assertEqual(result["need_counts"]["open"], 1000 + int(criteria))
-                self.assertTrue(all(need["revision_basis"] == "unassessed_criteria"
+                self.assertTrue(all(need["revision_basis"] == ("unsubmitted_work" if need.get("work_resource_id") == "zz-older-draft" else "unassessed_criteria")
                                     for need in result["learning_needs"]))
                 self.assertEqual(works, before)
 
@@ -244,7 +243,7 @@ class PlannerTests(unittest.TestCase):
         reported = saved_work("zz-reported", status="submitted", assessment="partial")
         result = plan({"units": {}}, [], [empty, reported], now=NOW)
         self.assertEqual([step["work_resource_id"] for step in result["next_steps"]], ["zz-reported", "00-empty"])
-        self.assertEqual(result["next_steps"][1]["continuation_basis"], "unassessed_criteria")
+        self.assertEqual(result["next_steps"][1]["continuation_basis"], "missing_submission")
 
     def test_active_session_keeps_precedence_over_saved_draft(self):
         active = record(completed=None)

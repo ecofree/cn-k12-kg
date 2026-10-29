@@ -1274,9 +1274,10 @@ class Handler(BaseHTTPRequestHandler):
                 if path == "/api/work/revisions":
                     return self._json(200, {"revisions": get_store().work_history(owner, resource["resource_id"],
                         limit=int(params.get("limit", "50")), offset=int(params.get("offset", "0")))})
+                saved = get_store().load_work(owner, resource["resource_id"])
                 return self._json(200, {"descriptor": resource,
-                    "current_content": work_current_content(resource, owner),
-                    "work": get_store().load_work(owner, resource["resource_id"])})
+                    "current_content": work_current_content(resource, owner), "work": saved,
+                    "submission_evidence": portfolio.submission_evidence(saved["payload"] if saved else resource)})
             except KeyError:
                 return self._error(404, "作品资源不存在或不属于本浏览器")
             except ValueError as exc:
@@ -1514,7 +1515,8 @@ class Handler(BaseHTTPRequestHandler):
                     saved = get_store().save_work(owner, resource["resource_id"], portfolio.learner_payload(resource, payload),
                         payload.get("expected_revision"), payload.get("request_id"))
                     self._work_exposure(resource)
-                    return self._json(200, {"descriptor": resource, "work": saved})
+                    return self._json(200, {"descriptor": resource, "work": saved,
+                        "submission_evidence": portfolio.submission_evidence(saved["payload"])})
                 if path == "/api/exposure":
                     resource = payload.get("resource_id")
                     if not isinstance(resource, str) or resource not in get_catalog().materials:

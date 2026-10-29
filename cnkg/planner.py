@@ -124,6 +124,9 @@ def _work_continuation(work, need=None):
                    for row in need.get("criterion_outcomes", work.get("criterion_outcomes", [])))):
         return (76, "learner_reported_difficulty",
                 "这份作品已自报部分达到或需要重做，可以按具体量规项目继续修订；这些自评不等于独立掌握的证据。")
+    if not work.get("submission_evidence", {}).get("complete"):
+        return (75, "missing_submission",
+                "这份作品还有过程分项未提供文字或对应附件，请补齐实际过程后再提交自查；缺少提交不表示已判断答错。")
     return (35, "unassessed_criteria",
             "这份作品仍有尚未核对的量规项目，可以逐项自查；未核对不表示答错或已发现学习困难。")
 

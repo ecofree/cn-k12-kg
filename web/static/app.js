@@ -344,6 +344,7 @@ async function openNeeds(routeMode = "push") {
         const kind = { answer_support: "作答后需进一步辨别", process_revision: "过程待自查或修订", work_revision: "作品待修订", support_revision: "指导练习待确认", independent_followup: "修订后待独立确认" };
         card.append(node("h3", need.title), node("p", `${kind[need.kind] || "学习事项"} · ${formatTime(need.observed_at)}`, "muted"), node("p", need.notice));
         if (need.criterion_outcomes?.length) card.append(list(need.criterion_outcomes.filter(r => r.status !== "met").map(r => `${r.criterion}：${{ partial: "部分达到", revisit: "需要重做", not_checked: "尚未核对" }[r.status] || r.status}`)));
+        if (need.submission_evidence?.missing_field_labels?.length) card.append(node("p", "尚缺实际过程：" + need.submission_evidence.missing_field_labels.join("、"), "muted need-missing-work"));
         if (need.resolution) card.append(node("p", need.resolution.notice, "muted"));
         if (need.kind === "independent_followup") {
           const followup = need.followup || need;

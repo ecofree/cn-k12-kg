@@ -297,7 +297,7 @@ def _validate_payload(data):
     _require(isinstance(data, dict) and set(data) == {"format", "schema", "learning_schema", "created_at", "profile", "tables"})
     _require(data["format"] == "cnkg-owner-records" and type(data["schema"]) is int and data["schema"] == 1,
              "不支持此备份内容版本；请保留原文件和恢复码，使用匹配版本的程序，不要手改版本号")
-    _require(type(data["learning_schema"]) is int and data["learning_schema"] == SCHEMA_VERSION,
+    _require(type(data["learning_schema"]) is int and data["learning_schema"] in {4, SCHEMA_VERSION},
              "备份的学习记录版本与当前程序不兼容；请保留原文件和对应恢复码，使用生成备份时或明确支持该版本的程序。当前记录未改变")
     _text(data["created_at"], maximum=128)
     profile = data["profile"]
@@ -484,7 +484,7 @@ def _validate_work_record(row, sessions):
 
 def _compatibility():
     return {"format": BACKUP_FORMAT, "backup_versions": [BACKUP_VERSION],
-            "content_schemas": [1], "learning_schemas": [SCHEMA_VERSION],
+            "content_schemas": [1], "learning_schemas": [4, SCHEMA_VERSION],
             "cipher": "AES-256-GCM",
             "unsupported_action": "保留原文件和对应恢复码，使用生成备份时或明确支持该版本的程序；不要手改版本号。"}
 

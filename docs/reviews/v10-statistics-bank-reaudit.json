@@ -1,0 +1,667 @@
+{
+  "schema": 1,
+  "baseline_commit": "b982408dfbfa98a7c39917f0e7b1fa2b7b07825a",
+  "reviewer_kind": "ai",
+  "reviewer_role": "single_assistant_semantic_review_not_independent_teacher",
+  "reviewed_question_count": 34,
+  "bank_total": 3584,
+  "bank_questions_not_freshly_reviewed_in_this_batch": 3550,
+  "quarantined_questions_unchanged": 493,
+  "independent_teacher_review": false,
+  "student_validation": false,
+  "tasks": [
+    {
+      "id": "mh5.8.1.2-q1",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "d8d8580cebf96002e02959a923f379f20d35b8e4c7495535244c7d52cd489321",
+      "compiled_task_sha256": "4348329a7a47fd199be674b933c096f560cd041ac48ad1b9e1efaed203466933",
+      "binding_sha256": "3d1430292995b108bbbaa1a986355e397b8ace3a6b55d48171ef5e7a8e75fa76",
+      "skill_sha256": {
+        "sk_3b5da359f60940e7bcd5": "ea3421453b707c211cf1fe374ecaf9627a7a54d162516f2fe3a504472e71e95b"
+      },
+      "expected_answer": "1",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "|-0.7|=0.7>0.4，所以第一组较强，编号1；负号仅表反向。题面明确非退化，比较有定义。",
+      "observation_boundary": "只比较这两个样本的线性强弱；填写编号不独立测出方向解释、计算r或因果判断。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.1.2-q101",
+      "source": "data/question_sources/application.json",
+      "source_task_sha256": "3f4b9acfb893400b46873cb8fd51277f08417b18c8b8fb3cb471d56120bb0a97",
+      "compiled_task_sha256": "ded1294354ee5f5544433a41b9de94ccf030ded68ec9cba68436a0a883c2aafc",
+      "binding_sha256": "60d0d1c5394defb92ccc1c16670a64c4c05bd00dc051e4a80e5112803f108800",
+      "skill_sha256": {
+        "sk_430ff67b7025515bb2b0": "8c3db88f2d022d28288f0d9b2c8ec4278943d14bb7261273449fdce374e085f8"
+      },
+      "expected_answer": "0.81",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "0.9×0.9=0.81。解释仅在同数据、两变量非零变异、含截距一元OLS条件下连接R²；没有把余下19%说成其他因素或未来错误率。",
+      "observation_boundary": "实际作答只测已给r的平方，不能计为计算相关系数或说明回归解释率的独立证据。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.1.2-q102",
+      "source": "data/question_sources/application.json",
+      "source_task_sha256": "1100152278d0862079ad691dd28f4457703b0281305f6c41072c82a610a9893d",
+      "compiled_task_sha256": "f8246dee726e1e9911f7df437892a4a5a4210b8dd768fb33c9d71c5dcc589044",
+      "binding_sha256": "bd79e8c3ca08eb58f72db6460a54baa1c7d6d3629c768a030b747d64241cd602",
+      "skill_sha256": {
+        "sk_8b757f1ca7ce5800b4fc": "58c6c14f1cc507307170e2f6746130ab3e0c380921ef0ccd03a0ea0bd914d73c"
+      },
+      "expected_answer": "25",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "同一组成对数据、非零变异、含截距一元最小二乘条件已给，R²=r²=0.25；百分数栏应为25而不是0.25。",
+      "observation_boundary": "只测给定条件下样本解释变异比例，不是因果贡献、个体命中率或未来准确率。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.1.2-q2",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "5114909895c0ee92ce5cc4d4bfd05003b6c8c5fd83bdcaa878c087aa67eea90e",
+      "compiled_task_sha256": "c1d90fd4370fb219fee458f27c0e788ab7d5fabedca4d797bd069b273dc840a4",
+      "binding_sha256": "c76a5de06f87269c8d048448d2b1773e578e7ab089e1c314f3b4fdaf72fb3e39",
+      "skill_sha256": {
+        "sk_92cb0c0a35225858966f": "69e4cb59ec970bdeda456443cbc7a961bf1a64e26005c2a044631f0634c7d873"
+      },
+      "expected_answer": "o4",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "定义成立时，中心化样本向量的内积除以长度积，由柯西不等式绝对值不超过1；唯一完整范围是o4的[-1,1]。",
+      "observation_boundary": "目标明确为有定义的r的范围识别；本题不检测退化分母，也不要求证明不等式。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.1.2-q201",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "0acefa94d385872d7e5c85fb92c431d7795e82f5a9ca2d96d8d30eb0f1400cf0",
+      "compiled_task_sha256": "302e29beabfbdede9827746d9ebe46181ecce40ab2b62a7d638f6dd03ed02aa1",
+      "binding_sha256": "65117e15b6cf2597bd2f5c0ef2c9dde219af21f7b1c1774e2f72b271dcc9303f",
+      "skill_sha256": {
+        "sk_3b5da359f60940e7bcd5": "ea3421453b707c211cf1fe374ecaf9627a7a54d162516f2fe3a504472e71e95b"
+      },
+      "expected_answer": "0.92",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "绝对值为0.92和0.46，前者更大；要求较强组的|r|故答案是正0.92，不是-0.92。",
+      "observation_boundary": "只观察强弱比较；目标还含方向，本次数值答案不能单独完成整个目标。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.1.2-q202",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "99db57b1cf91bdfe33cf670d1eddee1d8bfd065c0d3169613e87ba1e7ed7b4bd",
+      "compiled_task_sha256": "cd9f6cddaf6f81f65d64895a8391acf8d3943abe5945a29e77055e7cff5a0548",
+      "binding_sha256": "c0239084b6b62b8f1baba67a06148083d7dc82ca7692e02f84e990821748a412",
+      "skill_sha256": {
+        "sk_8687a185a2504af79177": "b4e4b8aa0b26181a1ed2e811127bcd9cd85768b03d0bd077ef4625ff6632674f"
+      },
+      "expected_answer": "o2",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "0.03接近0，仅表该样本线性关系弱；其他选项分别错误推出完全无关系、独立或无因果作用，故o2唯一合适。",
+      "observation_boundary": "用接近零的辨析支持r=0不排除非线性这一目标；不替代构造反例或书面说明。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.1.2-q203",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "8986c5ccb9c0801d00e28ccdb952dc2c0ab8b1dee9f868a5b9f9498c31f289f4",
+      "compiled_task_sha256": "95bb44ed80cea108b62851fd86b4b83f2ee5c7d26e98871d446770df234fc09f",
+      "binding_sha256": "419ec563af98889f694b11cbea6a5801d7e852ab39a352ee6fb91adf9cadcde0",
+      "skill_sha256": {
+        "sk_7d6a12992f0e59d495f8": "f5e3d5fdd235759308f2e81f20fb24ebf6ed5da47cb7d56e183ba032aeeeb6a7"
+      },
+      "expected_answer": "o4",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "所有x相同时Σ(x−x̄)²=0，相关系数分母为0；不能定义为0、1或-1，应选o4。",
+      "observation_boundary": "只观察退化条件识别，不测一般样本r计算。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.1.2-q204",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "02c264fe5cd6cabd302f6e87a638e6a439f6151f7c9cfd0655dc3b1eb713d367",
+      "compiled_task_sha256": "fb8e9447429c203aa6f6ba008679ae34984303edc4e0ce07d5a6ca926e6509ad",
+      "binding_sha256": "bc6ef5b1b03bdfd8d7b9a18a2f905fe1d941da735973d03f3bcdc096e1eae40e",
+      "skill_sha256": {
+        "sk_8687a185a2504af79177": "b4e4b8aa0b26181a1ed2e811127bcd9cd85768b03d0bd077ef4625ff6632674f"
+      },
+      "expected_answer": "0",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "x均值0，y均值8/3；交叉和(-2)(4/3)+0(-8/3)+2(4/3)=0，离差平方和分别8与32/3均正，故r=0；三点同时满足y=x²。",
+      "observation_boundary": "计算零相关的反例只提供有限观察；只交数字0并不证明学习者能解释零相关与无关系的区别。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.1-q1",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "add448aefdeba792f20b2636e988b3fc32a5510d16e1563f51389ac5d01ceade",
+      "compiled_task_sha256": "0dcccc2e30286a65de87afc4d9a5c24f411294c2681b9b733d47d2529ad29d08",
+      "binding_sha256": "04e6ecd0363a05084f6b33d193a111c5e20fc1a68fe3e7f962bb6f52c416db07",
+      "skill_sha256": {
+        "sk_2d8caa293be95bc29d2a": "e3b4c272e37d610cb8dcb1a7648c5823d897813e5b83492b3e5d85cb618d94ca"
+      },
+      "expected_answer": "o3",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "表达式bx+a+ε中b是x的一次项系数，线性部分斜率b、截距a，ε另为误差；o3对应正确。",
+      "observation_boundary": "识别符号角色，不测估计系数或参数因果解释。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.1-q101",
+      "source": "data/question_sources/application.json",
+      "source_task_sha256": "769f2beab23357ef5d856a37e621fa0c695e2d4a0c53df811e09d78800aec890",
+      "compiled_task_sha256": "1d37efcabfa72fb880a98586d6b7460461ffb6ce7c5de4d1e4d81b0f9290131b",
+      "binding_sha256": "0432a546e12175625f4080a97d4acd3c2a1a368a14ee6aad4c5082695ff14e5f",
+      "skill_sha256": {
+        "sk_f95dfc5ab46f55a1806d": "663d0e96474979e0e97980797d7ef88f1ef3bb20eec45daf514b9c45e7b20dd6"
+      },
+      "expected_answer": "13",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "输入5在观测范围内，2×5+3=13，单位为百件；解释区分模型预测、已有样本残差与新观测误差。",
+      "observation_boundary": "只检测代入预测式；不代表回归可靠性、因果关系或实际销量保证。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.1-q102",
+      "source": "data/question_sources/application.json",
+      "source_task_sha256": "6e34d2f78e3ac794ab211ea4829ba5c439a72a65cf471336f6d814a119814995",
+      "compiled_task_sha256": "5aa735fcf430f4934e6d4a05deaeb893d2bf562545e38b4d13713847e2a43a6d",
+      "binding_sha256": "63aed653c754c71c70e299750a2361ccea88e69c5a03dcb6b3d2700083a19a73",
+      "skill_sha256": {
+        "sk_8c8e25c739d74665ae4e": "db32cc44be1cde78e0dd7db20702ced862c8216a1980ee6dbed5f290f39e9240"
+      },
+      "expected_answer": "8",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "线性模型增量中截距抵消：0.8(x+10)+2−(0.8x+2)=8；条件限定样本范围，答案8。",
+      "observation_boundary": "该答案只观察斜率对应的拟合平均变化，不覆盖全部参数，也不保证个体或干预增量。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.1-q2",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "3ba621cf09fafaab17f1e181c700020b93db92c2a9d485edcd6f827abfea980b",
+      "compiled_task_sha256": "037847fc55cd131ad70b513336792c674698b48dfa13957e246df77bdca4754a",
+      "binding_sha256": "4daf35515491950eea6a9774d592d91ea698ea67c32aa2960b0d5d41bdc4b3a6",
+      "skill_sha256": {
+        "sk_bb67d39c19ef5efcb158": "3b2391ee0f201857e9cc86bc5fd81d4134c05f695e7371d1ded1aa99d711698a"
+      },
+      "expected_answer": "o4",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "已有样本点残差定义e=y−ŷ，符号不能倒转；o4是同一x处观测减拟合，其余不符合。",
+      "observation_boundary": "只检测定义识别；正负残差计算和模型条件需要另题。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.1-q201",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "41958f052cd28d2fcf84b727b6a39fc0f4e1104aa8be5278c5b97c37f310b60a",
+      "compiled_task_sha256": "de805321c5667a523b55cb1203e3d2e8dcaadafd2055c2fa2aaf9bcf40b3075d",
+      "binding_sha256": "28abfb8e4c429b7f2ddeae5ee70b36f6c9000570d98d4b0957ef941b77dff090",
+      "skill_sha256": {
+        "sk_ad66a341b75a4b87b377": "5d0fa72d112ee150f0bad61270d89a14967fec04f15c5482c023e468ea44a014"
+      },
+      "expected_answer": "2",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "x=3的拟合值4+2×3=10，观测12，所以有符号残差12−10=2。",
+      "observation_boundary": "只测这一个正残差计算，不支持整体模型评价。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.1-q202",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "17ba3a0cedd5aa7680a920ee7e23443c876358194afa265cb84ed213767471f9",
+      "compiled_task_sha256": "c2199dd5dbebce5e506d67ce5ac8ff3a46dc7ed632a0cd6b14eb3a99b66e7a19",
+      "binding_sha256": "56172cc92d3c5b4b0281c829a48c24d4c2f7b8860cf57d313ce0b168daee3194",
+      "skill_sha256": {
+        "sk_ad66a341b75a4b87b377": "5d0fa72d112ee150f0bad61270d89a14967fec04f15c5482c023e468ea44a014"
+      },
+      "expected_answer": "-3",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "x=8的拟合值10+0.5×8=14，残差11−14=-3；答案保留负号，解释下方位置正确。",
+      "observation_boundary": "只测一个负残差，不能用绝对值3代替。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.1-q203",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "fd7bdbcd7bde578c5b6da2fc424f340a17bbbf965b61897f46647c62e867fab1",
+      "compiled_task_sha256": "0945dcede606ddd3698d3d860abeb2767733bb7d709d0f4c2af5b0b8715dd6e4",
+      "binding_sha256": "72e0bd33f19671dda978461b571b88668744ac8b0395ff795b9d0ba16991b37b",
+      "skill_sha256": {
+        "sk_8c8e25c739d74665ae4e": "db32cc44be1cde78e0dd7db20702ced862c8216a1980ee6dbed5f290f39e9240"
+      },
+      "expected_answer": "o2",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "斜率2使线性拟合均值每单位x变动2；观察资料不推出个体必然或干预因果，故o2。",
+      "observation_boundary": "选择正确参数解释是有限证据，不测重新建模或全部参数解释。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.1-q3",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "c4e0a0929a5cb35d2e7c0eacfe6036680d917423e4dc7286c846fe170f4987f1",
+      "compiled_task_sha256": "09426fcd132eebae926da7eeb504eeb29830b94eb8d427377e98b4a97825888a",
+      "binding_sha256": "29d244c47788f9b34cbc5fff56a67e40b4797d4fc5ec355cae35a11978b0b989",
+      "skill_sha256": {
+        "sk_bb67d39c19ef5efcb158": "3b2391ee0f201857e9cc86bc5fd81d4134c05f695e7371d1ded1aa99d711698a"
+      },
+      "expected_answer": "预测值",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "e=y−ŷ要求减去该点的拟合预测值，标准答预测值与解释一致；题库短答兼容形式另由评分契约验证。",
+      "observation_boundary": "只观察术语回忆，不测真实样本残差或未来预测误差区分。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.2-q1",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "bfb048286b2a2fccbd414053b441a1cfb07f553312b2c7c35e58651d6470eccd",
+      "compiled_task_sha256": "f8f215952e63601208c942409202a4c93344d43d62e103808176ccb9754a18ec",
+      "binding_sha256": "0e73e38e0c978f29f1a0216859eb03f17aaba410ff46f3544ecd09bc8fa3f4c0",
+      "skill_sha256": {
+        "sk_a0cc526f7d234633a3b3": "cbbdf5bba4de0c0afc6d4c8e7621f95594da5682b56da63490b91ae1aaa4d78f"
+      },
+      "expected_answer": "o4",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "OLS目标为Σ[yᵢ−(a+bxᵢ)]²，即同x处竖直残差平方和；不是残差和、相关系数或斜率极大，o4。",
+      "observation_boundary": "识别最小化目标不等于能推导正规方程、估计参数或说明全过程。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.2-q101",
+      "source": "data/question_sources/application.json",
+      "source_task_sha256": "2ae5db9b3d328a39589f542bca251ec9ba1c1ab2177fd2dd4bcb30a9a686fd6e",
+      "compiled_task_sha256": "82428b8ade7bafa37d6b9bc97297c9a87581da5df941d95b9a28e7f920e03bba",
+      "binding_sha256": "d6572f48aaa690b76689d8aefdf8a96fbf85e8405790c54108dd5a96e99f68aa",
+      "skill_sha256": {
+        "sk_61417ef66936477cacbd": "b7407875d836ac0e7e477f6101d7a974023dd0b48b963179bbc6576fbeafef27"
+      },
+      "expected_answer": "-1",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "样本中心(3,5)在含截距OLS线上，5=2×3+a，故a=-1；无需猜测原始样本。",
+      "observation_boundary": "只检测利用给定斜率和中心求截距，不检测从数据估计斜率。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.2-q102",
+      "source": "data/question_sources/application.json",
+      "source_task_sha256": "08763ce3745080b548c25060713379457b72f105db995544930563de1a74f637",
+      "compiled_task_sha256": "c94bad1899314fd33dc528a6440242ca9db6094840d6badb1461a9ec32022938",
+      "binding_sha256": "eb194e12da38c8f7661a6b2bb945a10409cc58aa9b7d1b9d1a006e833bd06bfe",
+      "skill_sha256": {
+        "sk_1c6fe43f770954d9ae61": "c8667ad1385f68bbd1d1340eca9dc35fa472ef2534be89c7a88e3368114094cc"
+      },
+      "expected_answer": "13",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "中心(4,9)配斜率2，x增至6时ŷ=9+2×(6−4)=13；输入范围条件给出。",
+      "observation_boundary": "只测范围内拟合预测，实际观测仍可偏离；不能当作样本外预测验证。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.2-q2",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "03e4862b43a8db2b90c901def3506b5757aa2ccb6c484f2a6dad8e7d0920b50a",
+      "compiled_task_sha256": "1db013dc49750a11c064290187e8d127587c3ccae0ba632699837117bc388b4a",
+      "binding_sha256": "7e5d45aea1f8c567781223c7c32ef9f15e8d99f1feb897313663fc2edf3af01c",
+      "skill_sha256": {
+        "sk_3135de4380f15fdf802d": "826834093878dc6313405bcb212e632630ccee99de749e5381559a1abcc5516b"
+      },
+      "expected_answer": "o3",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "含截距OLS对a的一阶条件给Σ残差=0，故a=ȳ−bx̄并过(x̄,ȳ)；题面保留截距与x非退化，o3。",
+      "observation_boundary": "只观察性质识别，不推广到强制过原点、其他拟合损失或任意过中心的直线。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.2-q201",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "75788d0a38f70b73529ef924c9fabc536e7ec72edefd5cc37347e59724aae38d",
+      "compiled_task_sha256": "10cc59208ec6f28265973436c749d8b4ea55426c22641250541467f48faf9c57",
+      "binding_sha256": "ee02faaaf731ba8e2101281a3286d077673b6c3216e8c4f733ac9f352c481af1",
+      "skill_sha256": {
+        "sk_61417ef66936477cacbd": "b7407875d836ac0e7e477f6101d7a974023dd0b48b963179bbc6576fbeafef27"
+      },
+      "expected_answer": "3",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "a=ȳ−bx̄=9−1.5×4=3；非退化和含截距最小二乘条件足够。",
+      "observation_boundary": "同一参数恢复结构的另一数值，不因新数字计第二题族。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.2-q202",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "df320d4c121f97cb374ce0c86b03eea660de46096762bae46fa48ec0ea523823",
+      "compiled_task_sha256": "2a16cc32eb900065477c3df81234fc7aa2165476fc269dab1dad040035d4df65",
+      "binding_sha256": "78f80cf1906ef07474d2f0de019b8fa2ca6e64a180bcd4908d4df138caa67793",
+      "skill_sha256": {
+        "sk_a0cc526f7d234633a3b3": "cbbdf5bba4de0c0afc6d4c8e7621f95594da5682b56da63490b91ae1aaa4d78f"
+      },
+      "expected_answer": "6",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "有符号残差1,-2,1的平方和1+4+1=6，残差和则为0；题目明确候选拟合，不暗称这条线已最优。",
+      "observation_boundary": "仅计算候选的损失值；不能独立证明已能说明最小二乘优化思想。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.2-q203",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "cf3f5e658cf69d221ab409f8555ee5cc1098ba105512e28ac8898ad6a0375d30",
+      "compiled_task_sha256": "c865c6c7ae245df59ef946381f735b8d0e7491a5c610572739b941a75e9c2e23",
+      "binding_sha256": "9512dff82db8bc419bab9547e8f6588d03a40c887c14f5fc4046d980bab2f1d1",
+      "skill_sha256": {
+        "sk_a0cc526f7d234633a3b3": "cbbdf5bba4de0c0afc6d4c8e7621f95594da5682b56da63490b91ae1aaa4d78f"
+      },
+      "expected_answer": "o2",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "平方损失Σ[yᵢ−(a+bxᵢ)]²按竖直方向，唯一o2；垂直于直线的几何距离属于另一拟合准则。",
+      "observation_boundary": "只观察准则识别；与q1相同数学结构，不新增独立题族。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.2.2-q3",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "9b19709c0d24b72d9a20c185fb0653c76f4f2428d78ba0f7aaf68e9a19cb66fb",
+      "compiled_task_sha256": "a0c93ced7fb4cebde6994f4385b5d38dc2dfbec57013bbe1f9749b4619f22792",
+      "binding_sha256": "5512edf73298be7f857a256d825c25e484ba93e690092012951d3fbcfaca9aeb",
+      "skill_sha256": {
+        "sk_3135de4380f15fdf802d": "826834093878dc6313405bcb212e632630ccee99de749e5381559a1abcc5516b"
+      },
+      "expected_answer": "中心点",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "含截距OLS有a+bx̄=ȳ，故应答样本中心点；题目和解释都保留设定，中心点标准答一致。",
+      "observation_boundary": "只测性质回忆；过中心本身不足以说明拟合最优。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.3.1-q1",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "81adf97e869d4b15e19dcdd0971c0703e5d9a5eb7ee0e424e3d4f1f65089cdab",
+      "compiled_task_sha256": "a7e3159d95ccce28e1f52c3f7e27e7960fa201c22aebc8ae780a030a13779b75",
+      "binding_sha256": "7ac3c6d721674eaf2f9283d0a4222cf3fa252018636d08c304064102d4121863",
+      "skill_sha256": {
+        "sk_4af81c1a493a5c1fb236": "1cf41b929c6c268d42fba201f61f36460b321f144f33f8d4b8c62045f84ad186"
+      },
+      "expected_answer": "4",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "内部两行×两列=4，题面排除各边缘合计和总计，数量唯一。",
+      "observation_boundary": "只测内部格计数，不代表会填列联表或执行独立性检验。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.3.1-q2",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "d600e45fb331c83055670565ca86d0478c8dd8cded8b0ff3667b8e76ad5fcb74",
+      "compiled_task_sha256": "f923d8330fdf9b674ab3790a21a838a2257477e1365835144df44a5d3f014bf8",
+      "binding_sha256": "8edcc1163a7c97f08b0699a57bfc74d0300a6c5c3c791fe28c1ce1d5e0dbfd94",
+      "skill_sha256": {
+        "sk_51e4e217e32a52c6aa5e": "d8ca42ee2bff1d6e8f7ae0756556ec28446da7b88190b5baf7330ec4a76c3950"
+      },
+      "expected_answer": "o2",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "列联表按两个分类变量类别交叉记录频数，o2符合；不是连续分布、单变量均值或时间趋势。",
+      "observation_boundary": "只识别用途，不据此确认组织真实调查数据的能力。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.3.2-q1",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "4648814fb9cd096d06b5eea95ba36b845c52cb395716f9a81cb0e5735a625ef8",
+      "compiled_task_sha256": "95bd213d86c8a73fd7c894de5f7be5955bf40915399f8d25704b709c723345a6",
+      "binding_sha256": "e8e7446cbd3b755eed6ea45313a5388d2306e8a966f3546e533076a67c31387f",
+      "skill_sha256": {
+        "sk_5e6e24370b874e0b811e": "23c24584b3de966ab5691c45fc1046c027e26398250591e56a70d1ada001d46b"
+      },
+      "expected_answer": "o3",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "同自由度、检验适用条件下，χ²分布右尾概率随统计量增加而减小，反对独立的证据增强，o3；不是效应量或因果强弱。",
+      "observation_boundary": "只辨析证据方向；该目标还需临界值判断与解释，不能仅凭本题宣告完成。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.3.2-q101",
+      "source": "data/question_sources/application.json",
+      "source_task_sha256": "9717efbb1e7fd050926b7872b04c43a8e2b9de50b18096eb2d08c6f5c22610d5",
+      "compiled_task_sha256": "e71fcc0fa56ce6a832acb26f07de9761a437c9188c2ee2fd14812ef0e5539a38",
+      "binding_sha256": "65ca24397b9cc1e080ce07bba620105c238897c20cd70d7d579065396bb95317",
+      "skill_sha256": {
+        "sk_2aa7ed45439d5b8d8043": "89c8d380d7b8ac996e5eca5f44954de825cda33b716ae36275d69f09f6e52225"
+      },
+      "expected_answer": "1000",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "ad−bc=40×30−10×20=1200−200=1000，计算与答案吻合；解释明确这只是中间量。",
+      "observation_boundary": "仅测对角乘积差，不能据差的大小判断显著关联。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.3.2-q102",
+      "source": "data/question_sources/application.json",
+      "source_task_sha256": "8373c130ebc14fecf8df342d7f2cefff26c6f34b02ca7e24f1b54142e17a147b",
+      "compiled_task_sha256": "77cdd3229c168ee18371a0019a6987ba00bb9cfc00f3a249b822c3ce103af5ca",
+      "binding_sha256": "2ce8e4aed637d4b556336502a64d41bb0558bc487cc82ae10f29a3b71772937b",
+      "skill_sha256": {
+        "sk_98d3db5b6c7944e6be9e": "1691f3cca33c7584a8cffba2fe3eb04c46cb41b8c447ca6e66a093859e91f51e"
+      },
+      "expected_answer": "4",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "n=100、四边缘和均50，ad−bc=900−400=500；100×500²/50⁴=4，非负频数与分母一致。",
+      "observation_boundary": "仅计算统计量；显著性判断仍需预先水平、临界值及抽样条件。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.3.2-q2",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "8a30d9c97640a4d367ba994bdedc74e3aed4e3eb61cb197c085eae7c3e0dda7a",
+      "compiled_task_sha256": "908cb6242110a0a4c28918bcc6ea35e33db03fc8781da17f66a7710dad07ca44",
+      "binding_sha256": "9d63b9e840e9e6e6bb6f1c181553d5603f6131ee04a3924bbd4972d391af4db2",
+      "skill_sha256": {
+        "sk_5e6e24370b874e0b811e": "23c24584b3de966ab5691c45fc1046c027e26398250591e56a70d1ada001d46b"
+      },
+      "expected_answer": "o3",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "独立性检验具有抽样误差与预设错误控制，是概率意义判断，o3；不能证明因果或绝对确定。",
+      "observation_boundary": "仅辨析结论性质；并未实际比较临界值，也不赋给H₀后验概率。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.3.2-q201",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "07afe9cb3253669fc350b615044cb4419d0e7216ede61709f808fd9e97e00630",
+      "compiled_task_sha256": "0ff6a9b362c83951ff977175fb34005dadd07215d353ab6d9b8cb41b0764b664",
+      "binding_sha256": "849e78e20955403e78e09f965004c46b0c3c0bb1609ef2e836553d5a91f2dbe9",
+      "skill_sha256": {
+        "sk_98d3db5b6c7944e6be9e": "1691f3cca33c7584a8cffba2fe3eb04c46cb41b8c447ca6e66a093859e91f51e"
+      },
+      "expected_answer": "20/3",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "四格期望15，观测偏差±5，χ²=4×25/15=20/3；精确分数不应强制粗略小数。",
+      "observation_boundary": "只测已给期望下的统计量，不代替检验解释。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.3.2-q202",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "0ea22a45b1d7cadf862022b2225eca634adb466708682b8e0aa182dcd84585bf",
+      "compiled_task_sha256": "7e8a641ffd9f487c5bcd482983472a9773c7a492fdead6dd8feb1b183546fd66",
+      "binding_sha256": "6313d6cbd7cc150466f3f46fe18a9056abca992f1b6190eebd7b99758f9957ee",
+      "skill_sha256": {
+        "sk_5e6e24370b874e0b811e": "23c24584b3de966ab5691c45fc1046c027e26398250591e56a70d1ada001d46b"
+      },
+      "expected_answer": "o2",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "6.8>3.841，按预先5%拒绝规则选择o2；不是95%因果概率或每个个体必然关系。",
+      "observation_boundary": "只观察给定临界值与条件下的检验结论，不测研究设计或因果识别。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.3.2-q203",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "d4d48c46e794fa668fbef317a86cf5a5562db6c1c396091847d890a1152b7474",
+      "compiled_task_sha256": "4f2005817fd7b5f837b2547f815b4f975a33f21c28fd6bb84b2f8f012614c8da",
+      "binding_sha256": "7edbc2bf75239b685f085952d38be16ac1f9800bcd7ef8019a3b21ca4b341e28",
+      "skill_sha256": {
+        "sk_5e6e24370b874e0b811e": "23c24584b3de966ab5691c45fc1046c027e26398250591e56a70d1ada001d46b"
+      },
+      "expected_answer": "o3",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "未拒绝表示当前样本/水平证据不足以拒绝H₀，o3；不等于证明独立，也不等于H₀概率95%。",
+      "observation_boundary": "只观察未拒绝的解释边界，不自动完成实际检验。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    },
+    {
+      "id": "mh5.8.3.2-q3",
+      "source": "data/content/xby3.json",
+      "source_task_sha256": "5505a60d174f25cdfb2f8cbfb31dbcd949cf0947427bd9b051425efeb0e9d0b3",
+      "compiled_task_sha256": "7aa2a4c003eeabdf7e1ebe4f39567c1ebc10609ae03311f603c1b342a66ec02d",
+      "binding_sha256": "093e99ed8a7415bdb4f03767b4fed13c13df3de37bb99d982588fcf1c3c2d23d",
+      "skill_sha256": {
+        "sk_5e6e24370b874e0b811e": "23c24584b3de966ab5691c45fc1046c027e26398250591e56a70d1ada001d46b"
+      },
+      "expected_answer": "越强",
+      "reviewer_kind": "ai",
+      "review_method": "fresh_prompt_choices_answer_explanation_and_goal_reading",
+      "mathematical_reason": "自由度相同且近似适用时统计量增大对应更极端右尾，故越强；题面已约束不能直接跨自由度比较。",
+      "observation_boundary": "只观察证据强弱术语，不覆盖整个临界值判断目标。",
+      "decision": "retain_active_with_existing_limits",
+      "source_changed": false,
+      "independent_teacher_review": false,
+      "student_validation": false
+    }
+  ],
+  "limits": [
+    "逐题数学判断由同一个AI完成，不冒称独立交叉审读。",
+    "本批34题均为无图的活跃统计题；未重审隔离题，也没有修改历史题目或其审批用途。",
+    "所有题目身份、目标、规范题族与评分契约保留；新复核不是新增题族或掌握证据。",
+    "未发现新的答案错误。非零变异、含截距OLS、样本范围、同自由度与检验条件分别核对。",
+    "绑定和回归测试只防版本变化及算式错误，不把哈希当成语义正确性证明。"
+  ]
+}
