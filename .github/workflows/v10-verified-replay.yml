@@ -54,6 +54,18 @@ jobs:
           decoder=lzma.LZMADecompressor()
           raw=decoder.decompress(packed,max_length=50_000_001)
           assert decoder.eof and not decoder.unused_data and len(raw)<=50_000_000
+          if index.get('patch'):
+              patch=json.loads(blob(index['patch']))
+              assert patch['format']=='sha256-bound-byte-splices-v1'
+              assert hashlib.sha256(raw).hexdigest()==patch['base_sha256']
+              edits=patch['edits'];last=0
+              assert isinstance(edits,list) and 1<=len(edits)<=100
+              for lo,hi,value in edits:
+                  assert type(lo) is int and type(hi) is int and last<=lo<=hi<=len(raw)
+                  assert isinstance(value,str) and len(value.encode('utf-8'))<=1_000_000
+                  last=hi
+              for lo,hi,value in reversed(edits):raw=raw[:lo]+value.encode('utf-8')+raw[hi:]
+              assert len(raw)<=50_000_000
           assert hashlib.sha256(raw).hexdigest()==match[2]
           payload=json.loads(raw)
           assert payload['schema']==2 and payload['baseline']==baseline
